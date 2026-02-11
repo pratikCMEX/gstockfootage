@@ -78,6 +78,11 @@ class ImageController extends Controller
 
             $manager = new ImageManager(new Driver());
 
+            $originalImage = $manager->read($uploadedImage->getRealPath());
+            $width  = $originalImage->width();
+            $height = $originalImage->height();
+
+            $bytes = $uploadedImage->getSize();
             // --- HIGH QUALITY SAVE ---
             $highPath = $highDir . $imageName;
             $manager->read($uploadedImage->getRealPath())
@@ -98,6 +103,9 @@ class ImageController extends Controller
 
             $image->high_path = $imageName;
             $image->low_path  =  'low_' . $imageName;
+            $image->width     = $width;
+            $image->height    = $height;
+            $image->file_size    = $bytes;
 
             $image->save();
 
@@ -168,7 +176,11 @@ class ImageController extends Controller
                 }
 
                 $manager = new ImageManager(new Driver());
+                $originalImage = $manager->read($uploadedImage->getRealPath());
+                $width  = $originalImage->width();
+                $height = $originalImage->height();
 
+                $bytes = $uploadedImage->getSize();
                 // --- Delete old images if they exist ---
                 $oldHigh = $highDir . $image->high_path;
                 $oldLow  = $lowDir . 'low_' . $image->low_path;
@@ -193,7 +205,10 @@ class ImageController extends Controller
                 $lowQualityImage->scale(width: 800)->save($lowPath, 60);
 
                 $image->high_path = $imageName;
-                $image->low_path  = $imageName;
+                $image->low_path  = 'low_' . $imageName;
+                $image->width     = $width;
+                $image->height    = $height;
+                $image->file_size    = $bytes;
             }
 
             $image->save();

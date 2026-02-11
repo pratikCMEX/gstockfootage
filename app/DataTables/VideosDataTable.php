@@ -61,9 +61,10 @@ class VideosDataTable extends DataTable
                 if ($row->thumbnail_path == "") {
                     $thumbnail = asset('assets/admin/images/demo_thumbnail.png');
                 }
-                // $videoUrl = asset('uploads/videos/high/' . $row->high_path);
+                $videoUrl = asset('uploads/videos/high/' . $row->high_path);
                 // $videoUrl = route('admin.video_stream', $row->high_path);
-                $videoUrl = route('admin.video_stream', ['file' => "high/$row->high_path"]);
+                // $videoUrl = route('admin.video_stream', ['file' => "high/$row->high_path"]);
+                // $videoUrl = route('admin.video_stream', ['file' => "high/$row->high_path"]);
 
 
 
