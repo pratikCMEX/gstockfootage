@@ -19,7 +19,6 @@
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
 
-
 @if (isset($js))
     @foreach ($js as $value)
         <script src="{{ asset('assets/admin') }}/js/{{ $value }}.js"></script>

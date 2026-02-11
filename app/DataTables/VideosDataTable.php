@@ -50,6 +50,12 @@ class VideosDataTable extends DataTable
             ->addColumn('category_id', function ($row) {
                 return $row->category->category_name;
             })
+             ->addColumn('subcategory_id', function ($row) {
+                return $row->subcategory->name;
+            })
+             ->addColumn('collection_id', function ($row) {
+                return $row->collections->name;
+            })
             ->addColumn('video', function ($row) {
                 $thumbnail = asset('uploads/videos/thumbnails/' . $row->thumbnail_path);
                 if ($row->thumbnail_path == "") {
@@ -143,7 +149,8 @@ class VideosDataTable extends DataTable
             $direction = 'asc';
         }
 
-        return Video::with('category')->orderBy($column, $direction);
+        return Video::with(['category','subCategory','collections'])->orderBy($column, $direction);
+       
     }
 
     /**
@@ -179,6 +186,8 @@ class VideosDataTable extends DataTable
                 ->searchable(false),
             Column::make('no')->title('No')->orderable(false),
             Column::make('category_id')->title('Catgeory')->orderable(true),
+             Column::make('subcategory_id')->title('Sub Catgeory')->orderable(true),
+              Column::make('collection_id')->title('Collection')->orderable(true),
             Column::make('video')->title('Video')->orderable(false),
             Column::make('video_name')->title('Video Name')->orderable(false),
             Column::make('video_price')->title('Video Price ($)')->orderable(false),
