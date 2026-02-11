@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>XO Online (Single File)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+ 
+<style>
+body{
+  background:#0f172a;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+}
+input,button{
+  padding:10px;
+  margin:5px;
+  border-radius:6px;
+  border:none;
+  font-size:16px;
+}
+button{background:#22c55e;color:black;cursor:pointer}
+.board{
+  display:grid;
+  grid-template-columns:repeat(3,100px);
+  gap:10px;
+  justify-content:center;
+  margin:20px auto;
+}
+.cell{
+  width:100px;height:100px;
+  font-size:48px;
+  background:#1e293b;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.X{color:#22c55e} .O{color:#f97316}
+ 
+#popup{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:rgba(0,0,0,.8);
+  align-items:center;
+  justify-content:center;
+}
+</style>
+</head>
+ 
+<body>
+ 
+<h2>XO Online – Single File</h2>
+ 
+<input id="room" placeholder="Room ID">
+<button onclick="create()">Create</button>
+<button onclick="join()">Join</button>
+ 
+<h3 id="status">Waiting...</h3>
+ 
+<div class="board" id="board"></div>
+ 
+<div id="popup">
+  <div>
+    <h2 id="result"></h2>
+    <button onclick="reset()">Rematch</button>
+  </div>
+</div>
+ 
+<audio id="click" src="./mixkit-handgun-click-1660.mp3"></audio>
+<audio id="win" src="./mixkit-fuel-explosion-1705.wav"></audio>
+ 
+<script>
+let peer, conn;
+let me="X", turn="X";
+let board=Array(9).fill("");
+let active=false;
+ 
+const boardEl=document.getElementById("board");
+const statusEl=document.getElementById("status");
+ 
+function draw(){
+  boardEl.innerHTML="";
+  board.forEach((v,i)=>{
+    let d=document.createElement("div");
+    d.className="cell "+v;
+    d.innerText=v;
+    d.onclick=()=>play(i);
+    boardEl.appendChild(d);
+  });
+}
+ 
+function create(){
+  const room=document.getElementById("room").value;
+  peer=new Peer(room);
+  me="X";
+  peer.on("open",()=>statusEl.innerText="Room created. Waiting for player...");
+  peer.on("connection",c=>{
+    conn=c; active=true;
+    statusEl.innerText="❌ Your turn";
+    conn.on("data",onData);
+    send({type:"start"});
+    draw();
+  });
+}
+ 
+function join(){
+  const room=document.getElementById("room").value;
+  peer=new Peer();
+  peer.on("open",()=>{
+    conn=peer.connect(room);
+    me="O";
+    conn.on("open",()=>{
+      active=true;
+      statusEl.innerText="Waiting for ❌";
+      conn.on("data",onData);
+    });
+  });
+}
+ 
+function send(d){ if(conn) conn.send(d); }
+ 
+function play(i){
+  if(!active||board[i]||turn!==me) return;
+  document.getElementById("click").play();
+  board[i]=me;
+  send({type:"move",i});
+  endTurn();
+}
+ 
+function onData(d){
+  if(d.type==="move"){
+    board[d.i]=me==="X"?"O":"X";
+    endTurn(false);
+  }
+  if(d.type==="reset"){
+    reset(false);
+  }
+  if(d.type==="start"){
+    statusEl.innerText="❌ Turn";
+    draw();
+  }
+}
+ 
+function endTurn(local=true){
+  check();
+  turn=turn==="X"?"O":"X";
+  statusEl.innerText=turn===me?"Your turn":"Opponent turn";
+  draw();
+}
+ 
+function check(){
+  const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(let a of w){
+    if(board[a[0]]&&board[a[0]]===board[a[1]]&&board[a[1]]===board[a[2]]){
+      win(board[a[0]]);
+    }
+  }
+}
+ 
+function win(p){
+  active=false;
+  document.getElementById("win").play();
+  document.getElementById("popup").style.display="flex";
+  document.getElementById("result").innerText=
+    p===me?" You Win":" You Lose";
+}
+ 
+function reset(sendData=true){
+  board=Array(9).fill("");
+  turn="X"; active=true;
+  document.getElementById("popup").style.display="none";
+  statusEl.innerText=turn===me?"Your turn":"Opponent turn";
+  draw();
+  if(sendData) send({type:"reset"});
+}
+</script>
+ 
+</body>
+</html>
