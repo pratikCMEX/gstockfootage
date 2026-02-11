@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\admin\LicenseController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\TermConditionController;
 use App\Http\Controllers\Admin\VideoController;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');
     Route::post('admin/store_category', [CategoryController::class, 'store'])->name('admin.category_store');
@@ -42,6 +44,10 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_sub_category/{id}', [SubCategoryController::class, 'delete'])->name('admin.sub_category_delete');
     Route::post('admin/delete_multiple_sub_category', [SubCategoryController::class, 'deleteMultiple'])->name('admin.delete_multiple_sub_category');
     Route::post('admin/check_sub_category_is_exist', [SubCategoryController::class, 'checkSubCategoryIsExist'])->name('admin.sub_category_check_exist');
+
+    Route::get('admin/license', [LicenseController::class, 'index'])->name('admin.license');
+    Route::get('admin/add_license', [LicenseController::class, 'add_license'])->name('admin.add_license');
+    Route::post('admin/store_license', [LicenseController::class, 'store'])->name('admin.store_license');
 
     Route::get('admin/collection', [CollectionController::class, 'index'])->name('admin.collection');
     Route::get('admin/add_collection', [CollectionController::class, 'addCollection'])->name('admin.collection_add');
