@@ -120,10 +120,12 @@ class CategoryController extends Controller
             DB::beginTransaction();
             $id = decrypt($request->id);
             $category = Category::findOrFail($id);
-            $videos = Video::where('category_id', $id)->get();
-            $images = Image::where('category_id', $id)->get();
-            $subcategory = SubCategory::where('category_id', $id)->get();
-            if ($videos->isEmpty() && $images->isEmpty() && $subcategory->isEmpty()) {
+
+            $hasSubCategory = SubCategory::where('category_id', $id)->exists();
+            $hasVideos = Video::where('category_id', $id)->exists();
+            $hasImages = Image::where('category_id', $id)->exists();
+
+            if (!$hasSubCategory && !$hasVideos && !$hasImages) {
                 $imagePath = public_path('uploads/images/category/' . $category->category_image);
 
                 if (!empty($category->category_image) && file_exists($imagePath)) {
@@ -138,13 +140,23 @@ class CategoryController extends Controller
                     'message' => 'Category deleted successfully'
                 ]);
 
-            } else {
-                DB::rollBack();
+            } 
+            DB::rollBack();
+
+            if ($hasVideos || $hasImages) {
+
                 return response()->json([
                     'success' => false,
-                    'message' => 'This category has videos or images or sub category available'
+                    'message' => 'Category has videos or images available.'
                 ]);
+            }
 
+            if ($hasSubCategory) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category has subcategories available.'
+                ]);
             }
 
         } catch (QueryException $e) {
@@ -223,23 +235,38 @@ class CategoryController extends Controller
                 ]);
             }
 
-            $subcategory = SubCategory::whereIn('category_id', $ids)->get();
-            $videos = Video::whereIn('category_id', $ids)->get();
-            $images = Image::whereIn('category_id', $ids)->get();
-            if ($videos->isEmpty() && $images->isEmpty() && $subcategory->isEmpty()) {
+            $hasSubCategory = SubCategory::whereIn('category_id', $ids)->exists();
+            $hasVideos = Video::whereIn('category_id', $ids)->exists();
+            $hasImages = Image::whereIn('category_id', $ids)->exists();
+
+            if (!$hasSubCategory && !$hasVideos && !$hasImages) {
                 Category::whereIn('id', $ids)->delete();
                 DB::commit();
+
                 return response()->json([
                     'success' => true,
-                    'message' => 'category deleted successfully.'
-                ]);
-            } else {
-                DB::rollBack();
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Some category has videos or images available'
+                    'message' => 'Category deleted successfully.'
                 ]);
             }
+
+            DB::rollBack();
+
+            if ($hasVideos || $hasImages) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category has videos or images available.'
+                ]);
+            }
+
+            if ($hasSubCategory) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category has subcategories available.'
+                ]);
+            }
+
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json([

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\TermConditionController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\VideoStreamController;
@@ -62,6 +63,13 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_collection', [CollectionController::class, 'delete'])->name('admin.collection_delete');
     Route::post('admin/delete_multiple_collection', [CollectionController::class, 'deleteMultiple'])->name('admin.delete_multiple_collection');
     Route::post('admin/check_collection_is_exist', [CollectionController::class, 'checkCollectionIsExist'])->name('admin.collection_check_exist');
+
+    Route::get('admin/subscriptions', [SubscriptionPlanController::class, 'index'])->name('admin.subscriptions');
+    Route::get('admin/add_subscription', [SubscriptionPlanController::class, 'create'])->name('admin.subscription_add');
+    Route::post('admin/store_subscription', [SubscriptionPlanController::class, 'store'])->name('admin.subscription_store');
+    Route::get('admin/edit_subscription/{id}', [SubscriptionPlanController::class, 'edit'])->name('admin.subscription_edit');
+     Route::post('admin/update_subscription', [SubscriptionPlanController::class, 'update'])->name('admin.subscription_update');
+     Route::post('admin/delete_subscription', [SubscriptionPlanController::class, 'delete'])->name('admin.subscription_delete');
 
     Route::get('admin/user', [UserController::class, 'index'])->name('admin.user');
     Route::get('admin/add_user', [UserController::class, 'addUser'])->name('admin.user_add');
