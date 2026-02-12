@@ -4,18 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('license_masters', function (Blueprint $table) {
+         Schema::create('license_masters', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('title');
             $table->double('price');
             $table->string('description');
+             $table->string('quality');
             $table->enum('most_popular', ['0', '1'])->default('0')->comment('1=popular, 0=not');
             $table->timestamps();
         });
@@ -26,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('license_masters');
+        //
     }
 };

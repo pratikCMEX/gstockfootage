@@ -11,7 +11,7 @@
             <link rel="stylesheet" href="{{ asset('assets') }}/admin/css/{{ $css }}" />
         @endisset
 
-
+        
     </head>
 
     <body>

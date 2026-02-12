@@ -11,6 +11,7 @@ class License_master extends Model
         'title',
          'price',
           'description',
+          'quality'
           
     ];
 }

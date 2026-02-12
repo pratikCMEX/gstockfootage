@@ -1,4 +1,7 @@
-$("#add_license_form").validate({
+
+
+var base_url = $("#base_url").val();
+$("#license_form").validate({
     onkeyup: false,
     rules: {
         name: {
@@ -9,24 +12,52 @@ $("#add_license_form").validate({
                         "content"
                     ),
                 },
-                url: base_url + "/admin/check_category_is_exist",
+                url: base_url + "/admin/check_license_is_exist",
                 type: "POST",
                 data: {
-                    category_name: function () {
-                        return $("#category_name").val();
+                    name: function () {
+                        return $("#name").val();
                     },
                     id: function () {
-                        return $("#category_id").val();
+                        return $("#license_id").val();
                     },
                 },
             },
         },
+       
+        title: {
+            required: true,
+        },
+        price: {
+            required: true,
+        },
+        quality: {
+            required: true,
+        },
+        description: {
+            required: true,
+        },
+
+
     },
     messages: {
-        category_name: {
-            required: "Please enter category name",
-            remote: "This category already exists",
+        name: {
+            required: "Please enter License name",
+            remote: "This License already exists",
         },
+        title: {
+            required: "Please enter License title",
+        },
+        price: {
+            required: "Please enter License price",
+        },
+         quality: {
+            required: "Please enter Quality",
+        },
+        description: {
+            required: "Please enter License description",
+        },
+       
     },
     normalizer: function (value) {
         return $.trim(value);
@@ -49,3 +80,76 @@ $("#add_license_form").validate({
         form.submit();
     },
 });
+
+$(document).on("click", ".deleteLicense", function () {
+
+    var id = $(this).data("id");
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: base_url + "/admin/delete_license",
+                type: "post",
+                data: {
+                    id: id,
+                    _token: $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function (response) {
+
+                    Swal.fire(
+                        "Deleted!",
+                        "License has been deleted.",
+                        "success"
+                    );
+
+                    $('#license-table').DataTable().ajax.reload(null, false);
+                },
+                error: function () {
+                    Swal.fire(
+                        "Error!",
+                        "Something went wrong.",
+                        "error"
+                    );
+                }
+            });
+
+        }
+    });
+});
+
+$(document).on('change', '.toggle-popular', function () {
+
+    var id = $(this).data('id');
+    var status = $(this).is(':checked') ? '1' : '0';
+
+    $.ajax({
+        url: base_url+"/admin/change_most_popular",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: id,
+            status: status
+        },
+        success: function (response) {
+            if (response.success) {
+                 if (status == 1) {
+                    toastr.success('Added to Most Popular Successfully');
+                } else {
+                    toastr.success('Removed from Most Popular Successfully');
+                }
+            }
+        }
+    });
+
+});
+

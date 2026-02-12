@@ -17,7 +17,8 @@
 <script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/dataTables.responsive.min.js') }}"></script>
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-
+<!-- toast js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 @if (isset($js))
     @foreach ($js as $value)

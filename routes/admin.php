@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
-use App\Http\Controllers\admin\LicenseController;
+use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\TermConditionController;
 use App\Http\Controllers\Admin\VideoController;
@@ -48,6 +48,11 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/license', [LicenseController::class, 'index'])->name('admin.license');
     Route::get('admin/add_license', [LicenseController::class, 'add_license'])->name('admin.add_license');
     Route::post('admin/store_license', [LicenseController::class, 'store'])->name('admin.store_license');
+    Route::get('admin/edit_license/{id}', [LicenseController::class, 'edit'])->name('admin.license_edit');
+    Route::post('admin/update_license', [LicenseController::class, 'update'])->name('admin.license_update');
+    Route::post('admin/delete_license', [LicenseController::class, 'delete'])->name('admin.license_delete');
+    Route::post('admin/check_license_is_exist', [LicenseController::class, 'checkLicenseIsExist'])->name('admin.license_check_exist');
+    Route::post('admin/change_most_popular', [LicenseController::class, 'change_most_popular'])->name('admin.change_most_popular');
 
     Route::get('admin/collection', [CollectionController::class, 'index'])->name('admin.collection');
     Route::get('admin/add_collection', [CollectionController::class, 'addCollection'])->name('admin.collection_add');
