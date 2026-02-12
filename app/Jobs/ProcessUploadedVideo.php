@@ -72,8 +72,8 @@ class ProcessUploadedVideo implements ShouldQueue
             DB::beginTransaction();
 
             $ffmpeg = \FFMpeg\FFMpeg::create([
-                'ffmpeg.binaries'  => env('FFMPEG_BINARY_PATH', 'C:\ffmpeg\bin\ffmpeg.exe'),
-                'ffprobe.binaries' => env('FFPROBE_BINARY_PATH', 'C:\ffmpeg\bin\ffprobe.exe'),
+                'ffmpeg.binaries'  => env('FFMPEG_BINARY_PATH'),
+                'ffprobe.binaries' => env('FFPROBE_BINARY_PATH'),
                 'timeout'          => 3600,
             ]);
 

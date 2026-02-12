@@ -44,8 +44,15 @@ class AuthAdmin extends Controller
         ];
 
         if (Auth::guard('admin')->attempt($credentials, $req->remember)) {
+            if ($req->has('remember')) {
+                Cookie::queue('admin_email', $req->email, 120);
+                Cookie::queue('admin_password', $req->password, 120);
+            } else {
+                Cookie::queue(Cookie::forget('admin_email'));
+                Cookie::queue(Cookie::forget('admin_password'));
+            }
             $req->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('msg_success', 'Login successful.');
         }
 
         return back()->withErrors(['email' => 'Invalid email or password'])
