@@ -228,8 +228,10 @@ $(document).on("click", ".video-thumbnail", function () {
     });
 });
 
-$(document).on("click", ".delete_video", function () {
+$(document).on("click", ".deleteVideo", function () {
+
     var id = $(this).data("id");
+
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -239,9 +241,42 @@ $(document).on("click", ".delete_video", function () {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
+
         if (result.isConfirmed) {
-            // alert();
-            $("#delete_video_form" + id).submit();
+
+            $.ajax({
+                url: base_url + "/admin/delete_video",
+                type: "post",
+                data: {
+                    id: id,
+                    _token: $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire(
+                            "Deleted!",
+                           response.message,
+                            "success"
+                        );
+
+                        $('#videos-table').DataTable().ajax.reload(null, false);
+                    }else{
+                         Swal.fire(
+                        "Error!",
+                         response.message,
+                        "error"
+                    );
+                    }
+                },
+                error: function () {
+                    Swal.fire(
+                        "Error!",
+                        "Something went wrong.",
+                        "error"
+                    );
+                }
+            });
+
         }
     });
 });

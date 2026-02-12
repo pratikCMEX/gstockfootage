@@ -42,31 +42,35 @@ class UserController extends Controller
             $newUser->first_name = $request->first_name;
             $newUser->last_name = $request->last_name;
             $newUser->email = $request->email;
-            $newUser->password =  Hash::make($request->password);
+            $newUser->password = Hash::make($request->password);
             $newUser->role = "0";
             $newUser->save();
             DB::commit();
             return redirect()->route('admin.user')->with('msg_success', 'User added successfully !');
         } catch (QueryException $e) {
             DB::rollBack();
-            return redirect()->route('admin.user.add')->with('msg_error', 'User not added' . $e->getMessage());
+            return redirect()->route('admin.user_add')->with('msg_error', 'User not added' . $e->getMessage());
         }
     }
 
-    public function delete(string $id)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $id = decrypt($id);
+            $id = decrypt($request->id);
             // dd($id);
             $user = User::find($id)->delete();
             DB::commit();
-            return redirect()->route('admin.user')
-                ->with('msg_success', 'User deleted successfully');
+           return response()->json([
+                'success' => true,
+                'message' => 'Users deleted successfully.'
+            ]);
         } catch (QueryException $e) {
             DB::rollBack();
-            return redirect()->route('admin.user')
-                ->with('msg_error', 'User not deleted');
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting users.'
+            ]);
         }
     }
 
@@ -77,12 +81,12 @@ class UserController extends Controller
             if (count($category) > 0) {
                 if (isset($request->id) && !empty($request->id)) {
                     if ($category[0]->id == decrypt($request->id)) {
-                        $return =  true;
+                        $return = true;
                         echo json_encode($return);
                         exit;
                     }
                 }
-                $return =  false;
+                $return = false;
             } else {
                 $return = true;
             }
@@ -120,7 +124,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'users deleted successfully.'
+                'message' => 'Users deleted successfully.'
             ]);
         } catch (QueryException $e) {
             DB::rollBack();

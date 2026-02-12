@@ -59,7 +59,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/store_collection', [CollectionController::class, 'store'])->name('admin.collection_store');
     Route::get('admin/edit_collection/{id}', [CollectionController::class, 'edit'])->name('admin.collection_edit');
     Route::post('admin/update_collection', [CollectionController::class, 'update'])->name('admin.collection_update');
-    Route::post('admin/delete_collection/{id}', [CollectionController::class, 'delete'])->name('admin.collection_delete');
+    Route::post('admin/delete_collection', [CollectionController::class, 'delete'])->name('admin.collection_delete');
     Route::post('admin/delete_multiple_collection', [CollectionController::class, 'deleteMultiple'])->name('admin.delete_multiple_collection');
     Route::post('admin/check_collection_is_exist', [CollectionController::class, 'checkCollectionIsExist'])->name('admin.collection_check_exist');
 
@@ -68,7 +68,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/store_user', [UserController::class, 'store'])->name('admin.user_store');
     Route::get('admin/edit_user/{id}', [UserController::class, 'edit'])->name('admin.user_edit');
     Route::post('admin/update_user', [UserController::class, 'update'])->name('admin.user_update');
-    Route::post('admin/delete_user/{id}', [UserController::class, 'delete'])->name('admin.user_delete');
+    Route::post('admin/delete_user', [UserController::class, 'delete'])->name('admin.user_delete');
     Route::post('admin/delete_multiple_user', [UserController::class, 'deleteMultiple'])->name('admin.delete_multiple_user');
     Route::post('admin/check_user_is_exist', [UserController::class, 'checkUserIsExist'])->name('admin.user_check_exist');
 
@@ -77,7 +77,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/store_image', [ImageController::class, 'store'])->name('admin.image_store');
     Route::get('admin/edit_image/{id}', [ImageController::class, 'edit'])->name('admin.image_edit');
     Route::post('admin/update_image/{id}', [ImageController::class, 'update'])->name('admin.image_update');
-    Route::post('admin/delete_image/{id}', [ImageController::class, 'delete'])->name('admin.image_delete');
+    Route::post('admin/delete_image', [ImageController::class, 'delete'])->name('admin.image_delete');
     Route::post('admin/delete_multiple_image', [ImageController::class, 'deleteMultiple'])->name('admin.delete_multiple_image');
     Route::post('admin/toggle_image_display', [ImageController::class, 'toggleDisplay'])->name('admin.toggle_image_display');
 
@@ -86,7 +86,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/store_video', [VideoController::class, 'store'])->name('admin.video_store');
     Route::get('admin/edit_video/{id}', [VideoController::class, 'edit'])->name('admin.video_edit');
     Route::post('admin/update_video/{id}', [VideoController::class, 'update'])->name('admin.video_update');
-    Route::post('admin/delete_video/{id}', [VideoController::class, 'delete'])->name('admin.video_delete');
+    Route::post('admin/delete_video', [VideoController::class, 'delete'])->name('admin.video_delete');
     Route::post('admin/delete_multiple_video', [VideoController::class, 'deleteMultiple'])->name('admin.delete_multiple_video');
     Route::post('admin/toggle_video_display', [VideoController::class, 'toggleDisplay'])->name('admin.toggle_video_display');
 

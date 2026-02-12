@@ -34,7 +34,7 @@ class LicenseController extends Controller
     public function store(Request $request)
     {
         try {
-         
+
             $request->validate([
                 'name' => 'required|string|max:100',
                 'title' => 'required|string|max:100',
@@ -112,14 +112,16 @@ class LicenseController extends Controller
 
 
             $license->delete();
-            $return = true;
-            echo json_encode($return);
-            exit;
+            return response()->json([
+                'success' => true,
+                'message' => 'License deleted successfully.'
+            ]);
 
         } catch (QueryException $e) {
-            $return = false;
-            echo json_encode($return);
-            exit;
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting License.'
+            ]);
         }
     }
 

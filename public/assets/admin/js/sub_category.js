@@ -134,17 +134,17 @@ $(document).on("click", ".deleteSubCategory", function () {
                     if (response.success) {
                         Swal.fire(
                             "Deleted!",
-                           response.message,
+                            response.message,
                             "success"
                         );
 
                         $('#subcategory-table').DataTable().ajax.reload(null, false);
-                    }else{
-                         Swal.fire(
-                        "Error!",
-                         response.message,
-                        "error"
-                    );
+                    } else {
+                        Swal.fire(
+                            "Error!",
+                            response.message,
+                            "error"
+                        );
                     }
                 },
                 error: function () {
@@ -169,5 +169,72 @@ $(document).on("click", ".preview-image", function () {
 
     $("#imagePreviewModal").on("hidden.bs.modal", function () {
         document.activeElement?.blur();
+    });
+});
+function toggleDeleteButton() {
+    let anyChecked = $(".row-checkbox:checked").length > 0;
+
+    if (anyChecked) {
+        $("#delete-selected").show();
+    } else {
+        $("#delete-selected").hide();
+    }
+}
+
+$(document).on("change", ".row-checkbox", function () {
+    toggleDeleteButton();
+});
+
+$(document).on("change", "#select-all", function () {
+    $(".row-checkbox").prop("checked", this.checked);
+    toggleDeleteButton();
+});
+
+$("#select-all").on("click", function () {
+    $(".row-checkbox").prop("checked", this.checked);
+});
+
+$("#delete-selected").on("click", function () {
+    let ids = [];
+
+    $(".row-checkbox:checked").each(function () {
+        ids.push($(this).val());
+    });
+
+    if (ids.length === 0) {
+        toastr.success("Please select at least one subcategory");
+        return;
+    }
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: base_url + "/admin/delete_multiple_sub_category",
+                type: "POST",
+                data: {
+                    ids: ids,
+                    _token: $('meta[name="csrf-token"]').attr("content"),
+                },
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error(response.message);
+                    }
+                    else{
+                         toastr.success(response.message);
+                    }
+                    $("#select-all").prop("checked", false);
+                    $("#delete-selected").css("display", "none");
+                    $("#subcategory-table").DataTable().ajax.reload();
+                },
+            });
+        }
     });
 });

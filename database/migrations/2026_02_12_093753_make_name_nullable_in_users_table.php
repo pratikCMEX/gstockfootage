@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('videos', function (Blueprint $table) {
-            $table->unsignedBigInteger('collection_id')->nullable()->after('category_id');
-            $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade');
+        Schema::table('users', function (Blueprint $table) {
+             $table->string('name')->nullable()->change();
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('videos', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+             $table->string('name')->nullable(false)->change();
         });
     }
 };

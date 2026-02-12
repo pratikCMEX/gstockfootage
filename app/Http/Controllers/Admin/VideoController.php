@@ -124,13 +124,13 @@ class VideoController extends Controller
         $videoId = $id;
         $getVideoDetail = Video::where('id', $image_id)->first();
         $category = Category::all();
-         $collections = Collection::all();
-          $subcategories = SubCategory::where(
+        $collections = Collection::all();
+        $subcategories = SubCategory::where(
             'category_id',
             $getVideoDetail->category_id
         )->get();
 
-        return view('layouts.admin.layout', compact('title', 'page', 'js', 'getVideoDetail', 'category', 'videoId','subcategories','collections'));
+        return view('layouts.admin.layout', compact('title', 'page', 'js', 'getVideoDetail', 'category', 'videoId', 'subcategories', 'collections'));
     }
     public function update(Request $request, $id)
     {
@@ -216,11 +216,11 @@ class VideoController extends Controller
                 ->with('msg_error', 'Error updating video: ' . $e->getMessage());
         }
     }
-    public function delete(string $id)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $id = decrypt($id);
+            $id = decrypt($request->id);
 
             $video = Video::findOrFail($id);
 
@@ -245,14 +245,16 @@ class VideoController extends Controller
 
             DB::commit();
 
-            return redirect()
-                ->route('admin.video')
-                ->with('msg_success', 'Video deleted successfully!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Video deleted successfully'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()
-                ->back()
-                ->with('msg_error', 'Error updating video: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting video.'
+            ]);
         }
     }
 

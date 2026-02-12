@@ -122,7 +122,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $videos = Video::where('category_id', $id)->get();
             $images = Image::where('category_id', $id)->get();
-             $subcategory = SubCategory::where('category_id', $id)->get();
+            $subcategory = SubCategory::where('category_id', $id)->get();
             if ($videos->isEmpty() && $images->isEmpty() && $subcategory->isEmpty()) {
                 $imagePath = public_path('uploads/images/category/' . $category->category_image);
 
@@ -133,28 +133,27 @@ class CategoryController extends Controller
                 $category->delete();
                 DB::commit();
 
-                $response = [
+                return response()->json([
                     'success' => true,
                     'message' => 'Category deleted successfully'
-                ];
-                return response()->json($response);
+                ]);
 
             } else {
                 DB::rollBack();
-                $response = [
+                return response()->json([
                     'success' => false,
                     'message' => 'This category has videos or images or sub category available'
-                ];
-                return response()->json($response);
+                ]);
 
             }
+
         } catch (QueryException $e) {
             DB::rollBack();
-            $response = [
+            return response()->json([
                 'success' => false,
-                'message' => 'Category not deleted'
-            ];
-            return response()->json($response);
+                'message' => 'Error deleting category.'
+            ]);
+
 
         }
     }
@@ -224,9 +223,10 @@ class CategoryController extends Controller
                 ]);
             }
 
+            $subcategory = SubCategory::whereIn('category_id', $ids)->get();
             $videos = Video::whereIn('category_id', $ids)->get();
             $images = Image::whereIn('category_id', $ids)->get();
-            if ($videos->isEmpty() && $images->isEmpty()) {
+            if ($videos->isEmpty() && $images->isEmpty() && $subcategory->isEmpty()) {
                 Category::whereIn('id', $ids)->delete();
                 DB::commit();
                 return response()->json([

@@ -24,7 +24,7 @@ $("#license_form").validate({
                 },
             },
         },
-       
+
         title: {
             required: true,
         },
@@ -51,13 +51,13 @@ $("#license_form").validate({
         price: {
             required: "Please enter License price",
         },
-         quality: {
+        quality: {
             required: "Please enter Quality",
         },
         description: {
             required: "Please enter License description",
         },
-       
+
     },
     normalizer: function (value) {
         return $.trim(value);
@@ -106,13 +106,23 @@ $(document).on("click", ".deleteLicense", function () {
                 },
                 success: function (response) {
 
-                    Swal.fire(
-                        "Deleted!",
-                        "License has been deleted.",
-                        "success"
-                    );
+                    if (response.success) {
+                        Swal.fire(
+                            "Deleted!",
+                            response.message,
+                            "success"
+                        );
 
-                    $('#license-table').DataTable().ajax.reload(null, false);
+
+                        $('#license-table').DataTable().ajax.reload(null, false);
+                    } else {
+                        Swal.fire(
+                            "Error!",
+                            response.message,
+                            "error"
+                        );
+                    }
+
                 },
                 error: function () {
                     Swal.fire(
@@ -133,7 +143,7 @@ $(document).on('change', '.toggle-popular', function () {
     var status = $(this).is(':checked') ? '1' : '0';
 
     $.ajax({
-        url: base_url+"/admin/change_most_popular",
+        url: base_url + "/admin/change_most_popular",
         type: "POST",
         data: {
             _token: $('meta[name="csrf-token"]').attr('content'),
@@ -142,7 +152,7 @@ $(document).on('change', '.toggle-popular', function () {
         },
         success: function (response) {
             if (response.success) {
-                 if (status == 1) {
+                if (status == 1) {
                     toastr.success('Added to Most Popular Successfully');
                 } else {
                     toastr.success('Removed from Most Popular Successfully');

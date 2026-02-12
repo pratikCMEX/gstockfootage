@@ -68,7 +68,7 @@ class ImageController extends Controller
 
             $baseDir = public_path('uploads/images/');
             $highDir = $baseDir . 'high/';
-            $lowDir  = $baseDir . 'low/';
+            $lowDir = $baseDir . 'low/';
 
             foreach ([$highDir, $lowDir] as $dir) {
                 if (!file_exists($dir)) {
@@ -79,7 +79,7 @@ class ImageController extends Controller
             $manager = new ImageManager(new Driver());
 
             $originalImage = $manager->read($uploadedImage->getRealPath());
-            $width  = $originalImage->width();
+            $width = $originalImage->width();
             $height = $originalImage->height();
 
             $bytes = $uploadedImage->getSize();
@@ -102,10 +102,10 @@ class ImageController extends Controller
             $lowQualityImage->scale(width: 800)->save($lowPath, 60);
 
             $image->high_path = $imageName;
-            $image->low_path  =  'low_' . $imageName;
-            $image->width     = $width;
-            $image->height    = $height;
-            $image->file_size    = $bytes;
+            $image->low_path = 'low_' . $imageName;
+            $image->width = $width;
+            $image->height = $height;
+            $image->file_size = $bytes;
 
             $image->save();
 
@@ -123,7 +123,7 @@ class ImageController extends Controller
 
     public function edit(string $id)
     {
-        $image_id =  decrypt($id);
+        $image_id = decrypt($id);
 
         $title = 'Edit Image';
         $page = 'admin.images.edit';
@@ -167,7 +167,7 @@ class ImageController extends Controller
 
                 $baseDir = public_path('uploads/images/');
                 $highDir = $baseDir . 'high/';
-                $lowDir  = $baseDir . 'low/';
+                $lowDir = $baseDir . 'low/';
 
                 foreach ([$highDir, $lowDir] as $dir) {
                     if (!file_exists($dir)) {
@@ -177,16 +177,18 @@ class ImageController extends Controller
 
                 $manager = new ImageManager(new Driver());
                 $originalImage = $manager->read($uploadedImage->getRealPath());
-                $width  = $originalImage->width();
+                $width = $originalImage->width();
                 $height = $originalImage->height();
 
                 $bytes = $uploadedImage->getSize();
                 // --- Delete old images if they exist ---
                 $oldHigh = $highDir . $image->high_path;
-                $oldLow  = $lowDir . 'low_' . $image->low_path;
+                $oldLow = $lowDir . 'low_' . $image->low_path;
 
-                if (file_exists($oldHigh)) unlink($oldHigh);
-                if (file_exists($oldLow)) unlink($oldLow);
+                if (file_exists($oldHigh))
+                    unlink($oldHigh);
+                if (file_exists($oldLow))
+                    unlink($oldLow);
 
                 $highPath = $highDir . $imageName;
                 $manager->read($uploadedImage->getRealPath())
@@ -205,10 +207,10 @@ class ImageController extends Controller
                 $lowQualityImage->scale(width: 800)->save($lowPath, 60);
 
                 $image->high_path = $imageName;
-                $image->low_path  = 'low_' . $imageName;
-                $image->width     = $width;
-                $image->height    = $height;
-                $image->file_size    = $bytes;
+                $image->low_path = 'low_' . $imageName;
+                $image->width = $width;
+                $image->height = $height;
+                $image->file_size = $bytes;
             }
 
             $image->save();
@@ -225,19 +227,19 @@ class ImageController extends Controller
                 ->with('msg_error', 'Error: ' . $e->getMessage());
         }
     }
-    public function delete(string $id)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $id = decrypt($id);
+            $id = decrypt($request->id);
             $image = Image::findOrFail($id);
 
             $baseDir = public_path('uploads/images/');
             $highDir = $baseDir . 'high/';
-            $lowDir  = $baseDir . 'low/';
+            $lowDir = $baseDir . 'low/';
 
             $highPath = $highDir . $image->high_path;
-            $lowPath  = $lowDir . 'low_' . $image->low_path;
+            $lowPath = $lowDir . 'low_' . $image->low_path;
 
             if (file_exists($highPath)) {
                 unlink($highPath);
@@ -248,14 +250,17 @@ class ImageController extends Controller
             $image->delete();
             DB::commit();
 
-            return redirect()
-                ->route('admin.image')
-                ->with('msg_success', 'Image deleted successfully!');
+           return response()->json([
+                    'success' => true,
+                    'message' => 'Image deleted successfully'
+                ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()
-                ->back()
-                ->with('msg_error', 'Error deleting image: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting image.'
+            ]);
+
         }
     }
     public function toggleDisplay(Request $request)
@@ -302,14 +307,16 @@ class ImageController extends Controller
 
             $baseDir = public_path('uploads/images/');
             $highDir = $baseDir . 'high/';
-            $lowDir  = $baseDir . 'low/';
+            $lowDir = $baseDir . 'low/';
             foreach ($images as $img) {
 
                 $highPath = $highDir . $img->high_path;
-                $lowPath  = $lowDir . $img->low_path;
+                $lowPath = $lowDir . $img->low_path;
 
-                if (file_exists($highPath)) unlink($highPath);
-                if (file_exists($lowPath)) unlink($lowPath);
+                if (file_exists($highPath))
+                    unlink($highPath);
+                if (file_exists($lowPath))
+                    unlink($lowPath);
             }
             Image::whereIn('id', $ids)->delete();
 

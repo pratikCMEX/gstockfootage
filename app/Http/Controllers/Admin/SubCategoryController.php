@@ -136,27 +136,27 @@ class SubCategoryController extends Controller
 
                 $subcategory->delete();
                 DB::commit();
-                $response = [
+                return response()->json([
                     'success' => true,
                     'message' => 'Subcategory deleted successfully'
-                ];
-               
+                ]);
+
             } else {
                 DB::rollBack();
-                $response = [
+                return response()->json([
                     'success' => false,
-                    'message' => 'This subcategory has videos or images available'
-                ];
-               
+                    'message' => 'This Subcategory has videos or images available'
+                ]);
+
             }
-             return response()->json($response);
+
         } catch (QueryException $e) {
             DB::rollBack();
-            $response = [
+            return response()->json([
                 'success' => false,
-                'message' => 'Subcategory not deleted'
-            ];
-            return response()->json($response);
+                'message' => 'Error deleting Subcategory.'
+            ]);
+
         }
     }
     public function deleteMultiple(Request $request)
@@ -174,12 +174,12 @@ class SubCategoryController extends Controller
             if ($category->isEmpty()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'No category found.'
+                    'message' => 'No SubCategory found.'
                 ]);
             }
 
-            $videos = Video::whereIn('category_id', $ids)->get();
-            $images = Image::whereIn('category_id', $ids)->get();
+            $videos = Video::whereIn('subcategory_id', $ids)->get();
+            $images = Image::whereIn('subcategory_id', $ids)->get();
             if ($videos->isEmpty() && $images->isEmpty()) {
                 SubCategory::whereIn('id', $ids)->delete();
                 DB::commit();

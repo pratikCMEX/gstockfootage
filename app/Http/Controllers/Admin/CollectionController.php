@@ -63,7 +63,7 @@ class CollectionController extends Controller
     }
     public function edit(string $id)
     {
-        $collection_id =  decrypt($id);
+        $collection_id = decrypt($id);
 
         $title = 'Edit Collection';
         $page = 'admin.collection.edit';
@@ -104,11 +104,11 @@ class CollectionController extends Controller
             return redirect()->route('admin.collection_edit', $collection_id)->with('msg_error', 'Collection not updated' . $e->getMessage());
         }
     }
-    public function delete(string $id)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $id = decrypt($id);
+            $id = decrypt($request->id);
             $collection = Collection::findOrFail($id);
             $videos = Video::where('collection_id', $id)->get();
             $images = Image::where('collection_id', $id)->get();
@@ -121,17 +121,24 @@ class CollectionController extends Controller
 
                 $collection->delete();
                 DB::commit();
-                return redirect()->route('admin.collection')
-                    ->with('msg_success', 'Collection deleted successfully');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Collection deleted successfully'
+                ]);
             } else {
                 DB::rollBack();
-                return redirect()->route('admin.collection')
-                    ->with('msg_error', 'This collection has videos or images available');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Collection has videos or images or sub category available'
+                ]);
             }
+           
         } catch (QueryException $e) {
             DB::rollBack();
-            return redirect()->route('admin.collection')
-                ->with('msg_error', 'Collection not deleted');
+             return response()->json([
+                'success' => false,
+                'message' => 'Error deleting Collection.'
+            ]);
         }
     }
 
@@ -142,12 +149,12 @@ class CollectionController extends Controller
             if (count($collection) > 0) {
                 if (isset($request->id) && !empty($request->id)) {
                     if ($collection[0]->id == decrypt($request->id)) {
-                        $return =  true;
+                        $return = true;
                         echo json_encode($return);
                         exit;
                     }
                 }
-                $return =  false;
+                $return = false;
             } else {
                 $return = true;
             }
@@ -156,6 +163,49 @@ class CollectionController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json(false);
+        }
+    }
+     public function deleteMultiple(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $ids = $request->ids;
+            if (empty($ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No IDs provided.'
+                ]);
+            }
+            $category = Collection::whereIn('id', $ids)->get();
+            if ($category->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No collection found.'
+                ]);
+            }
+
+            $videos = Video::whereIn('collection_id', $ids)->get();
+            $images = Image::whereIn('collection_id', $ids)->get();
+            if ($videos->isEmpty() && $images->isEmpty()) {
+                Collection::whereIn('id', $ids)->delete();
+                DB::commit();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Collections deleted successfully.'
+                ]);
+            } else {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Some collection has videos or images available'
+                ]);
+            }
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting Collection.'
+            ]);
         }
     }
 }
