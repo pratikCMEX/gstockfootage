@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class   CategoryController extends Controller
+class CategoryController extends Controller
 {
     public function index(CategoryDataTable $DataTable)
     {
@@ -66,7 +66,7 @@ class   CategoryController extends Controller
 
     public function edit(string $id)
     {
-        $category_id =  decrypt($id);
+        $category_id = decrypt($id);
 
         $title = 'Edit Category';
         $page = 'admin.category.edit';
@@ -114,15 +114,16 @@ class   CategoryController extends Controller
         }
     }
 
-    public function delete(string $id)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $id = decrypt($id);
+            $id = decrypt($request->id);
             $category = Category::findOrFail($id);
             $videos = Video::where('category_id', $id)->get();
             $images = Image::where('category_id', $id)->get();
-            if ($videos->isEmpty() && $images->isEmpty()) {
+             $subcategory = SubCategory::where('category_id', $id)->get();
+            if ($videos->isEmpty() && $images->isEmpty() && $subcategory->isEmpty()) {
                 $imagePath = public_path('uploads/images/category/' . $category->category_image);
 
                 if (!empty($category->category_image) && file_exists($imagePath)) {
@@ -131,17 +132,30 @@ class   CategoryController extends Controller
 
                 $category->delete();
                 DB::commit();
-                return redirect()->route('admin.category')
-                    ->with('msg_success', 'Category deleted successfully');
+
+                $response = [
+                    'success' => true,
+                    'message' => 'Category deleted successfully'
+                ];
+                return response()->json($response);
+
             } else {
                 DB::rollBack();
-                return redirect()->route('admin.category')
-                    ->with('msg_error', 'This category has videos or images available');
+                $response = [
+                    'success' => false,
+                    'message' => 'This category has videos or images or sub category available'
+                ];
+                return response()->json($response);
+
             }
         } catch (QueryException $e) {
             DB::rollBack();
-            return redirect()->route('admin.category')
-                ->with('msg_error', 'Category not deleted');
+            $response = [
+                'success' => false,
+                'message' => 'Category not deleted'
+            ];
+            return response()->json($response);
+
         }
     }
 
@@ -152,12 +166,12 @@ class   CategoryController extends Controller
             if (count($category) > 0) {
                 if (isset($request->id) && !empty($request->id)) {
                     if ($category[0]->id == decrypt($request->id)) {
-                        $return =  true;
+                        $return = true;
                         echo json_encode($return);
                         exit;
                     }
                 }
-                $return =  false;
+                $return = false;
             } else {
                 $return = true;
             }
