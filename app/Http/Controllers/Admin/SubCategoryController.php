@@ -69,7 +69,7 @@ class SubCategoryController extends Controller
     }
     public function edit(string $id)
     {
-        $subcategory_id =  decrypt($id);
+        $subcategory_id = decrypt($id);
 
         $title = 'Edit SubCategory';
         $page = 'admin.sub_category.edit';
@@ -118,11 +118,11 @@ class SubCategoryController extends Controller
             return redirect()->route('admin.sub_category_edit', $sub_category_id)->with('msg_error', 'Sub Category not updated' . $e->getMessage());
         }
     }
-    public function delete(string $id)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
-            $id = decrypt($id);
+            $id = decrypt($request->id);
             $subcategory = SubCategory::findOrFail($id);
 
             $videos = Video::where('subcategory_id', $id)->get();
@@ -136,17 +136,27 @@ class SubCategoryController extends Controller
 
                 $subcategory->delete();
                 DB::commit();
-                return redirect()->route('admin.sub_category')
-                    ->with('msg_success', 'SubCategory deleted successfully');
+                $response = [
+                    'success' => true,
+                    'message' => 'Subcategory deleted successfully'
+                ];
+               
             } else {
                 DB::rollBack();
-                return redirect()->route('admin.sub_category')
-                    ->with('msg_error', 'This subcategory has videos or images available');
+                $response = [
+                    'success' => false,
+                    'message' => 'This subcategory has videos or images available'
+                ];
+               
             }
+             return response()->json($response);
         } catch (QueryException $e) {
             DB::rollBack();
-            return redirect()->route('admin.sub_category')
-                ->with('msg_error', 'SubCategory not deleted');
+            $response = [
+                'success' => false,
+                'message' => 'Subcategory not deleted'
+            ];
+            return response()->json($response);
         }
     }
     public function deleteMultiple(Request $request)
@@ -199,12 +209,12 @@ class SubCategoryController extends Controller
             if (count($sub_category) > 0) {
                 if (isset($request->id) && !empty($request->id)) {
                     if ($sub_category[0]->id == decrypt($request->id)) {
-                        $return =  true;
+                        $return = true;
                         echo json_encode($return);
                         exit;
                     }
                 }
-                $return =  false;
+                $return = false;
             } else {
                 $return = true;
             }

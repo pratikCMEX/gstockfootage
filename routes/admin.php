@@ -30,7 +30,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/store_category', [CategoryController::class, 'store'])->name('admin.category_store');
     Route::get('admin/edit_category/{id}', [CategoryController::class, 'edit'])->name('admin.category_edit');
     Route::post('admin/update_category', [CategoryController::class, 'update'])->name('admin.category_update');
-    Route::post('admin/delete_category/{id}', [CategoryController::class, 'delete'])->name('admin.category_delete');
+    Route::post('admin/delete_category', [CategoryController::class, 'delete'])->name('admin.category_delete');
     Route::post('admin/delete_multiple_category', [CategoryController::class, 'deleteMultiple'])->name('admin.delete_multiple_category');
     Route::post('admin/check_category_is_exist', [CategoryController::class, 'checkCategoryIsExist'])->name('admin.category_check_exist');
     Route::post('admin/toggle_category_display', [CategoryController::class, 'toggleDisplay'])->name('admin.toggle_category_display');
@@ -41,7 +41,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/store_sub_category', [SubCategoryController::class, 'store'])->name('admin.sub_category_store');
     Route::get('admin/edit_sub_category/{id}', [SubCategoryController::class, 'edit'])->name('admin.sub_category_edit');
     Route::post('admin/update_sub_category', [SubCategoryController::class, 'update'])->name('admin.sub_category_update');
-    Route::post('admin/delete_sub_category/{id}', [SubCategoryController::class, 'delete'])->name('admin.sub_category_delete');
+    Route::post('admin/delete_sub_category', [SubCategoryController::class, 'delete'])->name('admin.sub_category_delete');
     Route::post('admin/delete_multiple_sub_category', [SubCategoryController::class, 'deleteMultiple'])->name('admin.delete_multiple_sub_category');
     Route::post('admin/check_sub_category_is_exist', [SubCategoryController::class, 'checkSubCategoryIsExist'])->name('admin.sub_category_check_exist');
 
