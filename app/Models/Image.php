@@ -25,7 +25,7 @@ class Image extends Model
     }
     public function subcategory()
     {
-        return $this->belongsTo(Subcategory::class);
+        return $this->belongsTo(SubCategory::class);
     }
     public function collection()
     {
