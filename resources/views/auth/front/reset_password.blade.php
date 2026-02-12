@@ -8,11 +8,12 @@
 </head>
 
 <body>
-    <form id="contactForm" action="{{ route('password.email') }}" method="POST">
+    <form id="contactForm" action="{{ route('password.store') }}" method="POST">
         @csrf
-
-        <input type="text" name="email" id="email" placeholder="Subject *">
-        <input type="text" name="email" id="email" placeholder="Subject *">
+        <input type="hidden" name="token" value="{{ request()->route('token') }}">
+        <input type="hidden" name="email" value="{{ request()->email }}">
+        <input type="text" name="password" id="password" placeholder="Password *">
+        <input type="text" name="password_confirmation" id="password_confirmation" placeholder="Conform Password *">
 
         <button type="submit">Send Message</button>
     </form>
