@@ -56,7 +56,6 @@ class HomeController extends Controller
                 ->get();
 
             $data = $images->map(function ($image) {
-
                 return [
                     'id'          => $image->id,
                     'title'       => $image->image_name,
@@ -71,7 +70,7 @@ class HomeController extends Controller
                     'collection'  => optional($image->collection)->name,
                 ];
             });
-            dd($data);
+            // dd($data);
             return view('image.show', compact('data'));
         } catch (QueryException $e) {
             DB::rollBack();
