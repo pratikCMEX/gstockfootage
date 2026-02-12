@@ -133,28 +133,26 @@ class CategoryController extends Controller
                 $category->delete();
                 DB::commit();
 
-                return response()->json([
+                $response = [
                     'success' => true,
                     'message' => 'Category deleted successfully'
-                ]);
-
+                ];
+                return response()->json($response);
             } else {
                 DB::rollBack();
-                return response()->json([
+                $response = [
                     'success' => false,
                     'message' => 'This category has videos or images or sub category available'
-                ]);
-
+                ];
+                return response()->json($response);
             }
-
         } catch (QueryException $e) {
             DB::rollBack();
-            return response()->json([
+            $response = [
                 'success' => false,
-                'message' => 'Error deleting category.'
-            ]);
-
-
+                'message' => 'Category not deleted'
+            ];
+            return response()->json($response);
         }
     }
 
@@ -223,10 +221,9 @@ class CategoryController extends Controller
                 ]);
             }
 
-            $subcategory = SubCategory::whereIn('category_id', $ids)->get();
             $videos = Video::whereIn('category_id', $ids)->get();
             $images = Image::whereIn('category_id', $ids)->get();
-            if ($videos->isEmpty() && $images->isEmpty() && $subcategory->isEmpty()) {
+            if ($videos->isEmpty() && $images->isEmpty()) {
                 Category::whereIn('id', $ids)->delete();
                 DB::commit();
                 return response()->json([
