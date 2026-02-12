@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Collection;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\DataTables\VideosDataTable;
 use App\Models\Video;
@@ -33,12 +35,15 @@ class VideoController extends Controller
         $page = 'admin.videos.add';
         $js = ['videos'];
         $category = Category::all();
-
+        $subcategory = SubCategory::all();
+        $collections = Collection::all();
         return view("layouts.admin.layout", compact(
             'title',
             'page',
             'js',
-            'category'
+            'category',
+            'subcategory',
+            'collections'
         ));
     }
 
@@ -50,6 +55,8 @@ class VideoController extends Controller
 
             $validatedData = $request->validate([
                 'category' => 'required|exists:categories,id',
+                'subcategory' => 'required|exists:sub_categories,id',
+                'collection' => 'required|exists:collections,id',
                 'video_name' => 'required|string|max:255',
                 'video_price' => 'required|numeric',
                 'video_description' => 'nullable|string',
@@ -75,6 +82,8 @@ class VideoController extends Controller
             // 3. Create a database entry with 'processing' status
             $video = new Video();
             $video->category_id = $validatedData['category'];
+            $video->collection_id = $validatedData['collection'];
+            $video->subcategory_id = $validatedData['subcategory'];
             $video->video_name = $validatedData['video_name'];
             $video->video_price = $validatedData['video_price'];
             $video->video_description = $validatedData['video_description'];
@@ -106,7 +115,7 @@ class VideoController extends Controller
 
     public function edit(string $id)
     {
-        $image_id =  decrypt($id);
+        $image_id = decrypt($id);
 
         $title = 'Edit Video';
         $page = 'admin.videos.edit';
@@ -115,8 +124,13 @@ class VideoController extends Controller
         $videoId = $id;
         $getVideoDetail = Video::where('id', $image_id)->first();
         $category = Category::all();
+         $collections = Collection::all();
+          $subcategories = SubCategory::where(
+            'category_id',
+            $getVideoDetail->category_id
+        )->get();
 
-        return view('layouts.admin.layout', compact('title', 'page', 'js', 'getVideoDetail', 'category', 'videoId'));
+        return view('layouts.admin.layout', compact('title', 'page', 'js', 'getVideoDetail', 'category', 'videoId','subcategories','collections'));
     }
     public function update(Request $request, $id)
     {
@@ -127,6 +141,8 @@ class VideoController extends Controller
 
             $validatedData = $request->validate([
                 'category' => 'required|exists:categories,id',
+                'subcategory' => 'required|exists:sub_categories,id',
+                'collection' => 'required|exists:collections,id',
                 'video_name' => 'required|string|max:255',
                 'video_price' => 'required|numeric',
                 'video_description' => 'nullable|string',
@@ -138,7 +154,7 @@ class VideoController extends Controller
 
             $baseDir = public_path('uploads/videos/');
             $highDir = $baseDir . 'high/';
-            $lowDir  = $baseDir . 'low/';
+            $lowDir = $baseDir . 'low/';
             $thumbDir = $baseDir . 'thumbnails/';
 
             foreach ([$highDir, $lowDir, $thumbDir] as $dir) {
@@ -175,6 +191,8 @@ class VideoController extends Controller
             }
 
             $video->category_id = $validatedData['category'];
+            $video->collection_id = $validatedData['collection'];
+            $video->subcategory_id = $validatedData['subcategory'];
             $video->video_name = $validatedData['video_name'];
             $video->video_price = $validatedData['video_price'];
             $video->video_description = $validatedData['video_description'];
@@ -208,7 +226,7 @@ class VideoController extends Controller
 
             $baseDir = public_path('uploads/videos/');
             $highDir = $baseDir . 'high/';
-            $lowDir  = $baseDir . 'low/';
+            $lowDir = $baseDir . 'low/';
             $thumbDir = $baseDir . 'thumbnails/';
 
             if ($video->high_path && file_exists($highDir . $video->high_path)) {
@@ -282,17 +300,20 @@ class VideoController extends Controller
 
             $baseDir = public_path('uploads/videos/');
             $highDir = $baseDir . 'high/';
-            $lowDir  = $baseDir . 'low/';
+            $lowDir = $baseDir . 'low/';
             $thumbDir = $baseDir . 'thumbnails/';
             foreach ($videos as $vid) {
 
                 $highPath = $highDir . $vid->high_path;
-                $lowPath  = $lowDir . $vid->low_path;
-                $thumbDir  = $thumbDir . $vid->thumbnail_path;
+                $lowPath = $lowDir . $vid->low_path;
+                $thumbDir = $thumbDir . $vid->thumbnail_path;
 
-                if (file_exists($highPath)) unlink($highPath);
-                if (file_exists($lowPath)) unlink($lowPath);
-                if (file_exists($thumbDir)) unlink($thumbDir);
+                if (file_exists($highPath))
+                    unlink($highPath);
+                if (file_exists($lowPath))
+                    unlink($lowPath);
+                if (file_exists($thumbDir))
+                    unlink($thumbDir);
             }
             Video::whereIn('id', $ids)->delete();
 

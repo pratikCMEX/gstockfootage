@@ -19,6 +19,22 @@
                                 </select>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">SubCategory</label>
+                                <select class="form-select" name="subcategory" id="subcategory">
+                                    <option value="">Choose SubCategory...</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Collection</label>
+                                <select class="form-select mr-sm-2" name="collection" id="collection">
+                                    <option value="">Choose Collection...</option>
+                                    @foreach ($collections as $coll)
+                                        <option value="{{ $coll->id }}">{{ $coll->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="video_name" class="form-label">Video Name</label>
                                 <input type="text" name="video_name" class="form-control" id="video_name"
                                     aria-describedby="emailHelp" placeholder="Please enter video name">

@@ -34,6 +34,13 @@ $(document).ready(function () {
             category: {
                 required: true,
             },
+            subcategory: {
+                required: true,
+            },
+            collection: {
+                required: true,
+            },
+           
             video_name: {
                 required: true,
             },
@@ -51,6 +58,12 @@ $(document).ready(function () {
         messages: {
             category: {
                 required: "Please select a category",
+            },
+            subcategory: {
+                required: "Please select a sub category",
+            },
+            collection: {
+                required: "Please select a collection",
             },
             video_name: {
                 required: "Please enter a video name",
@@ -316,4 +329,33 @@ $("#delete-selected").on("click", function () {
             });
         }
     });
+});
+
+$(document).on("change", "#category", function () {
+    let categoryId = $(this).val();
+    
+    $("#subcategory").html("<option>Loading...</option>");
+    if (categoryId != "") {
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: base_url + "/get-subcategories/" + categoryId,
+            type: "GET",
+            success: function (data) {
+                let html = '<option value="">Choose SubCategory...</option>';
+                console.log(data);
+
+                $.each(data, function (key, subcat) {
+                    html += `<option value="${subcat.id}">${subcat.name}</option>`;
+                });
+
+                $("#subcategory").html(html);
+            },
+        });
+    } else {
+        $("#subcategory").html(
+            '<option value="">Choose SubCategory...</option>'
+        );
+    }
 });

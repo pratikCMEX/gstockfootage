@@ -20,6 +20,32 @@
                                     @endforeach
                                 </select>
                             </div>
+                             <div class="mb-3">
+                                <label class="form-label">SubCategory</label>
+                                <select class="form-select" name="subcategory" id="subcategory">
+                                    {{-- <option value="">Choose SubCategory...</option> --}}
+
+                                    @foreach ($subcategories as $sub)
+                                        <option value="{{ $sub->id }}"
+                                            {{ $getVideoDetail->subcategory_id == $sub->id ? 'selected' : '' }}>
+                                            {{ $sub->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Collection</label>
+                                <select class="form-select" name="collection" id="collection">
+                                    @foreach ($collections as $coll)
+                                        <option value="{{ $coll->id }}"
+                                            {{ $getVideoDetail->collection_id == $coll->id ? 'selected' : '' }}>
+                                            {{ $coll->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                            </div>
                             <div class="mb-3">
                                 <label for="video_name" class="form-label">Video Name</label>
                                 <input type="text" name="video_name" class="form-control" id="video_name"

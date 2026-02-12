@@ -18,4 +18,12 @@ class Video extends Model
     {
         return $this->belongsTo(Category::class);
     }
+     public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class,'subcategory_id');
+    }
+     public function collections()
+    {
+        return $this->belongsTo(Collection::class,'collection_id');
+    }
 }
