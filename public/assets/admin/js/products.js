@@ -1,16 +1,30 @@
 // alert();
 function changeType(type) {
   let fileInput = document.getElementById("fileInput");
-  let previewBox = document.getElementById("imagePreviewBox");
 
-  if (type === "0") {
-    $(".image_upload").removeClass("d-none");
-    $(".video_upload").addClass("d-none");
+  if (type === "image") {
+    fileInput.accept = "image/*";
   } else {
-    $(".image_upload").addClass("d-none");
-    $(".video_upload").removeClass("d-none");
+    fileInput.accept = "video/mp4,video/x-m4v,video/*";
   }
 }
+
+document.getElementById("fileInput").onchange = function (e) {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  let url = URL.createObjectURL(file);
+
+  if (file.type.startsWith("image")) {
+    document.getElementById("preview_image").src = url;
+    document.getElementById("preview_image").style.display = "block";
+    document.getElementById("preview_video").style.display = "none";
+  } else {
+    document.getElementById("preview_video").src = url;
+    document.getElementById("preview_video").style.display = "block";
+    document.getElementById("preview_image").style.display = "none";
+  }
+};
 
 var loadFile = function (event) {
   var output = document.getElementById("preview_image");

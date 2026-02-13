@@ -20,13 +20,13 @@
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="type" value="0" checked
-                                        onchange="changeType('image')">
+                                        onchange="changeType('0')">
                                     <label class="form-check-label">Image</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="type" value="1"
-                                        onchange="changeType('video')">
+                                        onchange="changeType('1')">
                                     <label class="form-check-label">Video</label>
                                 </div>
                             </div>
@@ -86,37 +86,15 @@
                             </div>
 
                             {{-- ================= FILE INPUT ================= --}}
-                            <div class="mb-3 image_upload">
+                            <div class="mb-3">
                                 <label class="form-label">Upload File</label>
-                                <input class="form-control" type="file" name="file" id="fileInput"
-                                    accept="image/*" onchange="loadFile(event)">
-                                <div class="mt-2 row">
-                                    <div class="col-sm-4">
-                                        <img src="" id="preview_image" alt=""
-                                            class="img-fluid rounded-4 mb-2 mb-sm-0">
-                                    </div>
-                                </div>
-
+                                <input class="form-control" type="file" name="file" id="fileInput">
                             </div>
-                            <div class="mb-3 video_upload d-none">
-                                <label class="form-label">Upload File</label>
-                                <input class="form-control" type="file" name="file" id="video" id="video"
-                                    accept="video/mp4,video/x-m4v,video/*" onchange="previewVideo(event)">
-                                <div class="mt-2 row">
-                                    <div class="col-sm-4">
-                                        <img src="" id="preview_image" alt=""
-                                            class="img-fluid rounded-4 mb-2 mb-sm-0">
-                                    </div>
-                                </div>
-                                <div class="mt-2 row">
-                                    <div class="col-sm-4">
-                                        <video id="preview_video" width="100%" height="auto" controls
-                                            class="rounded-4 mb-2 mb-sm-0" style="display:none;">
-                                            <source src="" type="video/mp4">
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    </div>
-                                </div>
+
+                            <div class="mt-2">
+                                <img id="preview_image" class="img-fluid rounded"
+                                    style="max-height:200px;display:none;">
+                                <video id="preview_video" width="300" controls style="display:none;"></video>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save Product</button>
