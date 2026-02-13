@@ -101,7 +101,7 @@
                             </div>
 
                             {{-- ================= CURRENT FILE PREVIEW ================= --}}
-                            <div class="mb-4">
+                            {{-- <div class="mb-4">
                                 <label class="form-label fw-bold">Current File</label><br>
 
                                 @if ($product->type == '0')
@@ -114,13 +114,40 @@
                                     </video>
                                 @endif
 
-                            </div>
+                            </div> --}}
 
                             {{-- ================= REPLACE FILE ================= --}}
-                            <div class="mb-3">
-                                <label class="form-label">Replace File (Optional)</label>
-                                <input class="form-control" type="file" name="file" id="fileInput">
-                            </div>
+                            @if ($product->type == '0')
+                                <div class="mb-3 image_upload">
+                                    <label class="form-label">Upload File</label>
+                                    <input class="form-control" type="file" name="file" id="fileInput"
+                                        accept="image/*" onchange="loadFile(event)">
+                                    <div class="mt-2 row">
+                                        <div class="col-sm-4">
+                                            <img src="{{ asset('uploads/images/low/' . $product->low_path) }}"
+                                                id="preview_image" alt=""
+                                                class="img-fluid rounded-4 mb-2 mb-sm-0">
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="mb-3 video_upload">
+                                    <label class="form-label">Upload File</label>
+                                    <input class="form-control" type="file" name="file" id="video"
+                                        accept="video/mp4,video/x-m4v,video/*" onchange="previewVideo(event)">
+
+                                    <div class="mt-2 row">
+                                        <div class="col-sm-4">
+                                            <video id="preview_video" width="100%" height="auto" controls
+                                                class="rounded-4 mb-2 mb-sm-0">
+                                                <source src="{{ asset('uploads/videos/low/' . $product->low_path) }}"
+                                                    type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
                             <button type="submit" class="btn btn-primary">
                                 Update Product

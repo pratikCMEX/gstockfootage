@@ -86,14 +86,36 @@
                             </div>
 
                             {{-- ================= FILE INPUT ================= --}}
-                            <div class="mb-3">
+                            <div class="mb-3 image_upload">
                                 <label class="form-label">Upload File</label>
                                 <input class="form-control" type="file" name="file" id="fileInput"
-                                    accept="image/*">
+                                    accept="image/*" onchange="loadFile(event)">
+                                <div class="mt-2 row">
+                                    <div class="col-sm-4">
+                                        <img src="" id="preview_image" alt=""
+                                            class="img-fluid rounded-4 mb-2 mb-sm-0">
+                                    </div>
+                                </div>
 
-                                {{-- IMAGE PREVIEW --}}
-                                <div class="mt-3" id="imagePreviewBox">
-                                    <img id="preview_image" class="img-fluid rounded-3" style="max-height:200px;">
+                            </div>
+                            <div class="mb-3 video_upload d-none">
+                                <label class="form-label">Upload File</label>
+                                <input class="form-control" type="file" name="file" id="video" id="video"
+                                    accept="video/mp4,video/x-m4v,video/*" onchange="previewVideo(event)">
+                                <div class="mt-2 row">
+                                    <div class="col-sm-4">
+                                        <img src="" id="preview_image" alt=""
+                                            class="img-fluid rounded-4 mb-2 mb-sm-0">
+                                    </div>
+                                </div>
+                                <div class="mt-2 row">
+                                    <div class="col-sm-4">
+                                        <video id="preview_video" width="100%" height="auto" controls
+                                            class="rounded-4 mb-2 mb-sm-0" style="display:none;">
+                                            <source src="" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
                                 </div>
                             </div>
 

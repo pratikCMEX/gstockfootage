@@ -73,24 +73,18 @@ class ProductController extends Controller
             $product->tags = $request->tags;
 
             $tempOriginalPath = null;
-
             if ($request->type == "0") {
                 $this->handleImageUpload($request, $product);
             } else {
-
                 $this->handleProductVideoUpload($product, $request, $tempOriginalPath);
             }
 
             $product->save();
             DB::commit();
-
-            // 🎬 Dispatch job ONLY for video products
             if ($request->type == "1" && $tempOriginalPath) {
                 ProcessUploadedVideo::dispatch($product, $tempOriginalPath);
             }
-
-            return redirect()->route('admin.product')
-                ->with('msg_success', 'Product uploaded successfully!');
+            return redirect()->route('admin.product')->with('msg_success', 'Product uploaded successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('msg_error', $e->getMessage());
@@ -100,7 +94,6 @@ class ProductController extends Controller
 
     private function handleImageUpload($request, $product)
     {
-        // dd(1);
         $request->validate(['file' => 'required|image']);
 
         $file = $request->file('file');
@@ -144,16 +137,12 @@ class ProductController extends Controller
         $product->width = $width;
         $product->height = $height;
         $product->file_size = $size;
-
-        // dd(2);  
     }
     private function handleProductVideoUpload(Product $product, Request $request, &$tempOriginalPath = null)
     {
-        // If no video uploaded (update case), do nothing
         if (!$request->hasFile('file')) {
             return false;
         }
-
         $baseDir = public_path('uploads/videos/');
         $highDir = $baseDir . 'high/';
         $lowDir  = $baseDir . 'low/';
@@ -164,7 +153,6 @@ class ProductController extends Controller
                 mkdir($dir, 0755, true);
             }
         }
-
         /** 🗑 Delete old files (update case) */
         if ($product->exists) {
             if ($product->high_path && file_exists($highDir . $product->high_path)) {
@@ -177,12 +165,10 @@ class ProductController extends Controller
                 @unlink($thumbDir . $product->thumbnail_path);
             }
         }
-
         /** 📤 Upload new video */
         $file = $request->file('file');
         $originalFilename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
         $file->move($highDir, $originalFilename);
-
         $tempOriginalPath = $highDir . $originalFilename;
 
         /** 💾 Save filename in model */
@@ -198,7 +184,6 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $productId = decrypt($id);
-
         $title = 'Edit Product';
         $page = 'admin.product.edit';
         $js = ['products'];
@@ -227,9 +212,7 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $product = Product::findOrFail(decrypt($id));
-
             $request->validate([
                 'type' => 'required|in:0,1',
                 'category' => 'required|exists:categories,id',
@@ -241,7 +224,6 @@ class ProductController extends Controller
                 // 'image' => 'nullable|image'
             ]);
 
-            // $product->update([
             $product->type = $request->type;
             $product->category_id = $request->category;
             $product->subcategory_id = $request->subcategory;
@@ -250,25 +232,23 @@ class ProductController extends Controller
             $product->price = $request->price;
             $product->description = $request->description;
             $product->tags = $request->tags;
-            // ]);
 
             $tempOriginalPath = null;
 
-            if ($request->type == "0") {
-                $this->handleImageUpload($request, $product);
-            } else {
-                $uploaded = $this->handleProductVideoUpload($product, $request, $tempOriginalPath);
-
-                if ($uploaded) {
-                    ProcessUploadedVideo::dispatch($product, $tempOriginalPath);
+            if ($request->has('file')) {
+                if ($request->type == "0") {
+                    $this->handleImageUpload($request, $product);
+                } else {
+                    $uploaded = $this->handleProductVideoUpload($product, $request, $tempOriginalPath);
+                    if ($uploaded) {
+                        ProcessUploadedVideo::dispatch($product, $tempOriginalPath);
+                    }
                 }
             }
-
             $product->save();
             DB::commit();
 
-            return redirect()->route('admin.product')
-                ->with('msg_success', 'Product updated successfully!');
+            return redirect()->route('admin.product')->with('msg_success', 'Product updated successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('msg_error', $e->getMessage());

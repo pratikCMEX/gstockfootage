@@ -3,12 +3,12 @@ function changeType(type) {
   let fileInput = document.getElementById("fileInput");
   let previewBox = document.getElementById("imagePreviewBox");
 
-  if (type === "image") {
-    fileInput.accept = "image/*";
-    previewBox.style.display = "block";
+  if (type === "0") {
+    $(".image_upload").removeClass("d-none");
+    $(".video_upload").addClass("d-none");
   } else {
-    fileInput.accept = "video/*";
-    previewBox.style.display = "none";
+    $(".image_upload").addClass("d-none");
+    $(".video_upload").removeClass("d-none");
   }
 }
 
@@ -70,7 +70,7 @@ function initProductValidation(formId, isFileRequired = true) {
 
       file: {
         required: isFileRequired,
-        fileTypeByProductType: true,
+        // fileTypeByProductType: true,
       },
     },
 
@@ -162,3 +162,18 @@ $(document).on("click", ".video-thumbnail", function () {
     videoElement.load();
   });
 });
+
+function previewVideo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("video/")) {
+    event.target.value = "";
+    return;
+  }
+
+  const videoPreview = document.getElementById("preview_video");
+  videoPreview.style.display = "block";
+  videoPreview.src = URL.createObjectURL(file);
+  videoPreview.load();
+}
