@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Video;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,7 +21,7 @@ class ProcessUploadedVideo implements ShouldQueue
     /**
      * @var \App\Models\Video $video The model instance is now passed directly.
      */
-    protected $video;
+    protected $product;
     protected $tempOriginalPath;
 
     /**
@@ -30,9 +30,9 @@ class ProcessUploadedVideo implements ShouldQueue
      * @param Video $video The newly created Video model instance.
      * @param string $tempOriginalPath The temporary full path where the file was first stored.
      */
-    public function __construct(Video $video, string $tempOriginalPath)
+    public function __construct(Product $product, string $tempOriginalPath)
     {
-        $this->video = $video;
+        $this->product = $product;
         $this->tempOriginalPath = $tempOriginalPath;
     }
     /**
@@ -42,7 +42,7 @@ class ProcessUploadedVideo implements ShouldQueue
      */
     public function handle()
     {
-        $video = $this->video;
+        $video = $this->product;
 
         if (!file_exists($this->tempOriginalPath)) {
             $video->status = 'failed';

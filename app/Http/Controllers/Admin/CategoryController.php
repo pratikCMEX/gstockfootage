@@ -135,12 +135,11 @@ class CategoryController extends Controller
                 $category->delete();
                 DB::commit();
 
-                return response()->json([
+                $response = [
                     'success' => true,
                     'message' => 'Category deleted successfully'
-                ]);
-
-            } 
+                ];
+            }
             DB::rollBack();
 
             if ($hasVideos || $hasImages) {
@@ -158,15 +157,13 @@ class CategoryController extends Controller
                     'message' => 'Category has subcategories available.'
                 ]);
             }
-
         } catch (QueryException $e) {
             DB::rollBack();
-            return response()->json([
+            $response = [
                 'success' => false,
-                'message' => 'Error deleting category.'
-            ]);
-
-
+                'message' => 'Category not deleted'
+            ];
+            return response()->json($response);
         }
     }
 
@@ -266,7 +263,6 @@ class CategoryController extends Controller
                     'message' => 'Category has subcategories available.'
                 ]);
             }
-
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json([

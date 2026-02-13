@@ -39,7 +39,7 @@
                         <span class="hide-menu">Collection</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['image', 'add_image', 'edit_image']) ? 'active' : '' }}"
                         href="{{ route('admin.image') }}" aria-expanded="false">
                         <i class="ti ti-cards"></i>
@@ -52,6 +52,13 @@
                         <i class="ti ti-chart-donut-3"></i>
                         <span class="hide-menu">Video Manager</span>
                     </a>
+                </li> --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['product', 'add_product', 'edit_product']) ? 'active' : '' }}"
+                        href="{{ route('admin.product') }}" aria-expanded="false">
+                        <i class="ti ti-chart-donut-3"></i>
+                        <span class="hide-menu">Product Manager</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-item">
@@ -61,8 +68,8 @@
                         <span class="hide-menu">Users</span>
                     </a>
                 </li>
-                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ in_array(Request::segment(2), ['license'] ) ? 'active' : '' }}"
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['license']) ? 'active' : '' }}"
                         href="{{ route('admin.license') }}" aria-expanded="false">
                         <i class="ti ti-user-circle"></i>
                         <span class="hide-menu">License Manager</span>

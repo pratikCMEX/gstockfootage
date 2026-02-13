@@ -6,10 +6,11 @@ use App\Http\Controllers\Auth\PasswordResetLinkController as ForgotPasswordContr
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Models\QuoteRequest;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('password.request');
+    return redirect()->route('quote');
 });
 
 
@@ -20,6 +21,8 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->nam
 Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->name('password.email');
 Route::post('/forgot-password-store', [NewPasswordController::class, 'store'])->name('password.store');
+Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
+Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
