@@ -24,7 +24,17 @@ class SubscriptionPlanDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-           ->addColumn('action', function ($row) {
+            ->addColumn('is_active', function ($row) {
+                $checked = $row->is_active == '1' ? 'checked' : '';
+                return '
+        <div class="form-check form-switch">
+            <input type="checkbox" 
+                class="form-check-input toggle_is_active"
+                data-id="' . encrypt($row->id) . '"
+                ' . $checked . '>
+        </div>';
+            })
+            ->addColumn('action', function ($row) {
 
                 $updateButton = '
             <a href="' . route('admin.subscription_edit', ['id' => encrypt($row->id)]) . '"
@@ -48,7 +58,8 @@ class SubscriptionPlanDataTable extends DataTable
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
 
 
-            });
+            })
+            ->rawColumns(['action', 'is_active']);
 
     }
 
@@ -100,6 +111,11 @@ class SubscriptionPlanDataTable extends DataTable
             Column::make('price_per_clip'),
             Column::make('discount_percentage'),
             Column::make('price'),
+            Column::computed('is_active')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

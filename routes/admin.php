@@ -70,6 +70,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/edit_subscription/{id}', [SubscriptionPlanController::class, 'edit'])->name('admin.subscription_edit');
      Route::post('admin/update_subscription', [SubscriptionPlanController::class, 'update'])->name('admin.subscription_update');
      Route::post('admin/delete_subscription', [SubscriptionPlanController::class, 'delete'])->name('admin.subscription_delete');
+     Route::post('admin/change_is_active', [SubscriptionPlanController::class, 'change_is_active'])->name('admin.change_is_active');
 
     Route::get('admin/user', [UserController::class, 'index'])->name('admin.user');
     Route::get('admin/add_user', [UserController::class, 'addUser'])->name('admin.user_add');

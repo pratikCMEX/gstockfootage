@@ -132,3 +132,29 @@ $(document).on("click", ".deleteSubscriptionPlan", function () {
         }
     });
 });
+
+$(document).on('change', '.toggle_is_active', function () {
+
+    var id = $(this).data('id');
+    var status = $(this).is(':checked') ? '1' : '0';
+
+    $.ajax({
+        url: base_url + "/admin/change_is_active",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: id,
+            status: status
+        },
+        success: function (response) {
+            if (response.success) {
+                if (status == 1) {
+                    toastr.success('Plan Active Successfully');
+                } else {
+                    toastr.success('Plan Inactive Successfully');
+                }
+            }
+        }
+    });
+
+});
