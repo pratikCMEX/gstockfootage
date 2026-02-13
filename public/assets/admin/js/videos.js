@@ -305,13 +305,16 @@ $(document).on("change", ".toggle-display-videos", function () {
 });
 
 function toggleDeleteButton() {
-    let anyChecked = $(".row-checkbox:checked").length > 0;
+    let totalCheckboxes = $(".row-checkbox").length;
+    let checkedCheckboxes = $(".row-checkbox:checked").length;
 
-    if (anyChecked) {
+    if (checkedCheckboxes > 0) {
         $("#delete-selected").show();
     } else {
         $("#delete-selected").hide();
     }
+
+    $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
 }
 
 $(document).on("change", ".row-checkbox", function () {
@@ -321,10 +324,6 @@ $(document).on("change", ".row-checkbox", function () {
 $(document).on("change", "#select-all", function () {
     $(".row-checkbox").prop("checked", this.checked);
     toggleDeleteButton();
-});
-
-$("#select-all").on("click", function () {
-    $(".row-checkbox").prop("checked", this.checked);
 });
 
 $("#delete-selected").on("click", function () {

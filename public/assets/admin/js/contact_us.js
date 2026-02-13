@@ -1,83 +1,5 @@
-$(document).on("click", ".preview-image", function () {
-    const src = $(this).data("src");
-    const img = $("#previewImage");
-
-    img.attr("src", src);
-    new bootstrap.Modal(document.getElementById("imagePreviewModal")).show();
-
-    $("#imagePreviewModal").on("hidden.bs.modal", function () {
-        document.activeElement?.blur();
-    });
-});
 var base_url = $("#base_url").val();
-var loadFile = function (event) {
-    var output = document.getElementById("preview_image");
-    output.src = URL.createObjectURL(event.target.files[0]);
-    $(".gift_image_validation").text("");
-    $(".banner_image_validation").text("");
-};
-
-$("#add_collection_form").validate({
-    onkeyup: false,
-    rules: {
-        name: {
-            required: true,
-            remote: {
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                url: base_url + "/admin/check_collection_is_exist",
-                type: "POST",
-                data: {
-                    name: function () {
-                        return $("input[name='name']").val();
-                    },
-                    id: function () {
-                        return null;
-                    },
-                },
-            },
-        },
-        image: {
-            required: true,
-            extension: "jpg|jpeg|png|webp",
-        },
-    },
-    messages: {
-        name: {
-            required: "Please enter collection name",
-            remote: "This collection already exists",
-        },
-        image: {
-            required: "Please select a image",
-            extension: "Please upload only png/jpg/jpeg",
-        },
-    },
-    normalizer: function (value) {
-        return $.trim(value);
-    },
-
-    errorClass: "text-danger",
-    errorElement: "span",
-    highlight: function (element) {
-        $(element).addClass("is-invalid");
-    },
-    unhighlight: function (element) {
-        $(element).removeClass("is-invalid");
-    },
-    submitHandler: function (form) {
-        $(form)
-            .find('button[type="submit"]')
-            .prop("disabled", true)
-            .text("Please wait...");
-
-        form.submit();
-    },
-});
-
-$(document).on("click", ".deleteCollection", function () {
+$(document).on("click", ".deleteContactUs", function () {
 
     var id = $(this).data("id");
 
@@ -94,7 +16,7 @@ $(document).on("click", ".deleteCollection", function () {
         if (result.isConfirmed) {
 
             $.ajax({
-                url: base_url + "/admin/delete_collection",
+                url: base_url + "/admin/delete_contact_us",
                 type: "post",
                 data: {
                     id: id,
@@ -104,17 +26,17 @@ $(document).on("click", ".deleteCollection", function () {
                     if (response.success) {
                         Swal.fire(
                             "Deleted!",
-                           response.message,
+                            response.message,
                             "success"
                         );
 
-                        $('#collection-table').DataTable().ajax.reload(null, false);
-                    }else{
-                         Swal.fire(
-                        "Error!",
-                         response.message,
-                        "error"
-                    );
+                        $('#contactus-table').DataTable().ajax.reload(null, false);
+                    } else {
+                        Swal.fire(
+                            "Error!",
+                            response.message,
+                            "error"
+                        );
                     }
                 },
                 error: function () {
@@ -178,7 +100,7 @@ $("#delete-selected").on("click", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: base_url + "/admin/delete_multiple_collection",
+                url: base_url + "/admin/delete_multiple_contacts",
                 type: "POST",
                 data: {
                     ids: ids,
@@ -187,12 +109,12 @@ $("#delete-selected").on("click", function () {
                 success: function (response) {
                     if (response.success == false) {
                         toastr.error(response.message);
-                    }else{
-                         toastr.success(response.message);
+                    } else {
+                        toastr.success(response.message);
                     }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");
-                    $("#collection-table").DataTable().ajax.reload();
+                    $("#contactus-table").DataTable().ajax.reload();
                 },
             });
         }

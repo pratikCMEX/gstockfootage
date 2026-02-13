@@ -16,7 +16,6 @@
                                     @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                                     @endforeach
-
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -49,30 +48,28 @@
                             </div>
                             <div class="mb-3">
                                 <label for="tags" class="form-label">Tags</label>
-                                <input type="text" id="tags" name="tags" class="form-control"
-                                    data-role="tagsinput" />
+                                <input type="text" id="tags" name="tags" class="form-control" data-role="tagsinput" />
                             </div>
                             <div class="mb-3">
                                 <label for="image_description" class="form-label">Image Description</label>
-                                <textarea class="form-control" name="image_description" id="image_description"rows="3"></textarea>
+                                <textarea class="form-control" name="image_description" id="image_description"
+                                    rows="3"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label>
-                                <input class="form-control" type="file" name="image" id="image"  accept="image/*" 
+                                <input class="form-control" type="file" name="image" id="image" accept="image/*"
                                     onchange="loadFile(event)">
 
 
                                 <div class="mt-2 row">
                                     <div class="col-sm-4">
-                                        <img src="" id="preview_image" alt=""
-                                            class="img-fluid rounded-4 mb-2 mb-sm-0">
+                                        <img src="" id="preview_image" alt="" class="img-fluid rounded-4 mb-2 mb-sm-0">
                                     </div>
                                     {{-- <div class="col-sm-6">
-                                                <img src="../assets/images/products/s4.jpg" alt="modernize-img"
-                                                    class="img-fluid rounded-4">
-                                            </div> --}}
+                                        <img src="../assets/images/products/s4.jpg" alt="modernize-img"
+                                            class="img-fluid rounded-4">
+                                    </div> --}}
                                 </div>
-
                             </div>
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>

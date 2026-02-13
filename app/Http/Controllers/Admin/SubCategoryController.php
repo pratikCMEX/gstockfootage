@@ -22,7 +22,9 @@ class SubCategoryController extends Controller
         $title = 'Sub Category';
         $page = 'admin.sub_category.list';
         $js = ['sub_category'];
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js'));
+        $category = Category::all();
+
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js','category'));
     }
     public function addSubCategory(Request $request)
     {

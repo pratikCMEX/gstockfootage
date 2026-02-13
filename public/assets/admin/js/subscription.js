@@ -1,26 +1,28 @@
 
+var base_url = $("#base_url").val();
+
 $("#subscription_form").validate({
     onkeyup: false,
     rules: {
         name: {
             required: true,
-            // remote: {
-            //     headers: {
-            //         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-            //             "content"
-            //         ),
-            //     },
-            //     url: base_url + "/admin/check_license_is_exist",
-            //     type: "POST",
-            //     data: {
-            //         name: function () {
-            //             return $("#name").val();
-            //         },
-            //         id: function () {
-            //             return $("#license_id").val();
-            //         },
-            //     },
-            // },
+            remote: {
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                url: base_url + "/admin/check_subscription_plan_is_exist",
+                type: "POST",
+                data: {
+                    name: function () {
+                        return $("#name").val();
+                    },
+                    id: function () {
+                        return $("#subscription_plan_id").val();
+                    },
+                },
+            },
         },
 
         duration_type: {
@@ -42,7 +44,7 @@ $("#subscription_form").validate({
     messages: {
         name: {
             required: "Please enter Subscription Plan name",
-            // remote: "This License already exists",
+            remote: "This Subscription Plan already exists",
         },
         duration_type: {
             required: "Please enter Duration type",
@@ -82,7 +84,7 @@ $("#subscription_form").validate({
         form.submit();
     },
 });
-var base_url = $("#base_url").val();
+
 
 $(document).on("click", ".deleteSubscriptionPlan", function () {
 
@@ -157,4 +159,68 @@ $(document).on('change', '.toggle_is_active', function () {
         }
     });
 
+});
+function toggleDeleteButton() {
+    let totalCheckboxes = $(".row-checkbox").length;
+    let checkedCheckboxes = $(".row-checkbox:checked").length;
+
+    if (checkedCheckboxes > 0) {
+        $("#delete-selected").show();
+    } else {
+        $("#delete-selected").hide();
+    }
+
+    $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
+}
+
+$(document).on("change", ".row-checkbox", function () {
+    toggleDeleteButton();
+});
+
+$(document).on("change", "#select-all", function () {
+    $(".row-checkbox").prop("checked", this.checked);
+    toggleDeleteButton();
+});
+$("#delete-selected").on("click", function () {
+    let ids = [];
+
+    $(".row-checkbox:checked").each(function () {
+        ids.push($(this).val());
+    });
+
+    if (ids.length === 0) {
+        toastr.success("Please select at least one user");
+        return;
+    }
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: base_url + "/admin/delete_multiple_subscription_plan",
+                type: "POST",
+                data: {
+                    ids: ids,
+                    _token: $('meta[name="csrf-token"]').attr("content"),
+                },
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error(response.message);
+                    }else{
+                         toastr.success(response.message);
+                    }
+                    $("#select-all").prop("checked", false);
+                    $("#delete-selected").css("display", "none");
+                    $("#subscriptionplan-table").DataTable().ajax.reload();
+                },
+            });
+        }
+    });
 });

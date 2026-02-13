@@ -3,10 +3,12 @@
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
+use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\TermConditionController;
 use App\Http\Controllers\Admin\VideoController;
@@ -25,6 +27,10 @@ use Illuminate\Support\Facades\Auth;
 
 Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
+    Route::post('admin/update_profile', [ProfileController::class, 'update_profile'])->name('admin.update_profile');
+    Route::post('admin/update_password', [ProfileController::class, 'update_password'])->name('admin.update_password');
+
 
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');
@@ -54,6 +60,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_license', [LicenseController::class, 'delete'])->name('admin.license_delete');
     Route::post('admin/check_license_is_exist', [LicenseController::class, 'checkLicenseIsExist'])->name('admin.license_check_exist');
     Route::post('admin/change_most_popular', [LicenseController::class, 'change_most_popular'])->name('admin.change_most_popular');
+    Route::post('admin/delete_multiple_license', [LicenseController::class, 'deleteMultiple'])->name('admin.delete_multiple_license');
 
     Route::get('admin/collection', [CollectionController::class, 'index'])->name('admin.collection');
     Route::get('admin/add_collection', [CollectionController::class, 'addCollection'])->name('admin.collection_add');
@@ -68,9 +75,11 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/add_subscription', [SubscriptionPlanController::class, 'create'])->name('admin.subscription_add');
     Route::post('admin/store_subscription', [SubscriptionPlanController::class, 'store'])->name('admin.subscription_store');
     Route::get('admin/edit_subscription/{id}', [SubscriptionPlanController::class, 'edit'])->name('admin.subscription_edit');
-     Route::post('admin/update_subscription', [SubscriptionPlanController::class, 'update'])->name('admin.subscription_update');
-     Route::post('admin/delete_subscription', [SubscriptionPlanController::class, 'delete'])->name('admin.subscription_delete');
-     Route::post('admin/change_is_active', [SubscriptionPlanController::class, 'change_is_active'])->name('admin.change_is_active');
+    Route::post('admin/update_subscription', [SubscriptionPlanController::class, 'update'])->name('admin.subscription_update');
+    Route::post('admin/delete_subscription', [SubscriptionPlanController::class, 'delete'])->name('admin.subscription_delete');
+    Route::post('admin/change_is_active', [SubscriptionPlanController::class, 'change_is_active'])->name('admin.change_is_active');
+    Route::post('admin/check_subscription_plan_is_exist', [SubscriptionPlanController::class, 'checkSubcriptionPlanIsExist'])->name('admin.subscription_plan_check_exist');
+    Route::post('admin/delete_multiple_subscription_plan', [SubscriptionPlanController::class, 'deleteMultiple'])->name('admin.delete_multiple_subscription_plan');
 
     Route::get('admin/user', [UserController::class, 'index'])->name('admin.user');
     Route::get('admin/add_user', [UserController::class, 'addUser'])->name('admin.user_add');
@@ -108,6 +117,10 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/privacy_policy_edit', [PrivacyPolicyController::class, 'edit'])->name('admin.privacy_policy_edit');
 
     Route::get('admin/video_stream', [VideoStreamController::class, 'stream'])->name('admin.video_stream');
+
+     Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
+     Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');
+     Route::post('admin/delete_multiple_contacts', [ContactUsController::class, 'deleteMultiple'])->name('admin.delete_multiple_contact');
 
     Route::get('admin/transaction', [WalletTransactionsController::class, 'index'])->name('admin.transaction');
     Route::get('admin/transaction_delete', [WalletTransactionsController::class, 'delete'])->name('admin.transaction_delete');

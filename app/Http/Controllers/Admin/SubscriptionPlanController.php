@@ -9,6 +9,7 @@ use App\Models\Subscription_plans;
 use App\Models\Subscriptions;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubscriptionPlanController extends Controller
 {
@@ -71,17 +72,6 @@ class SubscriptionPlanController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $subscription_plan_id = decrypt($id);
@@ -115,7 +105,7 @@ class SubscriptionPlanController extends Controller
 
             $subscription_plan_id = decrypt($request->subscription_plan_id);
             $getData = Subscription_plans::where('id', $subscription_plan_id)->first();
-     
+
             $getData->name = $request->name;
             $getData->duration_type = $request->duration_type;
             $getData->duration_value = $request->duration_value;
@@ -155,6 +145,42 @@ class SubscriptionPlanController extends Controller
                 'message' => 'Error deleting Subscription Plan.'
             ]);
         }
+
+    }
+
+    public function deleteMultiple(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $ids = $request->ids;
+            if (empty($ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No IDs provided.'
+                ]);
+            }
+            $users = Subscription_plans::whereIn('id', $ids)->get();
+
+            if ($users->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No subscription plan found.'
+                ]);
+            }
+            Subscription_plans::whereIn('id', $ids)->delete();
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Subscription Plan deleted successfully.'
+            ]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting Subscription Plan.'
+            ]);
+        }
     }
     public function change_is_active(Request $request)
     {
@@ -171,6 +197,30 @@ class SubscriptionPlanController extends Controller
         } catch (QueryException $e) {
 
             return response()->json(['success' => false]);
+        }
+    }
+
+    public function checkSubcriptionPlanIsExist(Request $request)
+    {
+        try {
+            $subscription_plan = Subscription_plans::where(['name' => $request->name])->get();
+            if (count($subscription_plan) > 0) {
+                if (isset($request->id) && !empty($request->id)) {
+                    if ($subscription_plan[0]->id == decrypt($request->id)) {
+                        $return = true;
+                        echo json_encode($return);
+                        exit;
+                    }
+                }
+                $return = false;
+            } else {
+                $return = true;
+            }
+            echo json_encode($return);
+            exit;
+        } catch (QueryException $e) {
+
+            return response()->json(false);
         }
     }
 }

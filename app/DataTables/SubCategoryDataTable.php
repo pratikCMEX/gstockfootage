@@ -60,21 +60,7 @@ class SubCategoryDataTable extends DataTable
             ->addColumn('created_at', function ($row) {
                 return $row->created_at;
             })
-            // ->addColumn('actions', function ($row) {
-
-            //     $cryptId = encrypt($row->id);
-            //     $template_delete = decrypt($cryptId);
-
-            //     $edit_url = route('admin.sub_category_edit', $cryptId);
-            //     $delete_url = route('admin.sub_category_delete', $cryptId);
-
-            //     return '<div class="action-icon" style="gap: 20px;display: flex">
-            //                 <a class="" href="' .  $edit_url . '" title="Edit"><i class="ti ti-edit"></i></a>
-            //                 <form id="delete_sub_category_form' . $template_delete . '" action="' . $delete_url . '" method="POST">' .
-            //         csrf_field() .
-            //         '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_sub_category"><i class="ti ti-trash"></i></button></form>
-            //                 </div>';
-            // })
+           
             ->addColumn('actions', function ($row) {
 
                 $updateButton = '
@@ -122,12 +108,14 @@ class SubCategoryDataTable extends DataTable
         $column = $columns[$orderIndex] ?? 'id';
 
 
-        $direction = 'desc';
+         $direction = $request->input('order.0.dir') === 'asc' ? 'asc' : 'desc';
 
-        if (isset($request->order[0]['dir']) && $request->order[0]['dir'] == 'asc') {
-            $direction = 'asc';
-        }
-        return SubCategory::with('category')->orderBy($column, $direction);
+    $query = SubCategory::with('category');
+     if ($request->category != '') {
+        $query->where('category_id', $request->category);
+    }
+
+    return $query->orderBy($column, $direction);
     }
 
     /**
@@ -136,19 +124,16 @@ class SubCategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('subcategory-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->orderBy(0)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ]);
+        ->setTableId('subcategory-table')
+        ->columns($this->getColumns())
+        ->ajax([
+            'url' => route('admin.sub_category'), // your datatable route
+            'data' => 'function(d) {
+                d.category = $("#category").val();
+            }'
+        ])
+        ->orderBy(0)
+        ->selectStyleSingle();
     }
 
     /**

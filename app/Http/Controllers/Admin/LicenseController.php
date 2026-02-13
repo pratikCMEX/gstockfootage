@@ -124,7 +124,40 @@ class LicenseController extends Controller
             ]);
         }
     }
+ public function deleteMultiple(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $ids = $request->ids;
+            if (empty($ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No IDs provided.'
+                ]);
+            }
+            $users = License_master::whereIn('id', $ids)->get();
 
+            if ($users->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No license found.'
+                ]);
+            }
+            License_master::whereIn('id', $ids)->delete();
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Licenses deleted successfully.'
+            ]);
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting Licenses.'
+            ]);
+        }
+    }
     public function checkLicenseIsExist(Request $request)
     {
         try {
@@ -168,4 +201,6 @@ class LicenseController extends Controller
             return response()->json(['success' => false]);
         }
     }
+
+    
 }

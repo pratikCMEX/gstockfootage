@@ -162,4 +162,67 @@ $(document).on('change', '.toggle-popular', function () {
     });
 
 });
+function toggleDeleteButton() {
+    let totalCheckboxes = $(".row-checkbox").length;
+    let checkedCheckboxes = $(".row-checkbox:checked").length;
 
+    if (checkedCheckboxes > 0) {
+        $("#delete-selected").show();
+    } else {
+        $("#delete-selected").hide();
+    }
+
+    $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
+}
+
+$(document).on("change", ".row-checkbox", function () {
+    toggleDeleteButton();
+});
+
+$(document).on("change", "#select-all", function () {
+    $(".row-checkbox").prop("checked", this.checked);
+    toggleDeleteButton();
+});
+$("#delete-selected").on("click", function () {
+    let ids = [];
+
+    $(".row-checkbox:checked").each(function () {
+        ids.push($(this).val());
+    });
+
+    if (ids.length === 0) {
+        toastr.success("Please select at least one user");
+        return;
+    }
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: base_url + "/admin/delete_multiple_license",
+                type: "POST",
+                data: {
+                    ids: ids,
+                    _token: $('meta[name="csrf-token"]').attr("content"),
+                },
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error(response.message);
+                    }else{
+                         toastr.success(response.message);
+                    }
+                    $("#select-all").prop("checked", false);
+                    $("#delete-selected").css("display", "none");
+                    $("#license-table").DataTable().ajax.reload();
+                },
+            });
+        }
+    });
+});
