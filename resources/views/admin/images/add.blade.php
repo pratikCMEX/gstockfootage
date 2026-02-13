@@ -58,7 +58,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label>
-                                <input class="form-control" type="file" name="image" id="image"
+                                <input class="form-control" type="file" name="image" id="image"  accept="image/*" 
                                     onchange="loadFile(event)">
 
 

@@ -62,10 +62,17 @@
                     </a>
                 </li>
                  <li class="sidebar-item">
-                    <a class="sidebar-link {{ in_array(Request::segment(2), ['', '', '']) ? 'active' : '' }}"
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['license'] ) ? 'active' : '' }}"
                         href="{{ route('admin.license') }}" aria-expanded="false">
                         <i class="ti ti-user-circle"></i>
                         <span class="hide-menu">License Manager</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['', '', '']) ? 'active' : '' }}"
+                        href="{{ route('admin.subscriptions') }}" aria-expanded="false">
+                        <i class="ti ti-user-circle"></i>
+                        <span class="hide-menu">Subscriptions Manager</span>
                     </a>
                 </li>
                 {{-- <li class="sidebar-item">

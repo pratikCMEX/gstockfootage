@@ -258,6 +258,8 @@ $("#delete-selected").on("click", function () {
                 success: function (response) {
                     if (response.success == false) {
                         toastr.error(response.message);
+                    }else{
+                         toastr.success(response.message);
                     }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");

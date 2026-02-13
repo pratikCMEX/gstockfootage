@@ -357,6 +357,11 @@ $("#delete-selected").on("click", function () {
                     _token: $('meta[name="csrf-token"]').attr("content"),
                 },
                 success: function (response) {
+                     if (response.success == false) {
+                        toastr.error(response.message);
+                    }else{
+                         toastr.success(response.message);
+                    }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");
                     $("#videos-table").DataTable().ajax.reload();
