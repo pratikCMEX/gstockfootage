@@ -225,9 +225,7 @@ $(document).on("change", "#select-all", function () {
     toggleDeleteButton();
 });
 
-// $("#select-all").on("click", function () {
-//     $(".row-checkbox").prop("checked", this.checked);
-// });
+
 
 $("#delete-selected").on("click", function () {
     let ids = [];

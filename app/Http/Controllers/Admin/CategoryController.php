@@ -135,10 +135,10 @@ class CategoryController extends Controller
                 $category->delete();
                 DB::commit();
 
-                $response = [
+                return response()->json([
                     'success' => true,
                     'message' => 'Category deleted successfully'
-                ];
+                ]);
             }
             DB::rollBack();
 
@@ -159,11 +159,11 @@ class CategoryController extends Controller
             }
         } catch (QueryException $e) {
             DB::rollBack();
-            $response = [
+            return response()->json([
                 'success' => false,
                 'message' => 'Category not deleted'
-            ];
-            return response()->json($response);
+            ]);
+
         }
     }
 

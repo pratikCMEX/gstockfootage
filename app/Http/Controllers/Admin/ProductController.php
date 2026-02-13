@@ -100,10 +100,11 @@ class ProductController extends Controller
         $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
         $highDir = public_path('uploads/images/high/');
-        $lowDir  = public_path('uploads/images/low/');
+        $lowDir = public_path('uploads/images/low/');
 
         foreach ([$highDir, $lowDir] as $dir) {
-            if (!file_exists($dir)) mkdir($dir, 0755, true);
+            if (!file_exists($dir))
+                mkdir($dir, 0755, true);
         }
 
         // 🗑 delete old if exists (this makes it work for UPDATE)
@@ -145,7 +146,7 @@ class ProductController extends Controller
         }
         $baseDir = public_path('uploads/videos/');
         $highDir = $baseDir . 'high/';
-        $lowDir  = $baseDir . 'low/';
+        $lowDir = $baseDir . 'low/';
         $thumbDir = $baseDir . 'thumbnails/';
 
         foreach ([$highDir, $lowDir, $thumbDir] as $dir) {
@@ -254,4 +255,61 @@ class ProductController extends Controller
             return back()->with('msg_error', $e->getMessage());
         }
     }
+
+    public function delete(Request $request)
+    {
+        try {
+            $id = decrypt($request->id);
+            Product::findOrFail($id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not deleted'
+            ]);
+        }
+    }
+
+    public function deleteMultiple(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $ids = $request->ids;
+
+            if (empty($ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No products selected'
+                ]);
+            }
+
+            $products = Product::whereIn('id', $ids)->get();
+
+            foreach ($products as $product) {
+                $product->delete(); // model event will unlink files
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Products deleted successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
 }

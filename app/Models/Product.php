@@ -41,6 +41,24 @@ class Product extends Model
     {
         return $this->belongsTo(Collection::class);
     }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($product) {
+
+            if ($product->type == "0") {
+                @unlink(public_path('uploads/images/high/' . $product->high_path));
+                @unlink(public_path('uploads/images/low/' . $product->low_path));
+            }
+
+            if ($product->type == "1") {
+                @unlink(public_path('uploads/videos/high/' . $product->high_path));
+                @unlink(public_path('uploads/videos/low/' . $product->low_path));
+                @unlink(public_path('uploads/videos/thumbnails/' . $product->thumbnail_path));
+            }
+        });
+    }
 
     // public function carts()
     // {
