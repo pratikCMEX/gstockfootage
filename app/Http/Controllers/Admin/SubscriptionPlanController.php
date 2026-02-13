@@ -156,4 +156,21 @@ class SubscriptionPlanController extends Controller
             ]);
         }
     }
+    public function change_is_active(Request $request)
+    {
+        try {
+            $id = decrypt($request->id);
+            $status = $request->status;
+
+            $license = Subscription_plans::find($id);
+            $license->is_active = $status;
+
+            $license->save();
+            return response()->json(['success' => true]);
+
+        } catch (QueryException $e) {
+
+            return response()->json(['success' => false]);
+        }
+    }
 }

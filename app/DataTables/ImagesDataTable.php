@@ -139,7 +139,7 @@ class ImagesDataTable extends DataTable
         $columns = [
             0 => 'id',
             1 => 'category_id',
-            2 => 'image',
+            2 => 'image_name',
             3 => 'created_at',
         ];
 
@@ -190,7 +190,7 @@ class ImagesDataTable extends DataTable
             Column::make('no')->title('No')->orderable(false),
             Column::make('category_id')->title('Catgeory')->orderable(true),
             Column::make('image')->title('Image')->orderable(false),
-            Column::make('image_name')->title('Image')->orderable(false),
+            Column::make('image_name')->title('Image Name')->orderable(false),
             Column::make('image_price')->title('Image Price ($)')->orderable(false),
             Column::make('image_description')->title('Image Description')->orderable(false),
             Column::make('tags')->title('Tags')->orderable(false),
