@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMessageMail;
+use App\Mail\QuoteMail;
 use App\Models\ContactMessage;
 use App\Models\QuoteRequest;
 use Illuminate\Http\Request;
@@ -52,9 +53,9 @@ class ContactController extends Controller
     {
         $title = 'Home';
         $page = 'sasa';
-        $js = ['home'];
+        $js = ['contact'];
 
-        return view('front.contact_us', compact('title', 'page', 'js'));
+        return view('front.quote', compact('title', 'page', 'js'));
     }
     public function quoteStore(Request $request)
     {
@@ -74,7 +75,7 @@ class ContactController extends Controller
 
             DB::beginTransaction();
 
-            QuoteRequest::create([
+            $quote = QuoteRequest::create([
                 'first_name'        => $request->first_name,
                 'last_name'         => $request->last_name,
                 'phone'             => $request->phone,
@@ -86,8 +87,12 @@ class ContactController extends Controller
                 'country'           => $request->country,
                 'state'             => $request->state,
                 'product_interest'  => $request->product_interest,
-                'newsletter'        => $request->has('newsletter') ? 1 : 0,
+                'newsletter'        => $request->has('newsletter') ? '1' : '0',
             ]);
+
+            Mail::to(env('OWNER_MAIL'))
+                ->send(new QuoteMail($quote));
+
             DB::commit();
             return back()->with('msg_success', 'Quote request submitted successfully!');
         } catch (\Exception $e) {
