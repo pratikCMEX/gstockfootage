@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\VideoStreamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WalletTransactionsController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminAuth;
@@ -68,9 +69,9 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/add_subscription', [SubscriptionPlanController::class, 'create'])->name('admin.subscription_add');
     Route::post('admin/store_subscription', [SubscriptionPlanController::class, 'store'])->name('admin.subscription_store');
     Route::get('admin/edit_subscription/{id}', [SubscriptionPlanController::class, 'edit'])->name('admin.subscription_edit');
-     Route::post('admin/update_subscription', [SubscriptionPlanController::class, 'update'])->name('admin.subscription_update');
-     Route::post('admin/delete_subscription', [SubscriptionPlanController::class, 'delete'])->name('admin.subscription_delete');
-     Route::post('admin/change_is_active', [SubscriptionPlanController::class, 'change_is_active'])->name('admin.change_is_active');
+    Route::post('admin/update_subscription', [SubscriptionPlanController::class, 'update'])->name('admin.subscription_update');
+    Route::post('admin/delete_subscription', [SubscriptionPlanController::class, 'delete'])->name('admin.subscription_delete');
+    Route::post('admin/change_is_active', [SubscriptionPlanController::class, 'change_is_active'])->name('admin.change_is_active');
 
     Route::get('admin/user', [UserController::class, 'index'])->name('admin.user');
     Route::get('admin/add_user', [UserController::class, 'addUser'])->name('admin.user_add');
@@ -89,6 +90,15 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_image', [ImageController::class, 'delete'])->name('admin.image_delete');
     Route::post('admin/delete_multiple_image', [ImageController::class, 'deleteMultiple'])->name('admin.delete_multiple_image');
     Route::post('admin/toggle_image_display', [ImageController::class, 'toggleDisplay'])->name('admin.toggle_image_display');
+
+    Route::get('admin/product', [ProductController::class, 'index'])->name('admin.product');
+    Route::get('admin/add_product', [ProductController::class, 'add'])->name('admin.product_add');
+    Route::post('admin/store_product', [ProductController::class, 'store'])->name('admin.product_store');
+    Route::get('admin/edit_product/{id}', [ProductController::class, 'edit'])->name('admin.product_edit');
+    Route::post('admin/update_product/{id}', [ProductController::class, 'update'])->name('admin.product_update');
+    Route::post('admin/delete_product', [ProductController::class, 'delete'])->name('admin.product_delete');
+    Route::post('admin/delete_multiple_product', [ProductController::class, 'deleteMultiple'])->name('admin.delete_multiple_product');
+    Route::post('admin/toggle_product_display', [ProductController::class, 'toggleDisplay'])->name('admin.toggle_product_display');
 
     Route::get('admin/video', [VideoController::class, 'index'])->name('admin.video');
     Route::get('admin/add_video', [VideoController::class, 'addvideo'])->name('admin.video_add');

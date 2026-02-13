@@ -49,6 +49,9 @@ class ImagesDataTable extends DataTable
             ->addColumn('category_id', function ($row) {
                 return $row->category->category_name;
             })
+            ->addColumn('type', function ($row) {
+                return ($row->type == '0') ? 'Image' : 'Video';
+            })
             ->addColumn('image', function ($row) {
                 return '<img src="' . asset('uploads/images/low/' . $row->low_path) . '" 
                          class="preview-image" 
@@ -98,7 +101,7 @@ class ImagesDataTable extends DataTable
             //         '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_image"><i class="ti ti-trash"></i></button></form>
             //                 </div>';
             // })
-             ->addColumn('actions', function ($row) {
+            ->addColumn('actions', function ($row) {
 
                 $updateButton = '
             <a href="' . route('admin.image_edit', ['id' => encrypt($row->id)]) . '"
@@ -120,8 +123,6 @@ class ImagesDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'name', 'image', 'image_name', 'image_price', 'image_description', 'tags', 'display_status', 'created_at', 'actions'])
