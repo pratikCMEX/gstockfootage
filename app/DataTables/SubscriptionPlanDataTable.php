@@ -108,7 +108,7 @@ class SubscriptionPlanDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('No')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('name'),

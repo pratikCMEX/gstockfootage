@@ -24,21 +24,19 @@ class LicenseDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-             ->addColumn('checkbox', function ($row) {
+            ->addColumn('checkbox', function ($row) {
                 return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('most_popular', function ($row) {
                 $checked = $row->most_popular == '1' ? 'checked' : '';
                 return '
-        <div class="form-check form-switch">
-            <input type="checkbox" 
-                class="form-check-input toggle-popular"
-                data-id="' . encrypt($row->id) . '"
-                ' . $checked . '>
-        </div>
-    ';
-
-
+                     <div class="form-check form-switch">
+                          <input type="checkbox" 
+                          class="form-check-input toggle-popular"
+                          data-id="' . encrypt($row->id) . '"
+                            ' . $checked . '>
+                     </div>
+                      ';
             })
             ->addColumn('action', function ($row) {
 
@@ -62,16 +60,14 @@ class LicenseDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
-            ->rawColumns(['action', 'most_popular','checkbox']);
+            ->rawColumns(['action', 'most_popular', 'checkbox']);
     }
 
     /**
      * Get the query source of dataTable.
      *
-     * @return QueryBuilder<License>
+     * @return QueryBuilder<License_master>
      */
     public function query(License_master $model): QueryBuilder
     {
@@ -105,12 +101,12 @@ class LicenseDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-             Column::make('checkbox')
+            Column::make('checkbox')
                 ->title('<input type="checkbox" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('No')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('name'),

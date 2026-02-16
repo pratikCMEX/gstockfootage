@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\License_master;
+use App\Models\Product;
+use App\Models\Subscription_plans;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -22,6 +25,9 @@ class DashboardController extends Controller
         $totalVideo = Video::count();
         $totalImage = Image::count();
         $totalUser = User::count();
+        $totalProduct=Product::count();
+        $totalLicense=License_master::count();
+        $totalSubscription=Subscription_plans::count();
 
         $options = [
             'chart_title' => 'Image by months',
@@ -42,7 +48,11 @@ class DashboardController extends Controller
             'totalVideo',
             'totalImage',
             'totalUser',
-            'chart'
+            'chart',
+            'totalProduct',
+            'totalLicense',
+            'totalSubscription'
+
         ));
     }
 }

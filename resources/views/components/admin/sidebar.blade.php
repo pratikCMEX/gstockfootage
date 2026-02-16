@@ -14,21 +14,21 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::segment(2) == 'dashboard' ? 'active' : '' }}"
                         href="{{ route('admin.dashboard') }}" aria-expanded="false">
-                        <i class="ti ti-atom"></i>
+                        <i class="ti ti-home"></i>
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['category', 'add_category', 'edit_category']) ? 'active' : '' }}"
                         href="{{ route('admin.category') }}" aria-expanded="false">
-                        <i class="ti ti-layout-grid"></i>
+                        <i class="ti ti-category"></i>
                         <span class="hide-menu">Categories</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['sub_category', 'add_sub_category', 'edit_sub_category']) ? 'active' : '' }}"
                         href="{{ route('admin.sub_category') }}" aria-expanded="false">
-                        <i class="ti ti-layout-grid"></i>
+                        <i class="ti ti-sitemap"></i>
                         <span class="hide-menu">Sub Categories</span>
                     </a>
                 </li>
@@ -56,7 +56,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['product', 'add_product', 'edit_product']) ? 'active' : '' }}"
                         href="{{ route('admin.product') }}" aria-expanded="false">
-                        <i class="ti ti-chart-donut-3"></i>
+                        <i class="ti ti-box"></i>
                         <span class="hide-menu">Product Manager</span>
                     </a>
                 </li>
@@ -71,14 +71,14 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['license']) ? 'active' : '' }}"
                         href="{{ route('admin.license') }}" aria-expanded="false">
-                        <i class="ti ti-user-circle"></i>
+                        <i class="ti ti-shield-check "></i>
                         <span class="hide-menu">License Manager</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions']) ? 'active' : '' }}"
                         href="{{ route('admin.subscriptions') }}" aria-expanded="false">
-                        <i class="ti ti-user-circle"></i>
+                        <i class="ti  ti-credit-card"></i>
                         <span class="hide-menu">Subscriptions Manager</span>
                     </a>
                 </li>
@@ -109,7 +109,7 @@
                         href="javascript:void(0)" aria-expanded="false">
                         <div class="d-flex align-items-center gap-3">
                             <span class="d-flex">
-                                <i class="ti ti-cards"></i>
+                                <i class="ti ti-files"></i>
                             </span>
                             <span class="hide-menu">Pages Management</span>
                         </div>

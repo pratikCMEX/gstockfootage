@@ -22,7 +22,10 @@ class ProductController extends Controller
         $title = 'Products';
         $page = 'admin.product.list';
         $js = ['products'];
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js'));
+          $category = Category::all();
+           $subcategory = SubCategory::all();
+            $collections = Collection::all();
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js','category','subcategory','collections'));
     }
 
     public function add(Request $request)

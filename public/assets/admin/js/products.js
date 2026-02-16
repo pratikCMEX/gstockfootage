@@ -1,4 +1,15 @@
 // alert();
+
+ $(document).ready(function () {
+
+        let table = $('#products-table').DataTable();
+
+        // Reload table when filter changes
+        $('#category, #subcategory, #collections').change(function () {
+            table.ajax.reload();
+        });
+
+    });
 function changeType(type) {
   let fileInput = document.getElementById("fileInput");
 

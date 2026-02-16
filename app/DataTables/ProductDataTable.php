@@ -19,11 +19,7 @@ class ProductDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
-
-            ->addColumn('no', function () use (&$counter) {
-                return $counter++;
-            })
-
+            ->addIndexColumn()
             ->filter(function ($query) {
                 if ($this->request->has('search')) {
                     $keyword = $this->request->get('search')['value'];
@@ -35,6 +31,13 @@ class ProductDataTable extends DataTable
                             ->orWhere('tags', 'LIKE', "%{$keyword}%")
                             ->orWhereHas('category', function ($cat) use ($keyword) {
                                 $cat->where('category_name', 'LIKE', "%{$keyword}%");
+                            })
+
+                            ->orWhereHas('subcategory', function ($sub) use ($keyword) {
+                                $sub->where('name', 'LIKE', "%{$keyword}%");
+                            })
+                            ->orWhereHas('collection', function ($collection) use ($keyword) {
+                                $collection->where('name', 'LIKE', "%{$keyword}%");
                             });
                     });
                 }
@@ -47,8 +50,14 @@ class ProductDataTable extends DataTable
             ->addColumn('category', function ($row) {
                 return $row->category?->category_name ?? '-';
             })
+            ->addColumn('subcategory', function ($row) {
+                return $row->subcategory?->name ?? '-';
+            })
+            ->addColumn('collection', function ($row) {
+                return $row->collection?->name ?? '-';
+            })
 
-            ->addColumn('type', function ($row) {
+            ->editColumn('type', function ($row) {
                 return ($row->type == '0') ? 'Image' : 'Video';
             })
 
@@ -75,18 +84,6 @@ class ProductDataTable extends DataTable
                               <i class="ti ti-player-play play-icon video-thumbnail" data-video="' . $videoUrl . '" ></i>
                         </div>';
             })
-            ->addColumn('name', function ($row) {
-                return $row->name;
-            })
-            ->addColumn('price', function ($row) {
-                return $row->price;
-            })
-            ->addColumn('description', function ($row) {
-                return $row->description;
-            })
-            ->addColumn('tags', function ($row) {
-                return $row->tags;
-            })
 
             ->addColumn('display_status', function ($row) {
                 $checked = $row->is_display ? 'checked' : '';
@@ -99,9 +96,7 @@ class ProductDataTable extends DataTable
                     </div>
                 ';
             })
-            ->addColumn('created_at', function ($row) {
-                return $row->created_at;
-            })
+
             ->addColumn('actions', function ($row) {
                 $edit = route('admin.product_edit', encrypt($row->id));
 
@@ -117,10 +112,38 @@ class ProductDataTable extends DataTable
                     </button>
                 </div>';
             })
+            ->orderColumn('category', function ($query, $order) {
+                $query->orderBy(
+                    \App\Models\Category::select('category_name')
+                        ->whereColumn('categories.id', 'products.category_id')
+                        ->limit(1),
+                    $order
+                );
+            })
+
+            ->orderColumn('subcategory', function ($query, $order) {
+                $query->orderBy(
+                    \App\Models\SubCategory::select('name')
+                        ->whereColumn('sub_categories.id', 'products.subcategory_id')
+                        ->limit(1),
+                    $order
+                );
+            })
+
+            ->orderColumn('collection', function ($query, $order) {
+                $query->orderBy(
+                    \App\Models\Collection::select('name')
+                        ->whereColumn('collections.id', 'products.collection_id')
+                        ->limit(1),
+                    $order
+                );
+            })
 
             ->rawColumns([
                 'checkbox',
                 'category',
+                'subcategory',
+                'collection',
                 'type',
                 'preview',
                 'name',
@@ -132,19 +155,55 @@ class ProductDataTable extends DataTable
             ]);
     }
 
-    public function query(Product $model, Request $request): QueryBuilder
+    // public function query(Product $model, Request $request): QueryBuilder
+    // {
+    //     return $model
+    //         ->with('category')
+    //         ->latest();
+    // }
+    public function query(Product $model)
     {
-        return $model
-            ->with('category')
-            ->latest();
+        $query = $model->newQuery()
+            ->with(['category', 'subcategory', 'collection']);
+
+        $category = request()->category;
+        $subcategory = request()->subcategory;
+        $collection = request()->collections;
+
+        if ($category || $subcategory || $collection) {
+            $query->where(function ($q) use ($category, $subcategory, $collection) {
+                if ($category) {
+                    $q->orWhere('category_id', $category);
+                }
+                if ($subcategory) {
+                    $q->orWhere('subcategory_id', $subcategory);
+                }
+                if ($collection) {
+                    $q->orWhere('collection_id', $collection);
+                }
+            });
+        }
+
+        return $query;
     }
+
+
+
+
 
     public function html(): HtmlBuilder
     {
         return $this->builder()
             ->setTableId('products-table')
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->ajax([
+                'url' => route('admin.product'), // your current route
+                'data' => 'function(d) {
+                d.category = $("#category").val();
+                d.subcategory = $("#subcategory").val();
+                d.collections = $("#collections").val();
+            }'
+            ])
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([
@@ -164,26 +223,21 @@ class ProductDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
 
-            Column::make('no')->title('No')->orderable(false),
+             Column::computed('DT_RowIndex')
+                ->title('No')
+                ->orderable(false)
+                ->searchable(false),
 
             Column::make('category')->title('Category'),
-
+            Column::make('subcategory')->title('Subcategory'),
+            Column::make('collection')->title('Collection')->orderable(true),
             Column::make('type')->title('Type'),
-
             Column::make('preview')->title('Preview')->orderable(false),
-
-            Column::make('name')->title('Name'),
-
+            Column::make('name')->title('Name')->orderable(true),
             Column::make('price')->title('Price'),
-
             Column::make('description')->title('Description'),
-
-            Column::make('tags')->title('Tags')->orderable(false),
-
+            Column::make('tags')->title('Tags'),
             Column::make('display_status')->title('Display')->orderable(false),
-
-            Column::make('created_at')->title('Created'),
-
             Column::make('actions')->title('Actions')->orderable(false),
         ];
     }
