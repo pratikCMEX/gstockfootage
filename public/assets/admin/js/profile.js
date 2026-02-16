@@ -1,4 +1,7 @@
 
+        
+        var base_url = $("#base_url").val();
+      
         $(document).ready(function () {
             $('#profile_form').validate({
                 rules: {
@@ -61,22 +64,19 @@
                 current_password: {
                     required: true,
                     minlength: 6,
-                    // remote: {
-                    //     url: "",
-                    //     type: "post",
-                    //     data: {
-                    //         id: function () {
-                    //             return $("input[name='id']").val();   // hidden user id
-                    //         },
-                    //         outlet_id: function () {
-                    //             return $("input[name='outlet_id']").val();   // hidden user id
-                    //         },
-                    //         current_password: function () {
-                    //             return $("#current_password").val();
-                    //         },
-                    //         _token: $('meta[name="csrf-token"]').attr('content')
-                    //     }
-                    // }
+                    remote: {
+                        url: base_url+"/admin/check_password",
+                        type: "post",
+                        data: {
+                            id: function () {
+                                return $("input[name='id']").val();   // hidden user id
+                            },
+                            current_password: function () {
+                                return $("#current_password").val();
+                            },
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }
 
                 },
                 new_password: {
@@ -97,7 +97,7 @@
                 current_password: {
                     required: "Please enter  current password",
                     minlength: "current password number must be atleast 6 characters",
-                    // remote: "Entered password is incorrect"
+                    remote: "Entered password is incorrect"
                 },
                 new_password: {
                     required: "Please enter new password",

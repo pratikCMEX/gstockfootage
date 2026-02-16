@@ -8,19 +8,16 @@
     border: 1px solid #f1f1f1;
     
 }
-.content-area {
-    padding-top: 100px; /* header height */
-}
 
 /* Section Heading */
 .add-new-customer-wrp h3 {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     color: #333;
     border-left: 4px solid #4f46e5;
     padding-left: 10px;
-    margin-top:40px;    
+    /* margin-top:40px;     */
 }
 
 /* Labels */
