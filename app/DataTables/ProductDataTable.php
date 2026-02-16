@@ -161,6 +161,35 @@ class ProductDataTable extends DataTable
     //         ->with('category')
     //         ->latest();
     // }
+    // public function query(Product $model)
+    // {
+    //     $query = $model->newQuery()
+    //         ->with(['category', 'subcategory', 'collection']);
+
+    //     $category = request()->category;
+    //     $subcategory = request()->subcategory;
+    //     $collection = request()->collections;
+    //     $type=request()->type;
+
+    //     if ($category || $subcategory || $collection || $type) {
+    //         $query->where(function ($q) use ($category, $subcategory, $collection,$type) {
+    //             if ($category) {
+    //                 $q->orWhere('category_id', $category);
+    //             }
+    //             if ($subcategory) {
+    //                 $q->orWhere('subcategory_id', $subcategory);
+    //             }
+    //             if ($collection) {
+    //                 $q->orWhere('collection_id', $collection);
+    //             }
+    //             if ($type) {
+    //                 $q->orWhere('type', $type);
+    //             }
+    //         });
+    //     }
+
+    //     return $query;
+    // }
     public function query(Product $model)
     {
         $query = $model->newQuery()
@@ -169,23 +198,27 @@ class ProductDataTable extends DataTable
         $category = request()->category;
         $subcategory = request()->subcategory;
         $collection = request()->collections;
+        $type = request()->type;
 
-        if ($category || $subcategory || $collection) {
-            $query->where(function ($q) use ($category, $subcategory, $collection) {
-                if ($category) {
-                    $q->orWhere('category_id', $category);
-                }
-                if ($subcategory) {
-                    $q->orWhere('subcategory_id', $subcategory);
-                }
-                if ($collection) {
-                    $q->orWhere('collection_id', $collection);
-                }
-            });
+        if ($category) {
+            $query->where('category_id', $category);
+        }
+
+        if ($subcategory) {
+            $query->where('subcategory_id', $subcategory);
+        }
+
+        if ($collection) {
+            $query->where('collection_id', $collection);
+        }
+
+        if ($type !== null && $type !== '') {
+            $query->where('type', $type);
         }
 
         return $query;
     }
+
 
 
 
@@ -202,6 +235,7 @@ class ProductDataTable extends DataTable
                 d.category = $("#category").val();
                 d.subcategory = $("#subcategory").val();
                 d.collections = $("#collections").val();
+                d.type=$("#type").val();
             }'
             ])
             ->orderBy(1)
@@ -223,7 +257,7 @@ class ProductDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
 
-             Column::computed('DT_RowIndex')
+            Column::computed('DT_RowIndex')
                 ->title('No')
                 ->orderable(false)
                 ->searchable(false),

@@ -57,7 +57,7 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['product', 'add_product', 'edit_product']) ? 'active' : '' }}"
                         href="{{ route('admin.product') }}" aria-expanded="false">
                         <i class="ti ti-box"></i>
-                        <span class="hide-menu">Product Manager</span>
+                        <span class="hide-menu">Products</span>
                     </a>
                 </li>
 
@@ -72,14 +72,14 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['license']) ? 'active' : '' }}"
                         href="{{ route('admin.license') }}" aria-expanded="false">
                         <i class="ti ti-shield-check "></i>
-                        <span class="hide-menu">License Manager</span>
+                        <span class="hide-menu">Licenses</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions']) ? 'active' : '' }}"
                         href="{{ route('admin.subscriptions') }}" aria-expanded="false">
                         <i class="ti  ti-credit-card"></i>
-                        <span class="hide-menu">Subscriptions Manager</span>
+                        <span class="hide-menu">Subscriptions </span>
                     </a>
                 </li>
                  <li class="sidebar-item">

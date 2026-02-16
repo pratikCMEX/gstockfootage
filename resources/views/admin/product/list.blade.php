@@ -35,6 +35,16 @@
                             @endforeach
                         </select>
                     </div>
+                      <div>
+
+                        <select class="form-select mr-sm-2" name="type" id="type">
+                            <option value="">All Type</option>
+                           
+                                <option value="0">Images</option>
+                                <option value="1">Videos</option>
+                           
+                        </select>
+                    </div>
                 <div>
                     <a href="{{ route('admin.product_add') }}" class="btn btn-primary">Add Product +</a>
                 </div>
