@@ -232,7 +232,7 @@ class ProductDataTable extends DataTable
             ->ajax([
                 'url' => route('admin.product'), // your current route
                 'data' => 'function(d) {
-                d.category = $("#category").val();
+                d.category = $("#categories").val();
                 d.subcategory = $("#subcategory").val();
                 d.collections = $("#collections").val();
                 d.type=$("#type").val();

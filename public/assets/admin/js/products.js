@@ -5,7 +5,7 @@
         let table = $('#products-table').DataTable();
 
         // Reload table when filter changes
-        $('#category, #subcategory, #collections , #type').change(function () {
+        $('#categories, #subcategory, #collections , #type').change(function () {
             table.ajax.reload();
         });
 

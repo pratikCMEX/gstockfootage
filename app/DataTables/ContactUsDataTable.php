@@ -18,7 +18,7 @@ class ContactUsDataTable extends DataTable
     /**
      * Build the DataTable class.
      *
-     * @param QueryBuilder<ContactU> $query Results from query() method.
+     * @param QueryBuilder<ContactMessage> $query Results from query() method.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
@@ -37,7 +37,6 @@ class ContactUsDataTable extends DataTable
             </button>';
                 return '<div class="d-flex">' . $deleteButton . '</div>';
             })
-
             ->rawColumns(['checkbox', 'name', 'email', 'subject', 'message', 'actions']);
     }
 
@@ -95,9 +94,6 @@ class ContactUsDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-
-
-
         ];
     }
 

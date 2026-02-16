@@ -8,7 +8,7 @@
                  <div class="d-flex align-items-center gap-2">
                     <div>
 
-                        <select class="form-select mr-sm-2" name="category" id="category">
+                        <select class="form-select mr-sm-2" name="categories" id="categories">
                             <option value="">All Category</option>
                             @foreach ($category as $cat)
                                 <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
