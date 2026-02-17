@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" href="{{ asset('assets/admin/css/styles.min.css') }}">
 <link href="{{ asset('assets/admin/css/toastr.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/admin/css/batch.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/admin/css/responsive.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/admin/css/owl.carousel.min.css') }}">
