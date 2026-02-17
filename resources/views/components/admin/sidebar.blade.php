@@ -89,6 +89,13 @@
                         <span class="hide-menu">Contact Us</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['contact_us']) ? 'active' : '' }}"
+                        href="{{ route('admin.contact_us') }}" aria-expanded="false">
+                        <i class="ti ti-user-circle"></i>
+                        <span class="hide-menu">Batchs</span>
+                    </a>
+                </li>
                 {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['transactions']) ? 'active' : '' }}"
                         href="{{ route('admin.transaction') }}" aria-expanded="false">
