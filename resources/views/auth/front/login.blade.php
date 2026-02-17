@@ -1,0 +1,57 @@
+<section class="login_page">
+    <div class="auth-wrapper">
+        <div class="brand">
+            <i class="bi bi-film"></i>
+            <span>GStockFootage</span>
+        </div>
+        <div class="auth-card">
+            <div class="text-center mb-4">
+                <i class="bi bi-film"></i>
+                <h4>Welcome</h4>
+                <p class="text-muted">Sign in to access your account</p>
+            </div>
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Sign In</button>
+                <button class="tab-btn" data-tab="signup">Sign Up</button>
+            </div>
+            <form id="login" class="auth-form active" method="POST" action="{{ route('check.login') }}">
+                @csrf
+                <div class="input-section">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                </div>
+                <div class="input-section">
+                    <label>Password</label>
+                    <div class="password-field">
+                        <input type="password" name="password" class="form-control" placeholder="••••••••">
+                        <i class="bi bi-eye toggle-password"></i>
+                    </div>
+                </div>
+
+                <button class="btn auth-btn btn-orange">Sign In</button>
+                <a href="{{ route('password.request') }}" class="forgot">Forgot your password?</a>
+            </form>
+
+            <form id="signup" class="auth-form" method="POST" action="{{ route('register') }}">
+                @csrf
+                <label>First Name</label>
+                <input type="text" name="first_name" class="form-control" placeholder="John Doe">
+
+                <label>Last Name</label>
+                <input type="text" name="last_name" class="form-control" placeholder="John Doe">
+
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" placeholder="you@example.com">
+
+                <label>Password</label>
+                <div class="password-field">
+                    <input type="password" name="password" class="form-control" placeholder="••••••••">
+                    <i class="bi bi-eye toggle-password"></i>
+                </div>
+
+                <button class="btn auth-btn btn-orange">Sign Up</button>
+            </form>
+
+        </div>
+    </div>
+</section>

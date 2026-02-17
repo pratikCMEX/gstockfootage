@@ -1,0 +1,135 @@
+@import url(home.css);
+@import url(var.css);
+@import url(font.css);
+@import url(header.css);
+@import url(footer.css);
+@import url(log_in.css);
+@import url(product-detail.css);
+@import url(brows.css);
+* {
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-inter-regular);
+  font-size: 14px;
+}
+a {
+  text-decoration: none;
+}
+
+/* orange btn */
+.btn-orange {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  font-family: var(--font-inter-semibold) !important;
+  border-radius: 10px !important;
+  padding: 12px 24px !important;
+  font-size: 16px;
+  width: 100%;
+}
+.btn-orange:hover {
+  background: var(--primary-hover) !important;
+  color: var(--white) !important;
+}
+
+/* dark-btn */
+.btn-all-dark {
+  border: 2px solid var(--secendory);
+  color: var(--secendory);
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: var(--font-inter-semibold);
+}
+
+.btn-all-dark:hover {
+  color: var(--white);
+  border-color: var(--white);
+}
+.btn-hover-dark:hover {
+  color: var(--text) !important;
+  border-color: var(--text) !important;
+}
+
+.heading h2 {
+  font-family: var(--font-inter-bold);
+  font-size: 40px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+.yellow-headings {
+  color: var(--primary);
+}
+
+
+@media only screen and (max-width: 1399px) {
+  .btn-orange {
+    padding: 9px 18px !important;
+  }
+  .btn-all-light {
+    padding: 9px 18px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .heading h2 {
+    font-size: 36px !important;
+  }
+  .btn-orange {
+    font-size: 15px;
+  }
+
+  .btn-all-light {
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .heading h2 {
+    margin-bottom: 3px;
+    font-size: 32px !important;
+  }
+  .btn-orange {
+    font-size: 16px;
+    border-radius: 7px !important;
+  }
+  .btn-all-dark {
+    padding: 9px 22px !important;
+  }
+}
+@media only screen and (max-width: 767px) {
+}
+@media only screen and (max-width: 575px) {
+  .btn-all-dark {
+    padding: 9px 18px !important;
+    border-radius: 7px;
+  }
+}
+@media only screen and (max-width: 424px) {
+  .heading h2 {
+    font-size: 25px !important;
+  }
+}
+
+/* @media only screen and (max-width: 1399px) {
+}
+@media only screen and (max-width: 1199px) {
+}
+@media only screen and (max-width: 991px) {
+}
+@media only screen and (max-width: 767px) {
+}
+@media only screen and (max-width: 575px) {
+}
+@media only screen and (max-width: 424px) {
+} */

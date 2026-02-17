@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Product;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -19,8 +20,8 @@ class DashboardController extends Controller
         $page = 'admin.dashboard';
 
         $totalCategory = Category::count();
-        $totalVideo = Video::count();
-        $totalImage = Image::count();
+        $totalVideo = Product::where('type', '0')->count();
+        $totalImage = Product::where('type', '1')->count();
         $totalUser = User::count();
 
         $options = [

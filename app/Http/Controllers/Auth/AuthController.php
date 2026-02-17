@@ -10,6 +10,14 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+
+    public function loginPage(Request $request)
+    {
+        $title = 'Login';
+        $page = 'auth.front.login';
+        $js = ['login'];
+        return view("layouts.front.auth_layout", compact('title', 'page', 'js'));
+    }
     public function login(Request $request)
     {
         $request->validate([
@@ -22,7 +30,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard')
+            return redirect()->route('home')
                 ->with('success', 'Login successful');
         }
 
@@ -31,21 +39,26 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $request->validate([
-            'name' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6'
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->first_name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
+            'role' => '0',
         ]);
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')
+        return redirect()->route('home')
             ->with('success', 'Account created successfully');
     }
 

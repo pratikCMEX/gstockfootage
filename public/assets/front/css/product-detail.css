@@ -1,0 +1,311 @@
+/* product-detail section */
+.product-detail {
+  padding-top: 80px;
+}
+.product-detail-img {
+  display: flex;
+  gap: 30px;
+}
+.sideproduct {
+  height: 500px;
+  width: 150px;
+}
+.small-product-img {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+}
+.small-slide-img {
+  width: 146px;
+  height: 100px;
+}
+.small-slide-img img,
+.big-slide-img img {
+  object-fit: cover;
+}
+.big-product-img {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.big-slide-img {
+  max-width: 470px;
+  width: 100%;
+  height: 565px;
+}
+.product-detail .swiper-arrows {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.product-detail .swiper-arrows .product-detail-arrow {
+  height: 40px;
+  width: 40px;
+  background-color: var(--secendory);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 25px;
+  color: var(--white);
+}
+.product-detail .swiper-arrows .product-detail-arrow:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+.big-product-img i {
+  color: var(--black);
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: 0.3s;
+}
+.big-product-img i:hover {
+  color: red;
+}
+
+/* product-detail-content */
+.product-detail-title h4 {
+  font-size: 28px;
+  font-family: var(--font-inter-bold);
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+.product-detail-two-price {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.product-detail-two-price h5 {
+  font-size: 20px;
+  color: var(--text);
+  font-family: var(--font-inter-semibold);
+}
+.product-detail-two-price p {
+  font-size: 24px;
+  color: var(--primary);
+  font-family: var(--font-inter-bold);
+}
+.product-detail-two-price .two-price-subtitle {
+  color: var(--secendory);
+  font-size: 14px;
+  font-family: var(--font-inter-regular);
+}
+.product-detail-price {
+  border-radius: 10px;
+}
+.price-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.product-detail-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+.product-detail-btn p{
+    font-size: 16px;
+    color: var(--secendory);
+    font-family: var(--font-inter-semibold);
+}
+.product-detail-btn .btn-orange i,
+.product-detail-btn .btn-all-dark i {
+  font-size: 20px;
+  margin-right: 8px;
+}
+.product-description {
+  font-size: 16px;
+  color: var(--secendory);
+  margin: 20px 0;
+}
+.product-tag {
+  padding: 0px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 205px;
+  height: 91px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.tag-icon i {
+  font-size: 18px;
+  color: var(--primary);
+}
+.tag-title p {
+  color: var(--secendory);
+}
+.tag-title h5 {
+  font-size: 16px;
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+}
+.product-detail-tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* related product section */
+.related-product {
+  padding: 80px 0;
+}
+.product-swiper-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: end;
+}
+.product-arrow {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: 0.3s;
+  border: 1px solid transparent;
+}
+.product-arrow:hover {
+  background-color: var(--white);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+@media only screen and (max-width: 1399px) {
+  .product-detail-img {
+    gap: 8px;
+  }
+  .sideproduct {
+    height: 500px;
+    width: 126px;
+  }
+  .small-slide-img {
+    width: 98px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .product-detail-img {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+  .sideproduct {
+    height: 100px;
+    width: 455px;
+  }
+  .product-detail .swiper-arrows .product-detail-arrow {
+    transform: rotate(-90deg);
+  }
+
+  .small-slide-img {
+    width: 125px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .big-slide-img {
+    max-width: 100%;
+  }
+  .sideproduct {
+    width: 100%;
+  }
+  .small-slide-img {
+    width: 141px;
+  }
+  .sideproduct {
+    position: relative;
+  }
+  .product-detail .swiper-arrows {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .product-detail .swiper-arrows .product-detail-left {
+    left: 0px;
+    top: 50%;
+    bottom: 50%;
+    transform: translateY(50%) rotate(-90deg);
+  }
+  .product-detail .swiper-arrows .product-detail-right {
+    right: 0;
+    top: 50%;
+    bottom: 50%;
+    transform: translateY(50%) rotate(-90deg);
+    left: auto;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .product-detail {
+    padding-top: 60px;
+  }
+  .product-detail-title h4 {
+    font-size: 26px;
+  }
+  .product-detail-two-price p {
+    font-size: 22px;
+  }
+  .product-swiper-btns {
+    justify-content: start;
+    margin-bottom: 15px;
+  }
+  .related-product {
+    padding: 60px 0;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .product-detail {
+    padding-top: 50px;
+  }
+  .product-detail-two-price p {
+    font-size: 20px;
+  }
+  .product-detail-two-price h5 {
+    font-size: 19px;
+  }
+  .product-tag {
+    padding: 0px 18px;
+    width: 195px;
+  }
+  .product-detail-title h4 {
+    font-size: 25px;
+  }
+  .related-product {
+    padding: 50px 0;
+  }
+}
+@media only screen and (max-width: 424px) {
+  .related-product {
+    padding: 40px 0;
+  }
+  .product-detail-two-price p {
+    font-size: 18px;
+  }
+  .product-detail-title h4 {
+    margin-bottom: 14px;
+  }
+  .product-tag {
+    width: 100%;
+  }
+  .product-detail {
+    padding-top: 40px;
+  }
+}
