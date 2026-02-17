@@ -163,7 +163,6 @@ class CategoryController extends Controller
                 'success' => false,
                 'message' => 'Category not deleted'
             ]);
-
         }
     }
 

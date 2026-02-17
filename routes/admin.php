@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthAdmin;
+use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\ContactUsController;
@@ -32,6 +33,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/update_profile', [ProfileController::class, 'update_profile'])->name('admin.update_profile');
     Route::post('admin/update_password', [ProfileController::class, 'update_password'])->name('admin.update_password');
 
+    Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
 
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');
@@ -128,9 +130,9 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
 
     Route::get('admin/video_stream', [VideoStreamController::class, 'stream'])->name('admin.video_stream');
 
-     Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
-     Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');
-     Route::post('admin/delete_multiple_contacts', [ContactUsController::class, 'deleteMultiple'])->name('admin.delete_multiple_contact');
+    Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
+    Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');
+    Route::post('admin/delete_multiple_contacts', [ContactUsController::class, 'deleteMultiple'])->name('admin.delete_multiple_contact');
 
     Route::get('admin/transaction', [WalletTransactionsController::class, 'index'])->name('admin.transaction');
     Route::get('admin/transaction_delete', [WalletTransactionsController::class, 'delete'])->name('admin.transaction_delete');
