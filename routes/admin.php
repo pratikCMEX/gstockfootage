@@ -92,6 +92,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_user', [UserController::class, 'delete'])->name('admin.user_delete');
     Route::post('admin/delete_multiple_user', [UserController::class, 'deleteMultiple'])->name('admin.delete_multiple_user');
     Route::post('admin/check_user_is_exist', [UserController::class, 'checkUserIsExist'])->name('admin.user_check_exist');
+    Route::post('admin/check_user_is_valid', [UserController::class, 'checkUserValid'])->name('admin.user_check_valid');
 
     Route::get('admin/image', [ImageController::class, 'index'])->name('admin.image');
     Route::get('admin/add_image', [ImageController::class, 'addimage'])->name('admin.image_add');

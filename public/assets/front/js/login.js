@@ -96,3 +96,44 @@ $("#signup").validate({
     $(element).removeClass("is-invalid");
   },
 });
+
+$("#send_forget_link").validate({
+  rules: {
+    email: {
+      required: true,
+      email: true,
+      remote: {
+        headers: {
+          "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        url: base_url + "/admin/check_user_is_valid",
+        type: "POST",
+        data: {
+          email: function () {
+            return $("input[name='email']").val();
+          },
+        },
+      },
+    },
+  },
+  messages: {
+    email: {
+      required: "Please enter email",
+      email: "Please enter a valid email",
+      remote: "User doesn't exist with this email",
+    },
+  },
+
+  normalizer: function (value) {
+    return $.trim(value);
+  },
+
+  errorClass: "text-danger",
+  errorElement: "span",
+  highlight: function (element) {
+    $(element).addClass("is-invalid");
+  },
+  unhighlight: function (element) {
+    $(element).removeClass("is-invalid");
+  },
+});

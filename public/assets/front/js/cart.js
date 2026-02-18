@@ -1,7 +1,10 @@
 function addToCart(product_id, btn = null) {
   $.ajax({
-    url: "{{ route('add.to.cart') }}",
+    url: base_url + "/add-to-cart",
     type: "POST",
+    headers: {
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
     data: {
       product_id: product_id,
       qty: 1,

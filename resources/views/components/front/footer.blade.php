@@ -1,8 +1,7 @@
-<script src="{{ asset('assets/front/js/script.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/additional-methods.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/admin/js/toastr.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
@@ -15,11 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-@if (isset($js))
-    @foreach ($js as $value)
-        <script src="{{ asset('assets/front') }}/js/{{ $value }}.js"></script>
-    @endforeach
-@endif
+<script src="{{ asset('assets/front/js/script.js') }}"></script>
 
 <script>
     var base_url = $("#base_url").val();
@@ -38,3 +33,8 @@
         @endforeach
     @endif
 </script>
+@if (isset($js))
+    @foreach ($js as $value)
+        <script src="{{ asset('assets/front') }}/js/{{ $value }}.js"></script>
+    @endforeach
+@endif

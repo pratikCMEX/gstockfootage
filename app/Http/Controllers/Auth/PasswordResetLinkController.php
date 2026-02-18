@@ -31,7 +31,6 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd(1);
         $request->validate([
             'email' => ['required', 'email'],
         ]);

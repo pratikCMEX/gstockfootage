@@ -41,7 +41,8 @@
             Enter your email address and we’ll send you a link to reset your password
         </p>
 
-        <form>
+        <form id="send_forget_link" class="auth-form active" method="POST" action="{{ route('password.email') }}">
+            @csrf
             <div class="mb-3 text-start">
                 <label class="form-label ">Email</label>
                 <input type="email" name="email" id="email" class="form-control" placeholder="you@example.com"

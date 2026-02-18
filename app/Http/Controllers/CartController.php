@@ -10,6 +10,7 @@ class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
+        $user_id = Auth::id();
         $product_id = $request->product_id;
         $qty        = $request->qty ?? 1;
         if (Auth::check()) {
@@ -31,7 +32,7 @@ class CartController extends Controller
                 'qty' => $qty
             ]);
 
-            $this->mergeSessionCart();
+            mergeSessionCart();
 
             return response()->json([
                 'status' => true,
@@ -60,30 +61,6 @@ class CartController extends Controller
     }
 
 
-    private function mergeSessionCart()
-    {
-        if (!session()->has('cart')) return;
-        $sessionCart = session()->get('cart');
-        $user_id = Auth::id();
-
-        foreach ($sessionCart as $item) {
-
-            $existing = Cart::where('user_id', $user_id)
-                ->where('product_id', $item['product_id'])
-                ->first();
-
-            if ($existing) {
-                $existing->increment('qty', $item['qty']);
-            } else {
-                Cart::create([
-                    'user_id' => $user_id,
-                    'product_id' => $item['product_id'],
-                    'qty' => $item['qty']
-                ]);
-            }
-        }
-        session()->forget('cart');
-    }
 
     public function cartList()
     {

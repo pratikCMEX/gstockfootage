@@ -9,7 +9,9 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Models\QuoteRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -40,10 +42,23 @@ Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.sto
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
 Route::get('/cart', [CartController::class, 'cartList'])->name('cart.list');
 
+Route::middleware('auth')->group(function () {});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/logout', function () {
+    $user = Auth::guard('web')->user();
+
+    if ($user) {
+        Auth::logout();
+    } else {
+        return redirect()->route('home');
+    }
+    Session::flush();
+    return redirect()->route('home');
+})->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

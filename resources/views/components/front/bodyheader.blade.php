@@ -56,9 +56,19 @@
                     <a href="wishlist.html"><i class="bi bi-heart icon-btn"></i></a>
                     <a href="cart.html"><i class="bi bi-cart icon-btn cart"></i></a>
 
-                    <a href="{{ route('login') }}">
-                        <button class="btn header-btns btn-sm">Log in</button>
-                    </a>
+                    @guest
+                        <a href="{{ route('login') }}">
+                            <button class="btn header-btns btn-sm">Log in</button>
+                        </a>
+                    @endguest
+
+
+                    @auth
+                        <a href="{{ route('logout') }}">
+                            <button class="btn header-btns btn-sm">Log Out</button>
+                        </a>
+                    @endauth
+
 
                     <a href="pricing.html" class="d-none d-xl-block">
                         <button class="btn header-btns btn-sm cta-btn">

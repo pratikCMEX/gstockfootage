@@ -29,12 +29,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
+            mergeSessionCart();
             return redirect()->route('home')
-                ->with('success', 'Login successful');
+                ->with('msg_success', 'Login successful');
         }
 
-        return back()->with('error', 'Invalid email or password');
+        return back()->with('msg_error', 'Invalid email or password');
     }
 
     public function register(Request $request)
@@ -59,7 +59,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect()->route('home')
-            ->with('success', 'Account created successfully');
+            ->with('msg_success', 'Account created successfully');
     }
 
     public function logout(Request $request)

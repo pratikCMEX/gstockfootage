@@ -5,3 +5,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
 
 <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
+
+<link href="{{ asset('assets/admin/css/toastr.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+<input type="hidden" id="base_url" value="{{ url('/') }}" />

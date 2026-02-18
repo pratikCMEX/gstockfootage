@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @isset($css)
         <link rel="stylesheet" href="{{ asset('assets') }}/front/css/{{ $css }}" />
     @endisset
@@ -14,6 +16,8 @@
     @isset($common_css)
         <link rel="stylesheet" href="{{ asset('assets') }}/front/css/{{ $common_css }}" />
     @endisset
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <x-front.header title="{{ $title }}" page={{ $page }} />
 
 
