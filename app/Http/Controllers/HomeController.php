@@ -28,7 +28,7 @@ class HomeController extends Controller
     {
         $title = 'Product Detail View';
         $page = 'front.product_detail';
-        $js = ['cart'];
+        $js = [];
         try {
             $id = decrypt($id);
             // $id = 19;

@@ -13,7 +13,7 @@ class CheckoutController extends Controller
     {
         $title = 'Checkout';
         $page = 'front.checkout';
-        $js = ['cart'];
+        $js = [];
 
         return view("layouts.front.layout", compact('title', 'page', 'js'));
 
