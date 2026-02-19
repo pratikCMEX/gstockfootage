@@ -1,3 +1,7 @@
+.card-body {
+  position: relative;
+  overflow-x: hidden;
+}
 h1,
 h2,
 h3,
@@ -10,7 +14,13 @@ p {
 }
 
 /* create batch modal */
-.batch-create {
+.create-batch-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.batch-create,
+.search-filter-openbtn {
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -20,6 +30,9 @@ p {
 .batch-create i {
   margin-right: 5px;
   font-size: 20px;
+}
+.batch-content-create {
+  width: 100%;
 }
 .batch-dropdown,
 .batch-inp {
@@ -86,8 +99,29 @@ p {
 .modal-header {
   padding-bottom: 0;
 }
+/* dropdown content */
+.content-dropdown .dot-dropdown:focus {
+  border: none;
+}
+.dot-dropdown::after {
+  display: none;
+}
+
+/* filter and batches content */
+.flex-batch-filter-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
 
 /* diff batches */
+.diff-batches-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
 .batches-label label {
   padding: 8px 12px;
   font-size: 12px;
@@ -102,7 +136,7 @@ p {
   display: flex;
   flex-direction: column;
   row-gap: 14px;
-  margin-bottom: 30px;
+  width: 100%;
 }
 .counting-show-batch {
   margin: 20px 0;
@@ -123,14 +157,22 @@ p {
   display: flex;
   align-items: end;
   justify-content: space-between;
+  gap: 30px;
 }
 .batch-content-create-text {
   margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  /* justify-content: space-between; */
+  flex-direction: column;
+  gap: 6px;
 }
 .batch-content-create-counts {
   display: flex;
   align-items: center;
-  gap: 15px;
+  row-gap: 6px;
+  flex-wrap: wrap;
+  column-gap: 15px;
 }
 .circle-div {
   border-radius: 50%;
@@ -138,19 +180,19 @@ p {
   width: 15px;
 }
 .circle-div1 {
-  background-color: pink;
+  background-color: #e1ebd3;
 }
 .circle-div2 {
-  background-color: skyblue;
+  background-color: #f7e1e4;
 }
 .circle-div3 {
-  background-color: rgb(104, 185, 104);
+  background-color: #fff7cc;
 }
 .circle-div4 {
-  background-color: gray;
+  background-color: #dfeef7;
 }
 .circle-div5 {
-  background-color: #444;
+  background-color: #e1e1e1;
 }
 .create-count-div {
   display: flex;
@@ -181,6 +223,27 @@ p {
 }
 
 /* search-filter */
+.search-mobile {
+  display: none;
+}
+.search-filter-child-content {
+  position: absolute;
+  top: 0px;
+  right: -500px;
+  bottom: 0px;
+  background: white;
+  width: 100%;
+  left: auto;
+  max-width: 500px;
+  padding-left: 12px;
+  padding-top: 12px;
+  border-left: 1px solid gray;
+  transition: all 0.5s ease;
+}
+.filtershow {
+  right: 17px;
+}
+
 .search-filter-btn {
   width: 100%;
   display: flex;
@@ -291,23 +354,136 @@ p {
   font-size: 16px;
   color: #666;
 }
-.search-filter {
-  border-left: 1px solid gray;
-  padding: 12px;
-  background-color: #fff;
-  position: sticky;
-  top: 0;
-  height: 100%;
-  max-height: calc(100dvh - 145px);
-  overflow: auto;
+
+.delete-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: rgba(255, 136, 136, 0.363);
+  color: red;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.more-detail-btn {
+  width: 100%;
+  min-width: max-content;
 }
 
-.batch-content-dropdown .more-detail {
-  border: none;
+/* table */
+.batch-content-table-details {
+  overflow: auto;
+  width: 100%;
+  max-width: 100%;
 }
-.more-detail .more-detail-menu.show {
-  width: auto !important;
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  overflow: auto;
 }
-.more-detail::after {
-  display: none;
+.table-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: #2a3547;
+}
+.img-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.table-img {
+  width: 80px;
+  height: 50px;
+}
+.table-img img {
+  object-fit: contain;
+}
+tbody td {
+  font-size: 15px;
+  color: black;
+  font-weight: 700;
+}
+table td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 10px; /* creates space */
+}
+
+@media only screen and (max-width: 1399px) {
+  .search-filter-child-content {
+    max-width: 400px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .date-inputs {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .date-box:first-child {
+    margin-bottom: 0;
+  }
+  .counting-show-batch {
+    font-size: 16px;
+  }
+  .search-filter-btn {
+    padding: 12px 20px;
+  }
+  .input-search-filter {
+    padding: 12px 20px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .circel-count {
+    font-size: 14px;
+  }
+  tbody td {
+    font-size: 14px;
+  }
+  .batch-create,
+  .search-filter-openbtn {
+    font-size: 15px;
+  }
+  .search-mobile {
+    display: block;
+  }
+  .search-desktop {
+    display: none;
+  }
+  .filtershowsmall {
+    right: 17px;
+  }
+  .modal-title {
+    font-size: 22px;
+  }
+  .form-check-label {
+    font-size: 15px;
+  }
+  .batch-dropdown,
+  .batch-inp {
+    padding: 12px;
+  }
+
+  .batch-dropdown,
+  .batch-inp {
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .batch-content-detail {
+    align-items: start;
+    gap: 15px;
+    flex-direction: column;
+  }
+  .more-detail-btn {
+    padding: 10px 0;
+  }
+}
+@media only screen and (max-width: 575px) {
+  table {
+    min-width: 700px;
+  }
+}
+@media only screen and (max-width: 424px) {
 }
