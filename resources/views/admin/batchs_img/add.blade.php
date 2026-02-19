@@ -7,12 +7,14 @@
                     <div class="col-12">
                         <div class="create-batch-head">
                             <div class="create-batch-btn">
-                                <button type="button" class="btn btn-primary batch-create" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary batch-create" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
                                     <i class="ti ti-plus"></i> Create Batch
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade " id="exampleModal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-box">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -21,31 +23,38 @@
                                             <div class="modal-body batch-create-modal">
                                                 <div class="dropdown">
                                                     <label for="" class="modal-label">Submission type</label>
-                                                    <button class="btn w-100 text-start  batch-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         Dropdown<i class="fa-solid fa-angle-down"></i>
                                                     </button>
                                                     <ul class="dropdown-menu batch-dropdown-menu">
                                                         <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                        <li><a class="dropdown-item" href="#">Another action</a>
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="#">Something else
+                                                                here</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="modal-code">
                                                     <label for="" class="modal-label">Breif Code</label>
                                                     <div class="input-group flex-nowrap ">
-                                                        <input type="text" class="form-control batch-inp" placeholder="Breif code (optional)" aria-describedby="addon-wrapping">
+                                                        <input type="text" class="form-control batch-inp"
+                                                            placeholder="Breif code (optional)"
+                                                            aria-describedby="addon-wrapping">
                                                     </div>
                                                 </div>
                                                 <div class="modal-name">
                                                     <label for="" class="modal-label">Batch Name</label>
                                                     <div class="input-group flex-nowrap ">
-                                                        <input type="text" class="form-control batch-inp" placeholder="Batch Name" aria-describedby="addon-wrapping">
+                                                        <input type="text" class="form-control batch-inp"
+                                                            placeholder="Batch Name" aria-describedby="addon-wrapping">
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn-light btn" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn-light btn"
+                                                    data-bs-dismiss="modal">Cancel</button>
                                                 <button type="button" class=" btn btn-primary">Create</button>
                                             </div>
                                         </div>
@@ -70,38 +79,36 @@
                                         <div class="batch-content-title">
                                             <h5>Jerusalem old city 3</h5>
                                             <div class="content-dropdown">
-                                                <button class="btn  text-start dot-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa-solid fa-ellipsis-vertical "></i>
 
                                                 </button>
                                                 <ul class="dropdown-menu more-detail-menu">
                                                     <li>
-                                                        <button
-                                                            type="button"
-                                                            class="dropdown-item"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#renameModal">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#renameModal">
                                                             <i class="fa-solid fa-pencil me-3"></i>
                                                             Rename
                                                         </button>
                                                     </li>
-                                                    <li> <button
-                                                            type="button"
-                                                            class="dropdown-item"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal">
+                                                    <li> <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                             <i class="fa-solid fa-trash me-3"></i>
                                                             Delete
                                                         </button></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-arrow-up-right-from-square me-3"></i> See Published</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i
+                                                                class="fa-solid fa-arrow-up-right-from-square me-3"></i>
+                                                            See Published</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="batches-label">
-                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative video</label>
+                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative
+                                                video</label>
                                         </div>
                                         <div class="batch-content-detail">
-                                            <a class="batch-content-img" href="">
+                                            <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
                                                 <div class="batch-collect-imgs"></div>
                                             </a>
                                             <div class="batch-content-create">
@@ -157,8 +164,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -168,7 +174,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -177,8 +184,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -188,7 +194,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -197,8 +204,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -208,7 +214,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -217,8 +224,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -228,7 +234,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -237,8 +244,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -248,7 +254,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -260,35 +267,33 @@
                                         <div class="batch-content-title">
                                             <h5>Jerusalem old city 3</h5>
                                             <div class="content-dropdown">
-                                                <button class="btn  text-start dot-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa-solid fa-ellipsis-vertical "></i>
 
                                                 </button>
                                                 <ul class="dropdown-menu more-detail-menu">
                                                     <li>
-                                                        <button
-                                                            type="button"
-                                                            class="dropdown-item"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#renameModal">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#renameModal">
                                                             <i class="fa-solid fa-pencil me-3"></i>
                                                             Rename
                                                         </button>
                                                     </li>
-                                                    <li> <button
-                                                            type="button"
-                                                            class="dropdown-item"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal">
+                                                    <li> <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                             <i class="fa-solid fa-trash me-3"></i>
                                                             Delete
                                                         </button></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-arrow-up-right-from-square me-3"></i> See Published</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i
+                                                                class="fa-solid fa-arrow-up-right-from-square me-3"></i>
+                                                            See Published</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="batches-label">
-                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative video</label>
+                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative
+                                                video</label>
                                         </div>
                                         <div class="batch-content-detail">
                                             <a class="batch-content-img" href="">
@@ -347,8 +352,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -358,7 +362,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -367,8 +372,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -378,7 +382,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -387,8 +392,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -398,7 +402,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -407,8 +412,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -418,7 +422,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -427,8 +432,7 @@
                                                             <div class="img-id">
                                                                 <div class="table-img">
                                                                     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                                                                        class="w-100 h-100"
-                                                                        alt="Nature Flower">
+                                                                        class="w-100 h-100" alt="Nature Flower">
                                                                 </div>
                                                                 <p>234780087643</p>
                                                             </div>
@@ -438,7 +442,8 @@
                                                         <td>
                                                             <div class="create-count-div">
                                                                 <div class="circle-div circle-div5"></div>
-                                                                <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -451,7 +456,9 @@
                                 </div>
                                 <div class="search-filter">
                                     <div class="search-filter-child-content" id="search-filter-content">
-                                        <button type="button" class="search-filter-btn btn  btn-primary " id="close-filter">Search and Filter <i class="fa-solid fa-angle-right"></i></button>
+                                        <button type="button" class="search-filter-btn btn  btn-primary "
+                                            id="close-filter">Search and Filter <i
+                                                class="fa-solid fa-angle-right"></i></button>
                                         <div class="filter-apply-text filter-text">
                                             <p>Applied Filters</p>
                                             <a href="">Reset</a>
@@ -459,7 +466,8 @@
                                         <div class="filter-search-text">
                                             <div class="input-search-filter flex-nowrap">
                                                 <i class="fa-solid fa-magnifying-glass"></i>
-                                                <input type="text" class="" placeholder="Enter Search Text" aria-describedby="addon-wrapping">
+                                                <input type="text" class="" placeholder="Enter Search Text"
+                                                    aria-describedby="addon-wrapping">
                                             </div>
                                         </div>
                                         <div class="filter-text submission-type-filter">
@@ -467,7 +475,8 @@
                                             <ul>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault1">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault1">
                                                         <label class="form-check-label" for="checkDefault1">
                                                             Gstock Creative illustration
                                                         </label>
@@ -475,7 +484,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault2">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault2">
                                                         <label class="form-check-label" for="checkDefault2">
                                                             Gstock Creative Image
                                                         </label>
@@ -483,7 +493,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault3">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault3">
                                                         <label class="form-check-label" for="checkDefault3">
                                                             Gstock Creative Video
                                                         </label>
@@ -491,7 +502,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault4">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault4">
                                                         <label class="form-check-label" for="checkDefault4">
                                                             Gstock editional Image
                                                         </label>
@@ -504,7 +516,8 @@
                                             <ul>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault5">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault5">
                                                         <label class="form-check-label" for="checkDefault5">
                                                             Active
                                                         </label>
@@ -512,7 +525,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault6">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault6">
                                                         <label class="form-check-label" for="checkDefault6">
                                                             Close <i class="fa-regular fa-circle-question"></i>
                                                         </label>
@@ -520,7 +534,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="checkDefault7">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="" id="checkDefault7">
                                                         <label class="form-check-label" for="checkDefault7">
                                                             Needs revesion
                                                         </label>
@@ -552,13 +567,15 @@
                                         </div>
                                         <div class="sort-by-filter filter-text">
                                             <p>Sort by</p>
-                                            <button class="btn w-100 text-start  batch-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Dropdown<i class="fa-solid fa-angle-down"></i>
                                             </button>
                                             <ul class="dropdown-menu batch-filter-dropdown-menu">
                                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                                 <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="direction-filter filter-text">
@@ -567,7 +584,8 @@
                                             <ul>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="radio1" id="radiodefault1">
+                                                        <input class="form-check-input" type="radio" name="radio1"
+                                                            id="radiodefault1">
                                                         <label class="form-check-label" for="radiodefault1">
                                                             Ascending
                                                         </label>
@@ -575,7 +593,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="radio1" id="radiodefault2">
+                                                        <input class="form-check-input" type="radio" name="radio1"
+                                                            id="radiodefault2">
                                                         <label class="form-check-label" for="radiodefault2">
                                                             Descending
                                                         </label>
@@ -638,7 +657,8 @@
 
             <div class="modal-body text-center">
                 <div class="delete-icon  m-auto"><i class="fa-solid fa-triangle-exclamation "></i></div>
-                <p style="font-size: 16px; color:gray; margin-top:15px;">If you delete the link will be gone forever. Are you sure you want to procced</p>
+                <p style="font-size: 16px; color:gray; margin-top:15px;">If you delete the link will be gone forever.
+                    Are you sure you want to procced</p>
             </div>
 
             <div class="modal-footer text-center m-auto">

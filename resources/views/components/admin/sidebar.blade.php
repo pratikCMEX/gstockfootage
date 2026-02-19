@@ -90,7 +90,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ in_array(Request::segment(2), ['batch']) ? 'active' : '' }}"
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['batch', 'add_new_img']) ? 'active' : '' }}"
                         href="{{ route('admin.batch') }}" aria-expanded="false">
                         <i class="ti ti-user-circle"></i>
                         <span class="hide-menu">Batchs</span>
