@@ -171,7 +171,7 @@
                 </div>
             </div>
         </div>
-        <div class="swiper mySwiper product-swiper">
+        {{-- <div class="swiper mySwiper product-swiper">
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide">
@@ -413,6 +413,6 @@
 
 
 
-        </div>
+        </div> --}}
     </div>
 </section>

@@ -12,7 +12,7 @@ class BatchController extends Controller
 
         $title = 'Batches';
         $page = 'admin.batchs_img.add';
-        $js = [];
+        $js = ['batch'];
 
 
         return view('layouts.admin.layout', compact('title', 'page', 'js'));

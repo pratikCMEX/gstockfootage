@@ -77,6 +77,8 @@ class ProcessUploadedVideo implements ShouldQueue
                 'timeout'          => 3600,
             ]);
 
+            logger()->error("PATH " . $video->id . " Error: " . env('FFMPEG_BINARY_PATH'));
+
             $videoFFMpeg = $ffmpeg->open($this->tempOriginalPath);
 
             $formatLow = new \FFMpeg\Format\Video\X264('aac', 'libx264');
