@@ -109,7 +109,12 @@
                                         </div>
                                         <div class="batch-content-detail">
                                             <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
-                                                <div class="batch-collect-imgs"></div>
+
+                                                <div class="batch-collect-imgs ">
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+
+                                                    <!-- <div class="img-overlay">50</div> -->
+                                                </div>
                                             </a>
                                             <div class="batch-content-create">
                                                 <div class="batch-content-create-text">
@@ -296,8 +301,598 @@
                                                 video</label>
                                         </div>
                                         <div class="batch-content-detail">
-                                            <a class="batch-content-img" href="">
-                                                <div class="batch-collect-imgs"></div>
+                                            <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
+
+                                                <div class="batch-collect-imgs image-2 ">
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+
+                                                    <!-- <div class="img-overlay">50</div> -->
+                                                </div>
+                                            </a>
+                                            <div class="batch-content-create">
+                                                <div class="batch-content-create-text">
+                                                    <p class="batchid">BatchID #61436088</p>
+                                                    <p class="batchcreated">Created : Feb 16,2026</p>
+                                                </div>
+                                                <div class="batch-content-create-counts">
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div1"></div>
+                                                        <p class="circel-count"><span>0</span> Accepted</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div2"></div>
+                                                        <p class="circel-count"><span>0</span> Rejected</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div3"></div>
+                                                        <p class="circel-count"><span>0</span> Need Revesion</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div4"></div>
+                                                        <p class="circel-count"><span>0</span> In Interview</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div5"></div>
+                                                        <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="more-detail">
+                                                <button class="btn more-detail-btn " type="button">
+                                                    <i class="fa-solid fa-angle-down"></i>More Detail
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                        <div class="batch-content-table-details">
+                                            <table>
+                                                <thead>
+                                                    <th>
+                                                        <tr>
+                                                            <td class="table-heading">File ID</td>
+                                                            <td class="table-heading">File Name</td>
+                                                            <td class="table-heading">Title</td>
+                                                            <td class="table-heading">Status</td>
+                                                        </tr>
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="batch-content">
+                                        <div class="batch-content-title">
+                                            <h5>Jerusalem old city 3</h5>
+                                            <div class="content-dropdown">
+                                                <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis-vertical "></i>
+
+                                                </button>
+                                                <ul class="dropdown-menu more-detail-menu">
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                            <i class="fa-solid fa-pencil me-3"></i>
+                                                            Rename
+                                                        </button>
+                                                    </li>
+                                                    <li> <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                            <i class="fa-solid fa-trash me-3"></i>
+                                                            Delete
+                                                        </button></li>
+                                                    <li><a class="dropdown-item" href="#"><i
+                                                                class="fa-solid fa-arrow-up-right-from-square me-3"></i>
+                                                            See Published</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="batches-label">
+                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative
+                                                video</label>
+                                        </div>
+                                        <div class="batch-content-detail">
+                                            <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
+
+                                                <div class="batch-collect-imgs image-3 ">
+                                                    <div class="item long-img"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                </div>
+                                            </a>
+                                            <div class="batch-content-create">
+                                                <div class="batch-content-create-text">
+                                                    <p class="batchid">BatchID #61436088</p>
+                                                    <p class="batchcreated">Created : Feb 16,2026</p>
+                                                </div>
+                                                <div class="batch-content-create-counts">
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div1"></div>
+                                                        <p class="circel-count"><span>0</span> Accepted</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div2"></div>
+                                                        <p class="circel-count"><span>0</span> Rejected</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div3"></div>
+                                                        <p class="circel-count"><span>0</span> Need Revesion</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div4"></div>
+                                                        <p class="circel-count"><span>0</span> In Interview</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div5"></div>
+                                                        <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="more-detail">
+                                                <button class="btn more-detail-btn " type="button">
+                                                    <i class="fa-solid fa-angle-down"></i>More Detail
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                        <div class="batch-content-table-details">
+                                            <table>
+                                                <thead>
+                                                    <th>
+                                                        <tr>
+                                                            <td class="table-heading">File ID</td>
+                                                            <td class="table-heading">File Name</td>
+                                                            <td class="table-heading">Title</td>
+                                                            <td class="table-heading">Status</td>
+                                                        </tr>
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="batch-content">
+                                        <div class="batch-content-title">
+                                            <h5>Jerusalem old city 3</h5>
+                                            <div class="content-dropdown">
+                                                <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis-vertical "></i>
+
+                                                </button>
+                                                <ul class="dropdown-menu more-detail-menu">
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                            <i class="fa-solid fa-pencil me-3"></i>
+                                                            Rename
+                                                        </button>
+                                                    </li>
+                                                    <li> <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                            <i class="fa-solid fa-trash me-3"></i>
+                                                            Delete
+                                                        </button></li>
+                                                    <li><a class="dropdown-item" href="#"><i
+                                                                class="fa-solid fa-arrow-up-right-from-square me-3"></i>
+                                                            See Published</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="batches-label">
+                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative
+                                                video</label>
+                                        </div>
+                                        <div class="batch-content-detail">
+                                            <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
+
+                                                <div class="batch-collect-imgs image-4">
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <!-- <div class="img-overlay">50</div> -->
+                                                </div>
+                                            </a>
+                                            <div class="batch-content-create">
+                                                <div class="batch-content-create-text">
+                                                    <p class="batchid">BatchID #61436088</p>
+                                                    <p class="batchcreated">Created : Feb 16,2026</p>
+                                                </div>
+                                                <div class="batch-content-create-counts">
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div1"></div>
+                                                        <p class="circel-count"><span>0</span> Accepted</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div2"></div>
+                                                        <p class="circel-count"><span>0</span> Rejected</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div3"></div>
+                                                        <p class="circel-count"><span>0</span> Need Revesion</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div4"></div>
+                                                        <p class="circel-count"><span>0</span> In Interview</p>
+                                                    </div>
+                                                    <div class="create-count-div">
+                                                        <div class="circle-div circle-div5"></div>
+                                                        <p class="circel-count"><span>0</span> Not Submitted</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="more-detail">
+                                                <button class="btn more-detail-btn " type="button">
+                                                    <i class="fa-solid fa-angle-down"></i>More Detail
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                        <div class="batch-content-table-details">
+                                            <table>
+                                                <thead>
+                                                    <th>
+                                                        <tr>
+                                                            <td class="table-heading">File ID</td>
+                                                            <td class="table-heading">File Name</td>
+                                                            <td class="table-heading">Title</td>
+                                                            <td class="table-heading">Status</td>
+                                                        </tr>
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="img-id">
+                                                                <div class="table-img">
+                                                                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                                        class="w-100 h-100" alt="Nature Flower">
+                                                                </div>
+                                                                <p>234780087643</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>2 Upper Galilee.mov</td>
+                                                        <td>-</td>
+                                                        <td>
+                                                            <div class="create-count-div">
+                                                                <div class="circle-div circle-div5"></div>
+                                                                <p class="circel-count"><span>0</span> Not Submitted
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="batch-content">
+                                        <div class="batch-content-title">
+                                            <h5>Jerusalem old city 3</h5>
+                                            <div class="content-dropdown">
+                                                <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis-vertical "></i>
+
+                                                </button>
+                                                <ul class="dropdown-menu more-detail-menu">
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                            <i class="fa-solid fa-pencil me-3"></i>
+                                                            Rename
+                                                        </button>
+                                                    </li>
+                                                    <li> <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                            <i class="fa-solid fa-trash me-3"></i>
+                                                            Delete
+                                                        </button></li>
+                                                    <li><a class="dropdown-item" href="#"><i
+                                                                class="fa-solid fa-arrow-up-right-from-square me-3"></i>
+                                                            See Published</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="batches-label">
+                                            <label for=""> <i class="fa-solid fa-video"></i> Gstock creative
+                                                video</label>
+                                        </div>
+                                        <div class="batch-content-detail">
+                                            <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
+
+                                                <div class="batch-collect-imgs  image-more">
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item overlay-parent"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt="">
+                                                        <div class="img-overlay">50</div>
+                                                    </div>
+                                                </div>
                                             </a>
                                             <div class="batch-content-create">
                                                 <div class="batch-content-create-text">
