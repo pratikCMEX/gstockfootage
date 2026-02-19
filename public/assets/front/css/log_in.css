@@ -2,19 +2,40 @@
   margin: 0;
   padding: 0;
 }
+.login-overlay::after{
+  content: "";
+  position: absolute;
+  background-color: var(--black);
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  opacity: 50%;
+  z-index: 0;
 
+}
 .auth-wrapper {
+
   min-height: 100vh;
+  width: 100%;
+  background: url(/imgs/banner_img.png) 50% / cover no-repeat;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.card-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+  width: 100%;
 }
 
 .brand span {
   font-size: 20px;
   font-family: var(--font-inter-bold);
-  color: var(--text);
+  color: var(--white);
 }
 .brand {
   display: flex;
@@ -34,11 +55,11 @@
 }
 .auth-card {
   width: 100%;
-  max-width: 420px;
-  background: var(--white);
+  max-width: 390px;
+  background: var(--search_Bg);
   padding: 32px;
   border-radius: 14px;
-  box-shadow: var(--boxshadow);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .auth-icon {
@@ -48,14 +69,14 @@
 }
 .auth-card h4 {
   font-family: var(--font-inter-semibold);
-  color: var(--text);
+  color: var(--white);
   font-size: 24px;
   margin-top: 4px;
 }
 .auth-card .text-muted {
   font-size: 14px;
   margin-top: 4px;
-  color: var(--second-text) !important;
+  color: var(--white) !important;
 }
 
 /* Tabs */
@@ -98,17 +119,14 @@
 label {
   font-size: 14px;
   font-family: var(--font-inter-medium);
-  color: var(--text);
+  color: var(--white);
   margin-bottom: 8px;
   display: block;
 }
 
-.auth-card .input-section {
-  margin-bottom: 16px;
-}
-
 #login .form-control,
 #signup .form-control {
+  margin-bottom: 16px;
   height: 44px;
   border-radius: 10px !important;
 }
@@ -132,6 +150,10 @@ label {
   cursor: pointer;
   color: var(--second-text);
 }
+#login .btn-orange,
+#signup .btn-orange {
+  width: 100%;
+}
 
 /* Forgot */
 .forgot {
@@ -139,7 +161,7 @@ label {
   text-align: center;
   margin-top: 14px;
   font-size: 14px;
-  color: var(--copyright);
+  color: var(--white);
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -152,7 +174,7 @@ label {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  color: var(--text);
+  color: var(--white);
   font-size: 14px;
   text-decoration: none;
   margin-top: 20px;
@@ -168,7 +190,7 @@ label {
 .back-link > i {
   margin-top: 2px;
   font-size: 20px;
-  color: var(--text);
+  color: var(--white);
 }
 
 @keyframes fadeSlide {
@@ -206,10 +228,15 @@ label {
 @media only screen and (max-width: 767px) {
 }
 @media only screen and (max-width: 575px) {
+  .auth-wrapper{
+    padding:0 12px;
+
+  }
   .auth-card {
-    background-color: transparent !important;
+    /* background-color: transparent !important; */
     box-shadow: none !important;
     padding: 16px !important;
+    max-width: 100%;
   }
   #login .form-control,
   #signup .form-control {
@@ -222,7 +249,7 @@ label {
 }
 @media only screen and (max-width: 424px) {
   .auth-card {
-    padding: 5px !important;
+    padding: 10px 10px 12px !important;
   }
   .brand span {
     font-size: 18px !important;

@@ -21,7 +21,7 @@
   --second-text: #737373;
   --copyright: #777;
   --dropdown_bg: #222;
-  --boxshadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  --box-shadow : rgba(0, 0, 0, 0.08);
   --font-inter-extrabold: "Inter28pt-ExtraBold";
   --font-inter-semibold: "Inter28pt-SemiBold";
   --font-inter-bold: "Inter28pt-Bold";

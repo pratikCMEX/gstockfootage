@@ -230,7 +230,7 @@
 
 .brand-posibility {
   background-color: var(--white);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px var(--box-shadow);
   border-radius: 10px;
   padding: 12px;
   display: flex;
@@ -270,7 +270,7 @@
 
 /* create-fingertips */
 .fingertips-content {
-  box-shadow: 0 30px 18px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--box-shadow);
   border-radius: 10px;
   cursor: pointer;
 }
@@ -362,7 +362,7 @@
   border-radius: 16px;
   overflow: hidden;
   transition: 0.3s ease;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px var(--box-shadow);
   height: 100%;
 }
 
@@ -426,6 +426,10 @@
   font-size: 20px;
   font-family: var(--font-inter-semibold);
   margin: 0 0 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .brows-btn {
   color: var(--primary);
@@ -530,14 +534,13 @@
 }
 
 /* store slider section */
-.arrow.swiper-button-disabled{
+.arrow.swiper-button-disabled {
   background-color: var(--secendory);
   opacity: 50%;
   color: var(--white);
 }
-.arrow.swiper-button-disabled:hover{
+.arrow.swiper-button-disabled:hover {
   background-color: var(--secendory);
-  
 }
 .store-swiper {
   position: relative;
@@ -589,7 +592,7 @@
   background: var(--white);
   border-radius: 14px;
   padding: 14px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 15px var(--box-shadow);
   transition: 0.3s;
   display: flex;
   flex-direction: column;
@@ -665,7 +668,7 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--box-shadow);
   color: var(--primary);
   transition: 0.3s;
   position: absolute;
@@ -722,7 +725,7 @@
 .enterprise-card {
   border-radius: 22px;
   padding: 55px 40px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 60px var(--box-shadow);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -805,7 +808,7 @@
   border-radius: 14px;
   transition: all 0.35s ease;
   background: var(--white);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 25px var(--box-shadow);
 }
 
 .feature-icon {
@@ -818,7 +821,6 @@
   justify-content: center;
   font-size: 18px;
   flex-shrink: 0;
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
 }
 
 .feature-item h6 {
@@ -839,16 +841,11 @@
   background: white;
   border-radius: 20px;
   padding: 26px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+
+  box-shadow: 0 10px 25px var(--box-shadow);
   margin-bottom: 22px;
   transition: all 0.35s ease;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
 }
-
-/* .testimonial-card:hover {
-  transform: translateY(-6px) scale(1.02);
-} */
 
 .quote-icon {
   font-size: 26px;
@@ -927,6 +924,7 @@
   }
   .hero h1 {
     margin-bottom: 24px;
+    font-size: 47px;
   }
   .hero {
     padding: 80px 20px 80px;
@@ -1190,7 +1188,7 @@
     gap: 18px;
   }
   .fingertips-content {
-    box-shadow: 0 30px 18px 38px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 30px 18px 38px var(--box-shadow);
   }
   .create-fingertips {
     padding: 40px 0;

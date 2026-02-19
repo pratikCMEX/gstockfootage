@@ -103,4 +103,15 @@ class HomeController extends Controller
             return back()->with('msg_error', $e->getMessage());
         }
     }
+
+    public function videos()
+    {
+        $title = 'Videos';
+        $page = 'front.videos';
+        $js = ['home'];
+
+        $CollectionList = Collection::get();
+        $product = Product::with('category')->where('type', '1')->get();
+        return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
+    }
 }

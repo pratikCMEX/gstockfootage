@@ -11,6 +11,12 @@ class CheckoutController extends Controller
 {
     public function index()
     {
+        $title = 'Checkout';
+        $page = 'front.checkout';
+        $js = ['cart'];
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
+
         $cartItems = [];
         $total = 0;
         if (Auth::check()) {

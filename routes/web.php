@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController as ForgotPasswordController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CollectionController as ControllersCollectionController;
+use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +23,7 @@ Route::get('/', function () {
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
 
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('check.login');
@@ -35,6 +40,10 @@ Route::post('/forgot-password-store', [NewPasswordController::class, 'store'])->
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->name('password.email');
 Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->name('password.request');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
+Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
 Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
 Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');

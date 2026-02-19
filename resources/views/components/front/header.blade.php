@@ -5,6 +5,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
 
 <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/brows.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/cart.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/checkout.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/collection.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/font.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/footer.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/header.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/login_in.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/product-detail.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/var.css') }}">
 
 <link href="{{ asset('assets/admin/css/toastr.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

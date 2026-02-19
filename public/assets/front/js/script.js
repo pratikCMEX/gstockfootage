@@ -1,4 +1,15 @@
-// Tabs
+// cart side bar
+let cart_content = document.querySelector(".cart-section");
+let opencart = document.querySelector(".cart-open");
+let closecart = document.querySelector(".close-cart-btn");
+opencart?.addEventListener("click", function () {
+  cart_content.classList.add("show_popup");
+});
+closecart?.addEventListener("click", function () {
+  cart_content.classList.remove("show_popup");
+});
+
+// log in & sign up Tabs
 const tabs = document?.querySelectorAll(".tab-btn");
 const forms = document?.querySelectorAll(".auth-form");
 
@@ -12,7 +23,7 @@ tabs.forEach((tab) => {
   });
 });
 
-// Toggle password
+// log in & sign up Toggle password
 document.querySelectorAll(".toggle-password").forEach((icon) => {
   icon.addEventListener("click", () => {
     const input = icon.previousElementSibling;
@@ -28,21 +39,18 @@ const menu = document?.getElementById("sideMenu");
 const overlay = document?.getElementById("overlay");
 const closeBtn = document?.getElementById("closeMenu");
 
-if (toggle) {
-  toggle.addEventListener("click", () => {
-    menu.classList.add("active");
-    overlay.classList.add("active");
-  });
-  overlay.addEventListener("click", closeMenu);
-  closeBtn.addEventListener("click", closeMenu);
-}
-
+toggle.addEventListener("click", () => {
+  menu.classList.add("active");
+  overlay.classList.add("active");
+});
+overlay.addEventListener("click", closeMenu);
+closeBtn.addEventListener("click", closeMenu);
 function closeMenu() {
   menu.classList.remove("active");
   overlay.classList.remove("active");
 }
 
-// store slider
+//book store slider
 const swiper = new Swiper(".store-swiper", {
   slidesPerView: 4,
   spaceBetween: 20,
@@ -60,7 +68,7 @@ const swiper = new Swiper(".store-swiper", {
   },
 });
 
-// related-product
+// related-product slider
 new Swiper(".product-swiper", {
   loop: true,
   slidesPerView: 4,
@@ -132,4 +140,60 @@ new Swiper(".frontproduct", {
     nextEl: ".custom-product-detail-next",
     prevEl: ".custom-product-detail-prev",
   },
+});
+
+// input range
+document.addEventListener("DOMContentLoaded", function () {
+  const rangeInput = document.getElementById("range4");
+  const rangeOutput = document.getElementById("rangeValue");
+
+  if (!rangeInput || !rangeOutput) return; // safety guard
+
+  rangeOutput.textContent = rangeInput.value;
+
+  rangeInput.addEventListener("input", function () {
+    rangeOutput.textContent = this.value;
+  });
+});
+
+// input duration range
+document.addEventListener("DOMContentLoaded", function () {
+  const rangeInputSecond = document?.getElementById("rangeseconds");
+  const rangeOutputSecond = document?.getElementById("rangesecondValue");
+
+  if (!rangeInputSecond || !rangeOutputSecond) return; // safety guard
+
+  rangeOutputSecond.textContent = rangeInputSecond.value;
+
+  rangeInputSecond.addEventListener("input", function () {
+    rangeOutputSecond.textContent = this.value;
+  });
+});
+
+// brows video sort dropdown
+const items = document?.querySelectorAll(".dropdown-item");
+const selectedText = document?.getElementById("selectedOption");
+
+items.forEach((item) => {
+  item.addEventListener("click", () => {
+    // Remove active from all
+    items.forEach((i) => i.classList.remove("active"));
+
+    // Add active to clicked
+    item.classList.add("active");
+
+    // Update button text
+    selectedText.textContent = item.dataset.value;
+  });
+});
+
+// filter side-bar
+let mobilefilterbtn = document.querySelector(".filter-btn");
+let closefilter = document.querySelector(".closefilter");
+let filtercontent = document.querySelector(".filter-mobile");
+mobilefilterbtn?.addEventListener("click", function () {
+  filtercontent.classList.add("filteractive");
+});
+closefilter?.addEventListener("click", function () {
+  filtercontent.classList.remove("filteractive");
 });
