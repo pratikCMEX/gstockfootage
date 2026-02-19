@@ -2,11 +2,18 @@
 let cart_content = document.querySelector(".cart-section");
 let opencart = document.querySelector(".cart-open");
 let closecart = document.querySelector(".close-cart-btn");
+const cartoverlay = document?.getElementById("cartoverlay");
+
 opencart?.addEventListener("click", function () {
+
   cart_content.classList.add("show_popup");
+  cartoverlay.classList.add("active");
+
 });
 closecart?.addEventListener("click", function () {
   cart_content.classList.remove("show_popup");
+  cartoverlay.classList.remove("active");
+
 });
 
 // log in & sign up Tabs

@@ -54,19 +54,19 @@
 
                     <a href="#"><i class="bi bi-globe icon-btn"></i></a>
                     <a href="wishlist.html"><i class="bi bi-heart icon-btn"></i></a>
-                    <button class="cart-open"><i class="bi bi-cart icon-btn cart"></i></button>
+                    <div class="cart-main"> <button class="cart-open"><i class="bi bi-cart icon-btn cart"></i></button> <span class="cart-count">999</span></div>
 
                     @guest
-                        <a href="{{ route('login') }}">
-                            <button class="btn header-btns btn-sm">Log in</button>
-                        </a>
+                    <a href="{{ route('login') }}">
+                        <button class="btn header-btns btn-sm">Log in</button>
+                    </a>
                     @endguest
 
 
                     @auth
-                        <a href="{{ route('logout') }}">
-                            <button class="btn header-btns btn-sm">Log Out</button>
-                        </a>
+                    <a href="{{ route('logout') }}">
+                        <button class="btn header-btns btn-sm">Log Out</button>
+                    </a>
                     @endauth
 
                     <a href="pricing.html" class="d-none d-xl-block">
@@ -161,6 +161,7 @@
     </div>
 
     <!-- side cart menu -->
+    <div class="cart-overlay" id="cartoverlay"></div>
     <div class="cart-section">
         <div class="cart-heading">
             <h3><i class="bi bi-cart"></i> Shopping Cart</h3>
