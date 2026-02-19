@@ -21,6 +21,8 @@ function addToCart(product_id, btn = null) {
         let count = parseInt($(".cart-count").text());
         $(".cart-count").text(Math.max(count + 1, 0));
 
+        updateCartTotal(parseFloat(res.product.price), "add");
+
         toastr.success(res.message);
       } else {
         toastr.warning(res.message);
@@ -39,7 +41,8 @@ function addToCart(product_id, btn = null) {
 
 function cartItemTemplate(product) {
   return `
-  <div class="cart-content" id="cart-item-${product.id}">
+  <div class="cart-content" id=cart-item-${product.id} data-id="${product.id}"
+ data-price="${product.price}">
       <div class="cart-img">
           <img src="${product.image}" width="100%" height="100%">
       </div>
@@ -50,7 +53,7 @@ function cartItemTemplate(product) {
 
           <div class="cart-price-btn">
               <h5>$${product.price}</h5>
-              <button type="button" class="delete_add_to_cart" data-id=${product.id}">
+              <button type="button" class="delete_add_to_cart" data-id=${product.id}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round"
@@ -74,6 +77,10 @@ $(document).on("click", ".delete_add_to_cart", function () {
 });
 
 function removeCartItem(product_id) {
+  console.log(product_id);
+
+  let item = $("#cart-item-" + product_id);
+  let itemPrice = parseFloat(item.attr("data-price"));
   $.ajax({
     url: base_url + "/remove-from-cart",
     type: "POST",
@@ -85,11 +92,17 @@ function removeCartItem(product_id) {
     success: function (res) {
       if (res.status === true) {
         toastr.success(res.message);
-        $("#cart-item-" + product_id).fadeOut(300, function () {
+        item.fadeOut(300, function () {
           $(this).remove();
         });
+        updateCartTotal(itemPrice, "subtract");
+
         let count = parseInt($(".cart-count").text());
         $(".cart-count").text(Math.max(count - 1, 0));
+
+        if ($(".cart-content").length === 1) {
+          $(".cart-items").html('<p class="empty-cart">Cart is empty</p>');
+        }
       } else {
         toastr.warning(res.message);
       }
@@ -99,4 +112,18 @@ function removeCartItem(product_id) {
       toastr.error("Something went wrong");
     },
   });
+}
+
+function updateCartTotal(amount, type = "add") {
+  let totalElement = $(".total_cart_amt");
+  let currentTotal = parseFloat(totalElement.text().replace("$", ""));
+  if (isNaN(currentTotal)) currentTotal = 0;
+  let newTotal;
+  if (type === "add") {
+    newTotal = currentTotal + amount;
+  } else {
+    newTotal = currentTotal - amount;
+  }
+  if (newTotal < 0) newTotal = 0;
+  totalElement.text("$" + newTotal.toFixed(2));
 }
