@@ -9,6 +9,7 @@ filteropenbtn?.addEventListener("click", function () {
 });
 filterclosebtn?.addEventListener("click", function () {
     filtercontent.classList.remove("filtershow")
+    batchitems.classList.remove("batch-show-content");
     filtercontent.classList.remove("filtershowsmall");
 
 
