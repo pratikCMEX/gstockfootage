@@ -15,6 +15,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('assets/front/js/script.js') }}"></script>
+<script src="{{ asset('assets/front/js/cart.js') }}"></script>
 
 <script>
     var base_url = $("#base_url").val();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,9 @@ class CartController extends Controller
     {
         $user_id = Auth::id();
         $product_id = $request->product_id;
-        $qty        = $request->qty ?? 1;
+        $product = Product::findOrFail($request->product_id);
+
+        $qty  = $request->qty ?? 1;
         if (Auth::check()) {
             $user_id = Auth::id();
             $cartItem = Cart::where('user_id', $user_id)
@@ -54,9 +57,20 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Product added to cart'
+        // ]);
         return response()->json([
             'status' => true,
-            'message' => 'Product added to cart'
+            'message' => 'Product added to cart',
+            'product' => [
+                'id'    => $product->id,
+                'title' => $product->name,
+                'price' => $product->price,
+                'image' => asset('uploads/products/' . $product->image),
+                'size'  => $product->width . ' x ' . $product->height
+            ]
         ]);
     }
 
@@ -73,5 +87,31 @@ class CartController extends Controller
             $cartItems = collect($cart);
         }
         return view('cart.index', compact('cartItems'));
+    }
+    public function removeFromCart(Request $request)
+    {
+        $product_id = $request->product_id;
+        if (Auth::check()) {
+
+            Cart::where('user_id', Auth::id())
+                ->where('product_id', $product_id)
+                ->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Item removed from cart'
+            ]);
+        }
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$product_id])) {
+            unset($cart[$product_id]);
+            session()->put('cart', $cart);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Item removed from cart'
+        ]);
     }
 }

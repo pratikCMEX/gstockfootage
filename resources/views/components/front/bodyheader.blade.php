@@ -1,3 +1,7 @@
+@php
+    $cart = getCartItems();
+@endphp
+
 <header class="site-header">
     <div class="container">
         <div class="header-content">
@@ -167,6 +171,32 @@
             <button class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="cart-items">
+            @foreach ($cart['items'] as $item)
+                <div class="cart-content" id="cart-item-{{ $item['id'] }}">
+                    <div class="cart-img">
+                        <img src="imgs/alex-harwood-k1xCZT0x48c-unsplash.jpg" width="100%" height="100%"
+                            alt="">
+                    </div>
+                    <div class="cart-detail">
+                        <h6>{{ $item['title'] }}</h6>
+                        <p>{{ $item['size'] }}</p>
+                        <div class="cart-price-btn">
+                            <h5>${{ $item['price'] }}</h5>
+                            <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"> <svg
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-trash2 h-4 w-4">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                    <line x1="10" x2="10" y1="11" y2="17"></line>
+                                    <line x1="14" x2="14" y1="11" y2="17"></line>
+                                </svg></button>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
             <div class="cart-content">
                 <div class="cart-img">
                     <img src="imgs/alex-harwood-k1xCZT0x48c-unsplash.jpg" width="100%" height="100%"
