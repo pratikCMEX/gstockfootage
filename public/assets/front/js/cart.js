@@ -18,6 +18,9 @@ function addToCart(product_id, btn = null) {
       if (res.status === true) {
         let html = cartItemTemplate(res.product);
         $(".cart-items").prepend(html);
+        let count = parseInt($(".cart-count").text());
+        $(".cart-count").text(Math.max(count + 1, 0));
+
         toastr.success(res.message);
       } else {
         toastr.warning(res.message);
@@ -64,6 +67,11 @@ function cartItemTemplate(product) {
   </div>
   `;
 }
+
+$(document).on("click", ".delete_add_to_cart", function () {
+  var id = $(this).attr("data-id");
+  removeCartItem(id);
+});
 
 function removeCartItem(product_id) {
   $.ajax({

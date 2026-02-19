@@ -48,7 +48,8 @@ Route::get('/collection', [CollectionsController::class, 'index'])->name('collec
 Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
 Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');
 
-Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
 Route::get('/cart', [CartController::class, 'cartList'])->name('cart.list');
 
 Route::middleware('auth')->group(function () {});

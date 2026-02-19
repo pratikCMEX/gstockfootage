@@ -90,6 +90,7 @@ class CartController extends Controller
     }
     public function removeFromCart(Request $request)
     {
+        dd($request);
         $product_id = $request->product_id;
         if (Auth::check()) {
 
