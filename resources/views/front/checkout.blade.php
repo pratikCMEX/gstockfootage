@@ -1,3 +1,4 @@
+{{-- {{ dd($cartItems, $total) }} --}}
 <section class="checkout">
     <div class="container">
         <div class="row">
@@ -16,6 +17,34 @@
                                     <p>Review your items before checkout</p>
                                 </div>
                                 <ul class="add-product-div">
+                                    @foreach ($cartItems as $item)
+                                        <li class="add-product-content">
+                                            <div class="add-product-img">
+                                                @if ($item->product->type == '0')
+                                                    <img src="{{ asset('uploads/images/low/' . $item->product->low_path) }}"
+                                                        class="h-100 w-100" alt="">
+                                                @else
+                                                    <img src="{{ asset('uploads/videos/thumbnails/' . $item->product->thumbnail_path) }}"
+                                                        class="h-100 w-100" alt="">
+                                                @endif
+                                            </div>
+                                            <div class="add-product-detail">
+                                                <div class="checkout-title-price">
+                                                    <h5>
+                                                        {{ $item->product->name }}
+                                                    </h5>
+                                                    <p>${{ $item->product->price }}</p>
+                                                </div>
+                                                @if ($item->product->type == '0')
+                                                    <p>{{ $item->product->height }} x {{ $item->product->width }}</p>
+                                                @else
+                                                    <p>HD Quality</p>
+                                                @endif
+                                                <span>Standard License</span>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                    {{-- 
                                     <li class="add-product-content">
                                         <div class="add-product-img">
                                             <img src="imgs/danielle-suijkerbuijk-zeedbMYCbx8-unsplash.jpg"
@@ -79,23 +108,7 @@
                                             <p>518x352</p>
                                             <span>Standard License</span>
                                         </div>
-                                    </li>
-                                    <li class="add-product-content">
-                                        <div class="add-product-img">
-                                            <img src="imgs/danielle-suijkerbuijk-zeedbMYCbx8-unsplash.jpg"
-                                                class="h-100 w-100" alt="">
-                                        </div>
-                                        <div class="add-product-detail">
-                                            <div class="checkout-title-price">
-                                                <h5>
-                                                    diamond_logo (Standard License)
-                                                </h5>
-                                                <p>$149</p>
-                                            </div>
-                                            <p>518x352</p>
-                                            <span>Standard License</span>
-                                        </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
 
                             </div>
@@ -107,12 +120,12 @@
                                     <h4>Payment Summary</h4>
                                 </div>
                                 <div class="sub-total">
-                                    <p>subtotal <span>(1 item)</span></p>
-                                    <h6>$149</h6>
+                                    <p>subtotal <span>({{ count($cartItems) }} item)</span></p>
+                                    <h6>${{ $total }}</h6>
                                 </div>
                                 <div class="checkout-total">
                                     <p>Total</p>
-                                    <h6>$149.00</h6>
+                                    <h6>${{ number_format($total, 2) }}</h6>
                                 </div>
                                 <button type="submit" class="btn btn-orange w-100">Process to payment</button>
 

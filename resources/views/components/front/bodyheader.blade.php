@@ -59,7 +59,15 @@
                     <a href="#"><i class="bi bi-globe icon-btn"></i></a>
                     <a href="wishlist.html"><i class="bi bi-heart icon-btn"></i></a>
                     <div class="cart-main"> <button class="cart-open"><i class="bi bi-cart icon-btn cart"></i></button>
-                        <span class="cart-count">{{ count($cart['items']) }}</span>
+
+                        @php
+                            if (count($cart['items']) > 0) {
+                                $cart_class = '';
+                            } else {
+                                $cart_class = 'd-none';
+                            }
+                        @endphp
+                        <span class="cart-count {{ $cart_class }}">{{ count($cart['items']) }}</span>
                     </div>
 
                     @guest
@@ -175,7 +183,8 @@
         </div>
         <div class="cart-items">
             @foreach ($cart['items'] as $item)
-                <div class="cart-content" id="cart-item-{{ $item['id'] }}">
+                <div class="cart-content" id="cart-item-{{ $item['id'] }}" data-id="{{ $item['id'] }}"
+                    data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         <img src="imgs/alex-harwood-k1xCZT0x48c-unsplash.jpg" width="100%" height="100%"
                             alt="">
@@ -185,11 +194,11 @@
                         <p>{{ $item['size'] }}</p>
                         <div class="cart-price-btn">
                             <h5>${{ $item['price'] }}</h5>
-                            <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"> <svg
-                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-trash2 h-4 w-4">
+                            <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"
+                                data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
                                     <path d="M3 6h18"></path>
                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
@@ -200,79 +209,12 @@
                     </div>
                 </div>
             @endforeach
-            <div class="cart-content">
-                <div class="cart-img">
-                    <img src="imgs/alex-harwood-k1xCZT0x48c-unsplash.jpg" width="100%" height="100%"
-                        alt="">
-                </div>
-                <div class="cart-detail">
-                    <h6>diamond_logo (Standard License)</h6>
-                    <p>518 x 352</p>
-                    <div class="cart-price-btn">
-                        <h5>$149</h5>
-                        <button type="button"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-trash2 h-4 w-4">
-                                <path d="M3 6h18"></path>
-                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                <line x1="10" x2="10" y1="11" y2="17"></line>
-                                <line x1="14" x2="14" y1="11" y2="17"></line>
-                            </svg></button>
-                    </div>
-                </div>
-            </div>
-            <div class="cart-content">
-                <div class="cart-img">
-                    <img src="imgs/alvan-nee-Dbng7f0lpmo-unsplash.jpg" width="100%" height="100%" alt="">
-                </div>
-                <div class="cart-detail">
-                    <h6>diamond_logo (Standard License)</h6>
-                    <p>518 x 352</p>
-                    <div class="cart-price-btn">
-                        <h5>$149</h5>
-                        <button type="button"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-trash2 h-4 w-4">
-                                <path d="M3 6h18"></path>
-                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                <line x1="10" x2="10" y1="11" y2="17"></line>
-                                <line x1="14" x2="14" y1="11" y2="17"></line>
-                            </svg></button>
-                    </div>
-                </div>
-            </div>
-            <div class="cart-content">
-                <div class="cart-img">
-                    <img src="imgs/amanda-sala-Xq_cvFHQlfw-unsplash.jpg" width="100%" height="100%"
-                        alt="">
-                </div>
-                <div class="cart-detail">
-                    <h6>diamond_logo (Standard License)</h6>
-                    <p>518 x 352</p>
-                    <div class="cart-price-btn">
-                        <h5>$149</h5>
-                        <button type="button"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-trash2 h-4 w-4">
-                                <path d="M3 6h18"></path>
-                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                <line x1="10" x2="10" y1="11" y2="17"></line>
-                                <line x1="14" x2="14" y1="11" y2="17"></line>
-                            </svg></button>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="cart-total">
             <div class="total-count">
                 <p>Total</p>
-                <h5>$500.00</h5>
+                <h5 class="total_cart_amt">${{ $cart['total'] }}</h5>
             </div>
             <div class="checkout-btn">
                 <a class="btn-orange btn w-100" href="{{ route('checkout') }}">Proccess to Ckeckout</a>

@@ -15,7 +15,6 @@ class CheckoutController extends Controller
         $page = 'front.checkout';
         $js = [];
 
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
 
         $cartItems = [];
         $total = 0;
@@ -40,7 +39,6 @@ class CheckoutController extends Controller
                 }
             }
         }
-
-        return view('frontend.checkout.index', compact('cartItems', 'total'));
+        return view("layouts.front.layout", compact('title', 'page', 'cartItems', 'total', 'js'));
     }
 }
