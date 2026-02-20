@@ -17,46 +17,48 @@
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-box">
                                         <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
-                                            </div>
-                                            <div class="modal-body batch-create-modal">
-                                                <div class="dropdown">
-                                                    <label for="" class="modal-label">Submission type</label>
-                                                    <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
-                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Dropdown<i class="fa-solid fa-angle-down"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu batch-dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item" href="#">Something else
-                                                                here</a></li>
-                                                    </ul>
+                                            <form action="">
+                                                <div class="modal-header">
+                                                    <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
                                                 </div>
-                                                <div class="modal-code">
-                                                    <label for="" class="modal-label">Breif Code</label>
-                                                    <div class="input-group flex-nowrap ">
-                                                        <input type="text" class="form-control batch-inp"
-                                                            placeholder="Breif code (optional)"
-                                                            aria-describedby="addon-wrapping">
+                                                <div class="modal-body batch-create-modal">
+                                                    <div class="dropdown">
+                                                        <label for="" class="modal-label">Submission type</label>
+                                                        <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Dropdown<i class="fa-solid fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu batch-dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Another action</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="#">Something else
+                                                                    here</a></li>
+                                                        </ul>
                                                     </div>
-                                                </div>
-                                                <div class="modal-name">
-                                                    <label for="" class="modal-label">Batch Name</label>
-                                                    <div class="input-group flex-nowrap ">
-                                                        <input type="text" class="form-control batch-inp"
-                                                            placeholder="Batch Name" aria-describedby="addon-wrapping">
+                                                    <div class="modal-code">
+                                                        <label for="" class="modal-label">Breif Code</label>
+                                                        <div class="input-group flex-nowrap ">
+                                                            <input type="text" class="form-control batch-inp"
+                                                                placeholder="Breif code (optional)"
+                                                                aria-describedby="addon-wrapping">
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <div class="modal-name">
+                                                        <label for="" class="modal-label">Batch Name</label>
+                                                        <div class="input-group flex-nowrap ">
+                                                            <input type="text" class="form-control batch-inp"
+                                                                placeholder="Batch Name" aria-describedby="addon-wrapping">
+                                                        </div>
+                                                    </div>
 
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn-light btn"
-                                                    data-bs-dismiss="modal">Cancel</button>
-                                                <button type="button" class=" btn btn-primary">Create</button>
-                                            </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-light btn"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class=" btn btn-primary">Create</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -1051,7 +1053,7 @@
                                 </div>
                                 <div class="search-filter">
                                     <div class="search-filter-child-content" id="search-filter-content">
-                                        <button type="button" class="search-filter-btn btn  btn-primary "
+                                        <button type="button" class="search-filter-btn btn  btn-primary no-file-selected-title"
                                             id="close-filter">Search and Filter <i
                                                 class="fa-solid fa-angle-right"></i></button>
                                         <div class="filter-apply-text filter-text">
@@ -1220,32 +1222,31 @@
 <div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <form action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                </div>
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
-            </div>
+                <div class="modal-body">
+                    <label class="form-label">Batch Name</label>
+                    <input type="text" class="form-control" placeholder="Enter new name">
+                </div>
 
-            <div class="modal-body">
-                <label class="form-label">Batch Name</label>
-                <input type="text" class="form-control" placeholder="Enter new name">
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-primary">
-                    Save
-                </button>
-            </div>
-
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered text-center">
         <div class="modal-content">
-
             <div class="modal-header text-center m-auto ">
                 <h5 class="modal-title" id="renameModalLabel">Delete Confirmation</h5>
             </div>
@@ -1264,7 +1265,6 @@
                     Delete
                 </button>
             </div>
-
         </div>
     </div>
 </div>
