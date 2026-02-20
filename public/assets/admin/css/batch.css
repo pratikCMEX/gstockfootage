@@ -482,6 +482,19 @@ table td {
   border-bottom: 1px solid #ddd;
   padding: 8px 10px; /* creates space */
 }
+
+.batch-content-table-details {
+  display: none;
+}
+
+.more-detail-btn i {
+  transition: transform 0.3s ease;
+}
+
+.more-detail-btn.active i {
+  transform: rotate(180deg);
+}
+
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
     flex-basis: 63%;

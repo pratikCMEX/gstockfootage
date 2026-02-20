@@ -20,7 +20,8 @@ function addToCart(product_id, btn = null) {
         $(".cart-items").prepend(html);
         let count = parseInt($(".cart-count").text());
         $(".cart-count").text(Math.max(count + 1, 0));
-
+        let newCount = $(".cart-items .cart-content").length;
+        updateCartCount(newCount);
         updateCartTotal(parseFloat(res.product.price), "add");
 
         toastr.success(res.message);
@@ -41,7 +42,7 @@ function addToCart(product_id, btn = null) {
 
 function cartItemTemplate(product) {
   return `
-  <div class="cart-content" id=cart-item-${product.id} data-id="${product.id}"
+  <div class="cart-content" id="cart-item-${product.id}" data-id="${product.id}"
  data-price="${product.price}">
       <div class="cart-img">
           <img src="${product.image}" width="100%" height="100%">
@@ -94,6 +95,9 @@ function removeCartItem(product_id) {
         toastr.success(res.message);
         item.fadeOut(300, function () {
           $(this).remove();
+
+          let remainingItems = $(".cart-items .cart-content").length;
+          updateCartCount(remainingItems);
         });
         updateCartTotal(itemPrice, "subtract");
 
@@ -112,6 +116,20 @@ function removeCartItem(product_id) {
       toastr.error("Something went wrong");
     },
   });
+}
+
+function updateCartCount(newCount) {
+  let cartCount = $(".cart-count");
+
+  newCount = Math.max(newCount, 0);
+
+  cartCount.text(newCount);
+
+  if (newCount > 0) {
+    cartCount.removeClass("d-none");
+  } else {
+    cartCount.addClass("d-none");
+  }
 }
 
 function updateCartTotal(amount, type = "add") {

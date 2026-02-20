@@ -39,7 +39,14 @@ class CartController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Product added to cart'
+                'message' => 'Product added to cart',
+                'product' => [
+                    'id'    => $product->id,
+                    'title' => $product->name,
+                    'price' => $product->price,
+                    'image' => asset('uploads/products/' . $product->image),
+                    'size'  => $product->width . ' x ' . $product->height
+                ]
             ]);
         }
 
