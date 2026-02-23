@@ -1107,7 +1107,8 @@
                                 </div>
                                 <div class="search-filter">
                                     <div class="search-filter-child-content" id="search-filter-content">
-                                        <button type="button" class="search-filter-btn btn  btn-primary "
+                                        <button type="button"
+                                            class="search-filter-btn btn  btn-primary no-file-selected-title"
                                             id="close-filter">Search and Filter <i
                                                 class="fa-solid fa-angle-right"></i></button>
                                         <div class="filter-apply-text filter-text">
@@ -1276,32 +1277,31 @@
 <div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <form action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                </div>
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
-            </div>
+                <div class="modal-body">
+                    <label class="form-label">Batch Name</label>
+                    <input type="text" class="form-control" placeholder="Enter new name">
+                </div>
 
-            <div class="modal-body">
-                <label class="form-label">Batch Name</label>
-                <input type="text" class="form-control" placeholder="Enter new name">
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-primary">
-                    Save
-                </button>
-            </div>
-
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered text-center">
         <div class="modal-content">
-
             <div class="modal-header text-center m-auto ">
                 <h5 class="modal-title" id="renameModalLabel">Delete Confirmation</h5>
             </div>
@@ -1320,7 +1320,6 @@
                     Delete
                 </button>
             </div>
-
         </div>
     </div>
 </div>
