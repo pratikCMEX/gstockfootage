@@ -12,6 +12,13 @@ p {
   margin: 0;
   padding: 0;
 }
+.btn-check:checked + .btn,
+:not(.btn-check) + .btn:active,
+.btn:first-child:active,
+.btn.active,
+.btn.show {
+  border-color: transparent !important;
+}
 
 /* create batch modal */
 .create-batch-head {
@@ -299,6 +306,9 @@ p {
 }
 
 /* search-filter */
+#upload_search_filter_mobile {
+  padding: 10px 15px;
+}
 .search-mobile {
   display: none;
 }
@@ -587,11 +597,30 @@ table td {
   color: gray;
 }
 .no-file-selected {
-  padding: 0 12px;
+  /* padding: 0 12px; */
+  padding-left: 1px;
   background-color: #fff;
   height: 100%;
   max-height: calc(100dvh - 128px);
   overflow: auto;
+}
+.no-file-selected input,
+.no-file-selected .dropdown,
+.no-file-selected .no-file-release .btn,
+.no-file-selected .submit-metadaata .btn,
+.no-file-selected a {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.no-file-selected.active .no-file-inputs .input-group input,
+.no-file-selected.active .no-file-video-propertise .input-group input,
+.no-file-selected.active .no-file-master-formate .input-group input,
+.no-file-selected.active .file-main-dropdown .file-dropdown,
+.no-file-selected.active .no-file-release .btn,
+.no-file-selected.active .submit-metadaata .btn,
+.no-file-selected.active .no-file-selected a {
+  pointer-events: auto;
+  cursor: auto;
 }
 
 .no-file-selected-title.btn {
@@ -679,6 +708,7 @@ table td {
   flex-direction: column;
   row-gap: 20px;
   border-bottom: 1px solid rgb(180, 180, 180);
+  width: 100%;
 }
 
 .release-title,
@@ -691,6 +721,7 @@ table td {
 }
 .update-release {
   padding: 20px;
+  width: 100%;
   background-color: #ddd;
   border: 1px solid #444;
   border-radius: 7px;
@@ -806,7 +837,7 @@ table td {
 .image-range .big-img {
   font-size: 20px;
 }
-.upload-title-img{
+.upload-title-img {
   font-size: 12px;
 }
 .image-title-id {
@@ -953,6 +984,21 @@ table td {
     #d1d5db var(--progress)
   );
 }
+.view-metadata,
+.add-metadata {
+  margin: 20px 0;
+  display: none;
+}
+
+.mobile-no-file-selcted-btn {
+  display: none;
+}
+.upload-mobile-searchfilter {
+  display: none;
+}
+.upload-search-filter.mobileactive {
+  right: 0;
+}
 
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
@@ -960,6 +1006,24 @@ table td {
   }
   .search-filter-child-content {
     max-width: 375px;
+  }
+  .upload-search-filter {
+    max-width: 379px;
+  }
+  .images-content {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .select-img {
+    padding: 20px 30px;
+  }
+  .image-title-id {
+    padding: 0 12px;
+  }
+  .edition-files {
+    padding-bottom: 0px;
+  }
+  .update-release h4 {
+    font-size: 18px;
   }
 }
 
@@ -975,6 +1039,24 @@ table td {
     flex-direction: column;
     gap: 10px;
   }
+  .images-content {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .upload-search-filter {
+    max-width: 357px;
+  }
+  .no-file-master-formate,
+  .no-file-inputs,
+  .no-file-video-propertise {
+    row-gap: 12px;
+  }
+  .file-input-icon {
+    font-size: 19px;
+  }
+  .file-inp-label-grp input,
+  .no-file-inputs .input-group input {
+    padding: 12px 20px;
+  }
 }
 @media only screen and (max-width: 1299px) {
   .batch-show-content {
@@ -984,6 +1066,17 @@ table td {
     border-bottom: 1px solid #ddd;
     padding: 8px 10px;
     white-space: nowrap;
+  }
+  .edition-files {
+    padding: 10px;
+  }
+  .upload-search-filter {
+    max-width: 330px;
+  }
+  .no-file-inputs .input-group input,
+  .file-inp-label-grp input,
+  .file-dropdown {
+    font-size: 15px;
   }
 }
 @media only screen and (max-width: 1199px) {
@@ -1008,6 +1101,14 @@ table td {
   }
   .batch-show-content {
     flex-basis: 100%;
+  }
+  .upload-search-filter {
+    max-width: 385px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .upload-search-filter {
+    max-width: 330px;
   }
 }
 @media only screen and (max-width: 991px) {
@@ -1053,6 +1154,53 @@ table td {
     overflow-x: hidden;
     padding: 12px;
   }
+  .images-content {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .upload-search-filter {
+    top: 0px;
+  }
+  .upload-search-filter {
+    /* border-left: 1px solid gray; */
+    max-width: 390px;
+  }
+  .no-file-selected {
+    max-height: calc(100dvh - 0px);
+    position: fixed;
+    top: 0;
+    right: -1000px;
+    width: 100%;
+    z-index: 10;
+    padding: 20px;
+    transition: all 0.5s ease;
+  }
+  .view-metadata {
+    display: block;
+  }
+  .add-metadata.active {
+    display: block;
+  }
+  .view-metadata.notactive {
+    display: none;
+  }
+  .no-file-selected.showactive {
+    right: 0;
+  }
+  .no-file-selected.showaddmetadataactive {
+    right: 0;
+    z-index: 99;
+  }
+  .no-file-selected-display-none {
+    display: none;
+  }
+  .mobile-no-file-selcted-btn {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 15px;
+    width: 100%;
+  }
 }
 @media only screen and (max-width: 767px) {
   .batch-content-detail {
@@ -1069,6 +1217,27 @@ table td {
     border: 1px solid #ebf1f6;
     max-width: 500px;
     margin: auto;
+  }
+  .images-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .upload-device-list-detail ul li {
+    font-size: 14px;
+  }
+  .upload-title {
+    font-size: 20px;
+  }
+  .upload-device-list-detail {
+    margin-top: 15px;
+  }
+  .upload-device-content-detail {
+    padding-bottom: 32px;
+  }
+  .upload-desk-searchfilter {
+    display: none;
+  }
+  .upload-mobile-searchfilter {
+    display: block;
   }
 }
 @media only screen and (max-width: 575px) {
@@ -1094,6 +1263,32 @@ table td {
   .body-wrapper .container-fluid {
     padding: 12px;
     padding-top: 135px;
+  }
+  .images-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .img-responsive-head {
+    align-items: start;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+  .select-img {
+    flex-direction: column;
+    align-items: start;
+    row-gap: 20px;
+    top: -145px;
+  }
+  .upload-search-filter {
+    max-width: 100%;
+  }
+  .upload-title {
+    font-size: 16px;
+  }
+  .form-check-label {
+    font-size: 14px;
+  }
+  .upload-device-list-detail ul li {
+    margin-bottom: 10px;
   }
 }
 @media only screen and (max-width: 424px) {
@@ -1125,5 +1320,32 @@ table td {
   }
   .batch-content {
     row-gap: 8px;
+  }
+  .batch-collect-imgs {
+    max-width: 100%;
+  }
+  .images-content {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .batch-create {
+    padding: 12px 20px;
+  }
+  .range-container {
+    width: 175px;
+  }
+  .upload-from-device-content {
+    padding: 32px;
+  }
+  .create-upload-head {
+    align-items: start;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .upload-check {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
   }
 }
