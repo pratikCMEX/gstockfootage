@@ -12,6 +12,7 @@ p {
   margin: 0;
   padding: 0;
 }
+
 .btn-check:checked + .btn,
 :not(.btn-check) + .btn:active,
 .btn:first-child:active,
@@ -19,7 +20,13 @@ p {
 .btn.show {
   border-color: transparent !important;
 }
-
+.batch-dropdown,
+.file-dropdown,
+.dot-dropdown,
+.content-dropdown,
+.file-main-dropdown {
+  cursor: pointer;
+}
 /* create batch modal */
 .create-batch-head {
   display: flex;
@@ -614,13 +621,17 @@ table td {
 }
 .no-file-selected.active .no-file-inputs .input-group input,
 .no-file-selected.active .no-file-video-propertise .input-group input,
-.no-file-selected.active .no-file-master-formate .input-group input,
-.no-file-selected.active .file-main-dropdown .file-dropdown,
-.no-file-selected.active .no-file-release .btn,
-.no-file-selected.active .submit-metadaata .btn,
-.no-file-selected.active .no-file-selected a {
+.no-file-selected.active .no-file-master-formate .input-group input {
   pointer-events: auto;
   cursor: auto;
+}
+.no-file-selected.active .no-file-release .btn,
+.no-file-selected.active .submit-metadaata .btn,
+.no-file-selected.active .file-main-dropdown .file-dropdown,
+.no-file-selected.active .file-dropdown-menu li,
+.no-file-selected.active a {
+  pointer-events: auto;
+  cursor: pointer !important;
 }
 
 .no-file-selected-title.btn {
@@ -1201,6 +1212,9 @@ table td {
     padding: 15px;
     width: 100%;
   }
+  .images-content {
+    max-height: calc(100dvh - 346px);
+  }
 }
 @media only screen and (max-width: 767px) {
   .batch-content-detail {
@@ -1290,6 +1304,9 @@ table td {
   .upload-device-list-detail ul li {
     margin-bottom: 10px;
   }
+  .images-content {
+    max-height: calc(100dvh - 378px);
+  }
 }
 @media only screen and (max-width: 424px) {
   .modal-content {
@@ -1325,11 +1342,13 @@ table td {
     max-width: 100%;
   }
   .images-content {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .batch-create {
-    padding: 12px 20px;
+  .batch-create,
+  .search-filter-openbtn,
+  .select-btn {
+    padding: 8px 14px;
   }
   .range-container {
     width: 175px;
@@ -1347,5 +1366,17 @@ table td {
     flex-direction: column;
     align-items: center;
     gap: 5px;
+  }
+  .select-img .btn {
+    padding: 5px 12px;
+  }
+  .images-content {
+    max-height: calc(100dvh - 445px);
+  }
+  .image-title-id {
+    padding: 0 6px;
+  }
+  .select-img {
+    padding: 12px 11px;
   }
 }

@@ -17,16 +17,22 @@ filteropensmall?.addEventListener("click", function () {
   filtercontent.classList.add("filtershowsmall");
 });
 
+// more detail dropdown
 $(document).on("click", ".more-detail-btn", function () {
   let parent = $(this).closest(".batch-content");
   let table = parent.find(".batch-content-table-details");
-
   table.slideToggle(300);
-
-  // rotate arrow
   $(this).toggleClass("active");
 });
 
+// image size big to small range
+const slider = document.querySelector(".slider");
+function updateProgress() {
+  const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+  slider.style.setProperty("--progress", value + "%");
+}
+slider.addEventListener("input", updateProgress);
+updateProgress();
 
 
 // upload
@@ -58,17 +64,33 @@ uploadfilterclose?.addEventListener("click", function () {
 
 });
 // img click
-let uploadimages = document.querySelector("#upload_images");
+let selectedImages = document.querySelectorAll(".upload-image");
+// let uploadimages = document.querySelector("#upload_images");
 let nofileselected = document.querySelector(".no-file-selected");
 let uploadimgclose = document.querySelector(".close-select-btn");
 let addmetadata = document.querySelector(".add-metadata")
 let selectimgdrop = document.querySelector(".select-img");
-uploadimages?.addEventListener("click", function () {
-  selectimgdrop.classList.add("active");
-  nofileselected.classList.add("active");
-  addmetadata.classList.add("active");
-  viewdata.classList.add("notactive");
+
+selectedImages?.forEach((item) => {
+  item.addEventListener("click", function () {
+    this.classList.toggle("selected");
+    selectimgdrop.classList.add("active");
+    viewdata.classList.add("notactive");
+    addmetadata.classList.add("active");
+    nofileselected.classList.add("active");
+  });
 });
+document.querySelectorAll(".dot-dropdown").forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+  });
+});
+document.querySelectorAll(".dropdown-item-upload").forEach((menu) => {
+  menu.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+});
+
 uploadimgclose?.addEventListener("click", function () {
   selectimgdrop.classList.remove("active");
   nofileselected.classList.remove("active");
@@ -78,19 +100,7 @@ uploadimgclose?.addEventListener("click", function () {
 
 });
 
-const selectedImages = document.querySelectorAll(".upload-image");
-selectedImages.forEach((item) => {
-  item.addEventListener("click", function () {
-    this.classList.toggle("selected");
-  });
-});
-const slider = document.querySelector(".slider");
-function updateProgress() {
-  const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
-  slider.style.setProperty("--progress", value + "%");
-}
-slider.addEventListener("input", updateProgress);
-updateProgress();
+
 
 // view metadata
 let viewdata = document.querySelector(".view-metadata");
