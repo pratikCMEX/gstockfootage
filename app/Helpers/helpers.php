@@ -59,9 +59,12 @@ function getCartItems()
                 'id'    => $product->id,
                 'title' => $product->name,
                 'price' => $product->price,
+                'type' => $product->type,
                 'qty'   => $cart->qty,
-                'image' => asset('uploads/products/' . $product->image),
+                'low_path' => $product->low_path,
+                'thumbnail_path' => $product->thumbnail_path,
                 'size'  => $product->width . ' x ' . $product->height,
+                'quality'  => 'HD Quality',
                 'subtotal' => $product->price * $cart->qty,
             ];
             $total += $product->price * $cart->qty;

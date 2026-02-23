@@ -43,6 +43,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 7px !important;
 }
 .batch-dropdown::after {
   display: none;
@@ -54,7 +55,7 @@ p {
 }
 
 .batch-dropdown:hover {
-  border: none;
+  border: 1px solid gray !important;
 }
 .batch-dropdown-menu.show {
   width: 100%;
@@ -362,7 +363,7 @@ p {
 }
 .form-check-input:focus,
 .form-check-input:active {
-  border-color: transparent;
+  border-color: #5a6a85;
 }
 .filter-text ul li {
   margin: 10px 0;
@@ -493,6 +494,14 @@ table td {
 
 .more-detail-btn.active i {
   transform: rotate(180deg);
+}
+.modal-name .input-group span,
+.modal-code .input-group span {
+  width: 100% !important;
+}
+
+.modal-name .input-group input.is-invalid {
+  border-radius: 7px !important;
 }
 
 @media only screen and (max-width: 1440px) {

@@ -35,6 +35,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
 
     Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
     Route::get('admin/add_new_img', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');
+    Route::post('admin/store_batch', [BatchController::class, 'store'])->name('admin.storeBatch');
 
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');

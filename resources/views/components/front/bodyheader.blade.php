@@ -186,12 +186,21 @@
                 <div class="cart-content" id="cart-item-{{ $item['id'] }}" data-id="{{ $item['id'] }}"
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
-                        <img src="imgs/alex-harwood-k1xCZT0x48c-unsplash.jpg" width="100%" height="100%"
-                            alt="">
+                        @if ($item['type'] == '0')
+                            <img src="{{ asset('uploads/images/low/' . $item['low_path']) }}" class="h-100 w-100"
+                                alt="">
+                        @else
+                            <img src="{{ asset('uploads/videos/thumbnails/' . $item['thumbnail_path']) }}"
+                                class="h-100 w-100" alt="">
+                        @endif
                     </div>
                     <div class="cart-detail">
                         <h6>{{ $item['title'] }}</h6>
-                        <p>{{ $item['size'] }}</p>
+                        @if ($item['type'] == '0')
+                            <p>{{ $item['size'] }}</p>
+                        @else
+                            <p>{{ $item['quality'] }}</p>
+                        @endif
                         <div class="cart-price-btn">
                             <h5>${{ $item['price'] }}</h5>
                             <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"
@@ -220,7 +229,8 @@
                 <a class="btn-orange btn w-100" href="{{ route('checkout') }}">Proccess to Ckeckout</a>
             </div>
             <div class="view-cart-btn">
-                <a href="cart.html" class="w-100 btn btn-all-dark btn-hover-dark">View Cart</a>
+                <a href="javascript:void(0);" class="w-100 btn btn-all-dark btn-hover-dark close-cart-btn">Continue
+                    Shopping</a>
             </div>
         </div>
     </div>

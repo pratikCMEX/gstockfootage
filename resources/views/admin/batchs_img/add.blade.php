@@ -16,47 +16,75 @@
                                 <div class="modal fade " id="exampleModal" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-box">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
-                                            </div>
-                                            <div class="modal-body batch-create-modal">
-                                                <div class="dropdown">
-                                                    <label for="" class="modal-label">Submission type</label>
-                                                    <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
-                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Dropdown<i class="fa-solid fa-angle-down"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu batch-dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item" href="#">Something else
-                                                                here</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="modal-code">
-                                                    <label for="" class="modal-label">Breif Code</label>
-                                                    <div class="input-group flex-nowrap ">
-                                                        <input type="text" class="form-control batch-inp"
-                                                            placeholder="Breif code (optional)"
-                                                            aria-describedby="addon-wrapping">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-name">
-                                                    <label for="" class="modal-label">Batch Name</label>
-                                                    <div class="input-group flex-nowrap ">
-                                                        <input type="text" class="form-control batch-inp"
-                                                            placeholder="Batch Name" aria-describedby="addon-wrapping">
-                                                    </div>
-                                                </div>
 
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn-light btn"
-                                                    data-bs-dismiss="modal">Cancel</button>
-                                                <button type="button" class=" btn btn-primary">Create</button>
-                                            </div>
+                                        <div class="modal-content">
+                                            <form id="create_batch" class="auth-form" method="POST"
+                                                action="{{ route('admin.storeBatch') }}">
+                                                @csrf
+                                                <div class="modal-header">
+                                                    <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
+                                                </div>
+                                                <div class="modal-body batch-create-modal">
+                                                    {{-- <div class="dropdown">
+                                                        <input type="hidden" name="submission_type"
+                                                            id="submission_type">
+
+                                                        <label for="" class="modal-label">Submission
+                                                            type</label>
+                                                        <button
+                                                            class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                            type="button" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select Type<i class="fa-solid fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu batch-dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    data-value="image">Image</a></li>
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    data-value="video">Video</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="#"data-value="artwork">Art Work</a></li>
+                                                        </ul>
+                                                    </div> --}}
+                                                    <div class="modal-code">
+                                                        <label for="category" class="form-label">Submission Type</label>
+                                                        <select class="form-select mr-sm-2" name="submission_type"
+                                                            id="category">
+                                                            <option value="">Choose Submission Type...</option>
+                                                            <option value="image">
+                                                                Image</option>
+                                                            <option value="video">
+                                                                Video</option>
+                                                            <option value="artwork">
+                                                                Art Work</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="modal-code">
+                                                        <label for="" class="modal-label">Breif Code</label>
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control batch-inp"
+                                                                placeholder="Breif code (optional)" name="brief_code"
+                                                                aria-describedby="addon-wrapping">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-name">
+                                                        <label for="" class="modal-label">Batch Name</label>
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control batch-inp"
+                                                                placeholder="Batch Name" name="batch_name"
+                                                                aria-describedby="addon-wrapping">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-light btn"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class=" btn btn-primary">Create</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +139,9 @@
                                             <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
 
                                                 <div class="batch-collect-imgs ">
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
 
                                                     <!-- <div class="img-overlay">50</div> -->
                                                 </div>
@@ -304,8 +334,12 @@
                                             <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
 
                                                 <div class="batch-collect-imgs image-2 ">
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
 
                                                     <!-- <div class="img-overlay">50</div> -->
                                                 </div>
@@ -498,9 +532,15 @@
                                             <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
 
                                                 <div class="batch-collect-imgs image-3 ">
-                                                    <div class="item long-img"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item long-img"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
                                                 </div>
                                             </a>
                                             <div class="batch-content-create">
@@ -691,10 +731,18 @@
                                             <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
 
                                                 <div class="batch-collect-imgs image-4">
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
                                                     <!-- <div class="img-overlay">50</div> -->
                                                 </div>
                                             </a>
@@ -886,10 +934,18 @@
                                             <a class="batch-content-img" href="{{ route('admin.add_new_img') }}">
 
                                                 <div class="batch-collect-imgs  image-more">
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt=""></div>
-                                                    <div class="item overlay-parent"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" width="100%" height="100%" alt="">
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt=""></div>
+                                                    <div class="item overlay-parent"><img
+                                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                                                            width="100%" height="100%" alt="">
                                                         <div class="img-overlay">50</div>
                                                     </div>
                                                 </div>
