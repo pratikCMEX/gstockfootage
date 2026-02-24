@@ -3,12 +3,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 ">
                         <div class="">
                             <div class="create-upload-head">
                                 <div class="select-img">
                                     <div class="show-select">
-                                        <i class="fa-solid fa-xmark me-4 close-select-btn" style="color: white;"></i>
+                                        <button class="btn" type="button">
+
+                                            <i class="fa-solid fa-xmark  close-select-btn" style="color: white;"></i>
+                                        </button>
                                         <button type="button" class="btn btn-light">Show selected</button>
                                     </div>
                                     <div class="delete-submit">
@@ -33,12 +36,12 @@
                                         ">Drag and drop your files here or upload from <span class="upload-span">
                                                             Dropbox
                                                         </span><i class="fa-regular fa-circle-question"></i></h2>
-                                                    <label for="myfile" class="btn btn-secondary btn-upload-device">Upload from device</label>
+                                                    <label for="myfile" class="btn btn-primary btn-upload-device">Upload from device</label>
                                                     <input type="file" id="myfile" name="myfile" multiple hidden>
                                                     <div class="apply-default-template">
-                                                        <div class="form-check form-switch ps-0">
-                                                            <input class="form-check-input m-0" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                                                            <label class="form-check-label  ps-3" for="flexSwitchCheckDefault ">Apply Default Template input</label>
+                                                        <div class="form-check form-switch ps-0 upload-check">
+                                                            <input class="form-check-input m-0" type="checkbox" role="switch" id="flexSwitchCheckDefaultupload">
+                                                            <label class="form-check-label  ps-3" style="cursor: pointer;" for="flexSwitchCheckDefaultupload">Apply Default Template input</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -55,9 +58,12 @@
                                     <button type="button" class="btn btn-light select-btn">Select All</button>
                                 </div>
                                 <div class="search-filter">
-                                    <button class="btn btn-primary search-desktop search-filter-openbtn" id="upload_search_filter">
+                                    <button class="btn btn-primary search-filter-openbtn upload-desk-searchfilter" id="upload_search_filter">
                                         <i class="fa-solid fa-magnifying-glass me-3"></i>
                                         Search and Filter</button>
+                                    <button class="btn btn-primary upload-mobile-searchfilter search-filter-openbtn" id="upload_search_filter_mobile">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="img-responsive-head">
@@ -71,6 +77,7 @@
                                 <p>34 items</p>
                             </div>
                             <div class="images-content">
+
                                 <div class="upload-image" id="upload_images">
                                     <div class="dot-menu text-end align-self-end">
                                         <button class="btn  text-start dot-dropdown dropdown-toggle"
@@ -78,13 +85,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -110,13 +117,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -142,13 +149,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -174,13 +181,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -206,13 +213,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -238,13 +245,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -270,13 +277,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -302,13 +309,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -334,13 +341,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -366,13 +373,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -398,13 +405,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -430,13 +437,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -462,13 +469,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -494,13 +501,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -526,13 +533,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -558,13 +565,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -590,13 +597,13 @@
                                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                         <ul class="dropdown-menu more-detail-menu">
                                             <li>
-                                                <button type="button" class="dropdown-item"
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#renameModal">
                                                     <i class="fa-regular fa-clipboard me-3"></i>
                                                     Copy Keyword
                                                 </button>
                                             </li>
-                                            <li> <button type="button" class="dropdown-item"
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                     data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                     <i class="fa-solid fa-pencil me-3"></i>
                                                     SET NEW THUMBNAIL FRAME
@@ -615,220 +622,140 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="upload-image" id="upload_images">
-                                    <div class="dot-menu text-end align-self-end">
-                                        <button class="btn  text-start dot-dropdown dropdown-toggle"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
-                                        <ul class="dropdown-menu more-detail-menu">
-                                            <li>
-                                                <button type="button" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#renameModal">
-                                                    <i class="fa-regular fa-clipboard me-3"></i>
-                                                    Copy Keyword
-                                                </button>
-                                            </li>
-                                            <li> <button type="button" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#setthumbnail">
-                                                    <i class="fa-solid fa-pencil me-3"></i>
-                                                    SET NEW THUMBNAIL FRAME
-                                                </button></li>
 
-                                        </ul>
-                                    </div>
-                                    <div class="image-upload">
-                                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" alt="">
-                                    </div>
-                                    <div class="image-title-id">
-                                        <div class="error"><i class="fa-solid fa-ban"></i></div>
-                                        <div class="upload-title-img">
-                                            <div class="img-title">12 Upper Galille Lorem, ipsum. </div>
-                                            <div class="img-id">ID: 23870945</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="upload-image" id="upload_images">
-                                    <div class="dot-menu text-end align-self-end">
-                                        <button class="btn  text-start dot-dropdown dropdown-toggle"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
-                                        <ul class="dropdown-menu more-detail-menu">
-                                            <li>
-                                                <button type="button" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#renameModal">
-                                                    <i class="fa-regular fa-clipboard me-3"></i>
-                                                    Copy Keyword
-                                                </button>
-                                            </li>
-                                            <li> <button type="button" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#setthumbnail">
-                                                    <i class="fa-solid fa-pencil me-3"></i>
-                                                    SET NEW THUMBNAIL FRAME
-                                                </button></li>
 
-                                        </ul>
-                                    </div>
-                                    <div class="image-upload">
-                                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" alt="">
-                                    </div>
-                                    <div class="image-title-id">
-                                        <div class="error"><i class="fa-solid fa-ban"></i></div>
-                                        <div class="upload-title-img">
-                                            <div class="img-title">12 Upper Galille Lorem, ipsum. </div>
-                                            <div class="img-id">ID: 23870945</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="upload-image" id="upload_images">
-                                    <div class="dot-menu text-end align-self-end">
-                                        <button class="btn  text-start dot-dropdown dropdown-toggle"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
-                                        <ul class="dropdown-menu more-detail-menu">
-                                            <li>
-                                                <button type="button" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#renameModal">
-                                                    <i class="fa-regular fa-clipboard me-3"></i>
-                                                    Copy Keyword
-                                                </button>
-                                            </li>
-                                            <li> <button type="button" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#setthumbnail">
-                                                    <i class="fa-solid fa-pencil me-3"></i>
-                                                    SET NEW THUMBNAIL FRAME
-                                                </button></li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="image-upload">
-                                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" alt="">
-                                    </div>
-                                    <div class="image-title-id">
-                                        <div class="error"><i class="fa-solid fa-ban"></i></div>
-                                        <div class="upload-title-img">
-                                            <div class="img-title">12 Upper Galille Lorem, ipsum. </div>
-                                            <div class="img-id">ID: 23870945</div>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="view-metadata">
+                                <button type="button" class="btn btn-primary w-100 " style="font-size: 16px; padding: 15px 0;">View Metadata</button>
+                            </div>
+                            <div class="add-metadata">
+                                <button type="button" class="btn btn-primary w-100 " style="font-size: 16px; padding: 15px 0;">Add Metadata</button>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="no-file-selected">
-                            <div class="no-file-selected-content">
-                                <p class="no-file-selected-title no-file-selected-title-cursor btn btn-primary">No file selected</p>
-                                <div class="no-file-template">
-                                    <p class="template">template</p>
-                                    <button type="button" class="btn clear-data">clear all metadata</button>
-                                </div>
-                                <div class="no-file-inputs">
-                                    <div class="edition-files">
-                                        <h5>Edition 34 Files</h5>
-                                        <ul>
-                                            <li>Yellow fields show information is diffrente between files</li>
-                                            <li>Grey fileds show information is shared acress all files</li>
-                                        </ul>
-                                    </div>
-                                    <div class="input-group ">
-                                        <div class="file-inp-icon-grp">
-                                            <input type="text" class="form-control" placeholder="Title *" aria-label="Username" aria-describedby="visible-addon">
-                                            <i class="fa-regular fa-circle-question file-input-icon"></i>
-                                        </div>
-                                        <p>Please submit title only in English</p>
-                                    </div>
-                                    <div class="input-group ">
-                                        <div class="file-inp-icon-grp">
-                                            <input type="text" class="form-control" placeholder="Descriptions *" aria-label="Username" aria-describedby="visible-addon">
-                                            <i class="fa-regular fa-circle-question file-input-icon"></i>
-                                        </div>
-                                        <p>Please submit descriptions only in English</p>
-                                    </div>
-                                    <div class="input-group file-inp-icon-grp">
-                                        <input type="text" class="form-control" placeholder="Date Created *" aria-label="Username" aria-describedby="visible-addon">
-                                        <i class="fa-regular fa-circle-question file-input-icon"></i>
-                                    </div>
-                                    <div class="dropdown file-main-dropdown">
-                                        <div class="file-inp-icon-grp">
-                                            <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Country of shoot *<i class="fa-solid fa-angle-down"></i>
-                                            </button>
-                                            <i class="fa-regular fa-circle-question file-input-icon"></i>
+                    <div class="col-lg-4 ">
+                        <form action="">
+                            <div class="no-file-selected">
 
-                                            <ul class="dropdown-menu file-dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">Something else
-                                                        here</a></li>
+                                <div class="no-file-selected-content">
+                                    <p class="no-file-selected-title no-file-selected-title-cursor no-file-selected-display-none btn btn-primary">No file selected</p>
+                                    <button type="button" class="btn btn-primary mobile-no-file-selcted-btn">No file selected <i
+                                            class="fa-solid fa-angle-right"></i></button>
+                                    <div class="no-file-template">
+                                        <p class="template">template</p>
+                                        <button type="button" class="btn clear-data">clear all metadata</button>
+                                    </div>
+                                    <div class="no-file-inputs">
+                                        <div class="edition-files">
+                                            <h5>Edition 34 Files</h5>
+                                            <ul>
+                                                <li>Yellow fields show information is diffrente between files</li>
+                                                <li>Grey fileds show information is shared acress all files</li>
                                             </ul>
                                         </div>
+                                        <div class="input-group ">
+                                            <div class="file-inp-icon-grp">
+                                                <input type="text" class="form-control" placeholder="Title *" aria-label="Username" aria-describedby="visible-addon">
+                                                <i class="fa-regular fa-circle-question file-input-icon"></i>
+                                            </div>
+                                            <p>Please submit title only in English</p>
+                                        </div>
+                                        <div class="input-group ">
+                                            <div class="file-inp-icon-grp">
+                                                <input type="text" class="form-control" placeholder="Descriptions *" aria-label="Username" aria-describedby="visible-addon">
+                                                <i class="fa-regular fa-circle-question file-input-icon"></i>
+                                            </div>
+                                            <p>Please submit descriptions only in English</p>
+                                        </div>
+                                        <div class="input-group file-inp-icon-grp">
+                                            <input type="text" class="form-control" placeholder="Date Created *" aria-label="Username" aria-describedby="visible-addon">
+                                            <i class="fa-regular fa-circle-question file-input-icon"></i>
+                                        </div>
+                                        <div class="dropdown file-main-dropdown">
+                                            <div class="file-inp-icon-grp">
+                                                <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Country of shoot *<i class="fa-solid fa-angle-down"></i>
+                                                </button>
+                                                <i class="fa-regular fa-circle-question file-input-icon"></i>
+
+                                                <ul class="dropdown-menu file-dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Another action</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" href="#">Something else
+                                                            here</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="no-file-release">
+                                        <p class="release-title">Release</p>
+                                        <div class="update-release">
+                                            <h4>We've updated our model release</h4>
+                                            <p><a href="">Download enhanced version</a> and learn more about increased legal protection and licensing opportunities for you.</p>
+                                        </div>
+                                        <p>If you file has recognizable pepole or propertise in it, you will need to include a release with your submission</p>
+                                        <p>New to release? <a href="">Checkout our release guid</a></p>
+                                        <button type="button" class="btn btn-light">Update release</button>
+                                    </div>
+                                    <div class="no-file-video-propertise">
+                                        <p class="video-title">Video Propertise</p>
+                                        <div class="input-group file-inp-label-grp">
+                                            <p style="font-size: 12px;">Clip Length</p>
+                                            <input type="text" class="form-control" placeholder="00:00:29:12" width="100%" aria-label="Username" aria-describedby="visible-addon">
+                                        </div>
+                                    </div>
+                                    <div class="no-file-master-formate">
+                                        <p class="master-title">Master Formate</p>
+                                        <div class="dropdown file-main-dropdown">
+                                            <div class="file-inp-icon-grp">
+                                                <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Country of shoot *<i class="fa-solid fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu file-dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Another action</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" href="#">Something else
+                                                            here</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="file-master-inp-grp">
+                                            <div class="input-group file-inp-label-grp">
+                                                <p style="font-size: 12px;">Media formate</p>
+                                                <input type="text" class="form-control" placeholder="Quick Time" width="100%" aria-label="Username" aria-describedby="visible-addon">
+                                            </div>
+                                            <div class="input-group file-inp-label-grp">
+                                                <p style="font-size: 12px;">Frame rate</p>
+                                                <input type="text" class="form-control" placeholder="29.97" width="100%" aria-label="Username" aria-describedby="visible-addon">
+                                            </div>
+                                        </div>
+                                        <div class="file-master-inp-grp">
+                                            <div class="input-group file-inp-label-grp">
+                                                <p style="font-size: 12px;">Frame size</p>
+                                                <input type="text" class="form-control" placeholder="550x550" width="100%" aria-label="Username" aria-describedby="visible-addon">
+                                            </div>
+                                            <div class="input-group file-inp-label-grp">
+                                                <p style="font-size: 12px;">Scanning Method</p>
+                                                <input type="text" class="form-control" placeholder="Progressive" width="100%" aria-label="Username" aria-describedby="visible-addon">
+                                            </div>
+                                        </div>
+                                        <div class="input-group file-inp-label-grp">
+                                            <p style="font-size: 12px;">Compression</p>
+                                            <input type="text" class="form-control" placeholder="H.264" width="100%" aria-label="Username" aria-describedby="visible-addon">
+                                        </div>
+                                    </div>
+                                    <div class="submit-metadaata text-center mt-4 mb-1">
+                                        <button type="submit" class="btn btn-primary w-100 " style="font-size: 16px; padding: 15px 0;">Submit metadata</button>
                                     </div>
                                 </div>
-                                <div class="no-file-release">
-                                    <p class="release-title">Release</p>
-                                    <div class="update-release">
-                                        <h4>We've updated our model release</h4>
-                                        <p><a href="">Download enhanced version</a> and learn more about increased legal protection and licensing opportunities for you.</p>
-                                    </div>
-                                    <p>If you file has recognizable pepole or propertise in it, you will need to include a release with your submission</p>
-                                    <p>New to release? <a href="">Checkout our release guid</a></p>
-                                    <button type="button" class="btn btn-light">Update release</button>
-                                </div>
-                                <div class="no-file-video-propertise">
-                                    <p class="video-title">Video Propertise</p>
-                                    <div class="input-group file-inp-label-grp">
-                                        <p style="font-size: 12px;">Clip Length</p>
-                                        <input type="text" class="form-control" placeholder="00:00:29:12" width="100%" aria-label="Username" aria-describedby="visible-addon">
-                                    </div>
-                                </div>
-                                <div class="no-file-master-formate">
-                                    <p class="master-title">Master Formate</p>
-                                    <div class="dropdown file-main-dropdown">
-                                        <div class="file-inp-icon-grp">
-                                            <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Country of shoot *<i class="fa-solid fa-angle-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu file-dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">Something else
-                                                        here</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="file-master-inp-grp">
-                                        <div class="input-group file-inp-label-grp">
-                                            <p style="font-size: 12px;">Media formate</p>
-                                            <input type="text" class="form-control" placeholder="Quick Time" width="100%" aria-label="Username" aria-describedby="visible-addon">
-                                        </div>
-                                        <div class="input-group file-inp-label-grp">
-                                            <p style="font-size: 12px;">Frame rate</p>
-                                            <input type="text" class="form-control" placeholder="29.97" width="100%" aria-label="Username" aria-describedby="visible-addon">
-                                        </div>
-                                    </div>
-                                    <div class="file-master-inp-grp">
-                                        <div class="input-group file-inp-label-grp">
-                                            <p style="font-size: 12px;">Frame size</p>
-                                            <input type="text" class="form-control" placeholder="550x550" width="100%" aria-label="Username" aria-describedby="visible-addon">
-                                        </div>
-                                        <div class="input-group file-inp-label-grp">
-                                            <p style="font-size: 12px;">Scanning Method</p>
-                                            <input type="text" class="form-control" placeholder="Progressive" width="100%" aria-label="Username" aria-describedby="visible-addon">
-                                        </div>
-                                    </div>
-                                    <div class="input-group file-inp-label-grp">
-                                        <p style="font-size: 12px;">Compression</p>
-                                        <input type="text" class="form-control" placeholder="H.264" width="100%" aria-label="Username" aria-describedby="visible-addon">
-                                    </div>
-                                </div>
+
                             </div>
-
-                        </div>
+                        </form>
                         <div class="upload-search-filter">
                             <button type="button" class="search-filter-btn btn  btn-primary no-file-selected-title "
                                 id="upload_close-filter">Search and Filter <i
