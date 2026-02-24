@@ -24,6 +24,8 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
+Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
+Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
 
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('check.login');

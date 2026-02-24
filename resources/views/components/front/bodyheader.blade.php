@@ -27,7 +27,7 @@
                         <li class="nav-item dropdown hover-dropdown">
                             <a class="nav-link dropdown-toggle" href="#">Photos</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">All Photos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('all_photos') }}">All Photos</a></li>
                             </ul>
                         </li>
 
@@ -51,7 +51,7 @@
                     <div class="dropdown d-none d-lg-block">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Pricing</a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">View Pricing</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pricing') }}">View Pricing</a></li>
                             <li><a class="dropdown-item" href="#">Enterprise Plan</a></li>
                         </ul>
                     </div>

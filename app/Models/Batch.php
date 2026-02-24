@@ -15,4 +15,9 @@ class Batch extends Model
         'status',
         'total_files',
     ];
+
+    public function batch_files()
+    {
+        return $this->hasMany(BatchFile::class, 'batch_id');
+    }
 }

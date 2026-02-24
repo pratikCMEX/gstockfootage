@@ -114,4 +114,22 @@ class HomeController extends Controller
         $product = Product::with('category')->where('type', '1')->get();
         return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
     }
+
+    public function pricing()
+    {
+        $title = 'Videos';
+        $page = 'front.pricing';
+        $js = ['pricing'];
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
+    }
+    public function allPhotos()
+    {
+        $title = 'Videos';
+        $page = 'front.all_photos';
+        $js = ['photos'];
+
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
+    }
 }
