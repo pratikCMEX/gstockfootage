@@ -21,7 +21,13 @@
   --second-text: #737373;
   --copyright: #777;
   --dropdown_bg: #222;
-  --box-shadow : rgba(0, 0, 0, 0.08);
+  --box-shadow: rgba(0, 0, 0, 0.08);
+  --subscribe-card: linear-gradient(
+    145deg,
+    #7a4300 -9%,
+    rgba(255, 255, 255, 0.02) 35%,
+    rgba(0, 0, 0, 0.4)
+  );
   --font-inter-extrabold: "Inter28pt-ExtraBold";
   --font-inter-semibold: "Inter28pt-SemiBold";
   --font-inter-bold: "Inter28pt-Bold";
