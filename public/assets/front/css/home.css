@@ -806,7 +806,7 @@
   margin-bottom: 22px;
   padding: 12px;
   border-radius: 14px;
-  transition: all 0.35s ease;
+
   background: var(--white);
   box-shadow: 0 10px 25px var(--box-shadow);
 }

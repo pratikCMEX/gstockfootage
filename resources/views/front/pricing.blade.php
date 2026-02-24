@@ -136,7 +136,7 @@
      </section>
      <section class="license_type">
          <div class="container">
-             <div class="row">
+             <div class="row justify-content-center row-gap-4">
                  <div class="col-12 text-center">
                      <div class="heading">
                          <h2>License <span class="yellow-headings">Types</span></h2>
@@ -182,7 +182,8 @@
                      </div>
                  </div>
                  <div class="col-lg-6">
-                     <div class="license-content">
+                     <div class="license-content extended-license">
+                         <div class="extended-badge">for Broadcast</div>
                          <h3>Extended License</h3>
                          <h4>+$150 upgrade</h4>
                          <ul class="license-subtitle">
@@ -190,41 +191,129 @@
                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                      <path d="m9 11 3 3L22 4"></path>
                                  </svg>
-All Standard License benefits
+                                 All Standard License benefits
                              </li>
                              <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                      <path d="m9 11 3 3L22 4"></path>
                                  </svg>
-Broadcast TV (national)
+                                 Broadcast TV (national)
                              </li>
                              <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                      <path d="m9 11 3 3L22 4"></path>
                                  </svg>
-Theatrical releases
+                                 Theatrical releases
                              </li>
                              <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                      <path d="m9 11 3 3L22 4"></path>
                                  </svg>
-Unlimited impressions
+                                 Unlimited impressions
                              </li>
                              <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                      <path d="m9 11 3 3L22 4"></path>
                                  </svg>
-Products for resale (templates, apps)
+                                 Products for resale (templates, apps)
                              </li>
                              <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                      <path d="m9 11 3 3L22 4"></path>
                                  </svg>
-Priority support
+                                 Priority support
                              </li>
                          </ul>
                      </div>
                  </div>
+                 <div class="col-12 col-lg-9 ">
+                     <div class="license-text">
+                         <div>
+                             <h5 class="license-heading">Permitted Uses</h5>
+                             <p class="license-subtext">Licensed footage may be used for commercial and non-commercial purposes including websites, mobile apps, advertisements, films, TV shows, presentations, and social media content.</p>
+                         </div>
+                         <div>
+                             <h5 class="license-heading">Restrictions</h5>
+                             <ul class="license-subtextul">
+                                 <li>Footage cannot be resold, redistributed, or sublicensed as-is</li>
+                                 <li>No use in pornographic, defamatory, or illegal content</li>
+                                 <li>Attribution is appreciated but not required</li>
+                                 <li>License is non-transferable and non-exclusive</li>
+                                 <li>Raw footage files cannot be shared with third parties</li>
+                             </ul>
+                         </div>
+                         <div>
+                             <h5 class="license-heading">License Duration</h5>
+                             <p class="license-subtext">All licenses are perpetual and worldwide. Once purchased, you may use the footage indefinitely in accordance with the license terms.</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <section class="pricing_faq">
+         <div class="container">
+             <div class="heading">
+                 <h2>Friquantly Asked <span class="yellow-headings"> Questions</span></h2>
+             </div>
+             <div class="faq_content">
+                 <div class="accordion" id="accordionPanelsStayOpenExample">
+                     <div class="accordion-item">
+                         <h2 class="accordion-header">
+                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                 <h4>Can I use clips commercially?</h4>
+                                 <i class="fa-solid fa-plus"></i>
+                             </button>
+                         </h2>
+                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                             <div class="accordion-body">
+                                 <p>Yes! All licenses include full commercial rights for unlimited projects.</p>
+
+                             </div>
+                         </div>
+                     </div>
+                     <div class="accordion-item">
+                         <h2 class="accordion-header">
+                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                 <h4>What's your refund policy?</h4>
+                                 <i class="fa-solid fa-plus"></i>
+                             </button>
+                         </h2>
+                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                                 <p>We offer a 30-day money-back guarantee on all purchases. No questions asked.</p>
+
+                             </div>
+                         </div>
+                     </div>
+                     <div class="accordion-item">
+                         <h2 class="accordion-header">
+                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                 <h4>Can I download clips multiple times?</h4>
+                                 <i class="fa-solid fa-plus"></i>
+                             </button>
+                         </h2>
+                         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                                 <p>Absolutely! Once purchased, you have lifetime access to download your clips.</p>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="accordion-item">
+                         <h2 class="accordion-header">
+                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                                 <h4>Do you offer custom licensing?</h4>
+                                 <i class="fa-solid fa-plus"></i>
+                             </button>
+                         </h2>
+                         <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                                 <p>Yes, we provide custom licensing for enterprise and broadcast clients. Contact us for details.</p>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
              </div>
          </div>
      </section>
