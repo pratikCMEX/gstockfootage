@@ -79,7 +79,7 @@
                                 <p class="total-price total_cart_amt">${{ $cart['total'] }}</p>
                             </div>
                         </div>
-                        <a href="checkout.html"><button type="button" class="btn btn-orange">Process to
+                        <a href="{{ route('checkout') }}"><button type="button" class="btn btn-orange">Process to
                                 checkout</button></a>
                     </div>
                 </div>

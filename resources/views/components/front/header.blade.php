@@ -1,3 +1,5 @@
+<link rel="shortcut icon" type="image/png" href="{{ asset('assets/admin/images/logos/favicon.png') }}">
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Icons -->
