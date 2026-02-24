@@ -18,6 +18,7 @@ class HomeController extends Controller
         $title = 'Home';
         $page = 'front.home';
         $js = ['home'];
+        // $js = [''];
         $categoryList = Category::get();
         $ImageList = Image::get();
         $CollectionList = Collection::get();

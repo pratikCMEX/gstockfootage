@@ -39,6 +39,7 @@ class CheckoutController extends Controller
                 }
             }
         }
+        // dd($cartItems->product->type);
         return view("layouts.front.layout", compact('title', 'page', 'cartItems', 'total', 'js'));
     }
 }

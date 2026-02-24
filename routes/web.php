@@ -52,7 +52,7 @@ Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.sto
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
-Route::get('/cart', [CartController::class, 'cartList'])->name('cart.list');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.list');
 
 Route::middleware('auth')->group(function () {});
 

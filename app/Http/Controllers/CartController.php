@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        $title = 'Cart';
+        $page = 'front.view_cart';
+
+        $cart = getCartItems();
+
+        return view("layouts.front.layout", compact('title', 'page', 'cart'));
+    }
     public function addToCart(Request $request)
     {
         $user_id = Auth::id();
@@ -79,21 +88,6 @@ class CartController extends Controller
                 'size'  => $product->width . ' x ' . $product->height
             ]
         ]);
-    }
-
-
-
-    public function cartList()
-    {
-        if (Auth::check()) {
-            $cartItems = Cart::where('user_id', Auth::id())
-                ->with('product')
-                ->get();
-        } else {
-            $cart = session()->get('cart', []);
-            $cartItems = collect($cart);
-        }
-        return view('cart.index', compact('cartItems'));
     }
     public function removeFromCart(Request $request)
     {

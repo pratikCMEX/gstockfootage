@@ -203,19 +203,29 @@ closefilter?.addEventListener("click", function () {
 });
 
 // open
-opencart?.addEventListener("click", function (e) {
-  e.stopPropagation();
-  cart_content.classList.add("show_popup");
-  cartoverlay.classList.add("active");
-});
+// opencart?.addEventListener("click", function (e) {
+//   e.stopPropagation();
+//   cart_content.classList.add("show_popup");
+//   cartoverlay.classList.add("active");
+// });
 
-// prevent inside click closing
-cart_content?.addEventListener("click", function (e) {
-  e.stopPropagation();
-});
+// // prevent inside click closing
+// cart_content?.addEventListener("click", function (e) {
+//   e.stopPropagation();
+// });
 
-// close on outside
-document.addEventListener("click", function () {
-  cart_content.classList.remove("show_popup");
-  cartoverlay.classList.remove("active");
+// // close on outside
+// document.addEventListener("click", function () {
+//   cart_content.classList.remove("show_popup");
+//   cartoverlay.classList.remove("active");
+// });
+
+document.addEventListener("click", function (e) {
+  const isInsideCart = cart_content?.contains(e.target);
+  const isOpenBtn = opencart?.contains(e.target);
+
+  if (!isInsideCart && !isOpenBtn) {
+    cart_content?.classList.remove("show_popup");
+    cartoverlay?.classList.remove("active");
+  }
 });
