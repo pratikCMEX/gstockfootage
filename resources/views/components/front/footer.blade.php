@@ -16,7 +16,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('assets/front/js/script.js') }}"></script>
-
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     var base_url = $("#base_url").val();
 

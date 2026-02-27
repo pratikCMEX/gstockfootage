@@ -108,7 +108,6 @@ class BatchController extends Controller
 
         return view('layouts.admin.layout', compact('title', 'page', 'js'));
     }
-
     public function updateMetadata(Request $request, $id)
     {
         $request->validate([
@@ -221,7 +220,6 @@ class BatchController extends Controller
             ], 500);
         }
     }
-
     public function uploadMultiple(Request $request, String $batch_id)
     {
         $request->validate([
@@ -304,7 +302,6 @@ class BatchController extends Controller
             return redirect()->route('admin.batch')->with('msg_error', 'Batch Images not uploaded successfully!');
         }
     }
-
     public function uploadMultipleVideos(Request $request, String $batch_id)
     {
         // dd($request);

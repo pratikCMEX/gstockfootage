@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
 }
-.login-overlay::after{
+.login-overlay::after {
   content: "";
   position: absolute;
   background-color: var(--black);
@@ -11,19 +11,17 @@
   inset: 0;
   opacity: 50%;
   z-index: 0;
-
 }
 .auth-wrapper {
-
   min-height: 100vh;
   width: 100%;
-  background: url(/imgs/banner_img.png) 50% / cover no-repeat;
+  background: url(../img/banner.jpg) 50% / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
-.card-wrapper{
+.card-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -228,9 +226,8 @@ label {
 @media only screen and (max-width: 767px) {
 }
 @media only screen and (max-width: 575px) {
-  .auth-wrapper{
-    padding:0 12px;
-
+  .auth-wrapper {
+    padding: 0 12px;
   }
   .auth-card {
     /* background-color: transparent !important; */

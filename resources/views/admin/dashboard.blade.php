@@ -44,7 +44,7 @@
                         <div class="card-body">
                             <div class="row alig n-items-start">
                                 <div class="col-8">
-                                    <h4 class="card-title mb-9 fw-semibold"> Total Transactions </h4>
+                                    <h4 class="card-title mb-9 fw-semibold"> Total Orders</h4>
                                     <div class="d-flex align-items-center mb-3">
                                         <h4 class="fw-semibold mb-0 me-8">66</h4>
                                         <div class="d-flex align-items-center">

@@ -11,7 +11,9 @@ class Order extends Model
         'order_number',
         'total_amount',
         'payment_status',
-        'order_status'
+        'order_status',
+        'stripe_session_id',
+        'email'
     ];
 
     public function order_details()

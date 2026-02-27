@@ -11,6 +11,7 @@ use App\Http\Controllers\CollectionController as ControllersCollectionController
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\QuoteRequest;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,11 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->nam
 Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->name('password.request');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
+Route::post('/checkout/process', [PaymentController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/checkout/success', [PaymentController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
+Route::post('/stripe/webhook', [PaymentController::class, 'handleWebhook']);
 
 Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
