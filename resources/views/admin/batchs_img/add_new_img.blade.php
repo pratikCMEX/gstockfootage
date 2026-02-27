@@ -94,7 +94,7 @@
                                 </div>
                                 <p>34 items</p>
                             </div>
-                            <div class="images-content">
+                            <div class="images-content images-content-5">
 
                                 <div class="upload-image" id="upload_images">
                                     <div class="dot-menu text-end align-self-end">

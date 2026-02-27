@@ -44,7 +44,7 @@
     </div>
 </section>
 <!-- stock video category section -->
-<section class="video-category">
+<section class="brows-category">
     <div class="container">
         <div class="row g-4 d-flex align-items-center mb-4">
             <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 col-12">
