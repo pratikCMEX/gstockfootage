@@ -48,7 +48,7 @@ $("#signup").validate({
         headers: {
           "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
-        url: base_url + "/admin/check_user_is_exist",
+        url: base_url + "/check_user_is_exist",
         type: "POST",
         data: {
           category_name: function () {
@@ -106,7 +106,7 @@ $("#send_forget_link").validate({
         headers: {
           "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
-        url: base_url + "/admin/check_user_is_valid",
+        url: base_url + "/check_user_is_valid",
         type: "POST",
         data: {
           email: function () {
