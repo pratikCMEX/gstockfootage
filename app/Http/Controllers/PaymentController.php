@@ -14,6 +14,8 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Log;
+
 class PaymentController extends Controller
 {
     public function processCheckout(Request $request)
@@ -63,45 +65,63 @@ class PaymentController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $session = Session::retrieve($request->session_id);
+        // $session = Session::retrieve($request->session_id);
 
-        if ($session->payment_status !== 'paid') {
-            return redirect()->route('checkout.cancel');
-        }
+        // if ($session->payment_status !== 'paid') {
+        //     return redirect()->route('checkout.cancel');
+        // }
 
-        $cart = getCartItems();
 
-        $order = Order::create([
-            'user_id' => Auth::id(),
-            'order_number' => 'ORD-' . strtoupper(uniqid()),
-            'total_amount' => $cart['total'],
-            'stripe_session_id' => $session->id,
-            'email' => $session->customer_email,
-            'payment_status' => 'paid',
-            'order_status' => 'completed',
-        ]);
-
-        foreach ($cart['items'] as $item) {
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $item['id'],
-                'price' => $item['price'],
-                'qty' => $item['qty'],
-            ]);
-        }
-
-        $order = Order::with('order_details.product')->find($order->id);
-
-        Mail::to($order->email)->send(new OrderReceiptMail($order));
-
-        if (Auth::check()) {
-            Cart::where('user_id', Auth::id())->delete();
-        } else {
-            session()->forget('cart');
-        }
 
         return redirect()->route('home')->with('msg_success', 'Payment successful!');
     }
+
+    // public function webhook(Request $request)
+    // {
+    //     $payload = $request->getContent();
+    //     $event = json_decode($payload);
+
+    //     if ($event->type == 'checkout.session.completed') {
+
+    //         $session = $event->data->object;
+
+    //         if ($session->payment_status == 'paid') {
+
+    //             $cart = getCartItems();
+
+    //             $order = Order::create([
+    //                 'user_id' => Auth::id(),
+    //                 'order_number' => 'ORD-' . strtoupper(uniqid()),
+    //                 'total_amount' => $cart['total'],
+    //                 'stripe_session_id' => $session->id,
+    //                 'email' => $session->customer_email,
+    //                 'payment_status' => 'paid',
+    //                 'order_status' => 'completed',
+    //             ]);
+
+    //             foreach ($cart['items'] as $item) {
+    //                 OrderDetail::create([
+    //                     'order_id' => $order->id,
+    //                     'product_id' => $item['id'],
+    //                     'price' => $item['price'],
+    //                     'qty' => $item['qty'],
+    //                 ]);
+    //             }
+
+    //             $order = Order::with('order_details.product')->find($order->id);
+
+    //             Mail::to($order->email)->send(new OrderReceiptMail($order));
+
+    //             if (Auth::check()) {
+    //                 Cart::where('user_id', Auth::id())->delete();
+    //             } else {
+    //                 session()->forget('cart');
+    //             }
+    //         }
+    //     }
+
+    //     return response()->json(['status' => 'success']);
+    // }
 
     public function cancel()
     {
@@ -110,6 +130,8 @@ class PaymentController extends Controller
 
     public function handleWebhook(Request $request)
     {
+
+        Log::info("🎬 webHook has called");
         $payload = $request->getContent();
         $sig_header = $request->server('HTTP_STRIPE_SIGNATURE');
         $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
