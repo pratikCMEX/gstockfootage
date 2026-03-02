@@ -197,7 +197,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -206,7 +206,7 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
@@ -238,7 +238,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -247,7 +247,7 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
@@ -279,7 +279,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/land-o-lakes-inc-1w3tO5F8HYY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -288,7 +288,7 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
@@ -320,7 +320,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/land-o-lakes-inc-BvZYHz9TeCk-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -329,7 +329,7 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 

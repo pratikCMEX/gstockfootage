@@ -152,37 +152,7 @@ class PaymentController extends Controller
 
             // if ($session->payment_status == 'paid') {
 
-            $cart = getCartItems();
 
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'order_number' => 'ORD-' . strtoupper(uniqid()),
-                'total_amount' => $cart['total'],
-                'stripe_session_id' => $session->id,
-                'email' => $session->customer_email,
-                'payment_status' => 'paid',
-                'order_status' => 'completed',
-            ]);
-
-            foreach ($cart['items'] as $item) {
-                OrderDetail::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['id'],
-                    'price' => $item['price'],
-                    'qty' => $item['qty'],
-                ]);
-                // }
-
-                $order = Order::with('order_details.product')->find($order->id);
-
-                Mail::to($order->email)->send(new OrderReceiptMail($order));
-
-                if (Auth::check()) {
-                    Cart::where('user_id', Auth::id())->delete();
-                } else {
-                    session()->forget('cart');
-                }
-            }
         }
 
         return response('Webhook handled', 200);
