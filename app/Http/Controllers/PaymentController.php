@@ -171,16 +171,17 @@ class PaymentController extends Controller
                     'price' => $item['price'],
                     'qty' => $item['qty'],
                 ]);
-            // }
+                // }
 
-            $order = Order::with('order_details.product')->find($order->id);
+                $order = Order::with('order_details.product')->find($order->id);
 
-            Mail::to($order->email)->send(new OrderReceiptMail($order));
+                Mail::to($order->email)->send(new OrderReceiptMail($order));
 
-            if (Auth::check()) {
-                Cart::where('user_id', Auth::id())->delete();
-            } else {
-                session()->forget('cart');
+                if (Auth::check()) {
+                    Cart::where('user_id', Auth::id())->delete();
+                } else {
+                    session()->forget('cart');
+                }
             }
         }
 
