@@ -24,8 +24,11 @@
 
     <!-- Brand -->
     <div class="brand">
-        <i class="bi bi-film"></i>
-        <span>GStockFootage</span>
+        <a href="{{ route('home') }}">
+            <i class="bi bi-film"></i>
+            <span>GStockFootage</span>
+        </a>
+
     </div>
 
     <!-- Card -->
