@@ -19,8 +19,8 @@
                             <a class="nav-link dropdown-toggle" href="#">Videos</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('videos') }}">All VIdeos</a></li>
-                                <li><a class="dropdown-item" href="brows.html">Holy Land</a></li>
-                                <li><a class="dropdown-item" href="brows.html">Around the World</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">Holy Land</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">Around the World</a></li>
                             </ul>
                         </li>
 
@@ -32,16 +32,16 @@
                         </li>
 
                         <li class="nav-item dropdown hover-dropdown">
-                            <a class="nav-link dropdown-toggle" href="#">Artwork</a>
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0);">Artwork</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">All Art Work</a></li>
-                                <li><a class="dropdown-item" href="#">Fine Art Prints</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">All Art Work</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">Fine Art Prints</a></li>
                             </ul>
                         </li>
 
                         <li class="nav-item"><a class="nav-link" href="{{ route('collection') }}">Collections</a></li>
-                        <li class="nav-item"><a class="nav-link" href="enterprise.html">Enterprise</a></li>
-                        <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+                        <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Enterprise</a></li>
+                        <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Store</a></li>
 
                     </ul>
                 </nav>
@@ -52,7 +52,7 @@
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Pricing</a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('pricing') }}">View Pricing</a></li>
-                            <li><a class="dropdown-item" href="#">Enterprise Plan</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Enterprise Plan</a></li>
                         </ul>
                     </div>
 
@@ -111,9 +111,9 @@
                 </button>
                 <div id="mVideos" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <a class="dropdown-item" href="brows.html">All VIdeos</a>
-                        <a class="dropdown-item" href="brows.html">Holy Land</a>
-                        <a class="dropdown-item" href="brows.html">Around the World</a>
+                        <a class="dropdown-item" href="javascript:void(0);">All VIdeos</a>
+                        <a class="dropdown-item" href="javascript:void(0);">Holy Land</a>
+                        <a class="dropdown-item" href="javascript:void(0);">Around the World</a>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                 </button>
                 <div id="mPhotos" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <a class="dropdown-item" href="#">All Photos</a>
+                        <a class="dropdown-item" href="javascript:void(0);">All Photos</a>
                     </div>
                 </div>
             </div>
@@ -135,32 +135,33 @@
                 </button>
                 <div id="mArtwork" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <a class="dropdown-item" href="#">All Art Work</a>
-                        <a class="dropdown-item" href="#">Fine Art Prints</a>
+                        <a class="dropdown-item" href="javascript:void(0);">All Art Work</a>
+                        <a class="dropdown-item" href="javascript:void(0);">Fine Art Prints</a>
                     </div>
                 </div>
             </div>
 
             <div class="accordion-item">
-                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#mPricing">
+                <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                    data-bs-target="javascript:void(0);mPricing">
                     Pricing
                 </button>
                 <div id="mPricing" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <a class="dropdown-item" href="#">View Pricing</a>
-                        <a class="dropdown-item" href="#">Enterprise Plan</a>
+                        <a class="dropdown-item" href="javascript:void(0);">View Pricing</a>
+                        <a class="dropdown-item" href="javascript:void(0);">Enterprise Plan</a>
                     </div>
                 </div>
             </div>
 
-            <a class="side-link" href="collection.html">Collections</a>
-            <a class="side-link" href="enterprise.html">Enterprise</a>
-            <a class="side-link" href="#">Our Store</a>
+            <a class="side-link" href="javascript:void(0);">Collections</a>
+            <a class="side-link" href="javascript:void(0);">Enterprise</a>
+            <a class="side-link" href="javascript:void(0);">Our Store</a>
 
         </div>
 
         <div class="mobile-cta">
-            <a href="pricing.html">
+            <a href="javascript:void(0);">
                 <button class="cta-mobile-btn ">
                     Get Unlimited Downloads
                 </button>
@@ -168,7 +169,7 @@
         </div>
 
         <div class="side-footer">
-            <a href="log_in.html">
+            <a href="javascript:void(0);">
                 <button class="signin-btn">Sign In</button>
             </a>
         </div>
