@@ -149,7 +149,7 @@
                                 </div>
                             @endif
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-orange">
                                 Update Product
                             </button>
 

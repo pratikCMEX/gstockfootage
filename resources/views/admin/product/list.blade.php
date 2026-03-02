@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Product List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.product_add') }}" class="btn btn-primary">Add Product +</a>
+                    <a href="{{ route('admin.product_add') }}" class="btn btn-orange">Add Product +</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

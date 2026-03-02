@@ -40,7 +40,7 @@ class CategoryDataTable extends DataTable
                 }
             })
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('name', function ($row) {
                 return $row->category_name;
@@ -168,7 +168,7 @@ class CategoryDataTable extends DataTable
     {
         return [
             Column::make('checkbox')
-                ->title('<input type="checkbox" id="select-all">')
+                ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('no')->title('No')->orderable(false),

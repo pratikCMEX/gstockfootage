@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Inter28pt-ExtraBold";
+  src:
+    url("../font/Inter28pt-ExtraBold.woff2") format("woff2"),
+    url("../font/Inter28pt-ExtraBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter28pt-Bold";
+  src:
+    url("../font/Inter28pt-Bold.woff2") format("woff2"),
+    url("../font/Inter28pt-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter28pt-Black";
+  src:
+    url("../font/Inter28pt-Black.woff2") format("woff2"),
+    url("../font/Inter28pt-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter28pt-Regular";
+  src:
+    url("../font/Inter28pt-Regular.woff2") format("woff2"),
+    url("../font/Inter28pt-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter28pt-Medium";
+  src:
+    url("../font/Inter28pt-Medium.woff2") format("woff2"),
+    url("../font/Inter28pt-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter28pt-SemiBold";
+  src:
+    url("../font/Inter28pt-SemiBold.woff2") format("woff2"),
+    url("../font/Inter28pt-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

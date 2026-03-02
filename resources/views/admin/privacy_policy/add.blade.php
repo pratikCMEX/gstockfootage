@@ -22,7 +22,7 @@
                                 <textarea class="form-control ckeditor" name="description" id="description"rows="3"
                                     placeholder="Please enter description">{{ isset($privacy_policy->content) ? $privacy_policy->content : '' }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-orange">Add</button>
                         </form>
                     </div>
                 </div>

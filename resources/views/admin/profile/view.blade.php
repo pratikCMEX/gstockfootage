@@ -62,7 +62,7 @@
                     </div>
                 </div> -->
             </div>
-            <button type="submit" id="submit_btn" class="save cmn-btn primary-btn mt-3" style="">Save</button>
+            <button type="submit" id="submit_btn" class="save btn cmn-btn btn-orange mt-3" style="">Save</button>
         </form>
     </div>
     </div>
@@ -103,7 +103,7 @@
 
 
 
-            <button type="submit" id="submit_btn" class="save cmn-btn primary-btn mt-3" style="">Update</button>
+            <button type="submit" id="submit_btn" class="save cmn-btn btn-orange btn mt-3" style="">Update</button>
     </div>
     </form>
     </div>

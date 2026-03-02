@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Collection List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.collection_add') }}" class="btn btn-primary">Add Collection +</a>
+                    <a href="{{ route('admin.collection_add') }}" class="btn btn-orange">Add Collection +</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

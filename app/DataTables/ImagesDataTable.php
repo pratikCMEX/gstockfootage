@@ -185,7 +185,7 @@ class ImagesDataTable extends DataTable
     {
         return [
             Column::make('checkbox')
-                ->title('<input type="checkbox" id="select-all">')
+                ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('no')->title('No')->orderable(false),
