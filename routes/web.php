@@ -11,6 +11,7 @@ use App\Http\Controllers\CollectionController as ControllersCollectionController
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\QuoteRequest;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,11 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->nam
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 
+Route::post('/checkout/process', [PaymentController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/checkout/success', [PaymentController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
+Route::post('/stripe/webhook', [PaymentController::class, 'handleWebhook']);
+
 Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
 Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
@@ -52,7 +58,7 @@ Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.sto
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
-Route::get('/cart', [CartController::class, 'cartList'])->name('cart.list');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.list');
 
 Route::middleware('auth')->group(function () {});
 

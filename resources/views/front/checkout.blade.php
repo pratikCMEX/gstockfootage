@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <form action="">
+                <form id="checkoutForm">
                     <div class="row row-gap-4">
                         <div class="col-12 col-lg-8">
                             <div class="summary order-summery">
@@ -127,7 +127,8 @@
                                     <p>Total</p>
                                     <h6>${{ number_format($total, 2) }}</h6>
                                 </div>
-                                <button type="submit" class="btn btn-orange w-100">Process to payment</button>
+                                <button type="button" id="processPaymentBtn" class="btn btn-orange w-100">Process to
+                                    payment</button>
 
                             </div>
                         </div>
@@ -139,7 +140,8 @@
                                 </div>
                                 <div class="mail">
                                     <label for="">Email</label>
-                                    <input type="email" name="" id="" placeholder="you@email.com">
+                                    <input type="email" name="checkout_email" id="checkout_email"
+                                        placeholder="you@email.com">
                                     <span>receipt will be sent to this email</span>
                                 </div>
                             </div>

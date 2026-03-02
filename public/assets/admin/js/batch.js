@@ -126,10 +126,10 @@ let selectimgdrop = document.querySelector(".select-img");
 selectedImages?.forEach((item) => {
   item.addEventListener("click", function () {
     this.classList.toggle("selected");
-    selectimgdrop.classList.add("active");
+    selectimgdrop.classList.toggle("active");
     viewdata.classList.add("notactive");
     addmetadata.classList.add("active");
-    nofileselected.classList.add("active");
+    nofileselected.classList.toggle("active");
   });
 });
 document.querySelectorAll(".dot-dropdown").forEach((btn) => {
@@ -148,7 +148,9 @@ uploadimgclose?.addEventListener("click", function () {
   nofileselected.classList.remove("active");
   addmetadata.classList.remove("active");
   viewdata.classList.remove("notactive");
-
+  selectedImages?.forEach((item) => {
+    item.classList.remove("selected");
+  });
   function updateProgress() {
     const value =
       ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
@@ -171,4 +173,38 @@ addmetadata?.addEventListener("click", function () {
 mobilemetadata?.addEventListener("click", function () {
   nofileselected.classList.remove("showactive");
   nofileselected.classList.remove("showaddmetadataactive");
+});
+
+const classNames = ["", "two", "three", "four", "five", "six"];
+
+$("#rangeSlider").on("input", function () {
+  let value = parseInt($(this).val());
+
+  $(".images-content")
+    .removeClass(classNames.join(" "))
+    .addClass(classNames[value - 1]);
+});
+
+$(document).on("click", ".select-btn", function () {
+  let images = $(".upload-image");
+  let button = $(this);
+
+  // Check if all are already selected
+  let allSelected = images.length === images.filter(".selected").length;
+
+  if (allSelected) {
+    // If all selected → unselect all
+    images.removeClass("selected");
+    button.text("Select All");
+  } else {
+    // Otherwise → select all
+    images.addClass("selected");
+    button.text("Deselect All");
+  }
+
+  // Toggle UI panels
+  selectimgdrop?.classList.toggle("active");
+  viewdata?.classList.toggle("notactive");
+  addmetadata?.classList.toggle("active");
+  nofileselected?.classList.toggle("active");
 });

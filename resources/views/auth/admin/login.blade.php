@@ -9,9 +9,9 @@
                         <div class="card-body">
                             <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img src="{{ asset('assets/admin/images/logos/gsstocklogo.png') }}" alt=""
-                                    height="150" width="200">
+                                    height="110" width="220">
                             </a>
-                            <p class="text-center">Your Social Campaigns</p>
+                            {{-- <p class="text-center">Your Social Campaigns</p> --}}
                             <form action="{{ route('admin.login.post') }}" method="POST" id="admin_login_form">
                                 @csrf
                                 <div class="mb-3">

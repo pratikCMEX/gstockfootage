@@ -229,8 +229,8 @@
                 <a class="btn-orange btn w-100" href="{{ route('checkout') }}">Proccess to Ckeckout</a>
             </div>
             <div class="view-cart-btn">
-                <a href="javascript:void(0);" class="w-100 btn btn-all-dark btn-hover-dark close-cart-btn">Continue
-                    Shopping</a>
+                <a href="{{ route('cart.list') }}" class="w-100 btn btn-all-dark btn-hover-dark">View
+                    Cart</a>
             </div>
         </div>
     </div>

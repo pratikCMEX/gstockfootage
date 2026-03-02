@@ -74,14 +74,23 @@ function cartItemTemplate(product) {
 
 $(document).on("click", ".delete_add_to_cart", function () {
   var id = $(this).attr("data-id");
+  // alert("HEllo guys");
   removeCartItem(id);
 });
 
 function removeCartItem(product_id) {
   console.log(product_id);
 
-  let item = $("#cart-item-" + product_id);
-  let itemPrice = parseFloat(item.attr("data-price"));
+  // Select BOTH sidebar and table items
+  let items = $("[id='cart-item-" + product_id + "']");
+
+  if (!items.length) {
+    console.log("Item not found");
+    return;
+  }
+
+  let itemPrice = parseFloat(items.first().attr("data-price")) || 0;
+
   $.ajax({
     url: base_url + "/remove-from-cart",
     type: "POST",
@@ -93,20 +102,39 @@ function removeCartItem(product_id) {
     success: function (res) {
       if (res.status === true) {
         toastr.success(res.message);
-        item.fadeOut(300, function () {
+
+        // 🔥 Remove sidebar + table row
+        items.fadeOut(300, function () {
           $(this).remove();
 
+          /* --------------------------
+             SIDEBAR UPDATE
+          -------------------------- */
           let remainingItems = $(".cart-items .cart-content").length;
           updateCartCount(remainingItems);
+
+          if (remainingItems === 0) {
+            $(".cart-items").html('<p class="empty-cart">Cart is empty</p>');
+          }
+
+          /* --------------------------
+             TABLE UPDATE
+          -------------------------- */
+          if ($("#cartTable").length) {
+            let tableRows = $("#cartTable tbody tr").length;
+
+            if (tableRows === 0) {
+              $("#cartTable tbody").html(
+                '<tr><td colspan="3" class="text-center">Cart is empty</td></tr>'
+              );
+            }
+          }
         });
+
         updateCartTotal(itemPrice, "subtract");
 
-        let count = parseInt($(".cart-count").text());
+        let count = parseInt($(".cart-count").text()) || 0;
         $(".cart-count").text(Math.max(count - 1, 0));
-
-        if ($(".cart-content").length === 1) {
-          $(".cart-items").html('<p class="empty-cart">Cart is empty</p>');
-        }
       } else {
         toastr.warning(res.message);
       }
@@ -117,7 +145,6 @@ function removeCartItem(product_id) {
     },
   });
 }
-
 function updateCartCount(newCount) {
   let cartCount = $(".cart-count");
 
