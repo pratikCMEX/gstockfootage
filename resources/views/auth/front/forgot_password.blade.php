@@ -54,7 +54,7 @@
             </button>
         </form>
 
-        <a href="log_in.html" class="back-link">
+        <a href="{{ route('login') }}" class="back-link">
             <i class="bi bi-arrow-left"></i>
             Back to Sign In
         </a>

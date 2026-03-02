@@ -15,7 +15,7 @@
                             <form action="{{ route('admin.login.post') }}" method="POST" id="admin_login_form">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">email</label>
+                                    <label for="exampleInputEmail1" class="form-label">Email</label>
                                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
                                         value="{{ old('password', Cookie::get('admin_email')) }}"
                                         aria-describedby="emailHelp">

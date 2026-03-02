@@ -18,7 +18,7 @@
                         <li class="nav-item dropdown hover-dropdown">
                             <a class="nav-link dropdown-toggle" href="#">Videos</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('videos') }}">All VIdeos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('videos') }}">All Videos</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);">Holy Land</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);">Around the World</a></li>
                             </ul>
