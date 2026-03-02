@@ -104,8 +104,6 @@ class CollectionDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'name', 'image', 'created_at', 'actions']);
