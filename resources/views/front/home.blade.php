@@ -373,7 +373,7 @@
                     <div class="tab-pane fade" id="popular">
                         <div class="row g-3">
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
                                         <img src="{{ asset('assets/front/img/artist-at-work-stockcake.webp') }}"
@@ -415,7 +415,7 @@
 
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
                                         <img src="{{ asset('assets/front/img/the-future-of-artificial-intelligence.jpg') }}"
@@ -457,7 +457,7 @@
 
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
                                         <img src="{{ asset('assets/front/img/riverss.jpg') }}" class="product-img"
@@ -498,7 +498,7 @@
 
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
                                         <img src="{{ asset('assets/front/img/foods.jpeg') }}" class="product-img"
