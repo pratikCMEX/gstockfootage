@@ -150,6 +150,8 @@ class PaymentController extends Controller
 
             $session = $event->data->object;
 
+            // if ($session->payment_status == 'paid') {
+
             $cart = getCartItems();
 
             $order = Order::create([
@@ -169,7 +171,11 @@ class PaymentController extends Controller
                     'price' => $item['price'],
                     'qty' => $item['qty'],
                 ]);
-            }
+            // }
+
+            $order = Order::with('order_details.product')->find($order->id);
+
+            Mail::to($order->email)->send(new OrderReceiptMail($order));
 
             if (Auth::check()) {
                 Cart::where('user_id', Auth::id())->delete();
