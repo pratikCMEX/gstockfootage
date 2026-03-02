@@ -43,7 +43,7 @@ class SubCategoryDataTable extends DataTable
             })
 
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('category_name', function ($row) {
                 return $row->category->category_name;
@@ -60,7 +60,7 @@ class SubCategoryDataTable extends DataTable
             ->addColumn('created_at', function ($row) {
                 return $row->created_at;
             })
-           
+
             ->addColumn('actions', function ($row) {
 
                 $updateButton = '
@@ -83,8 +83,6 @@ class SubCategoryDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'category_name', 'sub_category_name', 'image', 'created_at', 'actions']);
@@ -108,14 +106,14 @@ class SubCategoryDataTable extends DataTable
         $column = $columns[$orderIndex] ?? 'id';
 
 
-         $direction = $request->input('order.0.dir') === 'asc' ? 'asc' : 'desc';
+        $direction = $request->input('order.0.dir') === 'asc' ? 'asc' : 'desc';
 
-    $query = SubCategory::with('category');
-     if ($request->category != '') {
-        $query->where('category_id', $request->category);
-    }
+        $query = SubCategory::with('category');
+        if ($request->category != '') {
+            $query->where('category_id', $request->category);
+        }
 
-    return $query->orderBy($column, $direction);
+        return $query->orderBy($column, $direction);
     }
 
     /**
@@ -124,16 +122,16 @@ class SubCategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-        ->setTableId('subcategory-table')
-        ->columns($this->getColumns())
-        ->ajax([
-            'url' => route('admin.sub_category'), // your datatable route
-            'data' => 'function(d) {
+            ->setTableId('subcategory-table')
+            ->columns($this->getColumns())
+            ->ajax([
+                'url' => route('admin.sub_category'), // your datatable route
+                'data' => 'function(d) {
                 d.category = $("#category").val();
             }'
-        ])
-        ->orderBy(0)
-        ->selectStyleSingle();
+            ])
+            ->orderBy(0)
+            ->selectStyleSingle();
     }
 
     /**

@@ -41,7 +41,7 @@ class ProductDataTable extends DataTable
             })
 
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
 
             ->addColumn('category', function ($row) {

@@ -44,7 +44,7 @@ class ImagesDataTable extends DataTable
                 }
             })
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('category_id', function ($row) {
                 return $row->category->category_name;

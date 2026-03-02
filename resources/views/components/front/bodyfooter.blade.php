@@ -14,13 +14,13 @@
                 </p>
 
                 <div class="social-links">
-                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-facebook h-4 w-4 text-muted-foreground">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                         </svg></a>
-                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-twitter h-4 w-4 text-muted-foreground">
@@ -28,7 +28,7 @@
                                 d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
                             </path>
                         </svg></a>
-                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-instagram h-4 w-4 text-muted-foreground">
@@ -37,7 +37,7 @@
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
                         </svg></a>
-                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-linkedin h-4 w-4 text-muted-foreground">
@@ -46,7 +46,7 @@
                             <rect width="4" height="12" x="2" y="9"></rect>
                             <circle cx="4" cy="4" r="2"></circle>
                         </svg></a>
-                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-youtube h-4 w-4 text-muted-foreground">
@@ -62,9 +62,9 @@
             <div class="footer-box footer-column">
                 <h6>Our company</h6>
                 <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">Licenses</a></li>
+                    <li><a href="javascript:void(0);">About Us</a></li>
+                    <li><a href="javascript:void(0);">Contact</a></li>
+                    <li><a href="javascript:void(0);">Licenses</a></li>
                 </ul>
             </div>
 
@@ -72,11 +72,11 @@
             <div class="footer-box footer-column">
                 <h6>Products and services</h6>
                 <ul>
-                    <li><a href="#">All Footage</a></li>
-                    <li><a href="#">Aerial Shots</a></li>
-                    <li><a href="#">Timelapses</a></li>
-                    <li><a href="#">Collections</a></li>
-                    <li><a href="#">Pricing</a></li>
+                    <li><a href="javascript:void(0);">All Footage</a></li>
+                    <li><a href="javascript:void(0);">Aerial Shots</a></li>
+                    <li><a href="javascript:void(0);">Timelapses</a></li>
+                    <li><a href="javascript:void(0);">Collections</a></li>
+                    <li><a href="javascript:void(0);">Pricing</a></li>
                 </ul>
             </div>
 
@@ -84,8 +84,8 @@
             <div class="footer-box footer-column">
                 <h6>Legal</h6>
                 <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="javascript:void(0);">Terms of Service</a></li>
+                    <li><a href="javascript:void(0);">Privacy Policy</a></li>
                 </ul>
             </div>
 
@@ -93,7 +93,7 @@
             <div class="footer-box footer-column">
                 <h6>Contact us</h6>
                 <ul>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="javascript:void(0);">Contact</a></li>
                 </ul>
             </div>
 
