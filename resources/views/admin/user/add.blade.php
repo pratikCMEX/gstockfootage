@@ -29,7 +29,7 @@
                                     placeholder="Please enter password">
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-orange">Add</button>
                         </form>
                     </div>
                 </div>

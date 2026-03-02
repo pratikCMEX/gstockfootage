@@ -1,7 +1,22 @@
 <link rel="shortcut icon" type="image/png" href="{{ asset('assets/admin/images/logos/favicon.png') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
-
+<link rel="stylesheet" href="{{ asset('assets/admin/css/var.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/admin/css/styles.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/admin/css/main.css') }}">
+
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/brows.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/cart.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/checkout.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/collection.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/font.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/footer.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/header.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/home.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/login_in.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/product-detail.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ asset('assets/front/css/pricing.css') }}"> -->
+
+
 <link href="{{ asset('assets/admin/css/toastr.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/admin/css/batch.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}">

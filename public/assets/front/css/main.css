@@ -134,3 +134,20 @@ a {
 }
 @media only screen and (max-width: 424px) {
 } */
+
+/* Admin CSSS */
+
+.sidebar-nav ul .sidebar-item .sidebar-link:hover {
+  background-color: transparent !important;
+  color: var(--black) !important;
+}
+.sidebar-nav ul .sidebar-item .sidebar-link.active:hover {
+  background-color: var(--primary) !important;
+  color: var(--white) !important;
+}
+.admin-box {
+  background-color: var(--white) !important;
+}
+.gt-link{
+  color: var(--primary) !important;
+}

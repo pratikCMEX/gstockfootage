@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Video List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.video_add') }}" class="btn btn-primary">Add Video +</a>
+                    <a href="{{ route('admin.video_add') }}" class="btn btn-orange">Add Video +</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

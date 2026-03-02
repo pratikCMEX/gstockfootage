@@ -16,7 +16,7 @@
                         </select>
                     </div>
                     <div>
-                        <a href="{{ route('admin.sub_category_add') }}" class="btn btn-primary">Add SubCategory +</a>
+                        <a href="{{ route('admin.sub_category_add') }}" class="btn btn-orange">Add SubCategory +</a>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Subscriptions Plan List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.subscription_add') }}" class="btn btn-primary">Add Subscription Plan +</a>
+                    <a href="{{ route('admin.subscription_add') }}" class="btn btn-orange">Add Subscription Plan +</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

@@ -175,7 +175,7 @@
   margin-bottom: 0;
 }
 .license-content ul {
-  margin: 20px 0;
+  margin: 40px 0 0;
   padding: 0;
 }
 .license-content ul li {
@@ -192,7 +192,7 @@
   stroke: var(--primary);
 }
 .license-content h3 {
-  font-size: 24px;
+  font-size: 26px;
   font-family: var(--font-inter-semibold);
   color: var(--text);
   margin-bottom: 15px;
@@ -203,8 +203,111 @@
 
   font-family: var(--font-inter-bold);
 }
+.extended-license {
+  position: relative;
+  border: 3px solid var(--primary);
+}
+.extended-badge {
+  border-radius: 50px;
+  background-color: var(--primary);
+  padding: 5px 20px;
+  color: var(--white);
+  font-family: var(--font-inter-medium);
+  display: inline-block;
+  position: absolute;
+  top: -17px;
+  right: 30px;
+}
+.license-text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+.license-heading {
+  font-size: 24px;
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.license-subtextul li,
+.license-subtext {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-regular);
+  letter-spacing: 1px;
+}
+.license-subtextul {
+  padding-left: 1rem;
+}
+.license-subtextul li {
+  margin-bottom: 10px;
+}
 
+/* pricing_faq */
+.pricing_faq {
+  padding-bottom: 80px;
+}
+
+.faq_content h4 {
+  font-size: 20px;
+  color: var(--text);
+  font-family: var(--font-inter-medium);
+  /* margin-bottom: 10px; */
+}
+.faq_content p {
+  font-size: 16px;
+  font-family: var(--font-inter-regular);
+  color: var(--text);
+}
+.faq_content .accordion-button:not(.collapsed) {
+  background-color: transparent;
+  box-shadow: none;
+}
+.faq_content .accordion-button:focus {
+  z-index: 3;
+  border-color: transparent;
+  outline: 0;
+  box-shadow: none;
+}
+.faq_content .accordion-button::after {
+  content: none;
+  display: none;
+}
+.faq_content .accordion-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+.faq_content .accordion-button i {
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+  color: var(--black);
+}
+.faq_content .accordion-button.collapsed i {
+  transform: rotate(0deg);
+  transition: all 0.3s ease;
+  color: var(--black);
+}
+.faq_content .accordion-item {
+  margin-bottom: 20px;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  border-bottom: 1px solid var(--black);
+  border-radius: 0px;
+}
+.faq_content .accordion-body {
+  padding: 12px 0;
+}
 @media only screen and (max-width: 1399px) {
+  .license-content ul {
+    margin: 30px 0 0;
+  }
+  .license-content h3 {
+    margin-bottom: 10px;
+  }
 }
 @media only screen and (max-width: 1199px) {
   .pricing-card {
@@ -240,6 +343,12 @@
   .price {
     font-size: 35px;
   }
+  .license-content ul li {
+    margin-bottom: 15px;
+  }
+  .faq_content {
+    margin-top: 20px;
+  }
 }
 @media only screen and (max-width: 767px) {
   .pricing-section {
@@ -257,16 +366,56 @@
   .subscribe-price {
     font-size: 20px;
   }
+
+  .license-content h3 {
+    font-size: 24px;
+  }
+  .license-content h4 {
+    font-size: 18px;
+  }
+  .license-text {
+    row-gap: 25px;
+  }
+  .license_type {
+    padding: 60px 0;
+  }
+  .pricing_faq {
+    padding-bottom: 60px;
+  }
 }
 @media only screen and (max-width: 575px) {
+  .license_type {
+    padding: 50px 0;
+  }
   .pricing-section {
     padding: 50px 0;
   }
   .subscription_plan {
     padding: 50px 0;
   }
+  .license-heading {
+    font-size: 22px;
+  }
+  .license-content h3 {
+    font-size: 22px;
+  }
+  .license-content ul {
+    margin: 25px 0 0;
+  }
+  .license-content h4 {
+    font-size: 16px;
+  }
+  .faq_content h4 {
+    font-size: 18px;
+  }
+  .pricing_faq {
+    padding-bottom: 50px;
+  }
 }
 @media only screen and (max-width: 424px) {
+  .license_type {
+    padding: 40px 0;
+  }
   .pricing-section {
     padding: 40px 0;
   }
@@ -288,5 +437,11 @@
   }
   .subscription-content {
     margin-top: 20px;
+  }
+  .faq_content h4 {
+    font-size: 16px;
+  }
+  .pricing_faq {
+    padding-bottom: 40px;
   }
 }

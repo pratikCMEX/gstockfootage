@@ -7,7 +7,7 @@
                     <div class="col-12">
                         <div class="create-batch-head">
                             <div class="create-batch-btn">
-                                <button type="button" class="btn btn-primary batch-create" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-orange batch-create" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
                                     <i class="ti ti-plus"></i> Create Batch
                                 </button>
@@ -49,7 +49,7 @@
                                                     </div> --}}
                                                     <div class="modal-code">
                                                         <label for="category" class="form-label">Submission Type</label>
-                                                        <select class="form-select mr-sm-2" name="submission_type"
+                                                        <select class="form-select mr-sm-2 batch-inp" name="submission_type"
                                                             id="category">
                                                             <option value="">Choose Submission Type...</option>
                                                             <option value="image">
@@ -80,9 +80,9 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn-light btn"
+                                                    <button type="button" class="btn-all-dark btn-hover-dark btn"
                                                         data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class=" btn btn-primary">Create</button>
+                                                    <button type="submit" class=" btn btn-orange">Create</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="create-batch-filter">
 
-                                <button class="btn btn-primary search-desktop search-filter-openbtn" id="search_filter">
+                                <button class="btn btn-orange search-desktop search-filter-openbtn" id="search_filter">
                                     <i class="fa-solid fa-magnifying-glass me-3"></i>
                                     Search and Filter</button>
                                 <button class="btn search-mobile search-filter-openbtn" id="search_filter_mobile">
@@ -1108,7 +1108,7 @@
                                 <div class="search-filter">
                                     <div class="search-filter-child-content" id="search-filter-content">
                                         <button type="button"
-                                            class="search-filter-btn btn  btn-primary no-file-selected-title"
+                                            class="search-filter-btn btn  btn-orange no-file-selected-title"
                                             id="close-filter">Search and Filter <i
                                                 class="fa-solid fa-angle-right"></i></button>
                                         <div class="filter-apply-text filter-text">
@@ -1288,10 +1288,10 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-orange">
                         Save
                     </button>
                 </div>

@@ -110,7 +110,7 @@ p {
   border: 1px solid #ebf1f6;
 }
 .modal-footer {
-  gap: 20px;
+  gap: 17px;
 }
 .modal-header {
   padding-bottom: 0;
@@ -148,6 +148,7 @@ p {
   background-color: #ebf1f6;
   color: #5a6a85;
   border-radius: 10px;
+  display: inline-block;
 }
 .batch-content {
   padding: 20px;
@@ -654,7 +655,7 @@ table td {
   font-size: 16px;
 }
 .template {
-  color: #5d87ff;
+  color: var(--primary);
   font-weight: 600;
 }
 .clear-data {
@@ -746,6 +747,9 @@ table td {
 .update-release p {
   font-size: 14px;
   font-weight: 400;
+}
+.no-file-release p a {
+  color: var(--primary);
 }
 .no-file-video-propertise {
   padding: 30px 0;
@@ -1036,7 +1040,17 @@ table td {
 .upload-search-filter.mobileactive {
   right: 0;
 }
-
+.no-file-selected-title {
+  font-size: 20px;
+  font-family: var(--font-inter-semibold);
+  color: var(--black);
+}
+.filter-text .batch-dropdown:focus {
+  border: 1px solid black !important;
+}
+.filter-text a {
+  color: var(--primaryaddnew);
+}
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
     flex-basis: 63%;

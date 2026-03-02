@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Image List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.image_add') }}" class="btn btn-primary">Add Image +</a>
+                    <a href="{{ route('admin.image_add') }}" class="btn btn-orange">Add Image +</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

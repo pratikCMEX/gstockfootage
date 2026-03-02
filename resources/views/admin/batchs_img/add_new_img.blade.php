@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
                                 <div class="two-btns">
-                                    <button type="button" class="upload-btn btn btn-primary batch-create"><i
+                                    <button type="button" class="upload-btn btn btn-orange batch-create"><i
                                             class="ti ti-plus"></i> Upload</button>
                                     <div class="upload-from-device">
                                         <div class="upload-main-content">
@@ -46,7 +46,7 @@
                                                             Dropbox
                                                         </span><i class="fa-regular fa-circle-question"></i></h2>
                                                     <label for="myfile"
-                                                        class="btn btn-primary btn-upload-device">Upload from
+                                                        class="btn btn-orange btn-upload-device">Upload from
                                                         device</label>
                                                     <input type="file" id="myfile" name="myfile" multiple hidden>
                                                     <div class="apply-default-template">
@@ -71,10 +71,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-light select-btn">Select All</button>
+                                    <button type="button" class="btn btn-all-dark btn-hover-dark select-btn">Select All</button>
                                 </div>
                                 <div class="search-filter">
-                                    <button class="btn btn-primary search-filter-openbtn upload-desk-searchfilter"
+                                    <button class="btn btn-orange search-filter-openbtn upload-desk-searchfilter"
                                         id="upload_search_filter">
                                         <i class="fa-solid fa-magnifying-glass me-3"></i>
                                         Search and Filter</button>
@@ -678,7 +678,7 @@
 
                                 <div class="no-file-selected-content">
                                     <p
-                                        class="no-file-selected-title no-file-selected-title-cursor no-file-selected-display-none btn btn-primary">
+                                        class="no-file-selected-title no-file-selected-title-cursor no-file-selected-display-none">
                                         No file selected</p>
                                     <button type="button" class="btn btn-primary mobile-no-file-selcted-btn">No file
                                         selected <i class="fa-solid fa-angle-right"></i></button>
@@ -744,7 +744,7 @@
                                         <p>If you file has recognizable pepole or propertise in it, you will need to
                                             include a release with your submission</p>
                                         <p>New to release? <a href="">Checkout our release guid</a></p>
-                                        <button type="button" class="btn btn-light">Update release</button>
+                                        <button type="button" class="btn btn-all-dark btn-hover-dark">Update release</button>
                                     </div>
                                     <div class="no-file-video-propertise">
                                         <p class="video-title">Video Propertise</p>
@@ -808,7 +808,7 @@
                                         </div>
                                     </div>
                                     <div class="submit-metadaata text-center mt-4 mb-1">
-                                        <button type="submit" class="btn btn-primary w-100 "
+                                        <button type="submit" class="btn btn-orange w-100 "
                                             style="font-size: 16px; padding: 15px 0;">Submit metadata</button>
                                     </div>
                                 </div>
@@ -816,7 +816,7 @@
                             </div>
                         </form>
                         <div class="upload-search-filter">
-                            <button type="button" class="search-filter-btn btn  btn-primary no-file-selected-title "
+                            <button type="button" class="search-filter-btn btn btn-orange no-file-selected-title "
                                 id="upload_close-filter">Search and Filter <i
                                     class="fa-solid fa-angle-right"></i></button>
 
@@ -830,8 +830,8 @@
                             <div class="upload-filter-by-status">
                                 <p class="status-title">Filter by status</p>
                                 <ul class="status-checkbox">
-                                    <li> <input class="form-check-input" type="checkbox" value=""
-                                            id="checkDefault8">
+                                    <li> <input class="form-check-input" type="checkbox" id="checkDefault8">
+
                                         <label class="form-check-label ms-3" for="checkDefault8">
                                             Accepted (0)
                                         </label>
@@ -933,10 +933,10 @@
                 </div>
 
                 <div class="modal-footer text-center m-auto">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-orange">
                         Save
                     </button>
                 </div>
