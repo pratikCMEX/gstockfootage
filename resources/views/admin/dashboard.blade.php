@@ -15,13 +15,13 @@
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="border-end pe-4 border-muted border-opacity-10">
-                                            <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">$2,340<i
+                                            <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">$0<i
                                                     class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
                                             </h3>
                                             <p class="mb-0 text-dark">Today’s Sales</p>
                                         </div>
                                         <div class="ps-4">
-                                            <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">35%<i
+                                            <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">0%<i
                                                     class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
                                             </h3>
                                             <p class="mb-0 text-dark">Overall Performance</p>
@@ -46,7 +46,7 @@
                                 <div class="col-8">
                                     <h4 class="card-title mb-9 fw-semibold"> Total Orders</h4>
                                     <div class="d-flex align-items-center mb-3">
-                                        <h4 class="fw-semibold mb-0 me-8">66</h4>
+                                        <h4 class="fw-semibold mb-0 me-8">0</h4>
                                         <div class="d-flex align-items-center">
                                             <span
                                                 class="me-2 rounded-circle bg-success-subtle text-success round-20 d-flex align-items-center justify-content-center">

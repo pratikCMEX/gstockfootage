@@ -220,7 +220,7 @@ class BatchController extends Controller
             ], 500);
         }
     }
-    public function uploadMultiple(Request $request, String $batch_id)
+    public function uploadMultipleOld(Request $request, String $batch_id)
     {
         $request->validate([
             'files' => 'required',
@@ -302,7 +302,121 @@ class BatchController extends Controller
             return redirect()->route('admin.batch')->with('msg_error', 'Batch Images not uploaded successfully!');
         }
     }
+
+    public function uploadMultiple(Request $request, String $batch_id)
+    {
+        $request->validate([
+            'files' => 'required',
+            'files.*' => 'image|max:10240'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            $manager = new ImageManager(new Driver());
+
+            foreach ($request->file('files') as $file) {
+
+                $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $img = $manager->read($file->getRealPath());
+
+                $width = $img->width();
+                $height = $img->height();
+                $size = $file->getSize();
+
+                // Upload HIGH image to S3
+                Storage::disk('s3')->put(
+                    "batch/high/$imageName",
+                    (string) $img->encode(),
+                    'public'
+                );
+
+                // Create LOW image
+                $low = $manager->read($file->getRealPath());
+                $low->scale(width: 800);
+
+                Storage::disk('s3')->put(
+                    "batch/low/low_$imageName",
+                    (string) $low->encode(),
+                    'public'
+                );
+
+                BatchFile::create([
+                    'batch_id' => $batch_id,
+                    'file_code' => mt_rand(1000000000, 9999999999),
+                    'original_name' => $file->getClientOriginalName(),
+                    'file_name' => $imageName,
+                    'file_path' => "batch/high/$imageName",
+                    'thumbnail_path' => "batch/low/low_$imageName",
+                    'file_type' => 'image',
+                    'file_size' => $size,
+                    'width' => $width,
+                    'height' => $height,
+                    'status' => 'not_submitted',
+                ]);
+            }
+
+            DB::commit();
+
+            return back()->with('success', 'Images uploaded to S3 successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
     public function uploadMultipleVideos(Request $request, String $batch_id)
+    {
+        // dd(Storage::disk('s3')->put('test.txt', 'Hello World'));
+        // dd($request);
+        $request->validate([
+            'files' => 'required',
+            'files.*' => 'mimes:mp4,mov,avi|max:512000'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            foreach ($request->file('files') as $file) {
+
+                $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $path = Storage::disk('s3')->putFileAs(
+                    'videos/high',
+                    $file,
+                    $fileName,
+                    'public'
+                );
+
+                // dd($path);
+
+                $batchFile = BatchFile::create([
+                    'batch_id' => $batch_id,
+                    'file_code' => mt_rand(1000000000, 9999999999),
+                    'original_name' => $file->getClientOriginalName(),
+                    'file_name' => $fileName,
+                    'file_path' => (string)$path,
+                    'file_type' => 'video',
+                    'status' => 'accepted'
+                ]);
+
+
+                // ProcessBatchVideo::dispatch($batchFile->id);
+                ProcessBatchVideo::dispatch($batchFile->id)->onQueue('videos');
+            }
+
+            DB::commit();
+            return back()->with('success', 'Videos uploaded to S3 successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e);
+            return back()->with('error', $e->getMessage());
+        }
+    }
+    public function uploadMultipleVideosOld(Request $request, String $batch_id)
     {
         // dd($request);
         $request->validate([

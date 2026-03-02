@@ -20,8 +20,8 @@ class DashboardController extends Controller
         $page = 'admin.dashboard';
 
         $totalCategory = Category::count();
-        $totalVideo = Product::where('type', '0')->count();
-        $totalImage = Product::where('type', '1')->count();
+        $totalVideo = Product::where('type', '1')->count();
+        $totalImage = Product::where('type', '0')->count();
         $totalUser = User::count();
 
         $options = [
