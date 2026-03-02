@@ -56,8 +56,8 @@
                         </ul>
                     </div>
 
-                    <a href="#"><i class="bi bi-globe icon-btn"></i></a>
-                    <a href="wishlist.html"><i class="bi bi-heart icon-btn"></i></a>
+                    <a href="javascript:void(0);"><i class="bi bi-globe icon-btn"></i></a>
+                    <a href="javascript:void(0);"><i class="bi bi-heart icon-btn"></i></a>
                     <div class="cart-main"> <button class="cart-open"><i class="bi bi-cart icon-btn cart"></i></button>
 
                         @php
@@ -83,7 +83,7 @@
                         </a>
                     @endauth
 
-                    <a href="pricing.html" class="d-none d-xl-block">
+                    <a href="javascript:void(0);" class="d-none d-xl-block">
                         <button class="btn header-btns btn-sm cta-btn">
                             Get Unlimited Downloads
                         </button>
@@ -227,7 +227,7 @@
                 <h5 class="total_cart_amt">${{ $cart['total'] }}</h5>
             </div>
             <div class="checkout-btn">
-                <a class="btn-orange btn w-100" href="{{ route('checkout') }}">Proccess to Ckeckout</a>
+                <a class="btn-orange btn w-100" href="{{ route('checkout') }}">Proccess to Checkout</a>
             </div>
             <div class="view-cart-btn">
                 <a href="{{ route('cart.list') }}" class="w-100 btn btn-all-dark btn-hover-dark">View
