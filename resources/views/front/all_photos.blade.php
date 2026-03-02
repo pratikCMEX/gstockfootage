@@ -213,7 +213,9 @@
 
                             <div class="price-btn">
                                 <span class="price">$149</span>
-                                <button class="btn  btn-orange">Add</button>
+                                {{-- <button class="btn  btn-orange">Add</button> --}}
+                                <a href="{{ route('product.detail', encrypt(1)) }}" class="btn btn-orange">Add</a>
+
                             </div>
                             <div class="product-two-btn">
                                 <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
