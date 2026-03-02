@@ -52,7 +52,7 @@ class PaymentController extends Controller
             'customer_email' => $request->email,
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('checkout.success'),
             'cancel_url' => route('checkout.cancel'),
         ]);
 
