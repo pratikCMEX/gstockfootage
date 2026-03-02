@@ -124,7 +124,7 @@ label {
 
 #login .form-control,
 #signup .form-control {
-  margin-bottom: 16px;
+  margin-bottom: 0px;
   height: 44px;
   border-radius: 10px !important;
 }
@@ -132,6 +132,18 @@ label {
 #signup .form-control:focus {
   box-shadow: none !important;
   border: 1px solid #dee2e6 !important;
+}
+
+#login .text-danger,
+#signup .text-danger {
+  display: block;
+  min-height: 17px;
+  margin-top: 5px !important;
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+  background-image: none !important;
 }
 
 /* Password */

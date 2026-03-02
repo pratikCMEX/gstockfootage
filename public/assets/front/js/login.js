@@ -24,7 +24,7 @@ $("#login").validate({
   },
 
   errorClass: "text-danger",
-  errorElement: "span",
+  errorElement: "label",
   highlight: function (element) {
     $(element).addClass("is-invalid");
   },
@@ -88,7 +88,7 @@ $("#signup").validate({
   },
 
   errorClass: "text-danger",
-  errorElement: "span",
+  errorElement: "label",
   highlight: function (element) {
     $(element).addClass("is-invalid");
   },
