@@ -6,7 +6,8 @@
             <!-- Brand / Social -->
             <div class="footer-box footer-brand">
                 <div class="brand">
-                    <img src="imgs/header-logo.png" alt="gstockfootage" width="100%" height="100%">
+                    <img src="{{ asset('assets/front/img/header-logo.png') }}" alt="gstockfootage" width="100%"
+                        height="100%">
                 </div>
 
                 <p class="copyright">
