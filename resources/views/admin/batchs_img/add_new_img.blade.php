@@ -15,8 +15,9 @@
                                         <button type="button" class="btn btn-light">Show selected</button>
                                     </div>
                                     <div class="delete-submit">
-                                        <button type="button" class="btn btn-light">Delete <span
-                                                style="margin-left: 10px; padding: 4px; font-size: 12px; background-color: black; color: white; border-radius: 20px;">
+                                        <button type="button" style="display: flex; align-items: center"
+                                            class="btn btn-light">Delete <span class="delete-count"
+                                                style="margin-left: 10px; display:flex; align-items:center; justify-content:center; height:20px; width:100%; min-width:20px;  padding: 4px; font-size: 12px; background-color: black; color: white; border-radius: 20px;">
                                                 34</span></button>
                                         <button type="button" class="btn select-submit-btn"><i
                                                 class="fa-solid fa-paper-plane"></i> Submit <span>0</span></button>
@@ -87,7 +88,7 @@
                                 <div class="image-range">
                                     <i class="fa-solid fa-image small-img"></i>
                                     <div class="range-container">
-                                        <input type="range" min="1" max="6" value="0"
+                                        <input type="range" min="1" max="5" value="1"
                                             id="rangeSlider" class="slider">
                                     </div>
                                     <i class="fa-solid fa-image big-img"></i>

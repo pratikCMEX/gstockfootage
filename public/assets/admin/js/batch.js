@@ -123,15 +123,42 @@ let uploadimgclose = document.querySelector(".close-select-btn");
 let addmetadata = document.querySelector(".add-metadata");
 let selectimgdrop = document.querySelector(".select-img");
 
-selectedImages?.forEach((item) => {
-  item.addEventListener("click", function () {
-    this.classList.toggle("selected");
-    selectimgdrop.classList.toggle("active");
-    viewdata.classList.add("notactive");
-    addmetadata.classList.add("active");
-    nofileselected.classList.toggle("active");
-  });
-});
+// selectedImages?.forEach((item) => {
+//   item.addEventListener("click", function () {
+//     this.classList.toggle("selected");
+//     selectimgdrop.classList.toggle("active");
+//     viewdata.classList.add("notactive");
+//     addmetadata.classList.add("active");
+//     nofileselected.classList.toggle("active");
+//   });
+// });
+// selectedImages?.forEach((item) => {
+//   item.addEventListener("click", function () {
+//     // If already selected → remove everything
+//     if (this.classList.contains("selected")) {
+//       this.classList.remove("selected");
+
+//       selectimgdrop.classList.remove("active");
+//       viewdata.classList.remove("notactive");
+//       addmetadata.classList.remove("active");
+//       nofileselected.classList.add("active");
+
+//       return; // stop here
+//     }
+
+//     // Remove selected from all
+//     selectedImages.forEach((img) => img.classList.remove("selected"));
+
+//     // Add to clicked one
+//     this.classList.add("selected");
+
+//     // Activate UI
+//     selectimgdrop.classList.add("active");
+//     viewdata.classList.add("notactive");
+//     addmetadata.classList.add("active");
+//     nofileselected.classList.remove("active");
+//   });
+// });
 document.querySelectorAll(".dot-dropdown").forEach((btn) => {
   btn.addEventListener("click", function (e) {
     e.stopPropagation();
@@ -175,36 +202,139 @@ mobilemetadata?.addEventListener("click", function () {
   nofileselected.classList.remove("showaddmetadataactive");
 });
 
-const classNames = ["", "two", "three", "four", "five", "six"];
+const slider = document.getElementById("rangeSlider");
+
+function updateSliderProgress() {
+  const min = slider.min;
+  const max = slider.max;
+  const val = slider.value;
+
+  const percentage = ((val - min) / (max - min)) * 100;
+  slider.style.setProperty("--progress", percentage + "%");
+}
+
+// Run on load (important)
+updateSliderProgress();
+
+// Run on slide
+slider.addEventListener("input", updateSliderProgress);
+
+const classNames = [
+  "",
+  "images-content-1",
+  "images-content-2",
+  "images-content-3",
+  "images-content-4",
+  "images-content-5",
+];
 
 $("#rangeSlider").on("input", function () {
   let value = parseInt($(this).val());
 
   $(".images-content")
     .removeClass(classNames.join(" "))
-    .addClass(classNames[value - 1]);
+    .addClass(classNames[6 - value]); // reverse logic
 });
 
-$(document).on("click", ".select-btn", function () {
-  let images = $(".upload-image");
-  let button = $(this);
+// $(document).on("click", ".select-btn", function () {
+//   let images = $(".upload-image");
+//   let button = $(this);
 
-  // Check if all are already selected
-  let allSelected = images.length === images.filter(".selected").length;
+//   // Check if all are already selected
+//   let allSelected = images.length === images.filter(".selected").length;
 
-  if (allSelected) {
-    // If all selected → unselect all
-    images.removeClass("selected");
-    button.text("Select All");
-  } else {
-    // Otherwise → select all
-    images.addClass("selected");
-    button.text("Deselect All");
+//   if (allSelected) {
+//     // If all selected → unselect all
+//     images.removeClass("selected");
+//     button.text("Select All");
+//   } else {
+//     // Otherwise → select all
+//     images.addClass("selected");
+//     button.text("Deselect All");
+//   }
+
+//   // Toggle UI panels
+//   selectimgdrop?.classList.toggle("active");
+//   viewdata?.classList.toggle("notactive");
+//   addmetadata?.classList.toggle("active");
+//   nofileselected?.classList.toggle("active");
+// });
+$(document).ready(function () {
+  function updateUI() {
+    let images = $(".upload-image");
+    let selectedCount = images.filter(".selected").length;
+    let total = images.length;
+    let button = $(".select-btn");
+
+    // 🔥 Update Select All Button Text
+    if (selectedCount === total && total > 0) {
+      button.text("Deselect All");
+    } else {
+      button.text("Select All");
+    }
+
+    // 🔥 Update Delete Count
+    $(".delete-count").text(selectedCount);
+
+    // 🔥 Hide count if 0 (optional cleaner UI)
+    if (selectedCount === 0) {
+      $(".delete-count").hide();
+    } else {
+      $(".delete-count").show();
+    }
+
+    // Panels
+    if (selectedCount > 0) {
+      selectimgdrop?.classList.add("active");
+      viewdata?.classList.add("notactive");
+      addmetadata?.classList.add("active");
+      nofileselected?.classList.remove("active");
+    } else {
+      selectimgdrop?.classList.remove("active");
+      viewdata?.classList.remove("notactive");
+      addmetadata?.classList.remove("active");
+      nofileselected?.classList.add("active");
+    }
   }
 
-  // Toggle UI panels
-  selectimgdrop?.classList.toggle("active");
-  viewdata?.classList.toggle("notactive");
-  addmetadata?.classList.toggle("active");
-  nofileselected?.classList.toggle("active");
+  // 🔥 Image Click Logic (Fixed)
+  $(document).on("click", ".upload-image", function (e) {
+    if ($(e.target).closest(".dot-menu").length) return;
+
+    let images = $(".upload-image");
+    let selectedCount = images.filter(".selected").length;
+    let total = images.length;
+    let isSelected = $(this).hasClass("selected");
+
+    if (selectedCount === total) {
+      // If ALL were selected → remove only this one
+      $(this).removeClass("selected");
+    } else if (selectedCount > 1) {
+      // If multiple selected (from Select All or other logic)
+      $(this).toggleClass("selected");
+    } else {
+      // Only one allowed manually
+      images.removeClass("selected");
+
+      if (!isSelected) {
+        $(this).addClass("selected");
+      }
+    }
+
+    updateUI();
+  });
+
+  // Select All Button
+  $(document).on("click", ".select-btn", function () {
+    let images = $(".upload-image");
+    let allSelected = images.length === images.filter(".selected").length;
+
+    if (allSelected) {
+      images.removeClass("selected");
+    } else {
+      images.addClass("selected");
+    }
+
+    updateUI();
+  });
 });
