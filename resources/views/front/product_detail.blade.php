@@ -181,7 +181,7 @@
                             <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
                                 class="product-img" alt="">
 
-                            <div class="p-3">
+                            {{-- <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Art</span>
 
@@ -209,7 +209,7 @@
                                         Share</button>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </a>
                 </div>
@@ -221,7 +221,7 @@
                             <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
                                 class="product-img" alt="Punjabi Dum Aloo">
 
-                            <div class="p-3">
+                            {{-- <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Food</span>
 
@@ -249,7 +249,7 @@
                                         Share</button>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </a>
                 </div>
@@ -260,7 +260,7 @@
 
                             <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
                                 class="product-img" alt="">
-                            <div class="p-3">
+                            {{-- <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Food</span>
 
@@ -288,7 +288,7 @@
                                         Share</button>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </a>
 
@@ -301,7 +301,7 @@
                             <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
                                 class="product-img" alt="">
 
-                            <div class="p-3">
+                            {{-- <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Diamond</span>
 
@@ -329,7 +329,7 @@
                                         Share</button>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </a>
 
@@ -341,7 +341,7 @@
                             <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
                                 class="product-img" alt="">
 
-                            <div class="p-3">
+                            {{-- <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Art</span>
 
@@ -369,7 +369,7 @@
                                         Share</button>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </a>
                 </div>
@@ -380,7 +380,7 @@
                             <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
                                 class="product-img" alt="Punjabi Dum Aloo">
 
-                            <div class="p-3">
+                            {{-- <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Food</span>
 
@@ -408,7 +408,7 @@
                                         Share</button>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </a>
                 </div>
