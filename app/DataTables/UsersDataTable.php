@@ -48,7 +48,7 @@ class UsersDataTable extends DataTable
                 }
             })
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('name', function ($row) {
                 return $row->first_name . ' ' . $row->last_name;
@@ -76,9 +76,9 @@ class UsersDataTable extends DataTable
             //         '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_user"><i class="ti ti-trash"></i></button></form>
             //                 </div>';
             // })
-             ->addColumn('actions', function ($row) {
+            ->addColumn('actions', function ($row) {
 
-               
+
 
                 $deleteButton = '
             <button type="button" class="btn btn-danger btn-sm deleteUser"  data-id="' . encrypt($row->id) . '">
@@ -88,8 +88,6 @@ class UsersDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'name', 'created_at', 'actions']);

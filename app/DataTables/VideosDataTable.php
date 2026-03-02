@@ -45,7 +45,7 @@ class VideosDataTable extends DataTable
                 }
             })
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('category_id', function ($row) {
                 return $row->category->category_name ?? '';
@@ -142,8 +142,6 @@ class VideosDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'name', 'video', 'video_name', 'video_price', 'video_description', 'display_status', 'created_at', 'actions'])

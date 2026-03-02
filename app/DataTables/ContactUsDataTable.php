@@ -25,7 +25,7 @@ class ContactUsDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('actions', function ($row) {
 
@@ -37,13 +37,9 @@ class ContactUsDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'name', 'email', 'subject', 'message', 'actions']);
-
-
     }
 
     /**

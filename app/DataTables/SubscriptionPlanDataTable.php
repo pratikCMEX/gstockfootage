@@ -24,8 +24,8 @@ class SubscriptionPlanDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+            ->addColumn('checkbox', function ($row) {
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('is_active', function ($row) {
                 $checked = $row->is_active == '1' ? 'checked' : '';
@@ -59,11 +59,8 @@ class SubscriptionPlanDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
-            ->rawColumns(['action', 'is_active','checkbox']);
-
+            ->rawColumns(['action', 'is_active', 'checkbox']);
     }
 
     /**
@@ -103,7 +100,7 @@ class SubscriptionPlanDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-             Column::make('checkbox')
+            Column::make('checkbox')
                 ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
