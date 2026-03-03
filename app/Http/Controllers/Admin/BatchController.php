@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
+use Intervention\Image\Encoders\WebpEncoder;
+use Illuminate\Support\Facades\File;
 
 class BatchController extends Controller
 {
@@ -303,68 +305,125 @@ class BatchController extends Controller
         }
     }
 
-    public function uploadMultiple(Request $request, String $batch_id)
+    // public function uploadMultiple(Request $request, String $batch_id)
+    // {
+    //     $request->validate([
+    //         'files' => 'required',
+    //         'files.*' => 'required|file|mimes:jpg,jpeg,png,webp,zip|max:51200'
+    //     ]);
+
+    //     // DB::beginTransaction();
+
+    //     try {
+
+    //         $manager = new ImageManager(new Driver());
+    //         foreach ($request->file('files') as $file) {
+    //             $extension = $file->getClientOriginalExtension();
+    //             if ($extension === 'zip') {
+    //                 $zip = new \ZipArchive;
+    //                 $zipPath = $file->getRealPath();
+    //                 if ($zip->open($zipPath) === TRUE) {
+    //                     $extractPath = storage_path('app/temp/' . uniqid());
+    //                     mkdir($extractPath, 0777, true);
+    //                     $zip->extractTo($extractPath);
+    //                     $zip->close();
+    //                     // $images = glob($extractPath . '/*.{jpg,jpeg,png,webp}', GLOB_BRACE);
+    //                     $images = glob($extractPath . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', GLOB_BRACE);
+    //                     dd($images);
+    //                     foreach ($images as $imagePath) {
+    //                         $this->processImage($imagePath, $batch_id);
+    //                     }
+
+    //                     // Clean temp folder
+    //                     File::deleteDirectory($extractPath);
+    //                 }
+    //             } else {
+    //                 // ✅ Normal image
+    //                 $this->processImage($file->getRealPath(), $batch_id, $file);
+    //             }
+    //         }
+
+    //         // DB::commit();
+
+    //         return back()->with('success', 'Images uploaded to S3 successfully');
+    //     } catch (\Exception $e) {
+    //         dd($e);
+    //         // DB::rollBack();
+    //         return back()->with('error', $e->getMessage());
+    //     }
+    // }
+    // private function processImage($path, $batch_id, $fileObj = null)
+    // {
+    //     try {
+
+    //         $manager = new ImageManager(new Driver());
+
+    //         $imageName = uniqid() . '.webp';
+
+    //         $img = $manager->read($path);
+
+    //         $width  = $img->width();
+    //         $height = $img->height();
+    //         $size   = $fileObj ? $fileObj->getSize() : filesize($path);
+
+    //         // HIGH
+    //         Storage::disk('s3')->put(
+    //             "batch/high/$imageName",
+    //             $img->encode(new WebpEncoder(quality: 85))->toString(),
+    //             'public'
+    //         );
+
+    //         // LOW
+    //         $low = $img->scale(width: 800);
+
+    //         Storage::disk('s3')->put(
+    //             "batch/low/low_$imageName",
+    //             $low->encode(new WebpEncoder(quality: 75))->toString(),
+    //             'public'
+    //         );
+
+    //         BatchFile::create([
+    //             'batch_id'       => $batch_id,
+    //             'file_code'      => mt_rand(1000000000, 9999999999),
+    //             'original_name'  => $fileObj ? $fileObj->getClientOriginalName() : basename($path),
+    //             'file_name'      => $imageName,
+    //             'file_path'      => "batch/high/$imageName",
+    //             'thumbnail_path' => "batch/low/low_$imageName",
+    //             'file_type'      => 'image',
+    //             'file_size'      => $size,
+    //             'width'          => $width,
+    //             'height'         => $height,
+    //             'status'         => 'not_submitted',
+    //         ]);
+
+    //         // 🔥 FREE MEMORY
+    //         $img = null;
+    //         unset($img);
+    //         gc_collect_cycles();
+    //     } catch (\Throwable $e) {
+    //         \Log::error($e->getMessage());
+    //     }
+    // }
+    public function uploadZip(Request $request, $batch_id)
     {
         $request->validate([
-            'files' => 'required',
-            'files.*' => 'image|max:10240'
+            'file' => 'required|file|mimes:zip|max:7168000' // ~7GB
         ]);
 
-        DB::beginTransaction();
+        $file = $request->file('file');
 
-        try {
+        // Upload ZIP directly to S3
+        $zipPath = Storage::disk('s3')->put('batch-zips', $file);
 
-            $manager = new ImageManager(new Driver());
+        // Update batch status
+        Batch::where('id', $batch_id)->update([
+            'status' => 'reviewing'
+        ]);
 
-            foreach ($request->file('files') as $file) {
+        // Dispatch background job
+        ProcessBatchVideo::dispatch($zipPath, $batch_id);
 
-                $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
-
-                $img = $manager->read($file->getRealPath());
-
-                $width = $img->width();
-                $height = $img->height();
-                $size = $file->getSize();
-
-                // Upload HIGH image to S3
-                Storage::disk('s3')->put(
-                    "batch/high/$imageName",
-                    (string) $img->encode(),
-                    'public'
-                );
-
-                // Create LOW image
-                $low = $manager->read($file->getRealPath());
-                $low->scale(width: 800);
-
-                Storage::disk('s3')->put(
-                    "batch/low/low_$imageName",
-                    (string) $low->encode(),
-                    'public'
-                );
-
-                BatchFile::create([
-                    'batch_id' => $batch_id,
-                    'file_code' => mt_rand(1000000000, 9999999999),
-                    'original_name' => $file->getClientOriginalName(),
-                    'file_name' => $imageName,
-                    'file_path' => "batch/high/$imageName",
-                    'thumbnail_path' => "batch/low/low_$imageName",
-                    'file_type' => 'image',
-                    'file_size' => $size,
-                    'width' => $width,
-                    'height' => $height,
-                    'status' => 'not_submitted',
-                ]);
-            }
-
-            DB::commit();
-
-            return back()->with('success', 'Images uploaded to S3 successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', $e->getMessage());
-        }
+        return back()->with('msg_success', 'Zip uploaded. Processing started.');
     }
 
     public function uploadMultipleVideos(Request $request, String $batch_id)

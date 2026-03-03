@@ -141,4 +141,14 @@ class HomeController extends Controller
 
         return view("layouts.front.layout", compact('title', 'page'));
     }
+
+    public function about()
+    {
+        $title = 'About us';
+        $page = 'front.about_us';
+
+
+
+        return view("layouts.front.layout", compact('title', 'page'));
+    }
 }
