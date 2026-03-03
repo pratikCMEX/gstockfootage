@@ -12,7 +12,7 @@ class CollectionsController extends Controller
         $title = 'Collection';
         $page = 'front.collection';
         $js = ['home'];
-        $CollectionList = Collection::get();
+        $CollectionList = Collection::Orderby('id', 'desc')->get();
         return view("layouts.front.layout", compact('title', 'page', 'CollectionList', 'js'));
     }
 }

@@ -21,7 +21,7 @@ class HomeController extends Controller
         // $js = [''];
         $categoryList = Category::get();
         $ImageList = Image::get();
-        $CollectionList = Collection::get();
+        $CollectionList = Collection::limit(4)->get();
         $product = Product::with('category')->limit(4)->get();
         return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js'));
     }

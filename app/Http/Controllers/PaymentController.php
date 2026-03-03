@@ -40,8 +40,8 @@ class PaymentController extends Controller
                     'product_data' => [
                         'name' => $item['title'],
                     ],
-                    'unit_amount' => 2 * 100,
-                    // 'unit_amount' => $item['price'] * 100, 
+                    // 'unit_amount' => 2 * 100,
+                    'unit_amount' => $item['price'] * 100,
                 ],
                 'quantity' => $item['qty'],
             ];

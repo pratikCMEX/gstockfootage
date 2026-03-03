@@ -129,7 +129,38 @@ $("#send_forget_link").validate({
   },
 
   errorClass: "text-danger",
-  errorElement: "span",
+  errorElement: "label",
+  highlight: function (element) {
+    $(element).addClass("is-invalid");
+  },
+  unhighlight: function (element) {
+    $(element).removeClass("is-invalid");
+  },
+});
+
+$("#change_forget_pass").validate({
+  rules: {
+    password: {
+      required: true,
+      minlength: 6,
+    },
+    password_confirmation: {
+      required: true,
+      equalTo: "#password",
+    },
+  },
+  messages: {
+    password: {
+      required: "Please enter your password",
+      minlength: "Password must be at least 6 characters long",
+    },
+    password_confirmation: {
+      required: "Please confirm your password",
+      equalTo: "Passwords do not match",
+    },
+  },
+  errorElement: "label",
+  errorClass: "text-danger",
   highlight: function (element) {
     $(element).addClass("is-invalid");
   },

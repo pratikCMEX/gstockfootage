@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
@@ -100,4 +101,10 @@ function getCartItems()
         'count' => count($items),
         'total' => $total,
     ];
+}
+
+function getBanner()
+{
+    $banner = Banner::where('status', '1')->latest()->first();
+    return $banner;
 }

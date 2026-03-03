@@ -25,9 +25,9 @@ class DashboardController extends Controller
         $totalVideo = Product::where('type', '1')->count();
         $totalImage = Product::where('type', '0')->count();
         $totalUser = User::count();
-        $totalProduct=Product::count();
-        $totalLicense=License_master::count();
-        $totalSubscription=Subscription_plans::count();
+        $totalProduct = Product::count();
+        $totalLicense = License_master::count();
+        $totalSubscription = Subscription_plans::count();
 
         $options = [
             'chart_title' => 'Image by months',

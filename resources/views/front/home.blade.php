@@ -206,7 +206,8 @@
                                             @endif
                                             <div class="p-3">
 
-                                                <span class="badge badge-custom mb-2">Art</span>
+                                                <span
+                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name }}</span>
 
                                                 <h6 class="popular-detail-title">{{ $pro->name }}
                                                 </h6>

@@ -200,7 +200,7 @@ a {
   box-shadow: none;
 }
 
-.row-checkbox:checked{
+.row-checkbox:checked {
   accent-color: var(--primary);
 }
 
@@ -216,6 +216,10 @@ a {
   background-color: var(--primary) !important ;
   border-color: var(--primary) !important;
 }
-div.dataTables_processing > div:last-child > div{
+div.dataTables_processing > div:last-child > div {
   background: var(--primary) !important;
+}
+
+.form-check-input:focus {
+  border-color: gray;
 }

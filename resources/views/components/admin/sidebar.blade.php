@@ -21,10 +21,18 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['banner']) ? 'active  ' : '' }}side-item"
+                        href="{{ route('admin.banner') }}" aria-expanded="false">
+                        <!-- <i class="ti ti-layout-grid"></i> -->
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span class="hide-menu">Login Banner</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['category', 'add_category', 'edit_category']) ? 'active  ' : '' }}side-item"
                         href="{{ route('admin.category') }}" aria-expanded="false">
                         <!-- <i class="ti ti-layout-grid"></i> -->
-                         <i class="fa-solid fa-table-cells-large"></i>
+                        <i class="fa-solid fa-table-cells-large"></i>
                         <span class="hide-menu">Categories</span>
                     </a>
                 </li>
@@ -32,7 +40,7 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['sub_category', 'add_sub_category', 'edit_sub_category']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.sub_category') }}" aria-expanded="false">
                         <!-- <i class="ti ti-layout-grid"></i> -->
-                         <i class="fa-solid fa-table-list"></i>
+                        <i class="fa-solid fa-table-list"></i>
                         <span class="hide-menu">Sub Categories</span>
                     </a>
                 </li>
@@ -40,7 +48,7 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['collection', 'add_collection', 'edit_collection']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.collection') }}" aria-expanded="false">
                         <!-- <i class="ti ti-layout-grid"></i> -->
-                         <i class="fa-solid fa-layer-group"></i>
+                        <i class="fa-solid fa-layer-group"></i>
                         <span class="hide-menu">Collection</span>
                     </a>
                 </li>
@@ -64,7 +72,7 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['product', 'add_product', 'edit_product']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.product') }}" aria-expanded="false">
                         <!-- <i class="ti ti-chart-donut-3"></i> -->
-                         <i class="fa-brands fa-product-hunt"></i>
+                        <i class="fa-brands fa-product-hunt"></i>
                         <span class="hide-menu">Product Manager</span>
                     </a>
                 </li>
@@ -77,14 +85,14 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ in_array(Request::segment(2), ['license','add_license','edit_license']) ? 'active  ' : '' }} side-item"
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['license', 'add_license', 'edit_license']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.license') }}" aria-expanded="false">
                         <i class="ti ti-shield-check "></i>
                         <span class="hide-menu">Licenses</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions','add_subscription','edit_subscription']) ? 'active  ' : '' }} side-item"
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions', 'add_subscription', 'edit_subscription']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.subscriptions') }}" aria-expanded="false">
                         <i class="ti  ti-credit-card"></i>
                         <span class="hide-menu">Subscriptions </span>
@@ -101,7 +109,7 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['batch', 'add_new_img']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.batch') }}" aria-expanded="false">
                         <!-- <i class="ti ti-user-circle"></i> -->
-                         <i class="fa-regular fa-clone"></i>
+                        <i class="fa-regular fa-clone"></i>
                         <span class="hide-menu">Batchs</span>
                     </a>
                 </li>

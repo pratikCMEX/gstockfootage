@@ -15,7 +15,7 @@
 .auth-wrapper {
   min-height: 100vh;
   width: 100%;
-  background: url(../img/banner.jpg) 50% / cover no-repeat;
+  /* background: url(../img/banner.jpg) 50% / cover no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,7 +137,7 @@ label {
 
 #login .text-danger,
 #signup .text-danger {
-  display: block;
+  display: block !important;
   min-height: 17px;
   margin-top: 5px !important;
 }
@@ -164,6 +164,9 @@ label {
 #login .btn-orange,
 #signup .btn-orange {
   width: 100%;
+}
+input[type="password"]{
+  padding-right: 50px;
 }
 
 /* Forgot */

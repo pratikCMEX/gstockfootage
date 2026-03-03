@@ -20,7 +20,12 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('auth.front.reset_password', ['request' => $request]);
+        $title = 'Change Password';
+        $page = 'auth.front.reset_password';
+        $js = ['login'];
+        $request = $request;
+        return view("layouts.front.auth_layout", compact('title', 'page', 'js', 'request'));
+        // return view('auth.front.reset_password', ['request' => $request]);
     }
 
     /**
@@ -56,7 +61,7 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('login')->with('msg_success', __($status))
             : back()->withInput($request->only('email'))
             ->withErrors(['email' => __($status)]);
     }
