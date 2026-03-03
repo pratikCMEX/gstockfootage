@@ -20,8 +20,8 @@
 
 </html> --}}
 
-<div class="auth-wrapper">
-
+<div class="auth-wrapper"
+    style="background: url('{{ $banner ? asset('uploads/banners/' . $banner->image) : asset('assets/front/img/banner.jpg') }}') 50% / cover no-repeat;">
     <!-- Brand -->
     <div class="brand">
         <a href="{{ route('home') }}">
