@@ -15,7 +15,13 @@ class PasswordResetLinkController extends Controller
      */
     public function create()
     {
-        return view('auth.front.forgot_password');
+        $title = 'Forget Password';
+        $page = 'auth.front.forgot_password';
+        $js = ['login'];
+
+        return view("layouts.front.auth_layout", compact('title', 'page', 'js'));
+
+        // return view('auth.front.forgot_password');
     }
 
     /**
@@ -25,7 +31,6 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd(1);
         $request->validate([
             'email' => ['required', 'email'],
         ]);

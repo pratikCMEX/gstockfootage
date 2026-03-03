@@ -22,7 +22,7 @@
                                 <textarea class="form-control ckeditor" name="description" id="description"rows="3"
                                     placeholder="Please enter description">{{ isset($term_condition->content) ? $term_condition->content : '' }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-orange">Add</button>
                         </form>
                     </div>
                 </div>

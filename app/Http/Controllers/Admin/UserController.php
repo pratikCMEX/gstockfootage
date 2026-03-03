@@ -61,7 +61,7 @@ class UserController extends Controller
             // dd($id);
             $user = User::find($id)->delete();
             DB::commit();
-           return response()->json([
+            return response()->json([
                 'success' => true,
                 'message' => 'Users deleted successfully.'
             ]);
@@ -97,6 +97,24 @@ class UserController extends Controller
             return response()->json(false);
         }
     }
+
+    public function checkUserValid(Request $request)
+    {
+        try {
+            $user = User::where('email', $request->email)->first();
+
+            // If user exists -> VALID (return true)
+            if ($user) {
+                return response()->json(true);
+            }
+
+            // If user not exists -> INVALID (return false)
+            return response()->json(false);
+        } catch (\Exception $e) {
+            return response()->json(false);
+        }
+    }
+
 
     public function deleteMultiple(Request $request)
     {

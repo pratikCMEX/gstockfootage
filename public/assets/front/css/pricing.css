@@ -1,0 +1,447 @@
+/* Section */
+.pricing-section {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.pricing-section p {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+/* Badge */
+.section-badge {
+  background: var(--enterprise-badge);
+  border: 1px solid var(--enterprise-badge-border);
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 13px;
+}
+
+/* Cards */
+.pricing-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 25px;
+  height: 100%;
+  transition: 0.35s;
+  border: 1px solid rgba(255, 128, 0, 0.35);
+}
+
+/* Popular */
+.popular {
+  border: 1px solid var(--primary);
+  box-shadow: 0 12px 40px var(--box-shadow);
+  position: relative;
+  transform: scale(1.02);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 3px 15px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-family: var(--font-inter-regular);
+}
+.pricing-card h5 {
+  font-family: var(--font-inter-bold);
+  font-size: 25px;
+}
+
+/* Price */
+.price {
+  font-size: 44px;
+  font-family: var(--font-inter-bold);
+  color: var(--primary);
+}
+
+.price span {
+  font-size: 15px;
+  color: var(--secendory);
+  font-family: var(--font-inter-regular);
+}
+.price-text {
+  margin-top: 0 !important;
+  margin-bottom: 20px !important;
+}
+
+/* Features */
+.features {
+  margin-bottom: 0;
+  list-style: none;
+  padding: 0;
+  margin: 25px 0 0 0;
+  text-align: left;
+}
+
+.features li {
+  margin-bottom: 12px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: var(--font-inter-medium);
+}
+
+.features li::before {
+  content: "✔";
+  color: var(--primary);
+  margin-right: 10px;
+}
+.heading h3 {
+  font-size: 20px;
+  font-family: var(--font-inter-bold);
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+/* subscription plan */
+.subscription_plan {
+  padding: 80px 0;
+  background: var(--black);
+}
+.subscription-card {
+  padding: 25px;
+  background: var(--subscribe-card);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px var(--box-shadow);
+  color: white;
+}
+
+.subscription-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.off-badge {
+  color: var(--text);
+  padding: 3px 15px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-family: var(--font-inter-regular);
+  background: var(--primary);
+}
+.subscription-content {
+  margin-top: 50px;
+}
+.subscription-left h5 {
+  font-family: var(--font-inter-bold);
+  font-size: 24px;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.subscription-left p {
+  font-size: 16px;
+  font-family: var(--font-inter-medium);
+}
+.subscribe-price {
+  font-size: 24px;
+  font-family: var(--font-inter-bold);
+  color: var(--white);
+}
+.subscribe-price span {
+  font-size: 14px;
+  color: var(--secendory);
+  font-family: var(--font-inter-regular);
+}
+.subscribe-price-text {
+  font-size: 14px;
+  color: var(--secendory);
+  margin-bottom: 20px;
+}
+.subscription_plan .heading h2 {
+  color: var(--white);
+}
+
+/* license_type */
+.license_type {
+  padding: 80px 0;
+}
+.license_type .heading p {
+  margin-bottom: 20px;
+}
+.license-content {
+  height: 100%;
+  border-radius: 18px;
+  border: 1px solid var(--primary);
+  padding: 25px;
+}
+.license-content ul li:last-child {
+  margin-bottom: 0;
+}
+.license-content ul {
+  margin: 40px 0 0;
+  padding: 0;
+}
+.license-content ul li {
+  list-style: none;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: var(--text);
+  font-family: var(--font-inter-medium);
+}
+.license-content ul li svg {
+  stroke: var(--primary);
+}
+.license-content h3 {
+  font-size: 26px;
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+  margin-bottom: 15px;
+}
+.license-content h4 {
+  color: var(--primary);
+  font-size: 20px;
+
+  font-family: var(--font-inter-bold);
+}
+.extended-license {
+  position: relative;
+  border: 3px solid var(--primary);
+}
+.extended-badge {
+  border-radius: 50px;
+  background-color: var(--primary);
+  padding: 5px 20px;
+  color: var(--white);
+  font-family: var(--font-inter-medium);
+  display: inline-block;
+  position: absolute;
+  top: -17px;
+  right: 30px;
+}
+.license-text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+.license-heading {
+  font-size: 24px;
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.license-subtextul li,
+.license-subtext {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-regular);
+  letter-spacing: 1px;
+}
+.license-subtextul {
+  padding-left: 1rem;
+}
+.license-subtextul li {
+  margin-bottom: 10px;
+}
+
+/* pricing_faq */
+.pricing_faq {
+  padding-bottom: 80px;
+}
+
+.faq_content h4 {
+  font-size: 20px;
+  color: var(--text);
+  font-family: var(--font-inter-medium);
+  /* margin-bottom: 10px; */
+}
+.faq_content p {
+  font-size: 16px;
+  font-family: var(--font-inter-regular);
+  color: var(--text);
+}
+.faq_content .accordion-button:not(.collapsed) {
+  background-color: transparent;
+  box-shadow: none;
+}
+.faq_content .accordion-button:focus {
+  z-index: 3;
+  border-color: transparent;
+  outline: 0;
+  box-shadow: none;
+}
+.faq_content .accordion-button::after {
+  content: none;
+  display: none;
+}
+.faq_content .accordion-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+.faq_content .accordion-button i {
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+  color: var(--black);
+}
+.faq_content .accordion-button.collapsed i {
+  transform: rotate(0deg);
+  transition: all 0.3s ease;
+  color: var(--black);
+}
+.faq_content .accordion-item {
+  margin-bottom: 20px;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  border-bottom: 1px solid var(--black);
+  border-radius: 0px;
+}
+.faq_content .accordion-body {
+  padding: 12px 0;
+}
+@media only screen and (max-width: 1399px) {
+  .license-content ul {
+    margin: 30px 0 0;
+  }
+  .license-content h3 {
+    margin-bottom: 10px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .pricing-card {
+    padding: 30px 12px 0px;
+  }
+  .pricing-card .text-secondary {
+    margin-bottom: 12px;
+  }
+  .price {
+    font-size: 39px;
+  }
+  .features li {
+    font-size: 15px;
+  }
+
+  .popular-badge {
+    padding: 3px 12px;
+  }
+  .features {
+    padding: 0 12px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .pricing-card {
+    padding: 30px 12px 9px;
+  }
+  .popular {
+    transform: scale(1);
+  }
+  .pricing-card h5 {
+    font-size: 22px;
+  }
+  .price {
+    font-size: 35px;
+  }
+  .license-content ul li {
+    margin-bottom: 15px;
+  }
+  .faq_content {
+    margin-top: 20px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .pricing-section {
+    padding: 60px 0;
+  }
+  .subscription_plan {
+    padding: 60px 0;
+  }
+  .subscription-left h5 {
+    font-size: 22px;
+  }
+  .subscription-left p {
+    font-size: 14px;
+  }
+  .subscribe-price {
+    font-size: 20px;
+  }
+
+  .license-content h3 {
+    font-size: 24px;
+  }
+  .license-content h4 {
+    font-size: 18px;
+  }
+  .license-text {
+    row-gap: 25px;
+  }
+  .license_type {
+    padding: 60px 0;
+  }
+  .pricing_faq {
+    padding-bottom: 60px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .license_type {
+    padding: 50px 0;
+  }
+  .pricing-section {
+    padding: 50px 0;
+  }
+  .subscription_plan {
+    padding: 50px 0;
+  }
+  .license-heading {
+    font-size: 22px;
+  }
+  .license-content h3 {
+    font-size: 22px;
+  }
+  .license-content ul {
+    margin: 25px 0 0;
+  }
+  .license-content h4 {
+    font-size: 16px;
+  }
+  .faq_content h4 {
+    font-size: 18px;
+  }
+  .pricing_faq {
+    padding-bottom: 50px;
+  }
+}
+@media only screen and (max-width: 424px) {
+  .license_type {
+    padding: 40px 0;
+  }
+  .pricing-section {
+    padding: 40px 0;
+  }
+  .pricing-card h5 {
+    font-size: 20px;
+  }
+  .price {
+    font-size: 32px;
+  }
+  .pricing-card .text-secondary {
+    margin-bottom: 12px !important;
+  }
+  .popular-badge {
+    top: 10px;
+    right: 12px;
+  }
+  .subscription_plan {
+    padding: 40px 0;
+  }
+  .subscription-content {
+    margin-top: 20px;
+  }
+  .faq_content h4 {
+    font-size: 16px;
+  }
+  .pricing_faq {
+    padding-bottom: 40px;
+  }
+}

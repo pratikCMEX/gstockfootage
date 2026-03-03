@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthAdmin;
+use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\ContactUsController;
@@ -26,6 +27,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
+Route::post('admin/vide_batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
+
 Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
@@ -33,6 +36,11 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/update_password', [ProfileController::class, 'update_password'])->name('admin.update_password');
     Route::post('admin/check_password', [ProfileController::class, 'check_password'])->name('admin.check_password');
 
+    Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
+    Route::get('admin/add_new_img', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');
+    Route::post('admin/store_batch', [BatchController::class, 'store'])->name('admin.storeBatch');
+    Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultiple'])->name('batch.upload');
+    // Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
 
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');
@@ -91,6 +99,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_user', [UserController::class, 'delete'])->name('admin.user_delete');
     Route::post('admin/delete_multiple_user', [UserController::class, 'deleteMultiple'])->name('admin.delete_multiple_user');
     Route::post('admin/check_user_is_exist', [UserController::class, 'checkUserIsExist'])->name('admin.user_check_exist');
+    Route::post('admin/check_user_is_valid', [UserController::class, 'checkUserValid'])->name('admin.user_check_valid');
 
     Route::get('admin/image', [ImageController::class, 'index'])->name('admin.image');
     Route::get('admin/add_image', [ImageController::class, 'addimage'])->name('admin.image_add');
@@ -129,9 +138,9 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
 
     Route::get('admin/video_stream', [VideoStreamController::class, 'stream'])->name('admin.video_stream');
 
-     Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
-     Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');
-     Route::post('admin/delete_multiple_contacts', [ContactUsController::class, 'deleteMultiple'])->name('admin.delete_multiple_contact');
+    Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
+    Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');
+    Route::post('admin/delete_multiple_contacts', [ContactUsController::class, 'deleteMultiple'])->name('admin.delete_multiple_contact');
 
     Route::get('admin/transaction', [WalletTransactionsController::class, 'index'])->name('admin.transaction');
     Route::get('admin/transaction_delete', [WalletTransactionsController::class, 'delete'])->name('admin.transaction_delete');

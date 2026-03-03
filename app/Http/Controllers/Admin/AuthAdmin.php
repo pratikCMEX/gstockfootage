@@ -26,6 +26,7 @@ class AuthAdmin extends Controller
         }
         $title = 'Login';
         $page = 'auth.admin.login';
+        // $page = 'admin.batchs_img.test';
         $js = ['login'];
         return view("layouts.admin.auth_layout", compact('title', 'page', 'js'));
     }

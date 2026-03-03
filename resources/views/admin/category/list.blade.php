@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Category List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.category_add') }}" class="btn btn-primary">Add Category +</a>
+                    <a href="{{ route('admin.category_add') }}" class="btn btn-orange">Add Category +</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

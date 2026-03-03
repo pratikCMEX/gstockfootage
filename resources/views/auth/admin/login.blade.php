@@ -8,13 +8,14 @@
                     <div class="card mb-0">
                         <div class="card-body">
                             <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                <img src="{{ asset('assets/admin/images/logos/logo.svg') }}" alt="">
+                                <img src="{{ asset('assets/admin/images/logos/gsstocklogo.png') }}" alt=""
+                                    height="110" width="220">
                             </a>
-                            <p class="text-center">Your Social Campaigns</p>
+                            {{-- <p class="text-center">Your Social Campaigns</p> --}}
                             <form action="{{ route('admin.login.post') }}" method="POST" id="admin_login_form">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">email</label>
+                                    <label for="exampleInputEmail1" class="form-label">Email</label>
                                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
                                         value="{{ old('password', Cookie::get('admin_email')) }}"
                                         aria-describedby="emailHelp">
@@ -39,7 +40,7 @@
                                     {{-- <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a> --}}
                                 </div>
                                 <button
-                                    class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2 admin_login_btn">Login</button>
+                                    class="btn btn-orange w-100 py-8 fs-4 mb-4 rounded-2 admin_login_btn">Login</button>
                                 {{-- <div class="d-flex align-items-center justify-content-center">
                                     <p class="fs-4 mb-0 fw-bold">New to Modernize?</p>
                                     <a class="text-primary fw-bold ms-2" href="./authentication-register.html">Create an

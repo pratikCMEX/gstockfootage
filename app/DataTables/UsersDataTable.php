@@ -46,7 +46,7 @@ class UsersDataTable extends DataTable
                 }
             })
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('name', function ($row) {
                 return $row->first_name . ' ' . $row->last_name;
@@ -54,8 +54,30 @@ class UsersDataTable extends DataTable
             ->addColumn('email', function ($row) {
                 return $row->email;
             })
-        
-             ->addColumn('actions', function ($row) {
+            // ->addColumn('actions', function ($row) {
+            //     $cryptId = encrypt($row->id);
+            //     $template_delete = decrypt($cryptId);
+            //     // $edit_url = route('admin.user_edit', $cryptId);
+            //     $delete_url = route('admin.user_delete', $cryptId);
+            //     $edit_url = "";
+
+            //     // return '<div class="action-icon" style="gap: 20px;display: flex">
+            //     //             <a class="" href="' .  $edit_url . '" title="Edit"><i class="ti ti-edit"></i></a>
+            //     //             <form id="delete_user_form' . $template_delete . '" action="' . $delete_url . '" method="POST">' .
+            //     //     csrf_field() . // Changed from @csrf to csrf_field()
+            //     //     '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_user"><i class="ti ti-trash"></i></button></form>
+            //     //             </div>';
+
+            //     return '<div class="action-icon" style="gap: 20px;display: flex">
+            //                 <form id="delete_user_form' . $template_delete . '" action="' . $delete_url . '" method="POST">' .
+            //         csrf_field() .
+            //         '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_user"><i class="ti ti-trash"></i></button></form>
+            //                 </div>';
+            // })
+            ->addColumn('actions', function ($row) {
+
+
+
                 $deleteButton = '
             <button type="button" class="btn btn-danger btn-sm deleteUser"  data-id="' . encrypt($row->id) . '">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -141,7 +163,7 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('checkbox')
-                ->title('<input type="checkbox" id="select-all">')
+                ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
               Column::computed('DT_RowIndex')

@@ -25,18 +25,18 @@ class LicenseDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('most_popular', function ($row) {
                 $checked = $row->most_popular == '1' ? 'checked' : '';
                 return '
-                     <div class="form-check form-switch">
-                          <input type="checkbox" 
-                          class="form-check-input toggle-popular"
-                          data-id="' . encrypt($row->id) . '"
-                            ' . $checked . '>
-                     </div>
-                      ';
+        <div class="form-check form-switch">
+            <input type="checkbox" 
+                class="form-check-input toggle-popular"
+                data-id="' . encrypt($row->id) . '"
+                ' . $checked . '>
+        </div>
+    ';
             })
             ->addColumn('action', function ($row) {
 
@@ -102,7 +102,7 @@ class LicenseDataTable extends DataTable
     {
         return [
             Column::make('checkbox')
-                ->title('<input type="checkbox" id="select-all">')
+                ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')

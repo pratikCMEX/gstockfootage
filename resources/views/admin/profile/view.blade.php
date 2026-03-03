@@ -66,10 +66,43 @@
 
                     </div>
                 </div> -->
-                        </div>
-                        <button type="submit" id="submit_btn" class="save cmn-btn primary-btn mt-3"
-                            style="">Save</button>
-                    </form>
+            </div>
+            <button type="submit" id="submit_btn" class="save btn cmn-btn btn-orange mt-3" style="">Save</button>
+        </form>
+    </div>
+    </div>
+
+    <div class="add-new-customer-wrp">
+        <h3>Update Password</h3>
+        <form method="post" action="{{ route('admin.update_password') }}" name="password_form" id="password_form" class="">
+            @csrf
+
+            <!-- <div class="row"> -->
+            <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
+            <input type="hidden" name="outlet_id" value="{{ $user->outlet_id ?? '' }}">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <div class="form-group input-section">
+                        <label for="name">Current Password</label>
+                        <input type="password" name="current_password" class="form-control" id="current_password"
+                            placeholder="Enter current password">
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <div class="form-group input-section">
+                        <label for="name">New Password</label>
+                        <input type="password" name="new_password" class="form-control" id="new_password"
+                            placeholder="Enter new password">
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <div class="form-group input-section">
+                        <label for="name">Confirm Password</label>
+                        <input type="password" name="confirm_password" class="form-control" id="confirm_password"
+                            placeholder="Enter confirm password">
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,12 +147,6 @@
 
 
 
-                        <button type="submit" id="submit_btn" class="save cmn-btn primary-btn mt-3"
-                            style="">Update</button>
-                </div>
-
-                </form>
-            </div>
-        </div>
+            <button type="submit" id="submit_btn" class="save cmn-btn btn-orange btn mt-3" style="">Update</button>
     </div>
 </div>

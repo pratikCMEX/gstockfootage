@@ -46,7 +46,7 @@
                         </select>
                     </div>
                 <div>
-                    <a href="{{ route('admin.product_add') }}" class="btn btn-primary">Add Product +</a>
+                    <a href="{{ route('admin.product_add') }}" class="btn btn-orange">Add Product +</a>
                 </div>
                 </div>
             </div>

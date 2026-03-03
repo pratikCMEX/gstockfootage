@@ -36,7 +36,7 @@ class CollectionDataTable extends DataTable
                 }
             })
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
             ->addColumn('name', function ($row) {
                 return $row->name;
@@ -86,8 +86,6 @@ class CollectionDataTable extends DataTable
             </button>';
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
-
-
             })
 
             ->rawColumns(['checkbox', 'name', 'image', 'created_at', 'actions']);
@@ -147,7 +145,7 @@ class CollectionDataTable extends DataTable
     {
         return [
             Column::make('checkbox')
-                ->title('<input type="checkbox" id="select-all">')
+                ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
              Column::computed('DT_RowIndex')

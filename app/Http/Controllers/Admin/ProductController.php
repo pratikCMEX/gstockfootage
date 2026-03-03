@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\ProcessUploadedVideo; // <-- Import the new job
 use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Models\Collection;
 use App\Models\SubCategory;
 use Illuminate\Database\QueryException;
@@ -304,7 +305,6 @@ class ProductController extends Controller
                 'success' => true,
                 'message' => 'Products deleted successfully'
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -314,5 +314,4 @@ class ProductController extends Controller
             ]);
         }
     }
-
 }
