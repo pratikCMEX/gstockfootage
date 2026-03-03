@@ -58,103 +58,103 @@
                     @endforeach
 
                     {{-- <a href="#">
-                        <div class="collection-grid-card card-2">
-                            <img src="{{ asset('assets/front/img/alvan-nee-Dbng7f0lpmo-unsplash.jpg') }}" class="w-100"
-                                alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-3">
-                            <img src="{{ asset('assets/front/img/amanda-sala-Xq_cvFHQlfw-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-4">
-                            <img src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-5">
-                            <img src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-1">
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-zeedbMYCbx8-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-2">
-                            <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-3">
-                            <img src="{{ asset('assets/front/img/de-an-sun-s7avhwAg060-unsplash.jpg') }}" class="w-100"
-                                alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-4">
-                            <img src="{{ asset('assets/front/img/willian-justen-de-vasconcellos-yBGCtSnKruE-unsplash.jpg') }} "
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-5">
-                            <img src="{{ asset('assets/front/img/tim-mossholder-FYeciZDMwpY-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-1">
-                            <img src="{{ asset('assets/front/img/peter-thomas-1V67-2eFamI-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-2">
-                            <img src="{{ asset('assets/front/img/lawrence-krowdeed-_zVJTz7v75o-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-3">
-                            <img src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-4">
-                            <img src="{{ asset('assets/front/img/land-o-lakes-inc-pazs-Hi5mf8-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="collection-grid-card card-5">
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a> --}}
+                    <div class="collection-grid-card card-2">
+                        <img src="{{ asset('assets/front/img/alvan-nee-Dbng7f0lpmo-unsplash.jpg') }}" class="w-100"
+                            alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-3">
+                        <img src="{{ asset('assets/front/img/amanda-sala-Xq_cvFHQlfw-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-4">
+                        <img src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-5">
+                        <img src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-1">
+                        <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-zeedbMYCbx8-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-2">
+                        <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-3">
+                        <img src="{{ asset('assets/front/img/de-an-sun-s7avhwAg060-unsplash.jpg') }}" class="w-100"
+                            alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-4">
+                        <img src="{{ asset('assets/front/img/willian-justen-de-vasconcellos-yBGCtSnKruE-unsplash.jpg') }} "
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-5">
+                        <img src="{{ asset('assets/front/img/tim-mossholder-FYeciZDMwpY-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-1">
+                        <img src="{{ asset('assets/front/img/peter-thomas-1V67-2eFamI-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-2">
+                        <img src="{{ asset('assets/front/img/lawrence-krowdeed-_zVJTz7v75o-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-3">
+                        <img src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-4">
+                        <img src="{{ asset('assets/front/img/land-o-lakes-inc-pazs-Hi5mf8-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="collection-grid-card card-5">
+                        <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                            class="w-100" alt="">
+                        <h4>Lorem ipsum dolor sit.</h4>
+                    </div>
+                </a> --}}
                 </div>
             </div>
         </div>

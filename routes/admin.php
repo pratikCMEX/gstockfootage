@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthAdmin;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
@@ -35,6 +36,9 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/update_profile', [ProfileController::class, 'update_profile'])->name('admin.update_profile');
     Route::post('admin/update_password', [ProfileController::class, 'update_password'])->name('admin.update_password');
     Route::post('admin/check_password', [ProfileController::class, 'check_password'])->name('admin.check_password');
+
+    Route::get('admin/banner', [BannerController::class, 'addUpdate'])->name('admin.banner');
+    Route::post('admin/banner_store', [BannerController::class, 'store'])->name('admin.banner_store');
 
     Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
     Route::get('admin/add_new_img', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');
