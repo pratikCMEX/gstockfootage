@@ -40,7 +40,8 @@
                         </li>
 
                         <li class="nav-item"><a class="nav-link" href="{{ route('collection') }}">Collections</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li>
+                        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li> --}}
+                        <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Enterprise</a></li>
                         <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Store</a></li>
 
                     </ul>
@@ -155,7 +156,8 @@
             </div>
 
             <a class="side-link" href="{{ route('collection') }}">Collections</a>
-            <a class="side-link" href="{{ route('enterprise') }}">Enterprise</a>
+            <a class="side-link" href="javascript:void(0);">Enterprise</a>
+            {{-- <a class="side-link" href="{{ route('enterprise') }}">Enterprise</a> --}}
             <a class="side-link" href="javascript:void(0);">Our Store</a>
 
         </div>
