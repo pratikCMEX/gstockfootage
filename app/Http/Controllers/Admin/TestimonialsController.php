@@ -88,7 +88,7 @@ class TestimonialsController extends Controller
             ]);
             DB::beginTransaction();
             $testimonial_id = decrypt($request->id);
-            
+
             $getData = Testimonials::where('id', $testimonial_id)->first();
             if ($request->hasFile('image')) {
 
@@ -118,30 +118,30 @@ class TestimonialsController extends Controller
         }
     }
 
-      public function delete(Request $request)
+    public function delete(Request $request)
     {
         try {
             DB::beginTransaction();
             $id = decrypt($request->id);
             $testimonials = Testimonials::findOrFail($id);
 
-           
 
-           
-                $imagePath = public_path('uploads/images/testimonials/' . $testimonials->profile_image);
 
-                if (!empty($testimonials->profile_image) && file_exists($imagePath)) {
-                    @unlink($imagePath);
-                }
 
-                $testimonials->delete();
-                DB::commit();
+            $imagePath = public_path('uploads/images/testimonials/' . $testimonials->profile_image);
 
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Testimonial deleted successfully'
-                ]);
-          
+            if (!empty($testimonials->profile_image) && file_exists($imagePath)) {
+                @unlink($imagePath);
+            }
+
+            $testimonials->delete();
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Testimonial deleted successfully'
+            ]);
+
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json([
@@ -150,5 +150,59 @@ class TestimonialsController extends Controller
             ]);
         }
     }
+    public function deleteMultiple(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $ids = $request->ids;
+            if (empty($ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No IDs provided.'
+                ]);
+            }
+            $category = Testimonials::whereIn('id', $ids)->get();
+            if ($category->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No testimonial found.'
+                ]);
+            }
+
+            Testimonials::whereIn('id', $ids)->delete();
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Testimonials deleted successfully.'
+            ]);
+
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting Testimonials.'
+            ]);
+        }
+    }
+
+     public function change_active_status(Request $request)
+    {
+        try {
+            $id = decrypt($request->id);
+            $status = $request->status;
+
+            $license = Testimonials::find($id);
+            $license->is_active = $status;
+
+            $license->save();
+            return response()->json(['success' => true]);
+
+        } catch (QueryException $e) {
+
+            return response()->json(['success' => false]);
+        }
+    }
+
 
 }

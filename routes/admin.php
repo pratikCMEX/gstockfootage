@@ -53,6 +53,8 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
      Route::get('admin/edit_testimonials/{id}', [TestimonialsController::class, 'edit'])->name('admin.testimonials_edit');
      Route::post('admin/update_testimonials', [TestimonialsController::class, 'update'])->name('admin.testimonials_update');
      Route::post('admin/delete_testimonial', [TestimonialsController::class, 'delete'])->name('admin.testimonials_delete');
+     Route::post('admin/delete_multiple_testimonials', [TestimonialsController::class, 'deleteMultiple'])->name('admin.delete_multiple_testimonials');
+     Route::post('admin/change_active_status', [TestimonialsController::class, 'change_active_status'])->name('admin.change_active_status');
 
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');

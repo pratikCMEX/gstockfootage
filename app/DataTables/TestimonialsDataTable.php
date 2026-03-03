@@ -38,11 +38,22 @@ class TestimonialsDataTable extends DataTable
 
                     return '<img src="' . asset('uploads/images/testimonials/' . $row->profile_image) . '" 
                 class="preview-image"
-                width="80" height="80"
+                width="50" height="50"
                 style="cursor:pointer;" />';
                 }
 
                 return '-';
+            })
+             ->addColumn('display_status', function ($row) {
+                $checked = $row->is_active ? 'checked' : '';
+                return '
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-active-status"
+                               type="checkbox"
+                               data-id="' . encrypt($row->id) . '"
+                               ' . $checked . '>
+                    </div>
+                ';
             })
             ->addColumn('actions', function ($row) {
 
@@ -68,7 +79,7 @@ class TestimonialsDataTable extends DataTable
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
             })
 
-            ->rawColumns(['checkbox','profile_image', 'actions']);
+            ->rawColumns(['display_status','checkbox','profile_image', 'actions']);
     }
 
     /**
@@ -120,7 +131,7 @@ class TestimonialsDataTable extends DataTable
             Column::make('designation'),
             Column::make('message'),
             Column::make('profile_image')->title('Image')->orderable(false),
-
+             Column::make('display_status')->title('Display')->orderable(false),
             Column::computed('actions')
                 ->exportable(false)
                 ->printable(false)

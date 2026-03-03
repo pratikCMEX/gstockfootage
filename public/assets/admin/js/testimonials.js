@@ -190,7 +190,7 @@ $("#delete-selected").on("click", function () {
     });
 
     if (ids.length === 0) {
-        toastr.success("Please select at least one subcategory");
+        toastr.success("Please select at least one testimonial");
         return;
     }
 
@@ -205,7 +205,7 @@ $("#delete-selected").on("click", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: base_url + "/admin/delete_multiple_sub_category",
+                url: base_url + "/admin/delete_multiple_testimonials",
                 type: "POST",
                 data: {
                     ids: ids,
@@ -220,9 +220,34 @@ $("#delete-selected").on("click", function () {
                     }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");
-                    $("#subcategory-table").DataTable().ajax.reload();
+                    $("#testimonials-table").DataTable().ajax.reload();
                 },
             });
         }
     });
+});
+$(document).on('change', '.toggle-active-status', function () {
+
+    var id = $(this).data('id');
+    var status = $(this).is(':checked') ? '1' : '0';
+        
+    $.ajax({
+        url: base_url + "/admin/change_active_status",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: id,
+            status: status
+        },
+        success: function (response) {
+            if (response.success) {
+                if (status == 1) {
+                    toastr.success('Change Status Active Successfully');
+                } else {
+                    toastr.success('Change Status Inactive Successfully');
+                }
+            }
+        }
+    });
+
 });

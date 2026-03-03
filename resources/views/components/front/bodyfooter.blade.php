@@ -87,7 +87,7 @@
                 <h6>Legal</h6>
                 <ul>
                     <li><a href="{{ route('term') }}">Terms of Service</a></li>
-                    <li><a href="javascript:void(0);">Privacy Policy</a></li>
+                    <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
                 </ul>
             </div>
 

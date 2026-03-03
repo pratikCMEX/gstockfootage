@@ -41,6 +41,7 @@ Route::post('/contact_us_store', [ContactController::class, 'store'])->name('con
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
 
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
+Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
 
 Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
 Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
