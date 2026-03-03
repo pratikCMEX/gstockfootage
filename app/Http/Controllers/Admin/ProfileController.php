@@ -76,7 +76,7 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->new_password);
             $user->save();
             Auth::logout();
- 
+
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
@@ -86,6 +86,27 @@ class ProfileController extends Controller
             return redirect()->route('admin.profile', $id)->with('msg_error', 'Profile not updated' . $e->getMessage());
         }
     }
+    public function check_password(Request $request)
+    {
+        try {
+
+            $id = $request->id;
+            $user = User::findOrFail($id);
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                $return = false;
+            } else {
+                $return = true;
+            }
+            echo json_encode($return);
+            exit;
+        } catch (QueryException $e) {
+
+
+            return response()->json($e);
+        }
+    }
+
 
     /**
      * Display the specified resource.

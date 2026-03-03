@@ -16,7 +16,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::segment(2) == 'dashboard' ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.dashboard') }}" aria-expanded="false">
-                        <i class="ti ti-atom"></i>
+                        <i class="ti ti-home"></i>
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
@@ -79,15 +79,15 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['license','add_license','edit_license']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.license') }}" aria-expanded="false">
-                        <i class="ti ti-user-circle"></i>
-                        <span class="hide-menu">License Manager</span>
+                        <i class="ti ti-shield-check "></i>
+                        <span class="hide-menu">Licenses</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions','add_subscription','edit_subscription']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.subscriptions') }}" aria-expanded="false">
-                        <i class="ti ti-user-circle"></i>
-                        <span class="hide-menu">Subscriptions Manager</span>
+                        <i class="ti  ti-credit-card"></i>
+                        <span class="hide-menu">Subscriptions </span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -125,7 +125,7 @@
                         href="javascript:void(0)" aria-expanded="false">
                         <div class="d-flex align-items-center gap-3">
                             <span class="d-flex">
-                                <i class="ti ti-cards"></i>
+                                <i class="ti ti-files"></i>
                             </span>
                             <span class="hide-menu">Pages Management</span>
                         </div>

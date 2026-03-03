@@ -86,21 +86,6 @@ class ImagesDataTable extends DataTable
             ->addColumn('created_at', function ($row) {
                 return $row->created_at;
             })
-            // ->addColumn('actions', function ($row) {
-
-            //     $cryptId = encrypt($row->id);
-            //     $template_delete = decrypt($cryptId);
-
-            //     $edit_url = route('admin.image_edit', $cryptId);
-            //     $delete_url = route('admin.image_delete', $cryptId);
-
-            //     return '<div class="action-icon" style="gap: 20px;display: flex">
-            //                 <a class="" href="' .  $edit_url . '" title="Edit"><i class="ti ti-edit"></i></a>
-            //                 <form id="delete_image_form' . $template_delete . '" action="' . $delete_url . '" method="POST">' .
-            //         csrf_field() .
-            //         '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_image"><i class="ti ti-trash"></i></button></form>
-            //                 </div>';
-            // })
             ->addColumn('actions', function ($row) {
 
                 $updateButton = '
@@ -125,9 +110,7 @@ class ImagesDataTable extends DataTable
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
             })
 
-            ->rawColumns(['checkbox', 'name', 'image', 'image_name', 'image_price', 'image_description', 'tags', 'display_status', 'created_at', 'actions'])
-
-        ;
+            ->rawColumns(['checkbox', 'name', 'image', 'image_name', 'image_price', 'image_description', 'tags', 'display_status', 'created_at', 'actions']);
     }
 
     /**

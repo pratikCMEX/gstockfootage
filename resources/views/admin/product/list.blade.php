@@ -5,8 +5,49 @@
                 <div class="mb-3 mb-sm-0">
                     <h5 class="card-title fw-semibold">Product List</h5>
                 </div>
+                 <div class="d-flex align-items-center gap-2">
+                    <div>
+
+                        <select class="form-select mr-sm-2" name="categories" id="categories">
+                            <option value="">All Category</option>
+                            @foreach ($category as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+
+                        <select class="form-select mr-sm-2" name="subcategory" id="subcategory">
+                            <option value="">All Subcategory</option>
+                            @foreach ($subcategory as $sub)
+                                <option value="{{ $sub->id }}">{{ $sub->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+
+                        <select class="form-select mr-sm-2" name="collections" id="collections">
+                            <option value="">All Collections</option>
+                            @foreach ($collections as $collection)
+                                <option value="{{ $collection->id }}">{{ $collection->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                      <div>
+
+                        <select class="form-select mr-sm-2" name="type" id="type">
+                            <option value="">All Type</option>
+                           
+                                <option value="0">Images</option>
+                                <option value="1">Videos</option>
+                           
+                        </select>
+                    </div>
                 <div>
                     <a href="{{ route('admin.product_add') }}" class="btn btn-orange">Add Product +</a>
+                </div>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

@@ -34,6 +34,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
     Route::post('admin/update_profile', [ProfileController::class, 'update_profile'])->name('admin.update_profile');
     Route::post('admin/update_password', [ProfileController::class, 'update_password'])->name('admin.update_password');
+    Route::post('admin/check_password', [ProfileController::class, 'check_password'])->name('admin.check_password');
 
     Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
     Route::get('admin/add_new_img', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');

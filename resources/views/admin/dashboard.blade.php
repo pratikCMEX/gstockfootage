@@ -320,6 +320,46 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card bg-danger-subtle shadow-none">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="round rounded text-bg-danger d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-chart-donut-3"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3">Products</h6>
+                                <div class="ms-auto text-danger d-flex align-items-center">
+                                    <h3 class="mb-0 fw-semibold fs-7">{{ $totalProduct }}</h3>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card bg-warning-subtle shadow-none">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="round rounded text-bg-warning d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-layout-grid"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3">Subscription Plan</h6>
+                                <div class="ms-auto text-info d-flex align-items-center">
+                                    <h3 class="mb-0 fw-semibold fs-7">{{ $totalSubscription }}</h3>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- <h1>{{ $chart->options['chart_title'] }}</h1>
 
                 {!! $chart->renderHtml() !!}

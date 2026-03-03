@@ -67,7 +67,7 @@ class LicenseDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      *
-     * @return QueryBuilder<License>
+     * @return QueryBuilder<License_master>
      */
     public function query(License_master $model): QueryBuilder
     {
@@ -106,7 +106,7 @@ class LicenseDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('No')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('name'),

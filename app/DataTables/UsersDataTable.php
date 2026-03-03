@@ -22,13 +22,11 @@ class UsersDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $counter = 1;
+        
 
         return datatables()
             ->eloquent($query)
-            ->addColumn('no', function () use (&$counter) {
-                return $counter++;
-            })
+            ->addIndexColumn()
             ->filter(function ($query) {
                 if ($this->request->has('search')) {
                     $keyword = trim($this->request->get('search')['value']);
@@ -168,7 +166,10 @@ class UsersDataTable extends DataTable
                 ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('no')->title('No')->orderable(false),
+              Column::computed('DT_RowIndex')
+                ->title('No')
+                ->orderable(false)
+                ->searchable(false),
             Column::make('name')->orderable(true),
             Column::make('email')->title('email')->orderable(true),
             Column::make('actions')->title('Actions')->orderable(false),

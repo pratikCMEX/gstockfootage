@@ -22,14 +22,9 @@ class CategoryDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-
-        $counter = 1;
-
         return datatables()
             ->eloquent($query)
-            ->addColumn('no', function () use (&$counter) {
-                return $counter++;
-            })
+            ->addIndexColumn()
             ->filter(function ($query) {
                 if ($this->request->has('search')) {
                     $keyword = $this->request->get('search')['value'];
@@ -67,22 +62,7 @@ class CategoryDataTable extends DataTable
             ->addColumn('created_at', function ($row) {
                 return $row->created_at;
             })
-            // ->addColumn('actions', function ($row) {
-
-            //     $cryptId = encrypt($row->id);
-            //     $template_delete = decrypt($cryptId);
-
-            //     $edit_url = route('admin.category_edit', $cryptId);
-            //     $delete_url = route('admin.category_delete', $cryptId);
-
-            //     return '<div class="action-icon" style="gap: 20px;display: flex">
-            //                 <a class="" href="' .  $edit_url . '" title="Edit"><i class="ti ti-edit"></i></a>
-            //                 <form id="delete_category_form' . $template_delete . '" action="' . $delete_url . '" method="POST">' .
-            //         csrf_field() .
-            //         '<button style="background:transparent;border:none;"     type="button" data-id="' . $template_delete . '" class="deleteButton-Icon delete_category"><i class="ti ti-trash"></i></button></form>
-            //                 </div>';
-            // })
-              ->addColumn('action', function ($row) {
+            ->addColumn('action', function ($row) {
 
                 $updateButton = '
             <a href="' . route('admin.category_edit', ['id' => encrypt($row->id)]) . '"
@@ -148,7 +128,7 @@ class CategoryDataTable extends DataTable
             ->setTableId('category-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->orderBy(0,'desc')
+            ->orderBy(0, 'desc')
             ->selectStyleSingle()
 
             ->buttons([
@@ -171,7 +151,10 @@ class CategoryDataTable extends DataTable
                 ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('no')->title('No')->orderable(false),
+            Column::computed('DT_RowIndex')
+                ->title('No')
+                ->orderable(false)
+                ->searchable(false),
             Column::make('name')->orderable(true),
             Column::make('display_status')->title('Display Status')->orderable(false),
             Column::make('image')->title('Image')->orderable(false),
