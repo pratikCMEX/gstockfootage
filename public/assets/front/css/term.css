@@ -1,0 +1,13 @@
+.term_section {
+  padding: 70px 0;
+}
+.term_section .heading .last-update {
+  font-size: 16px;
+  color: var(--secendory);
+  display: block;
+  margin-bottom: 50px;
+}
+.term_section .term-content {
+  max-width: 1440px;
+  margin: auto;
+}
