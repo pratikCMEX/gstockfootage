@@ -373,10 +373,10 @@
                     <div class="tab-pane fade" id="popular">
                         <div class="row g-3">
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/posibility_1.jpg') }}"
+                                        <img src="{{ asset('assets/front/img/artist-at-work-stockcake.webp') }}"
                                             class="product-img" alt="">
 
                                         <div class="p-3">
@@ -415,17 +415,17 @@
 
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/posibility_3.webp') }}"
-                                            class="product-img" alt="Punjabi Dum Aloo">
+                                        <img src="{{ asset('assets/front/img/the-future-of-artificial-intelligence.jpg') }}"
+                                            class="product-img" alt="ai future">
 
                                         <div class="p-3">
 
-                                            <span class="badge badge-custom mb-2">Food</span>
+                                            <span class="badge badge-custom mb-2">AI</span>
 
-                                            <h6 class="popular-detail-title">Punjabi-Dum-Aloo</h6>
+                                            <h6 class="popular-detail-title">AI Future</h6>
 
 
                                             <div class="price-btn">
@@ -457,16 +457,16 @@
 
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
-                                            class="product-img" alt="">
+                                        <img src="{{ asset('assets/front/img/riverss.jpg') }}" class="product-img"
+                                            alt="">
                                         <div class="p-3">
 
-                                            <span class="badge badge-custom mb-2">Food</span>
+                                            <span class="badge badge-custom mb-2">River</span>
 
-                                            <h6 class="popular-detail-title">Malai Chicken</h6>
+                                            <h6 class="popular-detail-title">Rivers</h6>
 
 
                                             <div class="price-btn">
@@ -498,17 +498,17 @@
 
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
-                                            class="product-img" alt="">
+                                        <img src="{{ asset('assets/front/img/foods.jpeg') }}" class="product-img"
+                                            alt="">
 
                                         <div class="p-3">
 
-                                            <span class="badge badge-custom mb-2">Diamond</span>
+                                            <span class="badge badge-custom mb-2">Food</span>
 
-                                            <h6 class="popular-detail-title">Golden Diamond</h6>
+                                            <h6 class="popular-detail-title">Foods</h6>
 
 
                                             <div class="price-btn">

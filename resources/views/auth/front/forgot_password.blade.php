@@ -24,8 +24,11 @@
 
     <!-- Brand -->
     <div class="brand">
-        <i class="bi bi-film"></i>
-        <span>GStockFootage</span>
+        <a href="{{ route('home') }}">
+            <i class="bi bi-film"></i>
+            <span>GStockFootage</span>
+        </a>
+
     </div>
 
     <!-- Card -->
@@ -54,7 +57,7 @@
             </button>
         </form>
 
-        <a href="log_in.html" class="back-link">
+        <a href="{{ route('login') }}" class="back-link">
             <i class="bi bi-arrow-left"></i>
             Back to Sign In
         </a>

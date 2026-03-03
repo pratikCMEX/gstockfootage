@@ -27,10 +27,13 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
 Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
+Route::get('/enterprise', [HomeController::class, 'enterprise'])->name('enterprise');
 
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('check.login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/check_user_is_exist', [AuthController::class, 'checkUserIsExist'])->name('user_check_exist');
+Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->name('user_check_valid');
 
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class AuthController extends Controller
 {
@@ -70,6 +72,47 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
+    }
+
+    public function checkUserIsExist(Request $request)
+    {
+        try {
+            $category = User::where(['email' => $request->email])->get();
+            if (count($category) > 0) {
+                if (isset($request->id) && !empty($request->id)) {
+                    if ($category[0]->id == decrypt($request->id)) {
+                        $return = true;
+                        echo json_encode($return);
+                        exit;
+                    }
+                }
+                $return = false;
+            } else {
+                $return = true;
+            }
+            echo json_encode($return);
+            exit;
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json(false);
+        }
+    }
+
+    public function checkUserValid(Request $request)
+    {
+        try {
+            $user = User::where('email', $request->email)->first();
+
+            // If user exists -> VALID (return true)
+            if ($user) {
+                return response()->json(true);
+            }
+
+            // If user not exists -> INVALID (return false)
+            return response()->json(false);
+        } catch (\Exception $e) {
+            return response()->json(false);
+        }
     }
 
     public function dashboard()

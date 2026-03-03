@@ -53,7 +53,9 @@ class CartController extends Controller
                     'id'    => $product->id,
                     'title' => $product->name,
                     'price' => $product->price,
-                    'image' => asset('uploads/products/' . $product->image),
+                    'type' => $product->type,
+                    'low_path' => asset('uploads/images/low/' . $product->low_path),
+                    'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
                     'size'  => $product->width . ' x ' . $product->height
                 ]
             ]);
@@ -84,7 +86,9 @@ class CartController extends Controller
                 'id'    => $product->id,
                 'title' => $product->name,
                 'price' => $product->price,
-                'image' => asset('uploads/products/' . $product->image),
+                'type' => $product->type,
+                'low_path' => asset('uploads/images/low/' . $product->low_path),
+                'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
                 'size'  => $product->width . ' x ' . $product->height
             ]
         ]);
