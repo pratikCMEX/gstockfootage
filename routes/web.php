@@ -12,6 +12,7 @@ use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileController;
 use App\Models\QuoteRequest;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
-Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
+Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
 Route::get('/enterprise', [HomeController::class, 'enterprise'])->name('enterprise');
 

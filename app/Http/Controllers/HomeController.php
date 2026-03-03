@@ -116,14 +116,7 @@ class HomeController extends Controller
         return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
     }
 
-    public function pricing()
-    {
-        $title = 'Videos';
-        $page = 'front.pricing';
-        $js = ['pricing'];
-
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
-    }
+   
     public function allPhotos()
     {
         $title = 'Videos';
