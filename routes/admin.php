@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 Route::post('admin/vide_batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
+Route::post('admin/image_upload/{batch}', [BatchController::class, 'uploadZip'])->name('batch.image_upload');
 
 Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');

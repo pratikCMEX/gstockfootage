@@ -108,7 +108,9 @@
                                 </div>
                                 <p>${{ $data['price'] }}</p>
                             </div>
-                            <button type="button" class="btn-orange btn"> <i class="bi bi-cart2"></i> Add to
+                            <button type="button" class="btn-orange btn add_to_cart"
+                                onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
+                                to
                                 Cart</button>
                         </div>
                     </div>

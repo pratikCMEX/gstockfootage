@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action="{{ route('batch.video_upload', ['batch' => 3]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('batch.image_upload', ['batch' => 3]) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
 

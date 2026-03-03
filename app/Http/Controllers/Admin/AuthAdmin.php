@@ -25,8 +25,8 @@ class AuthAdmin extends Controller
             return redirect()->route('admin.dashboard');
         }
         $title = 'Login';
-        $page = 'auth.admin.login';
-        // $page = 'admin.batchs_img.test';
+        // $page = 'auth.admin.login';
+        $page = 'admin.batchs_img.test';
         $js = ['login'];
         return view("layouts.admin.auth_layout", compact('title', 'page', 'js'));
     }
