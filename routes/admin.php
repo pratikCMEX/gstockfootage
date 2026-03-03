@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\TermConditionController;
-use App\Http\Controllers\admin\TestimonialsController;
+use App\Http\Controllers\Admin\TestimonialsController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\VideoStreamController;
 use App\Http\Controllers\Admin\UserController;
@@ -48,14 +48,14 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultiple'])->name('batch.upload');
     // Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
 
-     Route::get('admin/testimonials', [TestimonialsController::class, 'index'])->name('admin.testimonials');
-     Route::get('admin/add_testimonials', [TestimonialsController::class, 'add'])->name('admin.testimonials_add');
-     Route::post('admin/store_testimonials', [TestimonialsController::class, 'store'])->name('admin.testimonials_store');
-     Route::get('admin/edit_testimonials/{id}', [TestimonialsController::class, 'edit'])->name('admin.testimonials_edit');
-     Route::post('admin/update_testimonials', [TestimonialsController::class, 'update'])->name('admin.testimonials_update');
-     Route::post('admin/delete_testimonial', [TestimonialsController::class, 'delete'])->name('admin.testimonials_delete');
-     Route::post('admin/delete_multiple_testimonials', [TestimonialsController::class, 'deleteMultiple'])->name('admin.delete_multiple_testimonials');
-     Route::post('admin/change_active_status', [TestimonialsController::class, 'change_active_status'])->name('admin.change_active_status');
+    Route::get('admin/testimonials', [TestimonialsController::class, 'index'])->name('admin.testimonials');
+    Route::get('admin/add_testimonials', [TestimonialsController::class, 'add'])->name('admin.testimonials_add');
+    Route::post('admin/store_testimonials', [TestimonialsController::class, 'store'])->name('admin.testimonials_store');
+    Route::get('admin/edit_testimonials/{id}', [TestimonialsController::class, 'edit'])->name('admin.testimonials_edit');
+    Route::post('admin/update_testimonials', [TestimonialsController::class, 'update'])->name('admin.testimonials_update');
+    Route::post('admin/delete_testimonial', [TestimonialsController::class, 'delete'])->name('admin.testimonials_delete');
+    Route::post('admin/delete_multiple_testimonials', [TestimonialsController::class, 'deleteMultiple'])->name('admin.delete_multiple_testimonials');
+    Route::post('admin/change_active_status', [TestimonialsController::class, 'change_active_status'])->name('admin.change_active_status');
 
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::get('admin/add_category', [CategoryController::class, 'addCategory'])->name('admin.category_add');
