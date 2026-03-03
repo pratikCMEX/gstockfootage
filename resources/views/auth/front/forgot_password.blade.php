@@ -19,7 +19,9 @@
 </body>
 
 </html> --}}
-
+@php
+    $banner = getBanner();
+@endphp
 <div class="auth-wrapper"
     style="background: url('{{ $banner ? asset('uploads/banners/' . $banner->image) : asset('assets/front/img/banner.jpg') }}') 50% / cover no-repeat;">
     <!-- Brand -->
