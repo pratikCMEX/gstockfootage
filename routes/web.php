@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WebpageController;
 use App\Models\QuoteRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->
 
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
+
+Route::get('/term', [WebpageController::class, 'term'])->name('term');
 
 Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
 Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');

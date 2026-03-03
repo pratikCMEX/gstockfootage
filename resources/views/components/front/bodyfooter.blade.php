@@ -86,7 +86,7 @@
             <div class="footer-box footer-column">
                 <h6>Legal</h6>
                 <ul>
-                    <li><a href="javascript:void(0);">Terms of Service</a></li>
+                    <li><a href="{{ route('term') }}">Terms of Service</a></li>
                     <li><a href="javascript:void(0);">Privacy Policy</a></li>
                 </ul>
             </div>
