@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\Testimonials;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
@@ -23,7 +24,8 @@ class HomeController extends Controller
         $ImageList = Image::get();
         $CollectionList = Collection::limit(4)->get();
         $product = Product::with('category')->limit(4)->get();
-        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js'));
+        $testimonials=Testimonials::where('is_active','1')->get();
+        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js','testimonials'));
     }
     public function productDetail(string $id)
     {
@@ -116,14 +118,7 @@ class HomeController extends Controller
         return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
     }
 
-    public function pricing()
-    {
-        $title = 'Videos';
-        $page = 'front.pricing';
-        $js = ['pricing'];
-
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
-    }
+   
     public function allPhotos()
     {
         $title = 'Videos';
