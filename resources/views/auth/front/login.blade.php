@@ -45,7 +45,7 @@
                         <label id="password-error" class="text-danger" for="password"></label>
                     </div>
                     <button type="submit" class="btn auth-btn btn-orange">Sign In</button>
-                    {{-- <a href="{{ route('password.request') }}" class="forgot">Forgot your password?</a> --}}
+                    <a href="{{ route('password.request') }}" class="forgot">Forgot your password?</a>
                 </form>
 
                 <!-- Signup Form -->

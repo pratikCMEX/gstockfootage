@@ -49,15 +49,28 @@
             @csrf
             <input type="hidden" name="token" value="{{ request()->route('token') }}">
             <input type="hidden" name="email" value="{{ request()->email }}">
-            <div class="mb-3 text-start">
+            {{-- <div class="mb-3 text-start">
                 <label class="form-label ">Password</label>
                 <input type="password" name="password" id="password" class="form-control" placeholder="Password *">
+            </div> --}}
+            <div class="mb-3 text-start">
+                <label class="form-label">Password</label>
+                <div class="password-field">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="••••••••">
+                    <i class="bi bi-eye toggle-password"></i>
+                </div>
+                <label id="password-error" class="text-danger" for="password"></label>
             </div>
             <div class="mb-3 text-start">
-                <label class="form-label ">Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
-                    placeholder="Conform Password *">
+                <label class="form-label">Confirm Password</label>
+                <div class="password-field">
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
+                        placeholder="••••••••">
+                    <i class="bi bi-eye toggle-password"></i>
+                </div>
+                <label id="password_confirmation-error" class="text-danger" for="password_confirmation"></label>
             </div>
+
 
             <button type="submit" class="btn btn-orange auth-btn w-100" style="padding: 9px !important;">
                 Change Password
