@@ -407,23 +407,30 @@ class BatchController extends Controller
     public function uploadZip(Request $request, $batch_id)
     {
         $request->validate([
-            'file' => 'required|file|mimes:zip|max:7168000' // ~7GB
+            'files' => 'required',
+            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp,zip|max:51200'
         ]);
 
-        $file = $request->file('file');
+        $file = $request->file('files');
+        try {
 
-        // Upload ZIP directly to S3
-        $zipPath = Storage::disk('s3')->put('batch-zips', $file);
+            // Upload ZIP directly to S3
+            $zipPath = Storage::disk('s3')->put('batch-zips', $file);
 
-        // Update batch status
-        Batch::where('id', $batch_id)->update([
-            'status' => 'reviewing'
-        ]);
+            // Update batch status
+            Batch::where('id', $batch_id)->update([
+                'status' => 'reviewing'
+            ]);
 
-        // Dispatch background job
-        ProcessBatchVideo::dispatch($zipPath, $batch_id);
+            // Dispatch background job
+            ProcessBatchVideo::dispatch($zipPath, $batch_id);
 
-        return back()->with('msg_success', 'Zip uploaded. Processing started.');
+            return back()->with('msg_success', 'Zip uploaded. Processing started.');
+        } catch (\Exception $e) {
+            dd($e);
+            // DB::rollBack();
+            return back()->with('msg_error', $e->getMessage());
+        }
     }
 
     public function uploadMultipleVideos(Request $request, String $batch_id)
