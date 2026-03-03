@@ -51,7 +51,7 @@
                         <a href="#">
                             <div class="collection-grid-card card-1">
                                 <img src="{{ asset('uploads/images/collection/' . $collection['image']) }}"
-                                    class="w-100" alt="">
+                                    class="w-100" alt="" loading="lazy">
                                 <h4>{{ $collection['name'] }}</h4>
                             </div>
                         </a>
