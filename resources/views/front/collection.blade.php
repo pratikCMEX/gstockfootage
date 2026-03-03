@@ -47,14 +47,17 @@
             </div>
             <div class="col-12 text-center">
                 <div class="collection-data">
-                    <a href="#">
-                        <div class="collection-grid-card card-1">
-                            <img src="{{ asset('assets/front/img/alex-harwood-k1xCZT0x48c-unsplash.jpg') }}"
-                                class="w-100" alt="">
-                            <h4>Lorem ipsum dolor sit.</h4>
-                        </div>
-                    </a>
-                    <a href="#">
+                    @foreach ($CollectionList as $collection)
+                        <a href="#">
+                            <div class="collection-grid-card card-1">
+                                <img src="{{ asset('uploads/images/collection/' . $collection['image']) }}"
+                                    class="w-100" alt="">
+                                <h4>{{ $collection['name'] }}</h4>
+                            </div>
+                        </a>
+                    @endforeach
+
+                    {{-- <a href="#">
                         <div class="collection-grid-card card-2">
                             <img src="{{ asset('assets/front/img/alvan-nee-Dbng7f0lpmo-unsplash.jpg') }}" class="w-100"
                                 alt="">
@@ -151,7 +154,7 @@
                                 class="w-100" alt="">
                             <h4>Lorem ipsum dolor sit.</h4>
                         </div>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>
