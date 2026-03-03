@@ -156,7 +156,7 @@
             </div>
 
             <a class="side-link" href="{{ route('collection') }}">Collections</a>
-            <a class="side-link" href="{{ route('enterprise') }}">Enterprise</a>
+            <a class="side-link" href="{{ route('enterprise') }}-">Enterprise</a>
             {{-- <a class="side-link" href="{{ route('enterprise') }}">Enterprise</a> --}}
             <a class="side-link" href="javascript:void(0);">Our Store</a>
 
