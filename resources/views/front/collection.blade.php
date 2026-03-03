@@ -57,7 +57,7 @@
                         </a>
                     @endforeach
 
-                    <a href="#">
+                    {{-- <a href="#">
                         <div class="collection-grid-card card-2">
                             <img src="{{ asset('assets/front/img/alvan-nee-Dbng7f0lpmo-unsplash.jpg') }}" class="w-100"
                                 alt="">
@@ -154,7 +154,7 @@
                                 class="w-100" alt="">
                             <h4>Lorem ipsum dolor sit.</h4>
                         </div>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>
