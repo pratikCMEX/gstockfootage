@@ -64,7 +64,7 @@
                 <h6>Our company</h6>
                 <ul>
                     <li><a href="javascript:void(0);">About Us</a></li>
-                    <li><a href="javascript:void(0);">Contact</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                     <li><a href="javascript:void(0);">Licenses</a></li>
                 </ul>
             </div>
@@ -76,8 +76,8 @@
                     <li><a href="javascript:void(0);">All Footage</a></li>
                     <li><a href="javascript:void(0);">Aerial Shots</a></li>
                     <li><a href="javascript:void(0);">Timelapses</a></li>
-                    <li><a href="javascript:void(0);">Collections</a></li>
-                    <li><a href="javascript:void(0);">Pricing</a></li>
+                    <li><a href="{{ route('collection') }}">Collections</a></li>
+                    <li><a href="{{ route('pricing') }}">Pricing</a></li>
                 </ul>
             </div>
 
@@ -94,7 +94,7 @@
             <div class="footer-box footer-column">
                 <h6>Contact us</h6>
                 <ul>
-                    <li><a href="javascript:void(0);">Contact</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
             </div>
 

@@ -14,11 +14,11 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $title = 'Home';
-        $page = 'sasa';
+        $title = 'Contact Us';
+        $page = 'front.contact_us';
         $js = ['home'];
 
-        return view('front.contact_us', compact('title', 'page', 'js'));
+        return view('layouts.front.layout', compact('title', 'page', 'js'));
     }
     public function store(Request $request)
     {
