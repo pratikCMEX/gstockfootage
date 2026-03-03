@@ -27,7 +27,8 @@
                                         $image = asset('uploads/banners/' . $banner->image);
                                     }
                                 @endphp
-
+                                <span style="font-size: 12px;">(Image must be at least 1920x1080 pixels for proper
+                                    display.)</span>
                                 <div class="mt-2 row">
                                     <div class="col-sm-6">
                                         <img src="{{ $image }}" id="preview_image" alt=""
