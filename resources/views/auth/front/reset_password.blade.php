@@ -1,4 +1,4 @@
-<html lang="en">
+{{-- <html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -20,4 +20,54 @@
 
 </body>
 
-</html>
+</html> --}}
+<div class="auth-wrapper">
+
+    <!-- Brand -->
+    <div class="brand">
+        <a href="{{ route('home') }}">
+            <i class="bi bi-film"></i>
+            <span>GStockFootage</span>
+        </a>
+
+    </div>
+
+    <!-- Card -->
+    <div class="auth-card text-center">
+
+        <div class="icon-box">
+            <i class="bi bi-envelope"></i>
+        </div>
+
+        <h4 class="mb-2">Change Password</h4>
+
+        {{-- <p class="text-muted mb-4">
+            Enter your email address and we’ll send you a link to reset your password
+        </p> --}}
+
+        <form id="change_forget_pass" class="auth-form active" method="POST" action="{{ route('password.store') }}">
+            @csrf
+            <input type="hidden" name="token" value="{{ request()->route('token') }}">
+            <input type="hidden" name="email" value="{{ request()->email }}">
+            <div class="mb-3 text-start">
+                <label class="form-label ">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password *">
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label ">Password</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
+                    placeholder="Conform Password *">
+            </div>
+
+            <button type="submit" class="btn btn-orange auth-btn w-100" style="padding: 9px !important;">
+                Change Password
+            </button>
+        </form>
+
+        {{-- <a href="{{ route('login') }}" class="back-link">
+            <i class="bi bi-arrow-left"></i>
+            Back to Sign In
+        </a> --}}
+
+    </div>
+</div>
