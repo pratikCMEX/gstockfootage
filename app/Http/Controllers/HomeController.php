@@ -133,4 +133,12 @@ class HomeController extends Controller
 
         return view("layouts.front.layout", compact('title', 'page', 'js'));
     }
+    public function enterprise()
+    {
+        $title = 'Enterprise';
+        $page = 'front.enterprise';
+        // $js = ['enterprise'];
+
+        return view("layouts.front.layout", compact('title', 'page'));
+    }
 }

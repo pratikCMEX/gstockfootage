@@ -171,14 +171,15 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="swiper mySwiper product-swiper">
+        <div class="swiper mySwiper product-swiper">
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide">
-                    <a href="product-detail.html">
+                    <a href="{{ route('product.detail', encrypt(1)) }}">
                         <div class="product-card">
 
-                            <img src="imgs/posibility_1.jpg" class="product-img" alt="">
+                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                class="product-img" alt="">
 
                             <div class="p-3">
 
@@ -189,7 +190,7 @@
 
                                 <div class="price-btn">
                                     <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
                                 <div class="product-two-btn">
                                     <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -214,21 +215,22 @@
                 </div>
 
                 <div class="swiper-slide">
-                    <a href="product-detail.html">
+                    <a href="{{ route('product.detail', encrypt(1)) }}">
                         <div class="product-card">
 
-                            <img src="imgs/posibility_3.webp" class="product-img" alt="Punjabi Dum Aloo">
+                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                class="product-img" alt="Punjabi Dum Aloo">
 
                             <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Food</span>
 
-                                <h6 class="popular-detail-title">Punjabi-Dum-Aloo</h6>
+                                <h6 class="popular-detail-title">Rivers</h6>
 
 
                                 <div class="price-btn">
                                     <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
                                 <div class="product-two-btn">
                                     <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -253,20 +255,21 @@
                 </div>
 
                 <div class="swiper-slide">
-                    <a href="product-detail.html">
+                    <a href="{{ route('product.detail', encrypt(1)) }}">
                         <div class="product-card">
 
-                            <img src="imgs/1770123205271-Malai-Chicken.jpg" class="product-img" alt="">
+                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                class="product-img" alt="">
                             <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Food</span>
 
-                                <h6 class="popular-detail-title">Malai Chicken</h6>
+                                <h6 class="popular-detail-title">Mountains</h6>
 
 
                                 <div class="price-btn">
                                     <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
                                 <div class="product-two-btn">
                                     <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -292,10 +295,11 @@
                 </div>
 
                 <div class="swiper-slide">
-                    <a href="product-detail.html">
+                    <a href="{{ route('product.detail', encrypt(1)) }}">
                         <div class="product-card">
 
-                            <img src="imgs/1770122985007-diamond_logo.png" class="product-img" alt="">
+                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                class="product-img" alt="">
 
                             <div class="p-3">
 
@@ -306,7 +310,7 @@
 
                                 <div class="price-btn">
                                     <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
                                 <div class="product-two-btn">
                                     <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -331,10 +335,11 @@
 
                 </div>
                 <div class="swiper-slide">
-                    <a href="product-detail.html">
+                    <a href="{{ route('product.detail', encrypt(1)) }}">
                         <div class="product-card">
 
-                            <img src="imgs/posibility_1.jpg" class="product-img" alt="">
+                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                class="product-img" alt="">
 
                             <div class="p-3">
 
@@ -345,7 +350,7 @@
 
                                 <div class="price-btn">
                                     <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
                                 <div class="product-two-btn">
                                     <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -369,21 +374,22 @@
                     </a>
                 </div>
                 <div class="swiper-slide">
-                    <a href="product-detail.html">
+                    <a href="{{ route('product.detail', encrypt(1)) }}">
                         <div class="product-card">
 
-                            <img src="imgs/posibility_3.webp" class="product-img" alt="Punjabi Dum Aloo">
+                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                class="product-img" alt="Punjabi Dum Aloo">
 
                             <div class="p-3">
 
                                 <span class="badge badge-custom mb-2">Food</span>
 
-                                <h6 class="popular-detail-title">Punjabi-Dum-Aloo</h6>
+                                <h6 class="popular-detail-title">Rivers</h6>
 
 
                                 <div class="price-btn">
                                     <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
                                 <div class="product-two-btn">
                                     <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -413,6 +419,6 @@
 
 
 
-        </div> --}}
+        </div>
     </div>
 </section>

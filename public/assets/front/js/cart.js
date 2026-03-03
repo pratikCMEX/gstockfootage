@@ -41,11 +41,19 @@ function addToCart(product_id, btn = null) {
 }
 
 function cartItemTemplate(product) {
+  let imageUrl = "";
+
+  if (product.type == "0") {
+    imageUrl = product.low_path;
+  } else {
+    imageUrl = product.thumbnail_path;
+  }
+
   return `
   <div class="cart-content" id="cart-item-${product.id}" data-id="${product.id}"
  data-price="${product.price}">
       <div class="cart-img">
-          <img src="${product.image}" width="100%" height="100%">
+          <img src="${imageUrl}" width="100%" height="100%">
       </div>
 
       <div class="cart-detail">

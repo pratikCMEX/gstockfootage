@@ -197,7 +197,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -206,14 +206,16 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
 
                             <div class="price-btn">
                                 <span class="price">$149</span>
-                                <button class="btn  btn-orange">Add</button>
+                                {{-- <button class="btn  btn-orange">Add</button> --}}
+                                <a href="{{ route('product.detail', encrypt(1)) }}" class="btn btn-orange">Add</a>
+
                             </div>
                             <div class="product-two-btn">
                                 <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -238,7 +240,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -247,14 +249,15 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
 
                             <div class="price-btn">
                                 <span class="price">$149</span>
-                                <button class="btn  btn-orange">Add</button>
+                                {{-- <button class="btn btn-orange">Add</button> --}}
+                                <a href="{{ route('product.detail', encrypt(1)) }}" class="btn btn-orange">Add</a>
                             </div>
                             <div class="product-two-btn">
                                 <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +282,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/land-o-lakes-inc-1w3tO5F8HYY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -288,14 +291,17 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
 
                             <div class="price-btn">
                                 <span class="price">$149</span>
-                                <button class="btn  btn-orange">Add</button>
+                                {{-- <button class="btn  btn-orange">Add</button>
+                                 --}}
+                                <a href="{{ route('product.detail', encrypt(1)) }}" class="btn btn-orange">Add</a>
+
                             </div>
                             <div class="product-two-btn">
                                 <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +326,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-12">
                     <div class="product-card">
 
-                        <a href="product-detail.html">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
                             <img src="{{ asset('assets/front/img/land-o-lakes-inc-BvZYHz9TeCk-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
@@ -329,14 +335,16 @@
 
                             <span class="badge badge-custom mb-2">Art</span>
 
-                            <a href="product-detail.html">
+                            <a href="{{ route('product.detail', encrypt(1)) }}">
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
 
                             <div class="price-btn">
                                 <span class="price">$149</span>
-                                <button class="btn  btn-orange">Add</button>
+                                {{-- <button class="btn  btn-orange">Add</button> --}}
+                                <a href="{{ route('product.detail', encrypt(1)) }}" class="btn btn-orange">Add</a>
+
                             </div>
                             <div class="product-two-btn">
                                 <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
