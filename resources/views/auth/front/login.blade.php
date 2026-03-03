@@ -4,7 +4,7 @@
 <section class="login_page">
     {{-- <div class="auth-wrapper" style="background: "> --}}
     <div class="auth-wrapper"
-        style="background: url('{{ $banner ? asset('uploads/banners/' . $banner->image) : asset('front/img/banner.jpg') }}') 50% / cover no-repeat;">
+        style="background: url('{{ $banner ? asset('uploads/banners/' . $banner->image) : asset('assets/front/img/banner.jpg') }}') 50% / cover no-repeat;">
         <div class="login-overlay"></div>
         <div class="card-wrapper">
             <!-- Logo -->
