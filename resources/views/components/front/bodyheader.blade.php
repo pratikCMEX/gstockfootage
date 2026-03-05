@@ -143,8 +143,7 @@
             </div>
 
             <div class="accordion-item">
-                <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                    data-bs-target="javascript:void(0);mPricing">
+                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#mPricing">
                     Pricing
                 </button>
                 <div id="mPricing" class="accordion-collapse collapse">
