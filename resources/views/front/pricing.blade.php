@@ -1,6 +1,7 @@
 <main>
 
     <section class="pricing-section">
+         @if($priceList->isNotEmpty())
         <div class="container">
             <span class="section-badge">Pricing</span>
             <div class="heading">
@@ -84,9 +85,21 @@
 
             </div>
         </div>
+        @else
+           <div class="heading">
+                    <h3> <span class="yellow-headings">No license plans available at the moment.</span></h3>
+                   
+                </div>
+        @endif
     </section>
+   
     <section class="subscription_plan">
+         @if($subscriptionPlanList->isNotEmpty())
         <div class="container">
+            
+        
+            
+           
             <div class="heading text-center">
                 <h2>Subscription<span class="yellow-headings"> Plans</span> </h2>
                 <p>Get more clips for less with our subscription options.</p>
@@ -151,7 +164,16 @@
                     </div> -->
                 </div>
             </div>
+          
+
         </div>
+         @else
+           <div class="heading text-center">
+                    <h3> <span class="yellow-headings">No Subscription plans available at the moment.</span></h3>
+                   
+                </div>
+        
+           @endif
     </section>
     <section class="license_type">
         <div class="container">

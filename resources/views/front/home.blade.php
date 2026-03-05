@@ -796,6 +796,7 @@
             </div>
 
             <div class="col-lg-7">
+                 @if($testimonials->isNotEmpty())
                 @foreach ($testimonials as $testimonial)
 
 
@@ -859,7 +860,7 @@
                         </div>
                     </div>
                 </div> -->
-
+                @endif
             </div>
 
         </div>
