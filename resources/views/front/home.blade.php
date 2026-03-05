@@ -815,9 +815,9 @@
 
             <div class="col-lg-7">
                  @if($testimonials->isNotEmpty())
-                @foreach ($testimonials as $testimonial)
+                   @foreach ($testimonials as $testimonial)
 
-                    @foreach ($testimonials as $testimonial)
+                 
                         <div class="testimonial-card">
                             <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -854,6 +854,7 @@
                             </div>
                         </div>
                     @endforeach
+                     @endif
                 </div>
 
                 <!-- <div class="testimonial-card">
@@ -880,7 +881,7 @@
                         </div>
                     </div>
                 </div> -->
-                @endif
+               
             </div>
 
         </div>

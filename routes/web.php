@@ -16,6 +16,9 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebpageController;
 use App\Models\QuoteRequest;
+use App\Models\User;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -24,6 +27,58 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+    $user = User::find($id);
+    
+    if (!$user) {
+        return redirect()->route('login')
+            ->with('msg_error', 'Invalid verification link.');
+    }
+    
+    if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        return redirect()->route('login')
+            ->with('msg_error', 'Invalid verification link.');
+    }
+    
+    if ($user->hasVerifiedEmail()) {
+        return redirect()->route('login')
+            ->with('msg_success', 'Email already verified. You can login.');
+    }
+    
+    $user->markEmailAsVerified();
+    
+    return redirect()->route('login')
+        ->with('msg_success', 'Email verified successfully! You can now login.');
+})->middleware(['signed'])->name('verification.verify');
+
+Route::post('/resend-verification', function (Request $request) {
+    $validated = $request->validate([
+        'email' => 'required|email|exists:users,email'
+    ]);
+
+    $user = User::where('email', $validated['email'])->first();
+    
+    if ($user && !$user->hasVerifiedEmail()) {
+        $user->sendEmailVerificationNotification();
+        return back()->with('msg_success', 'Verification email sent! Please check your inbox.');
+    }
+
+    if ($user && $user->hasVerifiedEmail()) {
+        return back()->with('msg_error', 'This email is already verified. You can login.');
+    }
+
+    return back()->with('msg_error', 'Unable to send verification email. Please check email address.');
+})->name('verification.resend');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message','Verification link sent!');
+})->middleware(['auth','throttle:6,1'])->name('verification.send');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
