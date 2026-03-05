@@ -16,12 +16,13 @@ class ContactController extends Controller
     {
         $title = 'Contact Us';
         $page = 'front.contact_us';
-        $js = ['home'];
+        $js = ['contact_us'];
 
         return view('layouts.front.layout', compact('title', 'page', 'js'));
     }
     public function store(Request $request)
     {
+        
         try {
             $request->validate([
                 'name'    => 'required|string|max:255',

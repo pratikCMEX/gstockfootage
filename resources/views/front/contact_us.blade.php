@@ -37,24 +37,25 @@
             <div class="contact-form">
                 <h3>Send us a Message</h3>
                 <p>Fill out the form below and we'll get back to you shortly</p>
-                <form action="">
+                <form id="contactForm" name="contactForm" method="POST" action="{{ route('contact.add') }}">
+                    @csrf
                     <div class="contact-form-flex">
                         <div class="w-100">
                             <label for="">Name *</label>
-                            <input class="form-control w-100" type="text" name="" placeholder="Enter Your Name" id="">
+                            <input class="form-control w-100" type="text" name="name" placeholder="Enter Your Name" id="">
                         </div>
                         <div class="w-100">
                             <label for="">Email *</label>
-                            <input class="form-control w-100" type="email" name="" id="" placeholder="Enter Your Email">
+                            <input class="form-control w-100" type="email" name="email" id="" placeholder="Enter Your Email">
                         </div>
                     </div>
                     <div>
                         <label for="">Subject *</label>
-                        <input class="form-control" type="text" name="" id="" placeholder="Enter Subject">
+                        <input class="form-control" type="text" name="subject" id="" placeholder="Enter Subject">
                     </div>
                     <div>
                         <label for="">Message *</label>
-                        <textarea class="form-control contact-msg" name="" id="" placeholder="Enter Your Message here"></textarea>
+                        <textarea class="form-control contact-msg" name="message" id="" placeholder="Enter Your Message here"></textarea>
                     </div>
                     <button type="submit" class="btn btn-orange">Send Message</button>
                 </form>
