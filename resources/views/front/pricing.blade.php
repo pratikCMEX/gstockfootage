@@ -18,8 +18,8 @@
                             <div class="popular-badge">Popular</div>
                         @endif
                         <div class="pricing-card">
-                            <h5>{{$pricing->title  }}</h5>
-                            <p class="text-secondary">{{$pricing->name  }}</p>
+                            <h5>{{$pricing->name  }}</h5>
+                            <p class="text-secondary">{{$pricing->title  }}</p>
                             <div class="price">${{$pricing->price  }} <span>/ clip</span></div>
                             <p class="text-secondary price-text">Up to {{$pricing->quality  }}</p>
 
