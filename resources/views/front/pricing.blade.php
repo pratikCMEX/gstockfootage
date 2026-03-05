@@ -1,5 +1,4 @@
 <main>
-
     <section class="pricing-section">
          @if($priceList->isNotEmpty())
         <div class="container">
@@ -32,13 +31,9 @@
                             @endphp
                             <ul class="features">
                                 @foreach ($descriptions as $detail)
-
-
                                     <li>{{ $detail }}</li>
-
                                 @endforeach
                             </ul>
-
                         </div>
                     </div>
                     <!-- <div class="col-lg-4 col-md-6">
@@ -82,12 +77,11 @@
                                 </div>
                             </div> -->
                 @endforeach
-
             </div>
         </div>
         @else
            <div class="heading">
-                    <h3> <span class="yellow-headings">No license plans available at the moment.</span></h3>
+                    <h3> <span class="yellow-headings">No License plans available at the moment.</span></h3>
                    
                 </div>
         @endif
@@ -96,9 +90,6 @@
     <section class="subscription_plan">
          @if($subscriptionPlanList->isNotEmpty())
         <div class="container">
-            
-        
-            
            
             <div class="heading text-center">
                 <h2>Subscription<span class="yellow-headings"> Plans</span> </h2>
@@ -164,8 +155,7 @@
                     </div> -->
                 </div>
             </div>
-          
-
+      
         </div>
          @else
            <div class="heading text-center">

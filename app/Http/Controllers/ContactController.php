@@ -54,8 +54,8 @@ class ContactController extends Controller
     {
         $title = 'Home';
         $page = 'sasa';
-        $js = ['contact'];
-
+        $js = ['contact_us'];
+      
         return view('front.quote', compact('title', 'page', 'js'));
     }
     public function quoteStore(Request $request)
@@ -71,6 +71,7 @@ class ContactController extends Controller
                 'job_function'      => 'required|string',
                 'company_size'      => 'required|string',
                 'country'           => 'required|string',
+                // 'state'             => 'required|string',
                 'product_interest'  => 'required|string',
             ]);
 
@@ -91,6 +92,7 @@ class ContactController extends Controller
                 'newsletter'        => $request->has('newsletter') ? '1' : '0',
             ]);
 
+
             Mail::to(env('OWNER_MAIL'))
                 ->send(new QuoteMail($quote));
 
@@ -98,7 +100,7 @@ class ContactController extends Controller
             return back()->with('msg_success', 'Quote request submitted successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('msg_error', 'Something went wrong!');
+            return back()->with('msg_error', $e->getMessage());
         }
     }
 }
