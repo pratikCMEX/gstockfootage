@@ -45,6 +45,7 @@ Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
 
 Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
 Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('/forgot-password-store', [NewPasswordController::class, 'store'])->name('password.store');

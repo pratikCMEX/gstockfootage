@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\DataTables\TestimonialsDataTable;
 use App\Http\Controllers\Controller;
@@ -141,7 +141,6 @@ class TestimonialsController extends Controller
                 'success' => true,
                 'message' => 'Testimonial deleted successfully'
             ]);
-
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json([
@@ -176,7 +175,6 @@ class TestimonialsController extends Controller
                 'success' => true,
                 'message' => 'Testimonials deleted successfully.'
             ]);
-
         } catch (QueryException $e) {
             DB::rollBack();
             return response()->json([
@@ -186,7 +184,7 @@ class TestimonialsController extends Controller
         }
     }
 
-     public function change_active_status(Request $request)
+    public function change_active_status(Request $request)
     {
         try {
             $id = decrypt($request->id);
@@ -197,12 +195,9 @@ class TestimonialsController extends Controller
 
             $license->save();
             return response()->json(['success' => true]);
-
         } catch (QueryException $e) {
 
             return response()->json(['success' => false]);
         }
     }
-
-
 }

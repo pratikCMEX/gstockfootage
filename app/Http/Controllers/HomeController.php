@@ -24,8 +24,8 @@ class HomeController extends Controller
         $ImageList = Image::get();
         $CollectionList = Collection::limit(4)->get();
         $product = Product::with('category')->limit(4)->get();
-        $testimonials=Testimonials::where('is_active','1')->get();
-        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js','testimonials'));
+        $testimonials = Testimonials::where('is_active', '1')->get();
+        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials'));
     }
     public function productDetail(string $id)
     {
@@ -118,7 +118,7 @@ class HomeController extends Controller
         return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
     }
 
-   
+
     public function allPhotos()
     {
         $title = 'Videos';
@@ -133,6 +133,16 @@ class HomeController extends Controller
         $title = 'Enterprise';
         $page = 'front.enterprise';
         // $js = ['enterprise'];
+
+        return view("layouts.front.layout", compact('title', 'page'));
+    }
+
+    public function about()
+    {
+        $title = 'About us';
+        $page = 'front.about_us';
+
+
 
         return view("layouts.front.layout", compact('title', 'page'));
     }

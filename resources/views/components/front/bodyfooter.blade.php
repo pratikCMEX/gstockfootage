@@ -63,8 +63,8 @@
             <div class="footer-box footer-column">
                 <h6>Our company</h6>
                 <ul>
-                    <li><a href="javascript:void(0);">About Us</a></li>
-                    <li><a href="javascript:void(0);">Contact</a></li>
+                    <li><a href="{{ route('about') }}">About Us</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                     {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
                     <li><a href="javascript:void(0);">Licenses</a></li>
                 </ul>
@@ -96,7 +96,7 @@
                 <h6>Contact us</h6>
                 <ul>
                     {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
-                    <li><a href="javascript:void(0);">Contact</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
             </div>
 

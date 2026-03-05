@@ -41,7 +41,7 @@
 
                         <li class="nav-item"><a class="nav-link" href="{{ route('collection') }}">Collections</a></li>
                         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li> --}}
-                        <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Enterprise</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li>
                         <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Store</a></li>
 
                     </ul>
@@ -143,8 +143,7 @@
             </div>
 
             <div class="accordion-item">
-                <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                    data-bs-target="javascript:void(0);mPricing">
+                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#mPricing">
                     Pricing
                 </button>
                 <div id="mPricing" class="accordion-collapse collapse">
@@ -156,7 +155,7 @@
             </div>
 
             <a class="side-link" href="{{ route('collection') }}">Collections</a>
-            <a class="side-link" href="javascript:void(0);">Enterprise</a>
+            <a class="side-link" href="{{ route('enterprise') }}-">Enterprise</a>
             {{-- <a class="side-link" href="{{ route('enterprise') }}">Enterprise</a> --}}
             <a class="side-link" href="javascript:void(0);">Our Store</a>
 

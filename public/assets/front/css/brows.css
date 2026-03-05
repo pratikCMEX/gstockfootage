@@ -92,6 +92,7 @@
   height: 18px;
   width: 18px;
   margin-right: 10px;
+  box-shadow: none;
 }
 .filter-sidebar .form-check-input:checked {
   background-color: var(--primary);

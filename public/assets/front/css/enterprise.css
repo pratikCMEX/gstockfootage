@@ -1,0 +1,305 @@
+.enterprise_section {
+  padding: 70px 0;
+}
+.enterprise-workflow-content {
+  padding-bottom: 50px;
+}
+.enterprise_section .enterprise-workflow-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 80px;
+}
+.enterprise_section .workflow-card {
+  width: 32%;
+  background-color: var(--white);
+  box-shadow: 0 10px 25px var(--box-shadow);
+  padding: 25px;
+  border-radius: 14px;
+  position: relative;
+  min-height: 320px;
+}
+.enterprise_section .workflow-icon {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.enterprise_section .workflow-icon svg {
+  stroke: var(--white);
+  width: 50px;
+  height: 50px;
+}
+.enterprise_section .workflow-title {
+  font-size: 28px;
+  color: var(--text);
+  font-family: var(--font-inter-semibold);
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+.enterprise_section .workflow-text {
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--secendory);
+  font-family: var(--font-inter-regular);
+}
+.enterprise_section .form-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+.enterprise_section .form-flex div {
+  width: 100%;
+}
+.enterprise_section label {
+  font-size: 14px;
+  font-family: var(--font-inter-medium);
+  color: var(--text);
+  margin-bottom: 10px;
+  display: block;
+}
+.enterprise_section form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.enterprise_section .right-section h4 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-family: var(--font-inter-semibold);
+  color: var(--primary);
+}
+.enterprise_section .right-section .form-control,
+.enterprise_section .right-section .form-select {
+  margin-bottom: 0px;
+  height: 44px;
+  border-radius: 10px !important;
+  border-color: var(--secendory);
+}
+.enterprise_section .right-section .form-control:focus,
+.enterprise_section .right-section .form-select:focus {
+  box-shadow: none !important;
+  border: 1px solid var(--secendory) !important;
+}
+.enterprise_section .form-check-input {
+  border: 2px solid var(--primary);
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-right: 10px;
+  box-shadow: none !important;
+}
+.enterprise_section .form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: none !important;
+}
+.enterprise_section .form-check-label {
+  cursor: pointer;
+  font-size: 17px;
+  color: var(--secendory);
+  font-family: var(--font-inter-medium);
+}
+.enterprise_section .two-form-section {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  height: 100%;
+}
+.enterprise_section .left-section,
+.enterprise_section .right-section {
+  width: 50%;
+}
+.enterprise_section .left-section {
+  position: relative;
+  height: 805px;
+  border-bottom-left-radius: 18px;
+  border-top-left-radius: 18px;
+  display: flex;
+  overflow: hidden;
+}
+.enterprise_section .left-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 48%);
+  border-bottom-left-radius: 18px;
+  border-top-left-radius: 18px;
+  box-shadow: 0 10px 30px var(--box-shadow);
+}
+.enterprise_section .right-section {
+  padding: 25px;
+  box-shadow: 0 10px 25px var(--box-shadow);
+  border-bottom-right-radius: 18px;
+  border-top-right-radius: 18px;
+}
+.enterprise_section .enterprise-img {
+  width: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.enterprise_section .enterprise-img img {
+  border-bottom-left-radius: 18px;
+  border-top-left-radius: 18px;
+}
+.enterprise_section .left-enterprise-content {
+  font-size: 48px;
+  font-family: var(--font-inter-bold);
+  max-width: 450px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+  text-align: center;
+}
+
+@media only screen and (max-width: 1399px) {
+  .enterprise_section .left-section {
+    height: 799px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .enterprise_section .workflow-card {
+    width: 48%;
+    min-height: 300px;
+  }
+  .enterprise_section .enterprise-workflow-cards {
+    row-gap: 50px;
+    margin-top: 65px;
+  }
+  .enterprise_section .left-enterprise-content {
+    font-size: 40px;
+  }
+  .enterprise_section .form-flex {
+    gap: 12px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .enterprise_section .workflow-title {
+    font-size: 26px;
+    margin-top: 35px;
+    margin-bottom: 12px;
+  }
+  .enterprise_section .workflow-icon {
+    height: 60px;
+    width: 60px;
+    top: -26px;
+  }
+  .enterprise_section .workflow-icon svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .enterprise_section .workflow-card {
+    min-height: 288px;
+  }
+  .enterprise_section .enterprise-workflow-cards {
+    margin-top: 50px;
+  }
+  .enterprise_section .two-form-section {
+    flex-direction: column;
+    border-radius: 18px;
+  }
+  .enterprise_section .left-section,
+  .enterprise_section .right-section {
+    width: 100%;
+  }
+  .enterprise_section .enterprise-img img {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+  }
+  .enterprise_section .right-section {
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 18px;
+  }
+  .enterprise_section .left-section::after {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+  }
+  .enterprise_section .left-section {
+    border-bottom-left-radius: 0px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .enterprise_section .workflow-text {
+    font-size: 16px;
+  }
+
+  .enterprise_section .workflow-title {
+    font-size: 21px;
+  }
+  .enterprise_section .workflow-card {
+    min-height: 330px;
+  }
+  .enterprise_section {
+    padding: 60px 0;
+  }
+  .enterprise_section .enterprise-workflow-cards {
+    row-gap: 40px;
+  }
+  .enterprise_section .form-flex {
+    flex-direction: column;
+  }
+  .enterprise_section .right-section {
+    padding: 18px;
+  }
+  .enterprise_section .left-enterprise-content {
+    font-size: 35px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .enterprise_section {
+    padding: 50px 0;
+  }
+  .enterprise_section .workflow-card {
+    width: 100%;
+    min-height: 210px;
+    padding: 12px;
+  }
+  .enterprise_section .workflow-title {
+    margin-top: 28px;
+  }
+  .enterprise_section .left-section {
+    height: 400px;
+  }
+  .enterprise_section .left-enterprise-content {
+    font-size: 28px;
+    font-family: var(--font-inter-bold);
+    max-width: 310px;
+  }
+}
+@media only screen and (max-width: 424px) {
+  .enterprise_section {
+    padding: 40px 0;
+  }
+  .enterprise_section .workflow-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  .enterprise_section .workflow-icon {
+    height: 50px;
+    width: 50px;
+  }
+  .enterprise-workflow-content {
+    padding-bottom: 40px;
+  }
+  .enterprise_section .right-section h4 {
+    font-size: 24px;
+  }
+  .enterprise_section .form-check-label {
+    font-size: 16px;
+  }
+}
