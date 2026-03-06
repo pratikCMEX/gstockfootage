@@ -14,11 +14,14 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function index()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $title = 'Profile';
+        $page = 'front.profile';
+        $js = ['profile'];
+
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
     }
 
     /**

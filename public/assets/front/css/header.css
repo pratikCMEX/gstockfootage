@@ -422,6 +422,33 @@
   color: var(--black) !important;
 }
 
+.site-header .profile .dropdown-toggle::after {
+  display: none;
+}
+.site-header .profile .dropdown-item {
+  padding: 8px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 10px;
+}
+.site-header .wishlist {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-header .wishlist-count {
+  height: 20px;
+  min-width: 20px;
+  border-radius: 5px;
+  background-color: var(--secendory);
+  color: var(--white);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 1399px) {
   .menu_content {
     gap: 18px;

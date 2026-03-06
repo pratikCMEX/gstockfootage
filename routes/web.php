@@ -95,6 +95,9 @@ Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
 
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
 Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
 
