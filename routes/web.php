@@ -34,24 +34,24 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
     $user = User::find($id);
-    
+
     if (!$user) {
         return redirect()->route('login')
             ->with('msg_error', 'Invalid verification link.');
     }
-    
+
     if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
         return redirect()->route('login')
             ->with('msg_error', 'Invalid verification link.');
     }
-    
+
     if ($user->hasVerifiedEmail()) {
         return redirect()->route('login')
             ->with('msg_success', 'Email already verified. You can login.');
     }
-    
+
     $user->markEmailAsVerified();
-    
+
     return redirect()->route('login')
         ->with('msg_success', 'Email verified successfully! You can now login.');
 })->middleware(['signed'])->name('verification.verify');
@@ -62,7 +62,7 @@ Route::post('/resend-verification', function (Request $request) {
     ]);
 
     $user = User::where('email', $validated['email'])->first();
-    
+
     if ($user && !$user->hasVerifiedEmail()) {
         $user->sendEmailVerificationNotification();
         return back()->with('msg_success', 'Verification email sent! Please check your inbox.');
@@ -77,8 +77,8 @@ Route::post('/resend-verification', function (Request $request) {
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-    return back()->with('message','Verification link sent!');
-})->middleware(['auth','throttle:6,1'])->name('verification.send');
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
@@ -95,7 +95,7 @@ Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.profile');
 
 
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
