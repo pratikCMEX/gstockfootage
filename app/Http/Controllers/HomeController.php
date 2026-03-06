@@ -132,9 +132,10 @@ class HomeController extends Controller
     {
         $title = 'Enterprise';
         $page = 'front.enterprise';
-        // $js = ['enterprise'];
+        $js = ['enterprise'];
+       
 
-        return view("layouts.front.layout", compact('title', 'page'));
+        return view("layouts.front.layout", compact('title', 'page','js'));
     }
 
     public function about()

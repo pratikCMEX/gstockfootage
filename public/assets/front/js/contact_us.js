@@ -48,3 +48,6 @@ $("#contactForm").validate({
     $(element).removeClass("is-invalid");
   },
 });
+
+
+

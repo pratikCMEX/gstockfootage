@@ -117,7 +117,7 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), [ 'testimonials']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.testimonials') }}" aria-expanded="false">
                         <!-- <i class="ti ti-user-circle"></i> -->
-                         <i class="fa-regular fa-clone"></i>
+                        <i class="fa-solid fa-comment-dots"></i>
                         <span class="hide-menu">Testimonials</span>
                     </a>
                 </li>

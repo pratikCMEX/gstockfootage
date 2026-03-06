@@ -85,8 +85,21 @@
 
                     </div>
 
-                    <button type="submit" class="btn auth-btn btn-orange">Sign Up</button>
+                    <button type="submit" class="btn auth-btn btn-orange">Sign In</button>
+                    <a href="{{ route('password.request') }}" class="forgot">Forgot your password?</a>
                 </form>
+
+                <!-- Resend Verification Section -->
+                <div class="mt-3 text-center">
+                    <p class="text-muted">Didn't receive verification email?</p>
+                    <form method="POST" action="{{ route('verification.resend') }}" class="d-inline">
+                        @csrf
+                        <div class="input-group mb-2" style="max-width: 300px; margin: 0 auto;">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                            <button type="submit" class="btn btn-sm btn-outline-primary ">Resend</button>
+                        </div>
+                    </form>
+                </div>
 
             </div>
         </div>

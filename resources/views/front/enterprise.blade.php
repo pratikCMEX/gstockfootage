@@ -52,38 +52,39 @@
                     </div>
                     <div class="right-section">
                         <h4>Tell us about yourself</h4>
-                        <form action="">
-                            <div class="form-flex">
+                        <form action="{{ route('quote.store') }}" method="POST" name="quoteRequestForm" id="quoteRequestForm">
+                        @csrf  
+                        <div class="form-flex">
                                 <div>
                                     <label for="">First Name *</label>
-                                    <input type="text" class="form-control" name="" id="" placeholder="Enter Your First Name">
+                                    <input type="text" class="form-control" name="first_name" id="first_name" >
                                 </div>
                                 <div>
                                     <label for="">Last Name *</label>
-                                    <input type="text" class="form-control" name="" id="">
+                                    <input type="text" class="form-control" name="last_name" id="last_name">
                                 </div>
                             </div>
                             <div class="form-flex">
                                 <div>
                                     <label for="">Phone number *</label>
-                                    <input type="text" class="form-control" name="" id="">
+                                    <input type="text" class="form-control" name="phone" id="phone">
                                 </div>
                                 <div>
                                     <label for="">
                                         Business Email Address *</label>
-                                    <input type="email" class="form-control" name="" id="">
+                                    <input type="email" class="form-control" name="email" id="email">
                                 </div>
                             </div>
                             <div class="form-flex">
                                 <div>
                                     <label for="">Company *</label>
-                                    <input type="text" class="form-control" name="" id="">
+                                    <input type="text" class="form-control" name="company" id="company">
                                 </div>
                                 <div>
                                     <label for="">
                                         Job Role *
                                     </label>
-                                    <select name="" class="form-select" id="">
+                                    <select name="job_role" class="form-select" id="job_role">
                                         <option value="">Select...</option>
                                         <option value="producer">Producer</option>
                                         <option value="director">Director</option>
@@ -97,7 +98,7 @@
                             <div class="form-flex">
                                 <div>
                                     <label for="">Job Function *</label>
-                                    <select name="" id="" class="form-select">
+                                    <select name="job_function" id="job_function" class="form-select">
                                         <option value="">Select...</option>
                                         <option value="creative">Creative</option>
                                         <option value="marketing">Marketing</option>
@@ -110,7 +111,7 @@
                                 <div>
                                     <label for="">Company Size *
                                     </label>
-                                    <select name="" id="" class="form-select">
+                                    <select name="company_size" id="company_size" class="form-select">
                                         <option value="">Select...</option>
 
                                         <option value="1-10">1-10</option>
@@ -123,7 +124,7 @@
                             </div>
                             <div>
                                 <label for="">Country *</label>
-                                <select name="" id="" class="form-select">
+                                <select name="country" id="country" class="form-select">
                                     <option value="">Select...</option>
 
                                     <option value="united-states">United States</option>
@@ -140,12 +141,12 @@
                             <div class="form-flex">
                                 <div>
                                     <label for="">State or province</label>
-                                    <input type="text" name="" id="" class="form-control">
+                                    <input type="text" name="state" id="state" class="form-control">
                                 </div>
                                 <div>
                                     <label for="">
                                         Product Of Interest</label>
-                                    <select name="" id="" class="form-select">
+                                    <select name="product_interest" id="product_interest" class="form-select">
                                         <option value="">Select...</option>
 
                                         <option value="stock-footage">Stock Footage</option>
@@ -158,7 +159,7 @@
                             </div>
                             <div>
                                 <div class="filter-option form-check">
-                                    <input class="form-check-input" type="checkbox" id="hd">
+                                    <input class="form-check-input" type="checkbox" name="newsletter" id="hd" value="1">
                                     <label class="form-check-label" for="hd">Keep me updated with newsletters, editorial highlights, events, and product updates.</label>
                                 </div>
                             </div>

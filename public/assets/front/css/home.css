@@ -838,7 +838,20 @@
   font-size: 16px;
   font-family: var(--font-inter-medium);
 }
-
+.testimonial-card-content {
+  height: 415px;
+  overflow-y: auto;
+}
+.testimonial-card-content::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 10px;
+  /* color: var(--primary); */
+  background-color: var(--icon);
+}
+.testimonial-card-content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--primary);
+}
 .testimonial-card {
   background: white;
   border-radius: 20px;
