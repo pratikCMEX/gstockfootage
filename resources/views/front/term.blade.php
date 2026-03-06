@@ -1,12 +1,14 @@
 <main>
-    <section class="term_section">
+    <section class="term_section  privacy-wrapper">
         <div class="container-fluid">
             <div class="term-content">
                 <div class="heading">
-                    <h2>Terms of <span class="yellow-headings"> Services</span></h2>
-                    <span class="last-update">Last updated: October 29, 2025</span>
+                    <h2> <span class="yellow-headings"> {{$terms_services[0]->title}}</span></h2>
+                    <span class="last-update">Last updated: {{ $terms_services[0]->updated_at->format('F d, Y') }}</span>
                 </div>
-                <p></p>
+                 <div class="privacy-content mt-4">
+                    {!! $terms_services[0]->content !!}
+                </div>
             </div>
         </div>
     </section>

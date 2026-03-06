@@ -12,6 +12,7 @@ use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebpageController;
 use App\Models\QuoteRequest;
@@ -26,7 +27,7 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
-Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
+Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
 Route::get('/enterprise', [HomeController::class, 'enterprise'])->name('enterprise');
 
@@ -40,6 +41,7 @@ Route::post('/contact_us_store', [ContactController::class, 'store'])->name('con
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
 
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
+Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
 
 Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
 Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');

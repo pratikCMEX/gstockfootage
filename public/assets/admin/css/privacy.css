@@ -1,0 +1,21 @@
+.privacy-policy-content h2 {
+    margin-top: 25px;
+    font-weight: 600;
+}
+
+.privacy-policy-content h3 {
+    margin-top: 15px;
+}
+
+.privacy-policy-content ul {
+    padding-left: 20px;
+}
+
+.privacy-policy-content li {
+    margin-bottom: 8px;
+}
+
+.privacy-policy-content p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}

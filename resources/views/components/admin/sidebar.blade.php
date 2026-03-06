@@ -113,6 +113,14 @@
                         <span class="hide-menu">Batchs</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), [ 'testimonials']) ? 'active  ' : '' }} side-item"
+                        href="{{ route('admin.testimonials') }}" aria-expanded="false">
+                        <!-- <i class="ti ti-user-circle"></i> -->
+                         <i class="fa-regular fa-clone"></i>
+                        <span class="hide-menu">Testimonials</span>
+                    </a>
+                </li>
                 {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['transactions']) ? 'active  ' : '' }} side-item"
                 href="{{ route('admin.transaction') }}" aria-expanded="false">
