@@ -165,7 +165,7 @@ label {
 #signup .btn-orange {
   width: 100%;
 }
-input[type="password"]{
+input[type="password"] {
   padding-right: 50px;
 }
 
@@ -178,6 +178,11 @@ input[type="password"]{
   color: var(--white);
   text-decoration: none;
   transition: all 0.3s ease;
+}
+#send_forget_link .form-control {
+  margin-bottom: 0px;
+  height: 44px;
+  border-radius: 10px !important;
 }
 .forgot:hover {
   color: var(--primary);
