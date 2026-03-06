@@ -390,6 +390,7 @@
   font-size: 18px;
   font-family: var(--font-inter-bold);
   color: var(--primary);
+  margin-bottom: 10px;
 }
 .price-btn {
   display: flex;
@@ -579,7 +580,8 @@
   text-decoration: none;
   font-size: 16px;
   font-family: var(--font-inter-semibold);
-  color: var(--primary);
+  color: var(--white);
+  background-color: var(--primary);
   transition: all 0.3s ease;
   padding: 10px;
   border-radius: 8px;
@@ -1324,5 +1326,13 @@
   }
   .trusted-subtitle {
     font-size: 14px;
+  }
+  .btn-outline-custom-enterprise,
+  .enterprise-btns .btn-orange {
+    justify-content: center;
+  }
+  .popular_tabs .nav {
+    gap: 15px;
+    margin-top: 10px;
   }
 }
