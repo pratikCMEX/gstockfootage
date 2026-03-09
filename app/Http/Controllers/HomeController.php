@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Image;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Testimonials;
 use Illuminate\Http\Request;
@@ -14,16 +15,34 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+
+    public function order_mail(Request $request)
+    {
+        $order = Order::with(['order_details.product', 'user'])->find(1);
+        // dd($order);
+        return view('emails.order_details', compact('order'));
+    }
     public function index()
     {
         $title = 'Home';
         $page = 'front.home';
-        $js = ['home'];
+        $js = ['home', 'favorites'];
+        $userId = Auth::id();
+
         // $js = [''];
         $categoryList = Category::get();
         $ImageList = Image::get();
         $CollectionList = Collection::limit(4)->get();
-        $product = Product::with('category')->limit(4)->get();
+        // $product = Product::with('category')->limit(4)->get();
+        $product = Product::with('category')
+            ->withCount([
+                'favorites as is_favorite' => function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                }
+            ])
+            ->limit(4)
+            ->get();
+
         $testimonials = Testimonials::where('is_active', '1')->get();
         return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials'));
     }
@@ -31,37 +50,37 @@ class HomeController extends Controller
     {
         $title = 'Product Detail View';
         $page = 'front.product_detail';
-        $js = [];
+        $js = ['favorites'];
         try {
             $id = decrypt($id);
             // $id = 19;
             $product = Product::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
             $data = [
-                'id'          => $product->id,
-                'title'       => $product->name,
+                'id' => $product->id,
+                'title' => $product->name,
                 'description' => $product->description ?? 'No description available',
-                'tags'        => $product->tags ? explode(',', $product->tags) : [],
-                'price'       => $product->price,
-                'category'    => optional($product->category)->category_name,
-                'collection'  => optional($product->collection)->name,
-                'location'    => optional($product->subcategory)->sub_category_name,
-                'type'        => $product->type,
+                'tags' => $product->tags ? explode(',', $product->tags) : [],
+                'price' => $product->price,
+                'category' => optional($product->category)->category_name,
+                'collection' => optional($product->collection)->name,
+                'location' => optional($product->subcategory)->sub_category_name,
+                'type' => $product->type,
             ];
 
             if ($product->type == "0") {
-                $data['file_url']   = asset('uploads/images/high/' .  $product->high_path);
+                $data['file_url'] = asset('uploads/images/high/' . $product->high_path);
                 $data['low_path'] = $product->low_path;
                 $data['resolution'] = $product->width . ' x ' . $product->height;
-                $data['file_size']  = formatFileSize((int)$product->file_size);
+                $data['file_size'] = formatFileSize((int) $product->file_size);
             }
 
             if ($product->type == "1") {
-                $data['file_url']   = asset('uploads/videos/high/' .  $product->high_path);
+                $data['file_url'] = asset('uploads/videos/high/' . $product->high_path);
                 $data['low_path'] = $product->low_path;
-                $data['thumbnail']  = asset('uploads/videos/high/' .  $product->thumbnail_path);
+                $data['thumbnail'] = asset('uploads/videos/high/' . $product->thumbnail_path);
                 $data['resolution'] = 'HD Video';
-                $data['file_size']  = 'Video File';
+                $data['file_size'] = 'Video File';
             }
 
             // return view('product.show', compact('data'));
@@ -87,16 +106,16 @@ class HomeController extends Controller
                     ? asset('uploads/images/high/' . $product->high_path)
                     : asset('uploads/videos/high/' . $product->high_path);
                 return [
-                    'id'          => $product->id,
-                    'title'       => $product->name,
-                    'preview'     => $preview,
-                    'url'     => $url,
-                    'price'       => $product->price,
-                    'type'        => $product->type,
-                    'category'    => optional($product->category)->category_name,
-                    'collection'  => optional($product->collection)->name,
-                    'sub_category'    => optional($product->subcategory)->name,
-                    'tags'        => $product->tags ? explode(',', $product->tags) : [],
+                    'id' => $product->id,
+                    'title' => $product->name,
+                    'preview' => $preview,
+                    'url' => $url,
+                    'price' => $product->price,
+                    'type' => $product->type,
+                    'category' => optional($product->category)->category_name,
+                    'collection' => optional($product->collection)->name,
+                    'sub_category' => optional($product->subcategory)->name,
+                    'tags' => $product->tags ? explode(',', $product->tags) : [],
                 ];
             });
 
@@ -123,7 +142,7 @@ class HomeController extends Controller
     {
         $title = 'Videos';
         $page = 'front.all_photos';
-        $js = ['photos'];
+        $js = ['photos', 'favorites'];
 
 
         return view("layouts.front.layout", compact('title', 'page', 'js'));
@@ -133,9 +152,9 @@ class HomeController extends Controller
         $title = 'Enterprise';
         $page = 'front.enterprise';
         $js = ['enterprise'];
-       
 
-        return view("layouts.front.layout", compact('title', 'page','js'));
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
     }
 
     public function about()

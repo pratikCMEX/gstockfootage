@@ -10,6 +10,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController as ControllersCollectionController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PricingController;
@@ -26,7 +27,9 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', function () {
     return redirect()->route('home');
 });
-
+Route::get('/order_email1', function () {
+    return redirect()->route('order_mail');
+});
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -34,24 +37,24 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
     $user = User::find($id);
-    
+
     if (!$user) {
         return redirect()->route('login')
             ->with('msg_error', 'Invalid verification link.');
     }
-    
+
     if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
         return redirect()->route('login')
             ->with('msg_error', 'Invalid verification link.');
     }
-    
+
     if ($user->hasVerifiedEmail()) {
         return redirect()->route('login')
             ->with('msg_success', 'Email already verified. You can login.');
     }
-    
+
     $user->markEmailAsVerified();
-    
+
     return redirect()->route('login')
         ->with('msg_success', 'Email verified successfully! You can now login.');
 })->middleware(['signed'])->name('verification.verify');
@@ -62,7 +65,7 @@ Route::post('/resend-verification', function (Request $request) {
     ]);
 
     $user = User::where('email', $validated['email'])->first();
-    
+
     if ($user && !$user->hasVerifiedEmail()) {
         $user->sendEmailVerificationNotification();
         return back()->with('msg_success', 'Verification email sent! Please check your inbox.');
@@ -77,8 +80,12 @@ Route::post('/resend-verification', function (Request $request) {
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-    return back()->with('message','Verification link sent!');
-})->middleware(['auth','throttle:6,1'])->name('verification.send');
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/order_mail', [HomeController::class, 'order_mail'])->name('order_mail');
+
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
@@ -102,6 +109,10 @@ Route::get('/product_list', [HomeController::class, 'productList'])->name('produ
 Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
+Route::post('/add_favorite', [FavoritesController::class, 'addToFavorite'])->name('add_favorite');
+Route::get('/favorites', [FavoritesController::class, 'index'])->name('favorites');
+Route::post('/remove_favorites', [FavoritesController::class, 'removeFavorite'])->name('favorites.remove');
+
 Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('/forgot-password-store', [NewPasswordController::class, 'store'])->name('password.store');
 
@@ -124,7 +135,13 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.car
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.list');
 
-Route::middleware('auth')->group(function () {});
+Route::middleware('auth')->group(function () {
+
+    Route::get('/view_profile', [ProfileController::class, 'edit'])->name('view_profile');
+    Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('front.update_profile');
+    Route::post('update_password', [ProfileController::class, 'update_password'])->name('front.update_password');
+    Route::post('check_password', [ProfileController::class, 'check_password'])->name('front.check_password');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -56,7 +56,7 @@
                         </div>
                     </div> --}}
                     <div class="big-product-img">
-                        <i class="bi bi-heart"></i>
+                       <a class="addFavorite" data-Product-id="{{ $data['id']  }}" data-type="{{  $data['type']  }}"> <i class="bi bi-heart"></i></a>
                         <div class="swiper frontproduct">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">

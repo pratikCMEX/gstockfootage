@@ -49,6 +49,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     /**
      * Get the email address that should be used for verification.

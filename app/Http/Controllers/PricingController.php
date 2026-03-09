@@ -16,8 +16,8 @@ class PricingController extends Controller
 
         $priceList = License_master::get();
 
-        $subscriptionPlanList=Subscription_plans::get();
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList','subscriptionPlanList'));
+        $subscriptionPlanList = Subscription_plans::get();
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList', 'subscriptionPlanList'));
     }
 
 

@@ -1,0 +1,92 @@
+/* ===== Wrapper Card Style ===== */
+.add-new-customer-wrp {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    border: 1px solid #f1f1f1;
+    margin: 60px;
+
+}
+
+/* Section Heading */
+.add-new-customer-wrp h3 {
+    font-size: 20px;
+    font-weight: 600;
+    /* margin-bottom: 20px; */
+    color: #333;
+    border-left: 4px solid var(--primary);
+    padding-left: 10px;
+    margin-top: 40px;
+}
+
+/* Labels */
+.input-section label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+    color: #555;
+}
+
+.error {
+    color: #ea5050 !important;
+}
+
+/* Required Star */
+
+
+/* Inputs */
+.form-control {
+    height: 45px;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+/* Input Focus Effect */
+.form-control:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    outline: none;
+}
+
+/* Select Styling */
+select.form-control {
+    cursor: pointer;
+}
+
+/* Buttons */
+.cmn-btn.primary-btn {
+    background: #4f46e5;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+/* Button Hover */
+.cmn-btn.primary-btn:hover {
+    background: #3730a3;
+}
+
+/* Save & Update Button Alignment */
+.save {
+    min-width: 120px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .add-new-customer-wrp {
+        padding: 20px;
+    }
+
+    .add-new-customer-wrp h3 {
+        font-size: 18px;
+    }
+}

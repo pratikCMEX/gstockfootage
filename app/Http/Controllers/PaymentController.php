@@ -65,6 +65,37 @@ class PaymentController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        $cart = getCartItems();
+
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'order_number' => 'ORD-' . strtoupper(uniqid()),
+            'total_amount' => $cart['total'],
+            'stripe_session_id' => "",
+            'email' => "unnati.b.cmexpertise@gmail.com",
+            'payment_status' => 'paid',
+            'order_status' => 'completed',
+        ]);
+
+        foreach ($cart['items'] as $item) {
+            OrderDetail::create([
+                'order_id' => $order->id,
+                'product_id' => $item['id'],
+                'price' => $item['price'],
+                'qty' => $item['qty'],
+            ]);
+        }
+
+        // $order = Order::with('order_details.product')->find($order->id);
+
+        $order = Order::with(['order_details.product', 'user'])->find($order->id);
+        Mail::to($order->email)->send(new OrderReceiptMail($order));
+
+        if (Auth::check()) {
+            Cart::where('user_id', Auth::id())->delete();
+        } else {
+            session()->forget('cart');
+        }
         // $session = Session::retrieve($request->session_id);
 
         // if ($session->payment_status !== 'paid') {
@@ -149,6 +180,7 @@ class PaymentController extends Controller
         if ($event->type === 'checkout.session.completed') {
 
             $session = $event->data->object;
+
 
             // if ($session->payment_status == 'paid') {
 

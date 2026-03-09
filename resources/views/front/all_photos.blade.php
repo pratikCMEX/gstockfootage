@@ -210,7 +210,6 @@
                                 <h6 class="popular-detail-title">Art & Craft</h6>
                             </a>
 
-
                             <div class="price-btn">
                                 <span class="price">$149</span>
                                 {{-- <button class="btn  btn-orange">Add</button> --}}

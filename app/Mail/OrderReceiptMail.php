@@ -39,7 +39,7 @@ class OrderReceiptMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.order_receipt',
+            view: 'emails.order_details',
         );
     }
 
