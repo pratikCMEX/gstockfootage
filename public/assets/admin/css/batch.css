@@ -838,9 +838,6 @@ table td {
   border: 1px solid #dfe3e8;
   border-radius: 8px;
   background: #f9fafc;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
 /* input inside tag box */
@@ -861,7 +858,9 @@ table td {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  max-height: fit-content;
   transition: 0.2s ease;
+  margin-bottom: 5px;
 }
 
 /* hover effect */
