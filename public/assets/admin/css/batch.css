@@ -148,6 +148,8 @@ p {
   background-color: #ebf1f6;
   color: #5a6a85;
   border-radius: 10px;
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
   display: inline-block;
 }
 .batch-content {
@@ -1546,6 +1548,57 @@ table td {
     font-weight: 500;
 }
 
+/* Card Header Section */
+
+.upload-main .card_header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px !important;
+}
+
+
+.upload-main .card_header button.back-btn{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white) ;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+}
+
+.upload-main .card_header button.back-btn:hover{
+  transform: translateX(-5px);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.13); */
+}
+
+.upload-main .card_header .header-title-section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.upload-main .card_header .header-title-section h3{
+  font-size: 22px !important;
+  font-family: var(--font-inter-medium);
+  font-weight: 500;
+  color: var(--black);
+}
+
+/* Card Header Section */
+
+.diff-batches-content nav[role="navigation"]{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
