@@ -259,8 +259,10 @@ $(document).ready(function () {
     // 🔥 Hide count if 0 (optional cleaner UI)
     if (selectedCount === 0) {
       $(".delete-count").hide();
+      $(".total_file_selected").text("No File Selected");
     } else {
       $(".delete-count").show();
+      $(".total_file_selected").text(selectedCount + " File Selected");
     }
 
     // Panels
@@ -273,7 +275,9 @@ $(document).ready(function () {
       selectimgdrop?.classList.add("active");
       viewdata?.classList.add("notactive");
       addmetadata?.classList.add("active");
-      nofileselected?.classList.add("active");
+      if (selectedCount === 1) {
+        nofileselected?.classList.add("active");
+      }
     } else {
       selectimgdrop?.classList.remove("active");
       viewdata?.classList.remove("notactive");
@@ -360,6 +364,8 @@ $(document).ready(function () {
         $("input[name='frame_rate']").val(res.frame_rate);
         $("input[name='date_created']").val(res.date_created);
         $("input[name='frame_size']").val(res.height + "x" + res.width);
+        $("input[name='image_height']").val(res.height);
+        $("input[name='image_width']").val(res.width);
 
         $("#tags").tagsinput("removeAll");
 
@@ -427,12 +433,13 @@ $(document).ready(function () {
     let images = $(".upload-image");
     let allSelected = images.length === images.filter(".selected").length;
 
+    // if (allSelected == 1) {
     if (allSelected) {
       images.removeClass("selected");
     } else {
       images.addClass("selected");
     }
-
+    // }
     updateUI();
   });
 
@@ -800,24 +807,30 @@ $(document).ready(function () {
   //   loadBatches(1);
   // });
 
+  let typingTimer;
+  let delay = 500;
   $("#filterForm input, #filterForm select").on("change keyup", function () {
-    let startDate = $("input[name='start_date']").val();
-    let endDate = $("input[name='end_date']").val();
+    // alert();
+    clearTimeout(typingTimer);
 
-    if (startDate && endDate) {
-      currentFilters = $("#filterForm").serialize();
-    } else {
-      let data = $("#filterForm").serializeArray();
+    typingTimer = setTimeout(function () {
+      let startDate = $("input[name='start_date']").val();
+      let endDate = $("input[name='end_date']").val();
 
-      // remove start_date and end_date
-      data = data.filter(
-        (item) => item.name !== "start_date" && item.name !== "end_date"
-      );
+      if (startDate && endDate) {
+        currentFilters = $("#filterForm").serialize();
+      } else {
+        let data = $("#filterForm").serializeArray();
 
-      currentFilters = $.param(data);
-    }
+        data = data.filter(
+          (item) => item.name !== "start_date" && item.name !== "end_date"
+        );
 
-    loadBatches(1);
+        currentFilters = $.param(data);
+      }
+
+      loadBatches(1);
+    }, delay);
   });
 
   $(document).on("click", ".reset-filter", function (e) {
@@ -830,4 +843,63 @@ $(document).ready(function () {
   if (window.location.search) {
     window.history.replaceState({}, document.title, window.location.pathname);
   }
+
+  $(document).on("click", "[data-bs-target='#renameModal']", function () {
+    let id = $(this).attr("data-id");
+    let name = $(this).attr("data-name");
+
+    $("#rename_batch_id").val(id);
+    $("#rename_batch_name").val(name);
+  });
+
+  $(document).on("click", '[data-bs-target="#deleteModal"]', function (e) {
+    e.preventDefault();
+    let id = $(this).attr("data-id");
+    $("#delete_batch_id").val(id);
+  });
+
+  $(document).on("click", ".delete_branch", function (e) {
+    e.preventDefault();
+    let batch_id = $("#delete_batch_id").val();
+
+    $.ajax({
+      url: base_url + "/admin/batch/delete",
+      type: "POST",
+      data: {
+        batch_id: batch_id,
+        _token: $("meta[name='csrf-token']").attr("content"),
+      },
+
+      success: function (res) {
+        $("#deleteModal").modal("hide");
+        // reload batches
+        loadBatches(1);
+        toastr.success(res.message);
+      },
+    });
+  });
+
+  $(document).on("click", ".edit_branch_name", function (e) {
+    e.preventDefault();
+    let batch_id = $("#rename_batch_id").val();
+    let branch_name = $("#rename_batch_name").val();
+
+    $.ajax({
+      url: base_url + "/admin/batch/rename",
+      type: "POST",
+      data: {
+        batch_id: batch_id,
+        branch_name: branch_name,
+        _token: $("meta[name='csrf-token']").attr("content"),
+      },
+
+      success: function (res) {
+        $("#renameModal").modal("hide");
+        toastr.success(res.message);
+
+        // reload batches
+        loadBatches(1);
+      },
+    });
+  });
 });

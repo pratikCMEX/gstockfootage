@@ -1,4 +1,5 @@
 {{-- {{ dd($batch_data) }} --}}
+
 <div class="body-wrapper-inner upload-main">
     <div class="container-fluid">
         <div class="card">
@@ -104,7 +105,7 @@
                                     <button type="button" class="btn btn-all-dark btn-hover-dark select-btn">Select
                                         All</button>
                                 </div>
-                                <div class="search-filter">
+                                <div class="search-filter d-none">
                                     <button class="btn btn-orange search-filter-openbtn upload-desk-searchfilter"
                                         id="upload_search_filter">
                                         <i class="fa-solid fa-magnifying-glass me-3"></i>
@@ -728,13 +729,13 @@
                             <div class="no-file-selected">
 
                                 <div class="no-file-selected-content">
-                                    <p
-                                        class="no-file-selected-title no-file-selected-title-cursor no-file-selected-display-none">
-                                        No file selected</p>
+                                    {{-- <p
+                                        class="no-file-selected-title no-file-selected-title-cursor no-file-selected-display-none total_file_selected">
+                                        No file selected</p> --}}
                                     <button type="button" class="btn btn-primary mobile-no-file-selcted-btn">No file
                                         selected <i class="fa-solid fa-angle-right"></i></button>
                                     <div class="no-file-template">
-                                        <p class="template"></p>
+                                        <p class="template total_file_selected">No file selected</p>
                                         <button type="button" class="btn clear-data">clear all metadata</button>
                                     </div>
                                     <div class="no-file-inputs">

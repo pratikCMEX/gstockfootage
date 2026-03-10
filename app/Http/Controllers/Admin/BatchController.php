@@ -167,7 +167,21 @@ class BatchController extends Controller
                 Carbon::parse($request->end_date)->endOfDay()
             ]);
         }
+        $sortColumn = $request->select_field ?? 'id';
+        $sortDirection = $request->direction ?? 'desc';
 
+        $allowedColumns = ['id', 'title', 'created_at'];
+
+        if (in_array($sortColumn, $allowedColumns)) {
+            $query->orderBy($sortColumn, $sortDirection);
+        }
+
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('created_at', 'like', '%' . $request->search . '%');
+            });
+        }
         // $batches = $query->latest()->paginate(6);
         $batches = $query->latest()->paginate(6)->withQueryString();
         // dd($batches);
@@ -189,6 +203,7 @@ class BatchController extends Controller
                         'id' => $file->id,
                         'file_code' => $file->file_code,
                         'original_name' => $file->original_name,
+                        'title' => $file->title,
                         'file_name' => $file->file_name,
                         'type' => $file->type,
                         'file_path' => asset('uploads/videos/high/' . $file->original_name),
@@ -262,6 +277,7 @@ class BatchController extends Controller
         $batch_id = decrypt($batch_id);
         $batch_data = BatchFile::where('batch_id', $batch_id)->get();
         $batch = Batch::where('id', $batch_id)->first();
+        // dd($batch_id);
         return view('layouts.admin.layout', compact('title', 'page', 'js', 'batch_data', 'batch_id', 'batch'));
     }
     public function updateMetadata(Request $request, $id)
@@ -956,6 +972,27 @@ class BatchController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Metadata saved'
+        ]);
+    }
+
+    public function UpdateBatchName(Request $request)
+    {
+        $batch = Batch::find($request->batch_id);
+        $batch->title = $request->branch_name;
+        $batch->save();
+        return response()->json([
+            'status' => 1,
+            'message' => 'Batch name updated'
+        ]);
+    }
+
+    public function DeleteBatch(Request $request)
+    {
+        $batch = Batch::find($request->batch_id);
+        $batch->delete();
+        return response()->json([
+            'status' => 1,
+            'message' => 'Batch deleted'
         ]);
     }
 }
