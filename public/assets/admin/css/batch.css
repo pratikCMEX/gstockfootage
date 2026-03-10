@@ -1,6 +1,6 @@
 .card-body {
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 h1,
 h2,
@@ -1609,6 +1609,77 @@ table td {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+}
+
+.diff-batches-content .navbar-section{
+  width: 100%;
+}
+
+
+.diff-batches-content nav[role="navigation"] div.hidden{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column-reverse;
+}
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: none !important;
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span,
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex a{
+  width: 100%;
+  max-width: 40px;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 15px !important;
+  color: var(--black);
+  font-family: var(--font-inter-medium);
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span svg,
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex a svg{
+  width: 70%;
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span[aria-disabled="true"]{
+  opacity: 0.5;
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span span{
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span[aria-disabled="true"] span{
+  color: var(--black);
+}
+
+.diff-batches-content nav[role="navigation"] div.hidden div:first-child p{
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
+  color: var(--secendory);
+  margin-top: 12px !important;
 }
 
 @media only screen and (max-width: 1440px) {
