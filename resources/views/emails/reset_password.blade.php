@@ -46,7 +46,7 @@
                 <!-- <img src="{{  config('app.url') }}/assets/front/logo/header-logo.png" height="100%" width="100%" alt=""> -->
                 <!-- <img src="{{ config('app.url') }}/assets/front/logo/header-logo.png" width="170" alt="Logo"> -->
 
-                <img src="{{ $message->embed(public_path('assets/front/logo/header-logo.png')) }}" width="170">
+                <img src="{{ url('/assets/front/logo/header-logo.png') }}" width="170">
             </div>
             <!-- <div class="tagline" style="font-size: 11px; font-weight: 500;
       color: #737373; letter-spacing: 3px; text-transform: uppercase;margin-top: 4px;">Official
