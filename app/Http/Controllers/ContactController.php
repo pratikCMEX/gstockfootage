@@ -50,6 +50,7 @@ class ContactController extends Controller
             return back()->with('msg_error', 'Something went wrong!');
         }
     }
+
     public function Quote(Request $request)
     {
         $title = 'Home';
@@ -58,6 +59,7 @@ class ContactController extends Controller
       
         return view('front.quote', compact('title', 'page', 'js'));
     }
+
     public function quoteStore(Request $request)
     {
         try {
