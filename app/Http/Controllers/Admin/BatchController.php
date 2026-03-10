@@ -7,6 +7,7 @@ use App\Jobs\ProcessBatchVideo;
 use App\Jobs\ProcessUploadedVideo;
 use App\Models\Batch;
 use App\Models\BatchFile;
+use Carbon\Carbon;
 use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -583,6 +584,7 @@ class BatchController extends Controller
                 'file_path'      => "uploads/batch/images/high/$imageName",
                 'thumbnail_path' => $imageName,
                 'low_path' => "low_" . $imageName,
+                'date_created' => Carbon::now()->toDateString(),
                 'file_type'      => 'image',
                 'file_size'      => $size,
                 'width'          => $width,
@@ -654,6 +656,7 @@ class BatchController extends Controller
         $batchFile->file_name = $fileName;
         $batchFile->file_path = $path;
         $batchFile->file_type = 'video';
+        $batchFile->date_created = Carbon::now()->toDateString();
         $batchFile->status = 'accepted';
         $batchFile->save();
 
