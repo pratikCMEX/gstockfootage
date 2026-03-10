@@ -74,7 +74,7 @@
                                             </div>
                                             <div
                                                 class="upload-from-device-content
-                                                text-center align-items-center">
+                                                text-center align-items-center"  id="dndZone">
                                                 <div class="upload-device-content-detail">
                                                     <h2 class="upload-title
                                         ">

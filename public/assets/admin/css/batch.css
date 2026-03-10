@@ -1,6 +1,6 @@
 .card-body {
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 h1,
 h2,
@@ -339,6 +339,8 @@ p {
   padding-top: 12px;
   border-left: 1px solid gray;
   transition: all 0.5s ease;
+  max-height: calc(100dvh - 170px);
+  overflow: auto;
 }
 .filtershow {
   right: 17px;
@@ -1497,6 +1499,11 @@ table td {
   background: #3a3a3a;
   overflow: hidden;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: var(--white);
 }
 .upload-toast .toast-thumb img {
   width: 100%;
