@@ -601,120 +601,120 @@ $(document).ready(function () {
   });
 
   // ══════════════════════════════════════════
-//  TOAST LOADER — paste this in your JS file
-// ══════════════════════════════════════════
+  //  TOAST LOADER — paste this in your JS file
+  // ══════════════════════════════════════════
 
-let counterRaf = null;
+  let counterRaf = null;
 
-function startUploadToast() {
-    const toast      = document.getElementById('uploadToast');
-    const barFill    = document.getElementById('barFill');
-    const pctLabel   = document.getElementById('pctLabel');
-    const toastTitle = document.getElementById('toastTitle');
-    const toastSub   = document.getElementById('toastSub');
-    const waitText   = document.getElementById('waitText');
-    const successMsg = document.getElementById('successMsg');
-    const spinRing   = document.getElementById('spinRing');
-    const checkRing  = document.getElementById('checkRing');
-    const counterBox = document.getElementById('counterBox');
+  function startUploadToast() {
+    const toast = document.getElementById("uploadToast");
+    const barFill = document.getElementById("barFill");
+    const pctLabel = document.getElementById("pctLabel");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastSub = document.getElementById("toastSub");
+    const waitText = document.getElementById("waitText");
+    const successMsg = document.getElementById("successMsg");
+    const spinRing = document.getElementById("spinRing");
+    const checkRing = document.getElementById("checkRing");
+    const counterBox = document.getElementById("counterBox");
 
     // Reset
     cancelAnimationFrame(counterRaf);
-    barFill.style.transition  = 'none';
-    barFill.style.width       = '0%';
-    pctLabel.textContent      = '0';
-    toastTitle.textContent    = 'Uploading...';
-    toastSub.textContent      = 'Image upload in progress';
-    waitText.style.display    = 'flex';
-    successMsg.style.display  = 'none';
-    counterBox.style.display  = 'flex';
-    spinRing.style.display    = 'block';
-    checkRing.style.display   = 'none';
+    barFill.style.transition = "none";
+    barFill.style.width = "0%";
+    pctLabel.textContent = "0";
+    toastTitle.textContent = "Uploading...";
+    toastSub.textContent = "Image upload in progress";
+    waitText.style.display = "flex";
+    successMsg.style.display = "none";
+    counterBox.style.display = "flex";
+    spinRing.style.display = "block";
+    checkRing.style.display = "none";
 
     // Show toast
-    toast.classList.add('show');
+    toast.classList.add("show");
 
     // Animate bar slowly (won't finish — stopped on success)
-    barFill.style.transition = 'width 25s linear';
-    barFill.style.width      = '90%';
+    barFill.style.transition = "width 25s linear";
+    barFill.style.width = "90%";
 
     // Count 0 → 90 slowly (fake progress)
-    const totalMs  = 25000;
+    const totalMs = 25000;
     const startTime = performance.now();
 
     function tick(now) {
-        const elapsed  = now - startTime;
-        const progress = Math.min(elapsed / totalMs, 1);
-        const eased    = 1 - Math.pow(1 - progress, 2);
-        const val      = Math.min(Math.floor(eased * 90), 90);
-        pctLabel.textContent = val;
-        if (progress < 1) counterRaf = requestAnimationFrame(tick);
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / totalMs, 1);
+      const eased = 1 - Math.pow(1 - progress, 2);
+      const val = Math.min(Math.floor(eased * 90), 90);
+      pctLabel.textContent = val;
+      if (progress < 1) counterRaf = requestAnimationFrame(tick);
     }
     counterRaf = requestAnimationFrame(tick);
-}
+  }
 
-function completeUploadToast() {
-    const toast      = document.getElementById('uploadToast');
-    const barFill    = document.getElementById('barFill');
-    const pctLabel   = document.getElementById('pctLabel');
-    const toastTitle = document.getElementById('toastTitle');
-    const toastSub   = document.getElementById('toastSub');
-    const waitText   = document.getElementById('waitText');
-    const successMsg = document.getElementById('successMsg');
-    const spinRing   = document.getElementById('spinRing');
-    const checkRing  = document.getElementById('checkRing');
-    const counterBox = document.getElementById('counterBox');
+  function completeUploadToast() {
+    const toast = document.getElementById("uploadToast");
+    const barFill = document.getElementById("barFill");
+    const pctLabel = document.getElementById("pctLabel");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastSub = document.getElementById("toastSub");
+    const waitText = document.getElementById("waitText");
+    const successMsg = document.getElementById("successMsg");
+    const spinRing = document.getElementById("spinRing");
+    const checkRing = document.getElementById("checkRing");
+    const counterBox = document.getElementById("counterBox");
 
     cancelAnimationFrame(counterRaf);
 
     // Shoot to 100%
-    barFill.style.transition = 'width 0.4s ease';
-    barFill.style.width      = '100%';
+    barFill.style.transition = "width 0.4s ease";
+    barFill.style.width = "100%";
 
     // Count remaining → 100
-    const start    = parseInt(pctLabel.textContent) || 90;
+    const start = parseInt(pctLabel.textContent) || 90;
     const duration = 400;
     const startTime = performance.now();
 
     function finish(now) {
-        const progress = Math.min((now - startTime) / duration, 1);
-        pctLabel.textContent = Math.floor(start + (100 - start) * progress);
-        if (progress < 1) {
-            requestAnimationFrame(finish);
-        } else {
-            pctLabel.textContent = '100';
+      const progress = Math.min((now - startTime) / duration, 1);
+      pctLabel.textContent = Math.floor(start + (100 - start) * progress);
+      if (progress < 1) {
+        requestAnimationFrame(finish);
+      } else {
+        pctLabel.textContent = "100";
 
-            // Switch to success state
-            setTimeout(() => {
-                toastTitle.textContent   = 'Upload Complete';
-                toastSub.textContent     = 'Your image is ready';
-                waitText.style.display   = 'none';
-                counterBox.style.display = 'none';
-                successMsg.style.display = 'block';
-                spinRing.style.display   = 'none';
-                checkRing.style.display  = 'block';
+        // Switch to success state
+        setTimeout(() => {
+          toastTitle.textContent = "Upload Complete";
+          toastSub.textContent = "Your image is ready";
+          waitText.style.display = "none";
+          counterBox.style.display = "none";
+          successMsg.style.display = "block";
+          spinRing.style.display = "none";
+          checkRing.style.display = "block";
 
-                // Auto-dismiss after 3s
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            }, 300);
-        }
+          // Auto-dismiss after 3s
+          setTimeout(() => toast.classList.remove("show"), 3000);
+        }, 300);
+      }
     }
     requestAnimationFrame(finish);
-}
+  }
 
-function failUploadToast() {
-    const toast      = document.getElementById('uploadToast');
-    const toastTitle = document.getElementById('toastTitle');
-    const toastSub   = document.getElementById('toastSub');
-    const spinRing   = document.getElementById('spinRing');
+  function failUploadToast() {
+    const toast = document.getElementById("uploadToast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastSub = document.getElementById("toastSub");
+    const spinRing = document.getElementById("spinRing");
 
     cancelAnimationFrame(counterRaf);
-    toastTitle.textContent = 'Upload Failed';
-    toastSub.textContent   = 'Something went wrong';
-    spinRing.style.opacity = '0.3';
+    toastTitle.textContent = "Upload Failed";
+    toastSub.textContent = "Something went wrong";
+    spinRing.style.opacity = "0.3";
 
-    setTimeout(() => toast.classList.remove('show'), 3000);
-}
+    setTimeout(() => toast.classList.remove("show"), 3000);
+  }
 
   $(document).on("click", ".btn-upload-device", function () {
     // Guard: nothing selected yet
@@ -760,7 +760,7 @@ function failUploadToast() {
 
       error: function (xhr) {
         console.error("Upload failed:", xhr.responseText);
-         failUploadToast();
+        failUploadToast();
       },
     });
   });
@@ -794,9 +794,29 @@ function failUploadToast() {
   }
 
   let currentFilters = {};
+  // $("#filterForm input, #filterForm select").on("change keyup", function () {
+  //   // alert();
+  //   currentFilters = $("#filterForm").serialize();
+  //   loadBatches(1);
+  // });
+
   $("#filterForm input, #filterForm select").on("change keyup", function () {
-    alert();
-    currentFilters = $("#filterForm").serialize();
+    let startDate = $("input[name='start_date']").val();
+    let endDate = $("input[name='end_date']").val();
+
+    if (startDate && endDate) {
+      currentFilters = $("#filterForm").serialize();
+    } else {
+      let data = $("#filterForm").serializeArray();
+
+      // remove start_date and end_date
+      data = data.filter(
+        (item) => item.name !== "start_date" && item.name !== "end_date"
+      );
+
+      currentFilters = $.param(data);
+    }
+
     loadBatches(1);
   });
 

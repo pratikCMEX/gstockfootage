@@ -1057,32 +1057,17 @@
                 <div class="spin-ring" id="spinRing">
                     <svg viewBox="0 0 36 36" fill="none">
                         <circle class="track" cx="18" cy="18" r="15" stroke-width="3" />
-                        <circle
-                            class="arc"
-                            cx="18"
-                            cy="18"
-                            r="15"
-                            stroke-width="3"
-                            stroke-dashoffset="0"
-                            transform="rotate(-90 18 18)" />
+                        <circle class="arc" cx="18" cy="18" r="15" stroke-width="3"
+                            stroke-dashoffset="0" transform="rotate(-90 18 18)" />
                     </svg>
                 </div>
                 <!-- success check (hidden initially) -->
                 <div class="check-ring" id="checkRing">
                     <svg viewBox="0 0 36 36" fill="none">
                         <circle cx="18" cy="18" r="15" fill="#4ade80" opacity=".15" />
-                        <circle
-                            cx="18"
-                            cy="18"
-                            r="15"
-                            stroke="#4ade80"
-                            stroke-width="2.5" />
-                        <polyline
-                            points="11,18 16,23 25,13"
-                            stroke="#4ade80"
-                            stroke-width="2.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" />
+                        <circle cx="18" cy="18" r="15" stroke="#4ade80" stroke-width="2.5" />
+                        <polyline points="11,18 16,23 25,13" stroke="#4ade80" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
 
@@ -1095,7 +1080,8 @@
             </div>
 
             <div class="toast-thumb" id="toastThumb">
-                <img id="thumbImg" src="" alt="" />
+                {{-- <img id="thumbImg" src="" alt="" /> --}}
+                <i class="fa-solid fa-arrow-up-from-bracket"></i>
             </div>
         </div>
 
