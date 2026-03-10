@@ -11,7 +11,8 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <input type="hidden" name="subscription_plan_id" id="subscription_plan_id" value="{{ encrypt($getSubscriptionPlanDetail->id) }}">
+                                <input type="hidden" name="subscription_plan_id" id="subscription_plan_id"
+                                    value="{{ encrypt($getSubscriptionPlanDetail->id) }}">
                                 <label for="exampleInputEmail1" class="form-label">Plan Name</label>
                                 <input type="text" name="name" class="form-control" id="name"
                                     value="{{ $getSubscriptionPlanDetail->name }}" aria-describedby="emailHelp"
@@ -32,21 +33,21 @@
                                 <input type="text" name="duration_value" class="form-control" id="duration_value"
                                     value="{{ $getSubscriptionPlanDetail->duration_value }}"
                                     aria-describedby="emailHelp" placeholder="Please enter duration value"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Total Clips</label>
                                 <input type="text" name="total_clips" class="form-control" id="total_clips"
                                     value="{{ $getSubscriptionPlanDetail->total_clips }}" aria-describedby="emailHelp"
                                     placeholder="Please enter total clips"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Discount(%)</label>
                                 <input type="text" name="discount" class="form-control" id="discount"
                                     value="{{ $getSubscriptionPlanDetail->discount_percentage }}"
                                     aria-describedby="emailHelp" placeholder="Please enter total clips"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
                             <div class="mb-3">
@@ -54,7 +55,7 @@
                                 <input type="text" name="price" class="form-control" id="price"
                                     value="{{ $getSubscriptionPlanDetail->price }}" aria-describedby="emailHelp"
                                     placeholder="Please enter price"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
 

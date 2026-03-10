@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CollectionController;
+use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserLicenceController;
+use App\Http\Controllers\UserSubscriptionController;
 use App\Http\Controllers\WebpageController;
 use App\Models\QuoteRequest;
 use App\Models\User;
@@ -141,6 +144,18 @@ Route::middleware('auth')->group(function () {
     Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('front.update_profile');
     Route::post('update_password', [ProfileController::class, 'update_password'])->name('front.update_password');
     Route::post('check_password', [ProfileController::class, 'check_password'])->name('front.check_password');
+});
+
+Route::middleware('auth')->group(function () {
+
+    // Route::get('/subscription/checkout/{id}',[UserSubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::post('/subscription/stripe-session', [UserSubscriptionController::class, 'stripeSession'])->name('subscription.stripe');
+    Route::get('/subscription/success', [UserSubscriptionController::class, 'success'])->name('subscription.success');
+    Route::get('/subscription/cancel', [UserSubscriptionController::class, 'cancel'])->name('subscription.cancel');
+
+    Route::post('/license/checkout', [UserLicenceController::class, 'checkout'])->name('license.checkout');
+    Route::get('/license/success', [UserLicenceController::class, 'success'])->name('license.success');
+    Route::get('/license/cancel', [UserLicenceController::class, 'cancel'])->name('license.cancel');
 });
 
 Route::get('/dashboard', function () {

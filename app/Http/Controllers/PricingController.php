@@ -14,9 +14,24 @@ class PricingController extends Controller
         $page = 'front.pricing';
         $js = ['pricing'];
 
-        $priceList = License_master::get();
+        $priceList = License_master::withExists([
+            'userLicences as is_purchased' => function ($query) {
+                $query->where('user_id', auth()->id());
+            }
+        ])
+            ->get();
 
-        $subscriptionPlanList = Subscription_plans::get();
+        // $subscriptionPlanList = Subscription_plans::where('is_active', '1')->get();
+        $subscriptionPlanList = Subscription_plans::where('is_active', '1')
+            ->withExists([
+                'userSubscriptions as is_purchased' => function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->where('status', 'active')
+                        ->where('end_date', '>', now());
+                }
+            ])
+            ->get();
+
         return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList', 'subscriptionPlanList'));
     }
 

@@ -1,169 +1,210 @@
 <main>
     <section class="pricing-section">
-         @if($priceList->isNotEmpty())
-        <div class="container">
-            <span class="section-badge">Pricing</span>
-            <div class="heading">
-                <h2 class="mt-3">Simple, Transparent <span class="yellow-headings">Pricing</span> </h2>
-                <p>Choose a plan that fits your workflow and business scale.</p>
-                <h3>Per Clip License</h3>
-            </div>
-            <div class="row g-4 justify-content-md-center">
-
-                @foreach ($priceList as $pricing)
-
-                    <div class="col-lg-4 col-md-6 {{ $pricing->most_popular == "1" ? 'popular' : '' }}">
-                        @if($pricing->most_popular == '1')
-                            <div class="popular-badge">Popular</div>
-                        @endif
-                        <div class="pricing-card">
-                            <h5>{{$pricing->name  }}</h5>
-                            <p class="text-secondary">{{$pricing->title  }}</p>
-                            <div class="price">${{$pricing->price  }} <span>/ clip</span></div>
-                            <p class="text-secondary price-text">Up to {{$pricing->quality  }}</p>
-
-                            <button class="btn btn-orange w-100">Get Started</button>
-                            @php
-                                // $descriptions=explode(',',$pricing->description);
-                                $descriptions = array_filter(
-                                    array_map('trim', explode(',', $pricing->description))
-                                );
-                            @endphp
-                            <ul class="features">
-                                @foreach ($descriptions as $detail)
-                                    <li>{{ $detail }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- <div class="col-lg-4 col-md-6">
-                                <div class="pricing-card popular">
-                                    <div class="popular-badge">Popular</div>
-                                    <h5>HD License</h5>
-                                    <p class="text-secondary">Ideal for professional projects</p>
-                                    <div class="price">$49 <span>/ clip</span></div>
-                                    <p class="text-secondary price-text">Up to 1080p</p>
-
-                                    <button class="btn btn-orange w-100">Get Started</button>
-
-                                    <ul class="features">
-                                        <li>High Definition (1080p)</li>
-                                        <li>All SD License Features</li>
-                                        <li>TV & Broadcasting Rights</li>
-                                        <li>Client Projects</li>
-                                        <li>Priority Support</li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="pricing-card">
-                                    <h5>4K License</h5>
-                                    <p class="text-secondary">Ultimate quality for cinema</p>
-                                    <div class="price">$99 <span>/ clip</span></div>
-                                    <p class="text-secondary price-text">Up to 4K</p>
-
-
-                                    <button class="btn btn-orange w-100">Get Started</button>
-                                    <ul class="features">
-                                        <li>Ultra HD 4K (2160p)</li>
-                                        <li>All HD License Features</li>
-                                        <li>Cinema & Film Production</li>
-                                        <li>Unlimited Projects</li>
-                                        <li>Premium Support</li>
-                                        <li>RAW Files Available</li>
-                                    </ul>
-
-                                </div>
-                            </div> -->
-                @endforeach
-            </div>
-        </div>
-        @else
-           <div class="heading">
-                    <h3> <span class="yellow-headings">No License plans available at the moment.</span></h3>
-                   
+        @if($priceList->isNotEmpty())
+            <div class="container">
+                <span class="section-badge">Pricing</span>
+                <div class="heading">
+                    <h2 class="mt-3">Simple, Transparent <span class="yellow-headings">Pricing</span> </h2>
+                    <p>Choose a plan that fits your workflow and business scale.</p>
+                    <h3>Per Clip License</h3>
                 </div>
-        @endif
-    </section>
-   
-    <section class="subscription_plan">
-         @if($subscriptionPlanList->isNotEmpty())
-        <div class="container">
-           
-            <div class="heading text-center">
-                <h2>Subscription<span class="yellow-headings"> Plans</span> </h2>
-                <p>Get more clips for less with our subscription options.</p>
-            </div>
-            <div class="subscription-content">
                 <div class="row g-4 justify-content-md-center">
 
-                    @foreach ($subscriptionPlanList as $subscription)
+                    @foreach ($priceList as $pricing)
 
+                        <div class="col-lg-4 col-md-6 {{ $pricing->most_popular == "1" ? 'popular' : '' }}">
+                            @if($pricing->most_popular == '1')
+                                <div class="popular-badge">Popular</div>
+                            @endif
+                            <div class="pricing-card">
+                                <h5>{{$pricing->name  }}</h5>
+                                <p class="text-secondary">{{$pricing->title  }}</p>
+                                <div class="price">${{$pricing->price  }} <span>/ clip</span></div>
+                                <p class="text-secondary price-text">Up to {{$pricing->quality  }}</p>
 
-                        <div class="col-lg-4 col-md-6">
-                            <div class="subscription-card">
-                                <div class="subscription-title">
-                                    <div class="subscription-left">
-                                        <h5>{{$subscription->name}}</h5>
-                                        <p class="text-secondary">{{$subscription->total_clips}} HD clips per {{$subscription->duration_type}}</p>
-                                    </div>
-                                </div>
-                                <div class="subscribe-price">${{$subscription->price}}<span>/ {{$subscription->duration_type}}</span></div>
-                                <p class="text-secondary subscribe-price-text">${{$subscription->price_per_clip}} per clip</p>
-                                <button class="btn btn-all-dark  w-100">Subscribe Now</button>
+                                <!-- <button class="btn btn-orange w-100">Get Started</button> -->
+                                <form action="{{ route('license.checkout') }}" method="POST">
+                                    @csrf
 
+                                    <input type="hidden" name="license_id" value="{{ $pricing->id }}">
+                                    <input type="hidden" name="price" value="{{ $pricing->plan_price }}">
 
+                                    @if($pricing->is_purchased == '1')
+                                        <label class="btn btn-orange w-100">
+                                            Purchased
+                                        </label>
+                                    @else
+                                        <button type="submit" class="btn btn-orange w-100">
+                                            Get Started
+                                        </button>
+                                    @endif
+
+                                </form>
+                                @php
+                                    // $descriptions=explode(',',$pricing->description);
+                                    $descriptions = array_filter(
+                                        array_map('trim', explode(',', $pricing->description))
+                                    );
+                                @endphp
+                                <ul class="features">
+                                    @foreach ($descriptions as $detail)
+                                        <li>{{ $detail }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
+                        <!-- <div class="col-lg-4 col-md-6">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="pricing-card popular">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="popular-badge">Popular</div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <h5>HD License</h5>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="text-secondary">Ideal for professional projects</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="price">$49 <span>/ clip</span></div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="text-secondary price-text">Up to 1080p</p>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button class="btn btn-orange w-100">Get Started</button>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <ul class="features">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>High Definition (1080p)</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>All SD License Features</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>TV & Broadcasting Rights</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>Client Projects</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>Priority Support</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="col-lg-4 col-md-6">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="pricing-card">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <h5>4K License</h5>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="text-secondary">Ultimate quality for cinema</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="price">$99 <span>/ clip</span></div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="text-secondary price-text">Up to 4K</p>
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button class="btn btn-orange w-100">Get Started</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <ul class="features">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>Ultra HD 4K (2160p)</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>All HD License Features</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>Cinema & Film Production</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>Unlimited Projects</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>Premium Support</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>RAW Files Available</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                     @endforeach
-                    <!-- <div class="col-lg-4 col-md-6">
-                        <div class="subscription-card">
-                            <div class="subscription-title">
-                                <div class="subscription-left">
-
-                                    <h5>Quarterly</h5>
-                                    <p class="text-secondary">30 HD clips per quarter</p>
-                                </div>
-                                <div class="subscription-right">
-                                    <div class="off-badge">15% off</div>
-
-                                </div>
-                            </div>
-                            <div class="subscribe-price">$499 <span>/ quarter</span></div>
-                            <p class="text-secondary subscribe-price-text">$16.63 per clip</p>
-                            <button class="btn btn-all-dark  w-100">Subscribe Now</button>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="subscription-card">
-                            <div class="subscription-title">
-                                <div class="subscription-left">
-                                    <h5>Annual</h5>
-                                    <p class="text-secondary">120 HD clips per year</p>
-                                </div>
-                                <div class="subscription-right">
-                                    <div class="off-badge">33% off</div>
-                                </div>
-                            </div>
-                            <div class="subscribe-price">$1599 <span>/ year</span></div>
-                            <p class="text-secondary subscribe-price-text">$13.32 per clip</p>
-                            <button class="btn btn-all-dark w-100">Subscribe Now</button>
-
-                        </div>
-                    </div> -->
                 </div>
             </div>
-      
-        </div>
-         @else
-           <div class="heading text-center">
-                    <h3> <span class="yellow-headings">No Subscription plans available at the moment.</span></h3>
-                   
+        @else
+            <div class="heading">
+                <h3> <span class="yellow-headings">No License plans available at the moment.</span></h3>
+
+            </div>
+        @endif
+    </section>
+
+    <section class="subscription_plan">
+        @if($subscriptionPlanList->isNotEmpty())
+            <div class="container">
+
+                <div class="heading text-center">
+                    <h2>Subscription<span class="yellow-headings"> Plans</span> </h2>
+                    <p>Get more clips for less with our subscription options.</p>
                 </div>
-        
-           @endif
+                <div class="subscription-content">
+                    <div class="row g-4 justify-content-md-center">
+
+                        @foreach ($subscriptionPlanList as $subscription)
+
+
+                            <div class="col-lg-4 col-md-6">
+                                <div class="subscription-card">
+                                    <div class="subscription-title">
+                                        <div class="subscription-left">
+                                            <h5>{{$subscription->name}}</h5>
+                                            <p class="text-secondary">{{$subscription->total_clips}} HD clips per
+                                                {{$subscription->duration_type}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="subscribe-price">${{$subscription->price}}<span>/
+                                            {{$subscription->duration_type}}</span></div>
+                                    <p class="text-secondary subscribe-price-text">${{$subscription->price_per_clip}} per clip
+                                    </p>
+                                    <form action="{{ route('subscription.stripe') }}" method="POST">
+                                        @csrf
+
+                                        <input type="hidden" name="plan_id" value="{{ $subscription->id }}">
+
+
+                                        @if($subscription->is_purchased == '1')
+                                            <label class="btn btn-all-dark w-100">
+                                                Current Plan
+                                            </label>
+
+                                        @else
+                                            <button class="btn btn-all-dark w-100">
+                                                Subscribe Now
+                                            </button>
+                                        @endif
+
+
+                                    </form>
+
+                                    <!-- <button class="btn btn-all-dark  w-100">Subscribe Now</button> -->
+
+
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- <div class="col-lg-4 col-md-6">
+                                                                                                                                                                                                                                <div class="subscription-card">
+                                                                                                                                                                                                                                    <div class="subscription-title">
+                                                                                                                                                                                                                                        <div class="subscription-left">
+
+                                                                                                                                                                                                                                            <h5>Quarterly</h5>
+                                                                                                                                                                                                                                            <p class="text-secondary">30 HD clips per quarter</p>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                        <div class="subscription-right">
+                                                                                                                                                                                                                                            <div class="off-badge">15% off</div>
+
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                    <div class="subscribe-price">$499 <span>/ quarter</span></div>
+                                                                                                                                                                                                                                    <p class="text-secondary subscribe-price-text">$16.63 per clip</p>
+                                                                                                                                                                                                                                    <button class="btn btn-all-dark  w-100">Subscribe Now</button>
+
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                            <div class="col-lg-4 col-md-6">
+                                                                                                                                                                                                                                <div class="subscription-card">
+                                                                                                                                                                                                                                    <div class="subscription-title">
+                                                                                                                                                                                                                                        <div class="subscription-left">
+                                                                                                                                                                                                                                            <h5>Annual</h5>
+                                                                                                                                                                                                                                            <p class="text-secondary">120 HD clips per year</p>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                        <div class="subscription-right">
+                                                                                                                                                                                                                                            <div class="off-badge">33% off</div>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                    <div class="subscribe-price">$1599 <span>/ year</span></div>
+                                                                                                                                                                                                                                    <p class="text-secondary subscribe-price-text">$13.32 per clip</p>
+                                                                                                                                                                                                                                    <button class="btn btn-all-dark w-100">Subscribe Now</button>
+
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                            </div> -->
+                    </div>
+                </div>
+
+            </div>
+        @else
+            <div class="heading text-center">
+                <h3> <span class="yellow-headings">No Subscription plans available at the moment.</span></h3>
+
+            </div>
+
+        @endif
     </section>
     <section class="license_type">
         <div class="container">

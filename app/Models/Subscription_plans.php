@@ -6,18 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscription_plans extends Model
 {
-     protected $fillable = [
-        
+    protected $fillable = [
+
         'name',
         'price',
         'duration_type',
-         'duration_type',
-         'duration_value',
-         'total_clips',
-         'price_per_clip',
-         'discount_percentage',
-          'is_active',
-         
+        'duration_type',
+        'duration_value',
+        'total_clips',
+        'price_per_clip',
+        'discount_percentage',
+        'is_active',
+
 
     ];
+    public function userSubscriptions()
+    {
+        return $this->hasMany(User_subscriptions::class, 'subscription_plan_id');
+    }
 }

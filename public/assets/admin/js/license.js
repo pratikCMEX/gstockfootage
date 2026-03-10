@@ -1,11 +1,30 @@
 
 
 var base_url = $("#base_url").val();
+
+// Custom validation method for individual description fields
+jQuery.validator.addMethod("descriptionRequired", function(value, element) {
+    // Check if any description field has a value
+    var descriptionFields = $('input[name="description[]"]');
+    var hasValue = false;
+    
+    descriptionFields.each(function() {
+        if ($(this).val().trim() !== '') {
+            hasValue = true;
+            return false; // break the loop
+        }
+    });
+    
+    // If no fields have value, all fields should show error
+    return hasValue;
+}, "Please enter description");
+
 $("#license_form").validate({
     onkeyup: false,
     rules: {
         name: {
             required: true,
+            maxlength: 30,
             remote: {
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -27,15 +46,23 @@ $("#license_form").validate({
 
         title: {
             required: true,
+
+        },
+        product_quality_id: {
+            required: true,
+
         },
         price: {
+            required: true,
+        },
+        plan_price: {
             required: true,
         },
         quality: {
             required: true,
         },
-        description: {
-            required: true,
+        "description[]": {
+            descriptionRequired: true
         },
 
 
@@ -43,19 +70,28 @@ $("#license_form").validate({
     messages: {
         name: {
             required: "Please enter License name",
+            maxlength: 'Please enter License name less than 30 characters',
             remote: "This License already exists",
         },
         title: {
             required: "Please enter License title",
+
+        },
+        product_quality_id: {
+            required: "Please select product quality",
+
         },
         price: {
             required: "Please enter License price",
         },
+        plan_price: {
+            required: "Please enter Plan price",
+        },
         quality: {
             required: "Please enter Quality",
         },
-        description: {
-            required: "Please enter License description",
+        "description[]": {
+            descriptionRequired: "Please enter description"
         },
 
     },
@@ -65,6 +101,13 @@ $("#license_form").validate({
 
     errorClass: "text-danger",
     errorElement: "span",
+    errorPlacement: function(error, element) {
+        if (element.attr("name") == "description[]") {
+            error.insertAfter(element.closest('.description-item'));
+        } else {
+            error.insertAfter(element);
+        }
+    },
     highlight: function (element) {
         $(element).addClass("is-invalid");
     },
@@ -215,8 +258,8 @@ $("#delete-selected").on("click", function () {
                 success: function (response) {
                     if (response.success == false) {
                         toastr.error(response.message);
-                    }else{
-                         toastr.success(response.message);
+                    } else {
+                        toastr.success(response.message);
                     }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");
@@ -224,5 +267,50 @@ $("#delete-selected").on("click", function () {
                 },
             });
         }
+    });
+});
+
+// Description field management functions
+function addDescriptionField() {
+    var newField = $('<div class="description-item mb-2">' +
+        '<div class="d-flex">' +
+        '<input type="text" name="description[]" class="form-control" placeholder="Enter description point">' +
+        '<button type="button" class="btn btn-lg btn-danger ms-2" onclick="removeDescriptionField(this)" style="width: 120px;">' +
+        '<i class="fas fa-times"></i>' +
+        '</button>' +
+        '</div>' +
+        '</div>');
+    
+    $('#description-container').append(newField);
+    
+    // Trigger validation on all description fields
+    var validator = $("#license_form").validate();
+    $('input[name="description[]"]').each(function() {
+        validator.element(this);
+    });
+}
+
+function removeDescriptionField(button) {
+    $(button).closest('.description-item').remove();
+    
+    // Trigger validation on all description fields
+    var validator = $("#license_form").validate();
+    $('input[name="description[]"]').each(function() {
+        validator.element(this);
+    });
+}
+
+// Initialize add description button click handler
+$(document).ready(function() {
+    $('#add-description-btn').on('click', function() {
+        addDescriptionField();
+    });
+    
+    // Add keyup event handler for description fields
+    $(document).on('keyup', 'input[name="description[]"]', function() {
+        var validator = $("#license_form").validate();
+        $('input[name="description[]"]').each(function() {
+            validator.element(this);
+        });
     });
 });
