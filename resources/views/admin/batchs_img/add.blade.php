@@ -439,7 +439,7 @@
                                             </div>
                                             <div class="sort-by-filter filter-text">
                                                 <p>Sort by</p>
-                                                <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                {{-- <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Dropdown<i class="fa-solid fa-angle-down"></i>
                                                 </button>
@@ -450,7 +450,15 @@
                                                     <li><a class="dropdown-item" href="#">Something else
                                                             here</a>
                                                     </li>
-                                                </ul>
+                                                </ul> --}}
+                                                <select class="form-select mr-sm-2 batch-inp" name="submission_type"
+                                                    id="category">
+                                                    <option value="id">Id</option>
+                                                    <option value="title">
+                                                        Submission Name</option>
+                                                    <option value="video">
+                                                        Video</option>
+                                                </select>
                                             </div>
                                             <div class="direction-filter filter-text">
                                                 <p>Direction</p>
