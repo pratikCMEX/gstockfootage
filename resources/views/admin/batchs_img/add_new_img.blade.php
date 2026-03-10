@@ -4,6 +4,40 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
+                <div class="card_header">
+                    <button class="back-btn">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <div class="header-title-section">
+                        <h3>Batch Title</h3>
+                        <div class="batches-label">
+                            <label for=""> <i class="fa-solid fa-camera-retro"></i>
+                                Gstock
+                                creative
+                                photo</label>
+                        </div>
+                    </div>
+                    <div class="dot-menu text-end">
+                        <button class="btn  text-start dot-dropdown dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
+                        <ul class="dropdown-menu more-detail-menu">
+                            <li>
+                                <button type="button" class="dropdown-item-upload dropdown-item"
+                                    data-bs-toggle="modal" data-bs-target="#BatchrenameModal">
+                                    <i class="fa-solid fa-pencil"></i>
+                                    Rename
+                                </button>
+                            </li>
+                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
+                                    data-bs-toggle="modal" data-bs-target="#BatchNotModal">
+                                    <i class="fa-regular fa-file"></i>
+                                    Add or edit note for inspectors
+                                </button></li>
+
+                        </ul>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-8 ">
                         <div class="">
@@ -41,7 +75,7 @@
                                             </div>
                                             <div
                                                 class="upload-from-device-content
-                                                text-center align-items-center">
+                                                text-center align-items-center"  id="dndZone">
                                                 <div class="upload-device-content-detail">
                                                     <h2 class="upload-title
                                         ">
@@ -59,12 +93,12 @@
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
                                                         file</label>
                                                     @php
-                                                        $batch_type = '';
-                                                        if ($batch->submission_type == 'video') {
-                                                            $batch_type = 'video';
-                                                        } else {
-                                                            $batch_type = 'image';
-                                                        }
+                                                    $batch_type = '';
+                                                    if ($batch->submission_type == 'video') {
+                                                    $batch_type = 'video';
+                                                    } else {
+                                                    $batch_type = 'image';
+                                                    }
                                                     @endphp
                                                     <input type="file" name="files[]" hidden id="myfile" multiple
                                                         accept="{{ $batch_type == 'video' ? 'video/*' : 'image/*' }}"
@@ -141,45 +175,45 @@
                                 <input type="hidden" id="batch_id" value="{{ $batch->id }}">
 
                                 @foreach ($batch_data as $data)
-                                    <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
-                                        <div class="dot-menu text-end align-self-end">
-                                            <button class="btn  text-start dot-dropdown dropdown-toggle"
-                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-ellipsis-vertical "></i></button>
-                                            <ul class="dropdown-menu more-detail-menu">
-                                                <li>
-                                                    <button type="button" class="dropdown-item-upload dropdown-item"
-                                                        data-bs-toggle="modal" data-bs-target="#renameModal">
-                                                        <i class="fa-regular fa-clipboard me-3"></i>
-                                                        Copy Keyword
-                                                    </button>
-                                                </li>
-                                                <li> <button type="button" class="dropdown-item-upload dropdown-item"
-                                                        data-bs-toggle="modal" data-bs-target="#setthumbnail">
-                                                        <i class="fa-solid fa-pencil me-3"></i>
-                                                        SET NEW THUMBNAIL FRAME
-                                                    </button></li>
+                                <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
+                                    <div class="dot-menu text-end align-self-end">
+                                        <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
+                                        <ul class="dropdown-menu more-detail-menu">
+                                            <li>
+                                                <button type="button" class="dropdown-item-upload dropdown-item"
+                                                    data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                    <i class="fa-regular fa-clipboard me-3"></i>
+                                                    Copy Keyword
+                                                </button>
+                                            </li>
+                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
+                                                    data-bs-toggle="modal" data-bs-target="#setthumbnail">
+                                                    <i class="fa-solid fa-pencil me-3"></i>
+                                                    SET NEW THUMBNAIL FRAME
+                                                </button></li>
 
-                                            </ul>
-                                        </div>
-                                        <div class="image-upload">
-                                            @if ($data['file_type'] == 'image')
-                                                <img src="{{ asset('uploads/batch/images/low') . '/' . $data['low_path'] }}"
-                                                    alt="">
-                                            @else
-                                                <img src="{{ asset('uploads/batch/videos/thumbnails') . '/' . $data['thumbnail_path'] }}"
-                                                    alt="">
-                                            @endif
-                                        </div>
-                                        <div class="image-title-id">
-                                            {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
-                                            <div class="check"><i class="fa-solid fa-circle-check"></i></div>
-                                            <div class="upload-title-img">
-                                                <div class="img-title">{{ $data['title'] }} </div>
-                                                <div class="img-id">ID: 23870945</div>
-                                            </div>
+                                        </ul>
+                                    </div>
+                                    <div class="image-upload">
+                                        @if ($data['file_type'] == 'image')
+                                        <img src="{{ asset('uploads/batch/images/low') . '/' . $data['low_path'] }}"
+                                            alt="">
+                                        @else
+                                        <img src="{{ asset('uploads/batch/videos/thumbnails') . '/' . $data['thumbnail_path'] }}"
+                                            alt="">
+                                        @endif
+                                    </div>
+                                    <div class="image-title-id">
+                                        {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
+                                        <div class="check"><i class="fa-solid fa-circle-check"></i></div>
+                                        <div class="upload-title-img">
+                                            <div class="img-title">{{ $data['title'] }} </div>
+                                            <div class="img-id">ID: 23870945</div>
                                         </div>
                                     </div>
+                                </div>
                                 @endforeach
 
                                 {{-- <div class="upload-image" id="upload_images">
@@ -1082,6 +1116,58 @@
                 </div>
 
                 <div class="modal-footer text-center m-auto">
+                    <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-orange">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="BatchrenameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                </div>
+
+                <div class="modal-body">
+                    <label class="form-label">Batch Name</label>
+                    <input type="text" class="form-control" placeholder="Enter new name">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-orange">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="BatchNotModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renameModalLabel">Add or edit note for inspectors</h5>
+                </div>
+
+                <div class="modal-body">
+                    <label class="form-label">Note</label>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" rows="4"></textarea>
+                </div>
+
+                <div class="modal-footer">
                     <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
                         Cancel
                     </button>

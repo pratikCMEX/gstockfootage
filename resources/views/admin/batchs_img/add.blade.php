@@ -311,7 +311,7 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="mt-4 d-flex justify-content-center">
+                                    <div class="mt-4 navbar-section">
                                         {{ $batches->links() }}
                                     </div>
 
