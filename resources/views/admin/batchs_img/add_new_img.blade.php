@@ -734,7 +734,7 @@
                                     <button type="button" class="btn btn-primary mobile-no-file-selcted-btn">No file
                                         selected <i class="fa-solid fa-angle-right"></i></button>
                                     <div class="no-file-template">
-                                        <p class="template">template</p>
+                                        <p class="template"></p>
                                         <button type="button" class="btn clear-data">clear all metadata</button>
                                     </div>
                                     <div class="no-file-inputs">
@@ -798,16 +798,17 @@
                                             </button>
 
                                         </div>
-                                        <p class="keyword-sub-text">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit. At nesciunt
-                                            provident aut ut eius aliquam possimus facilis rerum impedit modi!</p>
+                                        <p class="keyword-sub-text">Add accurate and relevant keywords to help
+                                            customers find your imagery. You can add a title to get keyword suggestions.
+                                        </p>
                                         <div class="add-keyword">Add 5 to 50 Keywords : <span>0</span></div>
                                         <input name="tags" id="tags" data-role="tagsinput"
                                             class="form-control">
                                         <div class="keyword-btn">
-                                            <button type="button" class="btn btn-all-dark btn-hover-dark">Get
-                                                SUggestions</button>
-                                            <button type="button" class="btn">Copy Keywords</button>
+                                            {{-- <button type="button" class="btn btn-all-dark btn-hover-dark">Get
+                                                SUggestions</button> --}}
+                                            <button type="button" class="btn" style="cursor: pointer;">Copy
+                                                Keywords</button>
                                         </div>
                                     </div>
                                     <div class="no-file-release d-none">
@@ -823,7 +824,7 @@
                                         <button type="button" class="btn btn-all-dark btn-hover-dark">Update
                                             release</button>
                                     </div>
-                                    <div class="no-file-video-propertise">
+                                    <div class="no-file-video-propertise {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="video-title">Video Propertise</p>
                                         <div class="input-group file-inp-label-grp">
                                             <p style="font-size: 12px;">Clip Length</p>
@@ -832,7 +833,7 @@
                                                 aria-describedby="visible-addon">
                                         </div>
                                     </div>
-                                    <div class="no-file-master-formate">
+                                    <div class="no-file-master-formate {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="master-title">Master Formate</p>
                                         <div class="dropdown file-main-dropdown">
                                             <div class="file-inp-icon-grp">
@@ -885,7 +886,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="no-file-master-formate">
+                                    <div class="no-file-master-formate {{ $batch_type == 'image' ? '' : 'd-none' }}">
                                         <p class="master-title">Image properties</p>
 
                                         <div class="file-master-inp-grp">
