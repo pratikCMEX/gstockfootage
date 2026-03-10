@@ -138,15 +138,33 @@ class BatchController extends Controller
         }
 
         // 📊 Status
-        if ($request->status) {
-            $query->whereIn('status', $request->status);
-        }
+        if ($request->has('status') && !empty($request->status)) {
+            // dd(1);
+            $query->where(function ($q) use ($request) {
 
+                // Active batches (any image not edited)
+                if (in_array('1', $request->status)) {
+
+                    $q->orWhereHas('batch_files', function ($f) {
+                        $f->where('is_edited', '0');
+                    });
+                }
+
+                // Close batches (all images not edited)
+                if (in_array('0', $request->status)) {
+
+                    $q->orWhereHas('batch_files', function ($f) {
+                        $f->where('is_edited', '1');
+                    });
+                }
+            });
+        }
         // 📅 Date Range
+
         if ($request->start_date && $request->end_date) {
             $query->whereBetween('created_at', [
-                $request->start_date,
-                $request->end_date
+                Carbon::parse($request->start_date)->startOfDay(),
+                Carbon::parse($request->end_date)->endOfDay()
             ]);
         }
 
@@ -932,6 +950,7 @@ class BatchController extends Controller
             'date_created' => $request->date_created,
             'keywords' => $request->tags,
             'date_created' => $request->date_created,
+            'is_edited' => '1',
         ]);
 
         return response()->json([

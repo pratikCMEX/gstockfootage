@@ -25,6 +25,7 @@ class BatchFile extends Model
         'title',
         'description',
         'date_created',
+        'is_edited',
         'country',
         'frame_rate',
         'keywords',

@@ -385,7 +385,8 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"
-                                                                value="1" name="status" id="checkDefault5">
+                                                                value="1" name="status[]" id="checkDefault5"
+                                                                {{ in_array('1', request()->status ?? []) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="checkDefault5">
                                                                 Active
                                                             </label>
@@ -394,7 +395,8 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"
-                                                                value="0" name="status" id="checkDefault6">
+                                                                value="0" name="status[]" id="checkDefault6"
+                                                                {{ in_array('0', request()->status ?? []) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="checkDefault6">
                                                                 Close <i class="fa-regular fa-circle-question"></i>
                                                             </label>
@@ -419,7 +421,8 @@
                                                     <div class="date-inputs">
                                                         <div class="date-box">
                                                             <span class="date-title">Start date *</span>
-                                                            <input type="date">
+                                                            <input type="date" name="start_date"
+                                                                {{ request()->start_date ? 'value=' . request()->start_date : '' }}>
                                                             <span class="date-format">MM/DD/YYYY</span>
                                                         </div>
 
@@ -427,7 +430,8 @@
 
                                                         <div class="date-box">
                                                             <span class="date-title">End date *</span>
-                                                            <input type="date">
+                                                            <input type="date" name="end_date"
+                                                                {{ request()->end_date ? 'value=' . request()->end_date : '' }}>
                                                             <span class="date-format">MM/DD/YYYY</span>
                                                         </div>
                                                     </div>
