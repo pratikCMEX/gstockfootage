@@ -44,7 +44,7 @@
         <div class="top-mark" style="text-align: center; margin-bottom: 36px;">
             <div class="wordmark" style="width: 170px; height: 90px; margin: auto;">
                 <!-- <img src="{{ asset('assets/front/logo/header-logo.png') }}" height="100%" width="100%" alt=""> -->
-                <img src="{{ $message->embed(public_path('assets/front/logo/header-logo.png')) }}" width="170">
+                <img src="{{ asset('assets/front/logo/header-logo.png') }}" width="170">
             </div>
             <!-- <div class="tagline" style="font-size: 11px; font-weight: 500;
       color: #737373; letter-spacing: 3px; text-transform: uppercase;margin-top: 4px;">Official
@@ -69,10 +69,10 @@
     border-radius: 2px;
     padding: 6px 16px;
     margin-bottom: 28px;">
-                    <div class="status-dot" style="width: 7px;
+                    <!-- <div class="status-dot" style="width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #ff8000;"></div>
+    background: #ff8000;"></div> -->
                     <span style="font-size: 11px;
     font-weight: 600;
     color: #ff8000;
