@@ -460,6 +460,12 @@
 @media only screen and (max-width: 1199px) {
 }
 @media only screen and (max-width: 991px) {
+  .profile.hover-dropdown:hover .dropdown-menu {
+    display: block !important;
+  }
+  .profile.hover-dropdown .dropdown-menu {
+    display: none;
+  }
   .main-menu {
     display: none;
   }
@@ -473,7 +479,8 @@
   .icon-btn {
     display: none;
   }
-  .cart {
+  .cart,
+  .profile-btn {
     display: block;
   }
   .cart-content p {

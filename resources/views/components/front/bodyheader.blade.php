@@ -70,6 +70,9 @@
                         <span class="cart-count {{ $cart_class }}">{{ count($cart['items']) }}</span>
                     </div>
                     <div class="profile dropdown hover-dropdown">
+                        <!-- <a href="javascript:void(0);" class="dropdown-toggle"><i class="bi bi-person-circle icon-btn profile-btn"></i>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i class="bi bi-person"></i> Profile</a></li> -->
                         <a href="javascript:void(0);" class="dropdown-toggle"><i
                                 class="bi bi-person-circle icon-btn "></i>
                             <ul class="dropdown-menu">

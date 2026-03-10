@@ -114,8 +114,9 @@
 .auth-form.active {
   display: block;
 }
-
-label {
+#signup label,
+#login label,
+.reset_section label {
   font-size: 14px;
   font-family: var(--font-inter-medium);
   color: var(--white);
