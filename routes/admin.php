@@ -30,7 +30,9 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 Route::post('admin/vide_batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
-Route::post('admin/image_upload/{batch}', [BatchController::class, 'uploadZip'])->name('batch.image_upload');
+Route::post('admin/image_upload/{batch}', [BatchController::class, 'uploadFiles'])->name('batch.image_upload');
+Route::post('admin/batch/get_file_metadata', [BatchController::class, 'getFileMetadata']);
+Route::post('admin/batch/save_file_metadata', [BatchController::class, 'saveFileMetadata']);
 
 Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -43,9 +45,11 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/banner_store', [BannerController::class, 'store'])->name('admin.banner_store');
 
     Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
-    Route::get('admin/add_new_img', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');
+    Route::get('admin/add_new_img/{id}', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');
     Route::post('admin/store_batch', [BatchController::class, 'store'])->name('admin.storeBatch');
     Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultiple'])->name('batch.upload');
+    Route::post('admin/batch_delete/{batch}', [BatchController::class, 'deleteMultiple'])->name('batch.upload');
+    Route::post('admin/batch/check_brief_code', [BatchController::class, 'checkBriefCode'])->name('batch.check_brief_code');
     // Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
 
     Route::get('admin/testimonials', [TestimonialsController::class, 'index'])->name('admin.testimonials');

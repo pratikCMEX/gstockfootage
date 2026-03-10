@@ -617,9 +617,23 @@ table td {
 .no-file-selected .dropdown,
 .no-file-selected .no-file-release .btn,
 .no-file-selected .submit-metadaata .btn,
-.no-file-selected a {
+.no-file-selected a,
+.no-file-keywording textarea,
+.no-file-keywording .keyword-btn button {
   pointer-events: none;
   cursor: not-allowed;
+}
+.no-file-selected input,
+.no-file-selected .file-dropdown,
+.no-file-keywording textarea {
+  background-color: var(--secendory);
+  opacity: 40%;
+}
+.no-file-selected.active input,
+.no-file-selected.active .file-dropdown,
+.no-file-keywording.active textarea,
+.no-file-keywording.active .keyword-btn button {
+  background-color: transparent;
 }
 .no-file-selected.active .no-file-inputs .input-group input,
 .no-file-selected.active .no-file-video-propertise .input-group input,
@@ -631,7 +645,8 @@ table td {
 .no-file-selected.active .submit-metadaata .btn,
 .no-file-selected.active .file-main-dropdown .file-dropdown,
 .no-file-selected.active .file-dropdown-menu li,
-.no-file-selected.active a {
+.no-file-selected.active a,
+.no-file-keywording.active textarea {
   pointer-events: auto;
   cursor: pointer !important;
 }
@@ -674,6 +689,16 @@ table td {
   padding: 15px 20px;
   border-radius: 7px !important;
   font-size: 16px;
+}
+.no-file-selected .bootstrap-tagsinput input::placeholder,
+.no-file-selected .file-dropdown,
+.no-file-inputs .input-group input::placeholder {
+  color: #ffffffe1;
+}
+.no-file-selected.active .bootstrap-tagsinput input::placeholder,
+.no-file-selected.active .file-dropdown,
+.no-file-selected.active .no-file-inputs .input-group input::placeholder {
+  color: #5a6a85;
 }
 .no-file-inputs .input-group {
   flex-direction: column;
@@ -721,9 +746,10 @@ table td {
   flex-direction: column;
   row-gap: 20px;
   border-bottom: 1px solid rgb(180, 180, 180);
+  border-top: 1px solid rgb(180, 180, 180);
   width: 100%;
 }
-
+.keyword-title,
 .release-title,
 .video-title,
 .master-title,
@@ -732,6 +758,134 @@ table td {
   color: gray;
   font-weight: 600;
 }
+.no-file-keywording {
+  padding: 30px 0;
+}
+.no-file-keywording .keyword-sub-text {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-medium);
+  margin: 15px 0;
+}
+.no-file-keywording .add-keyword {
+  font-size: 18px;
+  color: var(--text);
+  font-family: var(--font-inter-bold);
+  margin: 10px 0;
+}
+.no-file-keywording .add-keyword span {
+  color: green;
+}
+.no-file-keywording textarea {
+  width: 100%;
+  height: 100px;
+  padding: 15px 20px;
+  border-radius: 7px !important;
+  font-size: 16px;
+}
+.no-file-keywording .keyword-btn {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.no-file-selected.active textarea {
+  background-color: transparent !important;
+  pointer-events: all;
+  cursor: auto;
+}
+
+/* .no-file-selected .bootstrap-tagsinput {
+  background-color: var(--secendory);
+  opacity: 40%;
+  pointer-events: none;
+  cursor: not-allowed;
+  min-height: 130px;
+} */
+
+/* .bootstrap-tagsinput .tag {
+  padding: 2px 4px;
+  border-radius: 0px;
+  color: #fff;
+  background-color: #2a354765;
+  border-radius: 2px;
+  border: 1px solid #2a354752;
+  display: inline-block;
+  margin-bottom: 6px;
+} */
+
+.no-file-selected .bootstrap-tagsinput input {
+  background-color: transparent !important;
+}
+
+.no-file-selected.active .bootstrap-tagsinput {
+  background-color: transparent !important;
+  opacity: 100%;
+  pointer-events: all;
+  cursor: auto;
+}
+
+/* tags container */
+.bootstrap-tagsinput {
+  width: 100%;
+  min-height: 130px;
+  padding: 10px;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  background: #f9fafc;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* input inside tag box */
+.bootstrap-tagsinput input {
+  border: none;
+  outline: none;
+  padding: 6px;
+  background: transparent;
+}
+
+/* individual tag */
+.bootstrap-tagsinput .tag {
+  background: #737373a3;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s ease;
+}
+
+/* hover effect */
+.bootstrap-tagsinput .tag:hover {
+  transform: scale(1.05);
+  background: var(--primary);
+}
+
+/* remove button */
+.bootstrap-tagsinput .tag [data-role="remove"] {
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:hover {
+  color: #ffdddd;
+}
+
+/* disabled style */
+.no-file-selected .bootstrap-tagsinput {
+  background-color: var(--secendory);
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .update-release {
   padding: 20px;
   width: 100%;
@@ -862,6 +1016,11 @@ table td {
   gap: 10px;
   padding: 0 14px;
 }
+
+.image-title-id .check i {
+  color: green;
+}
+
 .error i {
   color: #ff0000ad;
 }
@@ -1051,6 +1210,188 @@ table td {
 .filter-text a {
   color: var(--primaryaddnew);
 }
+
+.upload-preview-strip {
+  display: none;
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+.upload-preview-strip.visible {
+  display: block;
+}
+
+.preview-strip-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.preview-strip-label .clear-link {
+  font-size: 11px;
+  color: #f07820;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.preview-strip-label .clear-link:hover {
+  text-decoration: underline;
+}
+
+.preview-thumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* thumb */
+.p-thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #eee;
+  background: #f8f8f8;
+  animation: thumbIn 0.22s ease both;
+}
+@keyframes thumbIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.p-thumb img,
+.p-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.p-thumb-zip {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff8f2, #fde8d0);
+  gap: 3px;
+}
+.p-thumb-zip i {
+  font-size: 24px;
+  color: #f07820;
+}
+.p-thumb-zip span {
+  font-size: 9px;
+  font-weight: 700;
+  color: #f07820;
+  letter-spacing: 0.5px;
+}
+
+.p-vid-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+.p-vid-overlay i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.p-badge {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.p-badge-img {
+  background: rgba(16, 185, 129, 0.85);
+  color: #fff;
+}
+.p-badge-vid {
+  background: rgba(59, 130, 246, 0.85);
+  color: #fff;
+}
+.p-badge-zip {
+  background: rgba(240, 120, 32, 0.85);
+  color: #fff;
+}
+
+.p-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  font-size: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.p-thumb:hover .p-remove {
+  opacity: 1;
+}
+.p-remove:hover {
+  background: #e53e3e !important;
+}
+
+/* +N more */
+.p-thumb-more {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #f07820;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border: 2px solid #f07820;
+  animation: thumbIn 0.22s ease both;
+}
+.p-thumb-more .more-sub {
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 2px;
+}
+.batches-label label i {
+  font-size: 16px;
+}
+
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
     flex-basis: 63%;

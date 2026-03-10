@@ -1,4 +1,6 @@
 // batch
+
+var base_url = $("#base_url").val();
 let filteropenbtn = document.getElementById("search_filter");
 let filteropensmall = document.getElementById("search_filter_mobile");
 let filterclosebtn = document.getElementById("close-filter");
@@ -50,9 +52,24 @@ $("#create_batch").validate({
     submission_type: {
       required: true,
     },
-    brief_code: {
-      required: true,
-    },
+    // brief_code: {
+    //   // required: true,
+    //   remote: {
+    //     headers: {
+    //       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    //     },
+    //     url: base_url + "/admin/batch/check_brief_code",
+    //     type: "POST",
+    //     data: {
+    //       brief_code: function () {
+    //         return $("#brief_code").val();
+    //       },
+    //       id: function () {
+    //         return null;
+    //       },
+    //     },
+    //   },
+    // },
     batch_name: {
       required: true,
     },
@@ -61,9 +78,9 @@ $("#create_batch").validate({
     submission_type: {
       required: "Please select submission type",
     },
-    brief_code: {
-      required: "Please select brief code",
-    },
+    // brief_code: {
+    //   remote: "This brief code already exists",
+    // },
     batch_name: {
       required: "Please select batch name",
     },
@@ -119,46 +136,11 @@ uploadfilterclose?.addEventListener("click", function () {
 let selectedImages = document.querySelectorAll(".upload-image");
 // let uploadimages = document.querySelector("#upload_images");
 let nofileselected = document.querySelector(".no-file-selected");
+let nofilekeyword = document.querySelector(".no-file-keywording");
 let uploadimgclose = document.querySelector(".close-select-btn");
 let addmetadata = document.querySelector(".add-metadata");
 let selectimgdrop = document.querySelector(".select-img");
 
-// selectedImages?.forEach((item) => {
-//   item.addEventListener("click", function () {
-//     this.classList.toggle("selected");
-//     selectimgdrop.classList.toggle("active");
-//     viewdata.classList.add("notactive");
-//     addmetadata.classList.add("active");
-//     nofileselected.classList.toggle("active");
-//   });
-// });
-// selectedImages?.forEach((item) => {
-//   item.addEventListener("click", function () {
-//     // If already selected → remove everything
-//     if (this.classList.contains("selected")) {
-//       this.classList.remove("selected");
-
-//       selectimgdrop.classList.remove("active");
-//       viewdata.classList.remove("notactive");
-//       addmetadata.classList.remove("active");
-//       nofileselected.classList.add("active");
-
-//       return; // stop here
-//     }
-
-//     // Remove selected from all
-//     selectedImages.forEach((img) => img.classList.remove("selected"));
-
-//     // Add to clicked one
-//     this.classList.add("selected");
-
-//     // Activate UI
-//     selectimgdrop.classList.add("active");
-//     viewdata.classList.add("notactive");
-//     addmetadata.classList.add("active");
-//     nofileselected.classList.remove("active");
-//   });
-// });
 document.querySelectorAll(".dot-dropdown").forEach((btn) => {
   btn.addEventListener("click", function (e) {
     e.stopPropagation();
@@ -173,6 +155,7 @@ document.querySelectorAll(".dropdown-item-upload").forEach((menu) => {
 uploadimgclose?.addEventListener("click", function () {
   selectimgdrop.classList.remove("active");
   nofileselected.classList.remove("active");
+  nofilekeyword.classList.remove("active");
   addmetadata.classList.remove("active");
   viewdata.classList.remove("notactive");
   selectedImages?.forEach((item) => {
@@ -192,19 +175,39 @@ uploadimgclose?.addEventListener("click", function () {
 let viewdata = document.querySelector(".view-metadata");
 let mobilemetadata = document.querySelector(".mobile-no-file-selcted-btn");
 viewdata?.addEventListener("click", function () {
-  nofileselected.classList.add("showactive");
+  nofileselected.classList.add("active");
 });
 addmetadata?.addEventListener("click", function () {
   nofileselected.classList.add("showaddmetadataactive");
 });
 mobilemetadata?.addEventListener("click", function () {
-  nofileselected.classList.remove("showactive");
+  nofileselected.classList.remove("active");
   nofileselected.classList.remove("showaddmetadataactive");
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tagsInput = document.getElementById("tags");
+
+  if (tagsInput) {
+    tagsInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const tagValue = tagsInput.value.trim();
+
+        if (tagValue) {
+          console.log("Tag added:", tagValue);
+          tagsInput.value = "";
+        }
+      }
+    });
+  }
 });
 
 const slider = document.getElementById("rangeSlider");
 
 function updateSliderProgress() {
+  if (!slider) return;
+
   const min = slider.min;
   const max = slider.max;
   const val = slider.value;
@@ -213,11 +216,10 @@ function updateSliderProgress() {
   slider.style.setProperty("--progress", percentage + "%");
 }
 
-// Run on load (important)
-updateSliderProgress();
-
-// Run on slide
-slider.addEventListener("input", updateSliderProgress);
+if (slider) {
+  updateSliderProgress();
+  slider.addEventListener("input", updateSliderProgress);
+}
 
 const classNames = [
   "",
@@ -236,36 +238,14 @@ $("#rangeSlider").on("input", function () {
     .addClass(classNames[6 - value]); // reverse logic
 });
 
-// $(document).on("click", ".select-btn", function () {
-//   let images = $(".upload-image");
-//   let button = $(this);
-
-//   // Check if all are already selected
-//   let allSelected = images.length === images.filter(".selected").length;
-
-//   if (allSelected) {
-//     // If all selected → unselect all
-//     images.removeClass("selected");
-//     button.text("Select All");
-//   } else {
-//     // Otherwise → select all
-//     images.addClass("selected");
-//     button.text("Deselect All");
-//   }
-
-//   // Toggle UI panels
-//   selectimgdrop?.classList.toggle("active");
-//   viewdata?.classList.toggle("notactive");
-//   addmetadata?.classList.toggle("active");
-//   nofileselected?.classList.toggle("active");
-// });
 $(document).ready(function () {
   function updateUI() {
     let images = $(".upload-image");
     let selectedCount = images.filter(".selected").length;
     let total = images.length;
     let button = $(".select-btn");
-
+    $("#tags").tagsinput("removeAll");
+    updateKeywordCount();
     // 🔥 Update Select All Button Text
     if (selectedCount === total && total > 0) {
       button.text("Deselect All");
@@ -284,21 +264,28 @@ $(document).ready(function () {
     }
 
     // Panels
+    if (images.length == 0) {
+      $(".data-empty").removeClass("d-none");
+    } else {
+      $(".data-empty").addClass("d-none");
+    }
     if (selectedCount > 0) {
       selectimgdrop?.classList.add("active");
       viewdata?.classList.add("notactive");
       addmetadata?.classList.add("active");
-      nofileselected?.classList.remove("active");
+      nofileselected?.classList.add("active");
     } else {
       selectimgdrop?.classList.remove("active");
       viewdata?.classList.remove("notactive");
       addmetadata?.classList.remove("active");
-      nofileselected?.classList.add("active");
+      nofileselected?.classList.remove("active");
     }
   }
 
   // 🔥 Image Click Logic (Fixed)
   $(document).on("click", ".upload-image", function (e) {
+    let data_id = $(this).attr("data-id");
+
     if ($(e.target).closest(".dot-menu").length) return;
 
     let images = $(".upload-image");
@@ -322,8 +309,119 @@ $(document).ready(function () {
     }
 
     updateUI();
+    if ($(this).hasClass("selected")) {
+      loadImageMetadata(data_id);
+    } else {
+      clearMetadata();
+    }
   });
 
+  function formatFileSize(bytes) {
+    if (bytes >= 1073741824) {
+      return (bytes / 1073741824).toFixed(2) + " GB";
+    } else if (bytes >= 1048576) {
+      return (bytes / 1048576).toFixed(2) + " MB";
+    } else if (bytes >= 1024) {
+      return (bytes / 1024).toFixed(2) + " KB";
+    } else {
+      return bytes + " bytes";
+    }
+  }
+
+  function formatDuration(seconds) {
+    let hrs = Math.floor(seconds / 3600);
+    let mins = Math.floor((seconds % 3600) / 60);
+    let secs = Math.floor(seconds % 60);
+
+    return [
+      hrs.toString().padStart(2, "0"),
+      mins.toString().padStart(2, "0"),
+      secs.toString().padStart(2, "0"),
+    ].join(":");
+  }
+
+  console.log(formatFileSize(6355361));
+  function loadImageMetadata(file_id) {
+    $.ajax({
+      url: base_url + "/admin/batch/get_file_metadata",
+      type: "POST",
+      data: {
+        file_id: file_id,
+        _token: $('meta[name="csrf-token"]').attr("content"),
+      },
+      success: function (res) {
+        // fill form
+        console.log(res);
+        $("input[name='file_id']").val(res.id);
+        $("input[name='title']").val(res.title);
+        $("input[name='description']").val(res.description);
+        $("input[name='date_created']").val(res.date_created);
+        $("input[name='clip_length']").val(formatDuration(res.duration));
+        $("input[name='frame_rate']").val(res.frame_rate);
+        $("input[name='date_created']").val(res.date_created);
+        $("input[name='frame_size']").val(res.height + "x" + res.width);
+
+        $("#tags").tagsinput("removeAll");
+
+        if (res.keywords) {
+          let tags = res.keywords.split(",");
+
+          tags.forEach(function (tag) {
+            $("#tags").tagsinput("add", tag.trim());
+          });
+          updateKeywordCount();
+        }
+      },
+      error: function (xhr) {
+        console.log(xhr.responseText);
+        console.log($('meta[name="csrf-token"]').attr("content"));
+      },
+    });
+  }
+
+  $(document).on("click", ".clear-data", function () {
+    clearMetadata();
+    updateUI();
+  });
+  function clearMetadata() {
+    $(".all-inputs")
+      .find("input, textarea, select")
+      .each(function () {
+        $(this).val("");
+      });
+  }
+
+  function updateKeywordCount() {
+    let count = $("#tags").tagsinput("items").length;
+    $(".add-keyword span").text(count);
+  }
+  $("#tags").on("itemAdded itemRemoved", function () {
+    updateKeywordCount();
+  });
+
+  $(document).on("click", "#save-metadata", function () {
+    let formData = {
+      file_id: $("#selected_file_id").val(),
+      title: $("input[name='title']").val(),
+      description: $("input[name='description']").val(),
+      date_created: $("input[name='date_created']").val(),
+      tags: $("input[name='tags']").val(),
+      _token: $('meta[name="csrf-token"]').attr("content"),
+    };
+    $.ajax({
+      url: base_url + "/admin/batch/save_file_metadata",
+      type: "POST",
+      data: formData,
+
+      success: function (res) {
+        toastr.success("File metadata saved successfully");
+      },
+
+      error: function (xhr) {
+        console.log(xhr.responseText);
+      },
+    });
+  });
   // Select All Button
   $(document).on("click", ".select-btn", function () {
     let images = $(".upload-image");
@@ -337,4 +435,260 @@ $(document).ready(function () {
 
     updateUI();
   });
+
+  $(document).on("click", ".delete-btn-batch", function () {
+    let images = $(".upload-image");
+    let selectedCount = images.filter(".selected").length;
+    let total = images.length;
+
+    if (selectedCount > 0) {
+      let formData = new FormData();
+
+      for (let i = 0; i < selectedCount; i++) {
+        formData.append("ids[]", images.eq(i).attr("data-id"));
+      }
+
+      formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
+
+      $.ajax({
+        url: base_url + "/admin/batch_delete/3",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+
+        beforeSend: function () {
+          console.log("Deleting...");
+        },
+
+        success: function (response) {
+          console.log(response);
+          if (response.status === true) {
+            images.filter(".selected").remove();
+            updateUI();
+            toastr.success(response.message);
+          }
+        },
+
+        error: function (xhr) {
+          console.log(xhr.responseText);
+        },
+      });
+    }
+  });
+
+  const MAX_VISIBLE = 4;
+  let allFiles = []; // { id, file, category }
+  let idCounter = 0;
+
+  // ─────────────────────────────────────────────
+  // DOM REFS  (safe — called after DOM ready)
+  // ─────────────────────────────────────────────
+  const fileInput = document.getElementById("myfile"); // hidden input (Select file)
+  const fileInput2 = document.getElementById("111myfile"); // hidden input (Upload from device)
+  const strip = document.getElementById("previewStrip");
+  const thumbsWrap = document.getElementById("previewThumbs");
+  const previewLabel = document.getElementById("previewLabel");
+  // const clearAllBtn = document.getElementById("clearAll");
+
+  function getCategory(file) {
+    const n = file.name.toLowerCase();
+    if (/\.(jpg|jpeg|png|gif|webp|bmp)$/.test(n)) return "image";
+    if (/\.(mp4|mov|mxf|avi|mkv|webm)$/.test(n)) return "video";
+    if (/\.(zip|rar|7z|tar|gz)$/.test(n)) return "zip";
+    return "other";
+  }
+
+  function addFiles(list) {
+    Array.from(list).forEach((f) =>
+      allFiles.push({ id: ++idCounter, file: f, category: getCategory(f) })
+    );
+    render();
+  }
+
+  function render() {
+    thumbsWrap.innerHTML = "";
+
+    if (!allFiles.length) {
+      strip.classList.remove("visible");
+      return;
+    }
+
+    strip.classList.add("visible");
+
+    const total = allFiles.length;
+    const visible = allFiles.slice(0, MAX_VISIBLE);
+    const extra = total - MAX_VISIBLE;
+
+    previewLabel.textContent =
+      total + " file" + (total !== 1 ? "s" : "") + " selected";
+
+    visible.forEach(({ id, file, category }) => {
+      const thumb = document.createElement("div");
+      thumb.className = "p-thumb";
+
+      let inner = "";
+
+      if (category === "image") {
+        inner = `<img src="${URL.createObjectURL(file)}" alt="">
+               <span class="p-badge p-badge-img">IMG</span>`;
+      } else if (category === "video") {
+        inner = `<video src="${URL.createObjectURL(
+          file
+        )}" muted preload="metadata"></video>
+               <div class="p-vid-overlay"><i class="fa-solid fa-play"></i></div>
+               <span class="p-badge p-badge-vid">VID</span>`;
+      } else if (category === "zip") {
+        const ext = file.name.split(".").pop().toUpperCase();
+        inner = `<div class="p-thumb-zip">
+                 <i class="fa-solid fa-file-zipper"></i>
+                 <span>${ext}</span>
+               </div>
+               <span class="p-badge p-badge-zip">ZIP</span>`;
+      } else {
+        const ext = file.name.split(".").pop().toUpperCase();
+        inner = `<div class="p-thumb-zip" style="background:linear-gradient(135deg,#f0f4ff,#dce8ff)">
+                 <i class="fa-solid fa-file" style="color:#3b82f6;font-size:24px"></i>
+                 <span style="color:#3b82f6">${ext}</span>
+               </div>`;
+      }
+
+      inner += `<button class="p-remove" data-id="${id}">
+                <i class="fa-solid fa-xmark"></i>
+              </button>`;
+
+      thumb.innerHTML = inner;
+      thumbsWrap.appendChild(thumb);
+    });
+
+    // +N more bubble
+    if (extra > 0) {
+      const more = document.createElement("div");
+      more.className = "p-thumb-more";
+      more.innerHTML = `+${extra}<span class="more-sub">more</span>`;
+      thumbsWrap.appendChild(more);
+    }
+
+    // Remove individual file
+    thumbsWrap.querySelectorAll(".p-remove").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        allFiles = allFiles.filter((f) => f.id !== parseInt(btn.dataset.id));
+        render();
+      });
+    });
+  }
+
+  [fileInput, fileInput2].forEach((inp) => {
+    if (!inp) return;
+    inp.addEventListener("change", () => {
+      if (inp.files && inp.files.length) {
+        addFiles(inp.files);
+      }
+      inp.value = ""; // reset so same file can be re-added if removed
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const clearAllBtn = document.getElementById("clearAll");
+
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener("click", () => {
+        allFiles = [];
+        render();
+      });
+    }
+  });
+
+  $(document).on("click", ".btn-upload-device", function () {
+    // Guard: nothing selected yet
+    if (!allFiles.length) {
+      alert("Please choose files first");
+      return;
+    }
+
+    const formData = new FormData();
+
+    allFiles.forEach(({ file }) => {
+      formData.append("files[]", file);
+    });
+    var batch_id = $("#batch_id").val();
+
+    formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
+
+    $.ajax({
+      url: base_url + "/admin/image_upload/" + batch_id,
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+
+      beforeSend: function () {
+        console.log("Uploading", allFiles.length, "file(s)…");
+      },
+
+      success: function (response) {
+        console.log(response);
+        if (response.status === "success") {
+          toastr.success(response.message);
+          // Clear preview after successful upload
+          setInterval(() => {
+            allFiles = [];
+            render();
+            location.reload();
+          }, 1000);
+        }
+      },
+
+      error: function (xhr) {
+        console.error("Upload failed:", xhr.responseText);
+      },
+    });
+  });
+
+  $(document).ready(function () {
+    // $("#batch-content-active").DataTable({
+    //   processing: true,
+    //   serverSide: true,
+    //   ajax: "{{ route('admin.batch.datatable') }}",
+    //   columns: [
+    //     { data: "title" },
+    //     { data: "batch_code" },
+    //     { data: "created_at" },
+    //     { data: "files_count" },
+    //     { data: "action" },
+    //   ],
+    // });
+  });
+
+  function loadBatches(page = 1) {
+    let data = $("#filterForm").serialize();
+
+    $.ajax({
+      url: "?page=" + page + "&" + currentFilters,
+      type: "GET",
+
+      success: function (res) {
+        $("#batch-content-active").html(res);
+      },
+    });
+  }
+
+  let currentFilters = {};
+  $("#filterForm input, #filterForm select").on("change keyup", function () {
+    alert();
+    currentFilters = $("#filterForm").serialize();
+    loadBatches(1);
+  });
+
+  $(document).on("click", ".reset-filter", function (e) {
+    e.preventDefault();
+
+    $("#filterForm")[0].reset();
+    currentFilters = "";
+    loadBatches(1);
+  });
+  if (window.location.search) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 });
