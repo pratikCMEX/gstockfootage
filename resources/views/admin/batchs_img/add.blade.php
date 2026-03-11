@@ -221,7 +221,9 @@
                                                             Created :
                                                             {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
                                                         </p>
-                                                        <span>Last Updated : Feb 10 , 2026</span>
+                                                        <span>Last Updated : Feb 10 , 2026
+                                                            
+                                                        </span>
                                                     </div>
 
                                                 </div>
