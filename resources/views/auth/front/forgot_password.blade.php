@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Document</title>
+<title>Document</title>
 </head>
 
 <body>
@@ -20,9 +20,9 @@
 
 </html> --}}
 @php
-    $banner = getBanner();
+$banner = getBanner();
 @endphp
-<div class="auth-wrapper"
+<div class="auth-wrapper reset_section"
     style="background: url('{{ $banner ? asset('uploads/banners/' . $banner->image) : asset('assets/front/img/banner.jpg') }}') 50% / cover no-repeat;">
     <!-- Brand -->
     <div class="brand">

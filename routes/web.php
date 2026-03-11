@@ -86,10 +86,6 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('/order_mail', [HomeController::class, 'order_mail'])->name('order_mail');
-
-
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
 Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
@@ -104,6 +100,9 @@ Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->
 
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
+
+Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.profile');
+
 
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
 Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');

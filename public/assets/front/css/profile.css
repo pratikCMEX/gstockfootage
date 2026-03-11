@@ -1,92 +1,476 @@
-/* ===== Wrapper Card Style ===== */
-.add-new-customer-wrp {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-    border: 1px solid #f1f1f1;
-    margin: 60px;
-
+.profile_section {
+  padding: 70px 0;
+}
+.profile_section .profile-content-main {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  column-gap: 50px;
+}
+.profile_section .profile-left {
+  box-shadow: 0 5px 15px var(--box-shadow);
+  padding: 30px;
+  width: 25%;
+  border-radius: 10px;
+}
+.profile_section .profile-content {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 20px;
+  padding-bottom: 24px;
+}
+.profile_section .profile-img {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile_section .product-img img {
+  width: 100%;
+  height: 100%;
+}
+.profile_section .profile-name h4 {
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+  font-size: 20px;
+}
+.profile_section .profile-name p {
+  font-size: 14px;
+  color: var(--secendory);
+}
+.profile_section .nav-pills {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  row-gap: 14px;
+}
+.profile_section .nav-pills .profile-btn {
+  font-size: 18px;
+  background-color: transparent;
+  padding: 12px 24px;
+  color: var(--text);
+  text-align: left;
+  font-family: var(--font-inter-medium);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 10px;
+}
+.profile_section .nav-pills .profile-btn.active {
+  background-color: var(--primary);
+  color: var(--white);
+}
+.profile_section .profile-right {
+  width: 75%;
+}
+.profile_section .profile-manage {
+  box-shadow: 0 5px 15px var(--box-shadow);
+  padding: 32px;
+  border-radius: 10px;
+  width: 100%;
+}
+.profile_section .profile-manage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+.profile_section .profile-manage-heading h3 {
+  font-family: var(--font-inter-semibold);
+  font-size: 28px;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.profile_section .profile-manage-heading p {
+  font-size: 16px;
+  color: var(--secendory);
+}
+.profile_section .profile-heading-btn.btn-all-dark {
+  padding: 8px 22px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 14px;
+  letter-spacing: 0.8px;
+}
+.profile_section .profile-manage-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+.profile_section .profile-manage-left {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 20px;
+}
+.profile_section .profile-manage-img {
+  height: 80px;
+  width: 80px;
+  position: relative;
+}
+.profile_section .profile-manage-img img {
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+}
+.profile_section .profile-manage-img div {
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  right: -7px;
+  bottom: -9px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+.profile_section .profile-manage-middle,
+.profile_section .profile-manage-right {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+.profile_section .profile-manage-title h3 {
+  font-size: 18px;
+  color: var(--text);
+  font-family: var(--font-inter-semibold);
+}
+.profile_section .profile-manage-title p {
+  font-size: 14px;
+  color: var(--secendory);
+}
+.profile_section .profile-manage-text span {
+  display: block;
+  font-size: 14px;
+  color: var(--secendory);
+  font-family: var(--font-inter-medium);
+}
+.profile_section .profile-manage-text p,
+.profile_section .profile-manage-text a {
+  color: var(--text);
+  font-size: 15px;
+  font-family: var(--font-inter-semibold);
+}
+.profile_section .modal-inp-label input.form-control {
+  margin-bottom: 10px;
+  height: 44px;
+  border-radius: 10px !important;
+}
+.profile_section .modal-inp-label input.form-control {
+  box-shadow: none !important;
+  border: 1px solid #dee2e6 !important;
+}
+.profile_section .modal-inp-label label {
+  font-size: 14px;
+  font-family: var(--font-inter-medium);
+  color: var(--text);
+  margin-bottom: 8px;
+  display: block;
+}
+.profile_section .order-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  height: 460px;
+  overflow: auto;
+}
+.profile_section .order-content::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.profile_section .order-content::-webkit-scrollbar-track {
+  background: var(--white);
+}
+.profile_section .order-content::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+.profile_section .order-detail-main {
+  display: flex;
+  align-items: start;
+  /* justify-content: space-between; */
+  column-gap: 20px;
+  box-shadow: 0 5px 15px var(--box-shadow);
+  padding: 20px;
+  border-radius: 10px;
+}
+.profile_section .order-detail {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  column-gap: 15px;
+  width: 100%;
+}
+.profile_section .order-img {
+  width: 100%;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 100px;
+}
+.profile_section .order-img img {
+  height: 100%;
+  width: 100%;
+}
+.profile_section .order-title h4 {
+  font-size: 24px;
+  color: var(--text);
+  font-family: var(--font-inter-semibold);
+  margin-bottom: 10px;
+}
+.profile_section .order-title span {
+  color: var(--secendory);
+  font-size: 16px;
+}
+.profile_section .order-price {
+  font-size: 24px;
+  color: var(--primary);
+  font-family: var(--font-inter-bold);
 }
 
-/* Section Heading */
-.add-new-customer-wrp h3 {
+.profile_section .wishlist-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.profile_section .wishlist-content .item-count {
+  color: var(--secendory);
+  font-size: 16px;
+  font-family: var(--font-inter-medium);
+}
+.profile_section .product-img-div {
+  position: relative;
+  display: block;
+  z-index: 1;
+}
+.profile_section .remove-product {
+  height: 30px;
+  width: 30px;
+  background-color: var(--white);
+  border-radius: 50%;
+  color: var(--secendory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 8;
+  cursor: pointer;
+}
+.profile_section .remove-product i {
+  font-size: 20px;
+}
+
+.profile_section .setting-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profile_section .setting-detail {
+  box-shadow: 0 5px 15px var(--box-shadow);
+  border-radius: 10px;
+  padding: 20px;
+  width: 48%;
+}
+.profile_section .acc-info-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.profile_section .acc-info-heading h4 {
+  font-size: 22px;
+  color: var(--text);
+  font-family: var(--font-inter-semibold);
+}
+.profile_section .acc-info-heading span i {
+  color: var(--primary);
+  margin-right: 5px;
+}
+.profile_section .setting-content .btn-orange {
+  background-color: transparent !important;
+  color: var(--primary) !important;
+  padding: 0 !important;
+}
+.profile_section .setting-content .btn-orange:focus {
+  border: none !important;
+}
+.profile_section .acc-info-body div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.profile_section .acc-info-body div span {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-medium);
+}
+.profile_section .acc-info-body div p {
+  font-size: 16px;
+  color: var(--text);
+  font-family: var(--font-inter-medium);
+}
+.profile_section .security-password {
+  margin-bottom: 15px;
+}
+.profile_section .security-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profile_section .pass-title h4 {
+  font-size: 20px;
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+}
+.profile_section .pass-title p {
+  font-size: 16px;
+  color: var(--secendory);
+}
+@media only screen and (max-width: 1399px) {
+}
+@media only screen and (max-width: 1199px) {
+  .profile_section .profile-content-main {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .profile_section .profile-left {
+    width: 100%;
+  }
+  .profile_section .profile-right {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .profile_section .profile-left {
+    padding: 20px;
+  }
+  .profile_section .profile-manage-heading h3 {
+    font-size: 26px;
+  }
+  .profile_section .profile-manage-header {
+    margin-bottom: 24px;
+  }
+  .profile_section .order-img {
+    max-width: 80px;
+    height: 80px;
+  }
+  .profile_section .order-title h4 {
+    font-size: 22px;
+  }
+  .profile_section .order-price {
     font-size: 20px;
-    font-weight: 600;
-    /* margin-bottom: 20px; */
-    color: #333;
-    border-left: 4px solid var(--primary);
-    padding-left: 10px;
-    margin-top: 40px;
+  }
+  .profile_section .setting-content {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .profile_section .setting-detail {
+    width: 100%;
+  }
+  .profile_section .order-content {
+    height: 400px;
+  }
 }
-
-/* Labels */
-.input-section label {
-    font-size: 14px;
-    font-weight: 500;
+@media only screen and (max-width: 767px) {
+  .profile_section .profile-manage-header {
+    flex-direction: column;
+    align-items: start;
+    row-gap: 10px;
+  }
+  .profile_section .profile-manage-body {
+    flex-direction: column;
+    align-items: start;
+    row-gap: 20px;
+  }
+  .profile_section .profile-manage-middle,
+  .profile_section .profile-manage-right {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .profile_section .profile-manage-text {
+    width: 48%;
+  }
+  .profile_section .profile-manage {
+    box-shadow: 0 5px 15px var(--box-shadow);
+    padding: 26px;
+  }
+  .profile_section {
+    padding: 60px 0;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .profile_section {
+    padding: 50px 0;
+  }
+  .profile_section .order-title h4 {
+    font-size: 20px;
     margin-bottom: 6px;
-    display: block;
-    color: #555;
-}
-
-.error {
-    color: #ea5050 !important;
-}
-
-/* Required Star */
-
-
-/* Inputs */
-.form-control {
-    height: 45px;
-    border-radius: 8px;
-    border: 1px solid #dcdcdc;
-    padding: 8px 12px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-/* Input Focus Effect */
-.form-control:focus {
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-    outline: none;
-}
-
-/* Select Styling */
-select.form-control {
-    cursor: pointer;
-}
-
-/* Buttons */
-.cmn-btn.primary-btn {
-    background: #4f46e5;
+  }
+  .profile_section .order-detail-main {
+    padding: 12px;
+  }
+  .profile_section .order-content {
+    height: 353px;
+  }
+  .profile_section .profile-manage {
+    padding: 12px;
+  }
+  .profile_section .modal-footer {
     border: none;
-    padding: 10px 25px;
-    border-radius: 8px;
-    color: #fff;
-    font-weight: 500;
-    transition: 0.3s ease;
+    padding: 16px 0;
+    gap: 13px;
+  }
 }
-
-/* Button Hover */
-.cmn-btn.primary-btn:hover {
-    background: #3730a3;
-}
-
-/* Save & Update Button Alignment */
-.save {
-    min-width: 120px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .add-new-customer-wrp {
-        padding: 20px;
-    }
-
-    .add-new-customer-wrp h3 {
-        font-size: 18px;
-    }
+@media only screen and (max-width: 424px) {
+  .profile_section {
+    padding: 40px 0;
+  }
+  .profile_section .acc-info-body div {
+    flex-direction: column;
+    align-items: start;
+  }
+  .profile_section .acc-info-heading h4 {
+    font-size: 18px;
+  }
+  .profile_section .security-detail {
+    flex-direction: column;
+    align-items: start;
+    row-gap: 10px;
+  }
+  .profile_section .profile-manage-middle,
+  .profile_section .profile-manage-right {
+    flex-direction: column;
+    row-gap: 8px;
+  }
+  .profile_section .order-title h4 {
+    font-size: 16px;
+  }
+  .profile_section .order-detail-main {
+    align-items: start;
+  }
+  .profile_section .order-detail {
+    align-items: start;
+    row-gap: 5px;
+    flex-direction: column;
+  }
+  .profile_section .profile-left {
+    padding: 12px;
+  }
+  .profile_section .order-content {
+    height: 400px;
+  }
+  .profile_section .modal-footer .btn {
+    width: 100%;
 }

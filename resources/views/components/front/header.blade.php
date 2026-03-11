@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/about_us.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/privacy.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/favorites.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/profile.css') }}">
 
 <link href="{{ asset('assets/admin/css/toastr.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

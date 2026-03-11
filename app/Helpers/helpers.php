@@ -16,6 +16,10 @@ function formatFileSize($bytes)
     }
 }
 
+function duration($seconds)
+{
+    return gmdate('H:i:s', $seconds);
+}
 
 function mergeSessionCart()
 {

@@ -34,6 +34,15 @@ class ProfileController extends Controller
 
         return view('layouts.front.layout', compact('title', 'page', 'js', 'css', 'user'));
     }
+    public function index()
+    {
+        $title = 'Profile';
+        $page = 'front.profile';
+        $js = ['profile'];
+
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
+    }
 
     /**
      * Update the user's profile information.
