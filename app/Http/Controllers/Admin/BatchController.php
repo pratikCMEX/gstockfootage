@@ -1010,16 +1010,18 @@ class BatchController extends Controller
 
     public function saveFileMetadata(Request $request)
     {
-
+        // dd($request);
         $file = BatchFile::findOrFail($request->file_id);
 
         $file->update([
+            'category_id' => $request->category_id,
             'title' => $request->title,
             'description' => $request->description,
             'date_created' => $request->date_created,
             'keywords' => $request->tags,
-            'date_created' => $request->date_created,
             'is_edited' => '1',
+            'price' => $request->price,
+            'country' => $request->country
         ]);
 
         return response()->json([

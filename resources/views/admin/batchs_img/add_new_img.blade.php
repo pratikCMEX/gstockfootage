@@ -1,5 +1,7 @@
 {{-- {{ dd($batch_data) }} --}}
-
+@php
+    $category = getCategory();
+@endphp
 <div class="body-wrapper-inner upload-main">
     <div class="container-fluid">
         <div class="card">
@@ -36,11 +38,11 @@
                                     Rename
                                 </button>
                             </li>
-                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
+                            {{-- <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                     data-bs-toggle="modal" data-bs-target="#BatchNotModal">
                                     <i class="fa-regular fa-file"></i>
                                     Add or edit note for inspectors
-                                </button></li>
+                                </button></li> --}}
 
                         </ul>
                     </div>
@@ -791,7 +793,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 all-inputs">
-                        <form action="">
+                        <form action="" id="add_new_img_form">
                             <div class="no-file-selected">
 
                                 <div class="no-file-selected-content">
@@ -814,31 +816,68 @@
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-icon-grp">
-                                                <input type="text" class="form-control" name="title"
+                                                <input type="text" class="form-control upload-inp" name="title"
                                                     placeholder="Title *" aria-label="Username"
                                                     aria-describedby="visible-addon">
-                                                <i class="fa-regular fa-circle-question file-input-icon"></i>
-                                                <input type="hidden" id="selected_file_id" name="file_id">
+                                                <i class="fa-regular fa-circle-question file-input-icon"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Enter a title for your image."></i> <input type="hidden"
+                                                    id="selected_file_id" name="file_id">
                                             </div>
-                                            <p>Please submit title only in English</p>
+                                            <label id="title-error" class="error" for="title"></label>
+                                            {{-- <p>Please submit title only in English</p> --}}
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-icon-grp">
-                                                <input type="text" class="form-control"
+                                                <input type="text" class="form-control upload-inp"
                                                     placeholder="Descriptions *" name="description"
                                                     aria-label="Username" aria-describedby="visible-addon">
-                                                <i class="fa-regular fa-circle-question file-input-icon"></i>
+                                                <i class="fa-regular fa-circle-question file-input-icon"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Enter a clear description for your image."></i>
                                             </div>
-                                            <p>Please submit descriptions only in English</p>
+                                            {{-- <p>Please submit descriptions only in English</p> --}}
+                                            <label id="description-error" class="error" for="description"></label>
                                         </div>
+                                        <div class="input-group ">
+                                            <div class="file-inp-icon-grp">
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="Price *" name="price" aria-label="Price"
+                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                                                    aria-describedby="visible-addon">
+                                                <i class="fa-regular fa-circle-question file-input-icon"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Enter a price for your image."></i>
+                                            </div>
+                                            <label id="price-error" class="error" for="price"></label>
+                                        </div>
+
                                         <div class="input-group file-inp-icon-grp">
-                                            <input type="date" class="form-control" name="date_created"
+                                            <input type="date" class="form-control upload-inp" name="date_created"
                                                 placeholder="Date Created *" aria-label="Username"
                                                 aria-describedby="visible-addon">
-                                            <i class="fa-regular fa-circle-question file-input-icon"></i>
+                                            <i class="fa-regular fa-circle-question file-input-icon"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="Created date of the image."></i>
                                         </div>
                                         <div class="dropdown file-main-dropdown">
-                                            <div class="file-inp-icon-grp">
+                                            <div class="file-inp-icon-grp input-group">
+                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                    name="category_id" id="category_id">
+                                                    <option value="">Select Category </option>
+
+                                                    @foreach ($category as $cas)
+                                                        <option value="{{ $cas->id }}">
+                                                            {{ $cas->category_name }}</option>
+                                                    @endforeach
+
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="dropdown file-main-dropdown">
+                                            <div class="file-inp-icon-grp input-group">
                                                 {{-- <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Country of shoot *<i class="fa-solid fa-angle-down"></i>
@@ -854,15 +893,16 @@
                                                 </ul> --}}
                                                 <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     name="country" id="country">
-                                                    <option value="">Country of shoot *</option>
-                                                    <option value="image">
-                                                        Image</option>
-                                                    <option value="video">
-                                                        Video</option>
+                                                    <option value="">Country of shoot </option>
+                                                    <option value="usa">
+                                                        USA</option>
+                                                    <option value="uk">
+                                                        UK</option>
                                                 </select>
 
                                             </div>
                                         </div>
+
 
                                     </div>
                                     <div class="no-file-keywording">
@@ -878,8 +918,8 @@
                                             customers find your imagery. You can add a title to get keyword suggestions.
                                         </p>
                                         <div class="add-keyword">Add 5 to 50 Keywords : <span>0</span></div>
-                                        <input name="tags" id="tags" data-role="tagsinput"
-                                            class="form-control">
+                                        <input name="tags" class="upload-inp form-control" id="tags"
+                                            data-role="tagsinput" class="form-control">
                                         <div class="keyword-btn">
                                             {{-- <button type="button" class="btn btn-all-dark btn-hover-dark">Get
                                                 SUggestions</button> --}}
@@ -938,28 +978,28 @@
                                             </div>
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame rate</p>
-                                                <input type="text" class="form-control" placeholder="29.97"
-                                                    name="frame_rate" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                <input type="text" class="form-control Upload-inp"
+                                                    placeholder="29.97" name="frame_rate" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon">
                                             </div>
                                         </div>
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame size</p>
-                                                <input type="text" class="form-control" placeholder="550x550"
-                                                    name="frame_size" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="550x550" name="frame_size" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon">
                                             </div>
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Scanning Method</p>
-                                                <input type="text" class="form-control" placeholder="Progressive"
-                                                    name="scanning_method" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="Progressive" name="scanning_method" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon">
                                             </div>
                                         </div>
                                         <div class="input-group file-inp-label-grp">
                                             <p style="font-size: 12px;">Compression</p>
-                                            <input type="text" class="form-control" placeholder="H.264"
+                                            <input type="text" class="form-control upload-inp" placeholder="H.264"
                                                 name="compression" width="100%" aria-label="Username"
                                                 aria-describedby="visible-addon">
                                         </div>
@@ -971,13 +1011,13 @@
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Image Height</p>
-                                                <input type="text" class="form-control" placeholder="Quick Time"
-                                                    name="image_height" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="Quick Time" name="image_height" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon">
                                             </div>
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Image Width</p>
-                                                <input type="text" class="form-control" placeholder=""
+                                                <input type="text" class="form-control upload-inp" placeholder=""
                                                     name="image_width" width="100%" aria-label="Username"
                                                     aria-describedby="visible-addon">
                                             </div>
@@ -985,7 +1025,8 @@
                                     </div>
 
                                     <div class="submit-metadaata text-center mt-4 mb-1">
-                                        <button type="button" id="save-metadata" class="btn btn-orange w-100 "
+                                        <button type="submit" disabled id="save-metadata"
+                                            class="btn btn-orange w-100 "
                                             style="font-size: 16px; padding: 15px 0;cursor: pointer;">Submit
                                             metadata</button>
                                     </div>
@@ -1001,8 +1042,8 @@
                             <div class="filter-search-text">
                                 <div class="input-search-filter flex-nowrap">
                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                    <input type="text" class="" placeholder="Enter Search Text"
-                                        aria-describedby="addon-wrapping">
+                                    <input type="text" class="form-control upload-inp"
+                                        placeholder="Enter Search Text" aria-describedby="addon-wrapping">
                                 </div>
                             </div>
                             <div class="upload-filter-by-status">
@@ -1205,7 +1246,7 @@
         <div class="modal-content">
             <form action="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renameModalLabel">Add or edit note for inspectors</h5>
+                    {{-- <h5 class="modal-title" id="renameModalLabel">Add or edit note for inspectors</h5> --}}
                 </div>
 
                 <div class="modal-body">
