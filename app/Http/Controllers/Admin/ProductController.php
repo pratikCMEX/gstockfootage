@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ProductDataTable;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessBatchVideo;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\ProcessUploadedVideo; // <-- Import the new job
+use App\Models\Batch;
+use App\Models\BatchFile;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use App\Models\Collection;
 use App\Models\SubCategory;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -23,10 +27,10 @@ class ProductController extends Controller
         $title = 'Products';
         $page = 'admin.product.list';
         $js = ['products'];
-          $category = Category::all();
-           $subcategory = SubCategory::all();
-            $collections = Collection::all();
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js','category','subcategory','collections'));
+        $category = Category::all();
+        $subcategory = SubCategory::all();
+        $collections = Collection::all();
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'category', 'subcategory', 'collections'));
     }
 
     public function add(Request $request)
@@ -54,7 +58,7 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $request->validate([
-                'type' => 'required|in:0,1',
+                'type' => 'required|in:image,video',
                 'category' => 'required|exists:categories,id',
                 'subcategory' => 'nullable|exists:sub_categories,id',
                 'collection' => 'nullable|exists:collections,id',
@@ -66,18 +70,20 @@ class ProductController extends Controller
                 // 'image' => 'required_if:type,0|image'
             ]);
 
-            $product = new Product();
+            $product = new BatchFile();
             $product->type = $request->type;
+            $product->file_code = Str::random(9);
             $product->category_id = $request->category;
             $product->subcategory_id = $request->subcategory;
             $product->collection_id = $request->collection;
-            $product->name = $request->name;
+            $product->title = $request->name;
             $product->price = $request->price;
             $product->description = $request->description;
-            $product->tags = $request->tags;
+            $product->keywords = $request->tags;
 
             $tempOriginalPath = null;
-            if ($request->type == "0") {
+            if ($request->type == "image") {
+                // dd(1);
                 $this->handleImageUpload($request, $product);
             } else {
                 $this->handleProductVideoUpload($product, $request, $tempOriginalPath);
@@ -85,8 +91,9 @@ class ProductController extends Controller
 
             $product->save();
             DB::commit();
-            if ($request->type == "1" && $tempOriginalPath) {
-                ProcessUploadedVideo::dispatch($product, $tempOriginalPath);
+            if ($request->type == "video") {
+                // ProcessUploadedVideo::dispatch($product, $tempOriginalPath);
+                ProcessBatchVideo::dispatch($product->id)->onQueue('videos');
             }
             return redirect()->route('admin.product')->with('msg_success', 'Product uploaded successfully!');
         } catch (\Exception $e) {
@@ -101,90 +108,159 @@ class ProductController extends Controller
         $request->validate(['file' => 'required|image']);
 
         $file = $request->file('file');
-        $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-        $highDir = public_path('uploads/images/high/');
-        $lowDir = public_path('uploads/images/low/');
-
-        foreach ([$highDir, $lowDir] as $dir) {
-            if (!file_exists($dir))
-                mkdir($dir, 0755, true);
-        }
-
-        // 🗑 delete old if exists (this makes it work for UPDATE)
-        @unlink(public_path('uploads/' . $product->high_path));
-        @unlink(public_path('uploads/' . $product->low_path));
+        $imageName = time() . '_' . uniqid() . '.webp';
 
         $manager = new ImageManager(new Driver());
+
         $img = $manager->read($file->getRealPath());
 
-        $width = $img->width();
+        $width  = $img->width();
         $height = $img->height();
-        $size = $file->getSize();
+        $size   = $file->getSize();
 
-        // high image
-        $img->save($highDir . $imageName, 90);
+        /*
+    |--------------------------------------------------------------------------
+    | HIGH IMAGE
+    |--------------------------------------------------------------------------
+    */
 
-        // low image + watermark
+        Storage::disk('s3')->put(
+            "batch/images/high/$imageName",
+            $img->encode()->toString(),
+            ['visibility' => 'public']
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | LOW IMAGE WITH WATERMARK
+    |--------------------------------------------------------------------------
+    */
+
         $low = $manager->read($file->getRealPath());
+
         $watermarkPath = public_path('watermark.png');
 
         if (file_exists($watermarkPath)) {
+
             $wm = $manager->read($watermarkPath);
+
             $wm->scale(width: $low->width() * 0.1);
+
             $low->place($wm, 'bottom-right', 10, 10);
         }
 
-        $low->scale(width: 800)->save($lowDir . 'low_' . $imageName, 60);
+        $low->scale(width: 800);
 
-        $product->high_path = $imageName;
-        $product->low_path = 'low_' . $imageName;
-        $product->width = $width;
-        $product->height = $height;
-        $product->file_size = $size;
+        Storage::disk('s3')->put(
+            "batch/images/low/low_$imageName",
+            $low->encode()->toString(),
+            ['visibility' => 'public']
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | SAVE DB
+    |--------------------------------------------------------------------------
+    */
+
+        $product->original_name = $file->getClientOriginalName();
+        $product->file_name     = $imageName;
+        $product->file_path     = "batch/images/high/$imageName";
+        $product->low_path      = "batch/images/low/low_$imageName";
+        $product->width         = $width;
+        $product->height        = $height;
+        $product->file_size     = $size;
     }
-    private function handleProductVideoUpload(Product $product, Request $request, &$tempOriginalPath = null)
+    // private function handleProductVideoUpload(BatchFile $product, Request $request, &$tempOriginalPath = null)
+    // {
+    //     if (!$request->hasFile('file')) {
+    //         return false;
+    //     }
+    //     $baseDir = public_path('uploads/videos/');
+    //     $highDir = $baseDir . 'high/';
+    //     $lowDir = $baseDir . 'low/';
+    //     $thumbDir = $baseDir . 'thumbnails/';
+
+    //     foreach ([$highDir, $lowDir, $thumbDir] as $dir) {
+    //         if (!file_exists($dir)) {
+    //             mkdir($dir, 0755, true);
+    //         }
+    //     }
+    //     /** 🗑 Delete old files (update case) */
+    //     if ($product->exists) {
+    //         if ($product->high_path && file_exists($highDir . $product->high_path)) {
+    //             @unlink($highDir . $product->high_path);
+    //         }
+    //         if ($product->low_path && file_exists($lowDir . $product->low_path)) {
+    //             @unlink($lowDir . $product->low_path);
+    //         }
+    //         if ($product->thumbnail_path && file_exists($thumbDir . $product->thumbnail_path)) {
+    //             @unlink($thumbDir . $product->thumbnail_path);
+    //         }
+    //     }
+    //     /** 📤 Upload new video */
+    //     $file = $request->file('file');
+    //     $originalFilename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+    //     $file->move($highDir, $originalFilename);
+    //     $tempOriginalPath = $highDir . $originalFilename;
+
+    //     /** 💾 Save filename in model */
+
+    //     $product->original_name = $originalFilename;
+    //     $product->file_name = $originalFilename;
+    //     $product->file_path = $originalFilename;
+    //     // $product->high_path = $originalFilename;
+    //     $product->low_path = null;
+    //     $product->thumbnail_path = null;
+
+    //     return true; // video uploaded
+    // }
+
+    private function handleProductVideoUpload(BatchFile $product, Request $request, &$tempOriginalPath = null)
     {
         if (!$request->hasFile('file')) {
             return false;
         }
-        $baseDir = public_path('uploads/videos/');
-        $highDir = $baseDir . 'high/';
-        $lowDir = $baseDir . 'low/';
-        $thumbDir = $baseDir . 'thumbnails/';
 
-        foreach ([$highDir, $lowDir, $thumbDir] as $dir) {
-            if (!file_exists($dir)) {
-                mkdir($dir, 0755, true);
-            }
-        }
-        /** 🗑 Delete old files (update case) */
-        if ($product->exists) {
-            if ($product->high_path && file_exists($highDir . $product->high_path)) {
-                @unlink($highDir . $product->high_path);
-            }
-            if ($product->low_path && file_exists($lowDir . $product->low_path)) {
-                @unlink($lowDir . $product->low_path);
-            }
-            if ($product->thumbnail_path && file_exists($thumbDir . $product->thumbnail_path)) {
-                @unlink($thumbDir . $product->thumbnail_path);
-            }
-        }
-        /** 📤 Upload new video */
         $file = $request->file('file');
+
         $originalFilename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $file->move($highDir, $originalFilename);
-        $tempOriginalPath = $highDir . $originalFilename;
 
-        /** 💾 Save filename in model */
-        $product->high_path = $originalFilename;
-        $product->low_path = null;
-        $product->thumbnail_path = null;
+        /*
+        |--------------------------------------------------------------------------
+        | Upload ORIGINAL video to S3
+        |--------------------------------------------------------------------------
+        */
 
-        return true; // video uploaded
+        $path = Storage::disk('s3')->putFileAs(
+            'batch/videos/high',
+            $file,
+            $originalFilename,
+            ['visibility' => 'public']
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Save temp path for queue processing
+        |--------------------------------------------------------------------------
+        */
+
+        $tempOriginalPath = $file->getRealPath();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Save DB
+        |--------------------------------------------------------------------------
+        */
+
+        $product->original_name   = $file->getClientOriginalName();
+        $product->file_name       = $originalFilename;
+        $product->file_path       = $path; // high video path
+        $product->low_path        = null;
+        $product->thumbnail_path  = null;
+
+        return true;
     }
-
-
 
     public function edit(string $id)
     {
@@ -193,7 +269,7 @@ class ProductController extends Controller
         $page = 'admin.product.edit';
         $js = ['products'];
 
-        $product = Product::findOrFail($productId);
+        $product = BatchFile::findOrFail($productId);
         $categories = Category::all();
         $collections = Collection::all();
 
@@ -217,9 +293,9 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
-            $product = Product::findOrFail(decrypt($id));
+            $product = BatchFile::findOrFail(decrypt($id));
             $request->validate([
-                'type' => 'required|in:0,1',
+                'type' => 'required|in:image,video',
                 'category' => 'required|exists:categories,id',
                 'subcategory' => 'nullable|exists:sub_categories,id',
                 'collection' => 'nullable|exists:collections,id',
@@ -233,24 +309,25 @@ class ProductController extends Controller
             $product->category_id = $request->category;
             $product->subcategory_id = $request->subcategory;
             $product->collection_id = $request->collection;
-            $product->name = $request->name;
+            $product->title = $request->name;
             $product->price = $request->price;
             $product->description = $request->description;
-            $product->tags = $request->tags;
+            $product->keywords = $request->tags;
+            $product->save();
 
             $tempOriginalPath = null;
 
             if ($request->has('file')) {
-                if ($request->type == "0") {
+                if ($request->type == "image") {
                     $this->handleImageUpload($request, $product);
                 } else {
                     $uploaded = $this->handleProductVideoUpload($product, $request, $tempOriginalPath);
                     if ($uploaded) {
-                        ProcessUploadedVideo::dispatch($product, $tempOriginalPath);
+                        // ProcessBatchVideo::dispatch($product, $tempOriginalPath);
+                        ProcessBatchVideo::dispatch($product->id)->onQueue('videos');
                     }
                 }
             }
-            $product->save();
             DB::commit();
 
             return redirect()->route('admin.product')->with('msg_success', 'Product updated successfully!');
@@ -264,7 +341,7 @@ class ProductController extends Controller
     {
         try {
             $id = decrypt($request->id);
-            Product::findOrFail($id)->delete();
+            BatchFile::findOrFail($id)->delete();
 
             return response()->json([
                 'success' => true,
@@ -293,7 +370,7 @@ class ProductController extends Controller
                 ]);
             }
 
-            $products = Product::whereIn('id', $ids)->get();
+            $products = BatchFile::whereIn('id', $ids)->get();
 
             foreach ($products as $product) {
                 $product->delete(); // model event will unlink files

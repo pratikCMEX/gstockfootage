@@ -19,14 +19,14 @@
                                 <label class="form-label fw-bold">Product Type</label><br>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="0" checked
-                                        onchange="changeType('0')">
+                                    <input class="form-check-input" type="radio" name="type" value="image" checked
+                                        onchange="changeType('image')">
                                     <label class="form-check-label">Image</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="1"
-                                        onchange="changeType('1')">
+                                    <input class="form-check-input" type="radio" name="type" value="video"
+                                        onchange="changeType('video')">
                                     <label class="form-check-label">Video</label>
                                 </div>
                             </div>

@@ -8,6 +8,10 @@ class BatchFile extends Model
 {
     protected $fillable = [
         'batch_id',
+        'type',
+        'category_id',
+        'subcategory_id',
+        'collection_id',
         'user_id',
         'file_code',
         'original_name',
@@ -39,5 +43,19 @@ class BatchFile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class);
     }
 }

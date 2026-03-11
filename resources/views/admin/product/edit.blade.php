@@ -20,14 +20,14 @@
                                 <label class="form-label fw-bold">Product Type</label><br>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="0"
-                                        {{ $product->type == '0' ? 'checked' : 'disabled' }}>
+                                    <input class="form-check-input" type="radio" name="type" value="image"
+                                        {{ $product->type == 'image' ? 'checked' : 'disabled' }}>
                                     <label class="form-check-label">Image</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="1"
-                                        {{ $product->type == '1' ? 'checked' : 'disabled' }}>
+                                    <input class="form-check-input" type="radio" name="type" value="video"
+                                        {{ $product->type == 'video' ? 'checked' : 'disabled' }}>
                                     <label class="form-check-label">Video</label>
                                 </div>
                             </div>
@@ -77,7 +77,8 @@
                             {{-- ================= NAME ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Product Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ $product->name }}">
+                                <input type="text" name="name" class="form-control"
+                                    value="{{ $product->title }}">
                             </div>
 
                             {{-- ================= PRICE ================= --}}
@@ -90,8 +91,8 @@
                             {{-- ================= TAGS ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Tags</label>
-                                <input type="text" name="tags" class="form-control" value="{{ $product->tags }}"
-                                    data-role="tagsinput">
+                                <input type="text" name="tags" class="form-control"
+                                    value="{{ $product->keywords }}" data-role="tagsinput">
                             </div>
 
                             {{-- ================= DESCRIPTION ================= --}}
@@ -117,14 +118,14 @@
                             </div> --}}
 
                             {{-- ================= REPLACE FILE ================= --}}
-                            @if ($product->type == '0')
+                            @if ($product->type == 'image')
                                 <div class="mb-3 image_upload">
                                     <label class="form-label">Upload File</label>
                                     <input class="form-control" type="file" name="file" id="fileInput"
                                         accept="image/*" onchange="loadFile(event)">
                                     <div class="mt-2 row">
                                         <div class="col-sm-4">
-                                            <img src="{{ asset('uploads/images/low/' . $product->low_path) }}"
+                                            <img src="{{ Storage::disk('s3')->url($product->low_path) }}"
                                                 id="preview_image" alt=""
                                                 class="img-fluid rounded-4 mb-2 mb-sm-0">
                                         </div>
@@ -140,7 +141,7 @@
                                         <div class="col-sm-4">
                                             <video id="preview_video" width="100%" height="auto" controls
                                                 class="rounded-4 mb-2 mb-sm-0">
-                                                <source src="{{ asset('uploads/videos/low/' . $product->low_path) }}"
+                                                <source src="{{ Storage::disk('s3')->url($product->low_path) }}"
                                                     type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>

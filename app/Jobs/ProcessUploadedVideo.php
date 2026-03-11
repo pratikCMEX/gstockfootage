@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Batch;
+use App\Models\BatchFile;
 use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,7 +32,7 @@ class ProcessUploadedVideo implements ShouldQueue
      * @param Video $video The newly created Video model instance.
      * @param string $tempOriginalPath The temporary full path where the file was first stored.
      */
-    public function __construct(Product $product, string $tempOriginalPath)
+    public function __construct(BatchFile $product, string $tempOriginalPath)
     {
         $this->product = $product;
         $this->tempOriginalPath = $tempOriginalPath;
