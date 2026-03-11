@@ -294,6 +294,27 @@ class ProcessBatchVideo implements ShouldQueue
                 'timeout'          => 7200,
             ]);
 
+
+            $ffprobe = \FFMpeg\FFProbe::create([
+                'ffprobe.binaries' => env('FFPROBE_BINARY_PATH'),
+            ]);
+
+            $streams = $ffprobe->streams($tempOriginalPath)->videos()->first();
+
+            $format = $ffprobe->format($tempOriginalPath);
+
+            $fileSize = filesize($tempOriginalPath);
+            $duration = $format->get('duration');
+
+            $width = $streams->get('width');
+            $height = $streams->get('height');
+
+            $frameRate = $streams->get('r_frame_rate'); // example: 30000/1001
+
+            if ($frameRate) {
+                list($num, $den) = explode('/', $frameRate);
+                $frameRate = $den != 0 ? round($num / $den, 2) : 0;
+            }
             $videoFFMpeg = $ffmpeg->open($tempOriginalPath);
 
             $format = new X264('aac', 'libx264');
@@ -325,6 +346,11 @@ class ProcessBatchVideo implements ShouldQueue
             | 8. Update Database
             |--------------------------------------------------------------------------
             */
+            $video->height = $height;
+            $video->width = $width;
+            $video->duration = $duration;
+            $video->file_size = $fileSize;
+            $video->frame_rate = $frameRate;
             $video->thumbnail_path = 'batch/videos/thumbnails/' . $thumbnailName;
             $video->low_path = 'batch/videos/low/' . $lowFileName;
             $video->status = 'submitted';

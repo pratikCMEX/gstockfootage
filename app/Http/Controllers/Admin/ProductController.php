@@ -313,7 +313,7 @@ class ProductController extends Controller
             $product->price = $request->price;
             $product->description = $request->description;
             $product->keywords = $request->tags;
-            $product->save();
+            // $product->save();
 
             $tempOriginalPath = null;
 
@@ -328,6 +328,8 @@ class ProductController extends Controller
                     }
                 }
             }
+            $product->save();
+
             DB::commit();
 
             return redirect()->route('admin.product')->with('msg_success', 'Product updated successfully!');
