@@ -73,7 +73,24 @@
                         </form>
 
                         <div class="newRow" style="display: none;">
-                            <div class="newhtml row align-items-center">
+                            <div class="mb-3">
+
+                                <div id="description-container">
+                                    <div class="description-item mb-2">
+                                        <div class="d-flex">
+                                            <input type="text" name="description[]"
+                                                class="form-control  description-field "
+                                                placeholder="Enter description point">
+                                            <button type="button" class="remove btn btn-danger">Close</button>
+                                        </div>
+                                        <span for="name" class="help-inline customeMessage text-danger"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- <div class="newhtml row align-items-center">
                                 <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-3">
                                     <div class="form-group ">
                                         <label class="control-label">Description
@@ -90,7 +107,7 @@
                                     <button type="button" class="remove btn btn-danger">Close</button>
                                 </div>
                                 <span for="name" class="help-inline customeMessage text-danger"></span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
