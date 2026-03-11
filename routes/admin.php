@@ -33,7 +33,8 @@ Route::post('admin/vide_batch/{batch}', [BatchController::class, 'uploadMultiple
 Route::post('admin/image_upload/{batch}', [BatchController::class, 'uploadFiles'])->name('batch.image_upload');
 Route::post('admin/batch/get_file_metadata', [BatchController::class, 'getFileMetadata']);
 Route::post('admin/batch/save_file_metadata', [BatchController::class, 'saveFileMetadata']);
-
+Route::post('admin/batch/rename', [BatchController::class, 'UpdateBatchName']);
+Route::post('admin/batch/delete', [BatchController::class, 'DeleteBatch']);
 Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('admin/profile', [ProfileController::class, 'index'])->name('admin.profile');

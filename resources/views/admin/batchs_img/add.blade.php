@@ -123,17 +123,20 @@
                                                     <ul class="dropdown-menu more-detail-menu">
                                                         <li>
                                                             <button type="button" class="dropdown-item"
-                                                                data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                                data-bs-toggle="modal" data-id="{{ $list['id'] }}"
+                                                                data-name="{{ $list['title'] }}"
+                                                                data-bs-target="#renameModal">
                                                                 <i class="fa-solid fa-pencil me-3"></i>
                                                                 Rename
                                                             </button>
                                                         </li>
                                                         <li> <button type="button" class="dropdown-item"
-                                                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                                data-bs-toggle="modal" data-id="{{ $list['id'] }}"
+                                                                data-bs-target="#deleteModal">
                                                                 <i class="fa-solid fa-trash me-3"></i>
                                                                 Delete
                                                             </button></li>
-                                                        <li><a class="dropdown-item" href="#"><i
+                                                        <li><a class="dropdown-item d-none" href="#"><i
                                                                     class="fa-solid fa-arrow-up-right-from-square me-3"></i>
                                                                 See Published</a></li>
                                                     </ul>
@@ -288,13 +291,14 @@
 
                                                                 <td>{{ $file['original_name'] }}</td>
 
-                                                                <td>-</td>
+                                                                <td>{{ $file['title'] }}</td>
 
                                                                 <td>
                                                                     <div class="create-count-div">
                                                                         <div class="circle-div circle-div1"></div>
                                                                         <p class="circel-count">
-                                                                            {{ ucfirst($file['status']) }}
+                                                                            {{-- {{ ucfirst($file['status']) }} --}}
+                                                                            Accepted
                                                                         </p>
                                                                     </div>
                                                                 </td>
@@ -328,7 +332,8 @@
                                             <div class="filter-search-text">
                                                 <div class="input-search-filter flex-nowrap">
                                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                                    <input type="text" class=""
+                                                    <input type="text" name="search"
+                                                        value="{{ request()->search ?? '' }}"
                                                         placeholder="Enter Search Text"
                                                         aria-describedby="addon-wrapping">
                                                 </div>
@@ -451,13 +456,13 @@
                                                             here</a>
                                                     </li>
                                                 </ul> --}}
-                                                <select class="form-select mr-sm-2 batch-inp" name="submission_type"
-                                                    id="category">
+                                                <select class="form-select mr-sm-2 batch-inp" name="select_field"
+                                                    id="select_field">
                                                     <option value="id">Id</option>
                                                     <option value="title">
-                                                        Submission Name</option>
-                                                    <option value="video">
-                                                        Video</option>
+                                                        Batch Name</option>
+                                                    <option value="created_at">
+                                                        Created At</option>
                                                 </select>
                                             </div>
                                             <div class="direction-filter filter-text">
@@ -467,7 +472,7 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="radio1" id="radiodefault1">
+                                                                name="direction" value="asc" id="radiodefault1">
                                                             <label class="form-check-label" for="radiodefault1">
                                                                 Ascending
                                                             </label>
@@ -476,7 +481,8 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="radio1" id="radiodefault2">
+                                                                name="direction" value="desc" id="radiodefault2"
+                                                                checked>
                                                             <label class="form-check-label" for="radiodefault2">
                                                                 Descending
                                                             </label>
@@ -512,17 +518,19 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
                 </div>
+                <input type="hidden" name="batch_id" id="rename_batch_id">
 
                 <div class="modal-body">
                     <label class="form-label">Batch Name</label>
-                    <input type="text" class="form-control" placeholder="Enter new name">
+                    <input type="text" name="branch_name" id="rename_batch_name" class="form-control"
+                        placeholder="Enter new name">
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="btn btn-orange">
+                    <button type="button" class="btn btn-orange edit_branch_name">
                         Save
                     </button>
                 </div>
@@ -536,6 +544,7 @@
             <div class="modal-header text-center m-auto ">
                 <h5 class="modal-title" id="renameModalLabel">Delete Confirmation</h5>
             </div>
+            <input type="hidden" name="batch_id" id="delete_batch_id">
 
             <div class="modal-body text-center">
                 <div class="delete-icon  m-auto"><i class="fa-solid fa-triangle-exclamation "></i></div>
@@ -547,7 +556,7 @@
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                     Cancel
                 </button>
-                <button type="button" class="btn btn-danger" style="background-color: red;">
+                <button type="button" class="btn btn-danger delete_branch" style="background-color: red;">
                     Delete
                 </button>
             </div>
