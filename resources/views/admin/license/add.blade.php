@@ -52,22 +52,46 @@
                                 <div id="description-container">
                                     <div class="description-item mb-2">
                                         <div class="d-flex">
-                                            <input type="text" name="description[]" class="form-control" 
+                                            <input type="text" name="description[]"
+                                                class="form-control  description-field "
                                                 placeholder="Enter description point">
-                                            <button type="button" class="btn btn-sm btn-secondary ms-2" id="add-description-btn" style="width: 120px;">
+                                            <button type="button" class="btn btn-sm btn-secondary ms-2" id="add"
+                                                style="width: 120px;">
                                                 <i class="fas fa-plus"></i> Add More
                                             </button>
                                         </div>
-                                      
-                                    </div>
-                                  
-                                </div>
-                                    
-                            </div>
-                          <span id="description[]-error" class="text-danger"></span>
+                                        <span for="name" class="help-inline customeMessage text-danger"></span>
 
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div id="addHtml"></div>
                             <button type="submit" class="btn btn-orange">Add</button>
                         </form>
+
+                        <div class="newRow" style="display: none;">
+                            <div class="newhtml row align-items-center">
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-3">
+                                    <div class="form-group ">
+                                        <label class="control-label">Description
+                                            <span class="required"> * </span>
+                                        </label>
+                                        <input type="text" class="form-control description-field" name="description[]"
+                                            value="" placeholder="Enter description " />
+                                        {{-- <input type="hidden" class="form-control edit_id" name="edit_id"
+                                            value="" /> --}}
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 mb-3 button_group">
+                                    <button type="button" class="remove btn btn-danger">Close</button>
+                                </div>
+                                <span for="name" class="help-inline customeMessage text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

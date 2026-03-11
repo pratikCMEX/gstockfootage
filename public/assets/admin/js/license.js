@@ -1,35 +1,22 @@
+var base_url = $("#base_url").val();
 
+/* ---------------- LICENSE FORM VALIDATION ---------------- */
 
 var base_url = $("#base_url").val();
 
-// Custom validation method for individual description fields
-jQuery.validator.addMethod("descriptionRequired", function(value, element) {
-    // Check if any description field has a value
-    var descriptionFields = $('input[name="description[]"]');
-    var hasValue = false;
-    
-    descriptionFields.each(function() {
-        if ($(this).val().trim() !== '') {
-            hasValue = true;
-            return false; // break the loop
-        }
-    });
-    
-    // If no fields have value, all fields should show error
-    return hasValue;
-}, "Please enter description");
+/* ---------------- FORM VALIDATION ---------------- */
 
-$("#license_form").validate({
+var validator = $("#license_form").validate({
     onkeyup: false,
+    ignore: [],
+
     rules: {
         name: {
             required: true,
             maxlength: 30,
             remote: {
                 headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                 },
                 url: base_url + "/admin/check_license_is_exist",
                 type: "POST",
@@ -43,86 +30,73 @@ $("#license_form").validate({
                 },
             },
         },
-
-        title: {
-            required: true,
-
-        },
-        product_quality_id: {
-            required: true,
-
-        },
-        price: {
-            required: true,
-        },
-        plan_price: {
-            required: true,
-        },
-        quality: {
-            required: true,
-        },
-        "description[]": {
-            descriptionRequired: true
-        },
-
-
+        title: { required: true },
+        product_quality_id: { required: true },
+        price: { required: true },
+        plan_price: { required: true },
+        quality: { required: true },
+        "description[]": { required: true },
     },
+
     messages: {
         name: {
             required: "Please enter License name",
-            maxlength: 'Please enter License name less than 30 characters',
+            maxlength: "Please enter License name less than 30 characters",
             remote: "This License already exists",
         },
-        title: {
-            required: "Please enter License title",
-
-        },
-        product_quality_id: {
-            required: "Please select product quality",
-
-        },
-        price: {
-            required: "Please enter License price",
-        },
-        plan_price: {
-            required: "Please enter Plan price",
-        },
-        quality: {
-            required: "Please enter Quality",
-        },
-        "description[]": {
-            descriptionRequired: "Please enter description"
-        },
-
-    },
-    normalizer: function (value) {
-        return $.trim(value);
+        title: { required: "Please enter License title" },
+        product_quality_id: { required: "Please select product quality" },
+        price: { required: "Please enter License price" },
+        plan_price: { required: "Please enter Plan price" },
+        quality: { required: "Please enter Quality" },
+        "description[]": { required: "Please enter Description" },
     },
 
     errorClass: "text-danger",
     errorElement: "span",
-    errorPlacement: function(error, element) {
-        if (element.attr("name") == "description[]") {
-            error.insertAfter(element.closest('.description-item'));
+
+    errorPlacement: function (error, element) {
+        if (element.hasClass("description-field")) {
+            error.insertAfter(element);
         } else {
             error.insertAfter(element);
         }
     },
+
     highlight: function (element) {
         $(element).addClass("is-invalid");
     },
+
     unhighlight: function (element) {
         $(element).removeClass("is-invalid");
-    },
-    submitHandler: function (form) {
-        $(form)
-            .find('button[type="submit"]')
-            .prop("disabled", true)
-            .text("Please wait...");
-
-        form.submit();
-    },
+    }
 });
+
+
+
+$('#add').on('click', function () {
+
+    var html = $('.newRow').html();
+    var newRow = $(html);
+
+    $("#addHtml").append(newRow);
+
+    newRow.find(".description-field").rules("add", {
+        required: true,
+        messages: {
+            required: "Please enter Description"
+        }
+    });
+
+});
+
+/* ---------------- REMOVE DESCRIPTION ---------------- */
+
+$(document).on('click', '.remove', function () {
+    $(this).closest('.newhtml').remove();
+});
+
+/* ---------------- DELETE LICENSE ---------------- */
 
 $(document).on("click", ".deleteLicense", function () {
 
@@ -150,15 +124,17 @@ $(document).on("click", ".deleteLicense", function () {
                 success: function (response) {
 
                     if (response.success) {
+
                         Swal.fire(
                             "Deleted!",
                             response.message,
                             "success"
                         );
 
-
                         $('#license-table').DataTable().ajax.reload(null, false);
+
                     } else {
+
                         Swal.fire(
                             "Error!",
                             response.message,
@@ -168,17 +144,21 @@ $(document).on("click", ".deleteLicense", function () {
 
                 },
                 error: function () {
+
                     Swal.fire(
                         "Error!",
                         "Something went wrong.",
                         "error"
                     );
+
                 }
             });
 
         }
     });
 });
+
+/* ---------------- MOST POPULAR TOGGLE ---------------- */
 
 $(document).on('change', '.toggle-popular', function () {
 
@@ -205,7 +185,11 @@ $(document).on('change', '.toggle-popular', function () {
     });
 
 });
+
+/* ---------------- MULTIPLE DELETE ---------------- */
+
 function toggleDeleteButton() {
+
     let totalCheckboxes = $(".row-checkbox").length;
     let checkedCheckboxes = $(".row-checkbox:checked").length;
 
@@ -223,10 +207,14 @@ $(document).on("change", ".row-checkbox", function () {
 });
 
 $(document).on("change", "#select-all", function () {
+
     $(".row-checkbox").prop("checked", this.checked);
     toggleDeleteButton();
+
 });
+
 $("#delete-selected").on("click", function () {
+
     let ids = [];
 
     $(".row-checkbox:checked").each(function () {
@@ -247,7 +235,9 @@ $("#delete-selected").on("click", function () {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
+
         if (result.isConfirmed) {
+
             $.ajax({
                 url: base_url + "/admin/delete_multiple_license",
                 type: "POST",
@@ -256,61 +246,22 @@ $("#delete-selected").on("click", function () {
                     _token: $('meta[name="csrf-token"]').attr("content"),
                 },
                 success: function (response) {
+
                     if (response.success == false) {
                         toastr.error(response.message);
                     } else {
                         toastr.success(response.message);
                     }
+
                     $("#select-all").prop("checked", false);
-                    $("#delete-selected").css("display", "none");
+                    $("#delete-selected").hide();
+
                     $("#license-table").DataTable().ajax.reload();
                 },
             });
+
         }
-    });
-});
 
-// Description field management functions
-function addDescriptionField() {
-    var newField = $('<div class="description-item mb-2">' +
-        '<div class="d-flex">' +
-        '<input type="text" name="description[]" class="form-control" placeholder="Enter description point">' +
-        '<button type="button" class="btn btn-lg btn-danger ms-2" onclick="removeDescriptionField(this)" style="width: 120px;">' +
-        '<i class="fas fa-times"></i>' +
-        '</button>' +
-        '</div>' +
-        '</div>');
-    
-    $('#description-container').append(newField);
-    
-    // Trigger validation on all description fields
-    var validator = $("#license_form").validate();
-    $('input[name="description[]"]').each(function() {
-        validator.element(this);
     });
-}
 
-function removeDescriptionField(button) {
-    $(button).closest('.description-item').remove();
-    
-    // Trigger validation on all description fields
-    var validator = $("#license_form").validate();
-    $('input[name="description[]"]').each(function() {
-        validator.element(this);
-    });
-}
-
-// Initialize add description button click handler
-$(document).ready(function() {
-    $('#add-description-btn').on('click', function() {
-        addDescriptionField();
-    });
-    
-    // Add keyup event handler for description fields
-    $(document).on('keyup', 'input[name="description[]"]', function() {
-        var validator = $("#license_form").validate();
-        $('input[name="description[]"]').each(function() {
-            validator.element(this);
-        });
-    });
 });
