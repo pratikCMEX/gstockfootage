@@ -884,7 +884,7 @@ if (window.location.search) {
 }
 
 $(document).on("click", "[data-bs-target='#renameModal']", function () {
-  alert();
+  // alert();
   let id = $(this).data("id");
   let name = $(this).data("name");
 
@@ -893,7 +893,7 @@ $(document).on("click", "[data-bs-target='#renameModal']", function () {
 });
 
 $(document).on("click", ".BatchrenameModal", function () {
-  alert();
+  // alert();
   let id = $(this).data("id");
   let name = $(this).data("name");
 
