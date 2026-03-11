@@ -522,7 +522,8 @@
                 <input type="hidden" name="batch_id" id="rename_batch_id">
 
                 <div class="modal-body">
-                    <label class="modal-label">Batch Name</label>
+                    <label class="modal-label">Batch Name
+                    </label>
                     <input type="text" name="branch_name" id="rename_batch_name" class="form-control batch-inp"
                         placeholder="Enter new name">
                 </div>
