@@ -47,19 +47,19 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <div id="description-container">
                                     <div class="description-item mb-2">
                                         <div class="d-flex">
-                                            <input type="text" name="description[]"
-                                                class="form-control  description-field "
+                                            <input type="text" name="description[]" class="form-control  description"
                                                 placeholder="Enter description point">
                                             <button type="button" class="btn btn-sm btn-secondary ms-2" id="add"
                                                 style="width: 120px;">
                                                 <i class="fas fa-plus"></i> Add More
                                             </button>
                                         </div>
+
                                         <span for="name" class="help-inline customeMessage text-danger"></span>
 
                                     </div>
@@ -67,48 +67,67 @@
                                 </div>
 
                             </div>
-
-                            <div id="addHtml"></div>
-                            <button type="submit" class="btn btn-orange">Add</button>
-                        </form>
-
-                        <div class="newRow" style="display: none;">
+                       
                             <div class="mb-3">
+                                <label class="form-label">Description</label>
 
                                 <div id="description-container">
                                     <div class="description-item mb-2">
                                         <div class="d-flex">
-                                            <input type="text" name="description[]"
-                                                class="form-control  description-field "
+                                            <input type="text" name="description[]" class="form-control description"
                                                 placeholder="Enter description point">
-                                            <button type="button" class="remove btn btn-danger">Close</button>
+                                            <button type="button" class="btn btn-sm btn-secondary ms-2" id="add">
+                                                Add More
+                                            </button>
                                         </div>
-                                        <span for="name" class="help-inline customeMessage text-danger"></span>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
 
+                            </div> -->
+
+                            <!-- <div id="addHtml"></div> -->
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+
+                                <div id="description-container">
+
+                                    <div class="description-item mb-2">
+                                        <div class="d-flex">
+                                            <input type="text" name="description[]" class="form-control description"
+                                                placeholder="Enter description point">
+
+                                            <button type="button" class="btn btn-primary ms-2" id="add">
+                                                + Add More
+                                            </button>
+                                        </div>
                                     </div>
 
                                 </div>
+
+                                <div id="addHtml"></div>
 
                             </div>
-                            <!-- <div class="newhtml row align-items-center">
-                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-3">
-                                    <div class="form-group ">
-                                        <label class="control-label">Description
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <input type="text" class="form-control description-field" name="description[]"
-                                            value="" placeholder="Enter description " />
-                                        {{-- <input type="hidden" class="form-control edit_id" name="edit_id"
-                                            value="" /> --}}
 
+
+                            <!-- Hidden Template -->
+                            <div class="newRow d-none">
+                                <div class="description-item mb-2 newhtml">
+                                    <div class="d-flex">
+                                        <input type="text" name="description[]" class="form-control description"
+                                            placeholder="Enter description point">
+
+                                        <button type="button" class="btn btn-danger ms-2 remove">
+                                            Close
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 mb-3 button_group">
-                                    <button type="button" class="remove btn btn-danger">Close</button>
-                                </div>
-                                <span for="name" class="help-inline customeMessage text-danger"></span>
-                            </div> -->
-                        </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-orange">Add</button>
+                        </form>
+
+
                     </div>
                 </div>
             </div>
