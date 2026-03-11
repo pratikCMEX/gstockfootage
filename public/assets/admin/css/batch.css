@@ -512,7 +512,7 @@ table {
 .table-heading {
   font-size: 16px;
   font-weight: 800;
-  color: #2a3547;
+  color: var(--black);
 }
 .img-id {
   display: flex;
