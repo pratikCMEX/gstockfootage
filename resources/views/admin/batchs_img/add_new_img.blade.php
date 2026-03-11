@@ -100,9 +100,9 @@
                                                     {{-- <label for="myfile"
                                                         class="btn btn-orange btn-upload-device">Upload from
                                                         device</label> --}}
-                                                    <label for="111myfile" class="btn btn-orange btn-upload-device"
+                                                    <button for="111myfile" disabled class="btn btn-orange btn-upload-device"
                                                         data-type={{ $batch->submission_type }}>Upload from
-                                                        device</label>
+                                                        device</button>
                                                     {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
                                                         file</label>
@@ -118,7 +118,7 @@
                                                         accept="{{ $batch_type == 'video' ? 'video/*,.zip' : 'image/*,.zip' }}"
                                                         required>
 
-                                                    <div class="apply-default-template">
+                                                    <!-- <div class="apply-default-template">
                                                         <div class="form-check form-switch ps-0 upload-check">
                                                             <input class="form-check-input m-0" type="checkbox"
                                                                 role="switch" id="flexSwitchCheckDefaultupload">
@@ -127,7 +127,7 @@
                                                                 for="flexSwitchCheckDefaultupload">Apply Default
                                                                 Template input</label>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="">
 
