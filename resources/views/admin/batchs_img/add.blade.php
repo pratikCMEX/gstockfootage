@@ -517,7 +517,9 @@
         <div class="modal-content">
             <form action="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                    <h5 class="modal-title" id="renameModalLabel">Rename Item
+                        
+                    </h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
 
