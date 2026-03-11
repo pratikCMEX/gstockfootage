@@ -691,45 +691,50 @@ class BatchController extends Controller
         set_time_limit(300);
 
         $fileName = Str::uuid() . '.mp4';
-        // if (is_string($file)) {
-        //     $path = Storage::disk('s3')->put(
-        //         'videos/high/' . $fileName,
-        //         fopen($file, 'r'),
-        //         'public'
-        //     );
-        //     $originalName = basename($file);
-        // } else {
-        //     $path = Storage::disk('s3')->putFileAs(
-        //         'videos/high',
-        //         $file,
-        //         $fileName,
-        //         'public'
-        //     );
-
-        //     $originalName = $file->getClientOriginalName();
-        // }
-
-
-        $videoPath = public_path('uploads/batch/videos/high/');
-
-        // create directory if not exists
-        if (!file_exists($videoPath)) {
-            mkdir($videoPath, 0777, true);
-        }
-
         if (is_string($file)) {
-            // file coming from extracted ZIP
-            copy($file, $videoPath . $fileName);
 
-            $path = "uploads/batch/videos/high/" . $fileName;
+            // file path (extracted from ZIP)
+            $path = Storage::disk('s3')->put(
+                'batch/videos/high/' . $fileName,
+                fopen($file, 'r'),
+                ['visibility' => 'public']
+            );
+
             $originalName = basename($file);
         } else {
-            // uploaded directly from form
-            $file->move($videoPath, $fileName);
 
-            $path = "uploads/batch/videos/high/" . $fileName;
+            // uploaded file
+            $path = Storage::disk('s3')->putFileAs(
+                'batch/videos/high',
+                $file,
+                $fileName,
+                ['visibility' => 'public']
+            );
+
             $originalName = $file->getClientOriginalName();
         }
+
+
+        // $videoPath = public_path('uploads/batch/videos/high/');
+
+        // // create directory if not exists
+        // if (!file_exists($videoPath)) {
+        //     mkdir($videoPath, 0777, true);
+        // }
+
+        // if (is_string($file)) {
+        //     // file coming from extracted ZIP
+        //     copy($file, $videoPath . $fileName);
+
+        //     $path = "uploads/batch/videos/high/" . $fileName;
+        //     $originalName = basename($file);
+        // } else {
+        //     // uploaded directly from form
+        //     $file->move($videoPath, $fileName);
+
+        //     $path = "uploads/batch/videos/high/" . $fileName;
+        //     $originalName = $file->getClientOriginalName();
+        // }
 
         $batchFile = new BatchFile();
         $batchFile->batch_id = $batch_id;
