@@ -136,9 +136,9 @@
                                                                 <i class="fa-solid fa-trash me-3"></i>
                                                                 Delete
                                                             </button></li>
-                                                        <li><a class="dropdown-item d-none" href="#"><i
+                                                        {{-- <li><a class="dropdown-item d-none" href="#"><i
                                                                     class="fa-solid fa-arrow-up-right-from-square me-3"></i>
-                                                                See Published</a></li>
+                                                                See Published</a></li> --}}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -221,7 +221,7 @@
                                                             {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
                                                         </p>
                                                     </div>
-                                                    <div class="batch-content-create-counts">
+                                                    {{-- <div class="batch-content-create-counts">
                                                         <div class="create-count-div">
                                                             <div class="circle-div circle-div1"></div>
                                                             <p class="circel-count"><span>0</span> Accepted</p>
@@ -242,7 +242,7 @@
                                                             <div class="circle-div circle-div5"></div>
                                                             <p class="circel-count"><span>0</span> Not Submitted</p>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <div class="more-detail">
                                                     <button class="btn more-detail-btn " type="button">
@@ -517,7 +517,9 @@
         <div class="modal-content">
             <form action="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                    <h5 class="modal-title" id="renameModalLabel">Rename Item
+
+                    </h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
 

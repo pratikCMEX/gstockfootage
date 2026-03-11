@@ -206,11 +206,22 @@
   border-radius: 10px;
   padding: 50px 0;
   opacity: 70%;
+  position: relative;
 }
-.search-image-body p {
+.search-image-body label {
   font-size: 15px;
   color: var(--secendory);
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
 }
+
+.search-image-body label::after{
+  width: 100%;
+  position: absolute;
+  inset: 0px;
+  content: "";
+}
+
 .search-image-body svg {
   stroke: var(--secendory);
 }

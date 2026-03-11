@@ -127,23 +127,12 @@ a {
   }
 }
 
-/* @media only screen and (max-width: 1399px) {
-}
-@media only screen and (max-width: 1199px) {
-}
-@media only screen and (max-width: 991px) {
-}
-@media only screen and (max-width: 767px) {
-}
-@media only screen and (max-width: 575px) {
-}
-@media only screen and (max-width: 424px) {
-} */
-
 /* Admin CSSS */
 .sidebar-nav ul .sidebar-item .sidebar-link {
   padding: 12px 24px !important;
   border-radius: 10px !important;
+  color: var(--black);
+  font-size: 16px;
 }
 .sidebar-nav ul .sidebar-item .sidebar-link.active:hover {
   background-color: var(--primary);

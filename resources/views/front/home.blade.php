@@ -60,6 +60,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body search-image-body">
+                            <input type="file" id="search-image" hidden>
+                
                             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-upload h-12 w-12  mb-2">
@@ -67,7 +69,7 @@
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" x2="12" y1="3" y2="15"></line>
                             </svg>
-                            <p>Click to upload an image
+                            <label for="search-image">Click to upload an image
                                 or drag and drop</p>
                         </div>
                         <div class="modal-footer">
