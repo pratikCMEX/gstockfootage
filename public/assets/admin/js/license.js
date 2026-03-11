@@ -82,6 +82,26 @@ $(document).ready(function () {
             element.next("span.text-danger").remove();
             error.insertAfter(element);
 
+        },
+        submitHandler: function (form) {
+            var valid = true;
+
+            $(".description:visible").each(function () {
+                if ($(this).val().trim() === "") {
+                    valid = false;
+                    $(this).addClass("is-invalid");
+                    if (!$(this).next("span.text-danger").length) {
+                        $(this).after('<span class="text-danger">Please enter Description</span>');
+                    }
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).next("span.text-danger").remove();
+                }
+            });
+
+            if (valid) {
+                form.submit(); // ✅ only submit if all description[] fields have data
+            }
         }
 
     });
@@ -183,6 +203,7 @@ $(document).ready(function () {
 
         if (!valid) {
             e.preventDefault();
+            return false;
         }
 
     });
