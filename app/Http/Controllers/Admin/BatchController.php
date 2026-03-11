@@ -20,6 +20,7 @@ use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
+
 class BatchController extends Controller
 {
     // public function index()
@@ -119,6 +120,9 @@ class BatchController extends Controller
 
     public function index(Request $request)
     {
+
+
+
         $title = 'Batches';
         $page = 'admin.batchs_img.add';
         $js = ['batch'];
@@ -206,16 +210,23 @@ class BatchController extends Controller
                         'title' => $file->title,
                         'file_name' => $file->file_name,
                         'type' => $file->type,
-                        'file_path' => asset('uploads/videos/high/' . $file->original_name),
+                        // 'file_path' => asset('uploads/videos/high/' . $file->original_name),
 
+                        // 'thumbnail_path' => !empty($file->thumbnail_path)
+                        //     ? asset('uploads/batch/videos/thumbnails/' . $file->thumbnail_path)
+                        //     : null,
+
+                        // 'low_path' => !empty($file->low_path)
+                        //     ? asset('uploads/batch/images/low/' . $file->low_path)
+                        //     : null,
+                        'file_path' => Storage::disk('s3')->url($file->file_path),
                         'thumbnail_path' => !empty($file->thumbnail_path)
-                            ? asset('uploads/batch/videos/thumbnails/' . $file->thumbnail_path)
+                            ? Storage::disk('s3')->url(ltrim($file->thumbnail_path, '/'))
                             : null,
 
                         'low_path' => !empty($file->low_path)
-                            ? asset('uploads/batch/images/low/' . $file->low_path)
+                            ? Storage::disk('s3')->url(ltrim($file->low_path, '/'))
                             : null,
-
                         'file_type' => $file->file_type,
                         'file_size' => $file->file_size,
                         'width' => $file->width,
@@ -229,6 +240,7 @@ class BatchController extends Controller
             ];
         });
 
+        // dd($batch_list);
         // ✅ AJAX response
         if ($request->ajax()) {
             return view('admin.batchs_img.batch_card', compact('batch_list', 'batches'))->render();
@@ -347,6 +359,7 @@ class BatchController extends Controller
     }
     public function deleteMultiple(Request $request)
     {
+
         $request->validate([
             'ids' => 'required|array',
             'ids.*' => 'integer'
@@ -598,27 +611,61 @@ class BatchController extends Controller
                 mkdir($lowPath, 0777, true);
             }
 
-            // HIGH IMAGE
-            $img->encode(new WebpEncoder(quality: 85))
-                ->save($highPath . $imageName);
+            // // HIGH IMAGE
+            // $img->encode(new WebpEncoder(quality: 85))
+            //     ->save($highPath . $imageName);
 
-            // LOW IMAGE
+            // // LOW IMAGE
+            // $low = $img->scale(width: 800);
+
+            // $low->encode(new WebpEncoder(quality: 75))
+            //     ->save($lowPath . "low_" . $imageName);
+
+
+            // // Save in DB
+            // BatchFile::create([
+            //     'batch_id'       => $batch_id,
+            //     'file_code'      => mt_rand(1000000000, 9999999999),
+            //     'original_name'  => $fileObj ? $fileObj->getClientOriginalName() : basename($path),
+            //     'file_name'      => $imageName,
+            //     'file_path'      => "uploads/batch/images/high/$imageName",
+            //     'thumbnail_path' => $imageName,
+            //     'low_path' => "low_" . $imageName,
+            //     'date_created' => Carbon::now()->toDateString(),
+            //     'file_type'      => 'image',
+            //     'file_size'      => $size,
+            //     'width'          => $width,
+            //     'height'         => $height,
+            //     'status'         => 'not_submitted',
+            // ]);
+            // HIGH
+            Storage::disk('s3')->put(
+                "batch/image/high/$imageName",
+                $img->encode(new WebpEncoder(quality: 85))->toString(),
+                [
+                    'visibility' => 'public'
+                ]
+            );
+
+            // LOW
             $low = $img->scale(width: 800);
 
-            $low->encode(new WebpEncoder(quality: 75))
-                ->save($lowPath . "low_" . $imageName);
+            Storage::disk('s3')->put(
+                "batch/image/low/low_$imageName",
+                $low->encode(new WebpEncoder(quality: 75))->toString(),
+                [
+                    'visibility' => 'public'
+                ]
+            );
 
-
-            // Save in DB
             BatchFile::create([
                 'batch_id'       => $batch_id,
                 'file_code'      => mt_rand(1000000000, 9999999999),
                 'original_name'  => $fileObj ? $fileObj->getClientOriginalName() : basename($path),
                 'file_name'      => $imageName,
-                'file_path'      => "uploads/batch/images/high/$imageName",
-                'thumbnail_path' => $imageName,
-                'low_path' => "low_" . $imageName,
-                'date_created' => Carbon::now()->toDateString(),
+                'file_path'      => "batch/image/high/$imageName",
+                'thumbnail_path' => "",
+                'low_path' => "batch/image/low/low_$imageName",
                 'file_type'      => 'image',
                 'file_size'      => $size,
                 'width'          => $width,
@@ -632,6 +679,7 @@ class BatchController extends Controller
             // 🔥 FREE MEMORY
             $img = null;
             unset($img);
+
             gc_collect_cycles();
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
@@ -643,45 +691,50 @@ class BatchController extends Controller
         set_time_limit(300);
 
         $fileName = Str::uuid() . '.mp4';
-        // if (is_string($file)) {
-        //     $path = Storage::disk('s3')->put(
-        //         'videos/high/' . $fileName,
-        //         fopen($file, 'r'),
-        //         'public'
-        //     );
-        //     $originalName = basename($file);
-        // } else {
-        //     $path = Storage::disk('s3')->putFileAs(
-        //         'videos/high',
-        //         $file,
-        //         $fileName,
-        //         'public'
-        //     );
-
-        //     $originalName = $file->getClientOriginalName();
-        // }
-
-
-        $videoPath = public_path('uploads/batch/videos/high/');
-
-        // create directory if not exists
-        if (!file_exists($videoPath)) {
-            mkdir($videoPath, 0777, true);
-        }
-
         if (is_string($file)) {
-            // file coming from extracted ZIP
-            copy($file, $videoPath . $fileName);
 
-            $path = "uploads/batch/videos/high/" . $fileName;
+            // file path (extracted from ZIP)
+            $path = Storage::disk('s3')->put(
+                'batch/videos/high/' . $fileName,
+                fopen($file, 'r'),
+                ['visibility' => 'public']
+            );
+
             $originalName = basename($file);
         } else {
-            // uploaded directly from form
-            $file->move($videoPath, $fileName);
 
-            $path = "uploads/batch/videos/high/" . $fileName;
+            // uploaded file
+            $path = Storage::disk('s3')->putFileAs(
+                'batch/videos/high',
+                $file,
+                $fileName,
+                ['visibility' => 'public']
+            );
+
             $originalName = $file->getClientOriginalName();
         }
+
+
+        // $videoPath = public_path('uploads/batch/videos/high/');
+
+        // // create directory if not exists
+        // if (!file_exists($videoPath)) {
+        //     mkdir($videoPath, 0777, true);
+        // }
+
+        // if (is_string($file)) {
+        //     // file coming from extracted ZIP
+        //     copy($file, $videoPath . $fileName);
+
+        //     $path = "uploads/batch/videos/high/" . $fileName;
+        //     $originalName = basename($file);
+        // } else {
+        //     // uploaded directly from form
+        //     $file->move($videoPath, $fileName);
+
+        //     $path = "uploads/batch/videos/high/" . $fileName;
+        //     $originalName = $file->getClientOriginalName();
+        // }
 
         $batchFile = new BatchFile();
         $batchFile->batch_id = $batch_id;
@@ -867,8 +920,7 @@ class BatchController extends Controller
 
     public function uploadFiles(Request $request, $batch_id)
     {
-        // dd(1);
-        set_time_limit(300);
+        set_time_limit(600);
         $request->validate([
             'files' => 'required',
             'files.*' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,avi,zip|max:512000'
@@ -902,11 +954,11 @@ class BatchController extends Controller
 
                                 $path = $zipFile->getPathname();
 
-                                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $request->batch_type == 'image') {
                                     $this->processImage($path, $batch_id);
                                 }
 
-                                if (in_array($ext, ['mp4', 'mov', 'avi'])) {
+                                if (in_array($ext, ['mp4', 'mov', 'avi']) && $request->batch_type == 'video') {
                                     $this->processVideo($path, $batch_id);
                                 }
                             }
