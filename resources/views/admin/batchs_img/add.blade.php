@@ -216,10 +216,14 @@
                                                 <div class="batch-content-create-text">
                                                     <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
                                                     {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
-                                                    <p class="batchcreated">
-                                                        Created :
-                                                        {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
-                                                    </p>
+                                                    <div>
+                                                        <p class="batchcreated">
+                                                            Created :
+                                                            {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
+                                                        </p>
+                                                        <span>Last Updated : Feb 10 , 2026</span>
+                                                    </div>
+
                                                 </div>
                                                 <!-- <div class="batch-content-create-counts">
                                                         <div class="create-count-div">
@@ -518,7 +522,7 @@
             <form action="">
                 <div class="modal-header">
                     <h5 class="modal-title" id="renameModalLabel">Rename Item
-                        
+
                     </h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
