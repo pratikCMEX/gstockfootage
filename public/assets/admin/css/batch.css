@@ -641,12 +641,17 @@ table td {
 .no-file-keywording.active textarea,
 .no-file-keywording.active .keyword-btn button {
   background-color: transparent;
+  opacity: 100;
+  color: var(--black);
 }
 .no-file-selected.active .no-file-inputs .input-group input,
 .no-file-selected.active .no-file-video-propertise .input-group input,
-.no-file-selected.active .no-file-master-formate .input-group input {
+.no-file-selected.active .no-file-master-formate .input-group input,
+.no-file-selected.active .no-file-keywording .keyword-btn button {
   pointer-events: auto;
   cursor: auto;
+  opacity: 100%;
+  color: var(--black);
 }
 .no-file-selected.active .no-file-release .btn,
 .no-file-selected.active .submit-metadaata .btn,
@@ -656,6 +661,8 @@ table td {
 .no-file-keywording.active textarea {
   pointer-events: auto;
   cursor: pointer !important;
+  color: var(--black);
+  opacity: 100%;
 }
 
 .no-file-selected-title.btn {
@@ -767,6 +774,8 @@ table td {
 }
 .no-file-keywording {
   padding: 30px 0;
+
+  border-bottom: 1px solid rgb(180, 180, 180);
 }
 .no-file-keywording .keyword-sub-text {
   font-size: 16px;
@@ -1567,21 +1576,20 @@ table td {
 
 /* Card Header Section */
 
-.upload-main .card_header{
+.upload-main .card_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px !important;
 }
 
-
-.upload-main .card_header button.back-btn{
+.upload-main .card_header button.back-btn {
   width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--white) ;
+  background-color: var(--white);
   border: none;
   outline: none;
   font-size: 20px;
@@ -1589,54 +1597,63 @@ table td {
   border-radius: 5px;
 }
 
-.upload-main .card_header button.back-btn:hover{
+.upload-main .card_header button.back-btn:hover {
   transform: translateX(-5px);
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.13); */
 }
 
-.upload-main .card_header .header-title-section{
+.upload-main .card_header .header-title-section {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   gap: 5px;
 }
 
-.upload-main .card_header .header-title-section h3{
+.upload-main .card_header .header-title-section h3 {
   font-size: 22px !important;
-  font-family: var(--font-inter-medium);
-  font-weight: 500;
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
   color: var(--black);
+  margin-right: 16px;
+  letter-spacing: 0.5px;
+}
+
+.upload-main .card_header .header-title-section .batches-label label {
+  background: #ff8000cb;
+  color: var(--white);
 }
 
 /* Card Header Section */
 
-.diff-batches-content nav[role="navigation"]{
+.diff-batches-content nav[role="navigation"] {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 
-.diff-batches-content .navbar-section{
+.diff-batches-content .navbar-section {
   width: 100%;
 }
 
-
-.diff-batches-content nav[role="navigation"] div.hidden{
+.diff-batches-content nav[role="navigation"] div.hidden {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   flex-direction: column-reverse;
 }
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child{
+.diff-batches-content nav[role="navigation"] div.hidden div:last-child {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex{
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1644,8 +1661,18 @@ table td {
   box-shadow: none !important;
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span,
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex a{
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  span,
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  a {
   width: 100%;
   max-width: 40px;
   min-width: 40px;
@@ -1663,25 +1690,54 @@ table td {
   border-radius: 8px;
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span svg,
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex a svg{
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  span
+  svg,
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  a
+  svg {
   width: 70%;
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span[aria-disabled="true"]{
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  span[aria-disabled="true"] {
   opacity: 0.5;
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span span{
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  span
+  span {
   background-color: var(--primary);
   color: var(--white);
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:last-child span.inline-flex span[aria-disabled="true"] span{
+.diff-batches-content
+  nav[role="navigation"]
+  div.hidden
+  div:last-child
+  span.inline-flex
+  span[aria-disabled="true"]
+  span {
   color: var(--black);
 }
 
-.diff-batches-content nav[role="navigation"] div.hidden div:first-child p{
+.diff-batches-content nav[role="navigation"] div.hidden div:first-child p {
   font-family: var(--font-inter-regular);
   font-weight: 400;
   color: var(--secendory);

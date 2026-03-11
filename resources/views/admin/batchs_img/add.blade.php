@@ -63,7 +63,7 @@
 
                                                     </div>
                                                     <div class="modal-code">
-                                                        <label for="" class="modal-label">Breif Code</label>
+                                                        <label for="" class="modal-label">Brief Code</label>
                                                         <div class="input-group ">
                                                             <input type="text" class="form-control batch-inp"
                                                                 placeholder="Breif code (optional)" id="brief_code"
@@ -194,7 +194,8 @@
                                                                         ? $file['low_path']
                                                                         : $file['thumbnail_path'];
 
-                                                                $url = asset($url);
+                                                                // $url = asset($url);
+
                                                             @endphp
 
                                                             <div

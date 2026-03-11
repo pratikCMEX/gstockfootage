@@ -238,668 +238,740 @@ $("#rangeSlider").on("input", function () {
     .addClass(classNames[6 - value]); // reverse logic
 });
 
-$(document).ready(function () {
-  function updateUI() {
-    let images = $(".upload-image");
-    let selectedCount = images.filter(".selected").length;
-    let total = images.length;
-    let button = $(".select-btn");
-    $("#tags").tagsinput("removeAll");
-    updateKeywordCount();
-    // 🔥 Update Select All Button Text
-    if (selectedCount === total && total > 0) {
-      button.text("Deselect All");
-    } else {
-      button.text("Select All");
-    }
+// $(document).ready(function () {
+function updateUI() {
+  let images = $(".upload-image");
+  let selectedCount = images.filter(".selected").length;
+  let total = images.length;
+  let button = $(".select-btn");
+  $("#tags").tagsinput("removeAll");
+  updateKeywordCount();
+  // 🔥 Update Select All Button Text
+  if (selectedCount === total && total > 0) {
+    button.text("Deselect All");
+  } else {
+    button.text("Select All");
+  }
 
-    // 🔥 Update Delete Count
-    $(".delete-count").text(selectedCount);
+  // 🔥 Update Delete Count
+  $(".delete-count").text(selectedCount);
 
-    // 🔥 Hide count if 0 (optional cleaner UI)
-    if (selectedCount === 0) {
-      $(".delete-count").hide();
-      $(".total_file_selected").text("No File Selected");
-    } else {
-      $(".delete-count").show();
-      $(".total_file_selected").text(selectedCount + " File Selected");
-    }
+  // 🔥 Hide count if 0 (optional cleaner UI)
+  if (selectedCount === 0) {
+    $(".delete-count").hide();
+    $(".total_file_selected").text("No File Selected");
+  } else {
+    $(".delete-count").show();
+    $(".total_file_selected").text(selectedCount + " File Selected");
+  }
 
-    // Panels
-    if (images.length == 0) {
-      $(".data-empty").removeClass("d-none");
-    } else {
-      $(".data-empty").addClass("d-none");
+  // Panels
+  if (images.length == 0) {
+    $(".data-empty").removeClass("d-none");
+  } else {
+    $(".data-empty").addClass("d-none");
+  }
+  if (selectedCount > 0) {
+    selectimgdrop?.classList.add("active");
+    viewdata?.classList.add("notactive");
+    addmetadata?.classList.add("active");
+    if (selectedCount === 1) {
+      nofileselected?.classList.add("active");
     }
-    if (selectedCount > 0) {
-      selectimgdrop?.classList.add("active");
-      viewdata?.classList.add("notactive");
-      addmetadata?.classList.add("active");
-      if (selectedCount === 1) {
-        nofileselected?.classList.add("active");
-      }
-    } else {
-      selectimgdrop?.classList.remove("active");
-      viewdata?.classList.remove("notactive");
-      addmetadata?.classList.remove("active");
-      nofileselected?.classList.remove("active");
+  } else {
+    selectimgdrop?.classList.remove("active");
+    viewdata?.classList.remove("notactive");
+    addmetadata?.classList.remove("active");
+    nofileselected?.classList.remove("active");
+  }
+}
+
+// 🔥 Image Click Logic (Fixed)
+$(document).on("click", ".upload-image", function (e) {
+  let data_id = $(this).attr("data-id");
+
+  if ($(e.target).closest(".dot-menu").length) return;
+
+  let images = $(".upload-image");
+  let selectedCount = images.filter(".selected").length;
+  let total = images.length;
+  let isSelected = $(this).hasClass("selected");
+
+  if (selectedCount === total) {
+    // If ALL were selected → remove only this one
+    $(this).removeClass("selected");
+  } else if (selectedCount > 1) {
+    // If multiple selected (from Select All or other logic)
+    $(this).toggleClass("selected");
+  } else {
+    // Only one allowed manually
+    images.removeClass("selected");
+
+    if (!isSelected) {
+      $(this).addClass("selected");
     }
   }
 
-  // 🔥 Image Click Logic (Fixed)
-  $(document).on("click", ".upload-image", function (e) {
-    let data_id = $(this).attr("data-id");
-
-    if ($(e.target).closest(".dot-menu").length) return;
-
-    let images = $(".upload-image");
-    let selectedCount = images.filter(".selected").length;
-    let total = images.length;
-    let isSelected = $(this).hasClass("selected");
-
-    if (selectedCount === total) {
-      // If ALL were selected → remove only this one
-      $(this).removeClass("selected");
-    } else if (selectedCount > 1) {
-      // If multiple selected (from Select All or other logic)
-      $(this).toggleClass("selected");
-    } else {
-      // Only one allowed manually
-      images.removeClass("selected");
-
-      if (!isSelected) {
-        $(this).addClass("selected");
-      }
-    }
-
-    updateUI();
-    if ($(this).hasClass("selected")) {
-      loadImageMetadata(data_id);
-    } else {
-      clearMetadata();
-    }
-  });
-
-  function formatFileSize(bytes) {
-    if (bytes >= 1073741824) {
-      return (bytes / 1073741824).toFixed(2) + " GB";
-    } else if (bytes >= 1048576) {
-      return (bytes / 1048576).toFixed(2) + " MB";
-    } else if (bytes >= 1024) {
-      return (bytes / 1024).toFixed(2) + " KB";
-    } else {
-      return bytes + " bytes";
-    }
-  }
-
-  function formatDuration(seconds) {
-    let hrs = Math.floor(seconds / 3600);
-    let mins = Math.floor((seconds % 3600) / 60);
-    let secs = Math.floor(seconds % 60);
-
-    return [
-      hrs.toString().padStart(2, "0"),
-      mins.toString().padStart(2, "0"),
-      secs.toString().padStart(2, "0"),
-    ].join(":");
-  }
-
-  console.log(formatFileSize(6355361));
-  function loadImageMetadata(file_id) {
-    $.ajax({
-      url: base_url + "/admin/batch/get_file_metadata",
-      type: "POST",
-      data: {
-        file_id: file_id,
-        _token: $('meta[name="csrf-token"]').attr("content"),
-      },
-      success: function (res) {
-        // fill form
-        console.log(res);
-        $("input[name='file_id']").val(res.id);
-        $("input[name='title']").val(res.title);
-        $("input[name='description']").val(res.description);
-        $("input[name='date_created']").val(res.date_created);
-        $("input[name='clip_length']").val(formatDuration(res.duration));
-        $("input[name='frame_rate']").val(res.frame_rate);
-        $("input[name='date_created']").val(res.date_created);
-        $("input[name='frame_size']").val(res.height + "x" + res.width);
-        $("input[name='image_height']").val(res.height);
-        $("input[name='image_width']").val(res.width);
-
-        $("#tags").tagsinput("removeAll");
-
-        if (res.keywords) {
-          let tags = res.keywords.split(",");
-
-          tags.forEach(function (tag) {
-            $("#tags").tagsinput("add", tag.trim());
-          });
-          updateKeywordCount();
-        }
-      },
-      error: function (xhr) {
-        console.log(xhr.responseText);
-        console.log($('meta[name="csrf-token"]').attr("content"));
-      },
-    });
-  }
-
-  $(document).on("click", ".clear-data", function () {
+  updateUI();
+  if ($(this).hasClass("selected")) {
+    loadImageMetadata(data_id);
+  } else {
     clearMetadata();
-    updateUI();
-  });
-  function clearMetadata() {
-    $(".all-inputs")
-      .find("input, textarea, select")
-      .each(function () {
-        $(this).val("");
-      });
   }
+});
 
-  function updateKeywordCount() {
-    let count = $("#tags").tagsinput("items").length;
-    $(".add-keyword span").text(count);
+function formatFileSize(bytes) {
+  if (bytes >= 1073741824) {
+    return (bytes / 1073741824).toFixed(2) + " GB";
+  } else if (bytes >= 1048576) {
+    return (bytes / 1048576).toFixed(2) + " MB";
+  } else if (bytes >= 1024) {
+    return (bytes / 1024).toFixed(2) + " KB";
+  } else {
+    return bytes + " bytes";
   }
-  $("#tags").on("itemAdded itemRemoved", function () {
-    updateKeywordCount();
-  });
+}
 
-  $(document).on("click", "#save-metadata", function () {
-    let formData = {
-      file_id: $("#selected_file_id").val(),
-      title: $("input[name='title']").val(),
-      description: $("input[name='description']").val(),
-      date_created: $("input[name='date_created']").val(),
-      tags: $("input[name='tags']").val(),
+function formatDuration(seconds) {
+  let hrs = Math.floor(seconds / 3600);
+  let mins = Math.floor((seconds % 3600) / 60);
+  let secs = Math.floor(seconds % 60);
+
+  return [
+    hrs.toString().padStart(2, "0"),
+    mins.toString().padStart(2, "0"),
+    secs.toString().padStart(2, "0"),
+  ].join(":");
+}
+
+console.log(formatFileSize(6355361));
+function loadImageMetadata(file_id) {
+  $.ajax({
+    url: base_url + "/admin/batch/get_file_metadata",
+    type: "POST",
+    data: {
+      file_id: file_id,
       _token: $('meta[name="csrf-token"]').attr("content"),
-    };
-    $.ajax({
-      url: base_url + "/admin/batch/save_file_metadata",
-      type: "POST",
-      data: formData,
+    },
+    success: function (res) {
+      // fill form
+      console.log(res);
+      $("input[name='file_id']").val(res.id);
+      $("input[name='title']").val(res.title);
+      $("input[name='description']").val(res.description);
+      $("input[name='date_created']").val(res.date_created);
+      $("input[name='clip_length']").val(formatDuration(res.duration));
+      $("input[name='frame_rate']").val(res.frame_rate);
+      $("input[name='date_created']").val(res.date_created);
+      $("input[name='frame_size']").val(res.height + "x" + res.width);
+      $("input[name='image_height']").val(res.height);
+      $("input[name='image_width']").val(res.width);
 
-      success: function (res) {
-        toastr.success("File metadata saved successfully");
-      },
+      $("#tags").tagsinput("removeAll");
 
-      error: function (xhr) {
-        console.log(xhr.responseText);
-      },
-    });
-  });
-  // Select All Button
-  $(document).on("click", ".select-btn", function () {
-    let images = $(".upload-image");
-    let allSelected = images.length === images.filter(".selected").length;
+      if (res.keywords) {
+        let tags = res.keywords.split(",");
 
-    // if (allSelected == 1) {
-    if (allSelected) {
-      images.removeClass("selected");
-    } else {
-      images.addClass("selected");
-    }
-    // }
-    updateUI();
-  });
-
-  $(document).on("click", ".delete-btn-batch", function () {
-    let images = $(".upload-image");
-    let selectedCount = images.filter(".selected").length;
-    let total = images.length;
-
-    if (selectedCount > 0) {
-      let formData = new FormData();
-
-      for (let i = 0; i < selectedCount; i++) {
-        formData.append("ids[]", images.eq(i).attr("data-id"));
+        tags.forEach(function (tag) {
+          $("#tags").tagsinput("add", tag.trim());
+        });
+        updateKeywordCount();
       }
-
-      formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
-
-      $.ajax({
-        url: base_url + "/admin/batch_delete/3",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-
-        beforeSend: function () {
-          console.log("Deleting...");
-        },
-
-        success: function (response) {
-          console.log(response);
-          if (response.status === true) {
-            images.filter(".selected").remove();
-            updateUI();
-            toastr.success(response.message);
-          }
-        },
-
-        error: function (xhr) {
-          console.log(xhr.responseText);
-        },
-      });
-    }
+    },
+    error: function (xhr) {
+      console.log(xhr.responseText);
+      console.log($('meta[name="csrf-token"]').attr("content"));
+    },
   });
+}
 
-  const MAX_VISIBLE = 4;
-  let allFiles = []; // { id, file, category }
-  let idCounter = 0;
-
-  // ─────────────────────────────────────────────
-  // DOM REFS  (safe — called after DOM ready)
-  // ─────────────────────────────────────────────
-  const fileInput = document.getElementById("myfile"); // hidden input (Select file)
-  const fileInput2 = document.getElementById("111myfile"); // hidden input (Upload from device)
-  const strip = document.getElementById("previewStrip");
-  const thumbsWrap = document.getElementById("previewThumbs");
-  const previewLabel = document.getElementById("previewLabel");
-  // const clearAllBtn = document.getElementById("clearAll");
-
-  function getCategory(file) {
-    const n = file.name.toLowerCase();
-    if (/\.(jpg|jpeg|png|gif|webp|bmp)$/.test(n)) return "image";
-    if (/\.(mp4|mov|mxf|avi|mkv|webm)$/.test(n)) return "video";
-    if (/\.(zip|rar|7z|tar|gz)$/.test(n)) return "zip";
-    return "other";
-  }
-
-  function addFiles(list) {
-    Array.from(list).forEach((f) =>
-      allFiles.push({ id: ++idCounter, file: f, category: getCategory(f) })
-    );
-    render();
-  }
-
-  function render() {
-    thumbsWrap.innerHTML = "";
-
-    if (!allFiles.length) {
-      strip.classList.remove("visible");
-      return;
-    }
-
-    strip.classList.add("visible");
-
-    const total = allFiles.length;
-    const visible = allFiles.slice(0, MAX_VISIBLE);
-    const extra = total - MAX_VISIBLE;
-
-    previewLabel.textContent =
-      total + " file" + (total !== 1 ? "s" : "") + " selected";
-
-    visible.forEach(({ id, file, category }) => {
-      const thumb = document.createElement("div");
-      thumb.className = "p-thumb";
-
-      let inner = "";
-
-      if (category === "image") {
-        inner = `<img src="${URL.createObjectURL(file)}" alt="">
-               <span class="p-badge p-badge-img">IMG</span>`;
-      } else if (category === "video") {
-        inner = `<video src="${URL.createObjectURL(
-          file
-        )}" muted preload="metadata"></video>
-               <div class="p-vid-overlay"><i class="fa-solid fa-play"></i></div>
-               <span class="p-badge p-badge-vid">VID</span>`;
-      } else if (category === "zip") {
-        const ext = file.name.split(".").pop().toUpperCase();
-        inner = `<div class="p-thumb-zip">
-                 <i class="fa-solid fa-file-zipper"></i>
-                 <span>${ext}</span>
-               </div>
-               <span class="p-badge p-badge-zip">ZIP</span>`;
-      } else {
-        const ext = file.name.split(".").pop().toUpperCase();
-        inner = `<div class="p-thumb-zip" style="background:linear-gradient(135deg,#f0f4ff,#dce8ff)">
-                 <i class="fa-solid fa-file" style="color:#3b82f6;font-size:24px"></i>
-                 <span style="color:#3b82f6">${ext}</span>
-               </div>`;
-      }
-
-      inner += `<button class="p-remove" data-id="${id}">
-                <i class="fa-solid fa-xmark"></i>
-              </button>`;
-
-      thumb.innerHTML = inner;
-      thumbsWrap.appendChild(thumb);
+$(document).on("click", ".clear-data", function () {
+  clearMetadata();
+  updateUI();
+});
+function clearMetadata() {
+  $(".all-inputs")
+    .find("input, textarea, select")
+    .each(function () {
+      $(this).val("");
     });
+}
 
-    // +N more bubble
-    if (extra > 0) {
-      const more = document.createElement("div");
-      more.className = "p-thumb-more";
-      more.innerHTML = `+${extra}<span class="more-sub">more</span>`;
-      thumbsWrap.appendChild(more);
-    }
+function updateKeywordCount() {
+  let count = $("#tags").tagsinput("items").length;
+  $(".add-keyword span").text(count);
+}
+$("#tags").on("itemAdded itemRemoved", function () {
+  updateKeywordCount();
+});
 
-    // Remove individual file
-    thumbsWrap.querySelectorAll(".p-remove").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        allFiles = allFiles.filter((f) => f.id !== parseInt(btn.dataset.id));
-        render();
-      });
-    });
-  }
+$(document).on("click", "#save-metadata", function () {
+  let formData = {
+    file_id: $("#selected_file_id").val(),
+    title: $("input[name='title']").val(),
+    description: $("input[name='description']").val(),
+    date_created: $("input[name='date_created']").val(),
+    tags: $("input[name='tags']").val(),
+    _token: $('meta[name="csrf-token"]').attr("content"),
+  };
 
-  [fileInput, fileInput2].forEach((inp) => {
-    if (!inp) return;
-    inp.addEventListener("change", () => {
-      if (inp.files && inp.files.length) {
-        addFiles(inp.files);
-      }
-      inp.value = ""; // reset so same file can be re-added if removed
-    });
+  $.ajax({
+    url: base_url + "/admin/batch/save_file_metadata",
+    type: "POST",
+    data: formData,
+
+    success: function (res) {
+      toastr.success("File metadata saved successfully");
+    },
+
+    error: function (xhr) {
+      console.log(xhr.responseText);
+    },
   });
+});
+// Select All Button
+$(document).on("click", ".select-btn", function () {
+  let images = $(".upload-image");
+  let allSelected = images.length === images.filter(".selected").length;
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const clearAllBtn = document.getElementById("clearAll");
-
-    if (clearAllBtn) {
-      clearAllBtn.addEventListener("click", () => {
-        allFiles = [];
-        render();
-      });
-    }
-  });
-
-  // ══════════════════════════════════════════
-  //  TOAST LOADER — paste this in your JS file
-  // ══════════════════════════════════════════
-
-  let counterRaf = null;
-
-  function startUploadToast() {
-    const toast = document.getElementById("uploadToast");
-    const barFill = document.getElementById("barFill");
-    const pctLabel = document.getElementById("pctLabel");
-    const toastTitle = document.getElementById("toastTitle");
-    const toastSub = document.getElementById("toastSub");
-    const waitText = document.getElementById("waitText");
-    const successMsg = document.getElementById("successMsg");
-    const spinRing = document.getElementById("spinRing");
-    const checkRing = document.getElementById("checkRing");
-    const counterBox = document.getElementById("counterBox");
-
-    // Reset
-    cancelAnimationFrame(counterRaf);
-    barFill.style.transition = "none";
-    barFill.style.width = "0%";
-    pctLabel.textContent = "0";
-    toastTitle.textContent = "Uploading...";
-    toastSub.textContent = "Image upload in progress";
-    waitText.style.display = "flex";
-    successMsg.style.display = "none";
-    counterBox.style.display = "flex";
-    spinRing.style.display = "block";
-    checkRing.style.display = "none";
-
-    // Show toast
-    toast.classList.add("show");
-
-    // Animate bar slowly (won't finish — stopped on success)
-    barFill.style.transition = "width 25s linear";
-    barFill.style.width = "90%";
-
-    // Count 0 → 90 slowly (fake progress)
-    const totalMs = 25000;
-    const startTime = performance.now();
-
-    function tick(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / totalMs, 1);
-      const eased = 1 - Math.pow(1 - progress, 2);
-      const val = Math.min(Math.floor(eased * 90), 90);
-      pctLabel.textContent = val;
-      if (progress < 1) counterRaf = requestAnimationFrame(tick);
-    }
-    counterRaf = requestAnimationFrame(tick);
+  // if (allSelected == 1) {
+  if (allSelected) {
+    images.removeClass("selected");
+  } else {
+    images.addClass("selected");
   }
+  // }
+  updateUI();
+});
+$(document).on("click", ".delete-btn-batch", function () {
+  let selectedImages = $(".upload-image.selected");
 
-  function completeUploadToast() {
-    const toast = document.getElementById("uploadToast");
-    const barFill = document.getElementById("barFill");
-    const pctLabel = document.getElementById("pctLabel");
-    const toastTitle = document.getElementById("toastTitle");
-    const toastSub = document.getElementById("toastSub");
-    const waitText = document.getElementById("waitText");
-    const successMsg = document.getElementById("successMsg");
-    const spinRing = document.getElementById("spinRing");
-    const checkRing = document.getElementById("checkRing");
-    const counterBox = document.getElementById("counterBox");
+  if (selectedImages.length > 0) {
+    let formData = new FormData();
 
-    cancelAnimationFrame(counterRaf);
-
-    // Shoot to 100%
-    barFill.style.transition = "width 0.4s ease";
-    barFill.style.width = "100%";
-
-    // Count remaining → 100
-    const start = parseInt(pctLabel.textContent) || 90;
-    const duration = 400;
-    const startTime = performance.now();
-
-    function finish(now) {
-      const progress = Math.min((now - startTime) / duration, 1);
-      pctLabel.textContent = Math.floor(start + (100 - start) * progress);
-      if (progress < 1) {
-        requestAnimationFrame(finish);
-      } else {
-        pctLabel.textContent = "100";
-
-        // Switch to success state
-        setTimeout(() => {
-          toastTitle.textContent = "Upload Complete";
-          toastSub.textContent = "Your image is ready";
-          waitText.style.display = "none";
-          counterBox.style.display = "none";
-          successMsg.style.display = "block";
-          spinRing.style.display = "none";
-          checkRing.style.display = "block";
-
-          // Auto-dismiss after 3s
-          setTimeout(() => toast.classList.remove("show"), 3000);
-        }, 300);
-      }
-    }
-    requestAnimationFrame(finish);
-  }
-
-  function failUploadToast() {
-    const toast = document.getElementById("uploadToast");
-    const toastTitle = document.getElementById("toastTitle");
-    const toastSub = document.getElementById("toastSub");
-    const spinRing = document.getElementById("spinRing");
-
-    cancelAnimationFrame(counterRaf);
-    toastTitle.textContent = "Upload Failed";
-    toastSub.textContent = "Something went wrong";
-    spinRing.style.opacity = "0.3";
-
-    setTimeout(() => toast.classList.remove("show"), 3000);
-  }
-
-  $(document).on("click", ".btn-upload-device", function () {
-    // Guard: nothing selected yet
-    if (!allFiles.length) {
-      alert("Please choose files first");
-      return;
-    }
-
-    const formData = new FormData();
-
-    allFiles.forEach(({ file }) => {
-      formData.append("files[]", file);
+    selectedImages.each(function () {
+      formData.append("ids[]", $(this).data("id"));
     });
-    var batch_id = $("#batch_id").val();
 
     formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
 
-    startUploadToast();
-
     $.ajax({
-      url: base_url + "/admin/image_upload/" + batch_id,
+      url: base_url + "/admin/batch_delete",
       type: "POST",
       data: formData,
       processData: false,
       contentType: false,
 
       beforeSend: function () {
-        console.log("Uploading", allFiles.length, "file(s)…");
+        console.log("Deleting...");
       },
 
       success: function (response) {
-        console.log(response);
-        if (response.status === "success") {
+        if (response.status === true) {
+          selectedImages.remove(); // remove only selected
+          updateUI();
           toastr.success(response.message);
-          // Clear preview after successful upload
-          setInterval(() => {
-            allFiles = [];
-            render();
-            location.reload();
-          }, 1000);
         }
       },
 
       error: function (xhr) {
-        console.error("Upload failed:", xhr.responseText);
-        failUploadToast();
-      },
-    });
-  });
-
-  $(document).ready(function () {
-    // $("#batch-content-active").DataTable({
-    //   processing: true,
-    //   serverSide: true,
-    //   ajax: "{{ route('admin.batch.datatable') }}",
-    //   columns: [
-    //     { data: "title" },
-    //     { data: "batch_code" },
-    //     { data: "created_at" },
-    //     { data: "files_count" },
-    //     { data: "action" },
-    //   ],
-    // });
-  });
-
-  function loadBatches(page = 1) {
-    let data = $("#filterForm").serialize();
-
-    $.ajax({
-      url: "?page=" + page + "&" + currentFilters,
-      type: "GET",
-
-      success: function (res) {
-        $("#batch-content-active").html(res);
+        console.log(xhr.responseText);
       },
     });
   }
+});
 
-  let currentFilters = {};
-  // $("#filterForm input, #filterForm select").on("change keyup", function () {
-  //   // alert();
-  //   currentFilters = $("#filterForm").serialize();
-  //   loadBatches(1);
-  // });
+const MAX_VISIBLE = 4;
+let allFiles = []; // { id, file, category }
+let idCounter = 0;
 
-  let typingTimer;
-  let delay = 500;
-  $("#filterForm input, #filterForm select").on("change keyup", function () {
-    // alert();
-    clearTimeout(typingTimer);
+// ─────────────────────────────────────────────
+// DOM REFS  (safe — called after DOM ready)
+// ─────────────────────────────────────────────
+const fileInput = document.getElementById("myfile"); // hidden input (Select file)
+const fileInput2 = document.getElementById("111myfile"); // hidden input (Upload from device)
+const strip = document.getElementById("previewStrip");
+const thumbsWrap = document.getElementById("previewThumbs");
+const previewLabel = document.getElementById("previewLabel");
+// const clearAllBtn = document.getElementById("clearAll");
 
-    typingTimer = setTimeout(function () {
-      let startDate = $("input[name='start_date']").val();
-      let endDate = $("input[name='end_date']").val();
+function getCategory(file) {
+  const n = file.name.toLowerCase();
+  if (/\.(jpg|jpeg|png|gif|webp|bmp)$/.test(n)) return "image";
+  if (/\.(mp4|mov|mxf|avi|mkv|webm)$/.test(n)) return "video";
+  if (/\.(zip|rar|7z|tar|gz)$/.test(n)) return "zip";
+  return "other";
+}
 
-      if (startDate && endDate) {
-        currentFilters = $("#filterForm").serialize();
-      } else {
-        let data = $("#filterForm").serializeArray();
+[fileInput, fileInput2].forEach((inp) => {
+  if (!inp) return;
 
-        data = data.filter(
-          (item) => item.name !== "start_date" && item.name !== "end_date"
-        );
+  inp.addEventListener("change", () => {
+    if (inp.files && inp.files.length) {
+      addFiles(inp.files);
+    }
 
-        currentFilters = $.param(data);
+    inp.value = "";
+  });
+});
+
+const dndZone = document.querySelector("#dndZone");
+
+if (dndZone) {
+  dndZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  dndZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const items = e.dataTransfer.items;
+    console.log("DROP FIRED");
+    console.log("items:", items);
+    console.log("files:", e.dataTransfer.files);
+    console.log("data-type attribute:", dndZone.getAttribute("data-type"));
+
+    // const items = e.dataTransfer.items;
+    if (!items || !items.length) return;
+
+    const files = [];
+    for (let i = 0; i < items.length; i++) {
+      const file = items[i].getAsFile();
+      console.log(`File ${i}:`, {
+        name: file?.name,
+        type: file?.type, // often "" for zips
+        size: file?.size,
+        kind: items[i].kind, // should be "file"
+      });
+      if (file) files.push(file);
+    }
+
+    if (!files.length) return;
+
+    const fileType = dndZone.getAttribute("data-type");
+
+    if (fileType === "image") {
+      const validFiles = files.filter(
+        (file) =>
+          file.type.startsWith("image/") ||
+          /\.(zip|rar|7z|tar|gz)$/i.test(file.name) // ✅ allow zip in image zone
+      );
+      if (validFiles.length) addFiles(validFiles);
+    } else if (fileType === "video") {
+      const validFiles = files.filter(
+        (file) =>
+          file.type.startsWith("video/") ||
+          /\.(zip|rar|7z|tar|gz)$/i.test(file.name) // ✅ allow zip in video zone
+      );
+      if (validFiles.length) addFiles(validFiles);
+    } else {
+      // zip-only zone or fallback
+      const zipFiles = files.filter((file) =>
+        /\.(zip|rar|7z|tar|gz)$/i.test(file.name)
+      );
+      if (zipFiles.length) addFiles(zipFiles);
+    }
+  });
+}
+function addFiles(list) {
+  Array.from(list).forEach((f) => {
+    allFiles.push({
+      id: ++idCounter,
+      file: f,
+      url: URL.createObjectURL(f), // create once
+      category: getCategory(f),
+    });
+  });
+
+  render();
+}
+
+function render() {
+  console.log("visible", allFiles);
+
+  thumbsWrap.innerHTML = "";
+
+  if (!allFiles.length) {
+    strip.classList.remove("visible");
+    return;
+  }
+
+  strip.classList.add("visible");
+
+  const total = allFiles.length;
+  const visible = allFiles; // Include all files
+  const extra = total - MAX_VISIBLE;
+
+  previewLabel.textContent =
+    total + " file" + (total !== 1 ? "s" : "") + " selected";
+
+  visible.forEach(({ id, file, url, category }) => {
+    const thumb = document.createElement("div");
+    thumb.className = "p-thumb";
+
+    let inner = "";
+
+    if (category === "image") {
+      inner = `<img src="${url}" alt="">
+               <span class="p-badge p-badge-img">IMG</span>`;
+    } else if (category === "video") {
+      inner = `<video src="${url}" muted preload="metadata"></video>
+               <div class="p-vid-overlay"><i class="fa-solid fa-play"></i></div>
+               <span class="p-badge p-badge-vid">VID</span>`;
+    } else if (category === "zip") {
+      const ext = file.name.split(".").pop().toUpperCase();
+      inner = `<div class="p-thumb-zip">
+                 <i class="fa-solid fa-file-zipper"></i>
+                 <span>${ext}</span>
+               </div>
+               <span class="p-badge p-badge-zip">ZIP</span>`;
+    } else {
+      const ext = file.name.split(".").pop().toUpperCase();
+      inner = `<div class="p-thumb-zip">
+                 <i class="fa-solid fa-file-zipper"></i>
+                 <span>${ext}</span>
+               </div>
+               <span class="p-badge p-badge-zip">ZIP</span>`;
+    }
+    inner += `<button class="p-remove" data-id="${id}">
+                <i class="fa-solid fa-xmark"></i>
+              </button>`;
+
+    thumb.innerHTML = inner;
+    thumbsWrap.appendChild(thumb);
+  });
+
+  // +N more bubble
+  if (extra > 0) {
+    const more = document.createElement("div");
+    more.className = "p-thumb-more";
+    more.innerHTML = `+${extra}<span class="more-sub">more</span>`;
+    thumbsWrap.appendChild(more);
+  }
+}
+// remove file
+let counterRaf = null;
+
+function startUploadToast() {
+  const toast = document.getElementById("uploadToast");
+  const barFill = document.getElementById("barFill");
+  const pctLabel = document.getElementById("pctLabel");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+  const waitText = document.getElementById("waitText");
+  const successMsg = document.getElementById("successMsg");
+  const spinRing = document.getElementById("spinRing");
+  const checkRing = document.getElementById("checkRing");
+  const counterBox = document.getElementById("counterBox");
+
+  // Reset
+  cancelAnimationFrame(counterRaf);
+  barFill.style.transition = "none";
+  barFill.style.width = "0%";
+  pctLabel.textContent = "0";
+  toastTitle.textContent = "Uploading...";
+  toastSub.textContent = "Image upload in progress";
+  waitText.style.display = "flex";
+  successMsg.style.display = "none";
+  counterBox.style.display = "flex";
+  spinRing.style.display = "block";
+  checkRing.style.display = "none";
+
+  // Show toast
+  toast.classList.add("show");
+
+  // Animate bar slowly (won't finish — stopped on success)
+  barFill.style.transition = "width 25s linear";
+  barFill.style.width = "90%";
+
+  // Count 0 → 90 slowly (fake progress)
+  const totalMs = 25000;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / totalMs, 1);
+    const eased = 1 - Math.pow(1 - progress, 2);
+    const val = Math.min(Math.floor(eased * 90), 90);
+    pctLabel.textContent = val;
+    if (progress < 1) counterRaf = requestAnimationFrame(tick);
+  }
+  counterRaf = requestAnimationFrame(tick);
+}
+
+function completeUploadToast() {
+  const toast = document.getElementById("uploadToast");
+  const barFill = document.getElementById("barFill");
+  const pctLabel = document.getElementById("pctLabel");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+  const waitText = document.getElementById("waitText");
+  const successMsg = document.getElementById("successMsg");
+  const spinRing = document.getElementById("spinRing");
+  const checkRing = document.getElementById("checkRing");
+  const counterBox = document.getElementById("counterBox");
+
+  cancelAnimationFrame(counterRaf);
+
+  // Shoot to 100%
+  barFill.style.transition = "width 0.4s ease";
+  barFill.style.width = "100%";
+
+  // Count remaining → 100
+  const start = parseInt(pctLabel.textContent) || 90;
+  const duration = 400;
+  const startTime = performance.now();
+
+  function finish(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    pctLabel.textContent = Math.floor(start + (100 - start) * progress);
+    if (progress < 1) {
+      requestAnimationFrame(finish);
+    } else {
+      pctLabel.textContent = "100";
+
+      // Switch to success state
+      setTimeout(() => {
+        toastTitle.textContent = "Upload Complete";
+        toastSub.textContent = "Your image is ready";
+        waitText.style.display = "none";
+        counterBox.style.display = "none";
+        successMsg.style.display = "block";
+        spinRing.style.display = "none";
+        checkRing.style.display = "block";
+
+        // Auto-dismiss after 3s
+        setTimeout(() => toast.classList.remove("show"), 3000);
+      }, 300);
+    }
+  }
+  requestAnimationFrame(finish);
+}
+
+function failUploadToast() {
+  const toast = document.getElementById("uploadToast");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+  const spinRing = document.getElementById("spinRing");
+
+  cancelAnimationFrame(counterRaf);
+  toastTitle.textContent = "Upload Failed";
+  toastSub.textContent = "Something went wrong";
+  spinRing.style.opacity = "0.3";
+
+  setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+$(document).on("click", ".btn-upload-device", function () {
+  if (!allFiles.length) {
+    alert("Please choose files first");
+    return;
+  }
+
+  const formData = new FormData();
+  const batch_id = $("#batch_id").val();
+  const batch_type = $(this).attr("data-type");
+
+  allFiles.forEach(({ file }) => {
+    formData.append("files[]", file);
+    formData.append("batch_type", batch_type);
+  });
+
+  formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
+
+  startUploadToast();
+
+  $.ajax({
+    url: base_url + "/admin/image_upload/" + batch_id,
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+
+    beforeSend: function () {
+      console.log("Uploading", allFiles.length, "file(s)…");
+    },
+
+    success: function (response) {
+      if (response.status === "success") {
+        toastr.success(response.message);
+
+        setTimeout(() => {
+          allFiles = [];
+          render();
+          location.reload();
+        }, 1000);
       }
+    },
 
-      loadBatches(1);
-    }, delay);
+    error: function (xhr) {
+      console.error("Upload failed:", xhr.responseText);
+      failUploadToast();
+    },
   });
+});
+$(document).ready(function () {
+  // $("#batch-content-active").DataTable({
+  //   processing: true,
+  //   serverSide: true,
+  //   ajax: "{{ route('admin.batch.datatable') }}",
+  //   columns: [
+  //     { data: "title" },
+  //     { data: "batch_code" },
+  //     { data: "created_at" },
+  //     { data: "files_count" },
+  //     { data: "action" },
+  //   ],
+  // });
+});
 
-  $(document).on("click", ".reset-filter", function (e) {
-    e.preventDefault();
+function loadBatches(page = 1) {
+  let data = $("#filterForm").serialize();
 
-    $("#filterForm")[0].reset();
-    currentFilters = "";
+  $.ajax({
+    url: "?page=" + page + "&" + currentFilters,
+    type: "GET",
+
+    success: function (res) {
+      $("#batch-content-active").html(res);
+    },
+  });
+}
+
+let currentFilters = {};
+// $("#filterForm input, #filterForm select").on("change keyup", function () {
+//   // alert();
+//   currentFilters = $("#filterForm").serialize();
+//   loadBatches(1);
+// });
+
+let typingTimer;
+let delay = 500;
+$("#filterForm input, #filterForm select").on("change keyup", function () {
+  clearTimeout(typingTimer);
+
+  typingTimer = setTimeout(function () {
+    let startDate = $("input[name='start_date']").val();
+    let endDate = $("input[name='end_date']").val();
+
+    if (startDate && endDate) {
+      currentFilters = $("#filterForm").serialize();
+    } else {
+      let data = $("#filterForm").serializeArray();
+
+      data = data.filter(
+        (item) => item.name !== "start_date" && item.name !== "end_date"
+      );
+
+      currentFilters = $.param(data);
+    }
+
     loadBatches(1);
+  }, delay);
+});
+
+$(document).on("click", ".reset-filter", function (e) {
+  e.preventDefault();
+
+  $("#filterForm")[0].reset();
+  currentFilters = "";
+  loadBatches(1);
+});
+if (window.location.search) {
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+$(document).on("click", "[data-bs-target='#renameModal']", function () {
+  alert();
+  let id = $(this).data("id");
+  let name = $(this).data("name");
+
+  $("#rename_batch_id").val(id);
+  $("#rename_batch_name").val(name);
+});
+
+$(document).on("click", ".BatchrenameModal", function () {
+  alert();
+  let id = $(this).data("id");
+  let name = $(this).data("name");
+
+  $("#rename_batch_id").val(id);
+  $("#rename_batch_name").val(name);
+});
+
+$(document).on("click", '[data-bs-target="#deleteModal"]', function (e) {
+  e.preventDefault();
+  let id = $(this).attr("data-id");
+  $("#delete_batch_id").val(id);
+});
+
+$(document).on("click", ".delete_branch", function (e) {
+  e.preventDefault();
+  let batch_id = $("#delete_batch_id").val();
+
+  $.ajax({
+    url: base_url + "/admin/batch/delete",
+    type: "POST",
+    data: {
+      batch_id: batch_id,
+      _token: $("meta[name='csrf-token']").attr("content"),
+    },
+
+    success: function (res) {
+      $("#deleteModal").modal("hide");
+      // reload batches
+      loadBatches(1);
+      toastr.success(res.message);
+    },
   });
-  if (window.location.search) {
-    window.history.replaceState({}, document.title, window.location.pathname);
+});
+
+$(document).on("click", ".edit_branch_name", function (e) {
+  e.preventDefault();
+  let batch_id = $("#rename_batch_id").val();
+  let branch_name = $("#rename_batch_name").val();
+
+  $.ajax({
+    url: base_url + "/admin/batch/rename",
+    type: "POST",
+    data: {
+      batch_id: batch_id,
+      branch_name: branch_name,
+      _token: $("meta[name='csrf-token']").attr("content"),
+    },
+
+    success: function (res) {
+      $("#renameModal").modal("hide");
+      toastr.success(res.message);
+
+      // reload batches
+      loadBatches(1);
+    },
+  });
+});
+
+$(document).on("click", ".copy-keywords", function () {
+  let tags = $("#tags").val();
+
+  let temp = $("<textarea>");
+  $("body").append(temp);
+  temp.val(tags).select();
+  document.execCommand("copy");
+  temp.remove();
+
+  toastr.success("Keywords copied!");
+});
+// });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const clearAllBtn = document.getElementById("clearAll");
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", () => {
+      allFiles = [];
+      render();
+    });
   }
-
-  $(document).on("click", "[data-bs-target='#renameModal']", function () {
-    let id = $(this).attr("data-id");
-    let name = $(this).attr("data-name");
-
-    $("#rename_batch_id").val(id);
-    $("#rename_batch_name").val(name);
-  });
-
-  $(document).on("click", '[data-bs-target="#deleteModal"]', function (e) {
-    e.preventDefault();
-    let id = $(this).attr("data-id");
-    $("#delete_batch_id").val(id);
-  });
-
-  $(document).on("click", ".delete_branch", function (e) {
-    e.preventDefault();
-    let batch_id = $("#delete_batch_id").val();
-
-    $.ajax({
-      url: base_url + "/admin/batch/delete",
-      type: "POST",
-      data: {
-        batch_id: batch_id,
-        _token: $("meta[name='csrf-token']").attr("content"),
-      },
-
-      success: function (res) {
-        $("#deleteModal").modal("hide");
-        // reload batches
-        loadBatches(1);
-        toastr.success(res.message);
-      },
-    });
-  });
-
-  $(document).on("click", ".edit_branch_name", function (e) {
-    e.preventDefault();
-    let batch_id = $("#rename_batch_id").val();
-    let branch_name = $("#rename_batch_name").val();
-
-    $.ajax({
-      url: base_url + "/admin/batch/rename",
-      type: "POST",
-      data: {
-        batch_id: batch_id,
-        branch_name: branch_name,
-        _token: $("meta[name='csrf-token']").attr("content"),
-      },
-
-      success: function (res) {
-        $("#renameModal").modal("hide");
-        toastr.success(res.message);
-
-        // reload batches
-        loadBatches(1);
-      },
-    });
-  });
 });

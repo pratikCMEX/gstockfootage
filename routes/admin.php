@@ -49,7 +49,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/add_new_img/{id}', [BatchController::class, 'add_new_img'])->name('admin.add_new_img');
     Route::post('admin/store_batch', [BatchController::class, 'store'])->name('admin.storeBatch');
     Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultiple'])->name('batch.upload');
-    Route::post('admin/batch_delete/{batch}', [BatchController::class, 'deleteMultiple'])->name('batch.upload');
+    Route::post('admin/batch_delete', [BatchController::class, 'deleteMultiple'])->name('batch.upload');
     Route::post('admin/batch/check_brief_code', [BatchController::class, 'checkBriefCode'])->name('batch.check_brief_code');
     // Route::post('admin/batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
 

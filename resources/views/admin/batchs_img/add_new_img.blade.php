@@ -5,16 +5,22 @@
         <div class="card">
             <div class="card-body">
                 <div class="card_header">
-                    <button class="back-btn">
+                    <button class="back-btn" onclick="history.back()">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div class="header-title-section">
-                        <h3>Batch Title</h3>
+                        <h3>{{ $batch->title }}</h3>
                         <div class="batches-label">
-                            <label for=""> <i class="fa-solid fa-camera-retro"></i>
-                                Gstock
-                                creative
-                                photo</label>
+                            @if ($batch->submission_type == 'image')
+                                <label for="">
+                                    <i class="fa-solid fa-camera-retro"></i> Gstock creative
+                                    image</label>
+                            @else
+                                <label for="">
+                                    <i class="fa-solid fa-video"></i> Gstock
+                                    creative
+                                    video</label>
+                            @endif
                         </div>
                     </div>
                     <div class="dot-menu text-end">
@@ -23,8 +29,9 @@
                             <i class="fa-solid fa-ellipsis-vertical "></i></button>
                         <ul class="dropdown-menu more-detail-menu">
                             <li>
-                                <button type="button" class="dropdown-item-upload dropdown-item"
-                                    data-bs-toggle="modal" data-bs-target="#BatchrenameModal">
+                                <button type="button" class="dropdown-item-upload dropdown-item BatchrenameModal"
+                                    data-bs-toggle="modal" data-bs-target="#BatchrenameModal"
+                                    data-id="{{ $batch->id }}" data-name="{{ $batch->title }}">
                                     <i class="fa-solid fa-pencil"></i>
                                     Rename
                                 </button>
@@ -68,17 +75,24 @@
                                                 <button type="button" class="btn upload-close-btn"><i
                                                         class="fa-solid fa-xmark"></i> Upload</button>
                                                 <div class="batches-label">
-                                                    <label for=""> <i class="fa-solid fa-video"></i> Gstock
-                                                        creative
-                                                        video</label>
+
+                                                    @if ($batch->submission_type == 'image')
+                                                        <label for="">
+                                                            <i class="fa-solid fa-camera-retro"></i> Gstock creative
+                                                            image</label>
+                                                    @else
+                                                        <label for="">
+                                                            <i class="fa-solid fa-video"></i> Gstock
+                                                            creative
+                                                            video</label>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div
-                                                class="upload-from-device-content
-                                                text-center align-items-center"  id="dndZone">
+                                            <div class="upload-from-device-content
+                                                text-center align-items-center"
+                                                id="dndZone" data-type="{{ $batch->submission_type }}">
                                                 <div class="upload-device-content-detail">
-                                                    <h2 class="upload-title
-                                        ">
+                                                    <h2 class="upload-title">
                                                         Drag and drop your files here or upload from <span
                                                             class="upload-span">
                                                             Dropbox
@@ -86,22 +100,22 @@
                                                     {{-- <label for="myfile"
                                                         class="btn btn-orange btn-upload-device">Upload from
                                                         device</label> --}}
-                                                    <label for="111myfile"
-                                                        class="btn btn-orange btn-upload-device">Upload from
+                                                    <label for="111myfile" class="btn btn-orange btn-upload-device"
+                                                        data-type={{ $batch->submission_type }}>Upload from
                                                         device</label>
                                                     {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
                                                         file</label>
                                                     @php
-                                                    $batch_type = '';
-                                                    if ($batch->submission_type == 'video') {
-                                                    $batch_type = 'video';
-                                                    } else {
-                                                    $batch_type = 'image';
-                                                    }
+                                                        $batch_type = '';
+                                                        if ($batch->submission_type == 'video') {
+                                                            $batch_type = 'video';
+                                                        } else {
+                                                            $batch_type = 'image';
+                                                        }
                                                     @endphp
                                                     <input type="file" name="files[]" hidden id="myfile" multiple
-                                                        accept="{{ $batch_type == 'video' ? 'video/*' : 'image/*' }}"
+                                                        accept="{{ $batch_type == 'video' ? 'video/*,.zip' : 'image/*,.zip' }}"
                                                         required>
 
                                                     <div class="apply-default-template">
@@ -175,45 +189,62 @@
                                 <input type="hidden" id="batch_id" value="{{ $batch->id }}">
 
                                 @foreach ($batch_data as $data)
-                                <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
-                                    <div class="dot-menu text-end align-self-end">
-                                        <button class="btn  text-start dot-dropdown dropdown-toggle"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
-                                        <ul class="dropdown-menu more-detail-menu">
-                                            <li>
-                                                <button type="button" class="dropdown-item-upload dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#renameModal">
-                                                    <i class="fa-regular fa-clipboard me-3"></i>
-                                                    Copy Keyword
-                                                </button>
-                                            </li>
-                                            <li> <button type="button" class="dropdown-item-upload dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#setthumbnail">
-                                                    <i class="fa-solid fa-pencil me-3"></i>
-                                                    SET NEW THUMBNAIL FRAME
-                                                </button></li>
+                                    <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
+                                        <div class="dot-menu text-end align-self-end">
+                                            <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-solid fa-ellipsis-vertical "></i></button>
+                                            <ul class="dropdown-menu more-detail-menu">
+                                                <li>
+                                                    <button type="button" class="dropdown-item-upload dropdown-item"
+                                                        data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                        <i class="fa-regular fa-clipboard me-3"></i>
+                                                        Copy Keyword
+                                                    </button>
+                                                </li>
+                                                <li> <button type="button" class="dropdown-item-upload dropdown-item"
+                                                        data-bs-toggle="modal" data-bs-target="#setthumbnail">
+                                                        <i class="fa-solid fa-pencil me-3"></i>
+                                                        SET NEW THUMBNAIL FRAME
+                                                    </button></li>
 
-                                        </ul>
-                                    </div>
-                                    <div class="image-upload">
-                                        @if ($data['file_type'] == 'image')
-                                        <img src="{{ asset('uploads/batch/images/low') . '/' . $data['low_path'] }}"
-                                            alt="">
-                                        @else
-                                        <img src="{{ asset('uploads/batch/videos/thumbnails') . '/' . $data['thumbnail_path'] }}"
-                                            alt="">
-                                        @endif
-                                    </div>
-                                    <div class="image-title-id">
-                                        {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
-                                        <div class="check"><i class="fa-solid fa-circle-check"></i></div>
-                                        <div class="upload-title-img">
-                                            <div class="img-title">{{ $data['title'] }} </div>
-                                            <div class="img-id">ID: 23870945</div>
+                                            </ul>
+                                        </div>
+                                        <div class="image-upload">
+                                            {{-- @if ($data['file_type'] == 'image')
+                                                <img src="{{ asset('uploads/batch/images/low') . '/' . $data['low_path'] }}"
+                                                    alt="">
+                                            @else
+                                                @if ($data['thumbnail_path'] == null)
+                                                    <img
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
+                                                @else
+                                                    <img src="{{ asset('uploads/batch/videos/thumbnails') . '/' . $data['thumbnail_path'] }}"
+                                                        alt="">
+                                                @endif
+                                            @endif --}}
+                                            @if ($data['file_type'] == 'image')
+                                                <img src="{{ Storage::disk('s3')->url(ltrim($data['low_path'], '/')) }}"
+                                                    alt="">
+                                            @else
+                                                @if ($data['thumbnail_path'] == null)
+                                                    <img
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
+                                                @else
+                                                    <img src="{{ Storage::disk('s3')->url(ltrim($data['thumbnail_path'], '/')) }}"
+                                                        alt="">
+                                                @endif
+                                            @endif
+                                        </div>
+                                        <div class="image-title-id">
+                                            {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
+                                            <div class="check"><i class="fa-solid fa-circle-check"></i></div>
+                                            <div class="upload-title-img">
+                                                <div class="img-title">{{ $data['title'] }} </div>
+                                                <div class="img-id">ID: 23870945</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endforeach
 
                                 {{-- <div class="upload-image" id="upload_images">
@@ -842,7 +873,9 @@
                                         <div class="keyword-btn">
                                             {{-- <button type="button" class="btn btn-all-dark btn-hover-dark">Get
                                                 SUggestions</button> --}}
-                                            <button type="button" class="btn" style="cursor: pointer;">Copy
+                                            <button type="button"
+                                                class="btn btn-all-dark btn-hover-dark copy-keywords"
+                                                style="cursor: pointer;">Copy
                                                 Keywords</button>
                                         </div>
                                     </div>
@@ -859,7 +892,8 @@
                                         <button type="button" class="btn btn-all-dark btn-hover-dark">Update
                                             release</button>
                                     </div>
-                                    <div class="no-file-video-propertise {{ $batch_type == 'video' ? '' : 'd-none' }}">
+                                    <div
+                                        class="no-file-video-propertise {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="video-title">Video Propertise</p>
                                         <div class="input-group file-inp-label-grp">
                                             <p style="font-size: 12px;">Clip Length</p>
@@ -1135,10 +1169,11 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
                 </div>
+                <input type="hidden" name="batch_id" id="rename_batch_id">
 
                 <div class="modal-body">
                     <label class="form-label">Batch Name</label>
-                    <input type="text" class="form-control" placeholder="Enter new name">
+                    <input type="text" class="form-control" id="rename_batch_name" placeholder="Enter new name">
                 </div>
 
                 <div class="modal-footer">
