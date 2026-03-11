@@ -136,9 +136,9 @@
                                                                 <i class="fa-solid fa-trash me-3"></i>
                                                                 Delete
                                                             </button></li>
-                                                        <li><a class="dropdown-item d-none" href="#"><i
+                                                        {{-- <li><a class="dropdown-item d-none" href="#"><i
                                                                     class="fa-solid fa-arrow-up-right-from-square me-3"></i>
-                                                                See Published</a></li>
+                                                                See Published</a></li> --}}
                                                     </ul>
                                                 </div>
                                             </div>
