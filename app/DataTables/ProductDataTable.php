@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\BatchFile;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -10,6 +11,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductDataTable extends DataTable
 {
@@ -25,10 +27,10 @@ class ProductDataTable extends DataTable
                     $keyword = $this->request->get('search')['value'];
 
                     $query->where(function ($q) use ($keyword) {
-                        $q->where('name', 'LIKE', "%{$keyword}%")
+                        $q->where('title', 'LIKE', "%{$keyword}%")
                             ->orWhere('price', 'LIKE', "%{$keyword}%")
                             ->orWhere('description', 'LIKE', "%{$keyword}%")
-                            ->orWhere('tags', 'LIKE', "%{$keyword}%")
+                            ->orWhere('keywords', 'LIKE', "%{$keyword}%")
                             ->orWhereHas('category', function ($cat) use ($keyword) {
                                 $cat->where('category_name', 'LIKE', "%{$keyword}%");
                             })
@@ -58,21 +60,24 @@ class ProductDataTable extends DataTable
             })
 
             ->editColumn('type', function ($row) {
-                return ($row->type == '0') ? 'Image' : 'Video';
+                return ($row->type == 'image') ? 'Image' : 'Video';
             })
 
             ->addColumn('preview', function ($row) {
-                $thumbnail = asset('uploads/videos/thumbnails/' . $row->thumbnail_path);
-                if ($row->thumbnail_path == "") {
-                    $thumbnail = asset('assets/admin/images/demo_thumbnail.png');
-                }
-                $videoUrl = asset('uploads/videos/high/' . $row->high_path);
+                $thumbnail = $row->thumbnail_path
+                    ? Storage::disk('s3')->url($row->thumbnail_path)
+                    : asset('assets/admin/images/demo_thumbnail.png');
 
-                if ($row->type === '0') {
-                    return '<img src="' . asset('uploads/images/low/' . $row->low_path) . '"
-                                             class="preview-image" 
-                        data-src="' . asset('uploads/images/high/' . $row->high_path) . '"
-                        width="80" height="80" style="cursor:pointer" />';
+                $videoUrl = Storage::disk('s3')->url($row->file_path); // high_path == file_path
+
+                if ($row->type === 'image') {
+
+                    return '<img src="' . Storage::disk('s3')->url($row->low_path) . '"
+                        class="preview-image"
+                        data-src="' . Storage::disk('s3')->url($row->file_path) . '"
+                        width="80"
+                        height="80"
+                        style="cursor:pointer" />';
                 }
 
                 return '<div class="video-thumbnail-wrapper position-relative d-inline-block">  
@@ -85,17 +90,17 @@ class ProductDataTable extends DataTable
                         </div>';
             })
 
-            ->addColumn('display_status', function ($row) {
-                $checked = $row->is_display ? 'checked' : '';
-                return '
-                    <div class="form-check form-switch">
-                        <input class="form-check-input toggle-display"
-                               type="checkbox"
-                               data-id="' . $row->id . '"
-                               ' . $checked . '>
-                    </div>
-                ';
-            })
+            // ->addColumn('display_status', function ($row) {
+            //     $checked = $row->is_display ? 'checked' : '';
+            //     return '
+            //         <div class="form-check form-switch">
+            //             <input class="form-check-input toggle-display"
+            //                    type="checkbox"
+            //                    data-id="' . $row->id . '"
+            //                    ' . $checked . '>
+            //         </div>
+            //     ';
+            // })
 
             ->addColumn('actions', function ($row) {
                 $edit = route('admin.product_edit', encrypt($row->id));
@@ -190,10 +195,10 @@ class ProductDataTable extends DataTable
 
     //     return $query;
     // }
-    public function query(Product $model)
+    public function query(BatchFile $model)
     {
         $query = $model->newQuery()
-            ->with(['category', 'subcategory', 'collection']);
+            ->with(['category', 'subcategory', 'collection'])->where('batch_id', null);
 
         $category = request()->category;
         $subcategory = request()->subcategory;
@@ -267,11 +272,11 @@ class ProductDataTable extends DataTable
             Column::make('collection')->title('Collection')->orderable(true),
             Column::make('type')->title('Type'),
             Column::make('preview')->title('Preview')->orderable(false),
-            Column::make('name')->title('Name')->orderable(true),
+            Column::make('title')->title('Name')->orderable(true),
             Column::make('price')->title('Price'),
             Column::make('description')->title('Description'),
-            Column::make('tags')->title('Tags'),
-            Column::make('display_status')->title('Display')->orderable(false),
+            Column::make('keywords')->title('Tags'),
+            // Column::make('display_status')->title('Display')->orderable(false),
             Column::make('actions')->title('Actions')->orderable(false),
         ];
     }
