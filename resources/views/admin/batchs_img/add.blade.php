@@ -221,7 +221,7 @@
                                                             {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
                                                         </p>
                                                     </div>
-                                                    <div class="batch-content-create-counts">
+                                                    {{-- <div class="batch-content-create-counts">
                                                         <div class="create-count-div">
                                                             <div class="circle-div circle-div1"></div>
                                                             <p class="circel-count"><span>0</span> Accepted</p>
@@ -242,7 +242,7 @@
                                                             <div class="circle-div circle-div5"></div>
                                                             <p class="circel-count"><span>0</span> Not Submitted</p>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <div class="more-detail">
                                                     <button class="btn more-detail-btn " type="button">
@@ -518,7 +518,7 @@
             <form action="">
                 <div class="modal-header">
                     <h5 class="modal-title" id="renameModalLabel">Rename Item
-                        
+
                     </h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
