@@ -69,7 +69,7 @@ p {
 .batch-dropdown-menu .dropdown-item {
   padding: 5px 15px;
   font-size: 16px;
-  color: #2a3547;
+  color: var(--black);
 }
 
 .batch-dropdown:hover {
@@ -191,19 +191,19 @@ p {
 }
 .batch-content-detail {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 30px;
 }
 .batch-content-create-text {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   display: inline-flex;
   align-items: flex-start;
   /* justify-content: space-between; */
   flex-direction: column;
   gap: 6px;
-  border-right: 1px solid var(--black);
-  padding-right: 20px;
+  /* border-right: 1px solid var(--black); */
+  /* padding-right: 20px; */
 }
 .batch-content-create-counts {
   display: flex;
@@ -212,7 +212,7 @@ p {
   flex-wrap: wrap;
   column-gap: 15px;
 }
-.circle-div {
+/* .circle-div {
   border-radius: 50%;
   height: 15px;
   width: 15px;
@@ -231,30 +231,29 @@ p {
 }
 .circle-div5 {
   background-color: #e1e1e1;
-}
-.create-count-div {
+} */
+/* .create-count-div {
   display: flex;
   align-items: center;
   gap: 5px;
-}
+} */
 .batchid,
 .batchcreated {
   color: var(--black);
   font-family: var(--font-inter-bold);
   font-size: 18px;
 }
-.circel-count {
+/* .circel-count {
   color: black;
   font-size: 15px;
-
   font-weight: 600;
-}
+} */
 .batch-content-img {
   width: 100%;
-  max-width: 200px;
+  max-width: 150px;
   height: auto;
   /* max-height: 200px; */
-  background-color: black;
+  /* background-color: black; */
   border-radius: 20px;
   overflow: hidden;
   display: block;
@@ -262,8 +261,8 @@ p {
 
 .batch-collect-imgs {
   width: 100%;
-  max-width: 200px;
-  height: 200px;
+  max-width: 150px;
+  height: 150px;
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -322,13 +321,13 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--white);
   font-size: 22px;
   font-weight: 600;
 }
 
 .batch-content-dropdown a {
-  color: #5a6a85;
+  color: var(--black);
   font-weight: 700;
 }
 
@@ -405,8 +404,8 @@ p {
 }
 
 .form-check-input:checked {
-  background-color: #5d87ff;
-  border-color: #5d87ff;
+  background-color: transparent;
+  border-color: var(--black);
 }
 .filter-text ul li {
   margin: 10px 0;
@@ -427,7 +426,7 @@ p {
 .date-label {
   font-size: 14px;
   margin-bottom: 8px;
-  color: #444;
+  color: var(--black);
 }
 
 .date-inputs {
@@ -449,7 +448,7 @@ p {
 .date-title {
   display: block;
   font-size: 12px;
-  color: #666;
+  color: var(--black);
   margin-bottom: 2px;
 }
 
@@ -463,13 +462,13 @@ p {
 
 .date-format {
   font-size: 10px;
-  color: #999;
+  color: var(--black);
   margin-top: 2px;
 }
 
 .date-separator {
   font-size: 16px;
-  color: #666;
+  color: var(--black);
 }
 
 .delete-icon {
@@ -528,7 +527,7 @@ table {
 }
 tbody td {
   font-size: 15px;
-  color: black;
+  color: var(--black);
   font-weight: 700;
 }
 table td {
@@ -589,7 +588,7 @@ table td {
 .upload-title {
   font-size: 22px;
   font-weight: 400;
-  color: gray;
+  color: var(--secendory);
   letter-spacing: 0.8px;
 }
 .upload-span {
@@ -603,9 +602,7 @@ table td {
   height: 22px;
   width: 44px;
 }
-.apply-default-template .form-check-label {
-  color: #5a6a85;
-}
+
 /* .apply-default-template{
   border-bottom: 1px solid gray;
 } */
@@ -627,7 +624,7 @@ table td {
   margin-bottom: 20px;
   list-style: disc;
   font-size: 16px;
-  color: gray;
+  color: var(--secendory);
   font-weight: 600;
 }
 .batch-content-table-details {
@@ -641,12 +638,12 @@ table td {
 }
 .upload-close-btn {
   font-size: 16px;
-  color: gray;
+  color: var(--secendory);
 }
 .no-file-selected {
   /* padding: 0 12px; */
   padding-left: 1px;
-  background-color: #fff;
+  background-color: var(--white);
   height: 100%;
   max-height: calc(100dvh - 128px);
   overflow: auto;
@@ -719,7 +716,7 @@ table td {
   font-weight: 600;
 }
 .clear-data {
-  color: #5a6a85;
+  color: var(--black);
 }
 .no-file-inputs {
   display: flex;
@@ -1787,7 +1784,18 @@ table td {
 select option {
   color: var(--black);
 }
-
+.batchcreated {
+  border-right: 1px solid var(--black);
+  padding-right: 20px;
+  display: inline-block;
+}
+.batch-content-create span {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-medium);
+  display: inline-block;
+  margin-left: 20px;
+}
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
     flex-basis: 63%;
@@ -1814,7 +1822,6 @@ select option {
     font-size: 18px;
   }
 }
-
 @media only screen and (max-width: 1399px) {
   .card-body:has(.images-content) {
     padding: 12px;

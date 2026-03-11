@@ -216,12 +216,24 @@
                                                     <div class="batch-content-create-text">
                                                         <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
                                                         {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
-                                                        <p class="batchcreated">
-                                                            Created :
-                                                            {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
-                                                        </p>
                                                     </div>
-                                                    {{-- <div class="batch-content-create-counts">
+                                                    </a>
+                                                    <div class="batch-content-create">
+                                                        <div class="batch-content-create-text">
+                                                            <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
+                                                            {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
+                                                            <div>
+                                                                <p class="batchcreated">
+                                                                    Created :
+                                                                    {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
+                                                                </p>
+                                                            </div>
+                                                            {{-- <div class="batch-content-create-counts">
+                                                        <span>Last Updated : Feb 10 , 2026</span>
+                                                    </div>
+
+                                                </div>
+                                                <!-- <div class="batch-content-create-counts">
                                                         <div class="create-count-div">
                                                             <div class="circle-div circle-div1"></div>
                                                             <p class="circel-count"><span>0</span> Accepted</p>
@@ -243,73 +255,77 @@
                                                             <p class="circel-count"><span>0</span> Not Submitted</p>
                                                         </div>
                                                     </div> --}}
-                                                </div>
-                                                <div class="more-detail">
-                                                    <button class="btn more-detail-btn " type="button">
-                                                        <i class="fa-solid fa-angle-down"></i>More Detail
-                                                    </button>
+                                                        </div>
+                                                        <div class="more-detail">
+                                                            <button class="btn more-detail-btn " type="button">
+                                                                <i class="fa-solid fa-angle-down"></i>More Detail
+                                                            </button>
 
-                                                </div>
-                                            </div>
-                                            <div class="batch-content-table-details">
-                                                <table>
-                                                    <thead>
-                                                        <th>
-                                                            <tr>
-                                                                <td class="table-heading">File ID</td>
-                                                                <td class="table-heading">File Name</td>
-                                                                <td class="table-heading">Title</td>
-                                                                <td class="table-heading">Status</td>
-                                                            </tr>
-                                                        </th>
-                                                    </thead>
+                                                        </div>
+                                                    </div>
+                                                    <div class="batch-content-table-details">
+                                                        <table>
+                                                            <thead>
+                                                                <th>
+                                                                    <tr>
+                                                                        <td class="table-heading">File ID</td>
+                                                                        <td class="table-heading">File Name</td>
+                                                                        <td class="table-heading">Title</td>
+                                                                        <td class="table-heading">Status</td>
+                                                                    </tr>
+                                                                </th>
+                                                            </thead>
 
 
-                                                    <tbody>
-                                                        @foreach ($list['batch_files'] as $file)
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="img-id">
-                                                                        <div class="table-img">
-                                                                            {{-- <video class="w-100 h-100" muted>
+                                                            <tbody>
+                                                                @foreach ($list['batch_files'] as $file)
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="img-id">
+                                                                                <div class="table-img">
+                                                                                    {{-- <video class="w-100 h-100" muted>
                                                                                 <source
                                                                                     src="{{ $file['file_path'] }}">
                                                                             </video> --}}
-                                                                            @php
-                                                                                $path = '';
-                                                                                $path = $file['thumbnail_path'];
-                                                                                if ($file['file_type'] == 'image') {
-                                                                                    $path = $file['low_path'];
-                                                                                }
-                                                                            @endphp
-                                                                            <img src="{{ $path }}"
-                                                                                class="w-100 h-100"
-                                                                                alt="Nature Flower">
-                                                                        </div>
-                                                                        <p>{{ $file['file_code'] }}</p>
-                                                                    </div>
-                                                                </td>
+                                                                                    @php
+                                                                                        $path = '';
+                                                                                        $path = $file['thumbnail_path'];
+                                                                                        if (
+                                                                                            $file['file_type'] ==
+                                                                                            'image'
+                                                                                        ) {
+                                                                                            $path = $file['low_path'];
+                                                                                        }
+                                                                                    @endphp
+                                                                                    <img src="{{ $path }}"
+                                                                                        class="w-100 h-100"
+                                                                                        alt="Nature Flower">
+                                                                                </div>
+                                                                                <p>{{ $file['file_code'] }}</p>
+                                                                            </div>
+                                                                        </td>
 
-                                                                <td>{{ $file['original_name'] }}</td>
+                                                                        <td>{{ $file['original_name'] }}</td>
 
-                                                                <td>{{ $file['title'] }}</td>
+                                                                        <td>{{ $file['title'] }}</td>
 
-                                                                <td>
-                                                                    <div class="create-count-div">
-                                                                        <div class="circle-div circle-div1"></div>
-                                                                        <p class="circel-count">
-                                                                            {{-- {{ ucfirst($file['status']) }} --}}
-                                                                            Accepted
-                                                                        </p>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                                        <td>
+                                                                            <div class="create-count-div">
+                                                                                <div class="circle-div circle-div1">
+                                                                                </div>
+                                                                                <p class="circel-count">
+                                                                                    {{-- {{ ucfirst($file['status']) }} --}}
+                                                                                    Accepted
+                                                                                </p>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                     @endforeach
 
                                     <div class="mt-4 navbar-section">
