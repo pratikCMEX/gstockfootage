@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
+use App\Models\BatchFile;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Image;
@@ -144,8 +146,23 @@ class HomeController extends Controller
         $page = 'front.all_photos';
         $js = ['photos', 'favorites'];
 
+        // $photos = Batch::with('batch_files')->where('submission_type', 'image')->get();
+        $photos = Batch::with([
+            'batch_files' => function ($query) {
+                $query->where('is_edited', 1);
+            }
+        ])->where('submission_type', 'image')->get();
 
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
+        $orphans = BatchFile::whereNull('batch_id')
+            ->where('type', 'image')
+            ->where('is_edited', '1')
+            ->get();
+
+
+        $new = $photos[0]->batch_files->toArray();
+        $allBatches = array_merge($new, $orphans->toArray());
+
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'allBatches'));
     }
     public function enterprise()
     {

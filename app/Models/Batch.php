@@ -20,4 +20,7 @@ class Batch extends Model
     {
         return $this->hasMany(BatchFile::class, 'batch_id');
     }
+
+
+
 }
