@@ -4,6 +4,7 @@ var base_url = $("#base_url").val();
 
 $(document).ready(function () {
     $('#profile_form').validate({
+        errorClass: 'text-danger',
         rules: {
             first_name: {
                 required: true,
@@ -60,6 +61,7 @@ $.validator.addMethod("notEqualTo", function (value, element, param) {
 
 
 $('#password_form').validate({
+    errorClass: 'text-danger',
     rules: {
         current_password: {
             required: true,

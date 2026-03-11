@@ -59,7 +59,7 @@
 
                     <!-- <div class="row"> -->
                     <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
-                    <input type="hidden" name="outlet_id" value="{{ $user->outlet_id ?? '' }}">
+
                     <div class="row  mt-4">
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                             <div class="form-group input-section ">

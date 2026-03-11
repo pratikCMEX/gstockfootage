@@ -59,10 +59,10 @@
                     </div>
 
                     <a href="javascript:void(0);"><i class="bi bi-globe icon-btn"></i></a>
-                    @if(auth()->check())
+                    <!-- @if(auth()->check())
                         <a href="{{ route('favorites') }}"><i class="bi bi-heart icon-btn"></i></a>
                         <a href="{{ route('view_profile') }}"><i class="fa-regular fa-2x fa-circle-user"></i></a>
-                    @endif
+                    @endif -->
                     <div class="cart-main"> <button class="cart-open"><i class="bi bi-cart icon-btn cart"></i></button>
 
                         @php
@@ -78,21 +78,24 @@
                         <!-- <a href="javascript:void(0);" class="dropdown-toggle"><i class="bi bi-person-circle icon-btn profile-btn"></i>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i class="bi bi-person"></i> Profile</a></li> -->
-                        <a href="javascript:void(0);" class="dropdown-toggle"><i
-                                class="bi bi-person-circle icon-btn "></i>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i
-                                            class="bi bi-person"></i>
-                                        Profile</a></li>
-                                <li><a class="dropdown-item" href=""><i class="bi bi-bag"></i> Order</a></li>
-                                <li class="wishlist"><a class="dropdown-item" href=""><i class="bi bi-heart"></i>
-                                        Wishlist</a>
-                                    <p class="wishlist-count">50</p>
-                                </li>
-                                <li><a class="dropdown-item" href=""><i class="bi bi-box-arrow-right"></i>
-                                        Logout</a></li>
-                            </ul>
-                        </a>
+                        @if(auth()->check())
+                            <a href="javascript:void(0);" class="dropdown-toggle"><i
+                                    class="bi bi-person-circle icon-btn "></i>
+                                <ul class="dropdown-menu">
+
+                                    <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i
+                                                class="bi bi-person"></i>
+                                            Profile</a></li>
+                                    <li><a class="dropdown-item" href=""><i class="bi bi-bag"></i> Order</a></li>
+                                    <li class="wishlist"><a class="dropdown-item" href=""><i class="bi bi-heart"></i>
+                                            Wishlist</a>
+                                        <p class="wishlist-count">50</p>
+                                    </li>
+                                    <li><a class="dropdown-item" href=""><i class="bi bi-box-arrow-right"></i>
+                                            Logout</a></li>
+
+                                </ul>
+                        </a>@endif
                     </div>
 
                     @guest

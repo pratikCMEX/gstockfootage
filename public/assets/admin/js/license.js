@@ -10,8 +10,19 @@ $(document).ready(function () {
 
     var validator = $("#license_form").validate({
 
-        onkeyup: false,
-        onfocusout: false,
+        onfocusout: function (element) {
+            if (!$(element).hasClass("description")) {
+                this.element(element); // validate normally
+            }
+        },
+
+        // Only run keyup validation for fields that are NOT description[]
+        onkeyup: function (element) {
+            if (!$(element).hasClass("description")) {
+                this.element(element);
+            }
+        },
+
         ignore: [],
 
         rules: {
@@ -78,10 +89,14 @@ $(document).ready(function () {
          */
         /*******  6c6a7098-1097-48e5-a914-4a5a88279470  *******/
         errorPlacement: function (error, element) {
-
-            element.next("span.text-danger").remove();
-            error.insertAfter(element);
-
+            if (element.hasClass("description")) {
+                // Insert error after the whole container of input + close button
+                element.closest(".description-item").append(error);
+            } else {
+                // Default placement for other fields
+                element.next("span.text-danger").remove();
+                error.insertAfter(element);
+            }
         },
         submitHandler: function (form) {
             var valid = true;
@@ -90,54 +105,49 @@ $(document).ready(function () {
                 if ($(this).val().trim() === "") {
                     valid = false;
                     $(this).addClass("is-invalid");
-                    if (!$(this).next("span.text-danger").length) {
-                        $(this).after('<span class="text-danger">Please enter Description</span>');
+
+                    // Insert error after the whole container
+                    if (!$(this).closest(".description-item").find("span.text-danger").length) {
+                        $(this).closest(".description-item")
+                            .append('<span class="text-danger d-block mt-1">Please enter Description</span>');
                     }
+
                 } else {
                     $(this).removeClass("is-invalid");
-                    $(this).next("span.text-danger").remove();
+                    $(this).closest(".description-item").find("span.text-danger").remove();
                 }
             });
 
             if (valid) {
-                form.submit(); // ✅ only submit if all description[] fields have data
+                form.submit();
             }
         }
 
     });
 
     $(document).on("keyup", ".description", function () {
-
         var element = $(this);
 
         if (element.val().trim() !== "") {
-
             element.removeClass("is-invalid");
-
-            element.next("span.text-danger").remove();
-
+            element.closest(".description-item").find("span.text-danger").remove(); // ✅ updated
         } else {
-
             validator.element(this);
-
         }
-
     });
     $(document).on("blur", ".description", function () {
-
         var element = $(this);
 
         if (element.val().trim() === "") {
-
-            if (!element.next("span.text-danger").length) {
-
+            if (!element.closest(".description-item").find("span.text-danger").length) {
                 element.addClass("is-invalid");
-                element.after('<span class="text-danger">Please enter Description</span>');
-
+                element.closest(".description-item")
+                    .append('<span class="text-danger d-block mt-1">Please enter Description</span>');
             }
-
+        } else {
+            element.removeClass("is-invalid");
+            element.closest(".description-item").find("span.text-danger").remove();
         }
-
     });
 
     /* -------- DESCRIPTION VALIDATION -------- */

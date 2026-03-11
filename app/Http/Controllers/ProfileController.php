@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
@@ -39,9 +40,17 @@ class ProfileController extends Controller
         $title = 'Profile';
         $page = 'front.profile';
         $js = ['profile'];
+        $userId = Auth::id();
+
+        $user_profile = Auth::user();
+        // $wishLists = Product::with(['favorites', 'category'])
+        //     ->whereHas('favorites', function ($query) use ($userId) {
+        //         $query->where('user_id', $userId);
+        //     })
+        //     ->get();
 
 
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile'));
     }
 
     /**
@@ -49,6 +58,7 @@ class ProfileController extends Controller
      */
     public function update_profile(ProfileUpdateRequest $request): RedirectResponse
     {
+
 
         try {
             $request->validate([
@@ -66,10 +76,10 @@ class ProfileController extends Controller
             $getData->email = $request->email;
             $getData->save();
 
-            return redirect()->route('view_profile')->with('msg_success', 'Profile Updated successfully !');
+            return redirect()->route('user.profile')->with('msg_success', 'Profile Updated successfully !');
         } catch (QueryException $e) {
 
-            return redirect()->route('view_profile', $user_id)->with('msg_error', 'Profile not updated' . $e->getMessage());
+            return redirect()->route('user.profile', $user_id)->with('msg_error', 'Profile not updated' . $e->getMessage());
         }
         // $request->user()->fill($request->validated());
 
