@@ -1111,7 +1111,7 @@ table td {
   overflow: hidden;
 }
 .upload-title .img-id {
-  color: #000;
+  color: var(--black);
 }
 .image-upload {
   width: 100%;
@@ -1130,7 +1130,7 @@ table td {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: black;
+  background-color: var(--black);
   padding: 25px;
   position: fixed;
   top: -100px;
@@ -1151,14 +1151,14 @@ table td {
   gap: 10px;
 }
 .select-submit-btn {
-  color: white;
+  color: var(--white);
 }
 .select-submit-btn i {
   transform: rotate(45deg);
   margin-right: 10px;
 }
 .select-submit-btn:hover {
-  color: white;
+  color: var(--white);
 }
 
 .more-detail-btn i {
@@ -1195,7 +1195,7 @@ table td {
   appearance: none;
   width: 14px;
   height: 14px;
-  background: #000; /* Change color here */
+  background: var(--black); /* Change color here */
   border-radius: 50%;
   margin-top: -4px;
   cursor: pointer;
@@ -1213,7 +1213,7 @@ table td {
 .slider::-moz-range-thumb {
   width: 14px;
   height: 14px;
-  background: #000;
+  background: var(--black);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -1250,7 +1250,7 @@ table td {
   color: var(--black);
 }
 .filter-text .batch-dropdown:focus {
-  border: 1px solid black !important;
+  border: 1px solid var(--black) !important;
 }
 .filter-text a {
   color: var(--primary);
@@ -1273,7 +1273,7 @@ table td {
   justify-content: space-between;
   font-size: 12px;
   font-weight: 600;
-  color: #888;
+  color: var(--secendory);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 10px;
