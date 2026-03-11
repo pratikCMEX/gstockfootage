@@ -1173,7 +1173,7 @@
 
                 <div class="modal-body">
                     <label class="form-label">Batch Name</label>
-                    <input type="text" class="form-control" id="rename_batch_name" placeholder="Enter new name">
+                    <input type="text" class="form-control batch-inp" id="rename_batch_name" placeholder="Enter new name">
                 </div>
 
                 <div class="modal-footer">
@@ -1198,8 +1198,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <label class="form-label">Note</label>
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" rows="4"></textarea>
+                    <label class="modal-label">Note</label>
+                    <textarea class="form-control batch-inp" placeholder="Leave a comment here" id="floatingTextarea" rows="4"></textarea>
                 </div>
 
                 <div class="modal-footer">
