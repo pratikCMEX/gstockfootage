@@ -586,6 +586,7 @@ function addFiles(list) {
   });
 
   render();
+  $(".btn-upload-device").prop("disabled", false);
 }
 
 function render() {
@@ -970,6 +971,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (clearAllBtn) {
     clearAllBtn.addEventListener("click", () => {
+      $(".btn-upload-device").prop("disabled", true);
+
       allFiles = [];
       render();
     });

@@ -146,7 +146,8 @@
                                                                 <i class="fa-solid fa-trash me-3"></i>
                                                                 Delete
                                                             </button></li>
-                                                        <li><a class="dropdown-item d-none" href="#"><i
+                                                        <li class="d-none"><a class="dropdown-item d-none"
+                                                                href="#"><i
                                                                     class="fa-solid fa-arrow-up-right-from-square me-3"></i>
                                                                 See Published</a></li>
                                                     </ul>
@@ -238,8 +239,8 @@
                                                                 Created :
                                                                 {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
                                                             </p>
-                                                            <span>Last Updated : Feb 10 , 2026
-
+                                                            <span>Last Updated
+                                                                :{{ \Carbon\Carbon::parse($list['updated_at'])->format('M d, Y') }}
                                                             </span>
                                                         </div>
 

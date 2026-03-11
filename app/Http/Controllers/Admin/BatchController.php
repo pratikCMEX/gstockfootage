@@ -200,6 +200,7 @@ class BatchController extends Controller
                 'status' => $batch->status,
                 'total_files' => $batch->batch_files->count(),
                 'created_at' => $batch->created_at->format('Y-m-d'),
+                'updated_at' => $batch->created_at->format('Y-m-d'),
 
                 'batch_files' => $batch->batch_files->map(function ($file) {
 

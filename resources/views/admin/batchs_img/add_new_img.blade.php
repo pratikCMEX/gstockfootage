@@ -100,7 +100,8 @@
                                                     {{-- <label for="myfile"
                                                         class="btn btn-orange btn-upload-device">Upload from
                                                         device</label> --}}
-                                                    <button for="111myfile" disabled class="btn btn-orange btn-upload-device"
+                                                    <button for="111myfile" disabled
+                                                        class="btn btn-orange btn-upload-device"
                                                         data-type={{ $batch->submission_type }}>Upload from
                                                         device</button>
                                                     {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
@@ -838,7 +839,7 @@
                                         </div>
                                         <div class="dropdown file-main-dropdown">
                                             <div class="file-inp-icon-grp">
-                                                <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                {{-- <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Country of shoot *<i class="fa-solid fa-angle-down"></i>
                                                 </button>
@@ -850,7 +851,16 @@
                                                     </li>
                                                     <li><a class="dropdown-item" href="#">Something else
                                                             here</a></li>
-                                                </ul>
+                                                </ul> --}}
+                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                    name="country" id="country">
+                                                    <option value="">Country of shoot *</option>
+                                                    <option value="image">
+                                                        Image</option>
+                                                    <option value="video">
+                                                        Video</option>
+                                                </select>
+
                                             </div>
                                         </div>
 
@@ -1173,7 +1183,8 @@
 
                 <div class="modal-body">
                     <label class="form-label">Batch Name</label>
-                    <input type="text" class="form-control batch-inp" id="rename_batch_name" placeholder="Enter new name">
+                    <input type="text" class="form-control batch-inp" id="rename_batch_name"
+                        placeholder="Enter new name">
                 </div>
 
                 <div class="modal-footer">
