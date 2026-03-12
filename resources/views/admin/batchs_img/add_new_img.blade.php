@@ -977,12 +977,12 @@
                                             <p style="font-size: 12px;">Clip Length</p>
                                             <input type="text" class="form-control upload-inp" name="clip_length"
                                                 placeholder="00:00:29:12" width="100%" aria-label="Username"
-                                                aria-describedby="visible-addon">
+                                                aria-describedby="visible-addon" disabled>
                                         </div>
                                     </div>
                                     <div class="no-file-master-formate {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="master-title">Master Formate</p>
-                                        <div class="dropdown file-main-dropdown">
+                                        {{-- <div class="dropdown file-main-dropdown">
                                             <div class="file-inp-icon-grp">
                                                 <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -996,19 +996,19 @@
                                                             here</a></li>
                                                 </ul>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="file-master-inp-grp">
-                                            <div class="input-group file-inp-label-grp">
+                                            {{-- <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Media formate</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="Quick Time" name="media_formate" width="100%"
                                                     aria-label="Username" aria-describedby="visible-addon">
-                                            </div>
+                                            </div> --}}
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame rate</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="29.97" name="frame_rate" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon">
+                                                    aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                         </div>
                                         <div class="file-master-inp-grp">
@@ -1016,21 +1016,21 @@
                                                 <p style="font-size: 12px;">Frame size</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="550x550" name="frame_size" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon">
+                                                    aria-label="Username" aria-describedby="visible-addon"disabled>
                                             </div>
-                                            <div class="input-group file-inp-label-grp">
+                                            {{-- <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Scanning Method</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="Progressive" name="scanning_method" width="100%"
                                                     aria-label="Username" aria-describedby="visible-addon">
-                                            </div>
+                                            </div> --}}
                                         </div>
-                                        <div class="input-group file-inp-label-grp">
+                                        {{-- <div class="input-group file-inp-label-grp">
                                             <p style="font-size: 12px;">Compression</p>
                                             <input type="text" class="form-control upload-inp" placeholder="H.264"
                                                 name="compression" width="100%" aria-label="Username"
                                                 aria-describedby="visible-addon">
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <div class="no-file-master-formate {{ $batch_type == 'image' ? '' : 'd-none' }}">
