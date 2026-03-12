@@ -105,8 +105,7 @@
                                                         device</label> --}}
                                                     <button for="111myfile" disabled
                                                         class="btn btn-orange btn-upload-device"
-                                                        data-type={{ $batch->submission_type }}>Upload from
-                                                        device</button>
+                                                        data-type={{ $batch->submission_type }}>Upload Files</button>
                                                     {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
                                                         file</label>
