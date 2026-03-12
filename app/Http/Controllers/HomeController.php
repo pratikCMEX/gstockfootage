@@ -36,15 +36,15 @@ class HomeController extends Controller
         $ImageList = Image::get();
         $CollectionList = Collection::limit(4)->get();
         // $product = Product::with('category')->limit(4)->get();
-        $product = Product::with('category')
+        $product = BatchFile::with('category')
             ->withCount([
                 'favorites as is_favorite' => function ($query) use ($userId) {
                     $query->where('user_id', $userId);
                 }
-            ])
+            ])->where('is_edited', '1')
             ->limit(4)
             ->get();
-
+        // dd($product);
         $testimonials = Testimonials::where('is_active', '1')->get();
         return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials'));
     }
@@ -179,8 +179,12 @@ class HomeController extends Controller
         $title = 'About us';
         $page = 'front.about_us';
 
-
-
         return view("layouts.front.layout", compact('title', 'page'));
+    }
+
+    public function homeSearch(Request $request)
+    {
+        $getData = BatchFile::where('keywords', 'like', '%' . $request->search . '%')->where('is_edited', '1')->get();
+        return response()->json($getData);
     }
 }

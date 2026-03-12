@@ -88,9 +88,16 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
-Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
 Route::get('/enterprise', [HomeController::class, 'enterprise'])->name('enterprise');
+Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
+Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/home_search', [HomeController::class, 'homeSearch'])->name('home.search');
+
+Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
+
+Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('check.login');
@@ -100,6 +107,8 @@ Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->
 
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
+Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
+Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');
 
 Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.profile');
 
@@ -107,9 +116,6 @@ Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.pro
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
 Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
 
-Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
-Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::post('/add_favorite', [FavoritesController::class, 'addToFavorite'])->name('add_favorite');
 Route::get('/favorites', [FavoritesController::class, 'index'])->name('favorites');
@@ -128,10 +134,7 @@ Route::get('/checkout/success', [PaymentController::class, 'success'])->name('ch
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
 Route::post('/stripe/webhook', [PaymentController::class, 'handleWebhook']);
 
-Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
-Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
-Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
