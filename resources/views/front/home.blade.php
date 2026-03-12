@@ -886,12 +886,7 @@
                                         <strong>{{ $testimonial->name }}</strong>
                                         <small>{{ $testimonial->designation }}</small>
                                     </div>
-                                    <<<<<<< HEAD @endforeach
-                                        =======
-                                </div>
-                            </div>
                     @endforeach
-                    >>>>>>> jil_development
                 @endif
             </div>
 
