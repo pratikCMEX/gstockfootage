@@ -80,8 +80,8 @@ class HomeController extends Controller
 
             if ($product->type == "video") {
                 $data['file_url'] = Storage::disk('s3')->url($product->file_path);
-                $data['low_path'] = Storage::disk('s3')->url($product->low_path);
-                $data['thumbnail'] = Storage::disk('s3')->url($product->thumbnail);
+                $data['low_path'] = Storage::disk('s3')->url($product->low_path) ?? asset('assets/admin/images/demo_thumbnail.png');
+                $data['thumbnail'] = Storage::disk('s3')->url($product->thumbnail) ?? asset('assets/admin/images/demo_thumbnail.png');
                 $data['resolution'] = 'HD Video';
                 $data['file_size'] = 'Video File';
             }

@@ -919,6 +919,7 @@ $(document).on("click", ".btn-upload-device", function () {
   formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
 
   startUploadToast();
+  $(".btn-upload").prop("disabled", true);
 
   $.ajax({
     url: base_url + "/admin/image_upload/" + batch_id,
@@ -952,6 +953,7 @@ $(document).on("click", ".btn-upload-device", function () {
       if (response.status === "success") {
         toastr.success(response.message);
         completeUploadToast();
+        $(".btn-upload").prop("false", true);
 
         setTimeout(() => {
           allFiles = [];

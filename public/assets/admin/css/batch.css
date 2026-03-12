@@ -1502,6 +1502,11 @@ table td {
   pointer-events: all;
 }
 
+body:has(.upload-toast.show) .btn-orange.btn-upload {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 /* Header row */
 .upload-toast .toast-header {
   display: flex;
