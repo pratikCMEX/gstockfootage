@@ -33,6 +33,35 @@ $("#login").validate({
   },
 });
 
+$("#resend_mail_varification").validate({
+  rules: {
+    email: {
+      required: true,
+      email: true,
+    },
+   
+  },
+  messages: {
+    email: {
+      required: "Please enter your email",
+      email: "Enter a valid email address",
+    },
+  
+  },
+  normalizer: function (value) {
+    return $.trim(value);
+  },
+
+  errorClass: "text-danger",
+  errorElement: "label",
+  highlight: function (element) {
+    $(element).addClass("is-invalid");
+  },
+  unhighlight: function (element) {
+    $(element).removeClass("is-invalid");
+  },
+});
+
 $("#signup").validate({
   rules: {
     first_name: {
@@ -154,6 +183,36 @@ $("#send_forget_link").validate({
   unhighlight: function (element) {
     $(element).removeClass("is-invalid");
   },
+});
+
+// Handle tab switching and show/hide resend verification section
+$(document).ready(function() {
+  // Tab switching functionality
+  $('.tab-btn').click(function() {
+    const tab = $(this).data('tab');
+    
+    // Remove active class from all tabs and forms
+    $('.tab-btn').removeClass('active');
+    $('.auth-form').removeClass('active');
+    
+    // Add active class to clicked tab and corresponding form
+    $(this).addClass('active');
+    $('#' + tab).addClass('active');
+    
+    // Show/hide resend verification section
+    if (tab === 'login') {
+      $('#resend-verification-section').show();
+    } else {
+      $('#resend-verification-section').hide();
+    }
+  });
+  
+  // Initialize: show resend verification section only if login tab is active
+  if ($('#login').hasClass('active')) {
+    $('#resend-verification-section').show();
+  } else {
+    $('#resend-verification-section').hide();
+  }
 });
 
 $("#change_forget_pass").validate({

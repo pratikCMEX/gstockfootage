@@ -55,14 +55,16 @@ class HomeController extends Controller
         $js = ['favorites'];
         try {
             $id = decrypt($id);
+          
             // $id = 19;
-            $product = Product::with(['category', 'subcategory', 'collection'])
+            $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
+              
             $data = [
                 'id' => $product->id,
-                'title' => $product->name,
+                'title' => $product->title,
                 'description' => $product->description ?? 'No description available',
-                'tags' => $product->tags ? explode(',', $product->tags) : [],
+                'tags' => $product->keywords ? explode(',', $product->tags) : [],
                 'price' => $product->price,
                 'category' => optional($product->category)->category_name,
                 'collection' => optional($product->collection)->name,
@@ -70,21 +72,21 @@ class HomeController extends Controller
                 'type' => $product->type,
             ];
 
-            if ($product->type == "0") {
-                $data['file_url'] = asset('uploads/images/high/' . $product->high_path);
+            if ($product->type == "image") {
+                $data['file_url'] = $product->file_path;
                 $data['low_path'] = $product->low_path;
                 $data['resolution'] = $product->width . ' x ' . $product->height;
                 $data['file_size'] = formatFileSize((int) $product->file_size);
             }
 
-            if ($product->type == "1") {
-                $data['file_url'] = asset('uploads/videos/high/' . $product->high_path);
+            if ($product->type == "video") {
+                $data['file_url'] = $product->high_path;
                 $data['low_path'] = $product->low_path;
-                $data['thumbnail'] = asset('uploads/videos/high/' . $product->thumbnail_path);
+                $data['thumbnail'] = $product->thumbnail_path;
                 $data['resolution'] = 'HD Video';
                 $data['file_size'] = 'Video File';
             }
-
+          
             // return view('product.show', compact('data'));
             return view("layouts.front.layout", compact('title', 'page', 'data', 'js'));
         } catch (\Exception $e) {
@@ -132,7 +134,7 @@ class HomeController extends Controller
     {
         $title = 'Videos';
         $page = 'front.videos';
-        $js = ['home'];
+        $js = ['home','favorites'];
 
         $categories=Category::where('is_display','1')->get();
         $CollectionList = Collection::get();

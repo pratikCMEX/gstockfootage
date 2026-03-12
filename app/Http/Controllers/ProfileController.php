@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Favorites;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -43,14 +44,13 @@ class ProfileController extends Controller
         $userId = Auth::id();
 
         $user_profile = Auth::user();
-        // $wishLists = Product::with(['favorites', 'category'])
-        //     ->whereHas('favorites', function ($query) use ($userId) {
-        //         $query->where('user_id', $userId);
-        //     })
-        //     ->get();
+        
+        // Get user's wishlist items
+        $wishLists = Favorites::with(['batchFile', 'batchFile.category'])
+            ->where('user_id', $userId)
+            ->get();
 
-
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile'));
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists'));
     }
 
     /**

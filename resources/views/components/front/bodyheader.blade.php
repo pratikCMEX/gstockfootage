@@ -58,7 +58,7 @@
                         </ul>
                     </div>
 
-                    <a href="javascript:void(0);"><i class="bi bi-globe icon-btn"></i></a>
+                    <!-- <a href="javascript:void(0);"><i class="bi bi-globe icon-btn"></i></a> -->
                     <!-- @if(auth()->check())
                         <a href="{{ route('favorites') }}"><i class="bi bi-heart icon-btn"></i></a>
                         <a href="{{ route('view_profile') }}"><i class="fa-regular fa-2x fa-circle-user"></i></a>
@@ -87,11 +87,11 @@
                                                 class="bi bi-person"></i>
                                             Profile</a></li>
                                     <li><a class="dropdown-item" href=""><i class="bi bi-bag"></i> Order</a></li>
-                                    <li class="wishlist"><a class="dropdown-item" href=""><i class="bi bi-heart"></i>
+                                    <li class="wishlist"><a class="dropdown-item" href="{{ route('user.profile') }}?tab=wishlist"><i class="bi bi-heart"></i>
                                             Wishlist</a>
                                         <p class="wishlist-count">50</p>
                                     </li>
-                                    <li><a class="dropdown-item" href=""><i class="bi bi-box-arrow-right"></i>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right"></i>
                                             Logout</a></li>
 
                                 </ul>
@@ -105,11 +105,11 @@
                     @endguest
 
 
-                    @auth
+                    <!-- @auth
                         <a href="{{ route('logout') }}">
                             <button class="btn header-btns btn-sm">Log Out</button>
                         </a>
-                    @endauth
+                    @endauth -->
 
                     <a href="javascript:void(0);" class="d-none d-xl-block">
                         <button class="btn header-btns btn-sm cta-btn">

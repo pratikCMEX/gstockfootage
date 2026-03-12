@@ -68,13 +68,13 @@
                                 </div>
                                 <div class="profile-location profile-manage-text">
                                     <span>Location</span>
-                                    <p>{{ $user_profile->address ?? '' }}</p>
+                                    <p>{{ $user_profile->address ? $user_profile->address : '-' }}</p>
                                 </div>
                             </div>
                             <div class="profile-manage-right">
                                 <div class="profile-number profile-manage-text">
                                     <span>Phone Number</span>
-                                    <a href="tel:+1 (555) 000-1234">{{ $user_profile->phone ?? '' }}</a>
+                                    <a href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone: '-' }}</a>
                                 </div>
                                 <div class="profile-language profile-manage-text">
                                     <span>Language</span>

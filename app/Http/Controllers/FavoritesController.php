@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchFile;
 use App\Models\Favorites;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -36,19 +37,19 @@ class FavoritesController extends Controller
         $user = auth()->user();
         $product_id = $request->product_id;
         $productType = $request->product_type;
-
+       
         if (!$user) {
             return response()->json(['success' => false, 'message' => 'User not found ...Please login first']);
         }
 
-        $product = Product::find($product_id);
+        $product = BatchFile::find($product_id);
         if (!$product) {
             return response()->json(['success' => false, 'message' => 'Product not found']);
         }
 
         $existingFavorite = Favorites::where('product_id', $product_id)
             ->where('user_id', $user->id)
-            ->where('product_type', $productType)
+            ->where('type', $productType)
             ->first();
 
         if ($existingFavorite) {
@@ -61,7 +62,7 @@ class FavoritesController extends Controller
         Favorites::create([
             'product_id' => $product_id,
             'user_id' => $user->id,
-            'product_type' => $productType
+            'type' => $productType
         ]);
 
         return response()->json(['success' => true, 'message' => 'Product added to favorites successfully', 'action' => 'added']);

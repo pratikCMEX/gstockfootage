@@ -722,7 +722,7 @@
                                 @foreach($allVideos as $video)
                                     <div class="product-card">
 
-                                        <a href="{{ route('product.detail', encrypt(1)) }}">
+                                        <a href="{{ route('product.detail', encrypt($video->id)) }}">
                                             <!-- <img src="{{  Storage::disk('s3')->url($video['thumbnail_path'])  }}"
                                                         class="product-img" alt=""> -->
                                             <video class="product-img" controls width="100%"
@@ -746,12 +746,12 @@
                                             <div class="price-btn">
                                                 <span class="price">${{ $video->price }}</span>
                                                 {{-- <button class="btn  btn-orange">Add</button> --}}
-                                                <a href="{{ route('product.detail', encrypt(1)) }}"
+                                                <a href="{{ route('product.detail', encrypt($video->id)) }}"
                                                     class="btn btn-orange">Add</a>
 
                                             </div>
                                             <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                                <button class="btn  popular-icon-btn addFavorite"   data-Product-id="{{ $video->id   }}" data-type="{{  $video->type  }}"><svg xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16" fill="currentColor" class="bi bi-heart"
                                                         viewBox="0 0 16 16">
                                                         <path

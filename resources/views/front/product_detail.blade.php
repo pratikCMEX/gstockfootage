@@ -61,12 +61,13 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <div class="big-slide-img">
-                                        @if ($data['type'] == '1')
-                                            <video class="h-100 w-100" autoplay controls="true">
-                                                <source src="{{ asset('uploads/videos/low/' . $data['low_path']) }}">
+                                        @if ($data['type'] == 'video')
+                                      
+                                            <video class="h-100 w-100" autoplay controls="true"  poster="{{ Storage::disk('s3')->url($data['thumbnail']) }}">
+                                                <source src="{{ Storage::disk('s3')->url($data['low_path']) }}">
                                             </video>
                                         @else
-                                            <img src="{{ asset('uploads/images/low/' . $data['low_path']) }}"
+                                            <img src="{{Storage::disk('s3')->url($data['file_url']) }}"
                                                 class="h-100 w-100" alt="">
                                         @endif
                                     </div>
