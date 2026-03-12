@@ -200,17 +200,17 @@
                                                 <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                             <ul class="dropdown-menu more-detail-menu">
                                                 <li>
-                                                    <button type="button" class="dropdown-item-upload dropdown-item"
-                                                        data-bs-toggle="modal" data-bs-target="#renameModal">
+                                                    <button class=" batch_file_keyword"
+                                                        data-keywords="{{ $data->keywords }}">
                                                         <i class="fa-regular fa-clipboard me-3"></i>
                                                         Copy Keyword
                                                     </button>
                                                 </li>
-                                                <li> <button type="button" class="dropdown-item-upload dropdown-item"
+                                                {{-- <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                         data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                         <i class="fa-solid fa-pencil me-3"></i>
                                                         SET NEW THUMBNAIL FRAME
-                                                    </button></li>
+                                                    </button></li> --}}
 
                                             </ul>
                                         </div>
@@ -244,7 +244,7 @@
                                             {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
                                             <div class="check"><i class="fa-solid fa-circle-check"></i></div>
                                             <div class="upload-title-img">
-                                                <div class="img-title">{{ $data['title'] }} </div>
+                                                <div class="img-title">{{ $data['original_name'] }} </div>
                                                 <div class="img-id">ID: 23870945</div>
                                             </div>
                                         </div>

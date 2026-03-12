@@ -1078,9 +1078,23 @@ $(document).on("click", ".copy-keywords", function () {
 
   toastr.success("Keywords copied!");
 });
+
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
+  $(document).on("click", ".batch_file_keyword", function () {
+    console.log("clicked");
+    let keywords = $(this).data("keywords");
+
+    let temp = $("<textarea>");
+    $("body").append(temp);
+    temp.val(keywords).select();
+    document.execCommand("copy");
+    temp.remove();
+
+    toastr.success("Keywords copied!");
+  });
+
   const clearAllBtn = document.getElementById("clearAll");
 
   if (clearAllBtn) {

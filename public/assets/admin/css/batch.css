@@ -66,7 +66,9 @@ p {
 .batch-dropdown::after {
   display: none;
 }
-.batch-dropdown-menu .dropdown-item {
+
+.batch-dropdown-menu .dropdown-item,
+.upload-image .batch_file_keyword {
   padding: 5px 15px;
   font-size: 16px;
   color: var(--black);
@@ -540,9 +542,11 @@ table td {
 .dot-dropdown:hover {
   color: var(--black) !important;
 }
+.batch_file_keyword,
 .dropdown-item {
   color: var(--black);
 }
+.batch_file_keyword:hover,
 .dropdown-item:hover {
   color: var(--black);
 }
