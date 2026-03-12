@@ -555,6 +555,8 @@ class BatchController extends Controller
     private function processImage($path, $batch_id, $fileObj = null)
     {
         // dd(22);
+        set_time_limit(0);
+        ini_set('memory_limit', '1024M');
         try {
 
             $manager = new ImageManager(new Driver());
