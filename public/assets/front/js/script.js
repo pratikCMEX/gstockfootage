@@ -219,7 +219,7 @@ closefilter?.addEventListener("click", function () {
 //   cart_content.classList.remove("show_popup");
 //   cartoverlay.classList.remove("active");
 // });
-
+const inputContainer = document.querySelector(".search-box")
 const searchInput = document.querySelector(".inp-search input")
 const suggetionbox = document.querySelector(".suggetion-search");
 
@@ -243,7 +243,7 @@ document.addEventListener("click", function (e) {
   }
   // const isOpenBtn = opencart?.contains(e.target);
 
-  if (!suggetionsearch) {
+  if (!inputContainer) {
     suggetionbox?.classList.remove("show");
     // cartoverlay?.classList.remove("active");
   }
