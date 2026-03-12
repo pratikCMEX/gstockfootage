@@ -58,7 +58,8 @@
 
                                             <i class="fa-solid fa-xmark  close-select-btn" style="color: white;"></i>
                                         </button>
-                                        <button type="button" class="btn btn-light">Show selected</button>
+                                        <button type="button" class="btn btn-light show_all_file">Show
+                                            selected</button>
                                     </div>
                                     <div class="delete-submit">
                                         <button type="button" style="display: flex; align-items: center"
@@ -1246,7 +1247,7 @@
         <div class="modal-content">
             <form action="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                    <h5 class="modal-title" id="renameModalLabel">Rename Batch</h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
 

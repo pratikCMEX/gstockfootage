@@ -175,6 +175,8 @@ uploadimgclose?.addEventListener("click", function () {
   selectedImages?.forEach((item) => {
     item.classList.remove("selected");
   });
+
+  toggleSelectedImages();
   function updateProgress() {
     const value =
       ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
@@ -294,6 +296,7 @@ function updateUI() {
     selectimgdrop?.classList.add("active");
     viewdata?.classList.add("notactive");
     addmetadata?.classList.add("active");
+
     if (selectedCount === 1) {
       nofileselected?.classList.add("active");
     }
@@ -305,6 +308,12 @@ function updateUI() {
   }
 }
 
+function toggleSelectedImages() {
+  // alert();
+  $(".upload-image").show();
+  $(".upload-image.selected").show();
+  $(".show_all_file").text("Show selected");
+}
 // 🔥 Image Click Logic (Fixed)
 $(document).on("click", ".upload-image", function (e) {
   let data_id = $(this).attr("data-id");
@@ -325,6 +334,7 @@ $(document).on("click", ".upload-image", function (e) {
   } else {
     // Only one allowed manually
     images.removeClass("selected");
+    toggleSelectedImages();
 
     if (!isSelected) {
       $(this).addClass("selected");
@@ -533,32 +543,6 @@ $("#add_new_img_form").validate({
   },
 });
 
-// $(document).on("click", "#save-metadata", function () {
-//   let formData = {
-//     file_id: $("#selected_file_id").val(),
-//     title: $("input[name='title']").val(),
-//     description: $("input[name='description']").val(),
-//     date_created: $("input[name='date_created']").val(),
-//     tags: $("input[name='tags']").val(),
-//     country: $("#country").val(),
-//     _token: $('meta[name="csrf-token"]').attr("content"),
-//   };
-
-//   $.ajax({
-//     url: base_url + "/admin/batch/save_file_metadata",
-//     type: "POST",
-//     data: formData,
-
-//     success: function (res) {
-//       toastr.success("File metadata saved successfully");
-//     },
-
-//     error: function (xhr) {
-//       console.log(xhr.responseText);
-//     },
-//   });
-// });
-// Select All Button
 $(document).on("click", ".select-btn", function () {
   let images = $(".upload-image");
   let allSelected = images.length === images.filter(".selected").length;
@@ -566,10 +550,12 @@ $(document).on("click", ".select-btn", function () {
   // if (allSelected == 1) {
   if (allSelected) {
     images.removeClass("selected");
+    toggleSelectedImages();
   } else {
     images.addClass("selected");
   }
   // }
+
   updateUI();
 });
 $(document).on("click", ".delete-btn-batch", function () {
@@ -1008,6 +994,26 @@ $(document).ready(function () {
   // });
 });
 
+function toggleSelected(btn, itemSelector) {
+  let showingSelected = $(btn).hasClass("showing-selected");
+
+  if (!showingSelected) {
+    $(itemSelector).hide();
+    $(itemSelector + ".selected").show();
+
+    $(btn).text("Show all");
+    $(btn).addClass("showing-selected");
+  } else {
+    $(itemSelector).show();
+
+    $(btn).text("Show selected");
+    $(btn).removeClass("showing-selected");
+  }
+}
+
+$(".show_all_file").on("click", function () {
+  toggleSelected(this, ".upload-image");
+});
 function loadBatches(page = 1) {
   let data = $("#filterForm").serialize();
 
