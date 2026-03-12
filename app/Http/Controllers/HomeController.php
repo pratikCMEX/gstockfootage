@@ -122,7 +122,7 @@ class HomeController extends Controller
                 ];
             });
 
-            dd($data);
+            // dd($data);
             return view('product.list', compact('data'));
         } catch (\Exception $e) {
             return back()->with('msg_error', $e->getMessage());
@@ -185,7 +185,61 @@ class HomeController extends Controller
 
     public function homeSearch(Request $request)
     {
-        $getData = BatchFile::where('keywords', 'like', '%' . $request->search . '%')->where('is_edited', '1')->get();
-        return response()->json($getData);
+        $keywords = BatchFile::where('is_edited', 1)
+            ->pluck('keywords')
+            ->toArray();
+
+        $allKeywords = [];
+
+        foreach ($keywords as $keywordString) {
+
+            if ($keywordString) {
+                $split = explode(',', $keywordString);
+
+                foreach ($split as $word) {
+                    $allKeywords[] = trim($word);
+                }
+            }
+        }
+
+        $allKeywords = array_unique($allKeywords);
+
+        if ($request->search) {
+            $allKeywords = array_filter($allKeywords, function ($word) use ($request) {
+                return stripos($word, $request->search) !== false;
+            });
+        }
+
+        // dd($allKeywords);
+
+        return response()->json(array_values($allKeywords));
+    }
+
+    public function downloadAllFiles()
+    {
+        $files = Storage::disk('s3')->allFiles();
+
+        $localPath = storage_path('app/s3-downloads/');
+
+        if (!file_exists($localPath)) {
+            mkdir($localPath, 0777, true);
+        }
+
+        foreach ($files as $file) {
+
+            $fileContent = Storage::disk('s3')->get($file);
+
+            $savePath = $localPath . $file;
+
+            $dir = dirname($savePath);
+
+            if (!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+            file_put_contents($savePath, $fileContent);
+        }
+
+        return "All files downloaded successfully";
     }
 }

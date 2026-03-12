@@ -219,18 +219,20 @@ closefilter?.addEventListener("click", function () {
 //   cart_content.classList.remove("show_popup");
 //   cartoverlay.classList.remove("active");
 // });
-const inputContainer = document.querySelector(".search-box")
-const searchInput = document.querySelector(".inp-search input")
+const inputContainer = document.querySelector(".search-box");
+const searchInput = document.querySelector(".inp-search input");
 const suggetionbox = document.querySelector(".suggetion-search");
 
 searchInput.addEventListener("input", () => {
-  if (searchInput.value.trim() !== "") {
+  let value = searchInput.value.trim();
+
+  if (value.length > 0) {
     suggetionbox.classList.add("show");
   } else {
     suggetionbox.classList.remove("show");
+    document.querySelector(".suggetion-search ul").innerHTML = "";
   }
 });
-
 
 document.addEventListener("click", function (e) {
   const isInsideCart = cart_content?.contains(e.target);
@@ -249,8 +251,4 @@ document.addEventListener("click", function (e) {
   }
 });
 
-
 // search suggetion box
-
-
-

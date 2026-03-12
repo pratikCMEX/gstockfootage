@@ -40,18 +40,7 @@
                     </button>
                     <div class="suggetion-search">
                         <ul>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
+
                         </ul>
                     </div>
                 </div>
