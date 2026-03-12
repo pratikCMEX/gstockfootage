@@ -583,6 +583,7 @@ $(document).on("click", ".delete-btn-batch", function () {
     });
 
     formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
+    $("#loader").css("display", "flex");
 
     $.ajax({
       url: base_url + "/admin/batch_delete",
@@ -600,6 +601,7 @@ $(document).on("click", ".delete-btn-batch", function () {
           selectedImages.remove(); // remove only selected
           updateUI();
           $(".total-files-count").text(response.total + " Items");
+          $("#loader").css("display", "none");
           toastr.success(response.message);
         }
       },

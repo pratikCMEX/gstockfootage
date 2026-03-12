@@ -385,24 +385,18 @@ class BatchController extends Controller
 
             $deletedCount = 0;
             foreach ($files as $file) {
-                if ($file->file_path && File::exists(public_path($file->file_path))) {
-                    File::delete(public_path($file->file_path));
+                if ($file->file_path && Storage::disk('s3')->exists($file->file_path)) {
+                    Storage::disk('s3')->delete($file->file_path);
                 }
-                if ($file->thumbnail_path) {
-                    $thumbPath = public_path('uploads/batch/videos/thumbnails/' . $file->thumbnail_path);
-                    if (File::exists($thumbPath)) {
-                        File::delete($thumbPath);
-                    }
+
+                // THUMBNAIL
+                if ($file->thumbnail_path && Storage::disk('s3')->exists($file->thumbnail_path)) {
+                    Storage::disk('s3')->delete($file->thumbnail_path);
                 }
-                if ($file->low_path) {
-                    if ($file->file_type == 'video') {
-                        $lowPath = public_path('uploads/batch/videos/low/' . $file->low_path);
-                    } else {
-                        $lowPath = public_path('uploads/batch/images/low/' . $file->low_path);
-                    }
-                    if (File::exists($lowPath)) {
-                        File::delete($lowPath);
-                    }
+
+                // LOW FILE
+                if ($file->low_path && Storage::disk('s3')->exists($file->low_path)) {
+                    Storage::disk('s3')->delete($file->low_path);
                 }
 
                 $batchId = $file->batch_id;
