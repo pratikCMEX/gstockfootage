@@ -220,12 +220,37 @@ closefilter?.addEventListener("click", function () {
 //   cartoverlay.classList.remove("active");
 // });
 
+const searchInput = document.querySelector(".inp-search input")
+const suggetionbox = document.querySelector(".suggetion-search");
+
+searchInput.addEventListener("input", () => {
+  if (searchInput.value.trim() !== "") {
+    suggetionbox.classList.add("show");
+  } else {
+    suggetionbox.classList.remove("show");
+  }
+});
+
+
 document.addEventListener("click", function (e) {
   const isInsideCart = cart_content?.contains(e.target);
   const isOpenBtn = opencart?.contains(e.target);
+  const suggetionsearch = suggetionbox?.contains(e.target);
 
   if (!isInsideCart && !isOpenBtn) {
     cart_content?.classList.remove("show_popup");
     cartoverlay?.classList.remove("active");
   }
+  // const isOpenBtn = opencart?.contains(e.target);
+
+  if (!suggetionsearch) {
+    suggetionbox?.classList.remove("show");
+    // cartoverlay?.classList.remove("active");
+  }
 });
+
+
+// search suggetion box
+
+
+
