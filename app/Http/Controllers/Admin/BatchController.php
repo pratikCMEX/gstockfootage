@@ -408,10 +408,11 @@ class BatchController extends Controller
                 Batch::where('id', $batchId)->decrement('total_files');
                 $deletedCount++;
             }
-
+            $totalRemaining = BatchFile::where('batch_id', $batchId)->count();
             DB::commit();
             return response()->json([
                 'status' => true,
+                'total' => $totalRemaining,
                 'message' => $deletedCount . ' files deleted successfully'
             ]);
         } catch (\Exception $e) {

@@ -101,7 +101,7 @@
                     </div>
                     <div>
                         <label>Address</label>
-                        <textarea name="address" class="" rows="3" cols="40" placeholder="" style="border-radius: 10px;"></textarea>
+                        <textarea name="address" class="" rows="3" cols="34" placeholder="" style="border-radius: 10px;"></textarea>
                         <label id="address-error" class="text-danger" for="address"></label>
 
                     </div>

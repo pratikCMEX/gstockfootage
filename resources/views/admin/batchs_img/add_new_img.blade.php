@@ -178,7 +178,7 @@
                                     <i class="fa-solid fa-image big-img"></i>
                                 </div>
                                 {{-- <p>34 items</p> --}}
-                                <p>{{ count($batch_data) }} items</p>
+                                <p class="total-files-count">{{ count($batch_data) }} Items</p>
                             </div>
                             {{-- @if (count($batch_data) == 0) --}}
                             <div class="empty data-empty {{ count($batch_data) == 0 ? '' : 'd-none' }}"
