@@ -971,15 +971,17 @@ $(document).on("click", ".btn-upload-device", function () {
 
     success: function (response) {
       if (response.status === "success") {
+        console.log(response);
+
         toastr.success(response.message);
         completeUploadToast();
         $(".btn-upload").prop("false", true);
 
-        setTimeout(() => {
-          allFiles = [];
-          render();
-          location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   allFiles = [];
+        //   render();
+        //   location.reload();
+        // }, 1000);
       }
     },
 
