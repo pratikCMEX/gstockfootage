@@ -850,7 +850,7 @@
                                                     aria-describedby="visible-addon">
                                                 <i class="fa-regular fa-circle-question file-input-icon"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Enter a price for your image."></i>
+                                                    title="Enter a price for your image.($)"></i>
                                             </div>
                                             <label id="price-error" class="error" for="price"></label>
                                         </div>

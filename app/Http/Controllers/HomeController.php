@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchFile;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Image;
@@ -133,9 +134,9 @@ class HomeController extends Controller
         $title = 'Enterprise';
         $page = 'front.enterprise';
         $js = ['enterprise'];
-       
 
-        return view("layouts.front.layout", compact('title', 'page','js'));
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
     }
 
     public function about()
@@ -143,8 +144,12 @@ class HomeController extends Controller
         $title = 'About us';
         $page = 'front.about_us';
 
-
-
         return view("layouts.front.layout", compact('title', 'page'));
+    }
+
+    public function homeSearch(Request $request)
+    {
+        $getData = BatchFile::where('keywords', 'like', '%' . $request->search . '%')->where('is_edited', '1')->get();
+        return response()->json($getData);
     }
 }

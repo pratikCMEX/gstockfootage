@@ -32,7 +32,7 @@
 
                 <div class="inp-search">
                     <!-- Input -->
-                    <input type="text" placeholder="Start your next project" />
+                    <input type="text" class="home_search" placeholder="Start your next project" />
 
                     <!-- Search Button -->
                     <button class="search-btn">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="modal-body search-image-body">
                             <input type="file" id="search-image" hidden>
-                
+
                             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-upload h-12 w-12  mb-2">
@@ -816,10 +816,8 @@
             </div>
 
             <div class="col-lg-7">
-                 @if($testimonials->isNotEmpty())
-                   @foreach ($testimonials as $testimonial)
-
-                 
+                @if ($testimonials->isNotEmpty())
+                    @foreach ($testimonials as $testimonial)
                         <div class="testimonial-card">
                             <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -856,10 +854,10 @@
                             </div>
                         </div>
                     @endforeach
-                     @endif
-                </div>
+                @endif
+            </div>
 
-                <!-- <div class="testimonial-card">
+            <!-- <div class="testimonial-card">
                     <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
@@ -883,9 +881,9 @@
                         </div>
                     </div>
                 </div> -->
-               
-            </div>
 
         </div>
+
+    </div>
     </div>
 </section>
