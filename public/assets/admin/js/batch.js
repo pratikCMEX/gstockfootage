@@ -979,11 +979,11 @@ $(document).on("click", ".btn-upload-device", function () {
         completeUploadToast();
         $(".btn-upload").prop("false", true);
 
-        // setTimeout(() => {
-        //   allFiles = [];
-        //   render();
-        //   location.reload();
-        // }, 1000);
+        setTimeout(() => {
+          allFiles = [];
+          render();
+          location.reload();
+        }, 1000);
       }
     },
 
