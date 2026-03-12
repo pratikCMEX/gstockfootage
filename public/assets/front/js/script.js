@@ -235,7 +235,7 @@ searchInput.addEventListener("input", () => {
 document.addEventListener("click", function (e) {
   const isInsideCart = cart_content?.contains(e.target);
   const isOpenBtn = opencart?.contains(e.target);
-  const suggetionsearch = suggetionbox?.contains(e.target);
+  const suggetionsearch = inputContainer?.contains(e.target);
 
   if (!isInsideCart && !isOpenBtn) {
     cart_content?.classList.remove("show_popup");
@@ -243,7 +243,7 @@ document.addEventListener("click", function (e) {
   }
   // const isOpenBtn = opencart?.contains(e.target);
 
-  if (!inputContainer) {
+  if (!suggetionsearch) {
     suggetionbox?.classList.remove("show");
     // cartoverlay?.classList.remove("active");
   }

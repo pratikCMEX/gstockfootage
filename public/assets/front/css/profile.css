@@ -356,6 +356,23 @@
   font-size: 14px;
   font-family: var(--font-inter-medium);
 }
+.subscription-plan .subscription-left h3 {
+  font-size: 28px;
+  color: var(--text);
+  font-family: var(--font-inter-bold);
+  margin: 20px 0 5px 0;
+}
+.subscription-plan .subscription-left p {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-regular);
+  margin: 0px 0 20px 0;
+}
+.subscription-plan h2 {
+  font-size: 32px;
+  font-family: var(--font-inter-black);
+}
+
 @media only screen and (max-width: 1399px) {
 }
 @media only screen and (max-width: 1199px) {
