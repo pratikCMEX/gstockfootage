@@ -412,11 +412,8 @@ $(document).ready(function () {
                         $("#license-table").DataTable().ajax.reload();
                     },
                 });
-
             }
-
         });
-
     });
 
 });

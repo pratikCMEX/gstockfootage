@@ -58,23 +58,23 @@
                                 </div>
                                 <div class="profile-manage-title">
                                     <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
-                                    <p>Member since January 2023</p>
+                                    <p>Member since {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}</p>
                                 </div>
                             </div>
                             <div class="profile-manage-middle">
                                 <div class="profile-mail profile-manage-text">
                                     <span>Email Address</span>
-                                    <a href="mailto:alex.j@example.com">{{ $user_profile->email }}</a>
+                                    <a href="mailto:alex.j@example.com">{{ $user_profile->email ?? '' }}</a>
                                 </div>
                                 <div class="profile-location profile-manage-text">
                                     <span>Location</span>
-                                    <p>San Francisco, CA</p>
+                                    <p>{{ $user_profile->address ?? '' }}</p>
                                 </div>
                             </div>
                             <div class="profile-manage-right">
                                 <div class="profile-number profile-manage-text">
                                     <span>Phone Number</span>
-                                    <a href="tel:+1 (555) 000-1234">+1 (555) 000-1234</a>
+                                    <a href="tel:+1 (555) 000-1234">{{ $user_profile->phone ?? '' }}</a>
                                 </div>
                                 <div class="profile-language profile-manage-text">
                                     <span>Language</span>
@@ -228,11 +228,11 @@
                                     </div>
                                     <div>
                                         <span>Email Address</span>
-                                        <p>{{ $user_profile->email }}</p>
+                                        <p>{{ $user_profile->email ?? '' }}</p>
                                     </div>
                                     <div>
                                         <span>Phone</span>
-                                        <p>+1 (555) 000-1234</p>
+                                        <p>{{  $user_profile->phone ?? '' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                                 <div class="security-password security-detail">
                                     <div class="pass-title">
                                         <h4>Password</h4>
-                                        <p>Last changed 3 months ago</p>
+                                        <p>Last changed {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}</p>
                                     </div>
                                     <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
                                         data-bs-toggle="modal" data-bs-target="#password_change">
@@ -253,13 +253,13 @@
                                     <!-- <button type="button"
                                         class="btn btn-all-dark btn-hover-dark pass-btn">Change</button> -->
                                 </div>
-                                <div class="security-two-factor security-detail">
+                                <!-- <div class="security-two-factor security-detail">
                                     <div class="pass-title">
                                         <h4>Two-factor Auth</h4>
                                         <p>Protects your account with extra security</p>
                                     </div>
                                     <button type="button" class="btn btn-orange">Enable</button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -296,6 +296,15 @@
                                 <input type="email" name="email" id="email" class="form-control"
                                     placeholder="you@example.com" value="{{ $user_profile->email }}">
                             </div>
+                            <div class="modal-inp-label">
+                                <label>Phone No</label>
+                                <input type="text" name="phone" id="phone" class="form-control"
+                                    placeholder="Enter Phone no" value="{{ $user_profile->phone ?? '' }}">
+                            </div>
+                            <div class="modal-inp-label">
+                                <label>Address</label>
+                                <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                            </div>
 
                         </div>
                         <div class="modal-footer">
@@ -323,17 +332,17 @@
                             <div class="modal-inp-label">
                                 <input type="hidden" name="id" value="{{$user_profile->id ?? '' }}">
                                 <label>Current Password</label>
-                                <input type="text" name="current_password" id="current_password" class="form-control"
+                                <input type="password" name="current_password" id="current_password" class="form-control"
                                     placeholder="Enter Your First Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>New Password</label>
-                                <input type="text" name="new_password" id="new_password" class="form-control"
+                                <input type="password" name="new_password" id="new_password" class="form-control"
                                     placeholder="Enter Your Last Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Confirm Password</label>
-                                <input type="text" name="confirm_password" id="confirm_password" class="form-control"
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control"
                                     placeholder="you@example.com">
                             </div>
 

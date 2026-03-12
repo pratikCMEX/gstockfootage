@@ -64,6 +64,8 @@ class ProfileController extends Controller
             $request->validate([
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
+                'phone' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
                 'email' => 'required|string|max:255',
             ]);
 
@@ -74,6 +76,8 @@ class ProfileController extends Controller
             $getData->first_name = $request->first_name;
             $getData->last_name = $request->last_name;
             $getData->email = $request->email;
+            $getData->phone = $request->phone;
+            $getData->address = $request->address;
             $getData->save();
 
             return redirect()->route('user.profile')->with('msg_success', 'Profile Updated successfully !');
@@ -109,6 +113,7 @@ class ProfileController extends Controller
             }
 
             $user->password = Hash::make($request->new_password);
+            $user->password_updated_at = now();
             $user->save();
             Auth::logout();
 
