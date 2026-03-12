@@ -372,6 +372,7 @@
   font-size: 32px;
   font-family: var(--font-inter-black);
 }
+.subscription-plan .subscription-left{}
 
 @media only screen and (max-width: 1399px) {
 }
