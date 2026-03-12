@@ -199,7 +199,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="selected">
                         <div class="row g-3">
-                            {{ dd($product) }}
+                            {{-- {{ dd($product) }} --}}
                             @foreach ($product as $pro)
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                     <a href="{{ route('product.detail', encrypt($pro->id)) }}">
