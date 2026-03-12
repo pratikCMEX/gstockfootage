@@ -17,7 +17,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('assets/front/js/script.js') }}"></script>
 <script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 <script>
+
+    var input = document.querySelector("#phone");
+
+    window.intlTelInput(input, {
+        initialCountry: "us",
+        preferredCountries: ["us"],
+    });
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))

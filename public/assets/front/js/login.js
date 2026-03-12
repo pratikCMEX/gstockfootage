@@ -90,14 +90,12 @@ $("#signup").validate({
       },
     },
     phone: {
-      required: true,
+     
       minlength: 10,
       maxlength: 10,
       digits: true,
     },
-    address:{
-      required: true,
-    },
+   
     password: {
       required: true,
       minlength: 6,
@@ -116,14 +114,12 @@ $("#signup").validate({
       remote: "This email already exists",
     },
     phone: {
-      required: "Please enter phone number",
+      
       minlength: "Phone number must be at least 10 digits",
       maxlength: "Phone number cannot exceed 10 digits",
       digits: "Please enter valid phone number (digits only)",
     },
-    address:{
-      required: "Please enter address",
-    },
+    
     password: {
       required: "Please enter your password",
       minlength: "Password must be at least 6 characters",
