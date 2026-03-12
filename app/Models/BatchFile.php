@@ -59,4 +59,8 @@ class BatchFile extends Model
     {
         return $this->belongsTo(Collection::class);
     }
+    public function favorites()
+    {
+        return $this->hasMany(Favorites::class, 'product_id');
+    }
 }

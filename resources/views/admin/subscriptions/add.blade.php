@@ -28,26 +28,26 @@
                                 <label for="exampleInputEmail1" class="form-label">Duration value</label>
                                 <input type="text" name="duration_value" class="form-control" id="duration_value"
                                     aria-describedby="emailHelp" placeholder="Please enter duration value"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Total Clips</label>
                                 <input type="text" name="total_clips" class="form-control" id="total_clips"
                                     aria-describedby="emailHelp" placeholder="Please enter total clips"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
-                              <div class="mb-3">
+                            <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Discount(%)</label>
                                 <input type="text" name="discount" class="form-control" id="discount"
                                     aria-describedby="emailHelp" placeholder="Please enter total clips"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
-                           
+
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Price</label>
                                 <input type="text" name="price" class="form-control" id="price"
                                     aria-describedby="emailHelp" placeholder="Please enter price"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
 

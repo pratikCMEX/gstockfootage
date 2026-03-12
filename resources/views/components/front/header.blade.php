@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/footer.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/header.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/login_in.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('assets/front/css/login_in.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('assets/front/css/product-detail.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/var.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/pricing.css') }}">
@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/term.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/about_us.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/privacy.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/favorites.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/profile.css') }}">
 
 <link href="{{ asset('assets/admin/css/toastr.css') }}" rel="stylesheet">

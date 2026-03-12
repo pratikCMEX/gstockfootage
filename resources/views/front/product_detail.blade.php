@@ -56,18 +56,18 @@
                         </div>
                     </div> --}}
                     <div class="big-product-img">
-                        <i class="bi bi-heart"></i>
+                        <a class="addFavorite" data-Product-id="{{ $data['id'] }}" data-type="{{ $data['type'] }}"> <i
+                                class="bi bi-heart"></i></a>
                         <div class="swiper frontproduct">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <div class="big-slide-img">
-                                        @if ($data['type'] == '1')
+                                        @if ($data['type'] == 'video')
                                             <video class="h-100 w-100" autoplay controls="true">
-                                                <source src="{{ asset('uploads/videos/low/' . $data['low_path']) }}">
+                                                <source src="   {{ $data['low_path'] }}">
                                             </video>
                                         @else
-                                            <img src="{{ asset('uploads/images/low/' . $data['low_path']) }}"
-                                                class="h-100 w-100" alt="">
+                                            <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
                                         @endif
                                     </div>
                                 </div>

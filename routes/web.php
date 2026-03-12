@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CollectionController;
+use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -10,10 +11,13 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController as ControllersCollectionController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserLicenceController;
+use App\Http\Controllers\UserSubscriptionController;
 use App\Http\Controllers\WebpageController;
 use App\Models\QuoteRequest;
 use App\Models\User;
@@ -26,7 +30,9 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', function () {
     return redirect()->route('home');
 });
-
+Route::get('/order_email1', function () {
+    return redirect()->route('order_mail');
+});
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -82,9 +88,16 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
-Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
 Route::get('/enterprise', [HomeController::class, 'enterprise'])->name('enterprise');
+Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
+Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/home_search', [HomeController::class, 'homeSearch'])->name('home.search');
+
+Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
+
+Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('check.login');
@@ -94,6 +107,8 @@ Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->
 
 Route::post('/contact_us_store', [ContactController::class, 'store'])->name('contact.add');
 Route::get('/contact_us', [ContactController::class, 'index'])->name('contact');
+Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
+Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');
 
 Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.profile');
 
@@ -101,9 +116,10 @@ Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.pro
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
 Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
 
-Route::get('/product_list', [HomeController::class, 'productList'])->name('product.list');
-Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
+
+Route::post('/add_favorite', [FavoritesController::class, 'addToFavorite'])->name('add_favorite');
+Route::get('/favorites', [FavoritesController::class, 'index'])->name('favorites');
+Route::post('/remove_favorites', [FavoritesController::class, 'removeFavorite'])->name('favorites.remove');
 
 Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('/forgot-password-store', [NewPasswordController::class, 'store'])->name('password.store');
@@ -118,16 +134,31 @@ Route::get('/checkout/success', [PaymentController::class, 'success'])->name('ch
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
 Route::post('/stripe/webhook', [PaymentController::class, 'handleWebhook']);
 
-Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
-Route::get('/quote', [ContactController::class, 'quote'])->name('quote');
-Route::post('/quote', [ContactController::class, 'quoteStore'])->name('quote.store');
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.list');
 
-Route::middleware('auth')->group(function () {});
+Route::middleware('auth')->group(function () {
+
+    Route::get('/view_profile', [ProfileController::class, 'edit'])->name('view_profile');
+    Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('front.update_profile');
+    Route::post('update_password', [ProfileController::class, 'update_password'])->name('front.update_password');
+    Route::post('check_password', [ProfileController::class, 'check_password'])->name('front.check_password');
+});
+
+Route::middleware('auth')->group(function () {
+
+    // Route::get('/subscription/checkout/{id}',[UserSubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::post('/subscription/stripe-session', [UserSubscriptionController::class, 'stripeSession'])->name('subscription.stripe');
+    Route::get('/subscription/success', [UserSubscriptionController::class, 'success'])->name('subscription.success');
+    Route::get('/subscription/cancel', [UserSubscriptionController::class, 'cancel'])->name('subscription.cancel');
+
+    Route::post('/license/checkout', [UserLicenceController::class, 'checkout'])->name('license.checkout');
+    Route::get('/license/success', [UserLicenceController::class, 'success'])->name('license.success');
+    Route::get('/license/cancel', [UserLicenceController::class, 'cancel'])->name('license.cancel');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

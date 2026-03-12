@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 
 class TermConditionController extends Controller
 {
+
     public function index()
     {
         $title = 'Add Term Conditions';
