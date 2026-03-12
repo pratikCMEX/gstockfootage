@@ -410,7 +410,11 @@ function loadImageMetadata(file_id) {
       $("input[name='clip_length']").val(formatDuration(res.duration));
       $("input[name='frame_rate']").val(res.frame_rate);
       $("input[name='date_created']").val(res.date_created);
-      $("input[name='frame_size']").val(res.height + "x" + res.width);
+      if (res.height && res.width) {
+        $("input[name='frame_size']").val(res.height + "x" + res.width);
+      } else {
+        $("input[name='frame_size']").val("");
+      }
       $("input[name='image_height']").val(res.height);
       $("input[name='image_width']").val(res.width);
       $("input[name='price']").val(res.price);
