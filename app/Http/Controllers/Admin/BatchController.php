@@ -530,7 +530,7 @@ class BatchController extends Controller
                         $zip->close();
                         // $images = glob($extractPath . '/*.{jpg,jpeg,png,webp}', GLOB_BRACE);
                         $images = glob($extractPath . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', GLOB_BRACE);
-                        dd($images);
+                        // dd($images);
                         foreach ($images as $imagePath) {
                             $this->processImage($imagePath, $batch_id);
                         }
