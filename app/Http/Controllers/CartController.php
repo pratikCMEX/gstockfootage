@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchFile;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class CartController extends Controller
     {
         $user_id = Auth::id();
         $product_id = $request->product_id;
-        $product = Product::findOrFail($request->product_id);
+       
+        $product = BatchFile::findOrFail($request->product_id);
 
         $qty  = $request->qty ?? 1;
         if (Auth::check()) {
