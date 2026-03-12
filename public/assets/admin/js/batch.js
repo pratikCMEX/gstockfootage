@@ -5,12 +5,12 @@ fetch("/countries.json")
   .then((data) => {
     let select = document.getElementById("country");
 
+    if (!select) return;
+
     data.forEach((country) => {
       let option = document.createElement("option");
-
       option.value = country.name;
       option.textContent = country.name;
-
       select.appendChild(option);
     });
   });
