@@ -310,6 +310,8 @@
                                                                                     $path = $file['low_path'];
                                                                                 }
                                                                             @endphp
+
+
                                                                             <img src="{{ $path }}"
                                                                                 class="w-100 h-100"
                                                                                 alt="Nature Flower">
