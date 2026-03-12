@@ -3,9 +3,9 @@
         <h1>Visuals with purpose.</h1>
         <!-- Tabs -->
         <div class="hero-tabs">
-            <button class="active"><i class="bi bi-camera-video"></i> Videos</button>
-            <button><i class="bi bi-image"></i> Photos</button>
-            <button><i class="bi bi-palette"></i> Artwork</button>
+            <a href="" class="active"><i class="bi bi-camera-video"></i> Videos</a>
+            <a href=""><i class="bi bi-image"></i> Photos</a>
+            {{-- <button><i class="bi bi-palette"></i> Artwork</button> --}}
         </div>
         <!-- Search -->
         <div class="search-wrapper">
@@ -25,8 +25,8 @@
                                 Videos</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-image"></i> Photos</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Artwork</a>
-                        </li>
+                        {{-- <li><a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Artwork</a>
+                        </li> --}}
                     </ul>
                 </div>
 
@@ -40,18 +40,7 @@
                     </button>
                     <div class="suggetion-search">
                         <ul>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
+
                         </ul>
                     </div>
                 </div>
@@ -148,7 +137,7 @@
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                 <div class="heading-btn">
-                    <a href="#" class="btn btn-orange">
+                    <a href="javascript:void(0);" class="btn btn-orange">
                         See Pricing
                     </a>
                 </div>
@@ -215,12 +204,17 @@
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                     <a href="{{ route('product.detail', encrypt($pro->id)) }}">
                                         <div class="product-card">
-                                            @if ($pro->type == '0')
-                                                <img src="{{ asset('uploads/images/low/' . $pro->low_path) }}"
+                                            @if ($pro->type == 'image')
+                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
                                                     class="product-img" alt="">
                                             @else
-                                                <img src="{{ asset('uploads/videos/thumbnails/' . $pro->thumbnail_path) }}"
-                                                    class="product-img" alt="">
+                                                @if ($pro->thumbnail_path == null)
+                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                        class="product-img" alt="">
+                                                @else
+                                                    <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                        class="product-img" alt="">
+                                                @endif
                                             @endif
                                             <div class="p-3">
 
@@ -596,6 +590,7 @@
                         <i class="bi bi-search "></i> <span>Search</span>
                     </button>
                 </div>
+
             </div>
         </div>
     </div>

@@ -1,5 +1,19 @@
 // batch
 
+fetch("/countries.json")
+  .then((response) => response.json())
+  .then((data) => {
+    let select = document.getElementById("country");
+
+    if (!select) return;
+
+    data.forEach((country) => {
+      let option = document.createElement("option");
+      option.value = country.name;
+      option.textContent = country.name;
+      select.appendChild(option);
+    });
+  });
 var base_url = $("#base_url").val();
 let filteropenbtn = document.getElementById("search_filter");
 let filteropensmall = document.getElementById("search_filter_mobile");
@@ -396,7 +410,11 @@ function loadImageMetadata(file_id) {
       $("input[name='clip_length']").val(formatDuration(res.duration));
       $("input[name='frame_rate']").val(res.frame_rate);
       $("input[name='date_created']").val(res.date_created);
-      $("input[name='frame_size']").val(res.height + "x" + res.width);
+      if (res.height && res.width) {
+        $("input[name='frame_size']").val(res.height + "x" + res.width);
+      } else {
+        $("input[name='frame_size']").val("");
+      }
       $("input[name='image_height']").val(res.height);
       $("input[name='image_width']").val(res.width);
       $("input[name='price']").val(res.price);
@@ -875,6 +893,13 @@ function failUploadToast() {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+function updateUploadProgress(percent) {
+  const barFill = document.getElementById("barFill");
+  const pctLabel = document.getElementById("pctLabel");
+
+  barFill.style.width = percent + "%";
+  pctLabel.textContent = percent;
+}
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
     alert("Please choose files first");
@@ -894,6 +919,7 @@ $(document).on("click", ".btn-upload-device", function () {
   formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
 
   startUploadToast();
+  $(".btn-upload").prop("disabled", true);
 
   $.ajax({
     url: base_url + "/admin/image_upload/" + batch_id,
@@ -902,14 +928,32 @@ $(document).on("click", ".btn-upload-device", function () {
     processData: false,
     contentType: false,
 
-    beforeSend: function () {
-      console.log("Uploading", allFiles.length, "file(s)…");
+    xhr: function () {
+      let xhr = new window.XMLHttpRequest();
+
+      xhr.upload.addEventListener(
+        "progress",
+        function (evt) {
+          if (evt.lengthComputable) {
+            let realPercent = (evt.loaded / evt.total) * 100;
+
+            // convert 0-100 → 0-90
+            let displayPercent = Math.floor(realPercent * 0.9);
+
+            updateUploadProgress(displayPercent);
+          }
+        },
+        false
+      );
+
+      return xhr;
     },
 
     success: function (response) {
       if (response.status === "success") {
         toastr.success(response.message);
-        $(this).prop("disabled", false);
+        completeUploadToast();
+        $(".btn-upload").prop("false", true);
 
         setTimeout(() => {
           allFiles = [];

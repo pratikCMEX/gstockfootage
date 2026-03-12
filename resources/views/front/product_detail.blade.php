@@ -56,19 +56,18 @@
                         </div>
                     </div> --}}
                     <div class="big-product-img">
-                       <a class="addFavorite" data-Product-id="{{ $data['id']  }}" data-type="{{  $data['type']  }}"> <i class="bi bi-heart"></i></a>
+                        <a class="addFavorite" data-Product-id="{{ $data['id'] }}" data-type="{{ $data['type'] }}"> <i
+                                class="bi bi-heart"></i></a>
                         <div class="swiper frontproduct">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <div class="big-slide-img">
                                         @if ($data['type'] == 'video')
-                                      
-                                            <video class="h-100 w-100" autoplay controls="true"  poster="{{ Storage::disk('s3')->url($data['thumbnail']) }}">
-                                                <source src="{{ Storage::disk('s3')->url($data['low_path']) }}">
+                                            <video class="h-100 w-100" autoplay controls="true">
+                                                <source src="   {{ $data['low_path'] }}">
                                             </video>
                                         @else
-                                            <img src="{{Storage::disk('s3')->url($data['file_url']) }}"
-                                                class="h-100 w-100" alt="">
+                                            <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
                                         @endif
                                     </div>
                                 </div>

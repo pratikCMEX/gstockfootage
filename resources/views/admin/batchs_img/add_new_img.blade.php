@@ -922,10 +922,10 @@
                                                 <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     name="country" id="country">
                                                     <option value="">Country of shoot </option>
-                                                    <option value="usa">
+                                                    {{-- <option value="usa">
                                                         USA</option>
                                                     <option value="uk">
-                                                        UK</option>
+                                                        UK</option> --}}
                                                 </select>
 
                                             </div>

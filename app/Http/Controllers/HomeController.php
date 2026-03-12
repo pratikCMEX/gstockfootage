@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -55,16 +56,16 @@ class HomeController extends Controller
         $js = ['favorites'];
         try {
             $id = decrypt($id);
-          
+
             // $id = 19;
             $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
-              
+
             $data = [
                 'id' => $product->id,
                 'title' => $product->title,
                 'description' => $product->description ?? 'No description available',
-                'tags' => $product->keywords ? explode(',', $product->tags) : [],
+                'tags' => $product->keywords ? explode(',', $product->keywords) : [],
                 'price' => $product->price,
                 'category' => optional($product->category)->category_name,
                 'collection' => optional($product->collection)->name,
@@ -73,20 +74,30 @@ class HomeController extends Controller
             ];
 
             if ($product->type == "image") {
-                $data['file_url'] = $product->file_path;
-                $data['low_path'] = $product->low_path;
+                $data['file_url'] = Storage::disk('s3')->url($product->file_path);
+                $data['low_path'] = Storage::disk('s3')->url($product->low_path);
                 $data['resolution'] = $product->width . ' x ' . $product->height;
                 $data['file_size'] = formatFileSize((int) $product->file_size);
             }
 
             if ($product->type == "video") {
-                $data['file_url'] = $product->high_path;
-                $data['low_path'] = $product->low_path;
-                $data['thumbnail'] = $product->thumbnail_path;
+
+                $data['file_url'] = $product->file_path
+                    ? Storage::disk('s3')->url($product->file_path)
+                    : '';
+
+                $data['low_path'] = $product->low_path
+                    ? Storage::disk('s3')->url($product->low_path)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+
+                $data['thumbnail'] = $product->thumbnail
+                    ? Storage::disk('s3')->url($product->thumbnail)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+
                 $data['resolution'] = 'HD Video';
                 $data['file_size'] = 'Video File';
             }
-          
+
             // return view('product.show', compact('data'));
             return view("layouts.front.layout", compact('title', 'page', 'data', 'js'));
         } catch (\Exception $e) {
@@ -123,7 +134,7 @@ class HomeController extends Controller
                 ];
             });
 
-            dd($data);
+            // dd($data);
             return view('product.list', compact('data'));
         } catch (\Exception $e) {
             return back()->with('msg_error', $e->getMessage());
@@ -134,18 +145,18 @@ class HomeController extends Controller
     {
         $title = 'Videos';
         $page = 'front.videos';
-        $js = ['home','favorites'];
+        $js = ['home', 'favorites'];
 
-        $categories=Category::where('is_display','1')->get();
+        $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
         // $product = Product::with('category')->where('type', '1')->get();
-         
-         $allVideos = BatchFile::with(['category'])
-        ->where('type', 'video')
-        ->where('is_edited', '1')
-        ->get();
-       
-        return view("layouts.front.layout", compact('title', 'page', 'allVideos','categories', 'js'));
+
+        $allVideos = BatchFile::with(['category'])
+            ->where('type', 'video')
+            ->where('is_edited', '1')
+            ->get();
+
+        return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
     }
 
 
@@ -155,16 +166,16 @@ class HomeController extends Controller
         $page = 'front.all_photos';
         $js = ['photos', 'favorites'];
 
-        $categories=Category::where('is_display','1')->get();
+        $categories = Category::where('is_display', '1')->get();
         // $photos = Batch::with('batch_files')->where('submission_type', 'image')->get();
         $allPhotos = BatchFile::with(['category'])
-        ->where('type', 'image')
-        ->where('is_edited', '1')
-        ->get();
+            ->where('type', 'image')
+            ->where('is_edited', '1')
+            ->get();
 
-      
 
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'categories','allPhotos'));
+
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'categories', 'allPhotos'));
     }
     public function enterprise()
     {
@@ -186,7 +197,62 @@ class HomeController extends Controller
 
     public function homeSearch(Request $request)
     {
-        $getData = BatchFile::where('keywords', 'like', '%' . $request->search . '%')->where('is_edited', '1')->get();
-        return response()->json($getData);
+        $keywords = BatchFile::where('is_edited', 1)
+            ->where('keywords', 'like', '%' . $request->search . '%')
+            ->limit(10)
+            ->pluck('keywords');
+
+        $allKeywords = [];
+
+        foreach ($keywords as $keywordString) {
+
+            if ($keywordString) {
+                $split = explode(',', $keywordString);
+
+                foreach ($split as $word) {
+                    $allKeywords[] = trim($word);
+                }
+            }
+        }
+
+        $allKeywords = array_unique($allKeywords);
+
+        if ($request->search) {
+            $allKeywords = array_filter($allKeywords, function ($word) use ($request) {
+                return stripos($word, $request->search) !== false;
+            });
+        }
+
+        // dd($allKeywords);
+
+        return response()->json(array_values($allKeywords));
+    }
+
+    public function downloadAllFiles()
+    {
+        $files = Storage::disk('s3')->allFiles();
+
+        $localPath = storage_path('app/s3-downloads/');
+
+        if (!file_exists($localPath)) {
+            mkdir($localPath, 0777, true);
+        }
+
+        foreach ($files as $file) {
+
+            $fileContent = Storage::disk('s3')->get($file);
+
+            $savePath = $localPath . $file;
+
+            $dir = dirname($savePath);
+
+            if (!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+            file_put_contents($savePath, $fileContent);
+        }
+
+        return "All files downloaded successfully";
     }
 }

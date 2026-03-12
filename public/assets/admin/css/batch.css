@@ -276,12 +276,12 @@ p {
 .batch-collect-imgs .item img {
   width: 100%;
   height: 100%;
-  object-fit: unset;
+  object-fit: cover;
 }
 
 .batch-collect-imgs.image-2 {
   /* grid-template-rows: 1fr 1fr; */
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .batch-collect-imgs.image-2 .item {
@@ -296,12 +296,14 @@ p {
 .batch-collect-imgs.batch-collect-imgs.image-3 .item,
 .batch-collect-imgs.batch-collect-imgs.image-4 .item,
 .batch-collect-imgs.batch-collect-imgs.image-more .item {
-  max-height: 100px;
+  height: auto;
+  aspect-ratio: 1 / 1;
 }
 
 .batch-collect-imgs.batch-collect-imgs.image-3 .item.long-img {
   grid-row: span 2;
-  max-height: 200px;
+  width: 100%;
+  aspect-ratio: unset;
 }
 .batch-collect-imgs.batch-collect-imgs.image-4 {
   grid-template-columns: 1fr 1fr;
@@ -1498,6 +1500,11 @@ table td {
   transform: translateY(0) scale(1);
   opacity: 1;
   pointer-events: all;
+}
+
+body:has(.upload-toast.show) .btn-orange.btn-upload {
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 /* Header row */

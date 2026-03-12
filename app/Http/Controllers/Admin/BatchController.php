@@ -223,7 +223,7 @@ class BatchController extends Controller
                         'file_path' => Storage::disk('s3')->url($file->file_path),
                         'thumbnail_path' => !empty($file->thumbnail_path)
                             ? Storage::disk('s3')->url(ltrim($file->thumbnail_path, '/'))
-                            : null,
+                            : asset('assets/admin/images/demo_thumbnail.png'),
 
                         'low_path' => !empty($file->low_path)
                             ? Storage::disk('s3')->url(ltrim($file->low_path, '/'))
@@ -555,6 +555,8 @@ class BatchController extends Controller
     private function processImage($path, $batch_id, $fileObj = null)
     {
         // dd(22);
+        set_time_limit(0);
+        ini_set('memory_limit', '1024M');
         try {
 
             $manager = new ImageManager(new Driver());

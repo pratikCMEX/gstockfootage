@@ -59,10 +59,10 @@
                     </div>
 
                     <!-- <a href="javascript:void(0);"><i class="bi bi-globe icon-btn"></i></a> -->
-                    <!-- @if(auth()->check())
-                        <a href="{{ route('favorites') }}"><i class="bi bi-heart icon-btn"></i></a>
+                    <!-- @if (auth()->check())
+<a href="{{ route('favorites') }}"><i class="bi bi-heart icon-btn"></i></a>
                         <a href="{{ route('view_profile') }}"><i class="fa-regular fa-2x fa-circle-user"></i></a>
-                    @endif -->
+@endif -->
                     <div class="cart-main"> <button class="cart-open"><i class="bi bi-cart icon-btn cart"></i></button>
 
                         @php
@@ -78,23 +78,30 @@
                         <!-- <a href="javascript:void(0);" class="dropdown-toggle"><i class="bi bi-person-circle icon-btn profile-btn"></i>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i class="bi bi-person"></i> Profile</a></li> -->
-                        @if(auth()->check())
+                        @if (auth()->check())
                             <a href="javascript:void(0);" class="dropdown-toggle"><i
-                                    class="bi bi-person-circle icon-btn "></i>
+                                    class="bi bi-person-circle icon-btn profile-btn"></i>
                                 <ul class="dropdown-menu">
 
-                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
                                                 class="bi bi-person"></i>
                                             Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'order']) }}"><i class="bi bi-bag"></i> Order</a></li>
-                                    <li class="wishlist"><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i class="bi bi-heart"></i>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('user.profile', ['tab' => 'order']) }}"><i
+                                                class="bi bi-bag"></i> Order</a></li>
+                                    <li class="wishlist"><a class="dropdown-item"
+                                            href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i
+                                                class="bi bi-heart"></i>
                                             Wishlist</a>
                                         <p class="wishlist-count">{{ auth()->user()->favorites()->count() }}</p>
                                     </li>
-                                    <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right"></i>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}"><i
+                                                class="bi bi-box-arrow-right"></i>
                                             Logout</a></li>
                                 </ul>
-                        </a>@endif
+                            </a>
+                        @endif
                     </div>
 
                     @guest
@@ -105,9 +112,9 @@
 
 
                     <!-- @auth
-                        <a href="{{ route('logout') }}">
-                            <button class="btn header-btns btn-sm">Log Out</button>
-                        </a>
+                                    <a href="{{ route('logout') }}">
+                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                    </a>
                     @endauth -->
 
                     <a href="javascript:void(0);" class="d-none d-xl-block">
@@ -215,10 +222,11 @@
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         @if ($item['type'] == '0')
-                            <img src="{{ asset('uploads/images/low/' . $item['low_path']) }}" class="h-100 w-100" alt="">
-                        @else
-                            <img src="{{ asset('uploads/videos/thumbnails/' . $item['thumbnail_path']) }}" class="h-100 w-100"
+                            <img src="{{ asset('uploads/images/low/' . $item['low_path']) }}" class="h-100 w-100"
                                 alt="">
+                        @else
+                            <img src="{{ asset('uploads/videos/thumbnails/' . $item['thumbnail_path']) }}"
+                                class="h-100 w-100" alt="">
                         @endif
                     </div>
                     <div class="cart-detail">
@@ -231,9 +239,10 @@
                         <div class="cart-price-btn">
                             <h5>${{ $item['price'] }}</h5>
                             <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"
-                                data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                    height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
+                                data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
                                     <path d="M3 6h18"></path>
                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>

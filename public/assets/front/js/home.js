@@ -3,6 +3,7 @@ $(document).ready(function () {
   var searchTimeout;
 
   $(document).on("keyup", ".home_search", function () {
+    $(".suggetion-search ul").html("");
     var value = $(this).val().toLowerCase();
 
     clearTimeout(searchTimeout);
@@ -13,13 +14,27 @@ $(document).ready(function () {
         type: "GET",
         data: {
           search: value,
-          _token: $('meta[name="csrf-token"]').attr("content"),
         },
+
         success: function (res) {
-          console.log(res);
-          // $(".search_result").html(res);
+          let html = "";
+
+          if (res.length > 0 && value != "") {
+            res.forEach(function (keyword) {
+              html += `<li>
+                                    <a href="#">${keyword}</a>
+                                </li>`;
+            });
+
+            $(".suggetion-search ul").html(html);
+            $(".suggetion-search").addClass("show");
+          } else {
+            $(".suggetion-search ul").html(
+              "<li><a href='javascript:void(0)'>No results found</li></a>  </li>"
+            );
+          }
         },
       });
-    }, 500);
+    }, 300);
   });
 });

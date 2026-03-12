@@ -14,28 +14,28 @@
                         </div>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button
-                            class="nav-link btn profile-btn @if(request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
                             id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i
+                                class="bi bi-person"></i>
                             Profile</button>
-                        <button class="nav-link btn profile-btn @if(request()->get('tab') == 'order') active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'order') active @endif"
                             id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
                             type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i
                                 class="bi bi-bag"></i> Order</button>
 
-                        <button class="nav-link btn profile-btn @if(request()->get('tab') == 'wishlist') active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'wishlist') active @endif"
                             id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
                             type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false"><i
                                 class="bi bi-heart"></i> Wishlist</button>
                         <button class="nav-link btn profile-btn" id="v-pills-settings-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-settings @if(request()->get('tab') == 'settings') active @endif"
+                            data-bs-target="#v-pills-settings @if (request()->get('tab') == 'settings') active @endif"
                             type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i
                                 class="bi bi-gear"></i> Settings</button>
                     </div>
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade  profile-manage @if(request()->get('tab') == 'profile' || !request()->get('tab')) show active @endif"
+                    <div class="tab-pane fade  profile-manage @if (request()->get('tab') == 'profile' || !request()->get('tab')) show active @endif"
                         id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                         <div class="profile-manage-header">
                             <div class="profile-manage-heading">
@@ -52,8 +52,9 @@
                         <div class="profile-manage-body">
                             <div class="profile-manage-left">
                                 <div class="profile-manage-img">
-                                    <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        width="100%" height="100%" alt="">
+                                    <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D%22
+                                        width="100%"
+                                        height="100%" alt="">
                                     <div>
                                         <label for="myfile" class="mb-0" style="cursor: pointer;">
                                             <i class="bi bi-camera"></i>
@@ -89,9 +90,82 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="subscription-plan">
+                            <div class="subscription-left">
+                                <div class="subscription-plan-header">
+                                    <span class="section-badge" style="padding: 3px 14px;">pro plan</span>
+                                    <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
+                                        Active</span>
+                                </div>
+                                <h3>Professional</h3>
+                                <p>Full access to all features, priority support & advanced analystics.</p>
+                                <h2><span class="yellow">$</span>29 <span class="gray"> / month</span></h2>
+                                <div class="divider"></div>
+                                <div class="renewal-info">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                        <circle cx="7" cy="7" r="6" stroke="#ccc"
+                                            stroke-width="1.2"></circle>
+                                        <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
+                                            stroke-linecap="round"></path>
+                                    </svg>
+                                    Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly
+                                </div>
+                            </div>
+                            <div class="subscription-right">
+                                <div class="features-title">What's included</div>
+                                <ul class="features">
+                                    <li class="feature-item">
+                                        <span class="check-icon">
+                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                        Unlimited projects &amp; workspaces
+                                    </li>
+                                    <li class="feature-item">
+                                        <span class="check-icon">
+                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                        Priority 24/7 customer support
+                                    </li>
+                                    <li class="feature-item">
+                                        <span class="check-icon">
+                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                        Advanced analytics &amp; reports
+                                    </li>
+                                    <li class="feature-item">
+                                        <span class="check-icon">
+                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                        100 GB secure cloud storage
+                                    </li>
+                                    <li class="feature-item">
+                                        <span class="check-icon">
+                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                        API access &amp; integrations
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tab-pane fade profile-order @if(request()->get('tab') == 'order') show active @endif"
-                        id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+
+                    <div class="tab-pane fade profile-order" id="v-pills-profile" role="tabpanel"
+                        aria-labelledby="v-pills-profile-tab" tabindex="0">
                         <div class="heading">
                             <h2>Recent Order</h2>
                         </div>
@@ -139,7 +213,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade profile-wishlist @if(request()->get('tab') == 'wishlist') show active @endif"
+                    <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
                         id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
                         <div class="wishlist-content">
                             <div class="wishlist-heading">
@@ -150,16 +224,14 @@
                             </div>
                             <div class="wishlist-product-content">
                                 <div class="row row-gap-4">
-                                    @if($wishLists->isNotEmpty())
+                                    @if ($wishLists->isNotEmpty())
                                         @foreach ($wishLists as $favorites)
-
-
                                             <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
                                                 <div class="wishlist-product-detail">
                                                     <div class="product-card">
                                                         <div class="product-img-div">
                                                             <a href="product-detail.html">
-                                                                @if($favorites->batchFile->type == 'image')
+                                                                @if ($favorites->batchFile->type == 'image')
                                                                     <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
                                                                         class="product-img" alt="">
                                                                 @else
@@ -255,7 +327,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade profile-setting @if(request()->get('tab') == 'settings') show active @endif"
+                    <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
                         id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
                         <div class="heading">
                             <h2>Settings</h2>
@@ -272,7 +344,7 @@
                                 <div class="acc-info-body">
                                     <div>
                                         <span>Full Name</span>
-                                        <p>{{  $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
+                                        <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
                                     </div>
                                     <div>
                                         <span>Email Address</span>
@@ -280,7 +352,7 @@
                                     </div>
                                     <div>
                                         <span>Phone</span>
-                                        <p>{{  $user_profile->phone ?? '' }}</p>
+                                        <p>{{ $user_profile->phone ?? '' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -318,20 +390,21 @@
 
         </div>
         <!-- Modal -->
-        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
                         id="profile_form">
                         @csrf
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
-                                <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id)  }}">
+                                <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id) }}">
                                 <label>First Name</label>
                                 <input type="text" name="first_name" id="first_name" class="form-control"
                                     value="{{ $user_profile->first_name }}" placeholder="Enter Your First Name">
@@ -353,8 +426,7 @@
                             </div>
                             <div class="modal-inp-label">
                                 <label>Address</label>
-                                <textarea name="address"
-                                    class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
                             </div>
 
                         </div>
@@ -368,20 +440,21 @@
             </div>
         </div>
 
-        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
                         id="password_form">
                         @csrf
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
-                                <input type="hidden" name="id" value="{{$user_profile->id ?? '' }}">
+                                <input type="hidden" name="id" value="{{ $user_profile->id ?? '' }}">
                                 <label>Current Password</label>
                                 <input type="password" name="current_password" id="current_password"
                                     class="form-control" placeholder="Enter Current Password">
@@ -413,17 +486,20 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form action="">
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
                                 <label> Name</label>
-                                <input type="text" name="username" class="form-control" placeholder="Enter Your Name">
+                                <input type="text" name="username" class="form-control"
+                                    placeholder="Enter Your Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                <input type="email" name="email" class="form-control"
+                                    placeholder="you@example.com">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Phone number</label>

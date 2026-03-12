@@ -219,13 +219,36 @@ closefilter?.addEventListener("click", function () {
 //   cart_content.classList.remove("show_popup");
 //   cartoverlay.classList.remove("active");
 // });
+const inputContainer = document.querySelector(".search-box");
+const searchInput = document.querySelector(".inp-search input");
+const suggetionbox = document.querySelector(".suggetion-search");
+
+searchInput.addEventListener("input", () => {
+  let value = searchInput.value.trim();
+
+  if (value.length > 0) {
+    suggetionbox.classList.add("show");
+  } else {
+    suggetionbox.classList.remove("show");
+    document.querySelector(".suggetion-search ul").innerHTML = "";
+  }
+});
 
 document.addEventListener("click", function (e) {
   const isInsideCart = cart_content?.contains(e.target);
   const isOpenBtn = opencart?.contains(e.target);
+  const suggetionsearch = inputContainer?.contains(e.target);
 
   if (!isInsideCart && !isOpenBtn) {
     cart_content?.classList.remove("show_popup");
     cartoverlay?.classList.remove("active");
   }
+  // const isOpenBtn = opencart?.contains(e.target);
+
+  if (!suggetionsearch) {
+    suggetionbox?.classList.remove("show");
+    // cartoverlay?.classList.remove("active");
+  }
 });
+
+// search suggetion box

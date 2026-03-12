@@ -95,6 +95,8 @@ Route::get('/product_detail/{id}', [HomeController::class, 'productDetail'])->na
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/home_search', [HomeController::class, 'homeSearch'])->name('home.search');
 
+Route::get('/download-bucket', [HomeController::class, 'downloadAllFiles']);
+
 Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 
 Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
