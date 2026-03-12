@@ -384,17 +384,17 @@
                                 <input type="hidden" name="id" value="{{$user_profile->id ?? '' }}">
                                 <label>Current Password</label>
                                 <input type="password" name="current_password" id="current_password"
-                                    class="form-control" placeholder="Enter Your First Name">
+                                    class="form-control" placeholder="Enter Current Password">
                             </div>
                             <div class="modal-inp-label">
                                 <label>New Password</label>
                                 <input type="password" name="new_password" id="new_password" class="form-control"
-                                    placeholder="Enter Your Last Name">
+                                    placeholder="Enter New Password">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Confirm Password</label>
                                 <input type="password" name="confirm_password" id="confirm_password"
-                                    class="form-control" placeholder="you@example.com">
+                                    class="form-control" placeholder="Enter Confirm Password">
                             </div>
 
                         </div>

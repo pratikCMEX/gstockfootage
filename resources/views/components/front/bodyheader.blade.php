@@ -19,8 +19,8 @@
                             <a class="nav-link dropdown-toggle" href="#">Videos</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('videos') }}">All Videos</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Holy Land</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Around the World</a></li>
+                                <!-- <li><a class="dropdown-item" href="javascript:void(0);">Holy Land</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">Around the World</a></li> -->
                             </ul>
                         </li>
 
@@ -31,13 +31,13 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item dropdown hover-dropdown">
+                        <!-- <li class="nav-item dropdown hover-dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0);">Artwork</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="javascript:void(0);">All Art Work</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);">Fine Art Prints</a></li>
                             </ul>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item"><a class="nav-link" href="{{ route('collection') }}">Collections</a></li>
                         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a>
@@ -89,11 +89,10 @@
                                     <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'order']) }}"><i class="bi bi-bag"></i> Order</a></li>
                                     <li class="wishlist"><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i class="bi bi-heart"></i>
                                             Wishlist</a>
-                                        <p class="wishlist-count">50</p>
+                                        <p class="wishlist-count">{{ auth()->user()->favorites()->count() }}</p>
                                     </li>
                                     <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right"></i>
                                             Logout</a></li>
-
                                 </ul>
                         </a>@endif
                     </div>

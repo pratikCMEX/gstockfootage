@@ -109,28 +109,29 @@
                             <h3>Send us a Message</h3>
                             <p>Fill out the form below and we'll get back to you shortly</p>
                         </div>
-
+                        <form name="contactForm" id="contactForm" method="POST" action="{{ route('contact.add') }}">
+                            @csrf
                         <div class="form-grid">
                             <div class="field">
                                 <label>Name <sup>*</sup></label>
-                                <input type="text" placeholder="Enter Your Name" />
+                                <input type="text" name="name" id="name" placeholder="Enter Your Name" />
                             </div>
                             <div class="field">
                                 <label>Email <sup>*</sup></label>
-                                <input type="email" placeholder="Enter Your Email" />
+                                <input type="email" name="email" id="email" placeholder="Enter Your Email" />
                             </div>
                             <div class="field full">
                                 <label>Subject <sup>*</sup></label>
-                                <input type="text" placeholder="Enter Subject" />
+                                <input type="text" name="subject" id="subject" placeholder="Enter Subject" />
                             </div>
                             <div class="field full">
                                 <label>Message <sup>*</sup></label>
-                                <textarea placeholder="Enter Your Message here"></textarea>
+                                <textarea placeholder="Enter Your Message here" name="message" id="message"></textarea>
                             </div>
                         </div>
 
                         <div class="submit-row">
-                            <button class="btn btn-orange">
+                            <button type="submit" class="btn btn-orange">
                                 Send Message
                                 <svg viewBox="0 0 24 24">
                                     <line x1="5" y1="12" x2="19" y2="12" />
@@ -139,6 +140,7 @@
                             </button>
                             
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
