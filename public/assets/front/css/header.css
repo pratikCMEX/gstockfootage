@@ -497,4 +497,15 @@
   .menu_content {
     gap: 9px;
   }
+  .header-actions {
+    gap: 10px;
+  }
+  .custom-toggler {
+    width: 20px;
+    height: 22px;
+  }
+  .cart,
+  .profile-btn {
+    font-size: 18px;
+  }
 }
