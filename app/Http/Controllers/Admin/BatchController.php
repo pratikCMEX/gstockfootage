@@ -134,12 +134,13 @@ class BatchController extends Controller
         // ->where('user_id', Auth::id());
 
         // 🔎 Search
-        if ($request->search) {
-            $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('batch_code', 'like', '%' . $request->search . '%');
-            });
-        }
+        // if ($request->search) {
+        //     // dd($request->search);
+        //     $query->where(function ($q) use ($request) {
+        //         $q->where('title', 'like', '%' . $request->search . '%')
+        //             ->orWhere('batch_code', 'like', '%' . $request->search . '%');
+        //     });
+        // }
 
         // 📷 Submission Type
         if ($request->submission_type) {
@@ -188,7 +189,8 @@ class BatchController extends Controller
         if ($request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('created_at', 'like', '%' . $request->search . '%');
+                    ->orWhere('created_at', 'like', '%' . $request->search . '%')
+                    ->orWhere('batch_code', 'like', '%' . $request->search . '%');
             });
         }
         // $batches = $query->latest()->paginate(6);
