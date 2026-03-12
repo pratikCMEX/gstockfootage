@@ -805,7 +805,7 @@
                                         selected <i class="fa-solid fa-angle-right"></i></button>
                                     <div class="no-file-template">
                                         <p class="template total_file_selected">No file selected</p>
-                                        <button type="button" class="btn clear-data">clear all metadata</button>
+                                        <button type="button" class="btn clear-data">Clear All Metadata</button>
                                     </div>
                                     <div class="no-file-inputs">
                                         <div class="edition-files d-none">

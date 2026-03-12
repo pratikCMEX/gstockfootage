@@ -1506,6 +1506,11 @@ body:has(.upload-toast.show) .btn-orange.btn-upload {
   pointer-events: none;
   opacity: 0.4;
 }
+body:has(.upload-toast.show) .upload-preview-strip .p-remove,
+body:has(.upload-toast.show) .upload-preview-strip .clear-link {
+  pointer-events: none;
+  opacity: 0.4;
+}
 
 /* Header row */
 .upload-toast .toast-header {
