@@ -27,6 +27,7 @@ class BatchFile extends Model
         'status',
         'rejection_reason',
         'title',
+        'price',
         'description',
         'date_created',
         'is_edited',

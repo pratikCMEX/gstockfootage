@@ -66,10 +66,12 @@ p {
 .batch-dropdown::after {
   display: none;
 }
-.batch-dropdown-menu .dropdown-item {
+
+.batch-dropdown-menu .dropdown-item,
+.upload-image .batch_file_keyword {
   padding: 5px 15px;
   font-size: 16px;
-  color: #2a3547;
+  color: var(--black);
 }
 
 .batch-dropdown:hover {
@@ -191,19 +193,19 @@ p {
 }
 .batch-content-detail {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 30px;
 }
 .batch-content-create-text {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   display: inline-flex;
   align-items: flex-start;
   /* justify-content: space-between; */
   flex-direction: column;
   gap: 6px;
-  border-right: 1px solid var(--black);
-  padding-right: 20px;
+  /* border-right: 1px solid var(--black); */
+  /* padding-right: 20px; */
 }
 .batch-content-create-counts {
   display: flex;
@@ -212,7 +214,7 @@ p {
   flex-wrap: wrap;
   column-gap: 15px;
 }
-.circle-div {
+/* .circle-div {
   border-radius: 50%;
   height: 15px;
   width: 15px;
@@ -231,30 +233,29 @@ p {
 }
 .circle-div5 {
   background-color: #e1e1e1;
-}
-.create-count-div {
+} */
+/* .create-count-div {
   display: flex;
   align-items: center;
   gap: 5px;
-}
+} */
 .batchid,
 .batchcreated {
   color: var(--black);
   font-family: var(--font-inter-bold);
   font-size: 18px;
 }
-.circel-count {
+/* .circel-count {
   color: black;
   font-size: 15px;
-
   font-weight: 600;
-}
+} */
 .batch-content-img {
   width: 100%;
-  max-width: 200px;
+  max-width: 150px;
   height: auto;
   /* max-height: 200px; */
-  background-color: black;
+  /* background-color: black; */
   border-radius: 20px;
   overflow: hidden;
   display: block;
@@ -262,8 +263,8 @@ p {
 
 .batch-collect-imgs {
   width: 100%;
-  max-width: 200px;
-  height: 200px;
+  max-width: 150px;
+  height: 150px;
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -322,13 +323,13 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--white);
   font-size: 22px;
   font-weight: 600;
 }
 
 .batch-content-dropdown a {
-  color: #5a6a85;
+  color: var(--black);
   font-weight: 700;
 }
 
@@ -405,8 +406,8 @@ p {
 }
 
 .form-check-input:checked {
-  background-color: #5d87ff;
-  border-color: #5d87ff;
+  background-color: transparent;
+  border-color: var(--black);
 }
 .filter-text ul li {
   margin: 10px 0;
@@ -427,7 +428,7 @@ p {
 .date-label {
   font-size: 14px;
   margin-bottom: 8px;
-  color: #444;
+  color: var(--black);
 }
 
 .date-inputs {
@@ -449,7 +450,7 @@ p {
 .date-title {
   display: block;
   font-size: 12px;
-  color: #666;
+  color: var(--black);
   margin-bottom: 2px;
 }
 
@@ -463,13 +464,13 @@ p {
 
 .date-format {
   font-size: 10px;
-  color: #999;
+  color: var(--black);
   margin-top: 2px;
 }
 
 .date-separator {
   font-size: 16px;
-  color: #666;
+  color: var(--black);
 }
 
 .delete-icon {
@@ -528,7 +529,7 @@ table {
 }
 tbody td {
   font-size: 15px;
-  color: black;
+  color: var(--black);
   font-weight: 700;
 }
 table td {
@@ -541,9 +542,11 @@ table td {
 .dot-dropdown:hover {
   color: var(--black) !important;
 }
+.batch_file_keyword,
 .dropdown-item {
   color: var(--black);
 }
+.batch_file_keyword:hover,
 .dropdown-item:hover {
   color: var(--black);
 }
@@ -589,7 +592,7 @@ table td {
 .upload-title {
   font-size: 22px;
   font-weight: 400;
-  color: gray;
+  color: var(--secendory);
   letter-spacing: 0.8px;
 }
 .upload-span {
@@ -603,9 +606,7 @@ table td {
   height: 22px;
   width: 44px;
 }
-.apply-default-template .form-check-label {
-  color: #5a6a85;
-}
+
 /* .apply-default-template{
   border-bottom: 1px solid gray;
 } */
@@ -627,7 +628,7 @@ table td {
   margin-bottom: 20px;
   list-style: disc;
   font-size: 16px;
-  color: gray;
+  color: var(--secendory);
   font-weight: 600;
 }
 .batch-content-table-details {
@@ -641,12 +642,12 @@ table td {
 }
 .upload-close-btn {
   font-size: 16px;
-  color: gray;
+  color: var(--secendory);
 }
 .no-file-selected {
   /* padding: 0 12px; */
   padding-left: 1px;
-  background-color: #fff;
+  background-color: var(--white);
   height: 100%;
   max-height: calc(100dvh - 128px);
   overflow: auto;
@@ -662,11 +663,13 @@ table td {
   cursor: not-allowed;
 }
 .no-file-selected input,
+.no-file-selected textarea,
 .no-file-selected .file-dropdown,
 .no-file-keywording textarea {
   background-color: var(--secendory);
   opacity: 40%;
 }
+
 .no-file-selected.active input,
 .no-file-selected.active .file-dropdown,
 .no-file-keywording.active textarea,
@@ -676,6 +679,7 @@ table td {
   color: var(--black);
 }
 .no-file-selected.active .no-file-inputs .input-group input,
+.no-file-selected.active .no-file-inputs .input-group textarea,
 .no-file-selected.active .no-file-video-propertise .input-group input,
 .no-file-selected.active .no-file-master-formate .input-group input,
 .no-file-selected.active .no-file-keywording .keyword-btn button {
@@ -684,6 +688,7 @@ table td {
   opacity: 100%;
   color: var(--black);
 }
+.no-file-selected.active .no-file-inputs .input-group textarea::placeholder,
 .no-file-selected.active .no-file-release .btn,
 .no-file-selected.active .submit-metadaata .btn,
 .no-file-selected.active .file-main-dropdown .file-dropdown,
@@ -695,7 +700,9 @@ table td {
   color: var(--black);
   opacity: 100%;
 }
-
+.no-file-selected .file-dropdown {
+  border: 1px solid var(--secendory);
+}
 .no-file-selected-title.btn {
   border-radius: 0;
   font-size: 16px;
@@ -719,7 +726,7 @@ table td {
   font-weight: 600;
 }
 .clear-data {
-  color: #5a6a85;
+  color: var(--black);
 }
 .no-file-inputs {
   display: flex;
@@ -730,20 +737,34 @@ table td {
   border-top: 1px solid rgb(180, 180, 180);
   border-bottom: 1px solid rgb(180, 180, 180);
 }
-.no-file-inputs .input-group input {
+.no-file-inputs .input-group input,
+.no-file-inputs .input-group textarea,
+.no-file-inputs .input-group select {
   padding: 15px 20px;
   border-radius: 7px !important;
   font-size: 16px;
 }
+.no-file-selected .input-group textarea {
+  height: 100px;
+}
+.no-file-selected.active .file-dropdown:focus-visible,
+.no-file-selected.active .file-dropdown:focus,
+.no-file-selected.active .file-dropdown:hover {
+  border: 1px solid var(--secendory) !important;
+}
 .no-file-selected .bootstrap-tagsinput input::placeholder,
+.no-file-selected textarea::placeholder,
 .no-file-selected .file-dropdown,
 .no-file-inputs .input-group input::placeholder {
   color: #ffffffe1;
 }
+.no-file-selected.active .upload-inp::placeholder {
+  color: var(--black);
+}
 .no-file-selected.active .bootstrap-tagsinput input::placeholder,
 .no-file-selected.active .file-dropdown,
 .no-file-selected.active .no-file-inputs .input-group input::placeholder {
-  color: #5a6a85;
+  color: var(--black);
 }
 .no-file-inputs .input-group {
   flex-direction: column;
@@ -763,7 +784,14 @@ table td {
   margin-top: 5px;
   padding-left: 10px;
   font-size: 12px;
-  color: #5a6a85;
+  color: var(--black);
+}
+
+.no-file-inputs label {
+  margin-top: 5px;
+  padding-left: 10px;
+  font-size: 12px;
+  color: red;
 }
 .file-main-dropdown {
   width: 100%;
@@ -800,7 +828,7 @@ table td {
 .master-title,
 .status-title {
   font-size: 18px;
-  color: gray;
+  color: var(--black);
   font-weight: 600;
 }
 .no-file-keywording {
@@ -866,12 +894,15 @@ table td {
 .no-file-selected .bootstrap-tagsinput input {
   background-color: transparent !important;
 }
-
+.upload-inp {
+  border: 1px solid var(--secendory);
+}
 .no-file-selected.active .bootstrap-tagsinput {
   background-color: transparent !important;
   opacity: 100%;
   pointer-events: all;
   cursor: auto;
+  border: 1px solid var(--secendory);
 }
 
 /* tags container */
@@ -1114,7 +1145,7 @@ table td {
   overflow: hidden;
 }
 .upload-title .img-id {
-  color: #000;
+  color: var(--black);
 }
 .image-upload {
   width: 100%;
@@ -1133,7 +1164,7 @@ table td {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: black;
+  background-color: var(--black);
   padding: 25px;
   position: fixed;
   top: -100px;
@@ -1154,14 +1185,14 @@ table td {
   gap: 10px;
 }
 .select-submit-btn {
-  color: white;
+  color: var(--white);
 }
 .select-submit-btn i {
   transform: rotate(45deg);
   margin-right: 10px;
 }
 .select-submit-btn:hover {
-  color: white;
+  color: var(--white);
 }
 
 .more-detail-btn i {
@@ -1198,7 +1229,7 @@ table td {
   appearance: none;
   width: 14px;
   height: 14px;
-  background: #000; /* Change color here */
+  background: var(--black); /* Change color here */
   border-radius: 50%;
   margin-top: -4px;
   cursor: pointer;
@@ -1216,7 +1247,7 @@ table td {
 .slider::-moz-range-thumb {
   width: 14px;
   height: 14px;
-  background: #000;
+  background: var(--black);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -1253,7 +1284,7 @@ table td {
   color: var(--black);
 }
 .filter-text .batch-dropdown:focus {
-  border: 1px solid black !important;
+  border: 1px solid var(--black) !important;
 }
 .filter-text a {
   color: var(--primary);
@@ -1276,7 +1307,7 @@ table td {
   justify-content: space-between;
   font-size: 12px;
   font-weight: 600;
-  color: #888;
+  color: var(--secendory);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 10px;
@@ -1453,18 +1484,14 @@ table td {
   background: #2b2b2b;
   border-radius: 16px;
   padding: 18px 20px 20px;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.28),
-    0 4px 16px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28), 0 4px 16px rgba(0, 0, 0, 0.18);
   font-family: "DM Sans", sans-serif;
 
   /* hidden by default */
   transform: translateY(20px) scale(0.96);
   opacity: 0;
   pointer-events: none;
-  transition:
-    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.3s ease;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   z-index: 9999;
 }
 .upload-toast.show {
@@ -1787,7 +1814,21 @@ table td {
 select option {
   color: var(--black);
 }
-
+.batchcreated {
+  border-right: 1px solid var(--black);
+  padding-right: 20px;
+  display: inline-block;
+}
+.batch-content-create span {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-medium);
+  display: inline-block;
+  margin-left: 20px;
+}
+.file-inp-label-grp p {
+  color: var(--black);
+}
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
     flex-basis: 63%;
@@ -1814,7 +1855,6 @@ select option {
     font-size: 18px;
   }
 }
-
 @media only screen and (max-width: 1399px) {
   .card-body:has(.images-content) {
     padding: 12px;
