@@ -1055,7 +1055,7 @@
                                     <div class="submit-metadaata text-center mt-4 mb-1">
                                         <button type="submit" disabled id="save-metadata"
                                             class="btn btn-orange w-100 "
-                                            style="font-size: 16px; padding: 15px 0;cursor: pointer;">Submit
+                                            style="font-size: 16px; padding: 15px 0;cursor: pointer;">Save
                                             metadata</button>
                                     </div>
                                 </div>
