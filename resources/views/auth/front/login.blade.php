@@ -74,7 +74,7 @@
                     <form id="signup" name="signup" class="auth-form" method="POST" action="{{ route('register') }}">
                         @csrf
                         <div>
-                            <label>First Name</label>
+                           <label>First Name<span class="text-danger"></label>
                             <input type="text" name="first_name" class="form-control" placeholder="John">
                             <label id="first_name-error" class="text-danger" for="first_name"></label>
 
@@ -94,10 +94,16 @@
                         </div>
                         <div>
                             <label>Phone No</label>
-                            <input type="text" name="phone" class="form-control" placeholder="Enter your phone number"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="15">
-                            <label id="phone-error" class="text-danger" for="phone"></label>
 
+                            <div class="input-group">
+                                <!-- <span class="input-group-text">+1</span> -->
+
+                                <input type="text" name="phone" id="phone" class="form-control"
+                                    placeholder="Enter your phone number" maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g,'')">
+                            </div>
+
+                            <label id="phone-error" class="text-danger" for="phone"></label>
                         </div>
                         <div>
                             <label>Address</label>
@@ -108,7 +114,7 @@
                         </div>
 
                         <div>
-                            <label>Password</label>
+                            <label>Password</label><span class="text-danger">*</span>
                             <div class="password-field">
                                 <input type="password" name="password" class="form-control" placeholder="••••••••">
                                 <i class="bi bi-eye toggle-password"></i>
