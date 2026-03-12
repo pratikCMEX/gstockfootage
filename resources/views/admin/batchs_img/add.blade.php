@@ -67,7 +67,7 @@
 
 
                                                     </div>
-                                                    <div class="modal-code">
+                                                    {{-- <div class="modal-code">
                                                         <label for="" class="modal-label">Brief Code</label>
                                                         <div class="input-group ">
                                                             <input type="text" class="form-control batch-inp"
@@ -75,7 +75,7 @@
                                                                 name="brief_code" aria-describedby="addon-wrapping"
                                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="modal-name">
                                                         <label for="" class="modal-label">Batch Name</label>
                                                         <div class="input-group ">
