@@ -215,11 +215,11 @@
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                     <a href="{{ route('product.detail', encrypt($pro->id)) }}">
                                         <div class="product-card">
-                                            @if ($pro->type == '0')
-                                                <img src="{{ asset('uploads/images/low/' . $pro->low_path) }}"
+                                            @if ($pro->type == 'image')
+                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
                                                     class="product-img" alt="">
                                             @else
-                                                <img src="{{ asset('uploads/videos/thumbnails/' . $pro->thumbnail_path) }}"
+                                                <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
                                                     class="product-img" alt="">
                                             @endif
                                             <div class="p-3">

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -56,13 +57,13 @@ class HomeController extends Controller
         try {
             $id = decrypt($id);
             // $id = 19;
-            $product = Product::with(['category', 'subcategory', 'collection'])
+            $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
             $data = [
                 'id' => $product->id,
-                'title' => $product->name,
+                'title' => $product->title,
                 'description' => $product->description ?? 'No description available',
-                'tags' => $product->tags ? explode(',', $product->tags) : [],
+                'tags' => $product->keywords ? explode(',', $product->keywords) : [],
                 'price' => $product->price,
                 'category' => optional($product->category)->category_name,
                 'collection' => optional($product->collection)->name,
@@ -70,17 +71,17 @@ class HomeController extends Controller
                 'type' => $product->type,
             ];
 
-            if ($product->type == "0") {
-                $data['file_url'] = asset('uploads/images/high/' . $product->high_path);
-                $data['low_path'] = $product->low_path;
+            if ($product->type == "image") {
+                $data['file_url'] = Storage::disk('s3')->url($product->file_path);
+                $data['low_path'] = Storage::disk('s3')->url($product->low_path);
                 $data['resolution'] = $product->width . ' x ' . $product->height;
                 $data['file_size'] = formatFileSize((int) $product->file_size);
             }
 
-            if ($product->type == "1") {
-                $data['file_url'] = asset('uploads/videos/high/' . $product->high_path);
-                $data['low_path'] = $product->low_path;
-                $data['thumbnail'] = asset('uploads/videos/high/' . $product->thumbnail_path);
+            if ($product->type == "video") {
+                $data['file_url'] = Storage::disk('s3')->url($product->file_path);
+                $data['low_path'] = Storage::disk('s3')->url($product->low_path);
+                $data['thumbnail'] = Storage::disk('s3')->url($product->thumbnail);
                 $data['resolution'] = 'HD Video';
                 $data['file_size'] = 'Video File';
             }
