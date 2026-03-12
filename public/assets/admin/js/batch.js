@@ -894,6 +894,7 @@ function failUploadToast() {
 }
 
 let lastPercent = 0;
+let counterTimer = null;
 
 function updateUploadProgress(percent) {
   const barFill = document.getElementById("barFill");
@@ -901,12 +902,32 @@ function updateUploadProgress(percent) {
 
   percent = Math.min(Math.floor(percent), 90);
 
-  if (percent < lastPercent) return;
+  if (percent <= lastPercent) return;
 
+  let start = lastPercent;
+  let end = percent;
   lastPercent = percent;
 
+  // update bar
   barFill.style.width = percent + "%";
-  pctLabel.textContent = percent;
+
+  // animate counter over same duration as bar
+  clearInterval(counterTimer);
+
+  let duration = 300;
+  let steps = end - start;
+  let stepTime = duration / (steps || 1);
+
+  let current = start;
+
+  counterTimer = setInterval(() => {
+    current++;
+    pctLabel.textContent = current;
+
+    if (current >= end) {
+      clearInterval(counterTimer);
+    }
+  }, stepTime);
 }
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
@@ -1082,8 +1103,8 @@ $(document).on("click", "[data-bs-target='#renameModal']", function () {
 $("#BatchrenameModal").on("show.bs.modal", function (event) {
   let button = $(event.relatedTarget);
 
-  let id = button.data("id");
-  let name = button.data("name");
+  let id = button.attr("data-id");
+  let name = button.attr("data-name");
 
   $("#rename_batch_id").val(id);
   $("#rename_batch_name").val(name);
@@ -1133,7 +1154,9 @@ $(document).on("click", ".edit_branch_name", function (e) {
     success: function (res) {
       $("#renameModal").modal("hide");
       $(".batch_name").html(branch_name);
+      $(".BatchrenameModal").attr("data-name", branch_name);
       toastr.success(res.message);
+      $("#BatchrenameModal").modal("hide");
 
       // reload batches
       loadBatches(1);
