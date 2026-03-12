@@ -111,27 +111,21 @@
                     @endguest
 
 
-                    <<<<<<< HEAD @auth <a href="{{ route('logout') }}">
-                            <button class="btn header-btns btn-sm">Log Out</button>
-                            </a>
-                        @endauth
-                        =======
-                        <!-- @auth
-                                <a href="{{ route('logout') }}">
-                                    <button class="btn header-btns btn-sm">Log Out</button>
-                                </a>
+                    <!-- @auth
+                                    <a href="{{ route('logout') }}">
+                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                    </a>
                     @endauth -->
-                        >>>>>>> development
 
-                        <a href="javascript:void(0);" class="d-none d-xl-block">
-                            <button class="btn header-btns btn-sm cta-btn">
-                                Get Unlimited Downloads
-                            </button>
-                        </a>
-
-                        <button class="custom-toggler d-lg-none" id="menuToggle">
-                            <span></span><span></span><span></span>
+                    <a href="javascript:void(0);" class="d-none d-xl-block">
+                        <button class="btn header-btns btn-sm cta-btn">
+                            Get Unlimited Downloads
                         </button>
+                    </a>
+
+                    <button class="custom-toggler d-lg-none" id="menuToggle">
+                        <span></span><span></span><span></span>
+                    </button>
 
                 </div>
             </div>
