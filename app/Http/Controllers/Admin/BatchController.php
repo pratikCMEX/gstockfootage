@@ -566,7 +566,7 @@ class BatchController extends Controller
             $width  = $img->width();
             $height = $img->height();
             $size   = $fileObj ? $fileObj->getSize() : filesize($path);
-
+            $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
             // // HIGH
             // Storage::disk('s3')->put(
             //     "batch/high/$imageName",
@@ -663,6 +663,7 @@ class BatchController extends Controller
                 'batch_id'       => $batch_id,
                 'file_code'      => mt_rand(1000000000, 9999999999),
                 'original_name'  => $fileObj ? $fileObj->getClientOriginalName() : basename($path),
+                'title' => $fileObj ? pathinfo($fileObj->getClientOriginalName(), PATHINFO_FILENAME) : pathinfo(basename($path), PATHINFO_FILENAME),
                 'file_name'      => $imageName,
                 'file_path'      => "batch/image/high/$imageName",
                 'thumbnail_path' => "",
@@ -715,6 +716,7 @@ class BatchController extends Controller
             $originalName = $file->getClientOriginalName();
         }
 
+        $originalNameOnly = pathinfo($originalName, PATHINFO_FILENAME);
 
         // $videoPath = public_path('uploads/batch/videos/high/');
 
@@ -744,6 +746,7 @@ class BatchController extends Controller
         $batchFile->file_name = $fileName;
         $batchFile->file_path = $path;
         $batchFile->file_type = 'video';
+        $batchFile->title = $originalNameOnly;
         $batchFile->date_created = Carbon::now()->toDateString();
         $batchFile->status = 'accepted';
         $batchFile->save();
