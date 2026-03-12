@@ -208,8 +208,13 @@
                                                 <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
                                                     class="product-img" alt="">
                                             @else
-                                                <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                    class="product-img" alt="">
+                                                @if ($pro->thumbnail_path == null)
+                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                        class="product-img" alt="">
+                                                @else
+                                                    <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                        class="product-img" alt="">
+                                                @endif
                                             @endif
                                             <div class="p-3">
 
