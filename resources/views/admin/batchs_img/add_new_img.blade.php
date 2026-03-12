@@ -830,9 +830,11 @@
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-icon-grp">
-                                                <input type="text" class="form-control upload-inp"
+                                                {{-- <input type="text" class="form-control upload-inp"
                                                     placeholder="Descriptions *" name="description"
-                                                    aria-label="Username" aria-describedby="visible-addon">
+                                                    aria-label="Username" aria-describedby="visible-addon"> --}}
+                                                <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" name="description"
+                                                    aria-label="Username" aria-describedby="visible-addon"></textarea>
                                                 <i class="fa-regular fa-circle-question file-input-icon"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Enter a clear description for your image."></i>
@@ -973,7 +975,7 @@
                                         <p class="video-title">Video Propertise</p>
                                         <div class="input-group file-inp-label-grp">
                                             <p style="font-size: 12px;">Clip Length</p>
-                                            <input type="text" class="form-control" name="clip_length"
+                                            <input type="text" class="form-control upload-inp" name="clip_length"
                                                 placeholder="00:00:29:12" width="100%" aria-label="Username"
                                                 aria-describedby="visible-addon">
                                         </div>
@@ -998,13 +1000,13 @@
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Media formate</p>
-                                                <input type="text" class="form-control" placeholder="Quick Time"
-                                                    name="media_formate" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="Quick Time" name="media_formate" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon">
                                             </div>
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame rate</p>
-                                                <input type="text" class="form-control Upload-inp"
+                                                <input type="text" class="form-control upload-inp"
                                                     placeholder="29.97" name="frame_rate" width="100%"
                                                     aria-label="Username" aria-describedby="visible-addon">
                                             </div>

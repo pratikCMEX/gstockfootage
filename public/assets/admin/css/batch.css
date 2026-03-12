@@ -659,11 +659,13 @@ table td {
   cursor: not-allowed;
 }
 .no-file-selected input,
+.no-file-selected textarea,
 .no-file-selected .file-dropdown,
 .no-file-keywording textarea {
   background-color: var(--secendory);
   opacity: 40%;
 }
+
 .no-file-selected.active input,
 .no-file-selected.active .file-dropdown,
 .no-file-keywording.active textarea,
@@ -673,6 +675,7 @@ table td {
   color: var(--black);
 }
 .no-file-selected.active .no-file-inputs .input-group input,
+.no-file-selected.active .no-file-inputs .input-group textarea,
 .no-file-selected.active .no-file-video-propertise .input-group input,
 .no-file-selected.active .no-file-master-formate .input-group input,
 .no-file-selected.active .no-file-keywording .keyword-btn button {
@@ -681,6 +684,7 @@ table td {
   opacity: 100%;
   color: var(--black);
 }
+.no-file-selected.active .no-file-inputs .input-group textarea::placeholder,
 .no-file-selected.active .no-file-release .btn,
 .no-file-selected.active .submit-metadaata .btn,
 .no-file-selected.active .file-main-dropdown .file-dropdown,
@@ -730,10 +734,14 @@ table td {
   border-bottom: 1px solid rgb(180, 180, 180);
 }
 .no-file-inputs .input-group input,
+.no-file-inputs .input-group textarea,
 .no-file-inputs .input-group select {
   padding: 15px 20px;
   border-radius: 7px !important;
   font-size: 16px;
+}
+.no-file-selected .input-group textarea {
+  height: 100px;
 }
 .no-file-selected.active .file-dropdown:focus-visible,
 .no-file-selected.active .file-dropdown:focus,
@@ -741,14 +749,18 @@ table td {
   border: 1px solid var(--secendory) !important;
 }
 .no-file-selected .bootstrap-tagsinput input::placeholder,
+.no-file-selected textarea::placeholder,
 .no-file-selected .file-dropdown,
 .no-file-inputs .input-group input::placeholder {
   color: #ffffffe1;
 }
+.no-file-selected.active .upload-inp::placeholder {
+  color: var(--black);
+}
 .no-file-selected.active .bootstrap-tagsinput input::placeholder,
 .no-file-selected.active .file-dropdown,
 .no-file-selected.active .no-file-inputs .input-group input::placeholder {
-  color: #5a6a85;
+  color: var(--black);
 }
 .no-file-inputs .input-group {
   flex-direction: column;
