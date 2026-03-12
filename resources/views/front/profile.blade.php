@@ -18,69 +18,85 @@
                             data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
                             aria-selected="true"><i class="bi bi-person"></i> Profile</button>
                         <button class="nav-link btn profile-btn" id="v-pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
-                            aria-selected="false"><i class="bi bi-bag"></i> Order</button>
+                            data-bs-target="#v-pills-profile" type="button" role="tab"
+                            aria-controls="v-pills-profile" aria-selected="false"><i class="bi bi-bag"></i>
+                            Order</button>
 
                         <button class="nav-link btn profile-btn" id="v-pills-messages-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                            aria-selected="false"><i class="bi bi-heart"></i> Wishlist</button>
+                            data-bs-target="#v-pills-messages" type="button" role="tab"
+                            aria-controls="v-pills-messages" aria-selected="false"><i class="bi bi-heart"></i>
+                            Wishlist</button>
                         <button class="nav-link btn profile-btn" id="v-pills-settings-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
-                            aria-selected="false"><i class="bi bi-gear"></i> Settings</button>
+                            data-bs-target="#v-pills-settings" type="button" role="tab"
+                            aria-controls="v-pills-settings" aria-selected="false"><i class="bi bi-gear"></i>
+                            Settings</button>
                     </div>
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active profile-manage" id="v-pills-home" role="tabpanel"
+                    <div class="tab-pane fade show active " id="v-pills-home" role="tabpanel"
                         aria-labelledby="v-pills-home-tab" tabindex="0">
-                        <div class="profile-manage-header">
-                            <div class="profile-manage-heading">
-                                <h3>Profile Details</h3>
-                                <p>Manage your personal information and preferences.</p>
-                            </div>
-                            <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
-                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="bi bi-pencil"></i>
-                                Edit Profile
-                            </button>
+                        <div class="profile-manage">
+                            <div class="profile-manage-header">
+                                <div class="profile-manage-heading">
+                                    <h3>Profile Details</h3>
+                                    <p>Manage your personal information and preferences.</p>
+                                </div>
+                                <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
+                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <i class="bi bi-pencil"></i>
+                                    Edit Profile
+                                </button>
 
-                        </div>
-                        <div class="profile-manage-body">
-                            <div class="profile-manage-left">
-                                <div class="profile-manage-img">
-                                    <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        width="100%" height="100%" alt="">
-                                    <div>
-                                        <label for="myfile" class="mb-0" style="cursor: pointer;">
-                                            <i class="bi bi-camera"></i>
-                                        </label>
-                                        <input type="file" id="myfile" name="myfile" multiple hidden><br><br>
+                            </div>
+                            <div class="profile-manage-body">
+                                <div class="profile-manage-left">
+                                    <div class="profile-manage-img">
+                                        <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                            width="100%" height="100%" alt="">
+                                        <div>
+                                            <label for="myfile" class="mb-0" style="cursor: pointer;">
+                                                <i class="bi bi-camera"></i>
+                                            </label>
+                                            <input type="file" id="myfile" name="myfile" multiple hidden><br><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-manage-title">
+                                        <h3>Alex Johnson</h3>
+                                        <p>Member since January 2023</p>
                                     </div>
                                 </div>
-                                <div class="profile-manage-title">
-                                    <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
-                                    <p>Member since {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}</p>
+                                <div class="profile-manage-middle">
+                                    <div class="profile-mail profile-manage-text">
+                                        <span>Email Address</span>
+                                        <a href="mailto:alex.j@example.com">alex.j@example.com</a>
+                                    </div>
+                                    <div class="profile-location profile-manage-text">
+                                        <span>Location</span>
+                                        <p>San Francisco, CA</p>
+                                    </div>
+                                </div>
+                                <div class="profile-manage-right">
+                                    <div class="profile-number profile-manage-text">
+                                        <span>Phone Number</span>
+                                        <a href="tel:+1 (555) 000-1234">+1 (555) 000-1234</a>
+                                    </div>
+                                    <div class="profile-language profile-manage-text">
+                                        <span>Language</span>
+                                        <p>English</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="profile-manage-middle">
-                                <div class="profile-mail profile-manage-text">
-                                    <span>Email Address</span>
-                                    <a href="mailto:alex.j@example.com">{{ $user_profile->email ?? '' }}</a>
+                        </div>
+                        <div class="subscription-plan">
+                            <div class="subscription-left">
+                                <div class="subscription-plan-header">
+                                    <span class="section-badge">PRO PLAN</span>
+                                    <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
+                                        Active</span>
                                 </div>
-                                <div class="profile-location profile-manage-text">
-                                    <span>Location</span>
-                                    <p>{{ $user_profile->address ?? '' }}</p>
-                                </div>
+
                             </div>
-                            <div class="profile-manage-right">
-                                <div class="profile-number profile-manage-text">
-                                    <span>Phone Number</span>
-                                    <a href="tel:+1 (555) 000-1234">{{ $user_profile->phone ?? '' }}</a>
-                                </div>
-                                <div class="profile-language profile-manage-text">
-                                    <span>Language</span>
-                                    <p>English</p>
-                                </div>
-                            </div>
+                            <div class="subscription-right"></div>
                         </div>
                     </div>
                     <div class="tab-pane fade profile-order" id="v-pills-profile" role="tabpanel"
@@ -224,7 +240,7 @@
                                 <div class="acc-info-body">
                                     <div>
                                         <span>Full Name</span>
-                                        <p>{{  $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
+                                        <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
                                     </div>
                                     <div>
                                         <span>Email Address</span>
@@ -232,7 +248,7 @@
                                     </div>
                                     <div>
                                         <span>Phone</span>
-                                        <p>{{  $user_profile->phone ?? '' }}</p>
+                                        <p>{{ $user_profile->phone ?? '' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +259,9 @@
                                 <div class="security-password security-detail">
                                     <div class="pass-title">
                                         <h4>Password</h4>
-                                        <p>Last changed {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}</p>
+                                        <p>Last changed
+                                            {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
+                                        </p>
                                     </div>
                                     <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
                                         data-bs-toggle="modal" data-bs-target="#password_change">
@@ -268,20 +286,21 @@
 
         </div>
         <!-- Modal -->
-        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
                         id="profile_form">
                         @csrf
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
-                                <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id)  }}">
+                                <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id) }}">
                                 <label>First Name</label>
                                 <input type="text" name="first_name" id="first_name" class="form-control"
                                     value="{{ $user_profile->first_name }}" placeholder="Enter Your First Name">
@@ -317,23 +336,24 @@
             </div>
         </div>
 
-        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
                         id="password_form">
                         @csrf
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
-                                <input type="hidden" name="id" value="{{$user_profile->id ?? '' }}">
+                                <input type="hidden" name="id" value="{{ $user_profile->id ?? '' }}">
                                 <label>Current Password</label>
-                                <input type="password" name="current_password" id="current_password" class="form-control"
-                                    placeholder="Enter Your First Name">
+                                <input type="password" name="current_password" id="current_password"
+                                    class="form-control" placeholder="Enter Your First Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>New Password</label>
@@ -342,8 +362,8 @@
                             </div>
                             <div class="modal-inp-label">
                                 <label>Confirm Password</label>
-                                <input type="password" name="confirm_password" id="confirm_password" class="form-control"
-                                    placeholder="you@example.com">
+                                <input type="password" name="confirm_password" id="confirm_password"
+                                    class="form-control" placeholder="you@example.com">
                             </div>
 
                         </div>
@@ -362,17 +382,20 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form action="">
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
                                 <label> Name</label>
-                                <input type="text" name="username" class="form-control" placeholder="Enter Your Name">
+                                <input type="text" name="username" class="form-control"
+                                    placeholder="Enter Your Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                <input type="email" name="email" class="form-control"
+                                    placeholder="you@example.com">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Phone number</label>
