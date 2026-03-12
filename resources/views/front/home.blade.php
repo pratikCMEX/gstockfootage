@@ -38,22 +38,6 @@
                     <button class="search-btn">
                         <i class="bi bi-search"></i>
                     </button>
-                    <div class="suggetion-search">
-                        <ul>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                            <li><a href="">abc</a></li>
-                        </ul>
-                    </div>
                 </div>
 
             </div>
@@ -78,7 +62,7 @@
                         </div>
                         <div class="modal-body search-image-body">
                             <input type="file" id="search-image" hidden>
-
+                
                             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-upload h-12 w-12  mb-2">
@@ -121,17 +105,17 @@
                 </div>
             </div>
             @foreach ($CollectionList as $item)
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="brand-posibility">
-                    <div class="posibility-img">
-                        <img width="100%" height="100%"
-                            src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
-                    </div>
-                    <div class="posibilty-title">
-                        <h3>{{ $item->name }}</h3>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="brand-posibility">
+                        <div class="posibility-img">
+                            <img width="100%" height="100%"
+                                src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
+                        </div>
+                        <div class="posibilty-title">
+                            <h3>{{ $item->name }}</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
         </div>
     </div>
@@ -156,18 +140,18 @@
         </div>
         <div class="row g-3">
             @foreach ($categoryList as $category)
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="javascript::void(0);">
-                    <div class="fingertips-content">
-                        <div class="fingertips-img">
-                            <img height="100%" width="100%"
-                                src="{{ asset('uploads/images/category/' . $category->category_image) }}"
-                                alt="">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                    <a href="javascript::void(0);">
+                        <div class="fingertips-content">
+                            <div class="fingertips-img">
+                                <img height="100%" width="100%"
+                                    src="{{ asset('uploads/images/category/' . $category->category_image) }}"
+                                    alt="">
+                            </div>
+                            <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
                         </div>
-                        <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
             @endforeach
         </div>
     </div>
@@ -212,27 +196,195 @@
                         <div class="row g-3">
                             {{-- {{ dd($product) }} --}}
                             @foreach ($product as $pro)
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                        <div class="product-card">
+                                            @if ($pro->type == '0')
+                                                <img src="{{ asset('uploads/images/low/' . $pro->low_path) }}"
+                                                    class="product-img" alt="">
+                                            @else
+                                                <img src="{{ asset('uploads/videos/thumbnails/' . $pro->thumbnail_path) }}"
+                                                    class="product-img" alt="">
+                                            @endif
+                                            <div class="p-3">
+
+                                                <span
+                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name }}</span>
+
+                                                <h6 class="popular-detail-title">{{ $pro->name }}
+                                                </h6>
+
+
+                                                <div class="price-btn">
+                                                    <span class="price">${{ $pro->price }}</span>
+                                                    <button class="btn  btn-orange">Add</button>
+                                                </div>
+                                                <div class="product-two-btn">
+                                                    <button class="btn  popular-icon-btn"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-heart"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                        </svg>
+                                                        Save</button>
+                                                    <button class="btn  popular-icon-btn"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-share"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                        </svg>
+                                                        Share</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                </div>
+                            @endforeach
+
+                            {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="product-detail.html">
                                     <div class="product-card">
-                                        @if ($pro->type == '0')
-                                        <img src="{{ asset('uploads/images/low/' . $pro->low_path) }}"
-                                            class="product-img" alt="">
-                                        @else
-                                        <img src="{{ asset('uploads/videos/thumbnails/' . $pro->thumbnail_path) }}"
-                                            class="product-img" alt="">
-                                        @endif
+
+                                        <img src="{{ asset('assets/front/img/posibility_3.webp') }}" class="product-img"
+                                            alt="Punjabi Dum Aloo">
+
                                         <div class="p-3">
 
-                                            <span
-                                                class="badge badge-custom mb-2">{{ $pro->category->category_name }}</span>
+                                            <span class="badge badge-custom mb-2">Food</span>
 
-                                            <h6 class="popular-detail-title">{{ $pro->name }}
-                                            </h6>
+                                            <h6 class="popular-detail-title">Punjabi-Dum-Aloo</h6>
 
 
                                             <div class="price-btn">
-                                                <span class="price">${{ $pro->price }}</span>
+                                                <span class="price">$149</span>
+                                                <button class="btn  btn-orange">Add</button>
+                                            </div>
+                                            <div class="product-two-btn">
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="product-detail.html">
+                                    <div class="product-card">
+
+                                        <img src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
+                                            class="product-img" alt="">
+                                        <div class="p-3">
+
+                                            <span class="badge badge-custom mb-2">Food</span>
+
+                                            <h6 class="popular-detail-title">Malai Chicken</h6>
+
+
+                                            <div class="price-btn">
+                                                <span class="price">$149</span>
+                                                <button class="btn  btn-orange">Add</button>
+                                            </div>
+                                            <div class="product-two-btn">
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="product-detail.html">
+                                    <div class="product-card">
+
+                                        <img src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
+                                            class="product-img" alt="">
+
+                                        <div class="p-3">
+
+                                            <span class="badge badge-custom mb-2">Diamond</span>
+
+                                            <h6 class="popular-detail-title">Golden Diamond</h6>
+
+
+                                            <div class="price-btn">
+                                                <span class="price">$149</span>
+                                                <button class="btn  btn-orange">Add</button>
+                                            </div>
+                                            <div class="product-two-btn">
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div> --}}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="popular">
+                        <div class="row g-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="javascript:void(0);">
+                                    <div class="product-card">
+
+                                        <img src="{{ asset('assets/front/img/artist-at-work-stockcake.webp') }}"
+                                            class="product-img" alt="">
+
+                                        <div class="p-3">
+
+                                            <span class="badge badge-custom mb-2">Art</span>
+
+                                            <h6 class="popular-detail-title">Art & Craft</h6>
+
+
+                                            <div class="price-btn">
+                                                <span class="price">$149</span>
                                                 <button class="btn  btn-orange">Add</button>
                                             </div>
                                             <div class="product-two-btn">
@@ -259,312 +411,144 @@
                                 </a>
 
                             </div>
-                            @endforeach
-
-                            {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="javascript:void(0);">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/posibility_3.webp') }}" class="product-img"
-                            alt="Punjabi Dum Aloo">
+                                        <img src="{{ asset('assets/front/img/the-future-of-artificial-intelligence.jpg') }}"
+                                            class="product-img" alt="ai future">
 
-                            <div class="p-3">
+                                        <div class="p-3">
 
-                                <span class="badge badge-custom mb-2">Food</span>
+                                            <span class="badge badge-custom mb-2">AI</span>
 
-                                <h6 class="popular-detail-title">Punjabi-Dum-Aloo</h6>
+                                            <h6 class="popular-detail-title">AI Future</h6>
 
 
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    <button class="btn  btn-orange">Add</button>
-                                </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
+                                            <div class="price-btn">
+                                                <span class="price">$149</span>
+                                                <button class="btn  btn-orange">Add</button>
+                                            </div>
+                                            <div class="product-two-btn">
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-heart"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-share"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="javascript:void(0);">
+                                    <div class="product-card">
+
+                                        <img src="{{ asset('assets/front/img/riverss.jpg') }}" class="product-img"
+                                            alt="">
+                                        <div class="p-3">
+
+                                            <span class="badge badge-custom mb-2">River</span>
+
+                                            <h6 class="popular-detail-title">Rivers</h6>
+
+
+                                            <div class="price-btn">
+                                                <span class="price">$149</span>
+                                                <button class="btn  btn-orange">Add</button>
+                                            </div>
+                                            <div class="product-two-btn">
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-heart"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-share"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <a href="javascript:void(0);">
+                                    <div class="product-card">
+
+                                        <img src="{{ asset('assets/front/img/foods.jpeg') }}" class="product-img"
+                                            alt="">
+
+                                        <div class="p-3">
+
+                                            <span class="badge badge-custom mb-2">Food</span>
+
+                                            <h6 class="popular-detail-title">Foods</h6>
+
+
+                                            <div class="price-btn">
+                                                <span class="price">$149</span>
+                                                <button class="btn  btn-orange">Add</button>
+                                            </div>
+                                            <div class="product-two-btn">
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-heart"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-share"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a>
 
                             </div>
                         </div>
-                        </a>
-
                     </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-detail.html">
-                            <div class="product-card">
-
-                                <img src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
-                                    class="product-img" alt="">
-                                <div class="p-3">
-
-                                    <span class="badge badge-custom mb-2">Food</span>
-
-                                    <h6 class="popular-detail-title">Malai Chicken</h6>
-
-
-                                    <div class="price-btn">
-                                        <span class="price">$149</span>
-                                        <button class="btn  btn-orange">Add</button>
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                            </svg>
-                                            Save</button>
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-detail.html">
-                            <div class="product-card">
-
-                                <img src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
-                                    class="product-img" alt="">
-
-                                <div class="p-3">
-
-                                    <span class="badge badge-custom mb-2">Diamond</span>
-
-                                    <h6 class="popular-detail-title">Golden Diamond</h6>
-
-
-                                    <div class="price-btn">
-                                        <span class="price">$149</span>
-                                        <button class="btn  btn-orange">Add</button>
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                            </svg>
-                                            Save</button>
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-
-                    </div> --}}
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="popular">
-                <div class="row g-3">
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <a href="javascript:void(0);">
-                            <div class="product-card">
-
-                                <img src="{{ asset('assets/front/img/artist-at-work-stockcake.webp') }}"
-                                    class="product-img" alt="">
-
-                                <div class="p-3">
-
-                                    <span class="badge badge-custom mb-2">Art</span>
-
-                                    <h6 class="popular-detail-title">Art & Craft</h6>
-
-
-                                    <div class="price-btn">
-                                        <span class="price">$149</span>
-                                        <button class="btn  btn-orange">Add</button>
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-heart"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                            </svg>
-                                            Save</button>
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-share"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <a href="javascript:void(0);">
-                            <div class="product-card">
-
-                                <img src="{{ asset('assets/front/img/the-future-of-artificial-intelligence.jpg') }}"
-                                    class="product-img" alt="ai future">
-
-                                <div class="p-3">
-
-                                    <span class="badge badge-custom mb-2">AI</span>
-
-                                    <h6 class="popular-detail-title">AI Future</h6>
-
-
-                                    <div class="price-btn">
-                                        <span class="price">$149</span>
-                                        <button class="btn  btn-orange">Add</button>
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-heart"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                            </svg>
-                                            Save</button>
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-share"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <a href="javascript:void(0);">
-                            <div class="product-card">
-
-                                <img src="{{ asset('assets/front/img/riverss.jpg') }}" class="product-img"
-                                    alt="">
-                                <div class="p-3">
-
-                                    <span class="badge badge-custom mb-2">River</span>
-
-                                    <h6 class="popular-detail-title">Rivers</h6>
-
-
-                                    <div class="price-btn">
-                                        <span class="price">$149</span>
-                                        <button class="btn  btn-orange">Add</button>
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-heart"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                            </svg>
-                                            Save</button>
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-share"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <a href="javascript:void(0);">
-                            <div class="product-card">
-
-                                <img src="{{ asset('assets/front/img/foods.jpeg') }}" class="product-img"
-                                    alt="">
-
-                                <div class="p-3">
-
-                                    <span class="badge badge-custom mb-2">Food</span>
-
-                                    <h6 class="popular-detail-title">Foods</h6>
-
-
-                                    <div class="price-btn">
-                                        <span class="price">$149</span>
-                                        <button class="btn  btn-orange">Add</button>
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-heart"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                            </svg>
-                                            Save</button>
-                                        <button class="btn  popular-icon-btn"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="currentColor" class="bi bi-share"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
-                </div>
+            <div class="col-12 text-center">
+                <a href="#" class="brows-btn">brows all content <svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                    </svg></a>
             </div>
         </div>
-    </div>
-    <div class="col-12 text-center">
-        <a href="#" class="brows-btn">brows all content <svg xmlns="http://www.w3.org/2000/svg"
-                width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
-                viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-            </svg></a>
-    </div>
-    </div>
     </div>
 </section>
 <section class="help_section hero-wrapper d-flex align-items-center justify-content-center">
@@ -832,50 +816,50 @@
             </div>
 
             <div class="col-lg-7">
-                @if($testimonials->isNotEmpty())
-                @foreach ($testimonials as $testimonial)
+                 @if($testimonials->isNotEmpty())
+                   @foreach ($testimonials as $testimonial)
 
+                 
+                        <div class="testimonial-card">
+                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-quote h-8 w-8 text-primary/30 ">
+                                    <path
+                                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                    </path>
+                                    <path
+                                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                    </path>
+                                </svg></div>
+                            <div class="testimonial-text">
+                                {{ $testimonial->message }}
+                            </div>
+                            @php
+                                $name = trim($testimonial->name);
+                                $words = explode(' ', $name);
 
-                <div class="testimonial-card">
-                    <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                            <path
-                                d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                            </path>
-                            <path
-                                d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                            </path>
-                        </svg></div>
-                    <div class="testimonial-text">
-                        {{ $testimonial->message }}
-                    </div>
-                    @php
-                    $name = trim($testimonial->name);
-                    $words = explode(' ', $name);
+                                $initials = '';
 
-                    $initials = '';
-
-                    if (count($words) >= 2) {
-                    $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
-                    } else {
-                    $initials = strtoupper(substr($name, 0, 1));
-                    }
-                    @endphp
-                    <div class="testimonial-user">
-                        <div class="avatar">{{ $initials }}</div>
-                        <div class="user-info">
-                            <strong>{{ $testimonial->name }}</strong>
-                            <small>{{ $testimonial->designation }}</small>
+                                if (count($words) >= 2) {
+                                    $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                                } else {
+                                    $initials = strtoupper(substr($name, 0, 1));
+                                }
+                            @endphp
+                            <div class="testimonial-user">
+                                <div class="avatar">{{ $initials }}</div>
+                                <div class="user-info">
+                                    <strong>{{ $testimonial->name }}</strong>
+                                    <small>{{ $testimonial->designation }}</small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
+                     @endif
                 </div>
-                @endforeach
-                @endif
-            </div>
 
-            <!-- <div class="testimonial-card">
+                <!-- <div class="testimonial-card">
                     <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
@@ -899,9 +883,9 @@
                         </div>
                     </div>
                 </div> -->
+               
+            </div>
 
         </div>
-
-    </div>
     </div>
 </section>

@@ -51,7 +51,6 @@
 }
 
 .search-box {
-  position: relative;
   background: var(--search_Bg);
   backdrop-filter: blur(14px);
   border-radius: 14px;
@@ -216,7 +215,7 @@
   font-weight: 400;
 }
 
-.search-image-body label::after {
+.search-image-body label::after{
   width: 100%;
   position: absolute;
   inset: 0px;
@@ -236,46 +235,6 @@
   width: 48%;
   margin: 0;
   margin-top: 0 !important;
-}
-.suggetion-search {
-  position: absolute;
-  bottom: -205px;
-  height: 200px;
-  overflow: auto;
-  right: 0;
-  left: 0;
-  width: 100%;
-  border-radius: 8px;
-  background-color: var(--white);
-  box-shadow: 0 4px 12px var(--box-shadow);
-  padding-left: 20px;
-  /* max-height: 378px; */
-  /* z-index: 9; */
-}
-.suggetion-search::-webkit-scrollbar {
-  width: 5px;
-  background-color: lightgrey;
-  border-radius: 8px;
-  opacity: 40%;
-}
-.suggetion-search::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 8px;
-}
-.suggetion-search ul {
-  list-style: none;
-  height: 100%;
-  margin-bottom: 0;
-  padding-left: 0;
-}
-.suggetion-search ul li {
-  text-align: left;
-  padding: 10px 20px 0 20px;
-}
-.suggetion-search ul li a {
-  font-size: 18px;
-  color: var(--black);
-  font-family: var(--font-inter-medium);
 }
 
 /* brand endless posibility */
