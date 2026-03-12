@@ -1477,7 +1477,9 @@ table td {
    UPLOAD TOAST — Bottom Right Loader Card
    Add this to your existing CSS file
 ══════════════════════════════════════════ */
-
+/* .no-file-selected-content label.error {
+  display: none !important;
+} */
 .upload-toast {
   position: fixed;
   bottom: 28px;

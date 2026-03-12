@@ -402,10 +402,11 @@ function loadImageMetadata(file_id) {
     },
     success: function (res) {
       // fill form
+      $(".error").text("");
       console.log(res);
       $("input[name='file_id']").val(res.id);
       $("input[name='title']").val(res.title);
-      $("input[name='description']").val(res.description);
+      $("#description").val(res.description);
       $("input[name='date_created']").val(res.date_created);
       $("input[name='clip_length']").val(formatDuration(res.duration));
       $("input[name='frame_rate']").val(res.frame_rate);
@@ -502,7 +503,7 @@ $("#add_new_img_form").validate({
     let formData = {
       file_id: $("#selected_file_id").val(),
       title: $("input[name='title']").val(),
-      description: $("input[name='description']").val(),
+      description: $("#description").val(),
       price: parseFloat($("input[name='price']").val()),
       date_created: $("input[name='date_created']").val(),
       tags: $("input[name='tags']").val(),

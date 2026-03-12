@@ -833,8 +833,8 @@
                                                 {{-- <input type="text" class="form-control upload-inp"
                                                     placeholder="Descriptions *" name="description"
                                                     aria-label="Username" aria-describedby="visible-addon"> --}}
-                                                <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" name="description"
-                                                    aria-label="Username" aria-describedby="visible-addon"></textarea>
+                                                <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
+                                                    name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
                                                 <i class="fa-regular fa-circle-question file-input-icon"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Enter a clear description for your image."></i>
