@@ -134,9 +134,16 @@ class HomeController extends Controller
         $page = 'front.videos';
         $js = ['home'];
 
+        $categories=Category::where('is_display','1')->get();
         $CollectionList = Collection::get();
-        $product = Product::with('category')->where('type', '1')->get();
-        return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
+        // $product = Product::with('category')->where('type', '1')->get();
+         
+         $allVideos = BatchFile::with(['category'])
+        ->where('type', 'video')
+        ->where('is_edited', '1')
+        ->get();
+       
+        return view("layouts.front.layout", compact('title', 'page', 'allVideos','categories', 'js'));
     }
 
 
@@ -146,23 +153,16 @@ class HomeController extends Controller
         $page = 'front.all_photos';
         $js = ['photos', 'favorites'];
 
+        $categories=Category::where('is_display','1')->get();
         // $photos = Batch::with('batch_files')->where('submission_type', 'image')->get();
-        $photos = Batch::with([
-            'batch_files' => function ($query) {
-                $query->where('is_edited', 1);
-            }
-        ])->where('submission_type', 'image')->get();
+        $allPhotos = BatchFile::with(['category'])
+        ->where('type', 'image')
+        ->where('is_edited', '1')
+        ->get();
 
-        $orphans = BatchFile::whereNull('batch_id')
-            ->where('type', 'image')
-            ->where('is_edited', '1')
-            ->get();
+      
 
-
-        $new = $photos[0]->batch_files->toArray();
-        $allBatches = array_merge($new, $orphans->toArray());
-
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'allBatches'));
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'categories','allPhotos'));
     }
     public function enterprise()
     {
