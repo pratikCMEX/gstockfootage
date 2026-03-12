@@ -29,12 +29,30 @@ $(document).ready(function () {
             $(".suggetion-search ul").html(html);
             $(".suggetion-search").addClass("show");
           } else {
+
             $(".suggetion-search ul").html(
-              "<li><a href='javascript:void(0)'>No results found</li></a>  </li>"
+              "<div class='no-suggetion-search'> <p> No Suggetion </p> </div > "
             );
           }
         },
       });
     }, 300);
   });
+
+  document.querySelectorAll(".dropdown-item").forEach(item => {
+
+    item.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const icon = this.querySelector("i").className;
+      const text = this.querySelector("span").textContent;
+
+      document.querySelector(".btn-icon").className = icon + " btn-icon";
+      document.querySelector(".btn-text").textContent = text;
+
+    });
+
+  });
+
+
 });
