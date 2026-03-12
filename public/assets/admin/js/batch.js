@@ -598,7 +598,7 @@ $(document).on("click", ".delete-btn-batch", function () {
         if (response.status === true) {
           selectedImages.remove(); // remove only selected
           updateUI();
-          $(".total-files-count").text(response.total + "Items");
+          $(".total-files-count").text(response.total + " Items");
           toastr.success(response.message);
         }
       },
