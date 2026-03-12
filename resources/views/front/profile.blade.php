@@ -14,24 +14,29 @@
                         </div>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link btn profile-btn active" id="v-pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
-                            aria-selected="true"><i class="bi bi-person"></i> Profile</button>
-                        <button class="nav-link btn profile-btn" id="v-pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
-                            aria-selected="false"><i class="bi bi-bag"></i> Order</button>
+                        <button
+                            class="nav-link btn profile-btn @if(request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
+                            id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
+                            Profile</button>
+                        <button class="nav-link btn profile-btn @if(request()->get('tab') == 'order') active @endif"
+                            id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
+                            type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i
+                                class="bi bi-bag"></i> Order</button>
 
-                        <button class="nav-link btn profile-btn" id="v-pills-messages-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                            aria-selected="false"><i class="bi bi-heart"></i> Wishlist</button>
+                        <button class="nav-link btn profile-btn @if(request()->get('tab') == 'wishlist') active @endif"
+                            id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
+                            type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false"><i
+                                class="bi bi-heart"></i> Wishlist</button>
                         <button class="nav-link btn profile-btn" id="v-pills-settings-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
-                            aria-selected="false"><i class="bi bi-gear"></i> Settings</button>
+                            data-bs-target="#v-pills-settings @if(request()->get('tab') == 'settings') active @endif"
+                            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i
+                                class="bi bi-gear"></i> Settings</button>
                     </div>
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active profile-manage" id="v-pills-home" role="tabpanel"
-                        aria-labelledby="v-pills-home-tab" tabindex="0">
+                    <div class="tab-pane fade  profile-manage @if(request()->get('tab') == 'profile' || !request()->get('tab')) show active @endif"
+                        id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                         <div class="profile-manage-header">
                             <div class="profile-manage-heading">
                                 <h3>Profile Details</h3>
@@ -58,7 +63,8 @@
                                 </div>
                                 <div class="profile-manage-title">
                                     <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
-                                    <p>Member since {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}</p>
+                                    <p>Member since
+                                        {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}</p>
                                 </div>
                             </div>
                             <div class="profile-manage-middle">
@@ -74,7 +80,8 @@
                             <div class="profile-manage-right">
                                 <div class="profile-number profile-manage-text">
                                     <span>Phone Number</span>
-                                    <a href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone: '-' }}</a>
+                                    <a
+                                        href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone : '-' }}</a>
                                 </div>
                                 <div class="profile-language profile-manage-text">
                                     <span>Language</span>
@@ -83,8 +90,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade profile-order" id="v-pills-profile" role="tabpanel"
-                        aria-labelledby="v-pills-profile-tab" tabindex="0">
+                    <div class="tab-pane fade profile-order @if(request()->get('tab') == 'order') show active @endif"
+                        id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
                         <div class="heading">
                             <h2>Recent Order</h2>
                         </div>
@@ -131,39 +138,80 @@
 
                         </div>
                     </div>
-                    <div class="tab-pane fade profile-wishlist" id="v-pills-messages" role="tabpanel"
-                        aria-labelledby="v-pills-messages-tab" tabindex="0">
+
+                    <div class="tab-pane fade profile-wishlist @if(request()->get('tab') == 'wishlist') show active @endif"
+                        id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
                         <div class="wishlist-content">
                             <div class="wishlist-heading">
                                 <div class="heading">
                                     <h2 class="mb-0">Wishlist</h2>
                                 </div>
-                                <p class="item-count">3 items</p>
+                                <!-- <p class="item-count">3 items</p> -->
                             </div>
                             <div class="wishlist-product-content">
                                 <div class="row row-gap-4">
-                                    <div class="col-lg-4 col-md-6 col-xs-12">
-                                        <div class="wishlist-product-detail">
-                                            <div class="product-card">
-                                                <div class="product-img-div">
-                                                    <a href="product-detail.html">
-                                                        <img src="https://images.unsplash.com/photo-1772752021241-2d922cadbab1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                                            class="product-img" alt="">
-                                                    </a>
-                                                    <div class="remove-product"><i class="bi bi-x"></i></div>
-                                                </div>
-                                                <div class="p-3">
-                                                    <a href="product-detail.html">
-                                                        <h6 class="popular-detail-title">Art & Craft</h6>
-                                                    </a>
-                                                    <div class="price-btn">
-                                                        <span class="price mb-0">$149</span>
+                                    @if($wishLists->isNotEmpty())
+                                        @foreach ($wishLists as $favorites)
+
+
+                                            <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
+                                                <div class="wishlist-product-detail">
+                                                    <div class="product-card">
+                                                        <div class="product-img-div">
+                                                            <a href="product-detail.html">
+                                                                @if($favorites->batchFile->type == 'image')
+                                                                    <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                        class="product-img" alt="">
+                                                                @else
+                                                                    <video class="product-img" controls width="100%"
+                                                                        poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+
+                                                                        <source
+                                                                            src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                            type="video/mp4">
+                                                                        Your browser does not support the video tag.
+                                                                    </video>
+                                                                @endif
+                                                            </a>
+                                                            <div class="remove-product"><a class="removeFavorite"
+                                                                    data-id="{{ encrypt($favorites->id) }}"><i
+                                                                        class="bi bi-x"></i></a></div>
+                                                        </div>
+                                                        <div class="p-3">
+                                                            <a href="product-detail.html">
+                                                                <h6 class="popular-detail-title">
+                                                                    {{ $favorites->batchFile->title }}</h6>
+                                                            </a>
+                                                            <div class="price-btn">
+                                                                <span
+                                                                    class="price mb-0">${{ $favorites->batchFile->price }}</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endforeach
+                                    @else
+                                        <div class="col-12 mt-4">
+                                            <div class="empty-wishlist text-center ">
+
+
+
+                                                <h4>Your Wishlist is Empty</h4>
+
+                                                <p>
+                                                    You haven't added any items to your wishlist yet.
+                                                    Browse products and add your favorites here.
+                                                </p>
+
+                                                <a href="{{ url('/') }}" class="btn btn-orange mt-2">
+                                                    Browse Products
+                                                </a>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-xs-12">
+                                    @endif
+                                    <!-- <div class="col-lg-4 col-md-6 col-xs-12">
                                         <div class="wishlist-product-detail">
                                             <div class="product-card">
                                                 <div class="product-img-div">
@@ -202,13 +250,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade profile-setting" id="v-pills-settings" role="tabpanel"
-                        aria-labelledby="v-pills-settings-tab" tabindex="0">
+                    <div class="tab-pane fade profile-setting @if(request()->get('tab') == 'settings') show active @endif"
+                        id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
                         <div class="heading">
                             <h2>Settings</h2>
                         </div>
@@ -243,7 +291,9 @@
                                 <div class="security-password security-detail">
                                     <div class="pass-title">
                                         <h4>Password</h4>
-                                        <p>Last changed {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}</p>
+                                        <p>Last changed
+                                            {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
+                                        </p>
                                     </div>
                                     <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
                                         data-bs-toggle="modal" data-bs-target="#password_change">
@@ -303,7 +353,8 @@
                             </div>
                             <div class="modal-inp-label">
                                 <label>Address</label>
-                                <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                <textarea name="address"
+                                    class="form-control">{{ $user_profile->address ?? '' }}</textarea>
                             </div>
 
                         </div>
@@ -332,8 +383,8 @@
                             <div class="modal-inp-label">
                                 <input type="hidden" name="id" value="{{$user_profile->id ?? '' }}">
                                 <label>Current Password</label>
-                                <input type="password" name="current_password" id="current_password" class="form-control"
-                                    placeholder="Enter Your First Name">
+                                <input type="password" name="current_password" id="current_password"
+                                    class="form-control" placeholder="Enter Your First Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>New Password</label>
@@ -342,8 +393,8 @@
                             </div>
                             <div class="modal-inp-label">
                                 <label>Confirm Password</label>
-                                <input type="password" name="confirm_password" id="confirm_password" class="form-control"
-                                    placeholder="you@example.com">
+                                <input type="password" name="confirm_password" id="confirm_password"
+                                    class="form-control" placeholder="you@example.com">
                             </div>
 
                         </div>

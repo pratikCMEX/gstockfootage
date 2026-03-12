@@ -40,7 +40,7 @@ class ProfileController extends Controller
     {
         $title = 'Profile';
         $page = 'front.profile';
-        $js = ['profile'];
+        $js = ['profile','favorites'];
         $userId = Auth::id();
 
         $user_profile = Auth::user();
@@ -49,6 +49,8 @@ class ProfileController extends Controller
         $wishLists = Favorites::with(['batchFile', 'batchFile.category'])
             ->where('user_id', $userId)
             ->get();
+
+
 
         return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists'));
     }

@@ -726,7 +726,7 @@
                                             <!-- <img src="{{  Storage::disk('s3')->url($video['thumbnail_path'])  }}"
                                                         class="product-img" alt=""> -->
                                             <video class="product-img" controls width="100%"
-                                                poster="{{ Storage::disk('s3')->url($video->thumbnail_path) }}">
+                                                poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 
                                                 <source src="{{ Storage::disk('s3')->url($video->file_path) }}"
                                                     type="video/mp4">

@@ -64,9 +64,9 @@ $(document).on('click', '.removeFavorite', function () {
             if (response.success) {
                 toastr.success(response.message);
 
-                button.closest('.col-xl-3').fadeOut(300, function () {
-                    $(this).remove();
-                });
+                 button.closest('.wishlist-item').fadeOut(200, function () {
+    $(this).remove();
+});
                 // Update button appearance based on action
 
             } else {

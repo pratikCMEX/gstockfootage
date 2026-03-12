@@ -83,11 +83,11 @@
                                     class="bi bi-person-circle icon-btn "></i>
                                 <ul class="dropdown-menu">
 
-                                    <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i
+                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
                                                 class="bi bi-person"></i>
                                             Profile</a></li>
-                                    <li><a class="dropdown-item" href=""><i class="bi bi-bag"></i> Order</a></li>
-                                    <li class="wishlist"><a class="dropdown-item" href="{{ route('user.profile') }}?tab=wishlist"><i class="bi bi-heart"></i>
+                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'order']) }}"><i class="bi bi-bag"></i> Order</a></li>
+                                    <li class="wishlist"><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i class="bi bi-heart"></i>
                                             Wishlist</a>
                                         <p class="wishlist-count">50</p>
                                     </li>
