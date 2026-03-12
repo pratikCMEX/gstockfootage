@@ -1021,7 +1021,9 @@ class BatchController extends Controller
             'keywords' => $request->tags,
             'is_edited' => '1',
             'price' => $request->price,
-            'country' => $request->country
+            'country' => $request->country,
+            'subcategory_id' => $request->subcategory_id,
+            'collection_id' => $request->collection_id
         ]);
 
         return response()->json([

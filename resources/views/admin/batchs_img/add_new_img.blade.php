@@ -1,6 +1,7 @@
 {{-- {{ dd($batch_data) }} --}}
 @php
     $category = getCategory();
+    $getCollections = getCollections();
 @endphp
 <div class="body-wrapper-inner upload-main">
     <div class="container-fluid">
@@ -11,7 +12,7 @@
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div class="header-title-section">
-                        <h3>{{ $batch->title }}</h3>
+                        <h3 class="batch_name">{{ $batch->title }}</h3>
                         <div class="batches-label">
                             @if ($batch->submission_type == 'image')
                                 <label for="">
@@ -64,8 +65,8 @@
                                             class="btn btn-light delete-btn-batch">Delete <span class="delete-count"
                                                 style="margin-left: 10px; display:flex; align-items:center; justify-content:center; height:20px; width:100%; min-width:20px;  padding: 4px; font-size: 12px; background-color: black; color: white; border-radius: 20px;">
                                                 34</span></button>
-                                        <button type="button" class="btn select-submit-btn"><i
-                                                class="fa-solid fa-paper-plane"></i> Submit <span>0</span></button>
+                                        {{-- <button type="button" class="btn select-submit-btn"><i
+                                                class="fa-solid fa-paper-plane"></i> Submit <span>0</span></button> --}}
                                     </div>
                                 </div>
                                 <div class="two-btns">
@@ -878,6 +879,31 @@
                                         </div>
                                         <div class="dropdown file-main-dropdown">
                                             <div class="file-inp-icon-grp input-group">
+                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                    name="collection_id" id="collection_id">
+                                                    <option value="">Select Collection </option>
+
+                                                    @foreach ($getCollections as $coll)
+                                                        <option value="{{ $coll->id }}">
+                                                            {{ $coll->name }}</option>
+                                                    @endforeach
+
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="dropdown file-main-dropdown">
+                                            <div class="file-inp-icon-grp input-group">
+                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                    name="subcategory_id" id="subcategory_id">
+                                                    <option value="">Select Sub Category </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="dropdown file-main-dropdown">
+                                            <div class="file-inp-icon-grp input-group">
                                                 {{-- <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Country of shoot *<i class="fa-solid fa-angle-down"></i>
@@ -1232,7 +1258,7 @@
                     <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="btn btn-orange">
+                    <button type="button" class="btn btn-orange edit_branch_name">
                         Save
                     </button>
                 </div>

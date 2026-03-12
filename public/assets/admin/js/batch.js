@@ -350,6 +350,34 @@ function formatDuration(seconds) {
 }
 
 console.log(formatFileSize(6355361));
+
+function loadSubCategories(category_id, selected_subcategory = null) {
+  $.ajax({
+    url: base_url + "/get-subcategories/" + category_id,
+    type: "GET",
+    data: { category_id: category_id },
+
+    success: function (res) {
+      $("#subcategory_id").html(
+        '<option value="">Select Sub Category</option>'
+      );
+
+      $.each(res, function (key, value) {
+        let selected = selected_subcategory == value.id ? "selected" : "";
+
+        $("#subcategory_id").append(
+          '<option value="' +
+            value.id +
+            '" ' +
+            selected +
+            ">" +
+            value.name +
+            "</option>"
+        );
+      });
+    },
+  });
+}
 function loadImageMetadata(file_id) {
   $.ajax({
     url: base_url + "/admin/batch/get_file_metadata",
@@ -374,6 +402,8 @@ function loadImageMetadata(file_id) {
       $("input[name='price']").val(res.price);
       $("#country").val(res.country);
       $("#category_id").val(res.category_id);
+      $("#collection_id").val(res.collection_id);
+      loadSubCategories(res.category_id, res.subcategory_id);
       $("#tags").tagsinput("removeAll");
 
       if (res.keywords) {
@@ -437,6 +467,9 @@ $("#add_new_img_form").validate({
     category_id: {
       required: true,
     },
+    subcategory_id: {
+      required: true,
+    },
   },
 
   messages: {
@@ -444,6 +477,7 @@ $("#add_new_img_form").validate({
     description: "Please enter description",
     price: "Please enter valid price",
     category_id: "Please select a category",
+    subcategory_id: "Please select a subcategory",
   },
 
   submitHandler: function (form) {
@@ -456,6 +490,8 @@ $("#add_new_img_form").validate({
       tags: $("input[name='tags']").val(),
       country: $("#country").val(),
       category_id: $("#category_id").val(),
+      subcategory_id: $("#subcategory_id").val(),
+      collection_id: $("#collection_id").val(),
       _token: $('meta[name="csrf-token"]').attr("content"),
     };
 
@@ -845,6 +881,7 @@ $(document).on("click", ".btn-upload-device", function () {
     return;
   }
 
+  $(this).prop("disabled", true);
   const formData = new FormData();
   const batch_id = $("#batch_id").val();
   const batch_type = $(this).attr("data-type");
@@ -872,6 +909,7 @@ $(document).on("click", ".btn-upload-device", function () {
     success: function (response) {
       if (response.status === "success") {
         toastr.success(response.message);
+        $(this).prop("disabled", false);
 
         setTimeout(() => {
           allFiles = [];
@@ -967,11 +1005,11 @@ $(document).on("click", "[data-bs-target='#renameModal']", function () {
   $("#rename_batch_name").val(name);
 });
 
-$(document).on("click", '[data-bs-target="#BatchrenameModal"]', function (e) {
-  e.preventDefault();
-  alert();
-  let id = $(this).data("id");
-  let name = $(this).data("name");
+$("#BatchrenameModal").on("show.bs.modal", function (event) {
+  let button = $(event.relatedTarget);
+
+  let id = button.data("id");
+  let name = button.data("name");
 
   $("#rename_batch_id").val(id);
   $("#rename_batch_name").val(name);
@@ -1020,6 +1058,7 @@ $(document).on("click", ".edit_branch_name", function (e) {
 
     success: function (res) {
       $("#renameModal").modal("hide");
+      $(".batch_name").html(branch_name);
       toastr.success(res.message);
 
       // reload batches
@@ -1051,5 +1090,36 @@ document.addEventListener("DOMContentLoaded", function () {
       allFiles = [];
       render();
     });
+  }
+});
+
+$(document).on("change", "#category_id", function () {
+  // alert();
+  let categoryId = $(this).val();
+
+  // $("#subcategory").html("<option>Loading...</option>");
+
+  if (categoryId != "") {
+    $.ajax({
+      headers: {
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+      },
+      url: base_url + "/get-subcategories/" + categoryId,
+      type: "GET",
+      success: function (data) {
+        $("#subcategory_id").html(
+          '<option value="">Select Sub Category</option>'
+        );
+        console.log(data);
+
+        $.each(data, function (key, value) {
+          $("#subcategory_id").append(
+            '<option value="' + value.id + '">' + value.name + "</option>"
+          );
+        });
+      },
+    });
+  } else {
+    $("#subcategory").html('<option value="">Choose SubCategory...</option>');
   }
 });
