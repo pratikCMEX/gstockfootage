@@ -807,6 +807,9 @@ function startUploadToast() {
   barFill.style.transition = "none";
   barFill.style.width = "0%";
   pctLabel.textContent = "0";
+  barFill.style.width = "0%";
+  pctLabel.textContent = "0";
+  lastPercent = 0;
   toastTitle.textContent = "Uploading...";
   toastSub.textContent = "Image upload in progress";
   waitText.style.display = "flex";
@@ -900,9 +903,17 @@ function failUploadToast() {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+let lastPercent = 0;
+
 function updateUploadProgress(percent) {
   const barFill = document.getElementById("barFill");
   const pctLabel = document.getElementById("pctLabel");
+
+  percent = Math.min(Math.floor(percent), 90);
+
+  if (percent < lastPercent) return;
+
+  lastPercent = percent;
 
   barFill.style.width = percent + "%";
   pctLabel.textContent = percent;
