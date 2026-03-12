@@ -6,6 +6,7 @@ $("#subscription_form").validate({
     rules: {
         name: {
             required: true,
+            maxlength: 30,
             remote: {
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -30,20 +31,22 @@ $("#subscription_form").validate({
         },
         duration_value: {
             required: true,
+
         },
         total_clips: {
             required: true,
         },
-        discount: {
-            required: true,
-        },
-         price: {
+        // discount: {
+        //     required: true,
+        // },
+        price: {
             required: true,
         }
     },
     messages: {
         name: {
             required: "Please enter Subscription Plan name",
+            maxlength: 'Please enter Subscription Plan name less than 30 characters',
             remote: "This Subscription Plan already exists",
         },
         duration_type: {
@@ -55,13 +58,12 @@ $("#subscription_form").validate({
         total_clips: {
             required: "Please enter Total clips",
         },
-        discount: {
-            required: "Please enter discount",
-        },
-         price: {
+        // discount: {
+        //     required: "Please enter discount",
+        // },
+        price: {
             required: "Please enter Price",
         },
-
     },
     normalizer: function (value) {
         return $.trim(value);
@@ -84,7 +86,9 @@ $("#subscription_form").validate({
         form.submit();
     },
 });
-
+// $("#duration_value").on("input", function () {
+//     this.value = this.value.replace(/[^0-9.]/g, '');
+// });
 
 $(document).on("click", ".deleteSubscriptionPlan", function () {
 
@@ -100,7 +104,7 @@ $(document).on("click", ".deleteSubscriptionPlan", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: base_url +"/admin/delete_subscription",
+                url: base_url + "/admin/delete_subscription",
                 type: "post",
                 data: {
                     id: id,
@@ -213,8 +217,8 @@ $("#delete-selected").on("click", function () {
                 success: function (response) {
                     if (response.success == false) {
                         toastr.error(response.message);
-                    }else{
-                         toastr.success(response.message);
+                    } else {
+                        toastr.success(response.message);
                     }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");

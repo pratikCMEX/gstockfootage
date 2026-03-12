@@ -74,6 +74,19 @@
                         <label id="email-error" class="text-danger" for="email"></label>
 
                     </div>
+                    <div>
+                        <label>Phone No</label>
+                        <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" 
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="15">
+                        <label id="phone-error" class="text-danger" for="phone"></label>
+
+                    </div>
+                    <div>
+                        <label>Address</label>
+                        <textarea name="address" class="" rows="3" cols="40" placeholder=""  style="border-radius: 10px;"></textarea>
+                        <label id="address-error" class="text-danger" for="address"></label>
+
+                    </div>
 
                     <div>
                         <label>Password</label>

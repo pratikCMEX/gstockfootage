@@ -236,14 +236,18 @@
                                                     <button class="btn  btn-orange">Add</button>
                                                 </div>
                                                 <div class="product-two-btn">
-                                                    <button class="btn  popular-icon-btn"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                    <button type="button" data-Product-id="{{ $pro->id }}"
+                                                        data-type="{{ $pro->type }}"
+                                                        class="btn  popular-icon-btn addFavorite">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor" class="bi bi-heart"
                                                             viewBox="0 0 16 16">
                                                             <path
                                                                 d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
                                                         </svg>
                                                         Save</button>
+
+
                                                     <button class="btn  popular-icon-btn"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor" class="bi bi-share"
@@ -832,62 +836,71 @@
             </div>
 
             <div class="col-lg-7">
-                @if ($testimonials->isNotEmpty())
+                <<<<<<< HEAD @if ($testimonials->isNotEmpty())
                     @foreach ($testimonials as $testimonial)
-                        <div class="testimonial-card">
-                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                                    <path
-                                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                    </path>
-                                    <path
-                                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                    </path>
-                                </svg></div>
-                            <div class="testimonial-text">
-                                {{ $testimonial->message }}
-                            </div>
-                            @php
-                                $name = trim($testimonial->name);
-                                $words = explode(' ', $name);
-                            @endphp
-                            <div class="testimonial-card">
-                                <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                                        <path
-                                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                        <path
-                                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                    </svg></div>
-                                <div class="testimonial-text">
-                                    {{ $testimonial->message }}
-                                </div>
-                                @php
-                                    $name = trim($testimonial->name);
-                                    $words = explode(' ', $name);
+                        =======
+                        @if ($testimonials->isNotEmpty())
+                            @foreach ($testimonials as $testimonial)
 
-                                    $initials = '';
 
-                                    if (count($words) >= 2) {
-                                        $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
-                                    } else {
-                                        $initials = strtoupper(substr($name, 0, 1));
-                                    }
-                                @endphp
-                                <div class="testimonial-user">
-                                    <div class="avatar">{{ $initials }}</div>
-                                    <div class="user-info">
-                                        <strong>{{ $testimonial->name }}</strong>
-                                        <small>{{ $testimonial->designation }}</small>
+                                >>>>>>> development
+                                <div class="testimonial-card">
+                                    <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-quote h-8 w-8 text-primary/30 ">
+                                            <path
+                                                d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                            </path>
+                                            <path
+                                                d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                            </path>
+                                        </svg></div>
+                                    <div class="testimonial-text">
+                                        {{ $testimonial->message }}
                                     </div>
-                    @endforeach
-                @endif
+                                    @php
+                                        $name = trim($testimonial->name);
+                                        $words = explode(' ', $name);
+                                    @endphp
+                                    <div class="testimonial-card">
+                                        <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="lucide lucide-quote h-8 w-8 text-primary/30 ">
+                                                <path
+                                                    d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                                </path>
+                                                <path
+                                                    d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                                </path>
+                                            </svg></div>
+                                        <div class="testimonial-text">
+                                            {{ $testimonial->message }}
+                                        </div>
+                                        @php
+                                            $name = trim($testimonial->name);
+                                            $words = explode(' ', $name);
+
+                                            $initials = '';
+
+                                            if (count($words) >= 2) {
+                                                $initials = strtoupper(
+                                                    substr($words[0], 0, 1) . substr($words[1], 0, 1),
+                                                );
+                                            } else {
+                                                $initials = strtoupper(substr($name, 0, 1));
+                                            }
+                                        @endphp
+                                        <div class="testimonial-user">
+                                            <div class="avatar">{{ $initials }}</div>
+                                            <div class="user-info">
+                                                <strong>{{ $testimonial->name }}</strong>
+                                                <small>{{ $testimonial->designation }}</small>
+                                            </div>
+                            @endforeach
+                        @endif
             </div>
 
             <!-- <div class="testimonial-card">
@@ -917,9 +930,12 @@
 
         </div>
 
-        <<<<<<< HEAD </div>
+        <<<<<<< HEAD <<<<<<< HEAD </div>
             =======
             >>>>>>> jil_development
+    </div>
+    =======
+    >>>>>>> development
     </div>
     </div>
 </section>

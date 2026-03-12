@@ -77,6 +77,7 @@ class ProductController extends Controller
             $product->subcategory_id = $request->subcategory;
             $product->collection_id = $request->collection;
             $product->title = $request->name;
+            $product->is_edited = '1';
             $product->price = $request->price;
             $product->description = $request->description;
             $product->keywords = $request->tags;
@@ -114,9 +115,9 @@ class ProductController extends Controller
 
         $img = $manager->read($file->getRealPath());
 
-        $width  = $img->width();
+        $width = $img->width();
         $height = $img->height();
-        $size   = $file->getSize();
+        $size = $file->getSize();
 
         /*
     |--------------------------------------------------------------------------
@@ -164,12 +165,12 @@ class ProductController extends Controller
     */
 
         $product->original_name = $file->getClientOriginalName();
-        $product->file_name     = $imageName;
-        $product->file_path     = "batch/images/high/$imageName";
-        $product->low_path      = "batch/images/low/low_$imageName";
-        $product->width         = $width;
-        $product->height        = $height;
-        $product->file_size     = $size;
+        $product->file_name = $imageName;
+        $product->file_path = "batch/images/high/$imageName";
+        $product->low_path = "batch/images/low/low_$imageName";
+        $product->width = $width;
+        $product->height = $height;
+        $product->file_size = $size;
     }
     // private function handleProductVideoUpload(BatchFile $product, Request $request, &$tempOriginalPath = null)
     // {
@@ -253,11 +254,11 @@ class ProductController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $product->original_name   = $file->getClientOriginalName();
-        $product->file_name       = $originalFilename;
-        $product->file_path       = $path; // high video path
-        $product->low_path        = null;
-        $product->thumbnail_path  = null;
+        $product->original_name = $file->getClientOriginalName();
+        $product->file_name = $originalFilename;
+        $product->file_path = $path; // high video path
+        $product->low_path = null;
+        $product->thumbnail_path = null;
 
         return true;
     }

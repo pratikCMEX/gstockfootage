@@ -41,6 +41,10 @@ class Product extends Model
     {
         return $this->belongsTo(Collection::class);
     }
+    public function favorites()
+    {
+        return $this->hasMany(Favorites::class, 'product_id');
+    }
     protected static function boot()
     {
         parent::boot();

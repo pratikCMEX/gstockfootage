@@ -46,57 +46,61 @@ class AuthController extends Controller
     //     return back()->with('msg_error', 'Invalid email or password');
     // }
 
-  
-  public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
 
-    $credentials = $request->only('email', 'password');
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-    if (Auth::attempt($credentials)) {
+        $credentials = $request->only('email', 'password');
 
-        $user = Auth::user();
+        if (Auth::attempt($credentials)) {
 
-        if (!$user->email_verified_at) {
-            Auth::logout();
-            return back()->with('msg_error', 'Your email is not verified. Please verify from mail then login.');
+            $user = Auth::user();
+
+            if (!$user->email_verified_at) {
+                Auth::logout();
+                return back()->with('msg_error', 'Your email is not verified. Please verify from mail then login.');
+            }
+
+            $request->session()->regenerate();
+            mergeSessionCart();
+
+            return redirect()->route('home')
+                ->with('msg_success', 'Login successful');
         }
 
-        $request->session()->regenerate();
-        mergeSessionCart();
-
-        return redirect()->route('home')
-            ->with('msg_success', 'Login successful');
+        return back()->with('msg_error', 'Invalid email or password');
     }
-
-    return back()->with('msg_error', 'Invalid email or password');
-}
     public function register(Request $request)
-   {
-    $request->validate([
-        'first_name' => 'required|max:255',
-        'last_name' => 'required|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6'
-    ]);
+    {
+        $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'password' => 'required|min:6'
+        ]);
 
-    $user = User::create([
-        'name' => $request->first_name,
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'email' => strtolower($request->email),
-        'password' => Hash::make($request->password),
-        'role' => '0',
-    ]);
+        $user = User::create([
+            'name' => $request->first_name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => strtolower($request->email),
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'password' => Hash::make($request->password),
+            'role' => '0',
+        ]);
 
-    event(new Registered($user)); // sends verification email
+        event(new Registered($user)); // sends verification email
 
-    return redirect()->route('login')
-        ->with('msg_success', 'Account created. Please check your email to verify.');
-}
+        return redirect()->route('login')
+            ->with('msg_success', 'Account created. Please check your email to verify.');
+    }
 
     public function logout(Request $request)
     {

@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\LicenseDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\License_master;
+use App\Models\product_qualities;
+use App\Models\User_license;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 
 class LicenseController extends Controller
 {
@@ -24,11 +28,12 @@ class LicenseController extends Controller
         $title = 'Add License';
         $page = 'admin.license.add';
         $js = ['license'];
-
+        $qualities = product_qualities::get();
         return view("layouts.admin.layout", compact(
             'title',
             'page',
-            'js'
+            'js',
+            'qualities'
         ));
     }
     public function store(Request $request)
@@ -38,18 +43,27 @@ class LicenseController extends Controller
             $request->validate([
                 'name' => 'required|string|max:100',
                 'title' => 'required|string|max:100',
+                'plan_price' => 'required',
+                'product_quality_id' => 'required',
                 'price' => 'required',
                 'quality' => 'required',
-                'description' => 'required|string',
+                'description' => 'required',
 
             ]);
+
+            $description = '';
+            if ($request->has('description') && is_array($request->description)) {
+                $description = implode(',', array_filter($request->description));
+            }
 
             License_master::create([
                 'name' => $request->name,
                 'title' => $request->title,
+                'product_quality_id' => $request->product_quality_id,
                 'price' => $request->price,
+                'plan_price' => $request->plan_price,
                 'quality' => $request->quality,
-                'description' => $request->description,
+                'description' => $description,
 
             ]);
 
@@ -70,8 +84,8 @@ class LicenseController extends Controller
 
         $licenseId = $id;
         $getLicenseDetail = License_master::where('id', $license_id)->first();
-
-        return view('layouts.admin.layout', compact('title', 'page', 'js', 'getLicenseDetail', 'licenseId'));
+        $qualities = product_qualities::get();
+        return view('layouts.admin.layout', compact('title', 'qualities', 'page', 'js', 'getLicenseDetail', 'licenseId'));
     }
 
     public function update(Request $request)
@@ -80,20 +94,29 @@ class LicenseController extends Controller
             $request->validate([
                 'name' => 'required|string|max:100',
                 'title' => 'required|string|max:100',
+                'plan_price' => 'required',
+                'product_quality_id' => 'required',
                 'price' => 'required',
                 'quality' => 'required',
-                'description' => 'required|string',
+                'description' => 'required',
 
             ]);
 
             $license_id = decrypt($request->license_id);
             $getData = License_master::where('id', $license_id)->first();
 
+            $description = '';
+            if ($request->has('description') && is_array($request->description)) {
+                $description = implode(',', array_filter($request->description));
+            }
+
             $getData->name = $request->name;
             $getData->title = $request->title;
+            $getData->product_quality_id = $request->product_quality_id;
             $getData->price = $request->price;
+            $getData->plan_price = $request->plan_price;
             $getData->quality = $request->quality;
-            $getData->description = $request->description;
+            $getData->description = $description;
             $getData->save();
 
             return redirect()->route('admin.license')->with('msg_success', 'License Updated successfully !');
@@ -124,7 +147,7 @@ class LicenseController extends Controller
             ]);
         }
     }
- public function deleteMultiple(Request $request)
+    public function deleteMultiple(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -202,5 +225,5 @@ class LicenseController extends Controller
         }
     }
 
-    
+  
 }
