@@ -66,7 +66,9 @@ p {
 .batch-dropdown::after {
   display: none;
 }
-.batch-dropdown-menu .dropdown-item {
+
+.batch-dropdown-menu .dropdown-item,
+.upload-image .batch_file_keyword {
   padding: 5px 15px;
   font-size: 16px;
   color: var(--black);
@@ -540,9 +542,11 @@ table td {
 .dot-dropdown:hover {
   color: var(--black) !important;
 }
+.batch_file_keyword,
 .dropdown-item {
   color: var(--black);
 }
+.batch_file_keyword:hover,
 .dropdown-item:hover {
   color: var(--black);
 }
@@ -659,11 +663,13 @@ table td {
   cursor: not-allowed;
 }
 .no-file-selected input,
+.no-file-selected textarea,
 .no-file-selected .file-dropdown,
 .no-file-keywording textarea {
   background-color: var(--secendory);
   opacity: 40%;
 }
+
 .no-file-selected.active input,
 .no-file-selected.active .file-dropdown,
 .no-file-keywording.active textarea,
@@ -673,6 +679,7 @@ table td {
   color: var(--black);
 }
 .no-file-selected.active .no-file-inputs .input-group input,
+.no-file-selected.active .no-file-inputs .input-group textarea,
 .no-file-selected.active .no-file-video-propertise .input-group input,
 .no-file-selected.active .no-file-master-formate .input-group input,
 .no-file-selected.active .no-file-keywording .keyword-btn button {
@@ -681,6 +688,7 @@ table td {
   opacity: 100%;
   color: var(--black);
 }
+.no-file-selected.active .no-file-inputs .input-group textarea::placeholder,
 .no-file-selected.active .no-file-release .btn,
 .no-file-selected.active .submit-metadaata .btn,
 .no-file-selected.active .file-main-dropdown .file-dropdown,
@@ -692,7 +700,9 @@ table td {
   color: var(--black);
   opacity: 100%;
 }
-
+.no-file-selected .file-dropdown {
+  border: 1px solid var(--secendory);
+}
 .no-file-selected-title.btn {
   border-radius: 0;
   font-size: 16px;
@@ -727,20 +737,34 @@ table td {
   border-top: 1px solid rgb(180, 180, 180);
   border-bottom: 1px solid rgb(180, 180, 180);
 }
-.no-file-inputs .input-group input {
+.no-file-inputs .input-group input,
+.no-file-inputs .input-group textarea,
+.no-file-inputs .input-group select {
   padding: 15px 20px;
   border-radius: 7px !important;
   font-size: 16px;
 }
+.no-file-selected .input-group textarea {
+  height: 100px;
+}
+.no-file-selected.active .file-dropdown:focus-visible,
+.no-file-selected.active .file-dropdown:focus,
+.no-file-selected.active .file-dropdown:hover {
+  border: 1px solid var(--secendory) !important;
+}
 .no-file-selected .bootstrap-tagsinput input::placeholder,
+.no-file-selected textarea::placeholder,
 .no-file-selected .file-dropdown,
 .no-file-inputs .input-group input::placeholder {
   color: #ffffffe1;
 }
+.no-file-selected.active .upload-inp::placeholder {
+  color: var(--black);
+}
 .no-file-selected.active .bootstrap-tagsinput input::placeholder,
 .no-file-selected.active .file-dropdown,
 .no-file-selected.active .no-file-inputs .input-group input::placeholder {
-  color: #5a6a85;
+  color: var(--black);
 }
 .no-file-inputs .input-group {
   flex-direction: column;
@@ -760,7 +784,14 @@ table td {
   margin-top: 5px;
   padding-left: 10px;
   font-size: 12px;
-  color: #5a6a85;
+  color: var(--black);
+}
+
+.no-file-inputs label {
+  margin-top: 5px;
+  padding-left: 10px;
+  font-size: 12px;
+  color: red;
 }
 .file-main-dropdown {
   width: 100%;
@@ -797,7 +828,7 @@ table td {
 .master-title,
 .status-title {
   font-size: 18px;
-  color: gray;
+  color: var(--black);
   font-weight: 600;
 }
 .no-file-keywording {
@@ -863,12 +894,15 @@ table td {
 .no-file-selected .bootstrap-tagsinput input {
   background-color: transparent !important;
 }
-
+.upload-inp {
+  border: 1px solid var(--secendory);
+}
 .no-file-selected.active .bootstrap-tagsinput {
   background-color: transparent !important;
   opacity: 100%;
   pointer-events: all;
   cursor: auto;
+  border: 1px solid var(--secendory);
 }
 
 /* tags container */
@@ -1450,18 +1484,14 @@ table td {
   background: #2b2b2b;
   border-radius: 16px;
   padding: 18px 20px 20px;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.28),
-    0 4px 16px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28), 0 4px 16px rgba(0, 0, 0, 0.18);
   font-family: "DM Sans", sans-serif;
 
   /* hidden by default */
   transform: translateY(20px) scale(0.96);
   opacity: 0;
   pointer-events: none;
-  transition:
-    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.3s ease;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   z-index: 9999;
 }
 .upload-toast.show {
@@ -1795,6 +1825,9 @@ select option {
   font-family: var(--font-inter-medium);
   display: inline-block;
   margin-left: 20px;
+}
+.file-inp-label-grp p {
+  color: var(--black);
 }
 @media only screen and (max-width: 1440px) {
   .batch-show-content {

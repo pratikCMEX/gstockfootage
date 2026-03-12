@@ -200,6 +200,7 @@ class BatchController extends Controller
                 'status' => $batch->status,
                 'total_files' => $batch->batch_files->count(),
                 'created_at' => $batch->created_at->format('Y-m-d'),
+                'updated_at' => $batch->created_at->format('Y-m-d'),
 
                 'batch_files' => $batch->batch_files->map(function ($file) {
 
@@ -1009,16 +1010,20 @@ class BatchController extends Controller
 
     public function saveFileMetadata(Request $request)
     {
-
+        // dd($request);
         $file = BatchFile::findOrFail($request->file_id);
 
         $file->update([
+            'category_id' => $request->category_id,
             'title' => $request->title,
             'description' => $request->description,
             'date_created' => $request->date_created,
             'keywords' => $request->tags,
-            'date_created' => $request->date_created,
             'is_edited' => '1',
+            'price' => $request->price,
+            'country' => $request->country,
+            'subcategory_id' => $request->subcategory_id,
+            'collection_id' => $request->collection_id
         ]);
 
         return response()->json([

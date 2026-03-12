@@ -168,7 +168,10 @@ uploadimgclose?.addEventListener("click", function () {
   }
 
   slider.addEventListener("input", updateProgress);
+  $(".total_file_selected").text("No File Selected");
+
   updateProgress();
+  clearMetadata();
 });
 
 // view metadata
@@ -260,9 +263,11 @@ function updateUI() {
   if (selectedCount === 0) {
     $(".delete-count").hide();
     $(".total_file_selected").text("No File Selected");
+    $("#save-metadata").prop("disabled", true);
   } else {
     $(".delete-count").show();
     $(".total_file_selected").text(selectedCount + " File Selected");
+    $("#save-metadata").prop("disabled", false);
   }
 
   // Panels
@@ -345,6 +350,34 @@ function formatDuration(seconds) {
 }
 
 console.log(formatFileSize(6355361));
+
+function loadSubCategories(category_id, selected_subcategory = null) {
+  $.ajax({
+    url: base_url + "/get-subcategories/" + category_id,
+    type: "GET",
+    data: { category_id: category_id },
+
+    success: function (res) {
+      $("#subcategory_id").html(
+        '<option value="">Select Sub Category</option>'
+      );
+
+      $.each(res, function (key, value) {
+        let selected = selected_subcategory == value.id ? "selected" : "";
+
+        $("#subcategory_id").append(
+          '<option value="' +
+            value.id +
+            '" ' +
+            selected +
+            ">" +
+            value.name +
+            "</option>"
+        );
+      });
+    },
+  });
+}
 function loadImageMetadata(file_id) {
   $.ajax({
     url: base_url + "/admin/batch/get_file_metadata",
@@ -366,7 +399,11 @@ function loadImageMetadata(file_id) {
       $("input[name='frame_size']").val(res.height + "x" + res.width);
       $("input[name='image_height']").val(res.height);
       $("input[name='image_width']").val(res.width);
-
+      $("input[name='price']").val(res.price);
+      $("#country").val(res.country);
+      $("#category_id").val(res.category_id);
+      $("#collection_id").val(res.collection_id);
+      loadSubCategories(res.category_id, res.subcategory_id);
       $("#tags").tagsinput("removeAll");
 
       if (res.keywords) {
@@ -405,30 +442,103 @@ $("#tags").on("itemAdded itemRemoved", function () {
   updateKeywordCount();
 });
 
-$(document).on("click", "#save-metadata", function () {
-  let formData = {
-    file_id: $("#selected_file_id").val(),
-    title: $("input[name='title']").val(),
-    description: $("input[name='description']").val(),
-    date_created: $("input[name='date_created']").val(),
-    tags: $("input[name='tags']").val(),
-    _token: $('meta[name="csrf-token"]').attr("content"),
-  };
-
-  $.ajax({
-    url: base_url + "/admin/batch/save_file_metadata",
-    type: "POST",
-    data: formData,
-
-    success: function (res) {
-      toastr.success("File metadata saved successfully");
-    },
-
-    error: function (xhr) {
-      console.log(xhr.responseText);
-    },
+$(document).ready(function () {
+  var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  );
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 });
+$("#add_new_img_form").validate({
+  rules: {
+    title: {
+      required: true,
+      minlength: 1,
+    },
+    description: {
+      required: true,
+      minlength: 5,
+    },
+    price: {
+      required: true,
+      number: true,
+    },
+    category_id: {
+      required: true,
+    },
+    subcategory_id: {
+      required: true,
+    },
+  },
+
+  messages: {
+    title: "Please enter title",
+    description: "Please enter description",
+    price: "Please enter valid price",
+    category_id: "Please select a category",
+    subcategory_id: "Please select a subcategory",
+  },
+
+  submitHandler: function (form) {
+    let formData = {
+      file_id: $("#selected_file_id").val(),
+      title: $("input[name='title']").val(),
+      description: $("input[name='description']").val(),
+      price: parseFloat($("input[name='price']").val()),
+      date_created: $("input[name='date_created']").val(),
+      tags: $("input[name='tags']").val(),
+      country: $("#country").val(),
+      category_id: $("#category_id").val(),
+      subcategory_id: $("#subcategory_id").val(),
+      collection_id: $("#collection_id").val(),
+      _token: $('meta[name="csrf-token"]').attr("content"),
+    };
+
+    $.ajax({
+      url: base_url + "/admin/batch/save_file_metadata",
+      type: "POST",
+      data: formData,
+
+      success: function (res) {
+        toastr.success("File metadata saved successfully");
+      },
+
+      error: function (xhr) {
+        toastr.error("Something went wrong");
+        console.log(xhr.responseText);
+      },
+    });
+
+    return false; // prevent normal submit
+  },
+});
+
+// $(document).on("click", "#save-metadata", function () {
+//   let formData = {
+//     file_id: $("#selected_file_id").val(),
+//     title: $("input[name='title']").val(),
+//     description: $("input[name='description']").val(),
+//     date_created: $("input[name='date_created']").val(),
+//     tags: $("input[name='tags']").val(),
+//     country: $("#country").val(),
+//     _token: $('meta[name="csrf-token"]').attr("content"),
+//   };
+
+//   $.ajax({
+//     url: base_url + "/admin/batch/save_file_metadata",
+//     type: "POST",
+//     data: formData,
+
+//     success: function (res) {
+//       toastr.success("File metadata saved successfully");
+//     },
+
+//     error: function (xhr) {
+//       console.log(xhr.responseText);
+//     },
+//   });
+// });
 // Select All Button
 $(document).on("click", ".select-btn", function () {
   let images = $(".upload-image");
@@ -586,6 +696,7 @@ function addFiles(list) {
   });
 
   render();
+  $(".btn-upload-device").prop("disabled", false);
 }
 
 function render() {
@@ -770,6 +881,7 @@ $(document).on("click", ".btn-upload-device", function () {
     return;
   }
 
+  $(this).prop("disabled", true);
   const formData = new FormData();
   const batch_id = $("#batch_id").val();
   const batch_type = $(this).attr("data-type");
@@ -797,6 +909,7 @@ $(document).on("click", ".btn-upload-device", function () {
     success: function (response) {
       if (response.status === "success") {
         toastr.success(response.message);
+        $(this).prop("disabled", false);
 
         setTimeout(() => {
           allFiles = [];
@@ -892,10 +1005,11 @@ $(document).on("click", "[data-bs-target='#renameModal']", function () {
   $("#rename_batch_name").val(name);
 });
 
-$(document).on("click", ".BatchrenameModal", function () {
-  // alert();
-  let id = $(this).data("id");
-  let name = $(this).data("name");
+$("#BatchrenameModal").on("show.bs.modal", function (event) {
+  let button = $(event.relatedTarget);
+
+  let id = button.data("id");
+  let name = button.data("name");
 
   $("#rename_batch_id").val(id);
   $("#rename_batch_name").val(name);
@@ -944,6 +1058,7 @@ $(document).on("click", ".edit_branch_name", function (e) {
 
     success: function (res) {
       $("#renameModal").modal("hide");
+      $(".batch_name").html(branch_name);
       toastr.success(res.message);
 
       // reload batches
@@ -963,15 +1078,62 @@ $(document).on("click", ".copy-keywords", function () {
 
   toastr.success("Keywords copied!");
 });
+
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
+  $(document).on("click", ".batch_file_keyword", function () {
+    console.log("clicked");
+    let keywords = $(this).data("keywords");
+
+    let temp = $("<textarea>");
+    $("body").append(temp);
+    temp.val(keywords).select();
+    document.execCommand("copy");
+    temp.remove();
+
+    toastr.success("Keywords copied!");
+  });
+
   const clearAllBtn = document.getElementById("clearAll");
 
   if (clearAllBtn) {
     clearAllBtn.addEventListener("click", () => {
+      $(".btn-upload-device").prop("disabled", true);
+
       allFiles = [];
       render();
     });
+  }
+});
+
+$(document).on("change", "#category_id", function () {
+  // alert();
+  let categoryId = $(this).val();
+
+  // $("#subcategory").html("<option>Loading...</option>");
+
+  if (categoryId != "") {
+    $.ajax({
+      headers: {
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+      },
+      url: base_url + "/get-subcategories/" + categoryId,
+      type: "GET",
+      success: function (data) {
+        $("#subcategory_id").html(
+          '<option value="">Select Sub Category</option>'
+        );
+        console.log(data);
+
+        $.each(data, function (key, value) {
+          $("#subcategory_id").append(
+            '<option value="' + value.id + '">' + value.name + "</option>"
+          );
+        });
+      },
+    });
+  } else {
+    $("#subcategory").html('<option value="">Choose SubCategory...</option>');
   }
 });

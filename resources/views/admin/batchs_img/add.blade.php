@@ -15,10 +15,12 @@
                                     <i class="ti ti-plus"></i> Create Batch
                                 </button>
 
+
                                 <!-- Modal -->
                                 <div class="modal fade " id="exampleModal" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-box">
+
 
                                         <div class="modal-content">
                                             <form id="create_batch" class="auth-form" method="POST"
@@ -31,6 +33,7 @@
                                                     {{-- <div class="dropdown">
                                                         <input type="hidden" name="submission_type"
                                                             id="submission_type">
+
 
                                                         <label for="" class="modal-label">Submission
                                                             type</label>
@@ -51,7 +54,8 @@
                                                         </ul>
                                                     </div> --}}
                                                     <div class="modal-code">
-                                                        <label for="category" class="form-label">Submission Type</label>
+                                                        <label for="category" class=" modal-label">Submission
+                                                            Type</label>
                                                         <select class="form-select mr-sm-2 batch-inp"
                                                             name="submission_type" id="category">
                                                             <option value="">Choose Submission Type...</option>
@@ -60,6 +64,7 @@
                                                             <option value="video">
                                                                 Video</option>
                                                         </select>
+
 
                                                     </div>
                                                     <div class="modal-code">
@@ -80,6 +85,7 @@
                                                         </div>
                                                     </div>
 
+
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn-all-dark btn-hover-dark btn"
@@ -93,17 +99,20 @@
                             </div>
                             <div class="create-batch-filter">
 
+
                                 <button class="btn btn-orange search-desktop search-filter-openbtn" id="search_filter">
                                     <i class="fa-solid fa-magnifying-glass me-3"></i>
                                     Search and Filter</button>
                                 <button class="btn search-mobile search-filter-openbtn" id="search_filter_mobile">
                                     <i class="fa-solid fa-magnifying-glass me-3"></i></button>
 
+
                             </div>
                         </div>
                         <div class="diffrent-batches">
                             {{-- <p class="counting-show-batch">Show 1 to 10 of 26 Batches</p> --}}
                             <div class="flex-batch-filter-content">
+
 
                                 <div class="diff-batches-content" id="batch-content-active">
                                     <p class="counting-show-batch"> Show {{ $batches->firstItem() }} to
@@ -118,6 +127,7 @@
                                                     <button class="btn  text-start dot-dropdown dropdown-toggle"
                                                         type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fa-solid fa-ellipsis-vertical "></i>
+
 
                                                     </button>
                                                     <ul class="dropdown-menu more-detail-menu">
@@ -136,9 +146,10 @@
                                                                 <i class="fa-solid fa-trash me-3"></i>
                                                                 Delete
                                                             </button></li>
-                                                        {{-- <li><a class="dropdown-item d-none" href="#"><i
+                                                        <li class="d-none"><a class="dropdown-item d-none"
+                                                                href="#"><i
                                                                     class="fa-solid fa-arrow-up-right-from-square me-3"></i>
-                                                                See Published</a></li> --}}
+                                                                See Published</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -156,10 +167,12 @@
                                                         photo</label>
                                                 @endif
 
+
                                             </div>
                                             <div class="batch-content-detail">
                                                 <a class="batch-content-img"
                                                     href="{{ route('admin.add_new_img', encrypt($list['id'])) }}">
+
 
                                                     @php
                                                         $files = $list['batch_files'];
@@ -181,7 +194,9 @@
                                                         // dd($files->take(4));
                                                     @endphp
 
+
                                                     <div class="batch-collect-imgs {{ $class }}">
+
 
                                                         @if (count($files) == 0)
                                                             <img src="{{ asset('assets/front/img/no_img_avaliable.png') }}"
@@ -198,10 +213,12 @@
 
                                                             @endphp
 
+
                                                             <div
                                                                 class="item {{ $count == 3 && $index == 0 ? 'long-img' : '' }} {{ $count > 4 && $index == 3 ? 'overlay-parent' : '' }}">
                                                                 <img src="{{ $url }}" width="100%"
                                                                     height="100%" alt="">
+
 
                                                                 @if ($count > 4 && $index == 3)
                                                                     <div class="img-overlay">+{{ $count - 4 }}
@@ -210,30 +227,26 @@
                                                             </div>
                                                         @endforeach
 
+
                                                     </div>
                                                 </a>
                                                 <div class="batch-content-create">
                                                     <div class="batch-content-create-text">
                                                         <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
                                                         {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
-                                                    </div>
-                                                    </a>
-                                                    <div class="batch-content-create">
-                                                        <div class="batch-content-create-text">
-                                                            <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
-                                                            {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
-                                                            <div>
-                                                                <p class="batchcreated">
-                                                                    Created :
-                                                                    {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
-                                                                </p>
-                                                            </div>
-                                                            {{-- <div class="batch-content-create-counts">
-                                                        <span>Last Updated : Feb 10 , 2026</span>
-                                                    </div>
+                                                        <div>
+                                                            <p class="batchcreated">
+                                                                Created :
+                                                                {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
+                                                            </p>
+                                                            <span>Last Updated
+                                                                :{{ \Carbon\Carbon::parse($list['updated_at'])->format('M d, Y') }}
+                                                            </span>
+                                                        </div>
 
-                                                </div>
-                                                <!-- <div class="batch-content-create-counts">
+
+                                                    </div>
+                                                    <!-- <div class="batch-content-create-counts">
                                                         <div class="create-count-div">
                                                             <div class="circle-div circle-div1"></div>
                                                             <p class="circel-count"><span>0</span> Accepted</p>
@@ -254,83 +267,89 @@
                                                             <div class="circle-div circle-div5"></div>
                                                             <p class="circel-count"><span>0</span> Not Submitted</p>
                                                         </div>
-                                                    </div> --}}
-                                                        </div>
-                                                        <div class="more-detail">
-                                                            <button class="btn more-detail-btn " type="button">
-                                                                <i class="fa-solid fa-angle-down"></i>More Detail
-                                                            </button>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="batch-content-table-details">
-                                                        <table>
-                                                            <thead>
-                                                                <th>
-                                                                    <tr>
-                                                                        <td class="table-heading">File ID</td>
-                                                                        <td class="table-heading">File Name</td>
-                                                                        <td class="table-heading">Title</td>
-                                                                        <td class="table-heading">Status</td>
-                                                                    </tr>
-                                                                </th>
-                                                            </thead>
+                                                    </div> -->
+                                                </div>
+                                                <div class="more-detail">
+                                                    <button class="btn more-detail-btn " type="button">
+                                                        <i class="fa-solid fa-angle-down"></i>More Detail
+                                                    </button>
 
 
-                                                            <tbody>
-                                                                @foreach ($list['batch_files'] as $file)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="img-id">
-                                                                                <div class="table-img">
-                                                                                    {{-- <video class="w-100 h-100" muted>
+                                                </div>
+                                            </div>
+                                            <div class="batch-content-table-details">
+                                                <table>
+                                                    <thead>
+                                                        <th>
+                                                            <tr>
+                                                                <td class="table-heading">File ID</td>
+                                                                <td class="table-heading">File Name</td>
+                                                                <td class="table-heading">Title</td>
+                                                                <td class="table-heading">Status</td>
+                                                            </tr>
+                                                        </th>
+                                                    </thead>
+
+
+
+
+                                                    <tbody>
+                                                        @foreach ($list['batch_files'] as $file)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="img-id">
+                                                                        <div class="table-img">
+                                                                            {{-- <video class="w-100 h-100" muted>
                                                                                 <source
                                                                                     src="{{ $file['file_path'] }}">
-                                                                            </video> --}}
-                                                                                    @php
-                                                                                        $path = '';
-                                                                                        $path = $file['thumbnail_path'];
-                                                                                        if (
-                                                                                            $file['file_type'] ==
-                                                                                            'image'
-                                                                                        ) {
-                                                                                            $path = $file['low_path'];
-                                                                                        }
-                                                                                    @endphp
-                                                                                    <img src="{{ $path }}"
-                                                                                        class="w-100 h-100"
-                                                                                        alt="Nature Flower">
-                                                                                </div>
-                                                                                <p>{{ $file['file_code'] }}</p>
-                                                                            </div>
-                                                                        </td>
+                                                                    </video> --}}
+                                                                            @php
+                                                                                $path = '';
+                                                                                $path = $file['thumbnail_path'];
+                                                                                if ($file['file_type'] == 'image') {
+                                                                                    $path = $file['low_path'];
+                                                                                }
+                                                                            @endphp
+                                                                            <img src="{{ $path }}"
+                                                                                class="w-100 h-100"
+                                                                                alt="Nature Flower">
+                                                                        </div>
+                                                                        <p>{{ $file['file_code'] }}</p>
+                                                                    </div>
+                                                                </td>
 
-                                                                        <td>{{ $file['original_name'] }}</td>
 
-                                                                        <td>{{ $file['title'] }}</td>
+                                                                <td>{{ $file['original_name'] }}</td>
 
-                                                                        <td>
-                                                                            <div class="create-count-div">
-                                                                                <div class="circle-div circle-div1">
-                                                                                </div>
-                                                                                <p class="circel-count">
-                                                                                    {{-- {{ ucfirst($file['status']) }} --}}
-                                                                                    Accepted
-                                                                                </p>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endforeach
 
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
+                                                                <td>{{ $file['title'] }}</td>
+
+
+                                                                <td>
+                                                                    <div class="create-count-div">
+                                                                        <div class="circle-div circle-div1"></div>
+                                                                        <p class="circel-count">
+                                                                            {{-- {{ ucfirst($file['status']) }} --}}
+                                                                            Accepted
+                                                                        </p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     @endforeach
+
 
                                     <div class="mt-4 navbar-section">
                                         {{ $batches->links() }}
                                     </div>
+
+
 
 
                                 </div>
@@ -367,6 +386,7 @@
                                                         </label>
                                                     </div>
                                                 </li> --}}
+
 
                                                     <li>
                                                         <div class="form-check">
@@ -434,11 +454,13 @@
                                                         </div>
                                                     </li> --}}
 
+
                                                 </ul>
                                             </div>
                                             <div class="date-range-filter filter-text">
                                                 <p>Date range</p>
                                                 <div class="date-range">
+
 
                                                     <div class="date-inputs">
                                                         <div class="date-box">
@@ -448,7 +470,9 @@
                                                             <span class="date-format">MM/DD/YYYY</span>
                                                         </div>
 
+
                                                         <span class="date-separator">to</span>
+
 
                                                         <div class="date-box">
                                                             <span class="date-title">End date *</span>
@@ -485,6 +509,7 @@
                                             <div class="direction-filter filter-text">
                                                 <p>Direction</p>
 
+
                                                 <ul>
                                                     <li>
                                                         <div class="form-check">
@@ -507,6 +532,8 @@
                                                     </li>
 
 
+
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -516,9 +543,16 @@
                         </div>
 
 
+
+
                     </div>
 
+
                 </div>
+
+
+
+
 
 
 
@@ -528,6 +562,7 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -535,15 +570,19 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="renameModalLabel">Rename Item
 
+
                     </h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
 
+
                 <div class="modal-body">
-                    <label class="form-label">Batch Name</label>
-                    <input type="text" name="branch_name" id="rename_batch_name" class="form-control"
+                    <label class="modal-label">Batch Name
+                    </label>
+                    <input type="text" name="branch_name" id="rename_batch_name" class="form-control batch-inp"
                         placeholder="Enter new name">
                 </div>
+
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-all-dark btn-hover-dark" data-bs-dismiss="modal">
@@ -565,11 +604,13 @@
             </div>
             <input type="hidden" name="batch_id" id="delete_batch_id">
 
+
             <div class="modal-body text-center">
                 <div class="delete-icon  m-auto"><i class="fa-solid fa-triangle-exclamation "></i></div>
                 <p style="font-size: 16px; color:gray; margin-top:15px;">If you delete the link will be gone forever.
                     Are you sure you want to procced</p>
             </div>
+
 
             <div class="modal-footer text-center m-auto">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">

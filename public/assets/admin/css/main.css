@@ -78,6 +78,9 @@ a {
 button,
 a {
   cursor: pointer !important;
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
 
 @media only screen and (max-width: 1399px) {

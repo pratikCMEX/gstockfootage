@@ -2,6 +2,8 @@
 
 use App\Models\Banner;
 use App\Models\Cart;
+use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +23,15 @@ function duration($seconds)
     return gmdate('H:i:s', $seconds);
 }
 
+function getCategory()
+{
+    return Category::all();
+}
+
+function getCollections()
+{
+    return Collection::all();
+}
 function mergeSessionCart()
 {
     if (!session()->has('cart')) return;

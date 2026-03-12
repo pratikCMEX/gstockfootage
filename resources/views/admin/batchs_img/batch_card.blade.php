@@ -1,8 +1,8 @@
 <div class="diff-batches-content" id="batch-content-active">
-    {{-- {{ dd($batch_list) }} --}}
     <p class="counting-show-batch"> Show {{ $batches->firstItem() }} to
         {{ $batches->lastItem() }} of {{ $batches->total() }} Batches
     </p>
+    {{-- {{ dd($batch_list) }} --}}
     @foreach ($batch_list as $list)
         <div class="batch-content">
             <div class="batch-content-title">
@@ -12,21 +12,23 @@
                         aria-expanded="false">
                         <i class="fa-solid fa-ellipsis-vertical "></i>
 
+
                     </button>
                     <ul class="dropdown-menu more-detail-menu">
                         <li>
                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                data-id="{{ $list['id'] }}" data-name="{{ $list['title'] }}"
                                 data-bs-target="#renameModal">
                                 <i class="fa-solid fa-pencil me-3"></i>
                                 Rename
                             </button>
                         </li>
                         <li> <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
+                                data-id="{{ $list['id'] }}" data-bs-target="#deleteModal">
                                 <i class="fa-solid fa-trash me-3"></i>
                                 Delete
                             </button></li>
-                        <li><a class="dropdown-item" href="#"><i
+                        <li class="d-none"><a class="dropdown-item d-none" href="#"><i
                                     class="fa-solid fa-arrow-up-right-from-square me-3"></i>
                                 See Published</a></li>
                     </ul>
@@ -46,9 +48,11 @@
                         photo</label>
                 @endif
 
+
             </div>
             <div class="batch-content-detail">
                 <a class="batch-content-img" href="{{ route('admin.add_new_img', encrypt($list['id'])) }}">
+
 
                     @php
                         $files = $list['batch_files'];
@@ -70,7 +74,9 @@
                         // dd($files->take(4));
                     @endphp
 
+
                     <div class="batch-collect-imgs {{ $class }}">
+
 
                         @if (count($files) == 0)
                             <img src="{{ asset('assets/front/img/no_img_avaliable.png') }}" width="100%"
@@ -80,18 +86,23 @@
                             @php
                                 $url = $file['file_type'] == 'image' ? $file['low_path'] : $file['thumbnail_path'];
 
-                                $url = asset($url);
+                                // $url = asset($url);
+
                             @endphp
+
 
                             <div
                                 class="item {{ $count == 3 && $index == 0 ? 'long-img' : '' }} {{ $count > 4 && $index == 3 ? 'overlay-parent' : '' }}">
                                 <img src="{{ $url }}" width="100%" height="100%" alt="">
 
+
                                 @if ($count > 4 && $index == 3)
-                                    <div class="img-overlay">+{{ $count - 4 }}</div>
+                                    <div class="img-overlay">+{{ $count - 4 }}
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
+
 
                     </div>
                 </a>
@@ -99,12 +110,19 @@
                     <div class="batch-content-create-text">
                         <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
                         {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
-                        <p class="batchcreated">
-                            Created :
-                            {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
-                        </p>
+                        <div>
+                            <p class="batchcreated">
+                                Created :
+                                {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
+                            </p>
+                            <span>Last Updated
+                                :{{ \Carbon\Carbon::parse($list['updated_at'])->format('M d, Y') }}
+                            </span>
+                        </div>
+
+
                     </div>
-                    <div class="batch-content-create-counts">
+                    <!-- <div class="batch-content-create-counts">
                         <div class="create-count-div">
                             <div class="circle-div circle-div1"></div>
                             <p class="circel-count"><span>0</span> Accepted</p>
@@ -125,12 +143,13 @@
                             <div class="circle-div circle-div5"></div>
                             <p class="circel-count"><span>0</span> Not Submitted</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="more-detail">
                     <button class="btn more-detail-btn " type="button">
                         <i class="fa-solid fa-angle-down"></i>More Detail
                     </button>
+
 
                 </div>
             </div>
@@ -148,6 +167,8 @@
                     </thead>
 
 
+
+
                     <tbody>
                         @foreach ($list['batch_files'] as $file)
                             <tr>
@@ -157,7 +178,7 @@
                                             {{-- <video class="w-100 h-100" muted>
                                                 <source
                                                     src="{{ $file['file_path'] }}">
-                                            </video> --}}
+                                    </video> --}}
                                             @php
                                                 $path = '';
                                                 $path = $file['thumbnail_path'];
@@ -171,20 +192,25 @@
                                     </div>
                                 </td>
 
+
                                 <td>{{ $file['original_name'] }}</td>
 
-                                <td>-</td>
+
+                                <td>{{ $file['title'] }}</td>
+
 
                                 <td>
                                     <div class="create-count-div">
                                         <div class="circle-div circle-div1"></div>
                                         <p class="circel-count">
-                                            {{ ucfirst($file['status']) }}
+                                            {{-- {{ ucfirst($file['status']) }} --}}
+                                            Accepted
                                         </p>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
+
 
                     </tbody>
                 </table>
@@ -192,9 +218,12 @@
         </div>
     @endforeach
 
-    <div class="mt-4 d-flex justify-content-center">
+
+    <div class="mt-4 navbar-section">
         {{ $batches->links() }}
     </div>
+
+
 
 
 </div>
