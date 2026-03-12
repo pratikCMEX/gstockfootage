@@ -135,7 +135,8 @@ class BatchController extends Controller
 
         // 🔎 Search
         if ($request->search) {
-            $query->where('title', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('batch_code', 'like', '%' . $request->search . '%');
         }
 
         // 📷 Submission Type
