@@ -3,9 +3,9 @@
         <h1>Visuals with purpose.</h1>
         <!-- Tabs -->
         <div class="hero-tabs">
-            <button class="active"><i class="bi bi-camera-video"></i> Videos</button>
-            <button><i class="bi bi-image"></i> Photos</button>
-            <button><i class="bi bi-palette"></i> Artwork</button>
+            <a href="" class="active"><i class="bi bi-camera-video"></i> Videos</a>
+            <a href=""><i class="bi bi-image"></i> Photos</a>
+            {{-- <button><i class="bi bi-palette"></i> Artwork</button> --}}
         </div>
         <!-- Search -->
         <div class="search-wrapper">
@@ -25,8 +25,8 @@
                                 Videos</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-image"></i> Photos</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Artwork</a>
-                        </li>
+                        {{-- <li><a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Artwork</a>
+                        </li> --}}
                     </ul>
                 </div>
 
@@ -137,7 +137,7 @@
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                 <div class="heading-btn">
-                    <a href="#" class="btn btn-orange">
+                    <a href="javascript:void(0);" class="btn btn-orange">
                         See Pricing
                     </a>
                 </div>
@@ -585,6 +585,7 @@
                         <i class="bi bi-search "></i> <span>Search</span>
                     </button>
                 </div>
+
             </div>
         </div>
     </div>

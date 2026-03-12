@@ -1,5 +1,19 @@
 // batch
 
+fetch("/countries.json")
+  .then((response) => response.json())
+  .then((data) => {
+    let select = document.getElementById("country");
+
+    data.forEach((country) => {
+      let option = document.createElement("option");
+
+      option.value = country.name;
+      option.textContent = country.name;
+
+      select.appendChild(option);
+    });
+  });
 var base_url = $("#base_url").val();
 let filteropenbtn = document.getElementById("search_filter");
 let filteropensmall = document.getElementById("search_filter_mobile");
@@ -875,6 +889,13 @@ function failUploadToast() {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+function updateUploadProgress(percent) {
+  const barFill = document.getElementById("barFill");
+  const pctLabel = document.getElementById("pctLabel");
+
+  barFill.style.width = percent + "%";
+  pctLabel.textContent = percent;
+}
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
     alert("Please choose files first");
@@ -902,14 +923,31 @@ $(document).on("click", ".btn-upload-device", function () {
     processData: false,
     contentType: false,
 
-    beforeSend: function () {
-      console.log("Uploading", allFiles.length, "file(s)…");
+    xhr: function () {
+      let xhr = new window.XMLHttpRequest();
+
+      xhr.upload.addEventListener(
+        "progress",
+        function (evt) {
+          if (evt.lengthComputable) {
+            let realPercent = (evt.loaded / evt.total) * 100;
+
+            // convert 0-100 → 0-90
+            let displayPercent = Math.floor(realPercent * 0.9);
+
+            updateUploadProgress(displayPercent);
+          }
+        },
+        false
+      );
+
+      return xhr;
     },
 
     success: function (response) {
       if (response.status === "success") {
         toastr.success(response.message);
-        $(this).prop("disabled", false);
+        completeUploadToast();
 
         setTimeout(() => {
           allFiles = [];

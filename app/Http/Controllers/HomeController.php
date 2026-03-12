@@ -186,8 +186,9 @@ class HomeController extends Controller
     public function homeSearch(Request $request)
     {
         $keywords = BatchFile::where('is_edited', 1)
-            ->pluck('keywords')
-            ->toArray();
+            ->where('keywords', 'like', '%' . $request->search . '%')
+            ->limit(10)
+            ->pluck('keywords');
 
         $allKeywords = [];
 

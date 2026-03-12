@@ -3,6 +3,7 @@ $(document).ready(function () {
   var searchTimeout;
 
   $(document).on("keyup", ".home_search", function () {
+    $(".suggetion-search ul").html("");
     var value = $(this).val().toLowerCase();
 
     clearTimeout(searchTimeout);
@@ -34,6 +35,6 @@ $(document).ready(function () {
           }
         },
       });
-    }, 500);
+    }, 300);
   });
 });

@@ -24,7 +24,7 @@
   z-index: 1;
 }
 
-.hero-tabs button {
+.hero-tabs a {
   background: none;
   border: none;
   color: var(--white);
@@ -35,7 +35,7 @@
   font-family: var(--font-inter-semibold);
 }
 
-.hero-tabs button:hover {
+.hero-tabs a:hover {
   color: var(--primary);
 }
 
