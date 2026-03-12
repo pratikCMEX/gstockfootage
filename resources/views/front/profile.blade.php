@@ -84,7 +84,12 @@
                                     <span>Language</span>
                                     <p>English</p>
                                 </div>
-
+                                <h3>Professional</h3>
+                                <p>Full access to all features, priority support & advanced analystics.</p>
+                                <h2><span class="yellow">$</span>99 <span class="gray"> / month</span></h2>
+                                <div class="end-date-subscription">
+                                    <p> <span class="gray">Renews on </span>July 12 , 2026 <span class="gray">Billed monthly</span></p>
+                                </div>
                             </div>
                             <div class="subscription-right"></div>
                         </div>
