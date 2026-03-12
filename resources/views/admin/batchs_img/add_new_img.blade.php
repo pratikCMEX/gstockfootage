@@ -1042,13 +1042,13 @@
                                                 <p style="font-size: 12px;">Image Height</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="Quick Time" name="image_height" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon">
+                                                    aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Image Width</p>
                                                 <input type="text" class="form-control upload-inp" placeholder=""
                                                     name="image_width" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                    aria-describedby="visible-addon" disabled>
                                             </div>
                                         </div>
                                     </div>
