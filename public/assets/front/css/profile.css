@@ -65,6 +65,10 @@
   width: 75%;
 }
 .profile_section .profile-manage {
+  margin-bottom: 30px;
+}
+.profile_section .profile-manage,
+.profile_section .subscription-plan {
   box-shadow: 0 5px 15px var(--box-shadow);
   padding: 32px;
   border-radius: 10px;
@@ -337,6 +341,12 @@
   font-size: 16px;
   color: var(--secendory);
 }
+
+.profile_section .subscription-plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 @media only screen and (max-width: 1399px) {
 }
 @media only screen and (max-width: 1199px) {
@@ -473,4 +483,5 @@
   }
   .profile_section .modal-footer .btn {
     width: 100%;
+  }
 }
