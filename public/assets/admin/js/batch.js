@@ -730,7 +730,7 @@ function render() {
   strip.classList.add("visible");
 
   const total = allFiles.length;
-  const visible = allFiles; // Include all files
+  const visible = allFiles.slice(0, MAX_VISIBLE); // show limited thumbnails
   const extra = total - MAX_VISIBLE;
 
   previewLabel.textContent =
@@ -749,21 +749,15 @@ function render() {
       inner = `<video src="${url}" muted preload="metadata"></video>
                <div class="p-vid-overlay"><i class="fa-solid fa-play"></i></div>
                <span class="p-badge p-badge-vid">VID</span>`;
-    } else if (category === "zip") {
-      const ext = file.name.split(".").pop().toUpperCase();
-      inner = `<div class="p-thumb-zip">
-                 <i class="fa-solid fa-file-zipper"></i>
-                 <span>${ext}</span>
-               </div>
-               <span class="p-badge p-badge-zip">ZIP</span>`;
     } else {
       const ext = file.name.split(".").pop().toUpperCase();
       inner = `<div class="p-thumb-zip">
                  <i class="fa-solid fa-file-zipper"></i>
                  <span>${ext}</span>
                </div>
-               <span class="p-badge p-badge-zip">ZIP</span>`;
+               <span class="p-badge p-badge-zip">${ext}</span>`;
     }
+
     inner += `<button class="p-remove" data-id="${id}">
                 <i class="fa-solid fa-xmark"></i>
               </button>`;
@@ -780,6 +774,19 @@ function render() {
     thumbsWrap.appendChild(more);
   }
 }
+
+document.addEventListener("click", function (e) {
+  const btn = e.target.closest(".p-remove");
+  if (!btn) return;
+
+  const id = btn.dataset.id;
+
+  // remove from array
+  allFiles = allFiles.filter((file) => file.id != id);
+
+  // re-render thumbnails
+  render();
+});
 // remove file
 let counterRaf = null;
 
