@@ -669,6 +669,7 @@ class BatchController extends Controller
                 'thumbnail_path' => "",
                 'low_path' => "batch/image/low/low_$imageName",
                 'file_type'      => 'image',
+                'type'      => 'image',
                 'file_size'      => $size,
                 'width'          => $width,
                 'height'         => $height,
@@ -746,6 +747,7 @@ class BatchController extends Controller
         $batchFile->file_name = $fileName;
         $batchFile->file_path = $path;
         $batchFile->file_type = 'video';
+        $batchFile->type = 'video';
         $batchFile->title = $originalNameOnly;
         $batchFile->date_created = Carbon::now()->toDateString();
         $batchFile->status = 'accepted';
