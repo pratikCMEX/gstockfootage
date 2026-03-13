@@ -627,7 +627,8 @@
                 </div>
 
                 <div class="store-actions">
-                    <a href="#">Shop the Collection <i class="bi bi-box-arrow-up-right"></i></a>
+                    <a href="https://visionofthebiblestore.com/collections/all">Shop the Collection <i
+                            class="bi bi-box-arrow-up-right"></i></a>
                 </div>
             </div>
 
@@ -635,7 +636,8 @@
                 <div class="swiper-wrapper">
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a
+                            href="https://visionofthebiblestore.com/products/the-four-gospels-digital-visual-bible-7-inch">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/P1-copy-2.webp') }}">
@@ -657,7 +659,7 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/travel-to-the-holy-land">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/digital-bible-2-_2.webp') }}">
@@ -668,7 +670,7 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/vision-of-israel-coffee-table-book-1">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/7-Inch---Product-Photos-2.webp') }}">
@@ -678,7 +680,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/travel.webp') }}">
@@ -688,7 +690,7 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/book_1.webp') }}">
