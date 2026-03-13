@@ -11,12 +11,12 @@ $("#login").validate({
   },
   messages: {
     email: {
-      required: "Please enter your email",
-      email: "Enter a valid email address",
+      required: "Please Enter Your Email",
+      email: "Enter a Valid Email Address",
     },
     password: {
-      required: "Please enter your password",
-      minlength: "Password must be at least 6 characters",
+      required: "Please Enter Your Password",
+      minlength: "Password Must Be At Least 6 Characters",
     },
   },
   normalizer: function (value) {
@@ -39,14 +39,14 @@ $("#resend_mail_varification").validate({
       required: true,
       email: true,
     },
-   
+
   },
   messages: {
     email: {
       required: "Please enter your email",
       email: "Enter a valid email address",
     },
-  
+
   },
   normalizer: function (value) {
     return $.trim(value);
@@ -90,12 +90,12 @@ $("#signup").validate({
       },
     },
     phone: {
-     
+
       minlength: 10,
       maxlength: 10,
       digits: true,
     },
-   
+
     password: {
       required: true,
       minlength: 6,
@@ -103,26 +103,26 @@ $("#signup").validate({
   },
   messages: {
     first_name: {
-      required: "Please enter firstname",
+      required: "Please Enter First Name",
     },
     last_name: {
-      required: "Please enter lastname",
+      required: "Please Enter Last Name",
     },
     email: {
-      required: "Please enter email",
-      email: "Please enter a valid email",
-      remote: "This email already exists",
+      required: "Please Enter Email",
+      email: "Please Enter a Valid Email",
+      remote: "This Email Already Exists",
     },
     phone: {
-      
-      minlength: "Phone number must be at least 10 digits",
-      maxlength: "Phone number cannot exceed 10 digits",
-      digits: "Please enter valid phone number (digits only)",
+
+      minlength: "Phone Number Must Be At Least 10 Digits",
+      maxlength: "Phone Number Cannot Exceed 10 Digits",
+      digits: "Please Enter Valid Phone Number (Digits Only)",
     },
-    
+
     password: {
-      required: "Please enter your password",
-      minlength: "Password must be at least 6 characters",
+      required: "Please Enter Your Password",
+      minlength: "Password Must Be At Least 6 Characters",
     },
   },
 
@@ -182,19 +182,20 @@ $("#send_forget_link").validate({
 });
 
 // Handle tab switching and show/hide resend verification section
-$(document).ready(function() {
+$(document).ready(function () {
+
   // Tab switching functionality
-  $('.tab-btn').click(function() {
+  $('.tab-btn').click(function () {
     const tab = $(this).data('tab');
-    
+
     // Remove active class from all tabs and forms
     $('.tab-btn').removeClass('active');
     $('.auth-form').removeClass('active');
-    
+
     // Add active class to clicked tab and corresponding form
     $(this).addClass('active');
     $('#' + tab).addClass('active');
-    
+
     // Show/hide resend verification section
     if (tab === 'login') {
       $('#resend-verification-section').show();
@@ -202,7 +203,7 @@ $(document).ready(function() {
       $('#resend-verification-section').hide();
     }
   });
-  
+
   // Initialize: show resend verification section only if login tab is active
   if ($('#login').hasClass('active')) {
     $('#resend-verification-section').show();
