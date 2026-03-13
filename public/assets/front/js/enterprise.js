@@ -8,7 +8,7 @@ $("#quoteRequestForm").validate({
       required: true,
 
     },
-    phone: {
+    phone_number: {
       required: true,
 
     },
@@ -46,44 +46,44 @@ $("#quoteRequestForm").validate({
 
   messages: {
     first_name: {
-      required: "Please enter first name",
+      required: "Please enter First Name",
 
     },
     last_name: {
-      required: "Please enter last name",
+      required: "Please enter Last Name",
 
     },
-    phone: {
-      required: "Please enter phone number",
+    phone_number: {
+      required: "Please enter Phone Number",
 
     },
     email: {
-      required: "Please enter email",
-      email: "Enter a valid email",
+      required: "Please enter Business  Email Address",
+      email: "Enter a valid Business  Email Address",
     },
     company: {
-      required: "Please enter company",
+      required: "Please enter Company",
 
     },
     job_role: {
-      required: "Please select job role",
+      required: "Please select Job Role",
 
     },
     job_function: {
-      required: "Please select job function",
+      required: "Please select Job Function",
 
     },
     company_size: {
-      required: "Please select company size",
+      required: "Please select Company Size",
 
     },
     country: {
-      required: "Please select country",
+      required: "Please select Country",
 
     },
     
     product_interest: {
-      required: "Please select product of interest",
+      required: "Please select Product of Interest",
 
     },
   },
@@ -98,4 +98,25 @@ $("#quoteRequestForm").validate({
   unhighlight: function (element) {
     $(element).removeClass("is-invalid");
   },
+});
+
+$(document).ready(function () {
+
+    var input = $("#phone")[0]; // get DOM element from jQuery
+
+    var iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        preferredCountries: ["us"],
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+
+    $("#quoteRequestForm").on("submit", function () {
+
+        var fullPhone = iti.getNumber();
+
+        $("#full_phone").val(fullPhone);
+
+    });
+
 });

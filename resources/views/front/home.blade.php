@@ -18,19 +18,22 @@
                         <span class="btn-text">All content</span>
                     </button>
 
-                    <ul class="dropdown-menu custom-menu">
+                    <ul class="dropdown-menu custom-menu content-list-menu">
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" data-type="all" data-icon="bi bi-grid"
+                                data-label="All content">
                                 <i class="bi bi-grid"></i> <span>All content</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" data-type="video" data-icon="bi bi-camera-video"
+                                data-label="Videos">
                                 <i class="bi bi-camera-video"></i> <span>Videos</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" data-type="image" data-icon="bi bi-image"
+                                data-label="Photos">
                                 <i class="bi bi-image"></i> <span>Photos</span>
                             </a>
                         </li>
@@ -118,15 +121,18 @@
             </div>
             @foreach ($CollectionList as $item)
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
+                    <a href="{{ route('all_photos', ['collection_id' => encrypt($item->id)]) }}"
+                        class="text-decoration-none">
+                        <div class="brand-posibility">
+                            <div class="posibility-img">
+                                <img width="100%" height="100%"
+                                    src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
+                            </div>
+                            <div class="posibilty-title">
+                                <h3>{{ $item->name }}</h3>
+                            </div>
                         </div>
-                        <div class="posibilty-title">
-                            <h3>{{ $item->name }}</h3>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
@@ -153,7 +159,8 @@
         <div class="row g-3">
             @foreach ($categoryList as $category)
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <a href="javascript::void(0);">
+                    <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}"
+                        class="text-decoration-none">
                         <div class="fingertips-content">
                             <div class="fingertips-img">
                                 <img height="100%" width="100%"
@@ -577,27 +584,32 @@
         <div class="brand-area mb-4">
             <img src="{{ asset('assets/front/img/helper-chicken-D5n0gnPB.png') }}" alt="Mascot"
                 class="floating-icon">
-            <h2 class="help-heading">How can we help you <span class="text-gradient">get what you
-                    want?</span></h2>
+            <h2 class="help-heading">How can we help you <span class="text-gradient">get what you want?</span></h2>
         </div>
 
         <div class="help-filter-btn filter-pills d-flex justify-content-center flex-wrap gap-2 mb-4">
-            <button class="btn btn-filter active"><i class="bi bi-grid-fill"></i> All</button>
-            <button class="btn btn-filter"><i class="bi bi-camera-video"></i> Videos</button>
-            <button class="btn btn-filter"><i class="bi bi-camera"></i> Photos</button>
-            <button class="btn btn-filter"><i class="bi bi-palette"></i> Artwork</button>
+            <button class="btn btn-filter search-btn-filter active" data-type="all"><i class="bi bi-grid-fill"></i>
+                All</button>
+            <button class="btn btn-filter search-btn-filter" data-type="video"><i class="bi bi-camera-video"></i>
+                Videos</button>
+            <button class="btn btn-filter search-btn-filter" data-type="image"><i class="bi bi-camera"></i>
+                Photos</button>
+            <button class="btn btn-filter search-btn-filter" data-type="artwork"><i class="bi bi-palette"></i>
+                Artwork</button>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="search-container shadow-lg">
-                    <input type="text" class="form-control main-input"
+                    <input type="text" class="form-control main-input help-search"
                         placeholder="Search for footage, photos, or artwork...">
-                    <button class="btn btn-search">
-                        <i class="bi bi-search "></i> <span>Search</span>
+                    <button class="btn btn-search help-search-btn">
+                        <i class="bi bi-search"></i> <span>Search</span>
                     </button>
+                    <div class="suggetion-search">
+                        <ul></ul>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

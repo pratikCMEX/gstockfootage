@@ -107,10 +107,10 @@ $(document).ready(function () {
                     $(this).addClass("is-invalid");
 
                     // Insert error after the whole container
-                    if (!$(this).closest(".description-item").find("span.text-danger").length) {
-                        $(this).closest(".description-item")
-                            .append('<span class="text-danger d-block mt-1">Please enter Description</span>');
-                    }
+                    // if (!$(this).closest(".description-item").find("span.text-danger").length) {
+                    //     $(this).closest(".description-item")
+                    //         .append('<span class="text-danger d-block mt-1">Please enter Description</span>');
+                    // }
 
                 } else {
                     $(this).removeClass("is-invalid");

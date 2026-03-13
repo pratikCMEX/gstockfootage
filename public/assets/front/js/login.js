@@ -244,24 +244,43 @@ $("#change_forget_pass").validate({
     $(element).removeClass("is-invalid");
   },
 });
+$(document).ready(function () {
 
- document.addEventListener("DOMContentLoaded", function () {
+    var input = $("#phone")[0]; // get DOM element from jQuery
 
-        var input = document.querySelector("#phone");
+    var iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        preferredCountries: ["us"],
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
 
-        var iti = window.intlTelInput(input, {
-            initialCountry: "us",
-            preferredCountries: ["us"],
-            separateDialCode: true,
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-        });
+    $("#signup").on("submit", function () {
 
-        document.querySelector("#signup").addEventListener("submit", function () {
+        var fullPhone = iti.getNumber();
 
-            var fullPhone = iti.getNumber();
-
-            document.querySelector("#full_phone").value = fullPhone;
-
-        });
+        $("#full_phone").val(fullPhone);
 
     });
+
+});
+//  document.addEventListener("DOMContentLoaded", function () {
+
+//         var input = document.querySelector("#phone");
+
+//         var iti = window.intlTelInput(input, {
+//             initialCountry: "us",
+//             preferredCountries: ["us"],
+//             separateDialCode: true,
+//             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+//         });
+
+//         document.querySelector("#signup").addEventListener("submit", function () {
+
+//             var fullPhone = iti.getNumber();
+
+//             document.querySelector("#full_phone").value = fullPhone;
+
+//         });
+
+//     });
