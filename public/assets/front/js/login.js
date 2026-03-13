@@ -1,4 +1,3 @@
-
 var base_url = $("#base_url").val();
 $("#login").validate({
   rules: {
@@ -41,14 +40,12 @@ $("#resend_mail_varification").validate({
       required: true,
       email: true,
     },
-
   },
   messages: {
     email: {
       required: "Please enter your email",
       email: "Enter a valid email address",
     },
-
   },
   normalizer: function (value) {
     return $.trim(value);
@@ -92,7 +89,6 @@ $("#signup").validate({
       },
     },
     phone_number: {
-
       minlength: 10,
       maxlength: 15,
       // digits: true,
@@ -116,7 +112,6 @@ $("#signup").validate({
       remote: "This Email Already Exists",
     },
     phone_number: {
-
       minlength: "Phone Number Must Be At Least 10 Digits",
       maxlength: "Phone Number Cannot Exceed 15 Digits",
       // digits: "Please Enter Valid Phone Number (Digits Only)",
@@ -185,32 +180,35 @@ $("#send_forget_link").validate({
 
 // Handle tab switching and show/hide resend verification section
 $(document).ready(function () {
-
   // Tab switching functionality
-  $('.tab-btn').click(function () {
-    const tab = $(this).data('tab');
+  $(".tab-btn").click(function () {
+    const tab = $(this).data("tab");
 
     // Remove active class from all tabs and forms
-    $('.tab-btn').removeClass('active');
-    $('.auth-form').removeClass('active');
+    $(".tab-btn").removeClass("active");
+    $(".auth-form").removeClass("active");
 
     // Add active class to clicked tab and corresponding form
-    $(this).addClass('active');
-    $('#' + tab).addClass('active');
+    $(this).addClass("active");
+    $("#" + tab).addClass("active");
 
     // Show/hide resend verification section
-    if (tab === 'login') {
-      $('#resend-verification-section').show();
+    if (tab === "login") {
+      $(".text-danger").text("");
+      $(".form-control").removeClass("is-invalid");
+      $("#resend-verification-section").show();
     } else {
-      $('#resend-verification-section').hide();
+      $(".text-danger").text("");
+      $(".form-control").removeClass("is-invalid");
+      $("#resend-verification-section").hide();
     }
   });
 
   // Initialize: show resend verification section only if login tab is active
-  if ($('#login').hasClass('active')) {
-    $('#resend-verification-section').show();
+  if ($("#login").hasClass("active")) {
+    $("#resend-verification-section").show();
   } else {
-    $('#resend-verification-section').hide();
+    $("#resend-verification-section").hide();
   }
 });
 
@@ -245,24 +243,21 @@ $("#change_forget_pass").validate({
   },
 });
 $(document).ready(function () {
+  var input = $("#phone")[0]; // get DOM element from jQuery
 
-    var input = $("#phone")[0]; // get DOM element from jQuery
+  var iti = window.intlTelInput(input, {
+    initialCountry: "us",
+    preferredCountries: ["us"],
+    separateDialCode: true,
+    utilsScript:
+      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+  });
 
-    var iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        preferredCountries: ["us"],
-        separateDialCode: true,
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-    });
+  $("#signup").on("submit", function () {
+    var fullPhone = iti.getNumber();
 
-    $("#signup").on("submit", function () {
-
-        var fullPhone = iti.getNumber();
-
-        $("#full_phone").val(fullPhone);
-
-    });
-
+    $("#full_phone").val(fullPhone);
+  });
 });
 //  document.addEventListener("DOMContentLoaded", function () {
 
