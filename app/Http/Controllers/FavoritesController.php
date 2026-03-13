@@ -37,9 +37,9 @@ class FavoritesController extends Controller
         $user = auth()->user();
         $product_id = $request->product_id;
         $productType = $request->product_type;
-       
+
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found ...Please login first']);
+            return response()->json(['success' => false, 'message' => 'Please login first']);
         }
 
         $product = BatchFile::find($product_id);
