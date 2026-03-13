@@ -42,7 +42,7 @@
 
                 <div class="inp-search">
                     <!-- Input -->
-                    <input type="text" class="home_search" placeholder="Start your next project" />
+                    <input type="text" class="home_search" placeholder="Search for photos, videos and more..." />
 
                     <!-- Search Button -->
                     <button class="search-btn">
