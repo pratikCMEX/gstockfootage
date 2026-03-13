@@ -1,12 +1,12 @@
 {{-- {{ dd($batch_data) }} --}}
 @php
-    $category = getCategory();
-    $getCollections = getCollections();
+$category = getCategory();
+$getCollections = getCollections();
 @endphp
 <div class="body-wrapper-inner upload-main">
     <div class="container-fluid">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body pb-0">
                 <div class="card_header">
                     <button class="back-btn" onclick="history.back()">
                         <i class="fa-solid fa-arrow-left"></i>
@@ -15,14 +15,14 @@
                         <h3 class="batch_name">{{ $batch->title }}</h3>
                         <div class="batches-label">
                             @if ($batch->submission_type == 'image')
-                                <label for="">
-                                    <i class="fa-solid fa-camera-retro"></i> Gstock creative
-                                    image</label>
+                            <label for="">
+                                <i class="fa-solid fa-camera-retro"></i> Gstock creative
+                                image</label>
                             @else
-                                <label for="">
-                                    <i class="fa-solid fa-video"></i> Gstock
-                                    creative
-                                    video</label>
+                            <label for="">
+                                <i class="fa-solid fa-video"></i> Gstock
+                                creative
+                                video</label>
                             @endif
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-8 ">
+                    <div class="col-xl-8 col-lg-7 p-4 ">
                         <div class="">
                             <div class="create-upload-head">
                                 <div class="select-img">
@@ -81,14 +81,14 @@
                                                 <div class="batches-label">
 
                                                     @if ($batch->submission_type == 'image')
-                                                        <label for="">
-                                                            <i class="fa-solid fa-camera-retro"></i> Gstock creative
-                                                            image</label>
+                                                    <label for="">
+                                                        <i class="fa-solid fa-camera-retro"></i> Gstock creative
+                                                        image</label>
                                                     @else
-                                                        <label for="">
-                                                            <i class="fa-solid fa-video"></i> Gstock
-                                                            creative
-                                                            video</label>
+                                                    <label for="">
+                                                        <i class="fa-solid fa-video"></i> Gstock
+                                                        creative
+                                                        video</label>
                                                     @endif
                                                 </div>
                                             </div>
@@ -112,12 +112,12 @@
                                                     {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
 
                                                     @php
-                                                        $batch_type = '';
-                                                        if ($batch->submission_type == 'video') {
-                                                            $batch_type = 'video';
-                                                        } else {
-                                                            $batch_type = 'image';
-                                                        }
+                                                    $batch_type = '';
+                                                    if ($batch->submission_type == 'video') {
+                                                    $batch_type = 'video';
+                                                    } else {
+                                                    $batch_type = 'image';
+                                                    }
                                                     @endphp
                                                     <input type="file" name="files[]" hidden id="myfile" multiple
                                                         accept="{{ $batch_type == 'video' ? 'video/*,.zip' : 'image/*,.zip' }}"
@@ -194,62 +194,62 @@
                                 <input type="hidden" id="batch_id" value="{{ $batch->id }}">
 
                                 @foreach ($batch_data as $data)
-                                    <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
-                                        <div class="dot-menu text-end align-self-end">
-                                            <button class="btn  text-start dot-dropdown dropdown-toggle"
-                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-ellipsis-vertical "></i></button>
-                                            <ul class="dropdown-menu more-detail-menu">
-                                                <li>
-                                                    <button class=" batch_file_keyword"
-                                                        data-keywords="{{ $data->keywords }}">
-                                                        <i class="fa-regular fa-clipboard me-3"></i>
-                                                        Copy Keyword
-                                                    </button>
-                                                </li>
-                                                {{-- <li> <button type="button" class="dropdown-item-upload dropdown-item"
+                                <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
+                                    <div class="dot-menu text-end align-self-end">
+                                        <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical "></i></button>
+                                        <ul class="dropdown-menu more-detail-menu">
+                                            <li>
+                                                <button class=" batch_file_keyword"
+                                                    data-keywords="{{ $data->keywords }}">
+                                                    <i class="fa-regular fa-clipboard me-3"></i>
+                                                    Copy Keyword
+                                                </button>
+                                            </li>
+                                            {{-- <li> <button type="button" class="dropdown-item-upload dropdown-item"
                                                         data-bs-toggle="modal" data-bs-target="#setthumbnail">
                                                         <i class="fa-solid fa-pencil me-3"></i>
                                                         SET NEW THUMBNAIL FRAME
                                                     </button></li> --}}
 
-                                            </ul>
-                                        </div>
-                                        <div class="image-upload">
-                                            {{-- @if ($data['file_type'] == 'image')
+                                        </ul>
+                                    </div>
+                                    <div class="image-upload">
+                                        {{-- @if ($data['file_type'] == 'image')
                                                 <img src="{{ asset('uploads/batch/images/low') . '/' . $data['low_path'] }}"
-                                                    alt="">
-                                            @else
-                                                @if ($data['thumbnail_path'] == null)
-                                                    <img
-                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
-                                                @else
-                                                    <img src="{{ asset('uploads/batch/videos/thumbnails') . '/' . $data['thumbnail_path'] }}"
-                                                        alt="">
-                                                @endif
-                                            @endif --}}
-                                            @if ($data['file_type'] == 'image')
-                                                <img src="{{ Storage::disk('s3')->url(ltrim($data['low_path'], '/')) }}"
-                                                    alt="">
-                                            @else
-                                                @if ($data['thumbnail_path'] == null)
-                                                    <img
-                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
-                                                @else
-                                                    <img src="{{ Storage::disk('s3')->url(ltrim($data['thumbnail_path'], '/')) }}"
-                                                        alt="">
-                                                @endif
-                                            @endif
-                                        </div>
-                                        <div class="image-title-id">
-                                            {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
-                                            <div class="check"><i class="fa-solid fa-circle-check"></i></div>
-                                            <div class="upload-title-img">
-                                                <div class="img-title">{{ $data['original_name'] }} </div>
-                                                <div class="img-id">ID: 23870945</div>
-                                            </div>
+                                        alt="">
+                                        @else
+                                        @if ($data['thumbnail_path'] == null)
+                                        <img
+                                            src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
+                                        @else
+                                        <img src="{{ asset('uploads/batch/videos/thumbnails') . '/' . $data['thumbnail_path'] }}"
+                                            alt="">
+                                        @endif
+                                        @endif --}}
+                                        @if ($data['file_type'] == 'image')
+                                        <img src="{{ Storage::disk('s3')->url(ltrim($data['low_path'], '/')) }}"
+                                            alt="">
+                                        @else
+                                        @if ($data['thumbnail_path'] == null)
+                                        <img
+                                            src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
+                                        @else
+                                        <img src="{{ Storage::disk('s3')->url(ltrim($data['thumbnail_path'], '/')) }}"
+                                            alt="">
+                                        @endif
+                                        @endif
+                                    </div>
+                                    <div class="image-title-id">
+                                        {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
+                                        <div class="check"><i class="fa-solid fa-circle-check"></i></div>
+                                        <div class="upload-title-img">
+                                            <div class="img-title">{{ $data['original_name'] }} </div>
+                                            <div class="img-id">ID: 23870945</div>
                                         </div>
                                     </div>
+                                </div>
                                 @endforeach
 
                                 {{-- <div class="upload-image" id="upload_images">
@@ -784,17 +784,15 @@
 
                             </div>
                             <div class="view-metadata">
-                                <button type="button" class="btn btn-primary w-100 "
-                                    style="font-size: 16px; padding: 15px 0;">View Metadata</button>
+                                <button type="button" class="btn btn-orange w-100 ">View Metadata</button>
                             </div>
                             <div class="add-metadata">
-                                <button type="button" class="btn btn-primary w-100 "
-                                    style="font-size: 16px; padding: 15px 0;">Add Metadata</button>
+                                <button type="button" class="btn btn-orange w-100 ">Add Metadata</button>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 all-inputs">
+                    <div class="col-xl-4 col-lg-5 all-inputs p-4 ">
                         <form action="" id="add_new_img_form">
                             <div class="no-file-selected">
 
@@ -817,97 +815,134 @@
                                             </ul>
                                         </div>
                                         <div class="input-group ">
-                                            <div class="file-inp-icon-grp">
-                                                <input type="text" class="form-control upload-inp" name="title"
-                                                    placeholder="Title *" aria-label="Username"
-                                                    aria-describedby="visible-addon">
-                                                <i class="fa-regular fa-circle-question file-input-icon"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Enter a title for your image."></i> <input type="hidden"
-                                                    id="selected_file_id" name="file_id">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Title *</label>
+                                                <div class="file-inp-icon-grp">
+                                                    <input type="text" class="form-control upload-inp" name="title"
+                                                        placeholder="Title *" aria-label="Username"
+                                                        aria-describedby="visible-addon">
+                                                    <i class="fa-regular fa-circle-question file-input-icon"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Enter a title for your image."></i> <input type="hidden"
+                                                        id="selected_file_id" name="file_id">
+                                                </div>
                                             </div>
                                             <label id="title-error" class="error" for="title"></label>
                                             {{-- <p>Please submit title only in English</p> --}}
                                         </div>
                                         <div class="input-group ">
-                                            <div class="file-inp-icon-grp">
-                                                {{-- <input type="text" class="form-control upload-inp"
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Description *</label>
+                                                <div class="file-inp-icon-grp">
+                                                    {{-- <input type="text" class="form-control upload-inp"
                                                     placeholder="Descriptions *" name="description"
                                                     aria-label="Username" aria-describedby="visible-addon"> --}}
-                                                <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
-                                                    name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
-                                                <i class="fa-regular fa-circle-question file-input-icon"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Enter a clear description for your image."></i>
+                                                    <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
+                                                        name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
+                                                    <i class="fa-regular fa-circle-question file-input-icon"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Enter a clear description for your image."></i>
+                                                </div>
                                             </div>
+
                                             {{-- <p>Please submit descriptions only in English</p> --}}
                                             <label id="description-error" class="error" for="description"></label>
                                         </div>
                                         <div class="input-group ">
-                                            <div class="file-inp-icon-grp">
-                                                <input type="text" class="form-control upload-inp"
-                                                    placeholder="Price *" name="price" aria-label="Price"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                    aria-describedby="visible-addon">
-                                                <i class="fa-regular fa-circle-question file-input-icon"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Enter a price for your image.($)"></i>
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Price *</label>
+                                                <div class="file-inp-icon-grp">
+
+                                                    <input type="text" class="form-control upload-inp"
+                                                        placeholder="Price *" name="price" aria-label="Price"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                                                        aria-describedby="visible-addon">
+                                                    <i class="fa-regular fa-circle-question file-input-icon"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Enter a price for your image.($)"></i>
+                                                </div>
                                             </div>
+
                                             <label id="price-error" class="error" for="price"></label>
                                         </div>
-
-                                        <div class="input-group file-inp-icon-grp">
-                                            <input type="date" class="form-control upload-inp" name="date_created"
-                                                placeholder="Date Created *" aria-label="Username"
-                                                aria-describedby="visible-addon">
-                                            <i class="fa-regular fa-circle-question file-input-icon"
-                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="Created date of the image."></i>
-                                        </div>
-                                        <div class="dropdown file-main-dropdown">
-                                            <div class="file-inp-icon-grp input-group">
-                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                    name="category_id" id="category_id">
-                                                    <option value="">Select Category </option>
-
-                                                    @foreach ($category as $cas)
-                                                        <option value="{{ $cas->id }}">
-                                                            {{ $cas->category_name }}</option>
-                                                    @endforeach
-
-
-                                                </select>
-
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Date *</label>
+                                                <div class="input-group file-inp-icon-grp">
+                                                    <input type="date" class="form-control upload-inp" name="date_created"
+                                                        placeholder="Date Created *" aria-label="Username"
+                                                        aria-describedby="visible-addon">
+                                                    <i class="fa-regular fa-circle-question file-input-icon"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Created date of the image."></i>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="dropdown file-main-dropdown">
-                                            <div class="file-inp-icon-grp input-group">
-                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                    name="collection_id" id="collection_id">
-                                                    <option value="">Select Collection </option>
+                                        <div class="input-group">
 
-                                                    @foreach ($getCollections as $coll)
-                                                        <option value="{{ $coll->id }}">
-                                                            {{ $coll->name }}</option>
-                                                    @endforeach
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Select Category *</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            name="category_id" id="category_id">
+                                                            <option value="">Select Category </option>
+
+                                                            @foreach ($category as $cas)
+                                                            <option value="{{ $cas->id }}">
+                                                                {{ $cas->category_name }}
+                                                            </option>
+                                                            @endforeach
 
 
-                                                </select>
+                                                        </select>
 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="dropdown file-main-dropdown">
-                                            <div class="file-inp-icon-grp input-group">
-                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                    name="subcategory_id" id="subcategory_id">
-                                                    <option value="">Select Sub Category </option>
-                                                </select>
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Select Collection *</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            name="collection_id" id="collection_id">
+                                                            <option value="">Select Collection </option>
 
+                                                            @foreach ($getCollections as $coll)
+                                                            <option value="{{ $coll->id }}">
+                                                                {{ $coll->name }}
+                                                            </option>
+                                                            @endforeach
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="dropdown file-main-dropdown">
-                                            <div class="file-inp-icon-grp input-group">
-                                                {{-- <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Select Sub Category *</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            name="subcategory_id" id="subcategory_id">
+                                                            <option value="">Select Sub Category </option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Country of shoot *</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        {{-- <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Country of shoot *<i class="fa-solid fa-angle-down"></i>
                                                 </button>
@@ -920,15 +955,17 @@
                                                     <li><a class="dropdown-item" href="#">Something else
                                                             here</a></li>
                                                 </ul> --}}
-                                                <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                    name="country" id="country">
-                                                    <option value="">Country of shoot </option>
-                                                    {{-- <option value="usa">
+                                                        <select class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            name="country" id="country">
+                                                            <option value="">Country of shoot </option>
+                                                            {{-- <option value="usa">
                                                         USA</option>
                                                     <option value="uk">
                                                         UK</option> --}}
-                                                </select>
+                                                        </select>
 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -1017,7 +1054,7 @@
                                                 <p style="font-size: 12px;">Frame size</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="550x550" name="frame_size" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon"disabled>
+                                                    aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                             {{-- <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Scanning Method</p>
@@ -1039,13 +1076,13 @@
 
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
-                                                <p style="font-size: 12px;">Image Height</p>
+                                                <label class="heading-label">Image Height</label>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="Quick Time" name="image_height" width="100%"
                                                     aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                             <div class="input-group file-inp-label-grp">
-                                                <p style="font-size: 12px;">Image Width</p>
+                                                <label class="heading-label">Image Width</label>
                                                 <input type="text" class="form-control upload-inp" placeholder=""
                                                     name="image_width" width="100%" aria-label="Username"
                                                     aria-describedby="visible-addon" disabled>

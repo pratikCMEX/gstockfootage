@@ -32,6 +32,14 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 20px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 4px 12px var(--box-shadow);
+  /* max-width: 991px; */
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background: #fff;
 }
 .batch-create,
 .search-filter-openbtn,
@@ -134,9 +142,13 @@ p {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  max-height: calc(100dvh - 249px);
+  max-height: calc(100dvh - 120px);
   overflow: auto;
   min-height: calc(100dvh - 249px);
+}
+
+.flex-batch-filter-content:has(.batch-show-content) .search-filter-openbtn{
+  display: none;
 }
 
 /* diff batches */
@@ -149,7 +161,7 @@ p {
   flex-basis: 100%;
 }
 .batch-show-content {
-  flex-basis: 65%;
+  flex-basis: 68%;
 }
 .batches-label label {
   /* padding: 8px 12px;
@@ -181,6 +193,7 @@ p {
   font-size: 18px;
   font-weight: 700;
   color: var(--black);
+  width: 100%;
 }
 .batch-content-title {
   display: flex;
@@ -355,7 +368,7 @@ p {
   padding-top: 12px;
   border-left: 1px solid gray;
   transition: all 0.5s ease;
-  max-height: calc(100dvh - 170px);
+  max-height: calc(100dvh - 92px);
   overflow: auto;
 }
 .filtershow {
@@ -720,7 +733,7 @@ table td {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 0px 0 20px;
   font-size: 16px;
 }
 .template {
@@ -729,6 +742,7 @@ table td {
 }
 .clear-data {
   color: var(--black);
+  padding-block: 0px !important;
 }
 .no-file-inputs {
   display: flex;
@@ -788,6 +802,7 @@ table td {
   font-size: 12px;
   color: var(--black);
 }
+
 
 .no-file-inputs label {
   margin-top: 5px;
@@ -1107,7 +1122,7 @@ table td {
 }
 .images-content {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
   height: 100%;
   max-height: calc(100dvh - 249px);
@@ -1115,20 +1130,20 @@ table td {
 }
 
 .images-content.images-content-1 {
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 .images-content.images-content-2 {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .images-content.images-content-3 {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .images-content.images-content-4 {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .images-content.images-content-5 {
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .upload-image {
@@ -1145,6 +1160,9 @@ table td {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  width: 100%;
 }
 .upload-title .img-id {
   color: var(--black);
@@ -1491,14 +1509,18 @@ table td {
   background: #2b2b2b;
   border-radius: 16px;
   padding: 18px 20px 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28), 0 4px 16px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.28),
+    0 4px 16px rgba(0, 0, 0, 0.18);
   font-family: "DM Sans", sans-serif;
 
   /* hidden by default */
   transform: translateY(20px) scale(0.96);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
   z-index: 9999;
 }
 .upload-toast.show {
@@ -1661,7 +1683,9 @@ body:has(.upload-toast.show) .upload-preview-strip .clear-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px !important;
+  padding-bottom: 20px !important;
+  /* margin-bottom: 20px !important; */
+  border-bottom: 1px solid var(--secendory);
 }
 
 .upload-main .card_header button.back-btn {
@@ -1846,6 +1870,19 @@ select option {
 .file-inp-label-grp p {
   color: var(--black);
 }
+.all-inputs {
+  border-left: 1px solid var(--secendory);
+}
+
+
+.no-file-inputs .heading-label,
+.file-inp-label-grp .heading-label {
+  font-size: 14px;
+  color: var(--black);
+  margin-bottom: 8px;
+  padding-left: 0;
+  margin-left: 5px;
+}
 @media only screen and (max-width: 1440px) {
   .batch-show-content {
     flex-basis: 63%;
@@ -1857,7 +1894,7 @@ select option {
     max-width: 379px;
   }
   .images-content.images-content-5 {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
   .select-img {
     padding: 20px 30px;
@@ -1889,7 +1926,7 @@ select option {
     gap: 10px;
   }
   .images-content.images-content-4 {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .upload-search-filter {
     max-width: 357px;
@@ -2069,7 +2106,7 @@ select option {
     margin: auto;
   }
   .images-content.images-content-3 {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .upload-device-list-detail ul li {
     font-size: 14px;
@@ -2115,7 +2152,7 @@ select option {
     padding-top: 135px;
   }
   .images-content.images-content-2 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .img-responsive-head {
     align-items: start;
