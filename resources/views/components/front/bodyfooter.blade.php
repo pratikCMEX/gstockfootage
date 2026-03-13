@@ -75,13 +75,7 @@
             <div class="footer-box footer-column">
                 <h6>Products and services</h6>
                 <ul>
-                    @foreach ($categories as $category)
-                        <li>
-                            <a href="{{ route('allPhotos', ['category_id' => $category->id]) }}">
-                                {{ $category->name }}
-                            </a>
-                        </li>
-                    @endforeach
+                  
                     {{-- <li><a href="javascript:void(0);">All Footage</a></li>
                     <li><a href="javascript:void(0);">Aerial Shots</a></li>
                     <li><a href="javascript:void(0);">Timelapses</a></li>

@@ -24,7 +24,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 10,
                 maxlength: 15,
-                digits: true,
+                
             },
             address: {
                 required: true,
@@ -45,11 +45,11 @@ $(document).ready(function () {
                 required: "Please enter Email",
                 email: "Plase Enter a valid Email"
 
-            }, phone: {
+            }, phone_number: {
                 required: "Please enter phone number",
                 minlength: "Phone number must be at least 10 digits",
                 maxlength: "Phone number cannot exceed 15 digits",
-                digits: "Please enter valid phone number (digits only)",
+                // digits: "Please enter valid phone number (digits only)",
             },
             address: {
                 required: "Please enter address",

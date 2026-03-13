@@ -95,7 +95,7 @@ $("#signup").validate({
 
       minlength: 10,
       maxlength: 15,
-      digits: true,
+      // digits: true,
     },
 
     password: {
@@ -115,11 +115,11 @@ $("#signup").validate({
       email: "Please enter a Valid Email",
       remote: "This Email Already Exists",
     },
-    phone: {
+    phone_number: {
 
       minlength: "Phone Number Must Be At Least 10 Digits",
       maxlength: "Phone Number Cannot Exceed 15 Digits",
-      digits: "Please Enter Valid Phone Number (Digits Only)",
+      // digits: "Please Enter Valid Phone Number (Digits Only)",
     },
 
     password: {

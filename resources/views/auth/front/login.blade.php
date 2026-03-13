@@ -96,13 +96,17 @@
                             <label>Phone No</label>
 
                             <div class="input-group phone-input">
-                                <input type="tel" id="phone" name="phone_number" class="form-control" placeholder="Enter your phone number">
+                                <input type="tel" id="phone" name="phone_number" class="form-control"
+                                    placeholder="Enter your phone number"
+                                    oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
+                                <label id="phone-error" class="text-danger" for="phone"></label>
                             </div>
 
                             <!-- Hidden field that stores full phone -->
                             <input type="hidden" name="phone" id="full_phone">
 
                         </div>
+
                         <div class="address-input-section">
                             <label>Address</label>
                             <textarea name="address" class="form-control" rows="3" cols="34" placeholder=""

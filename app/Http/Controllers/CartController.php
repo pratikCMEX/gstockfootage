@@ -25,14 +25,14 @@ class CartController extends Controller
         $product_id = $request->product_id;
        
         $product = BatchFile::findOrFail($request->product_id);
-
+       
         $qty  = $request->qty ?? 1;
         if (Auth::check()) {
             $user_id = Auth::id();
             $cartItem = Cart::where('user_id', $user_id)
                 ->where('product_id', $product_id)
                 ->first();
-
+ 
             if ($cartItem) {
                 return response()->json([
                     'status' => false,
