@@ -19,29 +19,9 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
+
 <script>
-    // document.addEventListener("DOMContentLoaded", function () {
-
-    //     var input = document.querySelector("#phone");
-
-    //     var iti = window.intlTelInput(input, {
-    //         initialCountry: "us",
-    //         preferredCountries: ["us"],
-    //         separateDialCode: true,
-    //         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-    //     });
-
-    //     document.querySelector("#signup").addEventListener("submit", function () {
-
-    //         var fullPhone = iti.getNumber();
-
-    //         document.querySelector("#full_phone").value = fullPhone;
-
-    //     });
-
-    // });
-</script>
-<script>
+    
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))

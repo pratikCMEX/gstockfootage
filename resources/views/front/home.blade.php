@@ -157,6 +157,7 @@
             </div>
         </div>
         <div class="row g-3">
+            @if($categoryList->isNotEmpty())
             @foreach ($categoryList as $category)
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                     <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}"
@@ -172,6 +173,7 @@
                     </a>
                 </div>
             @endforeach
+            @endif
         </div>
     </div>
 </section>
