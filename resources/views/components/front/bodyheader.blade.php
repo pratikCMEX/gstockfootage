@@ -1,7 +1,6 @@
 @php
     $cart = getCartItems();
 
-
 @endphp
 
 <header class="site-header">
@@ -86,10 +85,12 @@
                                     class="bi bi-person-circle icon-btn profile-btn"></i>
                                 <ul class="dropdown-menu">
 
-                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
                                                 class="bi bi-person"></i>
                                             Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'order']) }}"><i
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('user.profile', ['tab' => 'order']) }}"><i
                                                 class="bi bi-bag"></i> Order</a></li>
                                     <li class="wishlist"><a class="dropdown-item"
                                             href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i
@@ -113,9 +114,9 @@
 
 
                     <!-- @auth
-                                                                        <a href="{{ route('logout') }}">
-                                                                            <button class="btn header-btns btn-sm">Log Out</button>
-                                                                        </a>
+                                                                            <a href="{{ route('logout') }}">
+                                                                                <button class="btn header-btns btn-sm">Log Out</button>
+                                                                            </a>
                     @endauth -->
 
                     <a href="{{ route('all_photos') }}" class="d-none d-xl-block">
@@ -196,7 +197,7 @@
         </div>
 
         <div class="mobile-cta">
-            <a href="javascript:void(0);">
+            <a href="{{ route('all_photos') }}">
                 <button class="cta-mobile-btn ">
                     Get Unlimited Downloads
                 </button>
@@ -224,9 +225,11 @@
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         @if ($item['type'] == 'image')
-                            <img src="{{  Storage::disk('s3')->url($item['low_path']) }}" class="h-100 w-100" alt="">
+                            <img src="{{ Storage::disk('s3')->url($item['low_path']) }}" class="h-100 w-100"
+                                alt="">
                         @else
-                            <img src="{{  Storage::disk('s3')->url($item['thumbnail_path']) }}" class="h-100 w-100" alt="">
+                            <img src="{{ Storage::disk('s3')->url($item['thumbnail_path']) }}" class="h-100 w-100"
+                                alt="">
                         @endif
                     </div>
                     <div class="cart-detail">
@@ -239,9 +242,10 @@
                         <div class="cart-price-btn">
                             <h5>${{ $item['price'] }}</h5>
                             <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"
-                                data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                    height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
+                                data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
                                     <path d="M3 6h18"></path>
                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
