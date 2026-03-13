@@ -172,7 +172,7 @@ class HomeController extends Controller
     {
         $title = 'Photos';
         $page  = 'front.all_photos';
-        $js    = ['photos', 'favorites'];
+        $js    = ['home', 'favorites'];
 
         $q             = $request->get('q', '');
         $type          = $request->get('type', 'image');
