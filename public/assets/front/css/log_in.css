@@ -239,6 +239,22 @@ input[type="password"] {
   }
 }
 
+.address-input-section,
+.input-group.phone-input {
+  display: block;
+  margin-bottom: 17px !important;
+}
+
+.address-input-section textarea {
+  width: 100%;
+  outline: none;
+  min-height: 100px;
+}
+
+.input-group.phone-input .iti {
+  width: 100%;
+}
+
 @media only screen and (max-width: 1399px) {
 }
 @media only screen and (max-width: 1199px) {

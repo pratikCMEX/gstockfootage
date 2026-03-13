@@ -32,7 +32,8 @@
                                 <select class="form-select mr-sm-2" name="product_quality_id" id="product_quality_id">
                                     <option value="">Choose Product Quality...</option>
                                     @foreach ($qualities as $quality)
-                                        <option value="{{ $quality->id }}" {{ $getLicenseDetail->product_quality_id == $quality->id ? 'selected' : '' }}>
+                                        <option value="{{ $quality->id }}"
+                                            {{ $getLicenseDetail->product_quality_id == $quality->id ? 'selected' : '' }}>
                                             {{ $quality->name }}
                                         </option>
                                     @endforeach
@@ -66,7 +67,9 @@
                                     class="text-danger">*</span>
                                 <div id="description-container">
                                     @php
-                                        $descriptions = !empty($getLicenseDetail->description) ? explode(',', $getLicenseDetail->description) : [];
+                                        $descriptions = !empty($getLicenseDetail->description)
+                                            ? explode(',', $getLicenseDetail->description)
+                                            : [];
                                         if (empty($descriptions)) {
                                             $descriptions = [''];
                                         }
@@ -74,11 +77,12 @@
                                     @foreach ($descriptions as $index => $desc)
                                         <div class="description-item mb-2">
                                             <div class="d-flex">
-                                                <input type="text" name="description[]" class="form-control description"
-                                                    value="{{ trim($desc) }}" placeholder="Enter description point">
+                                                <input type="text" name="description[]"
+                                                    class="form-control description" value="{{ trim($desc) }}"
+                                                    placeholder="Enter description point">
                                                 @if ($index == 0)
-                                                    <button type="button" class="btn  btn-primary "
-                                                        id="add" style="width: 120px;">
+                                                    <button type="button" class="btn  btn-primary " id="add"
+                                                        style="width: 120px;">
                                                         <i class="fas fa-plus"></i> Add More
                                                     </button>
                                                 @else
@@ -90,16 +94,17 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <div id="addHtml"></div> 
+                                <div id="addHtml"></div>
                             </div>
-                           
+
                             <div class="newRow d-none">
                                 <div class="description-item mb-2 newhtml">
                                     <div class="d-flex">
                                         <input type="text" name="description[]" class="form-control description"
                                             placeholder="Enter description point">
 
-                                        <button type="button" class="btn btn-danger ms-2 remove"  style="width: 120px;"> 
+                                        <button type="button" class="btn btn-danger ms-2 remove"
+                                            style="width: 120px;">
                                             Close
                                         </button>
                                     </div>

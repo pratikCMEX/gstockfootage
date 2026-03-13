@@ -3,8 +3,8 @@
         <h1>Visuals with purpose.</h1>
         <!-- Tabs -->
         <div class="hero-tabs">
-            <a href="" class="active"><i class="bi bi-camera-video"></i> Videos</a>
-            <a href=""><i class="bi bi-image"></i> Photos</a>
+            <a href="{{ route('videos') }}" class="active"><i class="bi bi-camera-video"></i> Videos</a>
+            <a href="{{ route('all_photos') }}"><i class="bi bi-image"></i> Photos</a>
             {{-- <button><i class="bi bi-palette"></i> Artwork</button> --}}
         </div>
         <!-- Search -->
@@ -18,19 +18,22 @@
                         <span class="btn-text">All content</span>
                     </button>
 
-                    <ul class="dropdown-menu custom-menu">
+                    <ul class="dropdown-menu custom-menu content-list-menu">
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" data-type="all" data-icon="bi bi-grid"
+                                data-label="All content">
                                 <i class="bi bi-grid"></i> <span>All content</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" data-type="video" data-icon="bi bi-camera-video"
+                                data-label="Videos">
                                 <i class="bi bi-camera-video"></i> <span>Videos</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" data-type="image" data-icon="bi bi-image"
+                                data-label="Photos">
                                 <i class="bi bi-image"></i> <span>Photos</span>
                             </a>
                         </li>
@@ -118,15 +121,18 @@
             </div>
             @foreach ($CollectionList as $item)
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
+                    <a href="{{ route('all_photos', ['collection_id' => encrypt($item->id)]) }}"
+                        class="text-decoration-none">
+                        <div class="brand-posibility">
+                            <div class="posibility-img">
+                                <img width="100%" height="100%"
+                                    src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
+                            </div>
+                            <div class="posibilty-title">
+                                <h3>{{ $item->name }}</h3>
+                            </div>
                         </div>
-                        <div class="posibilty-title">
-                            <h3>{{ $item->name }}</h3>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
@@ -153,7 +159,8 @@
         <div class="row g-3">
             @foreach ($categoryList as $category)
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <a href="javascript::void(0);">
+                    <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}"
+                        class="text-decoration-none">
                         <div class="fingertips-content">
                             <div class="fingertips-img">
                                 <img height="100%" width="100%"
@@ -577,27 +584,32 @@
         <div class="brand-area mb-4">
             <img src="{{ asset('assets/front/img/helper-chicken-D5n0gnPB.png') }}" alt="Mascot"
                 class="floating-icon">
-            <h2 class="help-heading">How can we help you <span class="text-gradient">get what you
-                    want?</span></h2>
+            <h2 class="help-heading">How can we help you <span class="text-gradient">get what you want?</span></h2>
         </div>
 
         <div class="help-filter-btn filter-pills d-flex justify-content-center flex-wrap gap-2 mb-4">
-            <button class="btn btn-filter active"><i class="bi bi-grid-fill"></i> All</button>
-            <button class="btn btn-filter"><i class="bi bi-camera-video"></i> Videos</button>
-            <button class="btn btn-filter"><i class="bi bi-camera"></i> Photos</button>
-            <button class="btn btn-filter"><i class="bi bi-palette"></i> Artwork</button>
+            <button class="btn btn-filter search-btn-filter active" data-type="all"><i class="bi bi-grid-fill"></i>
+                All</button>
+            <button class="btn btn-filter search-btn-filter" data-type="video"><i class="bi bi-camera-video"></i>
+                Videos</button>
+            <button class="btn btn-filter search-btn-filter" data-type="image"><i class="bi bi-camera"></i>
+                Photos</button>
+            <button class="btn btn-filter search-btn-filter" data-type="artwork"><i class="bi bi-palette"></i>
+                Artwork</button>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="search-container shadow-lg">
-                    <input type="text" class="form-control main-input"
+                    <input type="text" class="form-control main-input help-search"
                         placeholder="Search for footage, photos, or artwork...">
-                    <button class="btn btn-search">
-                        <i class="bi bi-search "></i> <span>Search</span>
+                    <button class="btn btn-search help-search-btn">
+                        <i class="bi bi-search"></i> <span>Search</span>
                     </button>
+                    <div class="suggetion-search">
+                        <ul></ul>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -615,7 +627,8 @@
                 </div>
 
                 <div class="store-actions">
-                    <a href="#">Shop the Collection <i class="bi bi-box-arrow-up-right"></i></a>
+                    <a href="https://visionofthebiblestore.com/collections/all" target="_blank">Shop the Collection <i
+                            class="bi bi-box-arrow-up-right"></i></a>
                 </div>
             </div>
 
@@ -623,32 +636,37 @@
                 <div class="swiper-wrapper">
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/kids-bible-stories%E2%84%A2-digital-tablet"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/P1-copy-2.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/P1-copy-2.jpg?v=1765506820&width=1400">
                                 </div>
-                                <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
+                                <h4 class="store-product-title">Kids Bible Stories™ Digital Tablet</h4>
                             </div>
                         </a>
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/tanakh-digital-visual-bible"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/tanakh.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/tanakh.png?v=1732480951&width=1400">
                                 </div>
-                                <h4 class="store-product-title">The Four Gospels (7 Inch)</h4>
+                                <h4 class="store-product-title">Tanakh - Digital Visual Bible</h4>
                             </div>
                         </a>
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/travel-to-the-holy-land" target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/digital-bible-2-_2.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/travel.png?v=1732481053&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Holy Land Digital Tablet</h4>
                             </div>
@@ -656,30 +674,36 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a
+                            href="https://visionofthebiblestore.com/products/vision-of-israel-coffee-table-book-1"target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/7-Inch---Product-Photos-2.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/book_1.png?v=1733282144&width=1400">
                                 </div>
                                 <h4 class="store-product-title">Visions of Israel - Coffee Table Book</h4>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/travel.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/digital-bible-2-_2.png?v=1757971890&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/book_1.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/digital-bible-2-_2.png?v=1757971890&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
                             </div>
@@ -687,10 +711,13 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <div class="view-all-card">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                            <div>View All Products</div>
-                        </div>
+                        <a href="https://visionofthebiblestore.com/collections/all" target="_blank">
+                            <div class="view-all-card">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                <div>View All Products</div>
+                            </div>
+                        </a>
+
                     </div>
 
 
@@ -733,12 +760,12 @@
 
                 <div class="col-xl-6 col-lg-12   enterprise-actions">
                     <div class="enterprise-btns">
-                        <a href="#" class="btn  btn-orange ">
+                        <a href="{{ route('enterprise') }}" class="btn  btn-orange ">
                             Request Enterprise Quote <i class="bi bi-arrow-right"></i>
                         </a>
-                        <a href="#" class="btn btn-outline-custom-enterprise btn-all-dark">
+                        {{-- <a href="#" class="btn btn-outline-custom-enterprise btn-all-dark">
                             Learn More
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 
@@ -828,12 +855,12 @@
                 </div>
 
                 <div class="mt-4 trusted-btn">
-                    <button class="btn btn-orange me-lg-2">
+                    <a href="{{ route('pricing') }}" class="btn btn-orange me-lg-2">
                         View Licensing Options
-                    </button>
-                    <button class="btn trusted-contact-btn btn-hover-dark btn-all-dark">
+                    </a>
+                    <a href="{{ route('contact') }}" class="btn trusted-contact-btn btn-hover-dark btn-all-dark">
                         Contact Us
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -858,40 +885,23 @@
                             @php
                                 $name = trim($testimonial->name);
                                 $words = explode(' ', $name);
+
+                                $initials = '';
+
+                                if (count($words) >= 2) {
+                                    $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                                } else {
+                                    $initials = strtoupper(substr($name, 0, 1));
+                                }
                             @endphp
-                            <div class="testimonial-card">
-                                <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                                        <path
-                                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                        <path
-                                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                    </svg></div>
-                                <div class="testimonial-text">
-                                    {{ $testimonial->message }}
+                            <div class="testimonial-user">
+                                <div class="avatar">{{ $initials }}</div>
+                                <div class="user-info">
+                                    <strong>{{ $testimonial->name }}</strong>
+                                    <small>{{ $testimonial->designation }}</small>
                                 </div>
-                                @php
-                                    $name = trim($testimonial->name);
-                                    $words = explode(' ', $name);
-
-                                    $initials = '';
-
-                                    if (count($words) >= 2) {
-                                        $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
-                                    } else {
-                                        $initials = strtoupper(substr($name, 0, 1));
-                                    }
-                                @endphp
-                                <div class="testimonial-user">
-                                    <div class="avatar">{{ $initials }}</div>
-                                    <div class="user-info">
-                                        <strong>{{ $testimonial->name }}</strong>
-                                        <small>{{ $testimonial->designation }}</small>
-                                    </div>
+                            </div>
+                        </div>
                     @endforeach
                 @endif
             </div>

@@ -67,6 +67,7 @@
                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
                     {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
                     <li><a href="javascript:void(0);">Licenses</a></li>
+                    <li><a href="{{ route('pricing') }}">Pricing</a></li>
                 </ul>
             </div>
 
@@ -74,11 +75,17 @@
             <div class="footer-box footer-column">
                 <h6>Products and services</h6>
                 <ul>
-                    <li><a href="javascript:void(0);">All Footage</a></li>
+                    @foreach ($categories as $category)
+                        <li>
+                            <a href="{{ route('allPhotos', ['category_id' => $category->id]) }}">
+                                {{ $category->name }}
+                            </a>
+                        </li>
+                    @endforeach
+                    {{-- <li><a href="javascript:void(0);">All Footage</a></li>
                     <li><a href="javascript:void(0);">Aerial Shots</a></li>
                     <li><a href="javascript:void(0);">Timelapses</a></li>
-                    <li><a href="{{ route('collection') }}">Collections</a></li>
-                    <li><a href="{{ route('pricing') }}">Pricing</a></li>
+                    <li><a href="{{ route('collection') }}">Collections</a></li> --}}
                 </ul>
             </div>
 
@@ -92,13 +99,13 @@
             </div>
 
             <!-- Contact -->
-            <div class="footer-box footer-column">
+            {{-- <div class="footer-box footer-column">
                 <h6>Contact us</h6>
                 <ul>
-                    {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                     <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
-            </div>
+            </div> --}}
 
         </div>
     </div>

@@ -95,7 +95,7 @@
                         <div>
                             <label>Phone No</label>
 
-                            <div class="input-group">
+                            <div class="input-group phone-input">
                                 <input type="tel" id="phone" name="phone_number" class="form-control" placeholder="Enter your phone number">
                             </div>
 
@@ -103,12 +103,11 @@
                             <input type="hidden" name="phone" id="full_phone">
 
                         </div>
-                        <div>
+                        <div class="address-input-section">
                             <label>Address</label>
-                            <textarea name="address" class="" rows="3" cols="34" placeholder=""
+                            <textarea name="address" class="form-control" rows="3" cols="34" placeholder=""
                                 style="border-radius: 10px;"></textarea>
-                            <label id="address-error" class="text-danger" for="address"></label>
-
+                            <!-- <label id="address-error" class="text-danger" for="address"></label> -->
                         </div>
 
                         <div>
