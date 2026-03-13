@@ -29,7 +29,6 @@ $(document).ready(function () {
             $(".suggetion-search ul").html(html);
             $(".suggetion-search").addClass("show");
           } else {
-
             $(".suggetion-search ul").html(
               "<div class='no-suggetion-search'> <p> No Suggetion </p> </div > "
             );
@@ -39,20 +38,23 @@ $(document).ready(function () {
     }, 300);
   });
 
-  document.querySelectorAll(".dropdown-item").forEach(item => {
-
+  document.querySelectorAll(".dropdown-item").forEach((item) => {
     item.addEventListener("click", function (e) {
       e.preventDefault();
 
-      const icon = this.querySelector("i").className;
-      const text = this.querySelector("span").textContent;
+      const iconElement = this.querySelector("i");
+      const textElement = this.querySelector("span");
 
-      document.querySelector(".btn-icon").className = icon + " btn-icon";
-      document.querySelector(".btn-text").textContent = text;
+      const btnIcon = document.querySelector(".btn-icon");
+      const btnText = document.querySelector(".btn-text");
 
+      if (iconElement && textElement && btnIcon && btnText) {
+        const icon = iconElement.className;
+        const text = textElement.textContent;
+
+        btnIcon.className = icon + " btn-icon";
+        btnText.textContent = text;
+      }
     });
-
   });
-
-
 });
