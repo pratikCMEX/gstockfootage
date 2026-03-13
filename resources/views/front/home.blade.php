@@ -200,19 +200,19 @@
 
                 <!-- Filter Buttons -->
                 <div class="popular-filter-pills filter-pills d-flex flex-wrap gap-2 mb-4">
-                    <a href="{{ route('all_photos', ['q' => 'Jerusalem views', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Jerusalem views', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Jerusalem views</a>
-                    <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
-                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Golden hour</a>
-                    <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
-                    <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Holy Land nature</a>
-                    <a href="{{ route('all_photos', ['q' => 'Biblical locations', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Biblical locations', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Biblical locations</a>
-                    <a href="{{ route('all_photos', ['q' => 'Desert landscapes', 'type' => 'all']) }}"
+                    <a href="{{ route('all_photos', ['q' => 'Desert landscapes', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Desert landscapes</a>
                 </div>
 
