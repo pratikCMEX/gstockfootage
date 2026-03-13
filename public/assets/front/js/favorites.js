@@ -35,11 +35,13 @@ $(document).on('click', '.addFavorite', function (e) {
                     icon.removeClass("bi-heart-fill").addClass("bi-heart");
 
                     // change text
-                    button.contents().filter(function () {
-                        return this.nodeType === 3;
-                    }).remove();
+                    if (button.text().trim() !== '') {
+                        button.contents().filter(function () {
+                            return this.nodeType === 3;
+                        }).remove();
 
-                    button.append(" Save");
+                        button.append(" Save");
+                    }
 
                     $('.wishlist-count').text(currentCount - 1);
                     // button.removeClass('favorited');
@@ -49,11 +51,14 @@ $(document).on('click', '.addFavorite', function (e) {
                 } else if (response.action === 'added') {
                     icon.removeClass("bi-heart").addClass("bi-heart-fill");
 
-                    button.contents().filter(function () {
-                        return this.nodeType === 3;
-                    }).remove();
+                    if (button.text().trim() !== '') {
+                        button.contents().filter(function () {
+                            return this.nodeType === 3;
+                        }).remove();
+                        button.append(" Saved");
+                    }
 
-                    button.append(" Saved");
+
 
                     $('.wishlist-count').text(currentCount + 1);
                     // button.addClass('favorited');
