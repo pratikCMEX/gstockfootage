@@ -23,13 +23,10 @@ function addToCart(product_id, btn = null) {
         let newCount = $(".cart-items .cart-content").length;
         updateCartCount(newCount);
         updateCartTotal(parseFloat(res.product.price), "add");
-        if (btn) {
-          $(btn)
-            .prop("disabled", true)
-            .addClass("btn-success already-added ")
-            .removeClass("btn-orange")
-            .html('<i class="bi bi-cart-dash"></i> Already Added to Cart');
-        }
+        // if (btn) {
+        // alert();
+        // }
+        //
         toastr.success(res.message);
       } else {
         toastr.warning(res.message);
@@ -39,9 +36,12 @@ function addToCart(product_id, btn = null) {
       toastr.error("Something went wrong. Please try again.");
     },
     complete: function () {
-      if (btn) {
-        $(btn).prop("disabled", false).text("Add to Cart");
-      }
+      // if (btn) {
+      $(".add_to_cart").prop("disabled", true).text("Added to Cart");
+      $(".add_to_cart").removeClass("btn-orange");
+      $(".add_to_cart").addClass("btn-success already-added");
+      // }
+      // $(".add_to_cart").prop("disabled", true).text("Added to Cart");
     },
   });
 }
