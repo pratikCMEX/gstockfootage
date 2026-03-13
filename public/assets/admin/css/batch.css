@@ -34,6 +34,7 @@ p {
   justify-content: space-between;
   padding: 20px;
   border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
   box-shadow: 0 4px 12px var(--box-shadow);
   /* max-width: 991px; */
   width: 100%;
@@ -147,12 +148,11 @@ p {
   min-height: calc(100dvh - 249px);
 }
 
-.diffrent-batches{
+.diffrent-batches {
   padding-bottom: var(--bs-card-spacer-y);
-
 }
 
-.flex-batch-filter-content:has(.batch-show-content) .search-filter-openbtn{
+.flex-batch-filter-content:has(.batch-show-content) .search-filter-openbtn {
   display: none;
 }
 
@@ -807,7 +807,6 @@ table td {
   font-size: 12px;
   color: var(--black);
 }
-
 
 .no-file-inputs label {
   margin-top: 5px;
@@ -1878,7 +1877,6 @@ select option {
 .all-inputs {
   border-left: 1px solid var(--secendory);
 }
-
 
 .no-file-inputs .heading-label,
 .file-inp-label-grp .heading-label {
