@@ -797,12 +797,13 @@ function startUploadToast() {
 
   // Reset
   cancelAnimationFrame(counterRaf);
+  clearInterval(counterTimer);
+  lastPercent = 0;
+
   barFill.style.transition = "none";
   barFill.style.width = "0%";
   pctLabel.textContent = "0";
-  barFill.style.width = "0%";
-  pctLabel.textContent = "0";
-  lastPercent = 0;
+
   toastTitle.textContent = "Uploading...";
   toastSub.textContent = "Image upload in progress";
   waitText.style.display = "flex";
@@ -814,25 +815,9 @@ function startUploadToast() {
   // Show toast
   toast.classList.add("show");
 
-  // Animate bar slowly (won't finish — stopped on success)
-  barFill.style.transition = "width 25s linear";
-  barFill.style.width = "90%";
-
-  // Count 0 → 90 slowly (fake progress)
-  const totalMs = 25000;
-  const startTime = performance.now();
-
-  function tick(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / totalMs, 1);
-    const eased = 1 - Math.pow(1 - progress, 2);
-    const val = Math.min(Math.floor(eased * 90), 90);
-    pctLabel.textContent = val;
-    if (progress < 1) counterRaf = requestAnimationFrame(tick);
-  }
-  counterRaf = requestAnimationFrame(tick);
+  // ── NO fake animation here anymore ──
+  // Real progress comes from updateUploadProgress() via XHR events
 }
-
 function completeUploadToast() {
   const toast = document.getElementById("uploadToast");
   const barFill = document.getElementById("barFill");
@@ -904,34 +889,30 @@ function updateUploadProgress(percent) {
   const pctLabel = document.getElementById("pctLabel");
 
   percent = Math.min(Math.floor(percent), 90);
-
   if (percent <= lastPercent) return;
 
-  let start = lastPercent;
-  let end = percent;
+  const start = lastPercent;
   lastPercent = percent;
 
-  // update bar
+  // ── Bar: smooth CSS transition ──────────────────────────────
+  barFill.style.transition = "width 0.3s ease";
   barFill.style.width = percent + "%";
 
-  // animate counter over same duration as bar
+  // ── Counter: animate from start → percent over 300ms ───────
   clearInterval(counterTimer);
-
-  let duration = 300;
-  let steps = end - start;
-  let stepTime = duration / (steps || 1);
-
+  const steps = percent - start;
+  const stepTime = steps > 0 ? 300 / steps : 300;
   let current = start;
 
   counterTimer = setInterval(() => {
     current++;
     pctLabel.textContent = current;
-
-    if (current >= end) {
+    if (current >= percent) {
       clearInterval(counterTimer);
     }
   }, stepTime);
 }
+
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
     alert("Please choose files first");
@@ -970,9 +951,9 @@ $(document).on("click", ".btn-upload-device", function () {
             let realPercent = (evt.loaded / evt.total) * 100;
 
             // convert 0-100 → 0-90
-            let displayPercent = Math.floor(realPercent * 0.9);
+            // let displayPercent = Math.floor(realPercent * 0.9);
 
-            updateUploadProgress(displayPercent);
+            updateUploadProgress(Math.min(realPercent, 90));
           }
         },
         false
