@@ -31,12 +31,12 @@
                         <div class="ic-icon">
                             <svg viewBox="0 0 24 24">
                                 <path
-                                    d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                                    d="M22 16.92V21a1 1 0 0 1-1.09 1A19.86 19.86 0 0 1 3 5.09 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75l.7 3.11a1 1 0 0 1-.27.95l-2.2 2.2a16 16 0 0 0 6.58 6.58l2.2-2.2a1 1 0 0 1 .95-.27l3.11.7a1 1 0 0 1 .75 1z" />
                             </svg>
                         </div>
                         <div class="ic-text">
-                            <h3>Live Chat</h3>
-                            <p>Available Mon–Fri, 9am–5pm EST</p>
+                            <h3>Call Us</h3>
+                            <p>+1 (555) 123-4567</p>
                         </div>
                     </div>
                     <div class="info-card">
@@ -78,8 +78,7 @@
                                 <div class="fc-item">
                                     <div class="fc-dot">
                                         <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
                                         </svg>
                                     </div>
                                     <span>Mon–Fri, 9am–5pm EST</span>
@@ -111,35 +110,36 @@
                         </div>
                         <form name="contactForm" id="contactForm" method="POST" action="{{ route('contact.add') }}">
                             @csrf
-                        <div class="form-grid">
-                            <div class="field">
-                                <label>Name <sup>*</sup></label>
-                                <input type="text" name="name" id="name" placeholder="Enter Your Name" />
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label>Name <sup>*</sup></label>
+                                    <input type="text" name="name" id="name" placeholder="Enter Your Name" />
+                                </div>
+                                <div class="field">
+                                    <label>Email <sup>*</sup></label>
+                                    <input type="email" name="email" id="email" placeholder="Enter Your Email" />
+                                </div>
+                                <div class="field full">
+                                    <label>Subject <sup>*</sup></label>
+                                    <input type="text" name="subject" id="subject" placeholder="Enter Subject" />
+                                </div>
+                                <div class="field full">
+                                    <label>Message <sup>*</sup></label>
+                                    <textarea placeholder="Enter Your Message here" name="message"
+                                        id="message"></textarea>
+                                </div>
                             </div>
-                            <div class="field">
-                                <label>Email <sup>*</sup></label>
-                                <input type="email" name="email" id="email" placeholder="Enter Your Email" />
-                            </div>
-                            <div class="field full">
-                                <label>Subject <sup>*</sup></label>
-                                <input type="text" name="subject" id="subject" placeholder="Enter Subject" />
-                            </div>
-                            <div class="field full">
-                                <label>Message <sup>*</sup></label>
-                                <textarea placeholder="Enter Your Message here" name="message" id="message"></textarea>
-                            </div>
-                        </div>
 
-                        <div class="submit-row">
-                            <button type="submit" class="btn btn-orange">
-                                Send Message
-                                <svg viewBox="0 0 24 24">
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                    <polyline points="12,5 19,12 12,19" />
-                                </svg>
-                            </button>
-                            
-                        </div>
+                            <div class="submit-row">
+                                <button type="submit" class="btn btn-orange">
+                                    Send Message
+                                    <svg viewBox="0 0 24 24">
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                        <polyline points="12,5 19,12 12,19" />
+                                    </svg>
+                                </button>
+
+                            </div>
                         </form>
                     </div>
                 </div>

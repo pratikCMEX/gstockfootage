@@ -77,30 +77,29 @@
                                                 <input type="text" name="description[]" class="form-control description"
                                                     value="{{ trim($desc) }}" placeholder="Enter description point">
                                                 @if ($index == 0)
-                                                    <button type="button" class="btn btn-lg btn-secondary ms-2"
-                                                        id="add-description-btn" style="width: 120px;">
+                                                    <button type="button" class="btn  btn-primary "
+                                                        id="add" style="width: 120px;">
                                                         <i class="fas fa-plus"></i> Add More
                                                     </button>
                                                 @else
-                                                    <button type="button" class="btn btn-lg btn-danger ms-2"
-                                                        onclick="removeDescriptionField(this)" style="width: 120px;">Close
-                                                        <!-- <i class="fas fa-times"></i> -->
+                                                    <button type="button" class="btn  btn-danger ms-2 remove"
+                                                        style="width: 120px;">Close
                                                     </button>
                                                 @endif
                                             </div>
-                                            <!-- <span id="description[]-error" class="text-danger"></span> -->
                                         </div>
                                     @endforeach
                                 </div>
-                                <div id="addHtml"></div>
+                                <div id="addHtml"></div> 
                             </div>
+                           
                             <div class="newRow d-none">
                                 <div class="description-item mb-2 newhtml">
                                     <div class="d-flex">
                                         <input type="text" name="description[]" class="form-control description"
                                             placeholder="Enter description point">
 
-                                        <button type="button" class="btn btn-danger ms-2 remove">
+                                        <button type="button" class="btn btn-danger ms-2 remove"  style="width: 120px;"> 
                                             Close
                                         </button>
                                     </div>

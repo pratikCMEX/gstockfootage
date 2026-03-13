@@ -64,7 +64,7 @@
                                             <input type="text" name="description[]" class="form-control description"
                                                 placeholder="Enter description point">
 
-                                            <button type="button" class="btn btn-primary" id="add">
+                                            <button type="button" class="btn btn-primary" id="add" style="width: 120px;">
                                                 + Add More
                                             </button>
                                         </div>
@@ -84,7 +84,7 @@
                                         <input type="text" name="description[]" class="form-control description"
                                             placeholder="Enter description point">
 
-                                        <button type="button" class="btn btn-danger ms-2 remove">
+                                        <button type="button" class="btn btn-danger ms-2 remove" style="width: 120px;">
                                             Close
                                         </button>
                                     </div>
