@@ -91,7 +91,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Add License</button>
                         </form>
 
 

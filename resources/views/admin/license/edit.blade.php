@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange">Edit License</button>
                         </form>
                     </div>
                 </div>

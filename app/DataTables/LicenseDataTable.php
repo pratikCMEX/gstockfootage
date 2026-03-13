@@ -38,6 +38,12 @@ class LicenseDataTable extends DataTable
         </div>
     ';
             })
+            ->addColumn('price', function ($row) {
+                return '$' . number_format($row->price, 2);
+            })
+            ->addColumn('plan_price', function ($row) {
+                return '$' . number_format($row->plan_price, 2);
+            })
             ->addColumn('action', function ($row) {
 
                 $updateButton = '
@@ -61,7 +67,7 @@ class LicenseDataTable extends DataTable
 
                 return '<div class="d-flex">' . $updateButton . $deleteButton . '</div>';
             })
-            ->rawColumns(['action', 'most_popular', 'checkbox']);
+            ->rawColumns(['action', 'most_popular', 'checkbox', 'price', 'plan_price']);
     }
 
     /**
@@ -113,6 +119,7 @@ class LicenseDataTable extends DataTable
             Column::make('title'),
             Column::make('quality'),
             Column::make('price'),
+            Column::make('plan_price'),
             Column::make('description'),
             Column::computed('most_popular')
                 ->exportable(false)

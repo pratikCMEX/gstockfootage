@@ -49,23 +49,23 @@ $(document).ready(function () {
 
         messages: {
             name: {
-                required: "Please enter License name",
+                required: "Please enter License Name",
                 maxlength: "Max 30 characters allowed"
             },
             title: {
-                required: "Please enter License title"
+                required: "Please enter License Title"
             },
             product_quality_id: {
-                required: "Please select product quality"
+                required: "Please select Product Quality"
             },
             price: {
-                required: "Please enter License price"
+                required: "Please enter License Price"
             },
             plan_price: {
-                required: "Please enter Plan price"
+                required: "Please enter Plan Price"
             },
             quality: {
-                required: "Please enter quality"
+                required: "Please enter Quality"
             }
         },
 
