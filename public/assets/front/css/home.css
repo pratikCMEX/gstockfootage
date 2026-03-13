@@ -239,7 +239,7 @@
 }
 .suggetion-search {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   height: 0px;
   overflow: hidden;
   right: 0;
@@ -286,7 +286,29 @@
   color: var(--black);
   font-family: var(--font-inter-medium);
 }
-
+.dropdown-item.active,
+.dropdown-item:active {
+  background: rgba(255, 152, 0, 0.15);
+}
+.no-suggetion-search {
+  height: 100%;
+  text-align: center;
+  margin: auto;
+  padding: 20px 20px 20px 0;
+}
+.no-suggetion-search p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  /* border: 1px dashed gray; */
+  font-size: 16px;
+  font-family: var(--font-inter-medium);
+  color: var(--secendory);
+}
 /* brand endless posibility */
 
 .brand-posibility {
