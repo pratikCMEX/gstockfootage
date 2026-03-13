@@ -855,12 +855,12 @@
                 </div>
 
                 <div class="mt-4 trusted-btn">
-                    <button class="btn btn-orange me-lg-2">
+                    <a href="{{ route('pricing') }}" class="btn btn-orange me-lg-2">
                         View Licensing Options
-                    </button>
-                    <button class="btn trusted-contact-btn btn-hover-dark btn-all-dark">
+                    </a>
+                    <a href="{{ route('contact') }}" class="btn trusted-contact-btn btn-hover-dark btn-all-dark">
                         Contact Us
-                    </button>
+                    </a>
                 </div>
             </div>
 
