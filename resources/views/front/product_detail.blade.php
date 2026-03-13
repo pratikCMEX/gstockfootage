@@ -203,14 +203,13 @@
 
                                 <div class="p-3">
 
-                                    <span
-                                        class="badge badge-custom mb-2">{{ $product->category->category_name }}</span>
+                                    <span class="badge badge-custom mb-2">{{ $data->category->category_name }}</span>
 
-                                    <h6 class="popular-detail-title">{{ $product->title }}</h6>
+                                    <h6 class="popular-detail-title">{{ $data->title }}</h6>
 
 
                                     <div class="price-btn">
-                                        <span class="price">${{ $product->price }}</span>
+                                        <span class="price">${{ $data->price }}</span>
                                         {{-- <button class="btn  btn-orange">Add</button> --}}
                                     </div>
                                     <div class="product-two-btn">
