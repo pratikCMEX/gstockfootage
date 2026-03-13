@@ -437,3 +437,27 @@ div.dataTables_processing > div:last-child > div {
 .form-check-input:focus {
   border-color: gray;
 }
+
+/* .license-description .btn-license {
+  background-color: var(--primary);
+  color: var(--white);
+  transition: all 0.3s ease-in;
+}
+.license-description .btn-license:hover {
+  background-color: var(--primary-hover);
+  color: var(--white);
+}
+.license-description-add .btn-danger {
+  background-color: red !important;
+} */
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+  transition: all 0.3s ease-in;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  color: var(--white);
+}
