@@ -603,8 +603,8 @@
                 Videos</button>
             <button class="btn btn-filter search-btn-filter" data-type="image"><i class="bi bi-camera"></i>
                 Photos</button>
-            <button class="btn btn-filter search-btn-filter" data-type="artwork"><i class="bi bi-palette"></i>
-                Artwork</button>
+            {{-- <button class="btn btn-filter search-btn-filter" data-type="artwork"><i class="bi bi-palette"></i>
+                Artwork</button> --}}
         </div>
 
         <div class="row justify-content-center">
