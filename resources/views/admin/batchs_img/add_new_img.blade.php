@@ -249,7 +249,7 @@
                                             {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
                                             <div class="check"><i class="fa-solid fa-circle-check"></i></div>
                                             <div class="upload-title-img">
-                                                <div class="img-title">{{ $data['original_name'] }} </div>
+                                                <div class="img-title">{{ $data['title'] }} </div>
                                                 <div class="img-id">ID: 23870945</div>
                                             </div>
                                         </div>
