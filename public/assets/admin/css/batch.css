@@ -924,6 +924,7 @@ table td {
 
 .no-file-selected .bootstrap-tagsinput input {
   background-color: transparent !important;
+  width: 100%;
 }
 .upload-inp {
   border: 1px solid var(--secendory);
@@ -1694,7 +1695,7 @@ body:has(.upload-toast.show) .upload-preview-strip .clear-link {
   align-items: center;
   justify-content: space-between;
   padding: 16px 12px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   /* padding-bottom: 20px !important; */
   margin-bottom: 20px !important;
   /* border-bottom: 1px solid var(--secendory); */
