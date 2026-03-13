@@ -54,7 +54,7 @@
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Pricing</a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('pricing') }}">View Pricing</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">Enterprise Plan</a></li>
+                            <li><a class="dropdown-item" href="{{ route('enterprise') }}">Enterprise Plan</a></li>
                         </ul>
                     </div>
 
@@ -112,9 +112,9 @@
 
 
                     <!-- @auth
-                                                    <a href="{{ route('logout') }}">
-                                                        <button class="btn header-btns btn-sm">Log Out</button>
-                                                    </a>
+                                                            <a href="{{ route('logout') }}">
+                                                                <button class="btn header-btns btn-sm">Log Out</button>
+                                                            </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
