@@ -16,13 +16,13 @@
                         <div class="batches-label">
                             @if ($batch->submission_type == 'image')
                                 <label for="">
-                                    <i class="fa-solid fa-camera-retro"></i> Gstock creative
-                                    image</label>
+                                    <i class="fa-solid fa-camera-retro"></i> Gstock Creative
+                                    Photo</label>
                             @else
                                 <label for="">
                                     <i class="fa-solid fa-video"></i> Gstock
-                                    creative
-                                    video</label>
+                                    Creative
+                                    Video</label>
                             @endif
                         </div>
                     </div>
