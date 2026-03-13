@@ -76,7 +76,7 @@
                 <h6>Products and services</h6>
                 <ul>
                     @php
-                        $categories = getCategory();
+                        $categories = getCategory()->take(4);
                     @endphp
                     @foreach ($categories as $category)
                         <li>
