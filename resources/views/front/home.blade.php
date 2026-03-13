@@ -3,8 +3,8 @@
         <h1>Visuals with purpose.</h1>
         <!-- Tabs -->
         <div class="hero-tabs">
-            <a href="" class="active"><i class="bi bi-camera-video"></i> Videos</a>
-            <a href=""><i class="bi bi-image"></i> Photos</a>
+            <a href="{{ route('videos') }}" class="active"><i class="bi bi-camera-video"></i> Videos</a>
+            <a href="{{ route('all_photos') }}"><i class="bi bi-image"></i> Photos</a>
             {{-- <button><i class="bi bi-palette"></i> Artwork</button> --}}
         </div>
         <!-- Search -->
