@@ -176,7 +176,7 @@
                         <h2>
                             Photos that are <span class="yellow-headings"> trending today</span>
                         </h2>
-                        <p>Showing 4 photos</p>
+                        <p>Showing {{ count($allPhotos) }} photos</p>
                     </div>
                 </div>
 
