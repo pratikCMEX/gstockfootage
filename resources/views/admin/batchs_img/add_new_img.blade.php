@@ -993,7 +993,8 @@
                                         <p class="keyword-sub-text">Add accurate and relevant keywords to help
                                             customers find your imagery. You can add a title to get keyword suggestions.
                                         </p>
-                                        <div class="add-keyword">Add Upto 50 Keywords : <span>0</span></div>
+                                        <div class="add-keyword">Add Upto 50 Keywords : <span
+                                                class="total-tags">0</span></div>
                                         <input name="tags" class="upload-inp form-control" id="tags"
                                             data-role="tagsinput" class="form-control">
                                         <div class="keyword-btn">

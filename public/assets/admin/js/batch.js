@@ -206,18 +206,69 @@ mobilemetadata?.addEventListener("click", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const tagsInput = document.getElementById("tags");
+  const MAX_TAGS = 50;
+  const $tags = $("#tags");
 
-  if (tagsInput) {
-    tagsInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        const tagValue = tagsInput.value.trim();
+  if ($tags.length) {
+    // ── Wrap inner input in jQuery ──────────────────────────────
+    const $innerInput = $($tags.tagsinput("input"));
 
-        if (tagValue) {
-          console.log("Tag added:", tagValue);
-          tagsInput.value = "";
-        }
+    // ── Handle paste ────────────────────────────────────────────
+    $innerInput.on("paste", function (e) {
+      e.preventDefault();
+
+      const pastedText = (
+        e.originalEvent.clipboardData || window.clipboardData
+      ).getData("text");
+      const pastedTags = pastedText
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t !== "");
+
+      pastedTags.forEach(function (tag) {
+        const currentCount = $tags.tagsinput("items").length;
+        if (currentCount >= MAX_TAGS) return;
+        $tags.tagsinput("add", tag);
+      });
+
+      const count = $tags.tagsinput("items").length;
+      $(".total-tags").text(count);
+
+      if (count >= MAX_TAGS) {
+        $innerInput.prop("disabled", true);
+        $innerInput.attr("placeholder", "Maximum 50 tags reached");
+      }
+    });
+
+    // ── Block adding more than 50 ───────────────────────────────
+    $tags.on("beforeItemAdd", function (e) {
+      const currentCount = $tags.tagsinput("items").length;
+      if (currentCount >= MAX_TAGS) {
+        e.cancel = true;
+        $innerInput.prop("disabled", true);
+        $innerInput.attr("placeholder", "Maximum 50 tags reached");
+      }
+    });
+
+    // ── Update counter on add ───────────────────────────────────
+    $tags.on("itemAdded", function () {
+      const count = $tags.tagsinput("items").length;
+      $(".total-tags").text(count);
+
+      if (count >= MAX_TAGS) {
+        $innerInput.prop("disabled", true);
+        $innerInput.attr("placeholder", "Maximum 50 tags reached");
+      }
+    });
+
+    // ── Re-enable on remove ─────────────────────────────────────
+    $tags.on("itemRemoved", function () {
+      const count = $tags.tagsinput("items").length;
+      $(".total-tags").text(count);
+
+      if (count < MAX_TAGS) {
+        $innerInput.prop("disabled", false);
+        $innerInput.attr("placeholder", "Add a tag...");
       }
     });
   }
