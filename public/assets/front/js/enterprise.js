@@ -10,6 +10,8 @@ $("#quoteRequestForm").validate({
     },
     phone_number: {
       required: true,
+      minlength: 10,
+      maxlength: 15,
 
     },
     email: {
@@ -37,7 +39,7 @@ $("#quoteRequestForm").validate({
       required: true,
 
     },
-   
+
     product_interest: {
       required: true,
 
@@ -55,6 +57,8 @@ $("#quoteRequestForm").validate({
     },
     phone_number: {
       required: "Please enter Phone Number",
+      minlength: "Phone Number Must Be At Least 10 Digits",
+      maxlength: "Phone Number Cannot Exceed 15 Digits",
 
     },
     email: {
@@ -81,7 +85,7 @@ $("#quoteRequestForm").validate({
       required: "Please select Country",
 
     },
-    
+
     product_interest: {
       required: "Please select Product of Interest",
 
@@ -102,21 +106,21 @@ $("#quoteRequestForm").validate({
 
 $(document).ready(function () {
 
-    var input = $("#phone")[0]; // get DOM element from jQuery
+  var input = $("#phone")[0]; // get DOM element from jQuery
 
-    var iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        preferredCountries: ["us"],
-        separateDialCode: true,
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-    });
+  var iti = window.intlTelInput(input, {
+    initialCountry: "us",
+    preferredCountries: ["us"],
+    separateDialCode: true,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+  });
 
-    $("#quoteRequestForm").on("submit", function () {
+  $("#quoteRequestForm").on("submit", function () {
 
-        var fullPhone = iti.getNumber();
+    var fullPhone = iti.getNumber();
 
-        $("#full_phone").val(fullPhone);
+    $("#full_phone").val(fullPhone);
 
-    });
+  });
 
 });

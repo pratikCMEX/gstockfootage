@@ -24,11 +24,11 @@
                                 <td>
                                     <div class="cart-product">
                                         <div class="cart-product-img">
-                                            @if ($cartItem['type'] == '0')
-                                                <img src="{{ asset('uploads/images/low/' . $cartItem['low_path']) }}"
+                                            @if ($cartItem['type'] == 'image')
+                                                <img src="{{ Storage::disk('s3')->url($cartItem['low_path']) }}"
                                                     class="h-100 w-100" alt="">
                                             @else
-                                                <img src="{{ asset('uploads/videos/thumbnails/' . $cartItem['thumbnail_path']) }}"
+                                                <img src="{{ Storage::disk('s3')->url($cartItem['thumbnail_path']) }}"
                                                     class="h-100 w-100" alt="">
                                             @endif
                                         </div>

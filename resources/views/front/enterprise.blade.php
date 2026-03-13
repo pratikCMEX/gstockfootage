@@ -89,7 +89,8 @@
                                     <div class="input-group">
                                         <input type="text" id="phone" name="phone_number" class="form-control"
                                             placeholder="Enter your phone number"
-                                            value="{{ $user_profile->phone ?? '' }}">
+                                            value="{{ $user_profile->phone ?? '' }}"
+                                            oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                     </div>
 
                                     <!-- Hidden field that stores full phone -->
