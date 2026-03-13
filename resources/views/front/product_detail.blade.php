@@ -101,10 +101,18 @@
                                 </div>
                                 <p>${{ $data['price'] }}</p>
                             </div>
-                            <button type="button" class="btn-orange btn add_to_cart"
+                            {{-- <button type="button" class="btn-orange btn add_to_cart"
                                 onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
                                 to
-                                Cart</button>
+                                Cart</button> --}}
+
+                            <button type="button"
+                                class="btn add_to_cart {{ isInCart($data['id']) ? 'btn-success already-added' : 'btn-orange' }}"
+                                {{ isInCart($data['id']) ? 'disabled' : '' }}
+                                onclick="addToCart({{ $data['id'] }}, this)">
+                                <i class="bi bi-cart{{ isInCart($data['id']) ? '-check' : '2' }}"></i>
+                                {{ isInCart($data['id']) ? 'Added to Cart' : 'Add to Cart' }}
+                            </button>
                         </div>
                         <div class="extended product-detail-price">
                             <div class="price-flex">
@@ -115,10 +123,17 @@
                                 </div>
                                 <p>$ {{ isset($perImage) ? $perImage : $data['price'] }}</p>
                             </div>
-                            <button type="button" class="btn-orange btn add_to_cart"
+                            {{-- <button type="button" class="btn-orange btn add_to_cart"
                                 onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
                                 to
-                                Cart</button>
+                                Cart</button> --}}
+                            <button type="button"
+                                class="btn add_to_cart {{ isInCart($data['id']) ? 'btn-success already-added' : 'btn-orange' }}"
+                                {{ isInCart($data['id']) ? 'disabled' : '' }}
+                                onclick="addToCart({{ $data['id'] }}, this)">
+                                <i class="bi bi-cart{{ isInCart($data['id']) ? '-check' : '2' }}"></i>
+                                {{ isInCart($data['id']) ? 'Added to Cart' : 'Add to Cart' }}
+                            </button>
                         </div>
                     </div>
                     <div class="product-detail-btn">
