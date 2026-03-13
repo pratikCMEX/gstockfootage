@@ -78,12 +78,12 @@
                                                     value="{{ trim($desc) }}" placeholder="Enter description point">
                                                 @if ($index == 0)
                                                     <button type="button" class="btn btn-lg btn-secondary ms-2"
-                                                        id="add-description-btn" style="width: 120px;">
+                                                        id="add-description-btn" style="width: 155px;">
                                                         <i class="fas fa-plus"></i> Add More
                                                     </button>
                                                 @else
                                                     <button type="button" class="btn btn-lg btn-danger ms-2"
-                                                        onclick="removeDescriptionField(this)" style="width: 120px;">Close
+                                                        onclick="removeDescriptionField(this)" style="width: 155px;">Close
                                                         <!-- <i class="fas fa-times"></i> -->
                                                     </button>
                                                 @endif
