@@ -114,9 +114,9 @@
 
 
                     <!-- @auth
-                                                                                                                                        <a href="{{ route('logout') }}">
-                                                                                                                                            <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                        </a>
+                                                                                                                                                    <a href="{{ route('logout') }}">
+                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                    </a>
                     @endauth -->
 
                     <a href="{{ route('all_photos') }}" class="d-none d-xl-block">
