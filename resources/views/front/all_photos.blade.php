@@ -145,98 +145,98 @@
                     @foreach ($categories as $category)
 
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                            <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}">
-                                <div class="brand-posibility">
-                                    <div class="posibility-img">
-                                        <img width="100%" height="100%"
-                                            src="{{ asset('uploads/images/category/' . $category->category_image) }}" alt="">
-                                    </div>
-                                    <div class="posibilty-title">
-                                        <h3>{{ $category->category_name }}</h3>
-                                    </div>
+
+                            <div class="brand-posibility">
+                                <div class="posibility-img">
+                                    <img width="100%" height="100%"
+                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}" alt="">
                                 </div>
-                            </a>
+                                <div class="posibilty-title">
+                                    <h3>{{ $category->category_name }}</h3>
+                                </div>
+                            </div>
+
                         </div>
                     @endforeach
                     <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Worldwide Footage</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}"
-                                    alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Photography</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Fine Art Prints</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Holy Land Collection</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Worldwide Footage</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}"
-                                    alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Photography</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
-                            </div>
-                            <div class="posibilty-title">
-                                <h3>Fine Art Prints</h3>
-                            </div>
-                        </div>
-                    </div> -->
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Worldwide Footage</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}"
+                                                alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Photography</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Fine Art Prints</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Holy Land Collection</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Worldwide Footage</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}"
+                                                alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Photography</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <div class="brand-posibility">
+                                        <div class="posibility-img">
+                                            <img width="100%" height="100%"
+                                                src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
+                                        </div>
+                                        <div class="posibilty-title">
+                                            <h3>Fine Art Prints</h3>
+                                        </div>
+                                    </div>
+                                </div> -->
                 </div>
             </div>
         </section>

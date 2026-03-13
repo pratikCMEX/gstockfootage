@@ -106,7 +106,7 @@
                                             placeholder="Enter description point">
 
                                         <button type="button" class="btn btn-danger ms-2 remove"
-                                            style="width: 120px;">
+                                            style="width: 100%; max-width: 120px;">
                                             Close
                                         </button>
                                     </div>
