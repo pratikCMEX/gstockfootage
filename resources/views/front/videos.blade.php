@@ -147,8 +147,8 @@
             <div class="row row-gap-4">
 
                 @foreach ($categories as $category)
-                    <a href="{{ route('videos', ['category_id' => encrypt($category->id), 'type' => 'video']) }}">
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                        <a href="{{ route('videos', ['category_id' => encrypt($category->id), 'type' => 'video']) }}">
 
                             <div class="brand-posibility">
                                 <div class="posibility-img">
@@ -160,9 +160,9 @@
                                     <h3>{{ $category->category_name ?? '' }}</h3>
                                 </div>
                             </div>
-                        </div>
 
-                    </a>
+                        </a>
+                    </div>
                 @endforeach
 
                 <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
