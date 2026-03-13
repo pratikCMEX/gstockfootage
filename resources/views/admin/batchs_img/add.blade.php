@@ -90,13 +90,13 @@
                                                     video</label> --}}
                                                 @if ($list['submission_type'] == 'video')
                                                     <label for=""> <i class="fa-solid fa-video"></i> Gstock
-                                                        creative
-                                                        video</label>
+                                                        Creative
+                                                        Video</label>
                                                 @else
                                                     <label for=""> <i class="fa-solid fa-camera-retro"></i>
                                                         Gstock
                                                         creative
-                                                        photo</label>
+                                                        Photo</label>
                                                 @endif
 
 
@@ -329,7 +329,7 @@
                                                                 value="image"
                                                                 {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="checkDefault2">
-                                                                Gstock Creative Image
+                                                                Gstock Creative Photo
                                                             </label>
                                                         </div>
                                                     </li>

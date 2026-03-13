@@ -44,13 +44,13 @@
                     video</label> --}}
                 @if ($list['submission_type'] == 'video')
                     <label for=""> <i class="fa-solid fa-video"></i> Gstock
-                        creative
-                        video</label>
+                        Creative
+                        Video</label>
                 @else
                     <label for=""> <i class="fa-solid fa-camera-retro"></i>
                         Gstock
-                        creative
-                        photo</label>
+                        Creative
+                        Photo</label>
                 @endif
 
 

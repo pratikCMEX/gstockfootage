@@ -836,50 +836,50 @@ let counterRaf = null;
 let animRaf = null;
 let lastPercent = 0;
 let counterTimer = null;
-let uploadStartTime = null;
 let realUploadPercent = 0;
-const MIN_DURATION = 8000; // always at least 8s to reach 90%
+let displayPercent = 0;
+let uploadDone = false;
 
-// ── Store real XHR progress (animation handles display) ────────────
+const MAX_SPEED = 0.08; // max % per frame during upload
+const CRAWL_SPEED = 0.005; // very slow crawl 90→99 while server processes
+
+// ── Store real XHR progress ─────────────────────────────────────────
 function updateUploadProgress(targetPercent) {
   realUploadPercent = Math.min(Math.floor(targetPercent), 90);
 }
 
-// ── Smooth RAF animation loop ───────────────────────────────────────
+// ── Smooth RAF — speed limited + server crawl ───────────────────────
 function startProgressAnimation() {
   const barFill = document.getElementById("barFill");
   const pctLabel = document.getElementById("pctLabel");
 
-  let displayPercent = 0;
-  uploadStartTime = Date.now();
+  displayPercent = 0;
   realUploadPercent = 0;
+  uploadDone = false;
 
   cancelAnimationFrame(animRaf);
 
   function animate() {
-    const elapsed = Date.now() - uploadStartTime;
-    const timeRatio = Math.min(elapsed / MIN_DURATION, 1); // 0 → 1 over 8s
+    if (!uploadDone) {
+      if (displayPercent < realUploadPercent) {
+        // Phase 1: Follow real XHR — speed limited
+        displayPercent = Math.min(
+          displayPercent + MAX_SPEED,
+          realUploadPercent
+        );
+      } else if (displayPercent >= 70 && displayPercent < 99) {
+        // Phase 2: XHR done, server processing — slow crawl 90→99
+        displayPercent += CRAWL_SPEED;
+      }
+    }
 
-    // Never go faster than 8s, but also track real XHR progress
-    const timeBased = timeRatio * 90;
-    const target = Math.min(
-      timeBased,
-      realUploadPercent > 0 ? realUploadPercent : timeBased
-    );
-
-    // Ease towards target smoothly
-    displayPercent += (target - displayPercent) * 0.05;
-    displayPercent = Math.min(displayPercent, 90);
-
-    const rounded = Math.floor(displayPercent);
+    displayPercent = Math.min(displayPercent, 99);
 
     barFill.style.transition = "none";
     barFill.style.width = displayPercent + "%";
-    pctLabel.textContent = rounded;
+    pctLabel.textContent = Math.floor(displayPercent);
 
-    if (rounded < 90) {
-      animRaf = requestAnimationFrame(animate);
-    }
+    animRaf = requestAnimationFrame(animate);
   }
 
   animRaf = requestAnimationFrame(animate);
@@ -898,12 +898,14 @@ function startUploadToast() {
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
 
-  // Reset everything
   cancelAnimationFrame(counterRaf);
   cancelAnimationFrame(animRaf);
   clearInterval(counterTimer);
+
   lastPercent = 0;
   realUploadPercent = 0;
+  displayPercent = 0;
+  uploadDone = false;
 
   barFill.style.transition = "none";
   barFill.style.width = "0%";
@@ -917,10 +919,7 @@ function startUploadToast() {
   spinRing.style.display = "block";
   checkRing.style.display = "none";
 
-  // Show toast
   toast.classList.add("show");
-
-  // Start smooth animation
   startProgressAnimation();
 }
 
@@ -937,16 +936,16 @@ function completeUploadToast() {
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
 
-  // Stop all animations
+  // Stop crawl — server responded
+  uploadDone = true;
   cancelAnimationFrame(animRaf);
   cancelAnimationFrame(counterRaf);
   clearInterval(counterTimer);
 
-  // Shoot bar to 100%
+  // Shoot to 100%
   barFill.style.transition = "width 0.4s ease";
   barFill.style.width = "100%";
 
-  // Count remaining → 100
   const start = parseInt(pctLabel.textContent) || 90;
   const duration = 400;
   const startTime = performance.now();
@@ -959,7 +958,6 @@ function completeUploadToast() {
       requestAnimationFrame(finish);
     } else {
       pctLabel.textContent = "100";
-
       setTimeout(() => {
         toastTitle.textContent = "Upload Complete";
         toastSub.textContent = "Your image is ready";
@@ -968,8 +966,6 @@ function completeUploadToast() {
         successMsg.style.display = "block";
         spinRing.style.display = "none";
         checkRing.style.display = "block";
-
-        // Auto-dismiss after 3s
         setTimeout(() => toast.classList.remove("show"), 3000);
       }, 300);
     }
@@ -984,6 +980,7 @@ function failUploadToast() {
   const toastSub = document.getElementById("toastSub");
   const spinRing = document.getElementById("spinRing");
 
+  uploadDone = true;
   cancelAnimationFrame(animRaf);
   cancelAnimationFrame(counterRaf);
   clearInterval(counterTimer);
@@ -1027,28 +1024,24 @@ $(document).on("click", ".btn-upload-device", function () {
 
     xhr: function () {
       let xhr = new window.XMLHttpRequest();
-
       xhr.upload.addEventListener(
         "progress",
         function (evt) {
           if (evt.lengthComputable) {
             let realPercent = (evt.loaded / evt.total) * 100;
-            updateUploadProgress(realPercent); // just stores value, animation handles display
+            updateUploadProgress(realPercent);
           }
         },
         false
       );
-
       return xhr;
     },
 
     success: function (response) {
       if (response.status === "success") {
-        console.log(response);
         toastr.success(response.message);
         completeUploadToast();
         $(".btn-upload").prop("disabled", false);
-
         setTimeout(() => {
           allFiles = [];
           render();
@@ -1063,6 +1056,7 @@ $(document).on("click", ".btn-upload-device", function () {
     },
   });
 });
+
 $(document).ready(function () {
   // $("#batch-content-active").DataTable({
   //   processing: true,
