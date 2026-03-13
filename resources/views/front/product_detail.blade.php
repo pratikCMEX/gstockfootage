@@ -1,6 +1,6 @@
 @php
     $perImage = getHighProductQualityPrice();
-    // dd($perImage);
+    dd($perImage);
 @endphp
 <section class="product-detail">
     <div class="container">
