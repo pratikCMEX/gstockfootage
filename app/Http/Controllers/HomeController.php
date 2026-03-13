@@ -141,41 +141,74 @@ class HomeController extends Controller
         }
     }
 
-    public function videos()
+    public function videos(Request $request)
     {
         $title = 'Videos';
-        $page = 'front.videos';
-        $js = ['home', 'favorites'];
+        $page  = 'front.videos';
+        $js    = ['home', 'favorites'];
 
-        $categories = Category::where('is_display', '1')->get();
+        $q = $request->get('q', '');
+
+        $categories    = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
-        // $product = Product::with('category')->where('type', '1')->get();
 
-        $allVideos = BatchFile::with(['category'])
+        $query = BatchFile::with(['category'])
             ->where('type', 'video')
-            ->where('is_edited', '1')
-            ->get();
+            ->where('is_edited', '1');
+
+        // Filter by keyword if coming from search
+        if ($q) {
+            $query->where('keywords', 'like', '%' . $q . '%');
+        }
+
+        $allVideos = $query->get();
 
         return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
     }
 
-
-    public function allPhotos()
+    public function allPhotos(Request $request)
     {
-        $title = 'Videos';
-        $page = 'front.all_photos';
-        $js = ['photos', 'favorites'];
+        $title = 'Photos';
+        $page  = 'front.all_photos';
+        $js    = ['photos', 'favorites'];
+
+        $q             = $request->get('q', '');
+        $type          = $request->get('type', 'image');
+        $collection_id = $request->get('collection_id', null);
+        $category_id   = $request->get('category_id', null);   // ← new
 
         $categories = Category::where('is_display', '1')->get();
-        // $photos = Batch::with('batch_files')->where('submission_type', 'image')->get();
-        $allPhotos = BatchFile::with(['category'])
+
+        $query = BatchFile::with(['category'])
             ->where('type', 'image')
-            ->where('is_edited', '1')
-            ->get();
+            ->where('is_edited', '1');
 
+        if ($q) {
+            $query->where('keywords', 'like', '%' . $q . '%');
+        }
 
+        if ($collection_id) {
+            $query->where('collection_id', $collection_id);
+        }
 
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'categories', 'allPhotos'));
+        if ($category_id) {
+            $query->where('category_id', $category_id);        // ← new
+        }
+
+        $allPhotos = $query->get();
+
+        $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+        $selectedCategory   = $category_id   ? Category::find($category_id)     : null;  // ← new
+
+        return view("layouts.front.layout", compact(
+            'title',
+            'page',
+            'js',
+            'categories',
+            'allPhotos',
+            'selectedCollection',
+            'selectedCategory'
+        ));
     }
     public function enterprise()
     {
@@ -197,33 +230,38 @@ class HomeController extends Controller
 
     public function homeSearch(Request $request)
     {
-        $keywords = BatchFile::where('is_edited', 1)
-            ->where('keywords', 'like', '%' . $request->search . '%')
-            ->limit(10)
-            ->pluck('keywords');
+        $search = $request->get('search', '');
+        $type   = $request->get('type', 'all');
+        $query = BatchFile::where('is_edited', 1)
+            ->where('keywords', 'like', '%' . $search . '%');
+
+        if ($type !== 'all') {
+            $query->where('type', $type);
+        }
+
+        $keywords = $query->limit(10)->pluck('keywords');
 
         $allKeywords = [];
 
         foreach ($keywords as $keywordString) {
-
             if ($keywordString) {
-                $split = explode(',', $keywordString);
-
-                foreach ($split as $word) {
-                    $allKeywords[] = trim($word);
+                foreach (explode(',', $keywordString) as $word) {
+                    $trimmed = trim($word);
+                    if ($trimmed !== '') {
+                        $allKeywords[] = $trimmed;
+                    }
                 }
             }
         }
 
         $allKeywords = array_unique($allKeywords);
 
-        if ($request->search) {
-            $allKeywords = array_filter($allKeywords, function ($word) use ($request) {
-                return stripos($word, $request->search) !== false;
+        // Filter keywords that actually contain the search term
+        if ($search) {
+            $allKeywords = array_filter($allKeywords, function ($word) use ($search) {
+                return stripos($word, $search) !== false;
             });
         }
-
-        // dd($allKeywords);
 
         return response()->json(array_values($allKeywords));
     }
