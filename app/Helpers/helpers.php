@@ -25,12 +25,12 @@ function duration($seconds)
 
 function getCategory()
 {
-    return Category::all();
+    return Category::get();
 }
 
 function getCollections()
 {
-    return Collection::all();
+    return Collection::get();
 }
 function mergeSessionCart()
 {
