@@ -23,86 +23,7 @@
                                             </button>
 
 
-                                            <!-- Modal -->
-                                            <div class="modal fade " id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-box">
 
-
-                                                    <div class="modal-content">
-                                                        <form id="create_batch" class="auth-form" method="POST"
-                                                            action="{{ route('admin.storeBatch') }}">
-                                                            @csrf
-                                                            <div class="modal-header">
-                                                                <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
-                                                            </div>
-                                                            <div class="modal-body batch-create-modal">
-                                                                {{-- <div class="dropdown">
-                                                        <input type="hidden" name="submission_type"
-                                                            id="submission_type">
-
-
-                                                        <label for="" class="modal-label">Submission
-                                                            type</label>
-                                                        <button
-                                                            class="btn w-100 text-start  batch-dropdown dropdown-toggle"
-                                                            type="button" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            Select Type<i class="fa-solid fa-angle-down"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu batch-dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#"
-                                                                    data-value="image">Image</a></li>
-                                                            <li><a class="dropdown-item" href="#"
-                                                                    data-value="video">Video</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="#"data-value="artwork">Art Work</a></li>
-                                                        </ul>
-                                                    </div> --}}
-                                                                <div class="modal-code">
-                                                                    <label for="category" class=" modal-label">Submission
-                                                                        Type</label>
-                                                                    <select class="form-select mr-sm-2 batch-inp"
-                                                                        name="submission_type" id="category">
-                                                                        <option value="">Choose Submission Type...</option>
-                                                                        <option value="image">
-                                                                            Image</option>
-                                                                        <option value="video">
-                                                                            Video</option>
-                                                                    </select>
-
-
-                                                                </div>
-                                                                {{-- <div class="modal-code">
-                                                        <label for="" class="modal-label">Brief Code</label>
-                                                        <div class="input-group ">
-                                                            <input type="text" class="form-control batch-inp"
-                                                                placeholder="Breif code (optional)" id="brief_code"
-                                                                name="brief_code" aria-describedby="addon-wrapping"
-                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                                                        </div>
-                                                    </div> --}}
-                                                                <div class="modal-name">
-                                                                    <label for="" class="modal-label">Batch Name</label>
-                                                                    <div class="input-group ">
-                                                                        <input type="text" class="form-control batch-inp"
-                                                                            placeholder="Batch Name" name="batch_name"
-                                                                            aria-describedby="addon-wrapping">
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn-all-dark btn-hover-dark btn"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class=" btn btn-orange">Create</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="create-batch-filter">
 
@@ -399,29 +320,29 @@
                                                 </li> --}}
 
 
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="checkDefault2" name="submission_type[]"
-                                                                value="image"
-                                                                {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="checkDefault2">
-                                                                Gstock Creative Photo
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="checkDefault3" name="submission_type[]"
-                                                                value="video"
-                                                                {{ in_array('video', request()->submission_type ?? []) ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="checkDefault3">
-                                                                Gstock Creative Video
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    {{-- <li>
+                                                        <li>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="checkDefault2" name="submission_type[]"
+                                                                    value="image"
+                                                                    {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
+                                                                <label class="form-check-label" for="checkDefault2">
+                                                                    Gstock Creative Photo
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="checkDefault3" name="submission_type[]"
+                                                                    value="video"
+                                                                    {{ in_array('video', request()->submission_type ?? []) ? 'checked' : '' }}>
+                                                                <label class="form-check-label" for="checkDefault3">
+                                                                    Gstock Creative Video
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        {{-- <li>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox"
                                                             value="" id="checkDefault4">
@@ -633,6 +554,86 @@
                     Delete
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade " id="exampleModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-box">
+
+
+        <div class="modal-content">
+            <form id="create_batch" class="auth-form" method="POST"
+                action="{{ route('admin.storeBatch') }}">
+                @csrf
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
+                </div>
+                <div class="modal-body batch-create-modal">
+                    {{-- <div class="dropdown">
+                                                        <input type="hidden" name="submission_type"
+                                                            id="submission_type">
+
+
+                                                        <label for="" class="modal-label">Submission
+                                                            type</label>
+                                                        <button
+                                                            class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                            type="button" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select Type<i class="fa-solid fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu batch-dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    data-value="image">Image</a></li>
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    data-value="video">Video</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="#"data-value="artwork">Art Work</a></li>
+                                                        </ul>
+                                                    </div> --}}
+                    <div class="modal-code">
+                        <label for="category" class=" modal-label">Submission
+                            Type</label>
+                        <select class="form-select mr-sm-2 batch-inp"
+                            name="submission_type" id="category">
+                            <option value="">Choose Submission Type...</option>
+                            <option value="image">
+                                Image</option>
+                            <option value="video">
+                                Video</option>
+                        </select>
+
+
+                    </div>
+                    {{-- <div class="modal-code">
+                                                        <label for="" class="modal-label">Brief Code</label>
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control batch-inp"
+                                                                placeholder="Breif code (optional)" id="brief_code"
+                                                                name="brief_code" aria-describedby="addon-wrapping"
+                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                        </div>
+                                                    </div> --}}
+                    <div class="modal-name">
+                        <label for="" class="modal-label">Batch Name</label>
+                        <div class="input-group ">
+                            <input type="text" class="form-control batch-inp"
+                                placeholder="Batch Name" name="batch_name"
+                                aria-describedby="addon-wrapping">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-all-dark btn-hover-dark btn"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class=" btn btn-orange">Create</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
