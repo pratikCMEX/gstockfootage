@@ -43,7 +43,7 @@
                         <label>Password *</label>
                         <div class="password-field">
                             <input type="password" name="password" class="form-control" placeholder="••••••••">
-                            <i class="bi bi-eye toggle-password"></i>
+                            <i class="bi bi-eye-slash toggle-password"></i>
                         </div>
                         <label id="password-error" class="text-danger" for="password"></label>
                     </div>
@@ -61,12 +61,12 @@
                                     required>
                                 <button type="submit"
                                     class="btn btn-sm btn-outline-primary bg-primary text-light rounded-start-0">Resend</button>
-
+ 
                             </div>
                             <label id="email-error" class="text-danger" for="email"></label>
-
+ 
                         </form>
-
+ 
                     </div> --}}
 
 
@@ -117,7 +117,7 @@
                         <label>Password *</label>
                         <div class="password-field">
                             <input type="password" name="password" class="form-control" placeholder="••••••••">
-                            <i class="bi bi-eye toggle-password"></i>
+                            <i class="bi bi-eye-slash toggle-password"></i>
                         </div>
                         <label id="password-error" class="text-danger" for="password"></label>
 
