@@ -147,6 +147,11 @@ p {
   min-height: calc(100dvh - 249px);
 }
 
+.diffrent-batches{
+  padding-bottom: var(--bs-card-spacer-y);
+
+}
+
 .flex-batch-filter-content:has(.batch-show-content) .search-filter-openbtn{
   display: none;
 }
@@ -368,7 +373,7 @@ p {
   padding-top: 12px;
   border-left: 1px solid gray;
   transition: all 0.5s ease;
-  max-height: calc(100dvh - 92px);
+  max-height: calc(100dvh - 60px);
   overflow: auto;
 }
 .filtershow {

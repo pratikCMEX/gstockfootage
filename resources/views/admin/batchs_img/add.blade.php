@@ -5,7 +5,7 @@
     @endphp --}}
     <div class="container-fluid">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body pb-0">
                 <div class="row">
                     <div class="col-12">
 
