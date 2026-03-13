@@ -96,7 +96,7 @@
                             <label>Phone No</label>
 
                             <div class="input-group">
-                                <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                                <input type="tel" id="phone" name="phone_number" class="form-control" placeholder="Enter your phone number">
                             </div>
 
                             <!-- Hidden field that stores full phone -->

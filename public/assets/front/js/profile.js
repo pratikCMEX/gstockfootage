@@ -20,10 +20,10 @@ $(document).ready(function () {
                 email: true,
 
             },
-            phone: {
+            phone_number: {
                 required: true,
                 minlength: 10,
-                maxlength: 10,
+                maxlength: 15,
                 digits: true,
             },
             address: {
@@ -48,7 +48,7 @@ $(document).ready(function () {
             }, phone: {
                 required: "Please enter phone number",
                 minlength: "Phone number must be at least 10 digits",
-                maxlength: "Phone number cannot exceed 10 digits",
+                maxlength: "Phone number cannot exceed 15 digits",
                 digits: "Please enter valid phone number (digits only)",
             },
             address: {
@@ -152,3 +152,24 @@ $('#password_form').validate({
 $(document).on('click', '.cancel', function (e) {
     window.close();
 })
+
+ document.addEventListener("DOMContentLoaded", function () {
+
+        var input = document.querySelector("#phone");
+
+        var iti = window.intlTelInput(input, {
+            initialCountry: "us",
+            preferredCountries: ["us"],
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+        });
+
+        document.querySelector("#profile_form").addEventListener("submit", function () {
+
+            var fullPhone = iti.getNumber();
+
+            document.querySelector("#full_phone").value = fullPhone;
+
+        });
+
+    });
