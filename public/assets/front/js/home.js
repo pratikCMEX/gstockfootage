@@ -8,6 +8,8 @@ $(document).ready(function () {
   // TOP SEARCH (dropdown + .home_search)
   // ══════════════════════════════════════════════════════
 
+  // ── Pre-fill top search on listing pages ────────────────────────
+
   // ── Dropdown selection ──────────────────────────────────────────
   $(document).on("click", ".content-list-menu .dropdown-item", function (e) {
     e.preventDefault();
@@ -76,17 +78,20 @@ $(document).ready(function () {
   if (q) {
     $(".home_search").val(q);
     selectedType = type;
+  }
 
-    var labelMap = {
-      all: { text: "All content", icon: "bi bi-grid" },
-      video: { text: "Videos", icon: "bi bi-camera-video" },
-      image: { text: "Photos", icon: "bi bi-image" },
-    };
+  // Always sync dropdown UI to selectedType (even without a search query)
+  var labelMap = {
+    all: { text: "All content", icon: "bi bi-grid" },
+    video: { text: "Videos", icon: "bi bi-camera-video" },
+    image: { text: "Photos", icon: "bi bi-image" },
+    // artwork: { text: "Artwork", icon: "bi bi-palette" },
+  };
 
-    if (labelMap[type]) {
-      $(".btn-icon").attr("class", labelMap[type].icon + " btn-icon");
-      $(".btn-text").text(labelMap[type].text);
-    }
+  if (labelMap[selectedType]) {
+    $(".btn-icon").attr("class", labelMap[selectedType].icon + " btn-icon");
+    $(".btn-text").text(labelMap[selectedType].text);
+  }
   }
 
   // ══════════════════════════════════════════════════════
