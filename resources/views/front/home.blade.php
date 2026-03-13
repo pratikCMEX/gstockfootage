@@ -208,17 +208,22 @@
                         <div class="row g-3">
                             {{-- {{ dd($product) }} --}}
                             @foreach ($product as $pro)
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="{{ route('product.detail', encrypt($pro->id)) }}">
-                                    <div class="product-card">
-                                        @if ($pro->type == 'image')
-                                        <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
-                                            class="product-img" alt="">
-                                        @else
-                                        <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                            class="product-img" alt="">
-                                        @endif
-                                        <div class="p-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                        <div class="product-card">
+                                            @if ($pro->type == 'image')
+                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
+                                                    class="product-img" alt="">
+                                            @else
+                                                @if ($pro->thumbnail_path == null)
+                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                        class="product-img" alt="">
+                                                @else
+                                                    <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                        class="product-img" alt="">
+                                                @endif
+                                            @endif
+                                            <div class="p-3">
 
                                             <span
                                                 class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>

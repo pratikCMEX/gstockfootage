@@ -5,12 +5,12 @@ fetch("/countries.json")
   .then((data) => {
     let select = document.getElementById("country");
 
+    if (!select) return;
+
     data.forEach((country) => {
       let option = document.createElement("option");
-
       option.value = country.name;
       option.textContent = country.name;
-
       select.appendChild(option);
     });
   });
@@ -130,6 +130,7 @@ openupload?.addEventListener("click", function () {
 });
 closeupload?.addEventListener("click", function () {
   uploadcontent.classList.remove("active");
+  window.location.reload();
 });
 // upload search filter
 let uploadfiltermobile = document.querySelector("#upload_search_filter_mobile");
@@ -175,6 +176,8 @@ uploadimgclose?.addEventListener("click", function () {
   selectedImages?.forEach((item) => {
     item.classList.remove("selected");
   });
+
+  toggleSelectedImages();
   function updateProgress() {
     const value =
       ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
@@ -294,6 +297,7 @@ function updateUI() {
     selectimgdrop?.classList.add("active");
     viewdata?.classList.add("notactive");
     addmetadata?.classList.add("active");
+
     if (selectedCount === 1) {
       nofileselected?.classList.add("active");
     }
@@ -305,6 +309,12 @@ function updateUI() {
   }
 }
 
+function toggleSelectedImages() {
+  // alert();
+  $(".upload-image").show();
+  $(".upload-image.selected").show();
+  $(".show_all_file").text("Show selected");
+}
 // 🔥 Image Click Logic (Fixed)
 $(document).on("click", ".upload-image", function (e) {
   let data_id = $(this).attr("data-id");
@@ -325,6 +335,7 @@ $(document).on("click", ".upload-image", function (e) {
   } else {
     // Only one allowed manually
     images.removeClass("selected");
+    toggleSelectedImages();
 
     if (!isSelected) {
       $(this).addClass("selected");
@@ -402,15 +413,20 @@ function loadImageMetadata(file_id) {
     },
     success: function (res) {
       // fill form
+      $(".error").text("");
       console.log(res);
       $("input[name='file_id']").val(res.id);
       $("input[name='title']").val(res.title);
-      $("input[name='description']").val(res.description);
+      $("#description").val(res.description);
       $("input[name='date_created']").val(res.date_created);
       $("input[name='clip_length']").val(formatDuration(res.duration));
       $("input[name='frame_rate']").val(res.frame_rate);
       $("input[name='date_created']").val(res.date_created);
-      $("input[name='frame_size']").val(res.height + "x" + res.width);
+      if (res.height && res.width) {
+        $("input[name='frame_size']").val(res.height + "x" + res.width);
+      } else {
+        $("input[name='frame_size']").val("");
+      }
       $("input[name='image_height']").val(res.height);
       $("input[name='image_width']").val(res.width);
       $("input[name='price']").val(res.price);
@@ -498,7 +514,7 @@ $("#add_new_img_form").validate({
     let formData = {
       file_id: $("#selected_file_id").val(),
       title: $("input[name='title']").val(),
-      description: $("input[name='description']").val(),
+      description: $("#description").val(),
       price: parseFloat($("input[name='price']").val()),
       date_created: $("input[name='date_created']").val(),
       tags: $("input[name='tags']").val(),
@@ -528,32 +544,6 @@ $("#add_new_img_form").validate({
   },
 });
 
-// $(document).on("click", "#save-metadata", function () {
-//   let formData = {
-//     file_id: $("#selected_file_id").val(),
-//     title: $("input[name='title']").val(),
-//     description: $("input[name='description']").val(),
-//     date_created: $("input[name='date_created']").val(),
-//     tags: $("input[name='tags']").val(),
-//     country: $("#country").val(),
-//     _token: $('meta[name="csrf-token"]').attr("content"),
-//   };
-
-//   $.ajax({
-//     url: base_url + "/admin/batch/save_file_metadata",
-//     type: "POST",
-//     data: formData,
-
-//     success: function (res) {
-//       toastr.success("File metadata saved successfully");
-//     },
-
-//     error: function (xhr) {
-//       console.log(xhr.responseText);
-//     },
-//   });
-// });
-// Select All Button
 $(document).on("click", ".select-btn", function () {
   let images = $(".upload-image");
   let allSelected = images.length === images.filter(".selected").length;
@@ -561,10 +551,12 @@ $(document).on("click", ".select-btn", function () {
   // if (allSelected == 1) {
   if (allSelected) {
     images.removeClass("selected");
+    toggleSelectedImages();
   } else {
     images.addClass("selected");
   }
   // }
+
   updateUI();
 });
 $(document).on("click", ".delete-btn-batch", function () {
@@ -578,6 +570,7 @@ $(document).on("click", ".delete-btn-batch", function () {
     });
 
     formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
+    $("#loader").css("display", "flex");
 
     $.ajax({
       url: base_url + "/admin/batch_delete",
@@ -594,6 +587,8 @@ $(document).on("click", ".delete-btn-batch", function () {
         if (response.status === true) {
           selectedImages.remove(); // remove only selected
           updateUI();
+          $(".total-files-count").text(response.total + " Items");
+          $("#loader").css("display", "none");
           toastr.success(response.message);
         }
       },
@@ -726,7 +721,7 @@ function render() {
   strip.classList.add("visible");
 
   const total = allFiles.length;
-  const visible = allFiles; // Include all files
+  const visible = allFiles.slice(0, MAX_VISIBLE); // show limited thumbnails
   const extra = total - MAX_VISIBLE;
 
   previewLabel.textContent =
@@ -745,21 +740,15 @@ function render() {
       inner = `<video src="${url}" muted preload="metadata"></video>
                <div class="p-vid-overlay"><i class="fa-solid fa-play"></i></div>
                <span class="p-badge p-badge-vid">VID</span>`;
-    } else if (category === "zip") {
-      const ext = file.name.split(".").pop().toUpperCase();
-      inner = `<div class="p-thumb-zip">
-                 <i class="fa-solid fa-file-zipper"></i>
-                 <span>${ext}</span>
-               </div>
-               <span class="p-badge p-badge-zip">ZIP</span>`;
     } else {
       const ext = file.name.split(".").pop().toUpperCase();
       inner = `<div class="p-thumb-zip">
                  <i class="fa-solid fa-file-zipper"></i>
                  <span>${ext}</span>
                </div>
-               <span class="p-badge p-badge-zip">ZIP</span>`;
+               <span class="p-badge p-badge-zip">${ext}</span>`;
     }
+
     inner += `<button class="p-remove" data-id="${id}">
                 <i class="fa-solid fa-xmark"></i>
               </button>`;
@@ -775,7 +764,22 @@ function render() {
     more.innerHTML = `+${extra}<span class="more-sub">more</span>`;
     thumbsWrap.appendChild(more);
   }
+
+  $(".btn-upload-device").prop("disabled", false);
 }
+
+document.addEventListener("click", function (e) {
+  const btn = e.target.closest(".p-remove");
+  if (!btn) return;
+
+  const id = btn.dataset.id;
+
+  // remove from array
+  allFiles = allFiles.filter((file) => file.id != id);
+
+  // re-render thumbnails
+  render();
+});
 // remove file
 let counterRaf = null;
 
@@ -796,6 +800,9 @@ function startUploadToast() {
   barFill.style.transition = "none";
   barFill.style.width = "0%";
   pctLabel.textContent = "0";
+  barFill.style.width = "0%";
+  pctLabel.textContent = "0";
+  lastPercent = 0;
   toastTitle.textContent = "Uploading...";
   toastSub.textContent = "Image upload in progress";
   waitText.style.display = "flex";
@@ -889,12 +896,41 @@ function failUploadToast() {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+let lastPercent = 0;
+let counterTimer = null;
+
 function updateUploadProgress(percent) {
   const barFill = document.getElementById("barFill");
   const pctLabel = document.getElementById("pctLabel");
 
+  percent = Math.min(Math.floor(percent), 90);
+
+  if (percent <= lastPercent) return;
+
+  let start = lastPercent;
+  let end = percent;
+  lastPercent = percent;
+
+  // update bar
   barFill.style.width = percent + "%";
-  pctLabel.textContent = percent;
+
+  // animate counter over same duration as bar
+  clearInterval(counterTimer);
+
+  let duration = 300;
+  let steps = end - start;
+  let stepTime = duration / (steps || 1);
+
+  let current = start;
+
+  counterTimer = setInterval(() => {
+    current++;
+    pctLabel.textContent = current;
+
+    if (current >= end) {
+      clearInterval(counterTimer);
+    }
+  }, stepTime);
 }
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
@@ -915,6 +951,7 @@ $(document).on("click", ".btn-upload-device", function () {
   formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
 
   startUploadToast();
+  $(".btn-upload").prop("disabled", true);
 
   $.ajax({
     url: base_url + "/admin/image_upload/" + batch_id,
@@ -946,8 +983,11 @@ $(document).on("click", ".btn-upload-device", function () {
 
     success: function (response) {
       if (response.status === "success") {
+        console.log(response);
+
         toastr.success(response.message);
         completeUploadToast();
+        $(".btn-upload").prop("false", true);
 
         setTimeout(() => {
           allFiles = [];
@@ -978,6 +1018,26 @@ $(document).ready(function () {
   // });
 });
 
+function toggleSelected(btn, itemSelector) {
+  let showingSelected = $(btn).hasClass("showing-selected");
+
+  if (!showingSelected) {
+    $(itemSelector).hide();
+    $(itemSelector + ".selected").show();
+
+    $(btn).text("Show all");
+    $(btn).addClass("showing-selected");
+  } else {
+    $(itemSelector).show();
+
+    $(btn).text("Show selected");
+    $(btn).removeClass("showing-selected");
+  }
+}
+
+$(".show_all_file").on("click", function () {
+  toggleSelected(this, ".upload-image");
+});
 function loadBatches(page = 1) {
   let data = $("#filterForm").serialize();
 
@@ -1046,8 +1106,8 @@ $(document).on("click", "[data-bs-target='#renameModal']", function () {
 $("#BatchrenameModal").on("show.bs.modal", function (event) {
   let button = $(event.relatedTarget);
 
-  let id = button.data("id");
-  let name = button.data("name");
+  let id = button.attr("data-id");
+  let name = button.attr("data-name");
 
   $("#rename_batch_id").val(id);
   $("#rename_batch_name").val(name);
@@ -1097,7 +1157,9 @@ $(document).on("click", ".edit_branch_name", function (e) {
     success: function (res) {
       $("#renameModal").modal("hide");
       $(".batch_name").html(branch_name);
+      $(".BatchrenameModal").attr("data-name", branch_name);
       toastr.success(res.message);
+      $("#BatchrenameModal").modal("hide");
 
       // reload batches
       loadBatches(1);
@@ -1141,6 +1203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       allFiles = [];
       render();
+      $(".btn-upload-device").prop("disabled", true);
     });
   }
 });

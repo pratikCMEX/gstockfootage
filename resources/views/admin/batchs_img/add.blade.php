@@ -67,7 +67,7 @@
 
 
                                                     </div>
-                                                    <div class="modal-code">
+                                                    {{-- <div class="modal-code">
                                                         <label for="" class="modal-label">Brief Code</label>
                                                         <div class="input-group ">
                                                             <input type="text" class="form-control batch-inp"
@@ -75,7 +75,7 @@
                                                                 name="brief_code" aria-describedby="addon-wrapping"
                                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="modal-name">
                                                         <label for="" class="modal-label">Batch Name</label>
                                                         <div class="input-group ">
@@ -115,9 +115,17 @@
 
 
                                 <div class="diff-batches-content" id="batch-content-active">
-                                    <p class="counting-show-batch"> Show {{ $batches->firstItem() }} to
-                                        {{ $batches->lastItem() }} of {{ $batches->total() }} Batches
-                                    </p>
+
+
+
+                                    @if (count($batches) == 0)
+                                        <p class="counting-show-batch"> No Available Batches
+                                        </p>
+                                    @else
+                                        <p class="counting-show-batch"> Show {{ $batches->firstItem() }} to
+                                            {{ $batches->lastItem() }} of {{ $batches->total() }} Batches
+                                        </p>
+                                    @endif
                                     {{-- {{ dd($batch_list) }} --}}
                                     @foreach ($batch_list as $list)
                                         <div class="batch-content">
@@ -310,6 +318,8 @@
                                                                                     $path = $file['low_path'];
                                                                                 }
                                                                             @endphp
+
+
                                                                             <img src="{{ $path }}"
                                                                                 class="w-100 h-100"
                                                                                 alt="Nature Flower">
@@ -568,7 +578,7 @@
         <div class="modal-content">
             <form action="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renameModalLabel">Rename Item
+                    <h5 class="modal-title" id="renameModalLabel">Rename Batch
 
 
                     </h5>

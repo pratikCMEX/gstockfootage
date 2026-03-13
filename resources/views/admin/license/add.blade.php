@@ -53,18 +53,18 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
-                           
+
                             <div class="mb-3">
                                 <label class="form-label">Description</label><span class="text-danger">*</span>
 
                                 <div id="description-container">
 
                                     <div class="description-item mb-2">
-                                        <div class="d-flex">
+                                        <div class="input-group">
                                             <input type="text" name="description[]" class="form-control description"
                                                 placeholder="Enter description point">
 
-                                            <button type="button" class="btn btn-primary ms-2" id="add">
+                                            <button type="button" class="btn btn-primary" id="add">
                                                 + Add More
                                             </button>
                                         </div>

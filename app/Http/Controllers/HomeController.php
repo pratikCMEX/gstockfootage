@@ -56,9 +56,11 @@ class HomeController extends Controller
         $js = ['favorites'];
         try {
             $id = decrypt($id);
+
             // $id = 19;
             $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
+
             $data = [
                 'id' => $product->id,
                 'title' => $product->title,
@@ -79,9 +81,19 @@ class HomeController extends Controller
             }
 
             if ($product->type == "video") {
-                $data['file_url'] = Storage::disk('s3')->url($product->file_path);
-                $data['low_path'] = Storage::disk('s3')->url($product->low_path);
-                $data['thumbnail'] = Storage::disk('s3')->url($product->thumbnail);
+
+                $data['file_url'] = $product->file_path
+                    ? Storage::disk('s3')->url($product->file_path)
+                    : '';
+
+                $data['low_path'] = $product->low_path
+                    ? Storage::disk('s3')->url($product->low_path)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+
+                $data['thumbnail'] = $product->thumbnail
+                    ? Storage::disk('s3')->url($product->thumbnail)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+
                 $data['resolution'] = 'HD Video';
                 $data['file_size'] = 'Video File';
             }
@@ -133,11 +145,18 @@ class HomeController extends Controller
     {
         $title = 'Videos';
         $page = 'front.videos';
-        $js = ['home'];
+        $js = ['home', 'favorites'];
 
+        $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
-        $product = Product::with('category')->where('type', '1')->get();
-        return view("layouts.front.layout", compact('title', 'page', 'product', 'js'));
+        // $product = Product::with('category')->where('type', '1')->get();
+
+        $allVideos = BatchFile::with(['category'])
+            ->where('type', 'video')
+            ->where('is_edited', '1')
+            ->get();
+
+        return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
     }
 
 
@@ -147,23 +166,16 @@ class HomeController extends Controller
         $page = 'front.all_photos';
         $js = ['photos', 'favorites'];
 
+        $categories = Category::where('is_display', '1')->get();
         // $photos = Batch::with('batch_files')->where('submission_type', 'image')->get();
-        $photos = Batch::with([
-            'batch_files' => function ($query) {
-                $query->where('is_edited', 1);
-            }
-        ])->where('submission_type', 'image')->get();
-
-        $orphans = BatchFile::whereNull('batch_id')
+        $allPhotos = BatchFile::with(['category'])
             ->where('type', 'image')
             ->where('is_edited', '1')
             ->get();
 
 
-        $new = $photos[0]->batch_files->toArray();
-        $allBatches = array_merge($new, $orphans->toArray());
 
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'allBatches'));
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'categories', 'allPhotos'));
     }
     public function enterprise()
     {

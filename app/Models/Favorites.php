@@ -9,11 +9,11 @@ class Favorites extends Model
     protected $fillable = [
         'product_id',
         'user_id',
-        'product_type',
+        'type',
 
     ];
-    public function product()
+    public function batchFile()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(BatchFile::class, 'product_id');
     }
 }

@@ -83,8 +83,8 @@
                                                     </button>
                                                 @else
                                                     <button type="button" class="btn btn-lg btn-danger ms-2"
-                                                        onclick="removeDescriptionField(this)" style="width: 120px;">
-                                                        <i class="fas fa-times"></i>
+                                                        onclick="removeDescriptionField(this)" style="width: 120px;">Close
+                                                        <!-- <i class="fas fa-times"></i> -->
                                                     </button>
                                                 @endif
                                             </div>

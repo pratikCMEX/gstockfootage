@@ -58,7 +58,8 @@
 
                                             <i class="fa-solid fa-xmark  close-select-btn" style="color: white;"></i>
                                         </button>
-                                        <button type="button" class="btn btn-light">Show selected</button>
+                                        <button type="button" class="btn btn-light show_all_file">Show
+                                            selected</button>
                                     </div>
                                     <div class="delete-submit">
                                         <button type="button" style="display: flex; align-items: center"
@@ -103,13 +104,13 @@
                                                     {{-- <label for="myfile"
                                                         class="btn btn-orange btn-upload-device">Upload from
                                                         device</label> --}}
-                                                    <button for="111myfile" disabled
-                                                        class="btn btn-orange btn-upload-device"
-                                                        data-type={{ $batch->submission_type }}>Upload from
-                                                        device</button>
-                                                    {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
                                                         file</label>
+                                                    <button for="111myfile" disabled
+                                                        class="btn btn-orange btn-upload-device"
+                                                        data-type={{ $batch->submission_type }}>Upload Files</button>
+                                                    {{-- <input type="file" id="myfile" name="myfile" multiple hidden> --}}
+
                                                     @php
                                                         $batch_type = '';
                                                         if ($batch->submission_type == 'video') {
@@ -178,7 +179,7 @@
                                     <i class="fa-solid fa-image big-img"></i>
                                 </div>
                                 {{-- <p>34 items</p> --}}
-                                <p>{{ count($batch_data) }} items</p>
+                                <p class="total-files-count">{{ count($batch_data) }} Items</p>
                             </div>
                             {{-- @if (count($batch_data) == 0) --}}
                             <div class="empty data-empty {{ count($batch_data) == 0 ? '' : 'd-none' }}"
@@ -805,7 +806,7 @@
                                         selected <i class="fa-solid fa-angle-right"></i></button>
                                     <div class="no-file-template">
                                         <p class="template total_file_selected">No file selected</p>
-                                        <button type="button" class="btn clear-data">clear all metadata</button>
+                                        <button type="button" class="btn clear-data">Clear All Metadata</button>
                                     </div>
                                     <div class="no-file-inputs">
                                         <div class="edition-files d-none">
@@ -833,8 +834,8 @@
                                                 {{-- <input type="text" class="form-control upload-inp"
                                                     placeholder="Descriptions *" name="description"
                                                     aria-label="Username" aria-describedby="visible-addon"> --}}
-                                                <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" name="description"
-                                                    aria-label="Username" aria-describedby="visible-addon"></textarea>
+                                                <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
+                                                    name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
                                                 <i class="fa-regular fa-circle-question file-input-icon"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Enter a clear description for your image."></i>
@@ -1041,13 +1042,13 @@
                                                 <p style="font-size: 12px;">Image Height</p>
                                                 <input type="text" class="form-control upload-inp"
                                                     placeholder="Quick Time" name="image_height" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon">
+                                                    aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Image Width</p>
                                                 <input type="text" class="form-control upload-inp" placeholder=""
                                                     name="image_width" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon">
+                                                    aria-describedby="visible-addon" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -1246,7 +1247,7 @@
         <div class="modal-content">
             <form action="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renameModalLabel">Rename Item</h5>
+                    <h5 class="modal-title" id="renameModalLabel">Rename Batch</h5>
                 </div>
                 <input type="hidden" name="batch_id" id="rename_batch_id">
 

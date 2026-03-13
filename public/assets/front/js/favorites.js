@@ -26,15 +26,18 @@ $(document).on('click', '.addFavorite', function (e) {
             if (response.success) {
                 toastr.success(response.message);
 
-                // Update button appearance based on action
+                // Update wishlist count in header
+                var currentCount = parseInt($('.wishlist-count').text());
                 if (response.action === 'removed') {
                     button.removeClass('favorited');
-
                     button.find('svg').removeClass('text-danger').addClass('text-muted');
+                    // Decrease count
+                    $('.wishlist-count').text(currentCount - 1);
                 } else if (response.action === 'added') {
                     button.addClass('favorited');
-
                     button.find('svg').removeClass('text-muted').addClass('text-danger');
+                    // Increase count
+                    $('.wishlist-count').text(currentCount + 1);
                 }
             } else {
                 toastr.error(response.message);
@@ -64,9 +67,13 @@ $(document).on('click', '.removeFavorite', function () {
             if (response.success) {
                 toastr.success(response.message);
 
-                button.closest('.col-xl-3').fadeOut(300, function () {
-                    $(this).remove();
-                });
+                // Update wishlist count in header
+                var currentCount = parseInt($('.wishlist-count').text());
+                $('.wishlist-count').text(currentCount - 1);
+
+                 button.closest('.wishlist-item').fadeOut(200, function () {
+    $(this).remove();
+});
                 // Update button appearance based on action
 
             } else {

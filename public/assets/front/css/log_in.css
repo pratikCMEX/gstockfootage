@@ -130,6 +130,17 @@
   height: 44px;
   border-radius: 10px !important;
 }
+#login .form-control,
+#signup .form-control {
+  margin-bottom: 0px;
+  height: 44px;
+  border-radius: 10px !important;
+}
+#login .form-control::placeholder,
+#signup .form-control::placeholder {
+  color: var(--secendory);
+  opacity: 70%;
+}
 #login .form-control:focus,
 #signup .form-control:focus {
   box-shadow: none !important;
@@ -184,6 +195,10 @@ input[type="password"] {
   margin-bottom: 0px;
   height: 44px;
   border-radius: 10px !important;
+}
+#send_forget_link .form-control::placeholder {
+  color: var(--secendory);
+  opacity: 70%;
 }
 .forgot:hover {
   color: var(--primary);
