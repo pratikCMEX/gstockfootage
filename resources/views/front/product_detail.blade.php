@@ -181,27 +181,42 @@
 
                 @foreach ($productDatas as $data)
                     <div class="swiper-slide">
-                        <a href="{{ route('product.detail', encrypt(1)) }}">
+                        <a href="{{ route('product.detail', encrypt($data->id)) }}">
                             <div class="product-card">
 
-                                <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                    class="product-img" alt="">
+
+                                @if ($product->type == 'image')
+                                    <img src="{{ Storage::disk('s3')->url($product->low_path) }}" class="product-img"
+                                        alt="">
+                                @else
+                                    @if ($product->thumbnail_path == null)
+                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                            class="product-img" alt="">
+                                    @else
+                                        <img src="{{ Storage::disk('s3')->url($product->thumbnail_path) }}"
+                                            class="product-img" alt="">
+                                    @endif
+                                @endif
+
+                                {{-- <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                    class="product-img" alt=""> --}}
 
                                 <div class="p-3">
 
-                                    <span class="badge badge-custom mb-2">Art</span>
+                                    <span
+                                        class="badge badge-custom mb-2">{{ $product->category->category_name }}</span>
 
-                                    <h6 class="popular-detail-title">Art & Craft</h6>
+                                    <h6 class="popular-detail-title">{{ $product->title }}</h6>
 
 
                                     <div class="price-btn">
-                                        <span class="price">$149</span>
+                                        <span class="price">${{ $product->price }}</span>
                                         {{-- <button class="btn  btn-orange">Add</button> --}}
                                     </div>
                                     <div class="product-two-btn">
                                         <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                                viewBox="0 0 16 16">
+                                                width="16" height="16" fill="currentColor"
+                                                class="bi bi-heart" viewBox="0 0 16 16">
                                                 <path
                                                     d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
                                             </svg>
