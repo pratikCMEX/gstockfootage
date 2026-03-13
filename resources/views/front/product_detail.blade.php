@@ -185,15 +185,15 @@
                             <div class="product-card">
 
 
-                                @if ($product->type == 'image')
-                                    <img src="{{ Storage::disk('s3')->url($product->low_path) }}" class="product-img"
+                                @if ($data->type == 'image')
+                                    <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img"
                                         alt="">
                                 @else
-                                    @if ($product->thumbnail_path == null)
+                                    @if ($data->thumbnail_path == null)
                                         <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                             class="product-img" alt="">
                                     @else
-                                        <img src="{{ Storage::disk('s3')->url($product->thumbnail_path) }}"
+                                        <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}"
                                             class="product-img" alt="">
                                     @endif
                                 @endif
