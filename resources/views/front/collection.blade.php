@@ -118,7 +118,7 @@
             <div class="col-12 text-center">
                 <div class="collection-data">
                     @foreach ($CollectionList as $collection)
-                        <a href="#">
+                        <a href="{{ route('all_photos', ['collection_id' => encrypt($collection->id)]) }}">
                             <div class="collection-grid-card card-1">
                                 <img src="{{ asset('uploads/images/collection/' . $collection['image']) }}"
                                     class="w-100" alt="" loading="lazy">
