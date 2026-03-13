@@ -1,3 +1,7 @@
+@php
+    $perImage = getHighProductQualityPrice();
+    dd($perImage);
+@endphp
 <section class="product-detail">
     <div class="container">
         <div class="row g-4">

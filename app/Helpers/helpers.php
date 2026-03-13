@@ -5,6 +5,7 @@ use App\Models\BatchFile;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\License_master;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +28,17 @@ function duration($seconds)
 function getCategory()
 {
     return Category::get();
+}
+
+function getHighProductQualityPrice()
+{
+    $getdata = License_master::with('productQuality')->get();
+    foreach ($getdata as $value) {
+        if ($value->productQuality->name === 'high') {
+            return $value->productQuality->price;
+        }
+    }
+    return null; // Return null if no "high" product quality is found
 }
 
 function getCollections()
