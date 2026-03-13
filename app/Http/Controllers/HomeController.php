@@ -56,7 +56,9 @@ class HomeController extends Controller
         $js = ['favorites'];
         try {
             $id = decrypt($id);
-
+            $productDatas = BatchFile::with('category')->where('is_edited', '1')
+                ->limit(6)
+                ->get();
             // $id = 19;
             $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
@@ -99,7 +101,7 @@ class HomeController extends Controller
             }
 
             // return view('product.show', compact('data'));
-            return view("layouts.front.layout", compact('title', 'page', 'data', 'js'));
+            return view("layouts.front.layout", compact('title', 'page', 'data', 'js', 'productDatas'));
         } catch (\Exception $e) {
             return back()->with('msg_error', $e->getMessage());
         }

@@ -179,244 +179,50 @@
         <div class="swiper mySwiper product-swiper">
             <div class="swiper-wrapper">
 
-                <div class="swiper-slide">
-                    <a href="{{ route('product.detail', encrypt(1)) }}">
-                        <div class="product-card">
+                @foreach ($productDatas as $data)
+                    <div class="swiper-slide">
+                        <a href="{{ route('product.detail', encrypt(1)) }}">
+                            <div class="product-card">
 
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="product-img" alt="">
+                                <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
+                                    class="product-img" alt="">
 
-                            <div class="p-3">
+                                <div class="p-3">
 
-                                <span class="badge badge-custom mb-2">Art</span>
+                                    <span class="badge badge-custom mb-2">Art</span>
 
-                                <h6 class="popular-detail-title">Art & Craft</h6>
+                                    <h6 class="popular-detail-title">Art & Craft</h6>
 
 
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    {{-- <button class="btn  btn-orange">Add</button> --}}
+                                    <div class="price-btn">
+                                        <span class="price">$149</span>
+                                        {{-- <button class="btn  btn-orange">Add</button> --}}
+                                    </div>
+                                    <div class="product-two-btn">
+                                        <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" fill="currentColor" class="bi bi-heart"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                            </svg>
+                                            Save</button>
+                                        <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" fill="currentColor"
+                                                class="bi bi-share" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                            </svg>
+                                            Share</button>
+                                    </div>
+
                                 </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-share"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
-
                             </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="swiper-slide">
-                    <a href="{{ route('product.detail', encrypt(1)) }}">
-                        <div class="product-card">
-
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="product-img" alt="Punjabi Dum Aloo">
-
-                            <div class="p-3">
-
-                                <span class="badge badge-custom mb-2">Food</span>
-
-                                <h6 class="popular-detail-title">Rivers</h6>
+                        </a>
+                    </div>
+                @endforeach
 
 
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    {{-- <button class="btn  btn-orange">Add</button> --}}
-                                </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-share"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
 
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="swiper-slide">
-                    <a href="{{ route('product.detail', encrypt(1)) }}">
-                        <div class="product-card">
-
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="product-img" alt="">
-                            <div class="p-3">
-
-                                <span class="badge badge-custom mb-2">Food</span>
-
-                                <h6 class="popular-detail-title">Mountains</h6>
-
-
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    {{-- <button class="btn  btn-orange">Add</button> --}}
-                                </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-share"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div class="swiper-slide">
-                    <a href="{{ route('product.detail', encrypt(1)) }}">
-                        <div class="product-card">
-
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="product-img" alt="">
-
-                            <div class="p-3">
-
-                                <span class="badge badge-custom mb-2">Diamond</span>
-
-                                <h6 class="popular-detail-title">Golden Diamond</h6>
-
-
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    {{-- <button class="btn  btn-orange">Add</button> --}}
-                                </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-share"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="swiper-slide">
-                    <a href="{{ route('product.detail', encrypt(1)) }}">
-                        <div class="product-card">
-
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="product-img" alt="">
-
-                            <div class="p-3">
-
-                                <span class="badge badge-custom mb-2">Art</span>
-
-                                <h6 class="popular-detail-title">Art & Craft</h6>
-
-
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    {{-- <button class="btn  btn-orange">Add</button> --}}
-                                </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-share"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="{{ route('product.detail', encrypt(1)) }}">
-                        <div class="product-card">
-
-                            <img src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                class="product-img" alt="Punjabi Dum Aloo">
-
-                            <div class="p-3">
-
-                                <span class="badge badge-custom mb-2">Food</span>
-
-                                <h6 class="popular-detail-title">Rivers</h6>
-
-
-                                <div class="price-btn">
-                                    <span class="price">$149</span>
-                                    {{-- <button class="btn  btn-orange">Add</button> --}}
-                                </div>
-                                <div class="product-two-btn">
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-heart"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                        Save</button>
-                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-share"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                        </svg>
-                                        Share</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
 
 
 
