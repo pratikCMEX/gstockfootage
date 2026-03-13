@@ -86,7 +86,7 @@
                                 <div>
                                     <label>Phone Number<sup>*</sup></label>
 
-                                    <div class="input-group">
+                                    <div class="input-group enterprice_phone_input">
                                         <input type="text" id="phone" name="phone_number" class="form-control"
                                             placeholder="Enter your phone number"
                                             value="{{ $user_profile->phone ?? '' }}"
@@ -95,7 +95,10 @@
 
                                     <!-- Hidden field that stores full phone -->
                                     <input type="hidden" name="phone" value="{{ $user_profile->phone ?? '' }}">
+
                                 </div>
+                                <!-- <span id="phone-error" class="text-danger"></span> -->
+
                                 <!-- <div>
                                     <label for="">Phone Number <sup>*</sup></label>
                                     <input type="text" class="form-control" name="phone" id="phone">

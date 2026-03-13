@@ -91,7 +91,13 @@ $("#quoteRequestForm").validate({
 
     },
   },
-
+  errorPlacement: function (error, element) {
+    if (element.attr("name") == "phone_number") {
+      error.insertAfter(".enterprice_phone_input");
+    } else {
+      error.insertAfter(element);
+    }
+  },
   errorElement: "span",
   errorClass: "text-danger",
 
