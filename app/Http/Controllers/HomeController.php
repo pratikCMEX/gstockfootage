@@ -174,11 +174,8 @@ class HomeController extends Controller
 
         $q             = $request->get('q', '');
         $type          = $request->get('type', 'image');
-        $collection_id = $request->get('collection_id', null);
-        $category_id   = $request->get('category_id', null);   // ← new
-
-        $collection_id = decrypt($collection_id);
-        $category_id = decrypt($category_id);
+        $collection_id = decrypt($request->get('collection_id', null));
+        $category_id = decrypt($request->get('category_id', null)); // ← new
 
         $categories = Category::where('is_display', '1')->get();
 
