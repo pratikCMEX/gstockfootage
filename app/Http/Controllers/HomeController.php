@@ -177,6 +177,9 @@ class HomeController extends Controller
         $collection_id = $request->get('collection_id', null);
         $category_id   = $request->get('category_id', null);   // ← new
 
+        $collection_id = decrypt($collection_id);
+        $category_id = decrypt($category_id);
+
         $categories = Category::where('is_display', '1')->get();
 
         $query = BatchFile::with(['category'])
