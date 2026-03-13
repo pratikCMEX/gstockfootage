@@ -138,7 +138,11 @@
 
                                                     <div class="upload-device-list-detail text-start">
                                                         <ul>
-                                                            <li>Accepted Video file types:mov.mp4 or mxf</li>
+                                                            @if ($batch->submission_type == 'image')
+                                                                <li>Accepted Image file types:jpg,jpeg,png,webp</li>
+                                                            @else
+                                                                <li>Accepted Video file types:mov,mp4</li>
+                                                            @endif
                                                             <li>Maximum file size : 6GB</li>
                                                             <li>Supported browsers : Chrome , firefox ,IE10+ , safari 6+
                                                             </li>
