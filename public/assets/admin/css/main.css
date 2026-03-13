@@ -455,9 +455,11 @@ div.dataTables_processing > div:last-child > div {
   background-color: var(--primary);
   color: var(--white);
   transition: all 0.3s ease-in;
+  border-color: var(--primary) !important;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
   color: var(--white);
+  border-color: var(--primary) !important;
 }
