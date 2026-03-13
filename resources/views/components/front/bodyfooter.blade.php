@@ -64,7 +64,7 @@
                 <h6>Our company</h6>
                 <ul>
                     <li><a href="{{ route('about') }}">About Us</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li><a href="{{ route('contact') }}">Contact Us</a></li>
                     {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
                     <li><a href="javascript:void(0);">Licenses</a></li>
                 </ul>

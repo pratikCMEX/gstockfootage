@@ -79,6 +79,10 @@
   font-family: var(--font-inter-semibold);
   color: var(--primary);
 }
+#quoteRequestForm label sup {
+  color: red;
+  margin-left: 1px;
+}
 .enterprise_section .right-section .form-control,
 .enterprise_section .right-section .form-select {
   margin-bottom: 0px;

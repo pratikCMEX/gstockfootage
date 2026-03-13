@@ -20,19 +20,19 @@ $("#contactForm").validate({
 
   messages: {
     name: {
-      required: "Please enter your name",
+      required: "Please enter Your Name",
       minlength: "Name must be at least 3 characters",
     },
     email: {
-      required: "Please enter your email",
-      email: "Enter a valid email",
+      required: "Please enter Your Email",
+      email: "Enter a Valid Email",
     },
     subject: {
-      required: "Please enter subject",
+      required: "Please enter Subject",
       minlength: "Subject must be at least 5 characters",
     },
     message: {
-      required: "Please enter message",
+      required: "Please enter Message",
       minlength: "Message must be at least 10 characters",
     },
   },
