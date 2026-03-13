@@ -150,29 +150,29 @@
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                 <div class="heading-btn">
-                    <a href="javascript:void(0);" class="btn btn-orange">
+                    <a href="{{ route('pricing') }}" class="btn btn-orange">
                         See Pricing
                     </a>
                 </div>
             </div>
         </div>
         <div class="row g-3">
-            @if($categoryList->isNotEmpty())
-            @foreach ($categoryList as $category)
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}"
-                        class="text-decoration-none">
-                        <div class="fingertips-content">
-                            <div class="fingertips-img">
-                                <img height="100%" width="100%"
-                                    src="{{ asset('uploads/images/category/' . $category->category_image) }}"
-                                    alt="">
+            @if ($categoryList->isNotEmpty())
+                @foreach ($categoryList as $category)
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                        <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}"
+                            class="text-decoration-none">
+                            <div class="fingertips-content">
+                                <div class="fingertips-img">
+                                    <img height="100%" width="100%"
+                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}"
+                                        alt="">
+                                </div>
+                                <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
                             </div>
-                            <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
+                        </a>
+                    </div>
+                @endforeach
             @endif
         </div>
     </div>
