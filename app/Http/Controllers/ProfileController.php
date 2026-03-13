@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Favorites;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\User_subscriptions;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,19 +41,19 @@ class ProfileController extends Controller
     {
         $title = 'Profile';
         $page = 'front.profile';
-        $js = ['profile','favorites'];
+        $js = ['profile', 'favorites'];
         $userId = Auth::id();
 
         $user_profile = Auth::user();
-        
+
         // Get user's wishlist items
         $wishLists = Favorites::with(['batchFile', 'batchFile.category'])
             ->where('user_id', $userId)
             ->get();
 
+        $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->first();
 
-
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists'));
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists', 'purchasePlan'));
     }
 
     /**

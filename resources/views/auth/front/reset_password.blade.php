@@ -1,5 +1,5 @@
 @php
-$banner = getBanner();
+    $banner = getBanner();
 @endphp
 <div class="auth-wrapper"
     style="background: url('{{ $banner ? asset('uploads/banners/' . $banner->image) : asset('assets/front/img/banner.jpg') }}') 50% / cover no-repeat;">
@@ -30,7 +30,7 @@ $banner = getBanner();
                 <label class="form-label">Password</label>
                 <div class="password-field">
                     <input type="password" name="password" id="password" class="form-control" placeholder="••••••••">
-                    <i class="bi bi-eye toggle-password"></i>
+                    <i class="bi bi-eye-slash toggle-password"></i>
                 </div>
                 <label id="password-error" class="text-danger" for="password"></label>
             </div>
@@ -39,7 +39,7 @@ $banner = getBanner();
                 <div class="password-field">
                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
                         placeholder="••••••••">
-                    <i class="bi bi-eye toggle-password"></i>
+                    <i class="bi bi-eye-slash toggle-password"></i>
                 </div>
                 <label id="password_confirmation-error" class="text-danger" for="password_confirmation"></label>
             </div>

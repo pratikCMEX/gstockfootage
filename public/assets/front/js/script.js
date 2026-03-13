@@ -32,8 +32,8 @@ document.querySelectorAll(".toggle-password").forEach((icon) => {
   icon.addEventListener("click", () => {
     const input = icon.previousElementSibling;
     input.type = input.type === "password" ? "text" : "password";
-    icon.classList.toggle("bi-eye-slash");
     icon.classList.toggle("bi-eye");
+    icon.classList.toggle("bi-eye-slash");
   });
 });
 
@@ -249,5 +249,25 @@ document.addEventListener("click", function (e) {
     // cartoverlay?.classList.remove("active");
   }
 });
+
+const heartButtons = document.querySelectorAll(".popular-icon-btn");
+
+heartButtons.forEach((btn) => {
+  btn.addEventListener("click", function () {
+
+    const svg = this.querySelector("svg");
+
+    if (svg.classList.contains("bi-heart")) {
+      svg.classList.remove("bi-heart");
+      svg.classList.add("bi-heart-fill");
+      
+    } else {
+      svg.classList.remove("bi-heart-fill");
+      svg.classList.add("bi-heart");
+    }
+
+  });
+});
+
 
 // search suggetion box

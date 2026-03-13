@@ -35,132 +35,163 @@
                     </div>
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade  profile-manage @if (request()->get('tab') == 'profile' || !request()->get('tab')) show active @endif"
+                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif"
                         id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-                        <div class="profile-manage-header">
-                            <div class="profile-manage-heading">
-                                <h3>Profile Details</h3>
-                                <p>Manage your personal information and preferences.</p>
-                            </div>
-                            <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
-                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="bi bi-pencil"></i>
-                                Edit Profile
-                            </button>
+                        <div class="profile-manage ">
+                            <div class="profile-manage-header">
+                                <div class="profile-manage-heading">
+                                    <h3>Profile Details</h3>
+                                    <p>Manage your personal information and preferences.</p>
+                                </div>
+                                <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
+                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <i class="bi bi-pencil"></i>
+                                    Edit Profile
+                                </button>
 
-                        </div>
-                        <div class="profile-manage-body">
-                            <div class="profile-manage-left">
-                                <div class="profile-manage-img">
-                                    <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D%22
+                            </div>
+                            <div class="profile-manage-body">
+                                <div class="profile-manage-left">
+                                    <div class="profile-manage-img">
+                                        <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D%22
                                         width=" 100%" height="100%" alt="">
-                                    <div>
-                                        <label for="myfile" class="mb-0" style="cursor: pointer;">
-                                            <i class="bi bi-camera"></i>
-                                        </label>
-                                        <input type="file" id="myfile" name="myfile" multiple hidden><br><br>
+                                        <div>
+                                            <label for="myfile" class="mb-0" style="cursor: pointer;">
+                                                <i class="bi bi-camera"></i>
+                                            </label>
+                                            <input type="file" id="myfile" name="myfile" multiple hidden><br><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-manage-title">
+                                        <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
+                                        <p>Member since
+                                            {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="profile-manage-title">
-                                    <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
-                                    <p>Member since
-                                        {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}
-                                    </p>
+                                <div class="profile-manage-middle">
+                                    <div class="profile-mail profile-manage-text">
+                                        <span>Email Address</span>
+                                        <a href="mailto:alex.j@example.com">{{ $user_profile->email ?? '' }}</a>
+                                    </div>
+                                    <div class="profile-location profile-manage-text">
+                                        <span>Location</span>
+                                        <p>{{ $user_profile->address ? $user_profile->address : '-' }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="profile-manage-middle">
-                                <div class="profile-mail profile-manage-text">
-                                    <span>Email Address</span>
-                                    <a href="mailto:alex.j@example.com">{{ $user_profile->email ?? '' }}</a>
-                                </div>
-                                <div class="profile-location profile-manage-text">
-                                    <span>Location</span>
-                                    <p>{{ $user_profile->address ? $user_profile->address : '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="profile-manage-right">
-                                <div class="profile-number profile-manage-text">
-                                    <span>Phone Number</span>
-                                    <a
-                                        href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone : '-' }}</a>
-                                </div>
-                                <div class="profile-language profile-manage-text">
-                                    <span>Language</span>
-                                    <p>English</p>
+                                <div class="profile-manage-right">
+                                    <div class="profile-number profile-manage-text">
+                                        <span>Phone Number</span>
+                                        <a
+                                            href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone : '-' }}</a>
+                                    </div>
+                                    <div class="profile-language profile-manage-text">
+                                        <span>Language</span>
+                                        <p>English</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="subscription-plan">
-                            <div class="subscription-left">
-                                <div class="subscription-plan-header">
-                                    <span class="section-badge" style="padding: 3px 14px;">pro plan</span>
-                                    <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
-                                        Active</span>
+
+
+                        @if(!empty($purchasePlan))
+                            @php
+
+                                // $created = Carbon::parse($purchasePlan->subscription->created_at);
+
+                                // if ($purchasePlan->subscription->duration_type == 'month') {
+                                //     $renewDate = $created->addMonths($purchasePlan->subscription->duration_value);
+                                //     $billingText = 'monthly';
+                                // } elseif ($purchasePlan->subscription->duration_type == 'year') {
+                                //     $renewDate = $created->addYears($purchasePlan->subscription->duration_value);
+                                //     $billingText = 'yearly';
+                                // } elseif ($purchasePlan->subscription->duration_type == 'quarter') {
+                                //     $renewDate = $created->addMonths($purchasePlan->subscription->duration_value * 3);
+                                //     $billingText = 'quarterly';
+                                // }
+                            @endphp
+                            <div class="subscription-plan">
+                                <div class="subscription-left">
+                                    <div class="subscription-plan-header">
+                                        <span class="section-badge" style="padding: 3px 14px;">Subscription</span>
+                                        <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
+                                            Active</span>
+                                    </div>
+                                    <div class="subscription-title-price">
+                                        <div class="profile-subscription-title">
+                                            <h3>{{ $purchasePlan->subscription->name }}</h3>
+                                            <p class="text-secondary">{{$purchasePlan->subscription->total_clips}} HD clips
+                                                per
+                                                {{$purchasePlan->subscription->duration_type}}
+                                            </p>
+                                        </div>
+                                        <!-- <p>{{ $purchasePlan->subscription->title }}</p> -->
+                                        <h2><span class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
+                                            <span class="gray"> / {{$purchasePlan->subscription->duration_type}}</span>
+                                        </h2>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="renewal-info">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <circle cx="7" cy="7" r="6" stroke="#ccc" stroke-width="1.2"></circle>
+                                            <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
+                                                stroke-linecap="round"></path>
+                                        </svg>
+                                        Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly
+                                    </div>
                                 </div>
-                                <h3>Professional</h3>
-                                <p>Full access to all features, priority support & advanced analystics.</p>
-                                <h2><span class="yellow">$</span>29 <span class="gray"> / month</span></h2>
-                                <div class="divider"></div>
-                                <div class="renewal-info">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                        <circle cx="7" cy="7" r="6" stroke="#ccc" stroke-width="1.2"></circle>
-                                        <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
-                                            stroke-linecap="round"></path>
-                                    </svg>
-                                    Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly
-                                </div>
+                                <!-- <div class="subscription-right">
+                                                                                                            <div class="features-title">What's included</div>
+                                                                                                            <ul class="features">
+                                                                                                                <li class="feature-item">
+                                                                                                                    <span class="check-icon">
+                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                        </svg>
+                                                                                                                    </span>
+                                                                                                                    Unlimited projects &amp; workspaces
+                                                                                                                </li>
+                                                                                                                <li class="feature-item">
+                                                                                                                    <span class="check-icon">
+                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                        </svg>
+                                                                                                                    </span>
+                                                                                                                    Priority 24/7 customer support
+                                                                                                                </li>
+                                                                                                                <li class="feature-item">
+                                                                                                                    <span class="check-icon">
+                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                        </svg>
+                                                                                                                    </span>
+                                                                                                                    Advanced analytics &amp; reports
+                                                                                                                </li>
+                                                                                                                <li class="feature-item">
+                                                                                                                    <span class="check-icon">
+                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                        </svg>
+                                                                                                                    </span>
+                                                                                                                    100 GB secure cloud storage
+                                                                                                                </li>
+                                                                                                                <li class="feature-item">
+                                                                                                                    <span class="check-icon">
+                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                        </svg>
+                                                                                                                    </span>
+                                                                                                                    API access &amp; integrations
+                                                                                                                </li>
+                                                                                                            </ul>
+                                                                                                        </div> -->
                             </div>
-                            <div class="subscription-right">
-                                <div class="features-title">What's included</div>
-                                <ul class="features">
-                                    <li class="feature-item">
-                                        <span class="check-icon">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </svg>
-                                        </span>
-                                        Unlimited projects &amp; workspaces
-                                    </li>
-                                    <li class="feature-item">
-                                        <span class="check-icon">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </svg>
-                                        </span>
-                                        Priority 24/7 customer support
-                                    </li>
-                                    <li class="feature-item">
-                                        <span class="check-icon">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </svg>
-                                        </span>
-                                        Advanced analytics &amp; reports
-                                    </li>
-                                    <li class="feature-item">
-                                        <span class="check-icon">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </svg>
-                                        </span>
-                                        100 GB secure cloud storage
-                                    </li>
-                                    <li class="feature-item">
-                                        <span class="check-icon">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </svg>
-                                        </span>
-                                        API access &amp; integrations
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="tab-pane fade profile-order" id="v-pills-profile" role="tabpanel"
@@ -424,8 +455,8 @@
 
                                 <div class="input-group">
                                     <input type="text" id="phone" name="phone_number" class="form-control"
-                                        placeholder="Enter your phone number"  value="{{ $user_profile->phone ?? '' }}"
-                                         oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
+                                        placeholder="Enter your phone number" value="{{ $user_profile->phone ?? '' }}"
+                                        oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                 </div>
 
                                 <!-- Hidden field that stores full phone -->

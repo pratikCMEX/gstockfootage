@@ -146,8 +146,8 @@ class HomeController extends Controller
     public function videos(Request $request)
     {
         $title = 'Videos';
-        $page  = 'front.videos';
-        $js    = ['home', 'favorites'];
+        $page = 'front.videos';
+        $js = ['home', 'favorites'];
 
         $q = $request->get('q', '');
 
@@ -164,7 +164,12 @@ class HomeController extends Controller
 
         $query = BatchFile::with(['category'])
             ->where('type', 'video')
-            ->where('is_edited', '1');
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ]);
 
         // Filter by keyword if coming from search
         if ($q) {
@@ -205,7 +210,12 @@ class HomeController extends Controller
 
         $query = BatchFile::with(['category'])
             ->where('type', 'image')
-            ->where('is_edited', '1');
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ]);
 
         if ($q) {
             $query->where('keywords', 'like', '%' . $q . '%');
@@ -222,7 +232,7 @@ class HomeController extends Controller
         $allPhotos = $query->get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
-        $selectedCategory   = $category_id   ? Category::find($category_id)     : null;  // ← new
+        $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
         return view("layouts.front.layout", compact(
             'title',
@@ -255,7 +265,7 @@ class HomeController extends Controller
     public function homeSearch(Request $request)
     {
         $search = $request->get('search', '');
-        $type   = $request->get('type', 'all');
+        $type = $request->get('type', 'all');
         $query = BatchFile::where('is_edited', 1)
             ->where('keywords', 'like', '%' . $search . '%');
 

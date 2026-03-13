@@ -27,17 +27,39 @@ $(document).on('click', '.addFavorite', function (e) {
                 toastr.success(response.message);
 
                 // Update wishlist count in header
+
+                var icon = button.find("i");
                 var currentCount = parseInt($('.wishlist-count').text());
                 if (response.action === 'removed') {
-                    button.removeClass('favorited');
-                    button.find('svg').removeClass('text-danger').addClass('text-muted');
-                    // Decrease count
+
+                    icon.removeClass("bi-heart-fill").addClass("bi-heart");
+
+                    // change text
+                    button.contents().filter(function () {
+                        return this.nodeType === 3;
+                    }).remove();
+
+                    button.append(" Save");
+
                     $('.wishlist-count').text(currentCount - 1);
+                    // button.removeClass('favorited');
+                    // button.find('svg').removeClass('text-danger').addClass('text-muted');
+                    // Decrease count
+                    // $('.wishlist-count').text(currentCount - 1);
                 } else if (response.action === 'added') {
-                    button.addClass('favorited');
-                    button.find('svg').removeClass('text-muted').addClass('text-danger');
-                    // Increase count
+                    icon.removeClass("bi-heart").addClass("bi-heart-fill");
+
+                    button.contents().filter(function () {
+                        return this.nodeType === 3;
+                    }).remove();
+
+                    button.append(" Saved");
+
                     $('.wishlist-count').text(currentCount + 1);
+                    // button.addClass('favorited');
+                    // button.find('svg').removeClass('text-muted').addClass('text-danger');
+                    // Increase count
+                    // $('.wishlist-count').text(currentCount + 1);
                 }
             } else {
                 toastr.error(response.message);
@@ -71,9 +93,9 @@ $(document).on('click', '.removeFavorite', function () {
                 var currentCount = parseInt($('.wishlist-count').text());
                 $('.wishlist-count').text(currentCount - 1);
 
-                 button.closest('.wishlist-item').fadeOut(200, function () {
-    $(this).remove();
-});
+                button.closest('.wishlist-item').fadeOut(200, function () {
+                    $(this).remove();
+                });
                 // Update button appearance based on action
 
             } else {
