@@ -1,3 +1,5 @@
+
+var base_url = $("#base_url").val();
 $("#login").validate({
   rules: {
     email: {
