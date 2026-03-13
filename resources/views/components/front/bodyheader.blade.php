@@ -43,7 +43,7 @@
                         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a>
                         </li> --}}
                         <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li>
-                        <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Store</a></li>
+                        {{-- <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Store</a></li> --}}
 
                     </ul>
                 </nav>
@@ -112,12 +112,12 @@
 
 
                     <!-- @auth
-                                    <a href="{{ route('logout') }}">
-                                        <button class="btn header-btns btn-sm">Log Out</button>
-                                    </a>
+                                                    <a href="{{ route('logout') }}">
+                                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                                    </a>
                     @endauth -->
 
-                    <a href="javascript:void(0);" class="d-none d-xl-block">
+                    <a href="{{ route('pricing') }}" class="d-none d-xl-block">
                         <button class="btn header-btns btn-sm cta-btn">
                             Get Unlimited Downloads
                         </button>
