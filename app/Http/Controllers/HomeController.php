@@ -144,17 +144,22 @@ class HomeController extends Controller
     public function videos(Request $request)
     {
         $title = 'Videos';
-        $page  = 'front.videos';
-        $js    = ['home', 'favorites'];
+        $page = 'front.videos';
+        $js = ['home', 'favorites'];
 
         $q = $request->get('q', '');
 
-        $categories    = Category::where('is_display', '1')->get();
+        $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
         $query = BatchFile::with(['category'])
             ->where('type', 'video')
-            ->where('is_edited', '1');
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ]);
 
         // Filter by keyword if coming from search
         if ($q) {
@@ -169,13 +174,13 @@ class HomeController extends Controller
     public function allPhotos(Request $request)
     {
         $title = 'Photos';
-        $page  = 'front.all_photos';
-        $js    = ['photos', 'favorites'];
+        $page = 'front.all_photos';
+        $js = ['photos', 'favorites'];
 
-        $q             = $request->get('q', '');
-        $type          = $request->get('type', 'image');
+        $q = $request->get('q', '');
+        $type = $request->get('type', 'image');
         $collection_id = isset($request->collection_id) ? decrypt($request->collection_id) : null;
-        $category_id   = isset($request->category_id) ? decrypt($request->category_id) : null;
+        $category_id = isset($request->category_id) ? decrypt($request->category_id) : null;
 
         // $collection_id = decrypt($collection_id);
         // $category_id = decrypt($category_id);
@@ -184,7 +189,12 @@ class HomeController extends Controller
 
         $query = BatchFile::with(['category'])
             ->where('type', 'image')
-            ->where('is_edited', '1');
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ]);
 
         if ($q) {
             $query->where('keywords', 'like', '%' . $q . '%');
@@ -201,7 +211,7 @@ class HomeController extends Controller
         $allPhotos = $query->get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
-        $selectedCategory   = $category_id   ? Category::find($category_id)     : null;  // ← new
+        $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
         return view("layouts.front.layout", compact(
             'title',
@@ -234,7 +244,7 @@ class HomeController extends Controller
     public function homeSearch(Request $request)
     {
         $search = $request->get('search', '');
-        $type   = $request->get('type', 'all');
+        $type = $request->get('type', 'all');
         $query = BatchFile::where('is_edited', 1)
             ->where('keywords', 'like', '%' . $search . '%');
 

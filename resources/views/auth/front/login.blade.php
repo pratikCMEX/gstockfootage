@@ -43,7 +43,7 @@
                             <label>Password *</label>
                             <div class="password-field">
                                 <input type="password" name="password" class="form-control" placeholder="••••••••">
-                                <i class="bi bi-eye toggle-password"></i>
+                                <i class="bi bi-eye-slash toggle-password"></i>
                             </div>
                             <label id="password-error" class="text-danger" for="password"></label>
                         </div>
@@ -118,7 +118,7 @@
                             <label>Password *</label>
                             <div class="password-field">
                                 <input type="password" name="password" class="form-control" placeholder="••••••••">
-                                <i class="bi bi-eye toggle-password"></i>
+                                <i class="bi bi-eye-slash toggle-password"></i>
                             </div>
                             <label id="password-error" class="text-danger" for="password"></label>
 

@@ -5,6 +5,7 @@
   text-align: center;
   background: var(--hero_bg);
 }
+
 .hero h1 {
   font-size: 56px;
   font-family: var(--font-inter-bold);
@@ -119,6 +120,7 @@
   background-color: var(--white);
   color: var(--text);
 }
+
 .image-search-btn i {
   font-size: 20px;
 }
@@ -152,9 +154,11 @@
   align-items: center;
   gap: 8px;
 }
+
 .custom-dropdown:hover {
   color: var(--white) !important;
 }
+
 .custom-dropdown:focus {
   color: var(--white) !important;
 }
@@ -162,12 +166,14 @@
 .custom-dropdown:focus {
   box-shadow: none;
 }
+
 .inp-search {
   display: flex;
   align-items: center;
   /* gap: 355px; */
   width: 100%;
 }
+
 .custom-menu {
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(14px);
@@ -184,24 +190,30 @@
   align-items: center;
   gap: 10px;
 }
+
 .custom-menu .dropdown-item:hover {
   background: rgba(255, 152, 0, 0.15);
   color: var(--white);
 }
+
 .custom-menu i {
   color: var(--primary);
 }
+
 .modal-backdrop.show {
   z-index: 0;
 }
+
 .modal-content {
   padding: 5px 20px;
 }
+
 .modal-title {
   font-size: 20px !important;
   font-family: var(--font-inter-semibold);
   color: var(--text);
 }
+
 .search-image-body {
   border: 1px dashed var(--secendory);
   border-radius: 10px;
@@ -209,6 +221,7 @@
   opacity: 70%;
   position: relative;
 }
+
 .search-image-body label {
   font-size: 15px;
   color: var(--secendory);
@@ -226,17 +239,20 @@
 .search-image-body svg {
   stroke: var(--secendory);
 }
+
 .modal-header,
 .modal-footer {
   border: none;
   padding: 16px 0;
   gap: 18px;
 }
+
 .modal-footer .btn {
   width: 48%;
   margin: 0;
   margin-top: 0 !important;
 }
+
 .suggetion-search {
   position: absolute;
   top: calc(100% + 10px);
@@ -267,35 +283,42 @@
   border-radius: 8px;
   opacity: 40%;
 }
+
 .suggetion-search::-webkit-scrollbar-thumb {
   background: var(--primary);
   border-radius: 8px;
 }
+
 .suggetion-search ul {
   list-style: none;
   height: 100%;
   margin-bottom: 0;
   padding-left: 0;
 }
+
 .suggetion-search ul li {
   text-align: left;
   padding: 10px 20px 0 20px;
 }
+
 .suggetion-search ul li a {
   font-size: 18px;
   color: var(--black);
   font-family: var(--font-inter-medium);
 }
+
 .dropdown-item.active,
 .dropdown-item:active {
   background: rgba(255, 152, 0, 0.15);
 }
+
 .no-suggetion-search {
   height: 100%;
   text-align: center;
   margin: auto;
   padding: 20px 20px 20px 0;
 }
+
 .no-suggetion-search p {
   display: flex;
   align-items: center;
@@ -309,6 +332,7 @@
   font-family: var(--font-inter-medium);
   color: var(--secendory);
 }
+
 /* brand endless posibility */
 
 .brand-posibility {
@@ -322,20 +346,24 @@
   transition: all 0.3s ease;
   cursor: pointer;
 }
+
 .endless-posibilities {
   padding: 80px 0;
 }
+
 .posibility-img {
   height: 80px;
   width: 80px;
   border-radius: 10px;
   overflow: hidden;
 }
+
 .posibility-img img {
   object-fit: cover;
   border-radius: 10px;
   transition: all 0.3s ease;
 }
+
 .posibilty-title h3 {
   font-size: 16px;
   font-family: var(--font-inter-semibold);
@@ -347,6 +375,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: translateY(-10px);
 }
+
 .brand-posibility:hover .posibilty-title h3 {
   color: var(--primary);
 }
@@ -357,9 +386,11 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
 .create-fingertips {
   padding: 60px 0;
 }
+
 .fingertips-img {
   height: 300px;
   width: 100%;
@@ -369,10 +400,12 @@
   overflow: hidden;
   border-top-right-radius: 10px;
 }
+
 .fingertips-img img {
   transition: all 0.3s ease;
   object-fit: cover;
 }
+
 .fingertips-content h4 {
   margin-top: 10px;
   text-transform: capitalize;
@@ -384,17 +417,21 @@
   gap: 10px;
   padding: 15px 10px;
 }
+
 .fingertips-content h4 i {
   font-size: 25px;
   height: 28px;
   transition: all 0.3s ease-in-out;
 }
+
 .fingertips-content:hover img {
   transform: scale(1.1);
 }
+
 .fingertips-content:hover h4 {
   color: var(--primary);
 }
+
 .fingertips-content:hover h4 i {
   color: var(--primary);
   transform: translateX(10px);
@@ -404,6 +441,7 @@
 .popular_content {
   padding: 80px 0;
 }
+
 .custom-tabs .nav-link {
   border: 2px solid var(--secendory);
   border-radius: 10px;
@@ -421,6 +459,7 @@
   border: 2px solid var(--primary);
   background: none;
 }
+
 .popular_tabs .nav {
   gap: 15px;
 }
@@ -475,15 +514,18 @@
   color: var(--primary);
   margin-bottom: 10px;
 }
+
 .price-btn {
   display: flex;
   align-items: start;
   flex-direction: column;
   margin: 0 0 10px;
 }
+
 .price-btn .btn-orange {
   width: 100%;
 }
+
 .popular-icon-btn {
   border-radius: 10px;
   background-color: var(--tabBgcolor);
@@ -496,15 +538,22 @@
   justify-content: center;
   gap: 8px;
 }
+
 .popular-icon-btn:hover {
   color: var(--white);
   background-color: var(--primary);
 }
+
+.popular-icon-btn .bi-heart-fill {
+  color: var(--primary);
+}
+
 .product-two-btn {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .popular-detail-title {
   color: var(--text);
   font-size: 20px;
@@ -515,6 +564,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
 .brows-btn {
   color: var(--primary);
   font-size: 16px;
@@ -527,10 +577,12 @@
   transition: all 0.3s ease;
   display: inline-block;
 }
+
 .brows-btn svg {
   margin-left: 5px;
   transition: all 0.3s ease;
 }
+
 .brows-btn svg path {
   font-weight: 900;
 }
@@ -550,6 +602,7 @@
   font-family: var(--font-inter-bold);
   color: var(--text);
 }
+
 .text-gradient {
   background: var(--help-text);
   -webkit-background-clip: text;
@@ -623,12 +676,15 @@
   opacity: 50%;
   color: var(--white);
 }
+
 .arrow.swiper-button-disabled:hover {
   background-color: var(--secendory);
 }
+
 .store-swiper {
   position: relative;
 }
+
 .store_slider-section {
   padding: 80px 0;
 }
@@ -641,12 +697,14 @@
   margin-bottom: 25px;
   gap: 10px;
 }
+
 .store-title {
   display: flex;
   align-items: center;
   justify-content: start;
   gap: 10px;
 }
+
 .store-title i {
   color: var(--primary);
   margin-right: 6px;
@@ -669,6 +727,7 @@
   padding: 10px;
   border-radius: 8px;
 }
+
 .store-actions:hover a {
   text-decoration: underline;
 }
@@ -682,6 +741,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .store-product-card:hover .store-product-title {
   color: var(--primary);
 }
@@ -734,6 +794,7 @@
   background: var(--primary);
   color: var(--white);
 }
+
 .view-all-card:hover i {
   transform: translateY(-10px);
 }
@@ -762,9 +823,11 @@
   bottom: 0;
   z-index: 1;
 }
+
 .arrow-right {
   right: 0;
 }
+
 .arrow-left {
   left: 0;
 }
@@ -833,6 +896,7 @@
   justify-content: end;
   gap: 15px;
 }
+
 .enterprise-btns .btn-orange {
   padding: 12px 26px !important;
   display: flex;
@@ -840,12 +904,15 @@
   gap: 12px;
   margin: 0 !important;
 }
+
 .enterprise-btns .btn-orange:hover {
   background-color: var(--primary-hover);
 }
+
 .enterprise-btns .btn-orange i {
   transition: 0.3s;
 }
+
 .enterprise-btns .btn-orange:hover i {
   transform: translateX(10px);
 }
@@ -878,6 +945,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .trusted-subtitle {
   color: var(--secendory);
   margin-bottom: 12px;
@@ -921,20 +989,24 @@
   font-size: 16px;
   font-family: var(--font-inter-medium);
 }
+
 .testimonial-card-content {
   height: 415px;
   overflow-y: auto;
 }
+
 .testimonial-card-content::-webkit-scrollbar {
   width: 5px;
   border-radius: 10px;
   /* color: var(--primary); */
   background-color: var(--icon);
 }
+
 .testimonial-card-content::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: var(--primary);
 }
+
 .testimonial-card {
   background: white;
   border-radius: 20px;
@@ -982,6 +1054,7 @@
   display: block;
   font-size: 13px;
 }
+
 .trusted-btn .btn-orange {
   margin: 0 !important;
   transition: all 0.3s ease;
@@ -1003,180 +1076,233 @@
   .hero h1 {
     font-size: 52px;
   }
+
   .hero-tabs {
     margin-bottom: 20px;
   }
+
   .posibilty-title h3 {
     font-size: 15px;
   }
+
   .fingertips-img {
     height: 250px;
   }
+
   .help-heading {
     font-size: 42px;
   }
 }
+
 @media only screen and (max-width: 1199px) {
   .search-wrapper {
     max-width: 799px;
   }
+
   .hero h1 {
     margin-bottom: 24px;
     font-size: 47px;
   }
+
   .hero {
     padding: 80px 20px 80px;
   }
+
   .inp-search {
     gap: 176px;
   }
+
   .posibility-img {
     height: 70px;
   }
+
   .heading h2 {
     font-size: 36px !important;
   }
+
   .endless-posibilities {
     padding: 50px 0;
   }
+
   .fingertips-img {
     height: 190px;
   }
+
   .fingertips-content h4 {
     font-size: 16px;
   }
+
   .fingertips-content {
     border-radius: 8px;
     padding-bottom: 10px;
   }
+
   .fingertips-content h4 i {
     font-size: 17px;
     height: 20px;
   }
+
   .price-btn {
     align-items: center;
     flex-direction: row;
     gap: 27px;
   }
+
   .product-two-btn {
     flex-direction: column;
   }
+
   .popular-icon-btn {
     padding: 7px 12px;
     width: 100%;
     font-size: 14px;
   }
+
   .price-btn .btn-orange {
     padding: 4px 0px !important;
     margin-top: 0 !important;
     border-radius: 8px !important;
   }
+
   .popular-detail-title {
     font-size: 18px;
   }
+
   .product-img {
     height: 150px;
   }
+
   .hero-wrapper {
     padding: 60px 0;
   }
+
   .enterprise-btns {
     justify-content: start;
   }
+
   .enterprise-card {
     padding: 40px 40px;
   }
+
   .enterprise-title {
     font-size: 41px;
   }
+
   .feature-item p {
     font-size: 13px;
   }
+
   .feature-item h6 {
     font-size: 17px;
   }
+
   .feature-icon {
     width: 45px;
     height: 45px;
   }
+
   .feature-item {
     margin-bottom: 20px;
   }
+
   .trusted-contact-btn {
     font-size: 15px;
   }
 }
+
 @media only screen and (max-width: 991px) {
   .hero {
     padding: 40px 0;
   }
+
   .search-wrapper {
     max-width: 626px;
   }
+
   .search-btn {
     padding: 6px 13px;
   }
+
   .search-box input {
     padding: 6px 12px;
   }
+
   .custom-dropdown {
     padding: 6px 12px;
   }
+
   .inp-search {
     gap: 19px;
   }
+
   .heading h2 {
     margin-bottom: 3px;
     font-size: 32px !important;
   }
+
   .posibilty-title h3 {
     font-size: 16px;
   }
+
   .posibility-img {
     height: 80px;
   }
+
   .fingertips-img {
     height: 268px;
     max-width: 100%;
   }
+
   .fingertips-content h4 {
     font-size: 18px;
   }
+
   .fingertips-content h4 i {
     font-size: 24px;
     height: 25px;
   }
+
   .popular_content {
     padding: 60px 0px;
   }
+
   .product-img {
     height: 235px;
   }
+
   .help-heading {
     font-size: 34px;
   }
+
   .floating-icon {
     height: 80px;
     width: 80px;
   }
+
   .help-filter-btn .btn-filter {
     padding: 7px 22px;
   }
+
   .main-input {
     padding: 15px 15px 15px 30px;
   }
+
   .hero-wrapper {
     padding: 50px 0;
   }
+
   .btn-search {
     padding: 12px 25px;
   }
+
   .enterprise-title {
     font-size: 30px;
   }
+
   .enterprise-subtitle {
     margin: 0 auto 40px;
   }
+
   .btn-outline-custom-enterprise,
   .enterprise-btns .btn-orange {
     padding: 9px 22px !important;
@@ -1186,73 +1312,94 @@
   .enterprise-card p {
     font-size: 15px;
   }
+
   .enterprise-card {
     padding: 40px 30px;
   }
+
   .feature-item p {
     font-size: 14px;
   }
 }
+
 @media only screen and (max-width: 767px) {
   .hero h1 {
     font-size: 37px;
   }
+
   .search-wrapper {
     max-width: 100%;
     display: flex;
     flex-direction: column;
   }
+
   .trending {
     z-index: 0;
   }
+
   .inp-search {
     gap: 94px;
   }
+
   .posibilty-title h3 {
     font-size: 16px;
   }
+
   .posibility-img {
     height: 80px;
     width: 80px;
   }
+
   .create-fingertips {
     padding: 60px 0;
   }
+
   .fingertips-img {
     height: 217px;
   }
+
   .fingertips-content h4 {
     font-size: 16px;
   }
+
   .fingertips-content h4 i {
     font-size: 20px;
     height: 22px;
   }
+
   .product-img {
     height: 225px;
   }
+
   .price-btn .btn-orange {
     padding: 7px 0px !important;
   }
+
   .product-two-btn {
     flex-direction: row;
   }
+
   .popular-icon-btn {
     border-radius: 8px;
   }
+
   .popular_content {
     padding: 50px 0px;
   }
+
   .help-filter-btn .btn-filter {
     font-size: 15px;
     padding: 5px 15px;
   }
+
   .store-product-image img {
     height: 240px;
   }
+
   .view-all-card {
     min-height: 297px;
   }
+
   .enterprise-section {
     padding: 60px 0;
   }
@@ -1260,67 +1407,87 @@
   .trusted-section {
     padding: 60px 0;
   }
+
   .testimonial-text {
     font-size: 15px;
   }
+
   .testimonial-card {
     padding: 15px 26px;
   }
 }
+
 @media only screen and (max-width: 575px) {
   .search-box {
     min-width: 100%;
     max-width: 100%;
   }
+
   .search-box input {
     padding: 6px 0px;
   }
+
   .custom-dropdown {
     padding: 6px 6px;
   }
+
   .hero::before {
     width: 300px;
     height: 300px;
   }
+
   .inp-search {
     gap: 18px;
   }
+
   .fingertips-content {
     box-shadow: 0 30px 18px 38px var(--box-shadow);
   }
+
   .create-fingertips {
     padding: 40px 0;
   }
+
   .popular-first-img {
     height: 200px !important;
   }
+
   .popular-detail-title {
     font-size: 20px;
   }
+
   .help-heading {
     font-size: 29px;
   }
+
   .btn-search span {
     display: none;
   }
+
   .btn-search {
     padding: 6px 18px;
   }
+
   .store_slider-section {
     padding: 50px 0;
   }
+
   .enterprise-title {
     font-size: 22px;
   }
+
   .enterprise-badge {
     padding: 8px 18px;
   }
+
   .enterprise-subtitle {
     font-size: 15px;
   }
+
   .enterprise-btns {
     flex-direction: column;
   }
+
   .enterprise-section {
     padding: 50px 0;
   }
@@ -1331,61 +1498,78 @@
     /* border-radius: 22px !important; */
     width: 100%;
   }
+
   .enterprise-card {
     padding: 30px 6px;
   }
+
   .feature-item h6 {
     font-size: 16px;
   }
+
   .trusted-section {
     padding: 50px 0;
   }
+
   .testimonial-text {
     font-size: 14px;
   }
 }
+
 @media only screen and (max-width: 424px) {
   .search-box {
     flex-direction: column;
     align-items: start;
   }
+
   .inp-search {
     justify-content: space-between;
     width: 100%;
     padding: 0 6px;
   }
+
   .search-btn {
     padding: 6px 13px;
     background: transparent;
   }
+
   .heading h2 {
     font-size: 25px !important;
   }
+
   .posibility-img {
     height: 70px;
     width: 70px;
   }
+
   .fingertips-img h4 {
     font-size: 16px;
   }
+
   .custom-tabs .nav-link {
     padding: 10px 12px;
   }
+
   .help-heading {
     font-size: 24px;
   }
+
   .main-input {
     padding: 15px 15px 15px 19px;
   }
+
   .help-filter-btn .btn-filter {
     font-size: 14px;
   }
+
   .hero-wrapper {
     padding: 40px 0;
   }
+
   .enterprise-section {
     padding: 40px 0;
   }
+
   .enterprise-card h5 {
     font-size: 20px;
   }
@@ -1393,27 +1577,34 @@
   .testimonial-card {
     padding: 15px 18px;
   }
+
   .trusted-section {
     padding: 40px 1px;
   }
+
   .trusted-btn {
     align-items: start;
     flex-direction: column;
   }
+
   .trusted-btn .btn {
     width: 100%;
     border-radius: 7px;
   }
+
   .feature-item h6 {
     font-size: 15px;
   }
+
   .trusted-subtitle {
     font-size: 14px;
   }
+
   .btn-outline-custom-enterprise,
   .enterprise-btns .btn-orange {
     justify-content: center;
   }
+
   .popular_tabs .nav {
     gap: 15px;
     margin-top: 10px;
