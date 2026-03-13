@@ -34,7 +34,7 @@ function getHighProductQualityPrice()
 {
     $getdata = License_master::with('productQuality')->get();
     foreach ($getdata as $value) {
-        if ($value->productQuality->name === 'high') {
+        if ($value->productQuality->name == 'High') {
             return $value->productQuality->price;
         }
     }
