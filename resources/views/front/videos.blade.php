@@ -820,7 +820,7 @@
                                             <span
                                                 class="badge badge-custom mb-2">{{ $video->category->category_name }}</span>
 
-                                            <a href="{{ route('product.detail', encrypt(1)) }}">
+                                            <a href="{{ route('product.detail', encrypt($video->id)) }}">
                                                 <h6 class="popular-detail-title">{{ $video->title }}</h6>
                                             </a>
 
