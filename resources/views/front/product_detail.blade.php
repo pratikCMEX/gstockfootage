@@ -65,9 +65,12 @@
                                         @if ($data['type'] == 'video')
                                             <video class="h-100 w-100" autoplay controls="true">
                                                 <source src="   {{ $data['low_path'] }}">
-                                            </video>
-                                        @else
-                                            <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
+
+                                                <video class="h-100 w-100" autoplay controls="true" width="100%"
+                                                    poster="{{ !empty($data['thumbnail_path']) ? Storage::disk('s3')->url($data['low_path']) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                </video>
+                                            @else
+                                                <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
                                         @endif
                                     </div>
                                 </div>
