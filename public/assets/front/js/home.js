@@ -78,20 +78,17 @@ $(document).ready(function () {
   if (q) {
     $(".home_search").val(q);
     selectedType = type;
-  }
 
-  // Always sync dropdown UI to selectedType (even without a search query)
-  var labelMap = {
-    all: { text: "All content", icon: "bi bi-grid" },
-    video: { text: "Videos", icon: "bi bi-camera-video" },
-    image: { text: "Photos", icon: "bi bi-image" },
-    // artwork: { text: "Artwork", icon: "bi bi-palette" },
-  };
+    var labelMap = {
+      all: { text: "All content", icon: "bi bi-grid" },
+      video: { text: "Videos", icon: "bi bi-camera-video" },
+      image: { text: "Photos", icon: "bi bi-image" },
+    };
 
-  if (labelMap[selectedType]) {
-    $(".btn-icon").attr("class", labelMap[selectedType].icon + " btn-icon");
-    $(".btn-text").text(labelMap[selectedType].text);
-  }
+    if (labelMap[type]) {
+      $(".btn-icon").attr("class", labelMap[type].icon + " btn-icon");
+      $(".btn-text").text(labelMap[type].text);
+    }
   }
 
   // ══════════════════════════════════════════════════════
