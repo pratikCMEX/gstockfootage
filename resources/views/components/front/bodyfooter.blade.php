@@ -80,7 +80,7 @@
                     @endphp
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ route('allPhotos', ['category_id' => $category->id]) }}">
+                            <a href="{{ route('all_photos', ['category_id' => $category->id]) }}">
                                 {{ $category->name }}
                             </a>
                         </li>
