@@ -77,11 +77,12 @@
                 <ul>
                     @php
                         $categories = getCategory()->take(4);
+                        // dd($categories);
                     @endphp
                     @foreach ($categories as $category)
                         <li>
                             <a href="{{ route('all_photos', ['category_id' => $category->id]) }}">
-                                {{ $category->name }}
+                                {{ $category->category_name }}
                             </a>
                         </li>
                     @endforeach
