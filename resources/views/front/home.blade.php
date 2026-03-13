@@ -13,20 +13,27 @@
 
                 <!-- Dropdown -->
                 <div class="dropdown">
-                    <button class="btn dropdown-toggle custom-dropdown" data-bs-toggle="dropdown">
-                        <i class="bi bi-grid"></i>
-                        All content
+                    <button class="btn dropdown-toggle custom-dropdown" data-bs-toggle="dropdown" id="dropdownBtn">
+                        <i class="bi bi-grid btn-icon"></i>
+                        <span class="btn-text">All content</span>
                     </button>
 
                     <ul class="dropdown-menu custom-menu">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-grid"></i> All
-                                content</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-camera-video"></i>
-                                Videos</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-image"></i> Photos</a>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-grid"></i> <span>All content</span>
+                            </a>
                         </li>
-                        {{-- <li><a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Artwork</a>
-                        </li> --}}
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-camera-video"></i> <span>Videos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-image"></i> <span>Photos</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

@@ -20,7 +20,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
 <script>
-
     // document.addEventListener("DOMContentLoaded", function () {
 
     //     var input = document.querySelector("#phone");
@@ -41,11 +40,8 @@
     //     });
 
     // });
-
 </script>
 <script>
-
-
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))

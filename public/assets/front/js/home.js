@@ -30,11 +30,31 @@ $(document).ready(function () {
             $(".suggetion-search").addClass("show");
           } else {
             $(".suggetion-search ul").html(
-              "<li><a href='javascript:void(0)'>No results found</li></a>  </li>"
+              "<div class='no-suggetion-search'> <p> No Suggetion </p> </div > "
             );
           }
         },
       });
     }, 300);
+  });
+
+  document.querySelectorAll(".dropdown-item").forEach((item) => {
+    item.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const iconElement = this.querySelector("i");
+      const textElement = this.querySelector("span");
+
+      const btnIcon = document.querySelector(".btn-icon");
+      const btnText = document.querySelector(".btn-text");
+
+      if (iconElement && textElement && btnIcon && btnText) {
+        const icon = iconElement.className;
+        const text = textElement.textContent;
+
+        btnIcon.className = icon + " btn-icon";
+        btnText.textContent = text;
+      }
+    });
   });
 });

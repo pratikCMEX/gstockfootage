@@ -43,15 +43,15 @@ const menu = document?.getElementById("sideMenu");
 const overlay = document?.getElementById("overlay");
 const closeBtn = document?.getElementById("closeMenu");
 
-toggle.addEventListener("click", () => {
-  menu.classList.add("active");
-  overlay.classList.add("active");
+toggle?.addEventListener("click", () => {
+  menu?.classList.add("active");
+  overlay?.classList.add("active");
 });
-overlay.addEventListener("click", closeMenu);
-closeBtn.addEventListener("click", closeMenu);
+overlay?.addEventListener("click", closeMenu);
+closeBtn?.addEventListener("click", closeMenu);
 function closeMenu() {
-  menu.classList.remove("active");
-  overlay.classList.remove("active");
+  menu?.classList.remove("active");
+  overlay?.classList.remove("active");
 }
 
 //book store slider
@@ -180,14 +180,13 @@ const selectedText = document?.getElementById("selectedOption");
 
 items.forEach((item) => {
   item.addEventListener("click", () => {
-    // Remove active from all
     items.forEach((i) => i.classList.remove("active"));
 
-    // Add active to clicked
     item.classList.add("active");
 
-    // Update button text
-    selectedText.textContent = item.dataset.value;
+    if (selectedText) {
+      selectedText.textContent = item.dataset.value || "";
+    }
   });
 });
 
@@ -223,13 +222,13 @@ const inputContainer = document.querySelector(".search-box");
 const searchInput = document.querySelector(".inp-search input");
 const suggetionbox = document.querySelector(".suggetion-search");
 
-searchInput.addEventListener("input", () => {
+searchInput?.addEventListener("input", () => {
   let value = searchInput.value.trim();
 
   if (value.length > 0) {
-    suggetionbox.classList.add("show");
+    suggetionbox?.classList.add("show");
   } else {
-    suggetionbox.classList.remove("show");
+    suggetionbox?.classList.remove("show");
     document.querySelector(".suggetion-search ul").innerHTML = "";
   }
 });
