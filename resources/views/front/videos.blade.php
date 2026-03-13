@@ -38,7 +38,7 @@
 
                 <div class="inp-search">
                     <!-- Input -->
-                    <input type="text" class="home_search" placeholder="Start your next project" />
+                    <input type="text" class="home_search" placeholder="Search for photos, videos and more..." />
 
                     <!-- Search Button -->
                     <button class="search-btn">
@@ -122,10 +122,10 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                     <div class="heading-btn">
                         <div class="dropdown">
-                            <button class="btn btn-orange dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            {{-- <button class="btn btn-orange dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 More<i class="bi bi-three-dots"></i>
-                            </button>
+                            </button> --}}
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">All Clips</a></li>
                                 <li><a class="dropdown-item" href="#">Featured</a></li>
@@ -138,105 +138,109 @@
                             </ul>
                         </div>
                         <!-- <a href="#" class="btn btn-orange">
-                                                                                                    More
-                                                                                                </a> -->
+                                                                                                        More
+                                                                                                    </a> -->
                     </div>
                 </div>
             </div>
             <div class="row row-gap-4">
+
                 @foreach ($categories as $category)
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                        <a href="{{ route('videos', ['category_id' => encrypt($category->id), 'type' => 'video']) }}">
 
-                        <div class="brand-posibility">
-                            <div class="posibility-img">
-                                <img width="100%" height="100%"
-                                    src="{{ asset('uploads/images/category/' . $category->category_image) }}"
-                                    alt="{{ $category->category_name ?? '' }}">
+                            <div class="brand-posibility">
+                                <div class="posibility-img">
+                                    <img width="100%" height="100%"
+                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}"
+                                        alt="{{ $category->category_name ?? '' }}">
+                                </div>
+                                <div class="posibilty-title">
+                                    <h3>{{ $category->category_name ?? '' }}</h3>
+                                </div>
                             </div>
-                            <div class="posibilty-title">
-                                <h3>{{ $category->category_name ?? '' }}</h3>
-                            </div>
-                        </div>
 
+                        </a>
                     </div>
                 @endforeach
+
                 <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Worldwide Footage</h3>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Photography</h3>
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Worldwide Footage</h3>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Fine Art Prints</h3>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Holy Land Collection</h3>
+                                                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Photography</h3>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Worldwide Footage</h3>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Photography</h3>
+                                                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Fine Art Prints</h3>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                                                                        <div class="brand-posibility">
-                                                                                            <div class="posibility-img">
-                                                                                                <img width="100%" height="100%"
-                                                                                                    src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
-                                                                                            </div>
-                                                                                            <div class="posibilty-title">
-                                                                                                <h3>Fine Art Prints</h3>
+                                                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Holy Land Collection</h3>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div> -->
+                                                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Worldwide Footage</h3>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Photography</h3>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                                                                            <div class="brand-posibility">
+                                                                                                <div class="posibility-img">
+                                                                                                    <img width="100%" height="100%"
+                                                                                                        src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
+                                                                                                </div>
+                                                                                                <div class="posibilty-title">
+                                                                                                    <h3>Fine Art Prints</h3>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div> -->
             </div>
         </div>
     </section>
@@ -786,8 +790,8 @@
                                     <div class="product-card">
 
                                         <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            <!-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
-                                                                                                                                                                                                class="product-img" alt=""> -->
+                                            {{-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
+                                                class="product-img" alt=""> --}}
                                             <video class="product-img" controls width="100%"
                                                 poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 

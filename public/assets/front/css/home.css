@@ -227,6 +227,7 @@
   color: var(--secendory);
   font-family: var(--font-inter-regular);
   font-weight: 400;
+  display: block;
 }
 
 .search-image-body label::after {

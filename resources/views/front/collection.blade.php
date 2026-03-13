@@ -7,21 +7,91 @@
             <div class="search-box shadow-lg">
 
                 <!-- Dropdown -->
-                <div class="collection">
-                    <p> <i class="fa-regular fa-folder"></i> Collections</p>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle custom-dropdown" data-bs-toggle="dropdown" id="dropdownBtn">
+                        <i class="bi bi-grid btn-icon"></i>
+                        <span class="btn-text">All content</span>
+                    </button>
+
+                    <ul class="dropdown-menu custom-menu content-list-menu">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('all_photos') }}" data-type="all"
+                                data-icon="bi bi-grid" data-label="All content">
+                                <i class="bi bi-grid"></i> <span>All content</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('videos') }}" data-type="video"
+                                data-icon="bi bi-camera-video" data-label="Videos">
+                                <i class="bi bi-camera-video"></i> <span>Videos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('all_photos') }}" data-type="image"
+                                data-icon="bi bi-image" data-label="Photos">
+                                <i class="bi bi-image"></i> <span>Photos</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="inp-search">
                     <!-- Input -->
-                    <input type="text" placeholder="Start your next project" />
+                    <input type="text" class="home_search" placeholder="Search for photos, videos and more..." />
 
                     <!-- Search Button -->
                     <button class="search-btn">
                         <i class="bi bi-search"></i>
                     </button>
+                    <div class="suggetion-search">
+                        <ul>
+
+                        </ul>
+                    </div>
                 </div>
 
             </div>
+
+            <!-- Image Search -->
+
+            <button type="button" class="btn image-search-btn shadow" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                <i class="bi bi-camera"></i>
+                Search by image
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body search-image-body">
+                            <input type="file" id="search-image" hidden>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-upload h-12 w-12  mb-2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" x2="12" y1="3" y2="15"></line>
+                            </svg>
+                            <label for="search-image">Click to upload an image
+                                or drag and drop</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-hover-dark btn-all-dark cancel-btn"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-orange ">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="trending">
@@ -48,7 +118,7 @@
             <div class="col-12 text-center">
                 <div class="collection-data">
                     @foreach ($CollectionList as $collection)
-                        <a href="#">
+                        <a href="{{ route('all_photos', ['collection_id' => encrypt($collection->id)]) }}">
                             <div class="collection-grid-card card-1">
                                 <img src="{{ asset('uploads/images/collection/' . $collection['image']) }}"
                                     class="w-100" alt="" loading="lazy">

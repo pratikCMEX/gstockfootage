@@ -56,11 +56,13 @@ class HomeController extends Controller
         $js = ['favorites'];
         try {
             $id = decrypt($id);
-
+            $productDatas = BatchFile::with('category')->where('is_edited', '1')
+                ->limit(6)
+                ->get();
             // $id = 19;
             $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
-
+            // dd($product);
             $data = [
                 'id' => $product->id,
                 'title' => $product->title,
@@ -69,7 +71,7 @@ class HomeController extends Controller
                 'price' => $product->price,
                 'category' => optional($product->category)->category_name,
                 'collection' => optional($product->collection)->name,
-                'location' => optional($product->subcategory)->sub_category_name,
+                'location' => $product->country ?? 'N/A',
                 'type' => $product->type,
             ];
 
@@ -99,7 +101,7 @@ class HomeController extends Controller
             }
 
             // return view('product.show', compact('data'));
-            return view("layouts.front.layout", compact('title', 'page', 'data', 'js'));
+            return view("layouts.front.layout", compact('title', 'page', 'data', 'js', 'productDatas'));
         } catch (\Exception $e) {
             return back()->with('msg_error', $e->getMessage());
         }
@@ -149,7 +151,15 @@ class HomeController extends Controller
 
         $q = $request->get('q', '');
 
-        $categories = Category::where('is_display', '1')->get();
+        $collection_id = $request->has('collection_id')
+            ? decrypt($request->get('collection_id'))
+            : null;
+
+        $category_id = $request->has('category_id')
+            ? decrypt($request->get('category_id'))
+            : null;
+
+        $categories    = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
         $query = BatchFile::with(['category'])
@@ -165,7 +175,13 @@ class HomeController extends Controller
         if ($q) {
             $query->where('keywords', 'like', '%' . $q . '%');
         }
+        if ($collection_id) {
+            $query->where('collection_id', $collection_id);
+        }
 
+        if ($category_id) {
+            $query->where('category_id', $category_id);        // ← new
+        }
         $allVideos = $query->get();
 
         return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
@@ -174,13 +190,18 @@ class HomeController extends Controller
     public function allPhotos(Request $request)
     {
         $title = 'Photos';
-        $page = 'front.all_photos';
-        $js = ['photos', 'favorites'];
+        $page  = 'front.all_photos';
+        $js    = ['home', 'favorites'];
 
-        $q = $request->get('q', '');
-        $type = $request->get('type', 'image');
-        $collection_id = isset($request->collection_id) ? decrypt($request->collection_id) : null;
-        $category_id = isset($request->category_id) ? decrypt($request->category_id) : null;
+        $q             = $request->get('q', '');
+        $type          = $request->get('type', 'image');
+        $collection_id = $request->has('collection_id')
+            ? decrypt($request->get('collection_id'))
+            : null;
+
+        $category_id = $request->has('category_id')
+            ? decrypt($request->get('category_id'))
+            : null;
 
         // $collection_id = decrypt($collection_id);
         // $category_id = decrypt($category_id);

@@ -8,6 +8,8 @@ $(document).ready(function () {
   // TOP SEARCH (dropdown + .home_search)
   // ══════════════════════════════════════════════════════
 
+  // ── Pre-fill top search on listing pages ────────────────────────
+
   // ── Dropdown selection ──────────────────────────────────────────
   $(document).on("click", ".content-list-menu .dropdown-item", function (e) {
     e.preventDefault();

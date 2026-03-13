@@ -206,18 +206,69 @@ mobilemetadata?.addEventListener("click", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const tagsInput = document.getElementById("tags");
+  const MAX_TAGS = 50;
+  const $tags = $("#tags");
 
-  if (tagsInput) {
-    tagsInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        const tagValue = tagsInput.value.trim();
+  if ($tags.length) {
+    // ── Wrap inner input in jQuery ──────────────────────────────
+    const $innerInput = $($tags.tagsinput("input"));
 
-        if (tagValue) {
-          console.log("Tag added:", tagValue);
-          tagsInput.value = "";
-        }
+    // ── Handle paste ────────────────────────────────────────────
+    $innerInput.on("paste", function (e) {
+      e.preventDefault();
+
+      const pastedText = (
+        e.originalEvent.clipboardData || window.clipboardData
+      ).getData("text");
+      const pastedTags = pastedText
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t !== "");
+
+      pastedTags.forEach(function (tag) {
+        const currentCount = $tags.tagsinput("items").length;
+        if (currentCount >= MAX_TAGS) return;
+        $tags.tagsinput("add", tag);
+      });
+
+      const count = $tags.tagsinput("items").length;
+      $(".total-tags").text(count);
+
+      if (count >= MAX_TAGS) {
+        $innerInput.prop("disabled", true);
+        $innerInput.attr("placeholder", "Maximum 50 tags reached");
+      }
+    });
+
+    // ── Block adding more than 50 ───────────────────────────────
+    $tags.on("beforeItemAdd", function (e) {
+      const currentCount = $tags.tagsinput("items").length;
+      if (currentCount >= MAX_TAGS) {
+        e.cancel = true;
+        $innerInput.prop("disabled", true);
+        $innerInput.attr("placeholder", "Maximum 50 tags reached");
+      }
+    });
+
+    // ── Update counter on add ───────────────────────────────────
+    $tags.on("itemAdded", function () {
+      const count = $tags.tagsinput("items").length;
+      $(".total-tags").text(count);
+
+      if (count >= MAX_TAGS) {
+        $innerInput.prop("disabled", true);
+        $innerInput.attr("placeholder", "Maximum 50 tags reached");
+      }
+    });
+
+    // ── Re-enable on remove ─────────────────────────────────────
+    $tags.on("itemRemoved", function () {
+      const count = $tags.tagsinput("items").length;
+      $(".total-tags").text(count);
+
+      if (count < MAX_TAGS) {
+        $innerInput.prop("disabled", false);
+        $innerInput.attr("placeholder", "Add a tag...");
       }
     });
   }
@@ -782,7 +833,59 @@ document.addEventListener("click", function (e) {
 });
 // remove file
 let counterRaf = null;
+let animRaf = null;
+let lastPercent = 0;
+let counterTimer = null;
+let realUploadPercent = 0;
+let displayPercent = 0;
+let uploadDone = false;
 
+const MAX_SPEED = 0.08; // max % per frame during upload
+const CRAWL_SPEED = 0.005; // very slow crawl 90→99 while server processes
+
+// ── Store real XHR progress ─────────────────────────────────────────
+function updateUploadProgress(targetPercent) {
+  realUploadPercent = Math.min(Math.floor(targetPercent), 90);
+}
+
+// ── Smooth RAF — speed limited + server crawl ───────────────────────
+function startProgressAnimation() {
+  const barFill = document.getElementById("barFill");
+  const pctLabel = document.getElementById("pctLabel");
+
+  displayPercent = 0;
+  realUploadPercent = 0;
+  uploadDone = false;
+
+  cancelAnimationFrame(animRaf);
+
+  function animate() {
+    if (!uploadDone) {
+      if (displayPercent < realUploadPercent) {
+        // Phase 1: Follow real XHR — speed limited
+        displayPercent = Math.min(
+          displayPercent + MAX_SPEED,
+          realUploadPercent
+        );
+      } else if (displayPercent >= 70 && displayPercent < 99) {
+        // Phase 2: XHR done, server processing — slow crawl 90→99
+        displayPercent += CRAWL_SPEED;
+      }
+    }
+
+    displayPercent = Math.min(displayPercent, 99);
+
+    barFill.style.transition = "none";
+    barFill.style.width = displayPercent + "%";
+    pctLabel.textContent = Math.floor(displayPercent);
+
+    animRaf = requestAnimationFrame(animate);
+  }
+
+  animRaf = requestAnimationFrame(animate);
+}
+
+// ── Start toast ─────────────────────────────────────────────────────
 function startUploadToast() {
   const toast = document.getElementById("uploadToast");
   const barFill = document.getElementById("barFill");
@@ -795,10 +898,14 @@ function startUploadToast() {
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
 
-  // Reset
   cancelAnimationFrame(counterRaf);
+  cancelAnimationFrame(animRaf);
   clearInterval(counterTimer);
+
   lastPercent = 0;
+  realUploadPercent = 0;
+  displayPercent = 0;
+  uploadDone = false;
 
   barFill.style.transition = "none";
   barFill.style.width = "0%";
@@ -812,12 +919,11 @@ function startUploadToast() {
   spinRing.style.display = "block";
   checkRing.style.display = "none";
 
-  // Show toast
   toast.classList.add("show");
-
-  // ── NO fake animation here anymore ──
-  // Real progress comes from updateUploadProgress() via XHR events
+  startProgressAnimation();
 }
+
+// ── Complete toast ──────────────────────────────────────────────────
 function completeUploadToast() {
   const toast = document.getElementById("uploadToast");
   const barFill = document.getElementById("barFill");
@@ -830,13 +936,16 @@ function completeUploadToast() {
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
 
+  // Stop crawl — server responded
+  uploadDone = true;
+  cancelAnimationFrame(animRaf);
   cancelAnimationFrame(counterRaf);
+  clearInterval(counterTimer);
 
   // Shoot to 100%
   barFill.style.transition = "width 0.4s ease";
   barFill.style.width = "100%";
 
-  // Count remaining → 100
   const start = parseInt(pctLabel.textContent) || 90;
   const duration = 400;
   const startTime = performance.now();
@@ -844,12 +953,11 @@ function completeUploadToast() {
   function finish(now) {
     const progress = Math.min((now - startTime) / duration, 1);
     pctLabel.textContent = Math.floor(start + (100 - start) * progress);
+
     if (progress < 1) {
       requestAnimationFrame(finish);
     } else {
       pctLabel.textContent = "100";
-
-      // Switch to success state
       setTimeout(() => {
         toastTitle.textContent = "Upload Complete";
         toastSub.textContent = "Your image is ready";
@@ -858,8 +966,6 @@ function completeUploadToast() {
         successMsg.style.display = "block";
         spinRing.style.display = "none";
         checkRing.style.display = "block";
-
-        // Auto-dismiss after 3s
         setTimeout(() => toast.classList.remove("show"), 3000);
       }, 300);
     }
@@ -867,13 +973,18 @@ function completeUploadToast() {
   requestAnimationFrame(finish);
 }
 
+// ── Fail toast ──────────────────────────────────────────────────────
 function failUploadToast() {
   const toast = document.getElementById("uploadToast");
   const toastTitle = document.getElementById("toastTitle");
   const toastSub = document.getElementById("toastSub");
   const spinRing = document.getElementById("spinRing");
 
+  uploadDone = true;
+  cancelAnimationFrame(animRaf);
   cancelAnimationFrame(counterRaf);
+  clearInterval(counterTimer);
+
   toastTitle.textContent = "Upload Failed";
   toastSub.textContent = "Something went wrong";
   spinRing.style.opacity = "0.3";
@@ -881,38 +992,7 @@ function failUploadToast() {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-let lastPercent = 0;
-let counterTimer = null;
-
-function updateUploadProgress(percent) {
-  const barFill = document.getElementById("barFill");
-  const pctLabel = document.getElementById("pctLabel");
-
-  percent = Math.min(Math.floor(percent), 90);
-  if (percent <= lastPercent) return;
-
-  const start = lastPercent;
-  lastPercent = percent;
-
-  // ── Bar: smooth CSS transition ──────────────────────────────
-  barFill.style.transition = "width 0.3s ease";
-  barFill.style.width = percent + "%";
-
-  // ── Counter: animate from start → percent over 300ms ───────
-  clearInterval(counterTimer);
-  const steps = percent - start;
-  const stepTime = steps > 0 ? 300 / steps : 300;
-  let current = start;
-
-  counterTimer = setInterval(() => {
-    current++;
-    pctLabel.textContent = current;
-    if (current >= percent) {
-      clearInterval(counterTimer);
-    }
-  }, stepTime);
-}
-
+// ── Upload button click ─────────────────────────────────────────────
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
     alert("Please choose files first");
@@ -920,6 +1000,7 @@ $(document).on("click", ".btn-upload-device", function () {
   }
 
   $(this).prop("disabled", true);
+
   const formData = new FormData();
   const batch_id = $("#batch_id").val();
   const batch_type = $(this).attr("data-type");
@@ -943,33 +1024,24 @@ $(document).on("click", ".btn-upload-device", function () {
 
     xhr: function () {
       let xhr = new window.XMLHttpRequest();
-
       xhr.upload.addEventListener(
         "progress",
         function (evt) {
           if (evt.lengthComputable) {
             let realPercent = (evt.loaded / evt.total) * 100;
-
-            // convert 0-100 → 0-90
-            // let displayPercent = Math.floor(realPercent * 0.9);
-
-            updateUploadProgress(Math.min(realPercent, 90));
+            updateUploadProgress(realPercent);
           }
         },
         false
       );
-
       return xhr;
     },
 
     success: function (response) {
       if (response.status === "success") {
-        console.log(response);
-
         toastr.success(response.message);
         completeUploadToast();
-        $(".btn-upload").prop("false", true);
-
+        $(".btn-upload").prop("disabled", false);
         setTimeout(() => {
           allFiles = [];
           render();
@@ -984,6 +1056,7 @@ $(document).on("click", ".btn-upload-device", function () {
     },
   });
 });
+
 $(document).ready(function () {
   // $("#batch-content-active").DataTable({
   //   processing: true,

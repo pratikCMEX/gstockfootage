@@ -1,4 +1,26 @@
 <div class="diff-batches-content" id="batch-content-active">
+    <div class="create-batch-head">
+        <div class="create-batch-btn">
+            <button type="button" class="btn btn-orange batch-create" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                <i class="ti ti-plus"></i> Create Batch
+            </button>
+
+
+
+        </div>
+        <div class="create-batch-filter">
+
+
+            <button class="btn btn-orange search-desktop search-filter-openbtn" id="search_filter">
+                <i class="fa-solid fa-magnifying-glass me-3"></i>
+                Search and Filter</button>
+            <button class="btn search-mobile search-filter-openbtn" id="search_filter_mobile">
+                <i class="fa-solid fa-magnifying-glass me-3"></i></button>
+
+
+        </div>
+    </div>
     @if (count($batches) == 0)
         <p class="counting-show-batch"> No Available Batches
         </p>
@@ -13,8 +35,8 @@
             <div class="batch-content-title">
                 <h5>{{ $list['title'] }}</h5>
                 <div class="content-dropdown">
-                    <button class="btn  text-start dot-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <button class="btn  text-start dot-dropdown dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-ellipsis-vertical "></i>
 
 
@@ -44,13 +66,13 @@
                     video</label> --}}
                 @if ($list['submission_type'] == 'video')
                     <label for=""> <i class="fa-solid fa-video"></i> Gstock
-                        creative
-                        video</label>
+                        Creative
+                        Video</label>
                 @else
                     <label for=""> <i class="fa-solid fa-camera-retro"></i>
                         Gstock
-                        creative
-                        photo</label>
+                        Creative
+                        Photo</label>
                 @endif
 
 

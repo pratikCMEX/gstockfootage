@@ -42,7 +42,7 @@
 
                 <div class="inp-search">
                     <!-- Input -->
-                    <input type="text" class="home_search" placeholder="Start your next project" />
+                    <input type="text" class="home_search" placeholder="Search for photos, videos and more..." />
 
                     <!-- Search Button -->
                     <button class="search-btn">
@@ -72,7 +72,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body search-image-body">
                             <input type="file" id="search-image" hidden>
@@ -149,14 +150,14 @@
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                 <div class="heading-btn">
-                    <a href="javascript:void(0);" class="btn btn-orange">
+                    <a href="{{ route('pricing') }}" class="btn btn-orange">
                         See Pricing
                     </a>
                 </div>
             </div>
         </div>
         <div class="row g-3">
-            @if($categoryList->isNotEmpty())
+            @if ($categoryList->isNotEmpty())
                 @foreach ($categoryList as $category)
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                         <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}"
@@ -164,7 +165,8 @@
                             <div class="fingertips-content">
                                 <div class="fingertips-img">
                                     <img height="100%" width="100%"
-                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}" alt="">
+                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}"
+                                        alt="">
                                 </div>
                                 <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
                             </div>
@@ -204,8 +206,8 @@
                         class="btn btn-sm"><i class="bi bi-search"></i> Jerusalem views</a>
                     <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
-                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}" class="btn btn-sm"><i
-                            class="bi bi-search"></i> Golden hour</a>
+                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}"
+                        class="btn btn-sm"><i class="bi bi-search"></i> Golden hour</a>
                     <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
                     <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
@@ -226,8 +228,8 @@
                                     <a href="{{ route('product.detail', encrypt($pro->id)) }}">
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
-                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}" class="product-img"
-                                                    alt="">
+                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
+                                                    class="product-img" alt="">
                                             @else
                                                 @if ($pro->thumbnail_path == null)
                                                     <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
@@ -260,8 +262,9 @@
 
 
                                                     <button class="btn  popular-icon-btn"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-share"
+                                                            viewBox="0 0 16 16">
                                                             <path
                                                                 d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                                         </svg>
@@ -399,172 +402,72 @@
 
                     <div class="tab-pane fade" id="popular">
                         <div class="row g-3">
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="javascript:void(0);">
-                                    <div class="product-card">
+                            @foreach ($product as $pro)
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                        <div class="product-card">
+                                            @if ($pro->type == 'image')
+                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
+                                                    class="product-img" alt="">
+                                            @else
+                                                @if ($pro->thumbnail_path == null)
+                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                        class="product-img" alt="">
+                                                @else
+                                                    <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                        class="product-img" alt="">
+                                                @endif
+                                            @endif
+                                            <div class="p-3">
 
-                                        <img src="{{ asset('assets/front/img/artist-at-work-stockcake.webp') }}"
-                                            class="product-img" alt="">
+                                                <span
+                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
 
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">Art</span>
-
-                                            <h6 class="popular-detail-title">Art & Craft</h6>
+                                                <h6 class="popular-detail-title">{{ $pro->name }}
+                                                </h6>
 
 
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
+                                                <div class="price-btn">
+                                                    <span class="price">${{ $pro->price }}</span>
+                                                    <button class="btn  btn-orange">Add</button>
+                                                </div>
+                                                <div class="product-two-btn">
+                                                    <button type="button" data-Product-id="{{ $pro->id }}"
+                                                        data-type="{{ $pro->type }}"
+                                                        class="btn  popular-icon-btn addFavorite">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-heart"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                        </svg>
+                                                        Save</button>
+
+
+                                                    <button class="btn  popular-icon-btn"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-share"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                        </svg>
+                                                        Share</button>
+                                                </div>
+
                                             </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
 
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="javascript:void(0);">
-                                    <div class="product-card">
-
-                                        <img src="{{ asset('assets/front/img/the-future-of-artificial-intelligence.jpg') }}"
-                                            class="product-img" alt="ai future">
-
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">AI</span>
-
-                                            <h6 class="popular-detail-title">AI Future</h6>
-
-
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="javascript:void(0);">
-                                    <div class="product-card">
-
-                                        <img src="{{ asset('assets/front/img/riverss.jpg') }}" class="product-img"
-                                            alt="">
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">River</span>
-
-                                            <h6 class="popular-detail-title">Rivers</h6>
-
-
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="javascript:void(0);">
-                                    <div class="product-card">
-
-                                        <img src="{{ asset('assets/front/img/foods.jpeg') }}" class="product-img"
-                                            alt="">
-
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">Food</span>
-
-                                            <h6 class="popular-detail-title">Foods</h6>
-
-
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12 text-center">
-                <a href="#" class="brows-btn">brows all content <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                        height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <a href="{{ route('all_photos') }}" class="brows-btn">brows all content <svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-chevron-right" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
                     </svg></a>
@@ -575,7 +478,8 @@
 <section class="help_section hero-wrapper d-flex align-items-center justify-content-center">
     <div class="container text-center">
         <div class="brand-area mb-4">
-            <img src="{{ asset('assets/front/img/helper-chicken-D5n0gnPB.png') }}" alt="Mascot" class="floating-icon">
+            <img src="{{ asset('assets/front/img/helper-chicken-D5n0gnPB.png') }}" alt="Mascot"
+                class="floating-icon">
             <h2 class="help-heading">How can we help you <span class="text-gradient">get what you want?</span></h2>
         </div>
 
@@ -586,15 +490,15 @@
                 Videos</button>
             <button class="btn btn-filter search-btn-filter" data-type="image"><i class="bi bi-camera"></i>
                 Photos</button>
-            <button class="btn btn-filter search-btn-filter" data-type="artwork"><i class="bi bi-palette"></i>
-                Artwork</button>
+            {{-- <button class="btn btn-filter search-btn-filter" data-type="artwork"><i class="bi bi-palette"></i>
+                Artwork</button> --}}
         </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="search-container shadow-lg">
                     <input type="text" class="form-control main-input help-search"
-                        placeholder="Search for footage, photos, or artwork...">
+                        placeholder="Search for videos, photos,see more...">
                     <button class="btn btn-search help-search-btn">
                         <i class="bi bi-search"></i> <span>Search</span>
                     </button>
@@ -789,8 +693,9 @@
 
                 <div class="feature-item">
                     <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-award h-5 w-5 text-primary">
+                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-award h-5 w-5 text-primary">
                             <path
                                 d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526">
                             </path>
@@ -804,8 +709,9 @@
 
                 <div class="feature-item">
                     <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-shield h-5 w-5 text-primary">
+                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-shield h-5 w-5 text-primary">
                             <path
                                 d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
                             </path>
@@ -818,8 +724,9 @@
 
                 <div class="feature-item">
                     <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-download h-5 w-5 text-primary">
+                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-download h-5 w-5 text-primary">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
                             <line x1="12" x2="12" y1="15" y2="3"></line>
@@ -832,8 +739,9 @@
 
                 <div class="feature-item">
                     <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-clock h-5 w-5 text-primary">
+                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-clock h-5 w-5 text-primary">
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg></div>
@@ -857,9 +765,9 @@
                 @if ($testimonials->isNotEmpty())
                     @foreach ($testimonials as $testimonial)
                         <div class="testimonial-card">
-                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
+                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-quote h-8 w-8 text-primary/30 ">
                                     <path
                                         d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">

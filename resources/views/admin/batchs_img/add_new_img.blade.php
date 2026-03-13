@@ -249,7 +249,7 @@
                                             {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
                                             <div class="check"><i class="fa-solid fa-circle-check"></i></div>
                                             <div class="upload-title-img">
-                                                <div class="img-title">{{ $data['original_name'] }} </div>
+                                                <div class="img-title">{{ $data['title'] }} </div>
                                                 <div class="img-id">ID: 23870945</div>
                                             </div>
                                         </div>
@@ -993,7 +993,8 @@
                                         <p class="keyword-sub-text">Add accurate and relevant keywords to help
                                             customers find your imagery. You can add a title to get keyword suggestions.
                                         </p>
-                                        <div class="add-keyword">Add 5 to 50 Keywords : <span>0</span></div>
+                                        <div class="add-keyword">Add Upto 50 Keywords : <span
+                                                class="total-tags">0</span></div>
                                         <input name="tags" class="upload-inp form-control" id="tags"
                                             data-role="tagsinput" class="form-control">
                                         <div class="keyword-btn">

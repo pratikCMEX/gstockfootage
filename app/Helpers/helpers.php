@@ -5,6 +5,7 @@ use App\Models\BatchFile;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\License_master;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +28,32 @@ function duration($seconds)
 function getCategory()
 {
     return Category::get();
+}
+
+function isInCart($product_id)
+{
+    $user_id = Auth::id();
+
+    // ── Logged in → check DB ─────────────────────
+    if ($user_id) {
+        return Cart::where('user_id', $user_id)
+            ->where('product_id', $product_id)
+            ->exists();
+    }
+
+    // ── Guest → check session ────────────────────
+    $cart = session()->get('cart', []);
+    return isset($cart[$product_id]);
+}
+function getHighProductQualityPrice()
+{
+    $record = License_master::with('productQuality')
+        ->whereHas('productQuality', function ($q) {
+            $q->where('name', 'High');
+        })
+        ->first();
+
+    return $record ? $record->price : null;
 }
 
 function getCollections()

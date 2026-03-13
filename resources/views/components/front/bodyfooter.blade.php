@@ -66,7 +66,7 @@
                     <li><a href="{{ route('about') }}">About Us</a></li>
                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
                     {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
-                    <li><a href="javascript:void(0);">Licenses</a></li>
+                    <li><a href="{{ route('pricing') }}">Licenses</a></li>
                     <li><a href="{{ route('pricing') }}">Pricing</a></li>
                 </ul>
             </div>
@@ -81,7 +81,7 @@
                     @endphp
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ route('all_photos', ['category_id' => $category->id]) }}">
+                            <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}">
                                 {{ $category->category_name }}
                             </a>
                         </li>

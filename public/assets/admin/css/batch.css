@@ -924,6 +924,7 @@ table td {
 
 .no-file-selected .bootstrap-tagsinput input {
   background-color: transparent !important;
+  width: 100%;
 }
 .upload-inp {
   border: 1px solid var(--secendory);
@@ -1694,7 +1695,7 @@ body:has(.upload-toast.show) .upload-preview-strip .clear-link {
   align-items: center;
   justify-content: space-between;
   padding: 16px 12px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   /* padding-bottom: 20px !important; */
   margin-bottom: 20px !important;
   /* border-bottom: 1px solid var(--secendory); */
@@ -1871,13 +1872,15 @@ select option {
   border-right: 1px solid var(--black);
   padding-right: 20px;
   display: inline-block;
+  margin-right: 20px;
 }
 .batch-content-create span {
   font-size: 16px;
   color: var(--secendory);
   font-family: var(--font-inter-medium);
   display: inline-block;
-  margin-left: 20px;
+  
+  /* margin-left: 20px; */
 }
 .file-inp-label-grp p {
   color: var(--black);
