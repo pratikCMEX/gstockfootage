@@ -112,7 +112,7 @@
                         <h2>Ready to elevate your projects?</h2>
                         <p>Explore our collection of premium cinematic footage and bring your vision to life.</p>
                     </div>
-                    <a href="#" class="btn btn-orange">
+                    <a href="{{ route('all_photos') }}" class="btn btn-orange">
                         Browse Footage
                         <i class="ms-2 bi bi-arrow-right"></i>
                     </a>
