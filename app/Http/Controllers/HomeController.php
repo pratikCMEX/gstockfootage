@@ -151,6 +151,14 @@ class HomeController extends Controller
 
         $q = $request->get('q', '');
 
+        $collection_id = $request->has('collection_id')
+            ? decrypt($request->get('collection_id'))
+            : null;
+
+        $category_id = $request->has('category_id')
+            ? decrypt($request->get('category_id'))
+            : null;
+
         $categories    = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
@@ -162,7 +170,13 @@ class HomeController extends Controller
         if ($q) {
             $query->where('keywords', 'like', '%' . $q . '%');
         }
+        if ($collection_id) {
+            $query->where('collection_id', $collection_id);
+        }
 
+        if ($category_id) {
+            $query->where('category_id', $category_id);        // ← new
+        }
         $allVideos = $query->get();
 
         return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
