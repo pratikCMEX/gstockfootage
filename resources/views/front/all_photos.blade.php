@@ -147,7 +147,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="brand-posibility">
                                 <div class="posibility-img">
-                                    <img width="100%" height="100%"
+                                    <img loading="lazy" width="100%" height="100%"
                                         src="{{ asset('uploads/images/category/' . $category->category_image) }}"
                                         alt="">
                                 </div>
@@ -182,8 +182,8 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
-                                    <img src="{{ Storage::disk('s3')->url($photos->low_path) }}" class="product-img"
-                                        alt="">
+                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($photos->low_path) }}"
+                                        class="product-img" alt="">
                                 </a>
 
                                 <div class="p-3">
@@ -232,7 +232,7 @@
                     <div class="product-card">
 
                         <a href="{{ route('product.detail', encrypt(1)) }}">
-                            <img src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
+                            <img loading="lazy" src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
 
@@ -274,7 +274,7 @@
                     <div class="product-card">
 
                         <a href="{{ route('product.detail', encrypt(1)) }}">
-                            <img src="{{ asset('assets/front/img/land-o-lakes-inc-1w3tO5F8HYY-unsplash.jpg') }}"
+                            <img loading="lazy" src="{{ asset('assets/front/img/land-o-lakes-inc-1w3tO5F8HYY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
 
@@ -318,7 +318,7 @@
                     <div class="product-card">
 
                         <a href="{{ route('product.detail', encrypt(1)) }}">
-                            <img src="{{ asset('assets/front/img/land-o-lakes-inc-BvZYHz9TeCk-unsplash.jpg') }}"
+                            <img loading="lazy" src="{{ asset('assets/front/img/land-o-lakes-inc-BvZYHz9TeCk-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
 

@@ -152,7 +152,7 @@
 
                             <div class="brand-posibility">
                                 <div class="posibility-img">
-                                    <img width="100%" height="100%"
+                                    <img loading="lazy" width="100%" height="100%"
                                         src="{{ asset('uploads/images/category/' . $category->category_image) }}"
                                         alt="{{ $category->category_name ?? '' }}">
                                 </div>
@@ -168,7 +168,7 @@
                 <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -179,7 +179,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -190,7 +190,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -201,7 +201,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -212,7 +212,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -223,7 +223,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -234,7 +234,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -804,7 +804,7 @@
                                     <div class="product-card">
 
                                         <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            {{-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
+                                            {{-- <img loading="lazy" src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
                                                 class="product-img" alt=""> --}}
                                             <video class="product-img" controls width="100%"
                                                 poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
@@ -865,7 +865,7 @@
                             <!-- <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -907,7 +907,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -949,7 +949,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -991,7 +991,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1033,7 +1033,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1075,7 +1075,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1117,7 +1117,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1159,7 +1159,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1201,7 +1201,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
