@@ -149,6 +149,10 @@ function removeCartItem(product_id) {
 
         let count = parseInt($(".cart-count").text()) || 0;
         $(".cart-count").text(Math.max(count - 1, 0));
+
+        $(".add_to_cart").prop("disabled", false).text("Add to Cart");
+        $(".add_to_cart").addClass("btn-orange");
+        $(".add_to_cart").removeClass("btn-success already-added");
       } else {
         toastr.warning(res.message);
       }
