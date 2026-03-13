@@ -51,7 +51,7 @@ class ProfileController extends Controller
             ->where('user_id', $userId)
             ->get();
 
-        $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->first();
+        $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->where('status', 'active')->first();
 
         return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists', 'purchasePlan'));
     }
