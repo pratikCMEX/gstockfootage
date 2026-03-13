@@ -840,25 +840,7 @@
             <div class="col-lg-7">
                 @if ($testimonials->isNotEmpty())
                     @foreach ($testimonials as $testimonial)
-                        <div class="testimonial-card">
-                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                                    <path
-                                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                    </path>
-                                    <path
-                                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                    </path>
-                                </svg></div>
-                            <div class="testimonial-text">
-                                {{ $testimonial->message }}
-                            </div>
-                            @php
-                                $name = trim($testimonial->name);
-                                $words = explode(' ', $name);
-                            @endphp
+                        
                             <div class="testimonial-card">
                                 <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -892,6 +874,8 @@
                                         <strong>{{ $testimonial->name }}</strong>
                                         <small>{{ $testimonial->designation }}</small>
                                     </div>
+                                </div>
+                            </div>
                     @endforeach
                 @endif
             </div>
