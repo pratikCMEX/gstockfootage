@@ -541,8 +541,8 @@
 
             <div class="modal-body text-center">
                 <div class="delete-icon  m-auto"><i class="fa-solid fa-triangle-exclamation "></i></div>
-                <p style="font-size: 16px; color:gray; margin-top:15px;">If you delete the link will be gone forever.
-                    Are you sure you want to procced</p>
+                <p style="font-size: 16px; color:gray; margin-top:15px;">If you delete the Batch will be gone forever.
+                    Are you sure you want to proceed?</p>
             </div>
 
 
