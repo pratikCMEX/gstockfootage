@@ -57,6 +57,11 @@ class HomeController extends Controller
         try {
             $id = decrypt($id);
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
+                ->withExists([
+                    'favorites as is_favorite' => function ($query) {
+                        $query->where('user_id', auth()->id());
+                    }
+                ])
                 ->limit(6)
                 ->get();
             // $id = 19;
