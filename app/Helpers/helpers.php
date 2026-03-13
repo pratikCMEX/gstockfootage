@@ -32,13 +32,13 @@ function getCategory()
 
 function getHighProductQualityPrice()
 {
-    $getdata = License_master::with('productQuality')->get();
-    foreach ($getdata as $value) {
-        if ($value->productQuality->name == 'High') {
-            return $value->productQuality->price;
-        }
-    }
-    return null; // Return null if no "high" product quality is found
+    $record = License_master::with('productQuality')
+        ->whereHas('productQuality', function ($q) {
+            $q->where('name', 'High');
+        })
+        ->first();
+
+    return $record ? $record->price : null;
 }
 
 function getCollections()
