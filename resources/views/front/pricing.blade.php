@@ -11,9 +11,9 @@
                 <div class="row g-4 justify-content-md-center">
 
                     @foreach ($priceList as $pricing)
-                        <div class="col-lg-4 col-md-6 {{ $pricing->most_popular == '1' ? 'popular' : '' }}">
+                        <div class="col-lg-4 col-md-6 ">
 
-                            <div class="pricing-card">
+                            <div class="pricing-card {{ $pricing->most_popular == '1' ? 'popular' : '' }}">
                                 @if ($pricing->most_popular == '1')
                                     <div class="popular-badge">Popular</div>
                                 @endif
