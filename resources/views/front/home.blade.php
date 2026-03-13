@@ -627,7 +627,7 @@
                 </div>
 
                 <div class="store-actions">
-                    <a href="https://visionofthebiblestore.com/collections/all">Shop the Collection <i
+                    <a href="https://visionofthebiblestore.com/collections/all" target="_blank">Shop the Collection <i
                             class="bi bi-box-arrow-up-right"></i></a>
                 </div>
             </div>
@@ -636,25 +636,27 @@
                 <div class="swiper-wrapper">
 
                     <div class="swiper-slide">
-                        <a href="https://visionofthebiblestore.com/products/the-four-gospels-digital-visual-bible-7-inch"
+                        <a href="https://visionofthebiblestore.com/products/kids-bible-stories%E2%84%A2-digital-tablet"
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/P1-copy-2.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/P1-copy-2.jpg?v=1765506820&width=1400">
                                 </div>
-                                <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
+                                <h4 class="store-product-title">Kids Bible Stories™ Digital Tablet</h4>
                             </div>
                         </a>
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels"
+                        <a href="https://visionofthebiblestore.com/products/tanakh-digital-visual-bible"
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/tanakh.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/tanakh.png?v=1732480951&width=1400">
                                 </div>
-                                <h4 class="store-product-title">The Four Gospels (7 Inch)</h4>
+                                <h4 class="store-product-title">Tanakh - Digital Visual Bible</h4>
                             </div>
                         </a>
                     </div>
@@ -663,7 +665,8 @@
                         <a href="https://visionofthebiblestore.com/products/travel-to-the-holy-land" target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/digital-bible-2-_2.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/travel.png?v=1732481053&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Holy Land Digital Tablet</h4>
                             </div>
@@ -675,7 +678,8 @@
                             href="https://visionofthebiblestore.com/products/vision-of-israel-coffee-table-book-1"target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/7-Inch---Product-Photos-2.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/book_1.png?v=1733282144&width=1400">
                                 </div>
                                 <h4 class="store-product-title">Visions of Israel - Coffee Table Book</h4>
                             </div>
@@ -686,7 +690,8 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/travel.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/digital-bible-2-_2.png?v=1757971890&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
                             </div>
@@ -697,7 +702,8 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img src="{{ asset('assets/front/img/book_1.webp') }}">
+                                    <img
+                                        src="https://visionofthebiblestore.com/cdn/shop/files/digital-bible-2-_2.png?v=1757971890&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
                             </div>
@@ -705,10 +711,13 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <div class="view-all-card">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                            <div>View All Products</div>
-                        </div>
+                        <a href="https://visionofthebiblestore.com/collections/all" target="_blank">
+                            <div class="view-all-card">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                <div>View All Products</div>
+                            </div>
+                        </a>
+
                     </div>
 
 
@@ -751,7 +760,7 @@
 
                 <div class="col-xl-6 col-lg-12   enterprise-actions">
                     <div class="enterprise-btns">
-                        <a href="#" class="btn  btn-orange ">
+                        <a href="{{ route('enterprise') }}" class="btn  btn-orange ">
                             Request Enterprise Quote <i class="bi bi-arrow-right"></i>
                         </a>
                         <a href="#" class="btn btn-outline-custom-enterprise btn-all-dark">
