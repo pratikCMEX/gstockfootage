@@ -76,8 +76,7 @@
                                                                     </select>
 
 
-                                                                </div>
-                                                                {{-- <div class="modal-code">
+                                                                    {{-- <div class="modal-code">
                                                         <label for="" class="modal-label">Brief Code</label>
                                                         <div class="input-group ">
                                                             <input type="text" class="form-control batch-inp"
@@ -86,26 +85,27 @@
                                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                         </div>
                                                     </div> --}}
-                                                                <div class="modal-name">
-                                                                    <label for="" class="modal-label">Batch
-                                                                        Name</label>
-                                                                    <div class="input-group ">
-                                                                        <input type="text"
-                                                                            class="form-control batch-inp"
-                                                                            placeholder="Batch Name" name="batch_name"
-                                                                            aria-describedby="addon-wrapping">
+                                                                    <div class="modal-name">
+                                                                        <label for="" class="modal-label">Batch
+                                                                            Name</label>
+                                                                        <div class="input-group ">
+                                                                            <input type="text"
+                                                                                class="form-control batch-inp"
+                                                                                placeholder="Batch Name"
+                                                                                name="batch_name"
+                                                                                aria-describedby="addon-wrapping">
+                                                                        </div>
                                                                     </div>
+
+
                                                                 </div>
-
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button"
-                                                                    class="btn-all-dark btn-hover-dark btn"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit"
-                                                                    class=" btn btn-orange">Create</button>
-                                                            </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                        class="btn-all-dark btn-hover-dark btn"
+                                                                        data-bs-dismiss="modal">Cancel</button>
+                                                                    <button type="submit"
+                                                                        class=" btn btn-orange">Create</button>
+                                                                </div>
                                                         </form>
                                                     </div>
                                                 </div>
