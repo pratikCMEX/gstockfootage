@@ -1879,6 +1879,7 @@ select option {
   color: var(--secendory);
   font-family: var(--font-inter-medium);
   display: inline-block;
+  
   /* margin-left: 20px; */
 }
 .file-inp-label-grp p {
