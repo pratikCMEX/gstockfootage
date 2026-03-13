@@ -130,6 +130,7 @@ openupload?.addEventListener("click", function () {
 });
 closeupload?.addEventListener("click", function () {
   uploadcontent.classList.remove("active");
+  window.location.reload();
 });
 // upload search filter
 let uploadfiltermobile = document.querySelector("#upload_search_filter_mobile");
@@ -763,6 +764,8 @@ function render() {
     more.innerHTML = `+${extra}<span class="more-sub">more</span>`;
     thumbsWrap.appendChild(more);
   }
+
+  $(".btn-upload-device").prop("disabled", false);
 }
 
 document.addEventListener("click", function (e) {
@@ -1200,6 +1203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       allFiles = [];
       render();
+      $(".btn-upload-device").prop("disabled", true);
     });
   }
 });

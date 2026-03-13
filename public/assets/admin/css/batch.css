@@ -1481,7 +1481,7 @@ table td {
   display: none !important;
 } */
 #barFill {
-  transition: width 0.3s linear;
+  transition: width 0.4s linear;
 }
 .upload-toast {
   position: fixed;
