@@ -29,17 +29,17 @@ $(document).on("click", ".addFavorite", function (e) {
         var currentCount = parseInt($(".wishlist-count").text());
         if (response.action === "removed") {
           icon.removeClass("bi-heart-fill").addClass("bi-heart");
+          if (button.text().trim() !== "") {
+            // change text
+            button
+              .contents()
+              .filter(function () {
+                return this.nodeType === 3;
+              })
+              .remove();
 
-          // change text
-          button
-            .contents()
-            .filter(function () {
-              return this.nodeType === 3;
-            })
-            .remove();
-
-          button.append(" Save");
-
+            button.append(" Save");
+          }
           $(".wishlist-count").text(currentCount - 1);
           // button.removeClass('favorited');
           // button.find('svg').removeClass('text-danger').addClass('text-muted');
@@ -47,15 +47,16 @@ $(document).on("click", ".addFavorite", function (e) {
           // $('.wishlist-count').text(currentCount - 1);
         } else if (response.action === "added") {
           icon.removeClass("bi-heart").addClass("bi-heart-fill");
+          if (button.text().trim() !== "") {
+            button
+              .contents()
+              .filter(function () {
+                return this.nodeType === 3;
+              })
+              .remove();
 
-          button
-            .contents()
-            .filter(function () {
-              return this.nodeType === 3;
-            })
-            .remove();
-
-          button.append("Saved");
+            button.append(" Saved");
+          }
 
           $(".wishlist-count").text(currentCount + 1);
           // button.addClass('favorited');

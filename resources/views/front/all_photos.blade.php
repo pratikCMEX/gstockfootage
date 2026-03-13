@@ -94,85 +94,6 @@
                             </div>
                         </div>
                     @endforeach
-                    <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Worldwide Footage</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}"
-                                alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Photography</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Fine Art Prints</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Holy Land Collection</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Worldwide Footage</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}"
-                                alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Photography</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="brand-posibility">
-                        <div class="posibility-img">
-                            <img width="100%" height="100%"
-                                src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
-                        </div>
-                        <div class="posibilty-title">
-                            <h3>Fine Art Prints</h3>
-                        </div>
-                    </div>
-                </div> -->
                 </div>
             </div>
         </section>
@@ -204,8 +125,7 @@
 
                                 <div class="p-3">
 
-                                    <span
-                                        class="badge badge-custom mb-2">{{ $photos->category->category_name }}</span>
+                                    <span class="badge badge-custom mb-2">{{ $photos->category->category_name }}</span>
                                     <a href="{{ route('product.detail', encrypt($photos->id)) }}">
                                         <h6 class="popular-detail-title">{{ $photos->title }}</h6>
                                     </a>
@@ -223,8 +143,8 @@
                                                 class="bi {{ $photos->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
                                             {{ $photos->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
                                         <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" fill="currentColor"
-                                                class="bi bi-share" viewBox="0 0 16 16">
+                                                width="16" height="16" fill="currentColor" class="bi bi-share"
+                                                viewBox="0 0 16 16">
                                                 <path
                                                     d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                             </svg>
