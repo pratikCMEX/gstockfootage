@@ -61,6 +61,11 @@ class HomeController extends Controller
                 ->get();
             // $id = 19;
             $product = BatchFile::with(['category', 'subcategory', 'collection'])
+                ->withExists([
+                    'favorites as is_favorite' => function ($query) {
+                        $query->where('user_id', auth()->id());
+                    }
+                ])
                 ->findOrFail($id);
             // dd($product);
             $data = [
@@ -73,6 +78,7 @@ class HomeController extends Controller
                 'collection' => optional($product->collection)->name,
                 'location' => $product->country ?? 'N/A',
                 'type' => $product->type,
+                'is_favorite' => $product->is_favorite
             ];
 
             if ($product->type == "image") {
@@ -159,7 +165,7 @@ class HomeController extends Controller
             ? decrypt($request->get('category_id'))
             : null;
 
-        $categories    = Category::where('is_display', '1')->get();
+        $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
         $query = BatchFile::with(['category'])
@@ -190,11 +196,11 @@ class HomeController extends Controller
     public function allPhotos(Request $request)
     {
         $title = 'Photos';
-        $page  = 'front.all_photos';
-        $js    = ['home', 'favorites'];
+        $page = 'front.all_photos';
+        $js = ['home', 'favorites'];
 
-        $q             = $request->get('q', '');
-        $type          = $request->get('type', 'image');
+        $q = $request->get('q', '');
+        $type = $request->get('type', 'image');
         $collection_id = $request->has('collection_id')
             ? decrypt($request->get('collection_id'))
             : null;
