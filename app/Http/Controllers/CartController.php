@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
@@ -23,16 +24,16 @@ class CartController extends Controller
     {
         $user_id = Auth::id();
         $product_id = $request->product_id;
-       
+
         $product = BatchFile::findOrFail($request->product_id);
-       
-        $qty  = $request->qty ?? 1;
+
+        $qty = $request->qty ?? 1;
         if (Auth::check()) {
             $user_id = Auth::id();
             $cartItem = Cart::where('user_id', $user_id)
                 ->where('product_id', $product_id)
                 ->first();
- 
+
             if ($cartItem) {
                 return response()->json([
                     'status' => false,
@@ -52,13 +53,15 @@ class CartController extends Controller
                 'status' => true,
                 'message' => 'Product added to cart',
                 'product' => [
-                    'id'    => $product->id,
-                    'title' => $product->name,
+                    'id' => $product->id,
+                    'title' => $product->title,
                     'price' => $product->price,
                     'type' => $product->type,
-                    'low_path' => asset('uploads/images/low/' . $product->low_path),
-                    'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
-                    'size'  => $product->width . ' x ' . $product->height
+                    'low_path' => Storage::disk('s3')->url($product->low_path),
+                    'thumbnail_path' => $product->thumbnail_path ? Storage::disk('s3')->url($product->thumbnail_path) : '',
+                    // 'low_path' => asset('uploads/images/low/' . $product->low_path),
+                    // 'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
+                    'size' => $product->width . ' x ' . $product->height
                 ]
             ]);
         }
@@ -85,13 +88,15 @@ class CartController extends Controller
             'status' => true,
             'message' => 'Product added to cart',
             'product' => [
-                'id'    => $product->id,
-                'title' => $product->name,
+                'id' => $product->id,
+                'title' => $product->title,
                 'price' => $product->price,
                 'type' => $product->type,
-                'low_path' => asset('uploads/images/low/' . $product->low_path),
-                'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
-                'size'  => $product->width . ' x ' . $product->height
+                'low_path' => Storage::disk('s3')->url($product->low_path),
+                'thumbnail_path' => $product->thumbnail_path ? Storage::disk('s3')->url($product->thumbnail_path) : '',
+                // 'low_path' => asset('uploads/images/low/' . $product->low_path),
+                // 'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
+                'size' => $product->width . ' x ' . $product->height
             ]
         ]);
     }

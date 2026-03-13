@@ -77,7 +77,7 @@ function getCartItems()
             $product = $cart->product;
             $items[] = [
                 'id' => $product->id,
-                'title' => $product->name,
+                'title' => $product->title,
                 'price' => $product->price,
                 'type' => $product->type,
                 'qty' => $cart->qty,
@@ -102,7 +102,7 @@ function getCartItems()
                 $product = $products[$productId];
                 $items[] = [
                     'id' => $product->id,
-                    'title' => $product->name,
+                    'title' => $product->title,
                     'price' => $product->price,
                     'type' => $product->type,
                     'qty' => $cart['qty'],

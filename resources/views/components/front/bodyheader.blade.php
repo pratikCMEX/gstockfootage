@@ -1,6 +1,7 @@
 @php
     $cart = getCartItems();
 
+
 @endphp
 
 <header class="site-header">
@@ -230,7 +231,7 @@
                     </div>
                     <div class="cart-detail">
                         <h6>{{ $item['title'] }}</h6>
-                        @if ($item['type'] == '0')
+                        @if ($item['type'] == 'image')
                             <p>{{ $item['size'] }}</p>
                         @else
                             <p>{{ $item['quality'] }}</p>
