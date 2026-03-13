@@ -127,7 +127,7 @@
                         class="text-decoration-none">
                         <div class="brand-posibility">
                             <div class="posibility-img">
-                                <img width="100%" height="100%"
+                                <img loading="lazy" width="100%" height="100%"
                                     src="{{ asset('uploads/images/collection/' . $item->image) }}" alt="">
                             </div>
                             <div class="posibilty-title">
@@ -166,7 +166,7 @@
                             class="text-decoration-none">
                             <div class="fingertips-content">
                                 <div class="fingertips-img">
-                                    <img height="100%" width="100%"
+                                    <img loading="lazy" height="100%" width="100%"
                                         src="{{ asset('uploads/images/category/' . $category->category_image) }}"
                                         alt="">
                                 </div>
@@ -230,14 +230,17 @@
                                     <a href="{{ route('product.detail', encrypt($pro->id)) }}">
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
-                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
+                                                <img loading="lazy"
+                                                    src="{{ Storage::disk('s3')->url($pro->low_path) }}"
                                                     class="product-img" alt="">
                                             @else
                                                 @if ($pro->thumbnail_path == null)
-                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                    <img loading="lazy"
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                    <img loading="lazy"
+                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
                                                         class="product-img" alt="">
                                                 @endif
                                             @endif
@@ -284,7 +287,7 @@
                                 <a href="product-detail.html">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/posibility_3.webp') }}" class="product-img"
+                                        <img loading="lazy" src="{{ asset('assets/front/img/posibility_3.webp') }}" class="product-img"
                                             alt="Punjabi Dum Aloo">
 
                                         <div class="p-3">
@@ -324,7 +327,7 @@
                                 <a href="product-detail.html">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
+                                        <img loading="lazy" src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
                                             class="product-img" alt="">
                                         <div class="p-3">
 
@@ -363,7 +366,7 @@
                                 <a href="product-detail.html">
                                     <div class="product-card">
 
-                                        <img src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
+                                        <img loading="lazy" src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
                                             class="product-img" alt="">
 
                                         <div class="p-3">
@@ -409,14 +412,17 @@
                                     <a href="{{ route('product.detail', encrypt($pro->id)) }}">
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
-                                                <img src="{{ Storage::disk('s3')->url($pro->low_path) }}"
+                                                <img loading="lazy"
+                                                    src="{{ Storage::disk('s3')->url($pro->low_path) }}"
                                                     class="product-img" alt="">
                                             @else
                                                 @if ($pro->thumbnail_path == null)
-                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                    <img loading="lazy"
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                    <img loading="lazy"
+                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
                                                         class="product-img" alt="">
                                                 @endif
                                             @endif
@@ -480,7 +486,7 @@
 <section class="help_section hero-wrapper d-flex align-items-center justify-content-center">
     <div class="container text-center">
         <div class="brand-area mb-4">
-            <img src="{{ asset('assets/front/img/helper-chicken-D5n0gnPB.png') }}" alt="Mascot"
+            <img loading="lazy" src="{{ asset('assets/front/img/helper-chicken-D5n0gnPB.png') }}" alt="Mascot"
                 class="floating-icon">
             <h2 class="help-heading">How can we help you <span class="text-gradient">get what you want?</span></h2>
         </div>
@@ -538,7 +544,7 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img
+                                    <img loading="lazy"
                                         src="https://visionofthebiblestore.com/cdn/shop/files/P1-copy-2.jpg?v=1765506820&width=1400">
                                 </div>
                                 <h4 class="store-product-title">Kids Bible Stories™ Digital Tablet</h4>
@@ -551,7 +557,7 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img
+                                    <img loading="lazy"
                                         src="https://visionofthebiblestore.com/cdn/shop/files/tanakh.png?v=1732480951&width=1400">
                                 </div>
                                 <h4 class="store-product-title">Tanakh - Digital Visual Bible</h4>
@@ -563,7 +569,7 @@
                         <a href="https://visionofthebiblestore.com/products/travel-to-the-holy-land" target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img
+                                    <img loading="lazy"
                                         src="https://visionofthebiblestore.com/cdn/shop/files/travel.png?v=1732481053&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Holy Land Digital Tablet</h4>
@@ -576,7 +582,7 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img
+                                    <img loading="lazy"
                                         src="https://visionofthebiblestore.com/cdn/shop/files/book_1.png?v=1733282144&width=1400">
                                 </div>
                                 <h4 class="store-product-title">Visions of Israel - Coffee Table Book</h4>
@@ -588,7 +594,7 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img
+                                    <img loading="lazy"
                                         src="https://visionofthebiblestore.com/cdn/shop/files/digital-bible-2-_2.png?v=1757971890&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
@@ -600,7 +606,7 @@
                             target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
-                                    <img
+                                    <img loading="lazy"
                                         src="https://visionofthebiblestore.com/cdn/shop/files/digital-bible-2-_2.png?v=1757971890&width=1400">
                                 </div>
                                 <h4 class="store-product-title">The Four Gospels (10 Inch)</h4>
