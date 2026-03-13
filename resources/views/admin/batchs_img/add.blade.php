@@ -8,108 +8,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <div class="create-batch-head">
-                            <div class="create-batch-btn">
-                                <button type="button" class="btn btn-orange batch-create" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <i class="ti ti-plus"></i> Create Batch
-                                </button>
 
-
-                                <!-- Modal -->
-                                <div class="modal fade " id="exampleModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-box">
-
-
-                                        <div class="modal-content">
-                                            <form id="create_batch" class="auth-form" method="POST"
-                                                action="{{ route('admin.storeBatch') }}">
-                                                @csrf
-                                                <div class="modal-header">
-                                                    <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
-                                                </div>
-                                                <div class="modal-body batch-create-modal">
-                                                    {{-- <div class="dropdown">
-                                                        <input type="hidden" name="submission_type"
-                                                            id="submission_type">
-
-
-                                                        <label for="" class="modal-label">Submission
-                                                            type</label>
-                                                        <button
-                                                            class="btn w-100 text-start  batch-dropdown dropdown-toggle"
-                                                            type="button" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            Select Type<i class="fa-solid fa-angle-down"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu batch-dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#"
-                                                                    data-value="image">Image</a></li>
-                                                            <li><a class="dropdown-item" href="#"
-                                                                    data-value="video">Video</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="#"data-value="artwork">Art Work</a></li>
-                                                        </ul>
-                                                    </div> --}}
-                                                    <div class="modal-code">
-                                                        <label for="category" class=" modal-label">Submission
-                                                            Type</label>
-                                                        <select class="form-select mr-sm-2 batch-inp"
-                                                            name="submission_type" id="category">
-                                                            <option value="">Choose Submission Type...</option>
-                                                            <option value="image">
-                                                                Image</option>
-                                                            <option value="video">
-                                                                Video</option>
-                                                        </select>
-
-
-                                                    </div>
-                                                    {{-- <div class="modal-code">
-                                                        <label for="" class="modal-label">Brief Code</label>
-                                                        <div class="input-group ">
-                                                            <input type="text" class="form-control batch-inp"
-                                                                placeholder="Breif code (optional)" id="brief_code"
-                                                                name="brief_code" aria-describedby="addon-wrapping"
-                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                                                        </div>
-                                                    </div> --}}
-                                                    <div class="modal-name">
-                                                        <label for="" class="modal-label">Batch Name</label>
-                                                        <div class="input-group ">
-                                                            <input type="text" class="form-control batch-inp"
-                                                                placeholder="Batch Name" name="batch_name"
-                                                                aria-describedby="addon-wrapping">
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn-all-dark btn-hover-dark btn"
-                                                        data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class=" btn btn-orange">Create</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="create-batch-filter">
-
-
-                                <button class="btn btn-orange search-desktop search-filter-openbtn" id="search_filter">
-                                    <i class="fa-solid fa-magnifying-glass me-3"></i>
-                                    Search and Filter</button>
-                                <button class="btn search-mobile search-filter-openbtn" id="search_filter_mobile">
-                                    <i class="fa-solid fa-magnifying-glass me-3"></i></button>
-
-
-                            </div>
-                        </div>
                         <div class="diffrent-batches">
+
                             {{-- <p class="counting-show-batch">Show 1 to 10 of 26 Batches</p> --}}
                             <div class="flex-batch-filter-content">
 
@@ -117,7 +18,30 @@
                                 <div class="diff-batches-content" id="batch-content-active">
 
 
+                                    <div class="create-batch-head">
+                                        <div class="create-batch-btn">
+                                            <button type="button" class="btn btn-orange batch-create"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                <i class="ti ti-plus"></i> Create Batch
+                                            </button>
 
+
+
+                                        </div>
+                                        <div class="create-batch-filter">
+
+
+                                            <button class="btn btn-orange search-desktop search-filter-openbtn"
+                                                id="search_filter">
+                                                <i class="fa-solid fa-magnifying-glass me-3"></i>
+                                                Search and Filter</button>
+                                            <button class="btn search-mobile search-filter-openbtn"
+                                                id="search_filter_mobile">
+                                                <i class="fa-solid fa-magnifying-glass me-3"></i></button>
+
+
+                                        </div>
+                                    </div>
                                     @if (count($batches) == 0)
                                         <p class="counting-show-batch"> No Available Batches
                                         </p>
@@ -630,6 +554,83 @@
                     Delete
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-box">
+
+
+        <div class="modal-content">
+            <form id="create_batch" class="auth-form" method="POST" action="{{ route('admin.storeBatch') }}">
+                @csrf
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLabel">Create Batch</h2>
+                </div>
+                <div class="modal-body batch-create-modal">
+                    {{-- <div class="dropdown">
+                                                        <input type="hidden" name="submission_type"
+                                                            id="submission_type">
+
+
+                                                        <label for="" class="modal-label">Submission
+                                                            type</label>
+                                                        <button
+                                                            class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                                            type="button" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select Type<i class="fa-solid fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu batch-dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    data-value="image">Image</a></li>
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    data-value="video">Video</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="#"data-value="artwork">Art Work</a></li>
+                                                        </ul>
+                                                    </div> --}}
+                    <div class="modal-code">
+                        <label for="category" class=" modal-label">Submission
+                            Type</label>
+                        <select class="form-select mr-sm-2 batch-inp" name="submission_type" id="category">
+                            <option value="">Choose Submission Type...</option>
+                            <option value="image">
+                                Image</option>
+                            <option value="video">
+                                Video</option>
+                        </select>
+
+
+                    </div>
+                    {{-- <div class="modal-code">
+                                                        <label for="" class="modal-label">Brief Code</label>
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control batch-inp"
+                                                                placeholder="Breif code (optional)" id="brief_code"
+                                                                name="brief_code" aria-describedby="addon-wrapping"
+                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                        </div>
+                                                    </div> --}}
+                    <div class="modal-name">
+                        <label for="" class="modal-label">Batch Name</label>
+                        <div class="input-group ">
+                            <input type="text" class="form-control batch-inp" placeholder="Batch Name"
+                                name="batch_name" aria-describedby="addon-wrapping">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-all-dark btn-hover-dark btn"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class=" btn btn-orange">Create</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
