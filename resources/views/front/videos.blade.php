@@ -804,8 +804,8 @@
                                     <div class="product-card">
 
                                         <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            <!-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
-                                                                                                        class="product-img" alt=""> -->
+                                            {{-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
+                                                class="product-img" alt=""> --}}
                                             <video class="product-img" controls width="100%"
                                                 poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 
