@@ -113,7 +113,7 @@
                                     <p class="two-price-subtitle">For print, merchandise, and unlimited digital use
                                     </p>
                                 </div>
-                                <p>$ {{ isset($perItem) ? $perItem : $data['price'] }}</p>
+                                <p>$ {{ isset($perImage) ? $perImage : $data['price'] }}</p>
                             </div>
                             <button type="button" class="btn-orange btn add_to_cart"
                                 onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
