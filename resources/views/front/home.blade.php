@@ -611,7 +611,7 @@
             <div class="col-lg-8 col-md-10">
                 <div class="search-container shadow-lg">
                     <input type="text" class="form-control main-input help-search"
-                        placeholder="Search for footage, photos, or artwork...">
+                        placeholder="Search for videos, photos,see more...">
                     <button class="btn btn-search help-search-btn">
                         <i class="bi bi-search"></i> <span>Search</span>
                     </button>
