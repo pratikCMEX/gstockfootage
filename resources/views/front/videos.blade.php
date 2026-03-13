@@ -16,20 +16,20 @@
 
                     <ul class="dropdown-menu custom-menu content-list-menu">
                         <li>
-                            <a class="dropdown-item" href="{{ route('all_photos') }}" data-type="all"
-                                data-icon="bi bi-grid" data-label="All content">
+                            <a class="dropdown-item" href="#" data-type="all" data-icon="bi bi-grid"
+                                data-label="All content">
                                 <i class="bi bi-grid"></i> <span>All content</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('videos') }}" data-type="video"
-                                data-icon="bi bi-camera-video" data-label="Videos">
+                            <a class="dropdown-item" href="#" data-type="video" data-icon="bi bi-camera-video"
+                                data-label="Videos">
                                 <i class="bi bi-camera-video"></i> <span>Videos</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('all_photos') }}" data-type="image"
-                                data-icon="bi bi-image" data-label="Photos">
+                            <a class="dropdown-item" href="#" data-type="image" data-icon="bi bi-image"
+                                data-label="Photos">
                                 <i class="bi bi-image"></i> <span>Photos</span>
                             </a>
                         </li>
