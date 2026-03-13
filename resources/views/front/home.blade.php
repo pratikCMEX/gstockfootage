@@ -636,8 +636,8 @@
                 <div class="swiper-wrapper">
 
                     <div class="swiper-slide">
-                        <a
-                            href="https://visionofthebiblestore.com/products/the-four-gospels-digital-visual-bible-7-inch">
+                        <a href="https://visionofthebiblestore.com/products/the-four-gospels-digital-visual-bible-7-inch"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/P1-copy-2.webp') }}">
@@ -648,7 +648,8 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/tanakh.webp') }}">
@@ -659,7 +660,7 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="https://visionofthebiblestore.com/products/travel-to-the-holy-land">
+                        <a href="https://visionofthebiblestore.com/products/travel-to-the-holy-land" target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/digital-bible-2-_2.webp') }}">
@@ -670,7 +671,8 @@
                     </div>
 
                     <div class="swiper-slide">
-                        <a href="https://visionofthebiblestore.com/products/vision-of-israel-coffee-table-book-1">
+                        <a
+                            href="https://visionofthebiblestore.com/products/vision-of-israel-coffee-table-book-1"target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/7-Inch---Product-Photos-2.webp') }}">
@@ -680,7 +682,8 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/travel.webp') }}">
@@ -690,7 +693,8 @@
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels">
+                        <a href="https://visionofthebiblestore.com/products/digital-bible-the-four-gospels"
+                            target="_blank">
                             <div class="store-product-card">
                                 <div class="store-product-image">
                                     <img src="{{ asset('assets/front/img/book_1.webp') }}">
@@ -854,42 +858,41 @@
             <div class="col-lg-7">
                 @if ($testimonials->isNotEmpty())
                     @foreach ($testimonials as $testimonial)
-                        
-                            <div class="testimonial-card">
-                                <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                                        <path
-                                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                        <path
-                                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                    </svg></div>
-                                <div class="testimonial-text">
-                                    {{ $testimonial->message }}
-                                </div>
-                                @php
-                                    $name = trim($testimonial->name);
-                                    $words = explode(' ', $name);
+                        <div class="testimonial-card">
+                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-quote h-8 w-8 text-primary/30 ">
+                                    <path
+                                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                    </path>
+                                    <path
+                                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                    </path>
+                                </svg></div>
+                            <div class="testimonial-text">
+                                {{ $testimonial->message }}
+                            </div>
+                            @php
+                                $name = trim($testimonial->name);
+                                $words = explode(' ', $name);
 
-                                    $initials = '';
+                                $initials = '';
 
-                                    if (count($words) >= 2) {
-                                        $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
-                                    } else {
-                                        $initials = strtoupper(substr($name, 0, 1));
-                                    }
-                                @endphp
-                                <div class="testimonial-user">
-                                    <div class="avatar">{{ $initials }}</div>
-                                    <div class="user-info">
-                                        <strong>{{ $testimonial->name }}</strong>
-                                        <small>{{ $testimonial->designation }}</small>
-                                    </div>
+                                if (count($words) >= 2) {
+                                    $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                                } else {
+                                    $initials = strtoupper(substr($name, 0, 1));
+                                }
+                            @endphp
+                            <div class="testimonial-user">
+                                <div class="avatar">{{ $initials }}</div>
+                                <div class="user-info">
+                                    <strong>{{ $testimonial->name }}</strong>
+                                    <small>{{ $testimonial->designation }}</small>
                                 </div>
                             </div>
+                        </div>
                     @endforeach
                 @endif
             </div>
