@@ -81,7 +81,7 @@
                     @endphp
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ route('all_photos', ['category_id' => $category->id]) }}">
+                            <a href="{{ route('all_photos', ['category_id' => encrypt($category->id)]) }}">
                                 {{ $category->category_name }}
                             </a>
                         </li>

@@ -174,8 +174,13 @@ class HomeController extends Controller
 
         $q             = $request->get('q', '');
         $type          = $request->get('type', 'image');
-        $collection_id = isset($request->collection_id) ? decrypt($request->collection_id) : null;
-        $category_id   = isset($request->category_id) ? decrypt($request->category_id) : null;
+        $collection_id = $request->has('collection_id')
+            ? decrypt($request->get('collection_id'))
+            : null;
+
+        $category_id = $request->has('category_id')
+            ? decrypt($request->get('category_id'))
+            : null;
 
         // $collection_id = decrypt($collection_id);
         // $category_id = decrypt($category_id);
