@@ -11,11 +11,11 @@ $("#login").validate({
   },
   messages: {
     email: {
-      required: "Please Enter Your Email",
+      required: "Please enter Your Email",
       email: "Enter a Valid Email Address",
     },
     password: {
-      required: "Please Enter Your Password",
+      required: "Please enter Your Password",
       minlength: "Password Must Be At Least 6 Characters",
     },
   },
@@ -103,14 +103,14 @@ $("#signup").validate({
   },
   messages: {
     first_name: {
-      required: "Please Enter First Name",
+      required: "Please enter First Name",
     },
     last_name: {
-      required: "Please Enter Last Name",
+      required: "Please enter Last Name",
     },
     email: {
-      required: "Please Enter Email",
-      email: "Please Enter a Valid Email",
+      required: "Please enter Email",
+      email: "Please enter a Valid Email",
       remote: "This Email Already Exists",
     },
     phone: {
@@ -121,7 +121,7 @@ $("#signup").validate({
     },
 
     password: {
-      required: "Please Enter Your Password",
+      required: "Please enter Your Password",
       minlength: "Password Must Be At Least 6 Characters",
     },
   },
