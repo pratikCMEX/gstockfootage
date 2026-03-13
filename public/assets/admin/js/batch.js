@@ -833,7 +833,59 @@ document.addEventListener("click", function (e) {
 });
 // remove file
 let counterRaf = null;
+let animRaf = null;
+let lastPercent = 0;
+let counterTimer = null;
+let uploadStartTime = null;
+let realUploadPercent = 0;
+const MIN_DURATION = 8000; // always at least 8s to reach 90%
 
+// ── Store real XHR progress (animation handles display) ────────────
+function updateUploadProgress(targetPercent) {
+  realUploadPercent = Math.min(Math.floor(targetPercent), 90);
+}
+
+// ── Smooth RAF animation loop ───────────────────────────────────────
+function startProgressAnimation() {
+  const barFill = document.getElementById("barFill");
+  const pctLabel = document.getElementById("pctLabel");
+
+  let displayPercent = 0;
+  uploadStartTime = Date.now();
+  realUploadPercent = 0;
+
+  cancelAnimationFrame(animRaf);
+
+  function animate() {
+    const elapsed = Date.now() - uploadStartTime;
+    const timeRatio = Math.min(elapsed / MIN_DURATION, 1); // 0 → 1 over 8s
+
+    // Never go faster than 8s, but also track real XHR progress
+    const timeBased = timeRatio * 90;
+    const target = Math.min(
+      timeBased,
+      realUploadPercent > 0 ? realUploadPercent : timeBased
+    );
+
+    // Ease towards target smoothly
+    displayPercent += (target - displayPercent) * 0.05;
+    displayPercent = Math.min(displayPercent, 90);
+
+    const rounded = Math.floor(displayPercent);
+
+    barFill.style.transition = "none";
+    barFill.style.width = displayPercent + "%";
+    pctLabel.textContent = rounded;
+
+    if (rounded < 90) {
+      animRaf = requestAnimationFrame(animate);
+    }
+  }
+
+  animRaf = requestAnimationFrame(animate);
+}
+
+// ── Start toast ─────────────────────────────────────────────────────
 function startUploadToast() {
   const toast = document.getElementById("uploadToast");
   const barFill = document.getElementById("barFill");
@@ -846,10 +898,12 @@ function startUploadToast() {
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
 
-  // Reset
+  // Reset everything
   cancelAnimationFrame(counterRaf);
+  cancelAnimationFrame(animRaf);
   clearInterval(counterTimer);
   lastPercent = 0;
+  realUploadPercent = 0;
 
   barFill.style.transition = "none";
   barFill.style.width = "0%";
@@ -866,9 +920,11 @@ function startUploadToast() {
   // Show toast
   toast.classList.add("show");
 
-  // ── NO fake animation here anymore ──
-  // Real progress comes from updateUploadProgress() via XHR events
+  // Start smooth animation
+  startProgressAnimation();
 }
+
+// ── Complete toast ──────────────────────────────────────────────────
 function completeUploadToast() {
   const toast = document.getElementById("uploadToast");
   const barFill = document.getElementById("barFill");
@@ -881,9 +937,12 @@ function completeUploadToast() {
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
 
+  // Stop all animations
+  cancelAnimationFrame(animRaf);
   cancelAnimationFrame(counterRaf);
+  clearInterval(counterTimer);
 
-  // Shoot to 100%
+  // Shoot bar to 100%
   barFill.style.transition = "width 0.4s ease";
   barFill.style.width = "100%";
 
@@ -895,12 +954,12 @@ function completeUploadToast() {
   function finish(now) {
     const progress = Math.min((now - startTime) / duration, 1);
     pctLabel.textContent = Math.floor(start + (100 - start) * progress);
+
     if (progress < 1) {
       requestAnimationFrame(finish);
     } else {
       pctLabel.textContent = "100";
 
-      // Switch to success state
       setTimeout(() => {
         toastTitle.textContent = "Upload Complete";
         toastSub.textContent = "Your image is ready";
@@ -918,13 +977,17 @@ function completeUploadToast() {
   requestAnimationFrame(finish);
 }
 
+// ── Fail toast ──────────────────────────────────────────────────────
 function failUploadToast() {
   const toast = document.getElementById("uploadToast");
   const toastTitle = document.getElementById("toastTitle");
   const toastSub = document.getElementById("toastSub");
   const spinRing = document.getElementById("spinRing");
 
+  cancelAnimationFrame(animRaf);
   cancelAnimationFrame(counterRaf);
+  clearInterval(counterTimer);
+
   toastTitle.textContent = "Upload Failed";
   toastSub.textContent = "Something went wrong";
   spinRing.style.opacity = "0.3";
@@ -932,38 +995,7 @@ function failUploadToast() {
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-let lastPercent = 0;
-let counterTimer = null;
-
-function updateUploadProgress(percent) {
-  const barFill = document.getElementById("barFill");
-  const pctLabel = document.getElementById("pctLabel");
-
-  percent = Math.min(Math.floor(percent), 90);
-  if (percent <= lastPercent) return;
-
-  const start = lastPercent;
-  lastPercent = percent;
-
-  // ── Bar: smooth CSS transition ──────────────────────────────
-  barFill.style.transition = "width 0.3s ease";
-  barFill.style.width = percent + "%";
-
-  // ── Counter: animate from start → percent over 300ms ───────
-  clearInterval(counterTimer);
-  const steps = percent - start;
-  const stepTime = steps > 0 ? 300 / steps : 300;
-  let current = start;
-
-  counterTimer = setInterval(() => {
-    current++;
-    pctLabel.textContent = current;
-    if (current >= percent) {
-      clearInterval(counterTimer);
-    }
-  }, stepTime);
-}
-
+// ── Upload button click ─────────────────────────────────────────────
 $(document).on("click", ".btn-upload-device", function () {
   if (!allFiles.length) {
     alert("Please choose files first");
@@ -971,6 +1003,7 @@ $(document).on("click", ".btn-upload-device", function () {
   }
 
   $(this).prop("disabled", true);
+
   const formData = new FormData();
   const batch_id = $("#batch_id").val();
   const batch_type = $(this).attr("data-type");
@@ -1000,11 +1033,7 @@ $(document).on("click", ".btn-upload-device", function () {
         function (evt) {
           if (evt.lengthComputable) {
             let realPercent = (evt.loaded / evt.total) * 100;
-
-            // convert 0-100 → 0-90
-            // let displayPercent = Math.floor(realPercent * 0.9);
-
-            updateUploadProgress(Math.min(realPercent, 90));
+            updateUploadProgress(realPercent); // just stores value, animation handles display
           }
         },
         false
@@ -1016,10 +1045,9 @@ $(document).on("click", ".btn-upload-device", function () {
     success: function (response) {
       if (response.status === "success") {
         console.log(response);
-
         toastr.success(response.message);
         completeUploadToast();
-        $(".btn-upload").prop("false", true);
+        $(".btn-upload").prop("disabled", false);
 
         setTimeout(() => {
           allFiles = [];
