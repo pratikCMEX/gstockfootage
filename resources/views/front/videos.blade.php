@@ -804,18 +804,15 @@
                                     <div class="product-card">
 
                                         <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            <<<<<<< HEAD {{-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
-                                                class="product-img" alt=""> --}}=======<!-- <img
-                                                src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
-                                                class="product-img" alt=""> -->
-                                                >>>>>>> development
-                                                <video class="product-img" controls width="100%"
-                                                    poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                            {{-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
+                                                class="product-img" alt=""> --}}
+                                            <video class="product-img" controls width="100%"
+                                                poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 
-                                                    <source src="{{ Storage::disk('s3')->url($video->file_path) }}"
-                                                        type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
+                                                <source src="{{ Storage::disk('s3')->url($video->file_path) }}"
+                                                    type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
                                         </a>
 
                                         <div class="p-3">
