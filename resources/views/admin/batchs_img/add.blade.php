@@ -405,7 +405,7 @@
                                                                 value="image"
                                                                 {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="checkDefault2">
-                                                                Gstock Creative Image
+                                                                Gstock Creative Photo
                                                             </label>
                                                         </div>
                                                     </li>
