@@ -130,7 +130,7 @@
                             </div>
                             <div class="tag-title">
                                 <p>Location</p>
-                                <h5>Uncategorized</h5>
+                                <h5>{{ $data['location'] }}</h5>
                             </div>
                         </div>
                         <div class="resolution-tag product-tag">

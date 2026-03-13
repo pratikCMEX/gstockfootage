@@ -123,10 +123,10 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                         <div class="heading-btn">
                             <div class="dropdown">
-                                <button class="btn btn-orange dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                {{-- <button class="btn btn-orange dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     More <i class="bi bi-three-dots"></i>
-                                </button>
+                                </button> --}}
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">All Clips</a></li>
                                     <li><a class="dropdown-item" href="#">Featured</a></li>

@@ -60,7 +60,7 @@ class HomeController extends Controller
             // $id = 19;
             $product = BatchFile::with(['category', 'subcategory', 'collection'])
                 ->findOrFail($id);
-
+            // dd($product);
             $data = [
                 'id' => $product->id,
                 'title' => $product->title,
@@ -69,7 +69,7 @@ class HomeController extends Controller
                 'price' => $product->price,
                 'category' => optional($product->category)->category_name,
                 'collection' => optional($product->collection)->name,
-                'location' => optional($product->subcategory)->sub_category_name,
+                'location' => $product->country ?? 'N/A',
                 'type' => $product->type,
             ];
 
