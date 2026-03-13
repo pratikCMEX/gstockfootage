@@ -399,29 +399,29 @@
                                                 </li> --}}
 
 
-                                                        <li>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="checkDefault2" name="submission_type[]"
-                                                                    value="image"
-                                                                    {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="checkDefault2">
-                                                                    Gstock Creative Image
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="checkDefault3" name="submission_type[]"
-                                                                    value="video"
-                                                                    {{ in_array('video', request()->submission_type ?? []) ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="checkDefault3">
-                                                                    Gstock Creative Video
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        {{-- <li>
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="checkDefault2" name="submission_type[]"
+                                                                value="image"
+                                                                {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="checkDefault2">
+                                                                Gstock Creative Photo
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="checkDefault3" name="submission_type[]"
+                                                                value="video"
+                                                                {{ in_array('video', request()->submission_type ?? []) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="checkDefault3">
+                                                                Gstock Creative Video
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    {{-- <li>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox"
                                                             value="" id="checkDefault4">

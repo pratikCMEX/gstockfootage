@@ -84,7 +84,7 @@ class AuthController extends Controller
             'address' => ['nullable', 'string', 'max:500'],
             'password' => 'required|min:6'
         ]);
-
+      
         $user = User::create([
             'name' => $request->first_name,
             'first_name' => $request->first_name,

@@ -15,14 +15,14 @@ $getCollections = getCollections();
                         <h3 class="batch_name">{{ $batch->title }}</h3>
                         <div class="batches-label">
                             @if ($batch->submission_type == 'image')
-                            <label for="">
-                                <i class="fa-solid fa-camera-retro"></i> Gstock creative
-                                image</label>
+                                <label for="">
+                                    <i class="fa-solid fa-camera-retro"></i> Gstock Creative
+                                    Photo</label>
                             @else
-                            <label for="">
-                                <i class="fa-solid fa-video"></i> Gstock
-                                creative
-                                video</label>
+                                <label for="">
+                                    <i class="fa-solid fa-video"></i> Gstock
+                                    Creative
+                                    Video</label>
                             @endif
                         </div>
                     </div>

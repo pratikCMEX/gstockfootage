@@ -14,10 +14,10 @@
                         </div>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
+                        <button
+                            class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
                             id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i
-                                class="bi bi-person"></i>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
                             Profile</button>
                         <button class="nav-link btn profile-btn @if (request()->get('tab') == 'order') active @endif"
                             id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
@@ -53,8 +53,7 @@
                             <div class="profile-manage-left">
                                 <div class="profile-manage-img">
                                     <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D%22
-                                        width="100%"
-                                        height="100%" alt="">
+                                        width=" 100%" height="100%" alt="">
                                     <div>
                                         <label for="myfile" class="mb-0" style="cursor: pointer;">
                                             <i class="bi bi-camera"></i>
@@ -65,7 +64,8 @@
                                 <div class="profile-manage-title">
                                     <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
                                     <p>Member since
-                                        {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}</p>
+                                        {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="profile-manage-middle">
@@ -103,8 +103,7 @@
                                 <div class="divider"></div>
                                 <div class="renewal-info">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                        <circle cx="7" cy="7" r="6" stroke="#ccc"
-                                            stroke-width="1.2"></circle>
+                                        <circle cx="7" cy="7" r="6" stroke="#ccc" stroke-width="1.2"></circle>
                                         <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
                                             stroke-linecap="round"></path>
                                     </svg>
@@ -252,7 +251,8 @@
                                                         <div class="p-3">
                                                             <a href="product-detail.html">
                                                                 <h6 class="popular-detail-title">
-                                                                    {{ $favorites->batchFile->title }}</h6>
+                                                                    {{ $favorites->batchFile->title }}
+                                                                </h6>
                                                             </a>
                                                             <div class="price-btn">
                                                                 <span
@@ -390,14 +390,13 @@
 
         </div>
         <!-- Modal -->
-        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static"
-            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
                         id="profile_form">
@@ -419,14 +418,29 @@
                                 <input type="email" name="email" id="email" class="form-control"
                                     placeholder="you@example.com" value="{{ $user_profile->email }}">
                             </div>
-                            <div class="modal-inp-label">
+
+                            <div>
                                 <label>Phone No</label>
-                                <input type="text" name="phone" id="phone" class="form-control"
-                                    placeholder="Enter Phone no" value="{{ $user_profile->phone ?? '' }}">
+
+                                <div class="input-group">
+                                    <input type="text" id="phone" name="phone_number" class="form-control"
+                                        placeholder="Enter your phone number"  value="{{ $user_profile->phone ?? '' }}">
+                                </div>
+
+                                <!-- Hidden field that stores full phone -->
+                                <input type="hidden" name="phone" id="full_phone"
+                                    value="{{ $user_profile->phone ?? '' }}">
+
                             </div>
+                            <!-- <div class="modal-inp-label">
+                                <label>Phone No</label>
+                                <input type="tel" name="phone" id="phone" class="form-control"
+                                    placeholder="Enter Phone no" value="{{ $user_profile->phone ?? '' }}">
+                            </div> -->
                             <div class="modal-inp-label">
                                 <label>Address</label>
-                                <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                <textarea name="address"
+                                    class="form-control">{{ $user_profile->address ?? '' }}</textarea>
                             </div>
 
                         </div>
@@ -440,14 +454,13 @@
             </div>
         </div>
 
-        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static"
-            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
                         id="password_form">
@@ -486,20 +499,17 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="">
                         <div class="modal-body p-0">
                             <div class="modal-inp-label">
                                 <label> Name</label>
-                                <input type="text" name="username" class="form-control"
-                                    placeholder="Enter Your Name">
+                                <input type="text" name="username" class="form-control" placeholder="Enter Your Name">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Email</label>
-                                <input type="email" name="email" class="form-control"
-                                    placeholder="you@example.com">
+                                <input type="email" name="email" class="form-control" placeholder="you@example.com">
                             </div>
                             <div class="modal-inp-label">
                                 <label>Phone number</label>
