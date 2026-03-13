@@ -1,6 +1,6 @@
 <main>
     <section class="pricing-section">
-        @if($priceList->isNotEmpty())
+        @if ($priceList->isNotEmpty())
             <div class="container">
                 <span class="section-badge">Pricing</span>
                 <div class="heading">
@@ -11,16 +11,16 @@
                 <div class="row g-4 justify-content-md-center">
 
                     @foreach ($priceList as $pricing)
+                        <div class="col-lg-4 col-md-6 {{ $pricing->most_popular == '1' ? 'popular' : '' }}">
 
-                        <div class="col-lg-4 col-md-6 {{ $pricing->most_popular == "1" ? 'popular' : '' }}">
-                            @if($pricing->most_popular == '1')
-                                <div class="popular-badge">Popular</div>
-                            @endif
                             <div class="pricing-card">
-                                <h5>{{$pricing->name  }}</h5>
-                                <p class="text-secondary">{{$pricing->title  }}</p>
-                                <div class="price">${{$pricing->price  }} <span>/ clip</span></div>
-                                <p class="text-secondary price-text">Up to {{$pricing->quality  }}</p>
+                                @if ($pricing->most_popular == '1')
+                                    <div class="popular-badge">Popular</div>
+                                @endif
+                                <h5>{{ $pricing->name }}</h5>
+                                <p class="text-secondary">{{ $pricing->title }}</p>
+                                <div class="price">${{ $pricing->price }} <span>/ clip</span></div>
+                                <p class="text-secondary price-text">Up to {{ $pricing->quality }}</p>
 
                                 <!-- <button class="btn btn-orange w-100">Get Started</button> -->
                                 <form action="{{ route('license.checkout') }}" method="POST">
@@ -29,7 +29,7 @@
                                     <input type="hidden" name="license_id" value="{{ $pricing->id }}">
                                     <input type="hidden" name="price" value="{{ $pricing->plan_price }}">
 
-                                    @if($pricing->is_purchased == '1')
+                                    @if ($pricing->is_purchased == '1')
                                         <label class="btn btn-orange w-100">
                                             Purchased
                                         </label>
@@ -43,7 +43,7 @@
                                 @php
                                     // $descriptions=explode(',',$pricing->description);
                                     $descriptions = array_filter(
-                                        array_map('trim', explode(',', $pricing->description))
+                                        array_map('trim', explode(',', $pricing->description)),
                                     );
                                 @endphp
                                 <ul class="features">
@@ -105,7 +105,7 @@
     </section>
 
     <section class="subscription_plan">
-        @if($subscriptionPlanList->isNotEmpty())
+        @if ($subscriptionPlanList->isNotEmpty())
             <div class="container">
 
                 <div class="heading text-center">
@@ -116,21 +116,20 @@
                     <div class="row g-4 justify-content-md-center">
 
                         @foreach ($subscriptionPlanList as $subscription)
-
-
                             <div class="col-lg-4 col-md-6">
                                 <div class="subscription-card">
                                     <div class="subscription-title">
                                         <div class="subscription-left">
-                                            <h5>{{$subscription->name}}</h5>
-                                            <p class="text-secondary">{{$subscription->total_clips}} HD clips per
-                                                {{$subscription->duration_type}}
+                                            <h5>{{ $subscription->name }}</h5>
+                                            <p class="text-secondary">{{ $subscription->total_clips }} HD clips per
+                                                {{ $subscription->duration_type }}
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="subscribe-price">${{$subscription->price}}<span>/
-                                            {{$subscription->duration_type}}</span></div>
-                                    <p class="text-secondary subscribe-price-text">${{$subscription->price_per_clip}} per clip
+                                    <div class="subscribe-price">${{ $subscription->price }}<span>/
+                                            {{ $subscription->duration_type }}</span></div>
+                                    <p class="text-secondary subscribe-price-text">${{ $subscription->price_per_clip }}
+                                        per clip
                                     </p>
                                     <form action="{{ route('subscription.stripe') }}" method="POST">
                                         @csrf
@@ -138,11 +137,10 @@
                                         <input type="hidden" name="plan_id" value="{{ $subscription->id }}">
 
 
-                                        @if($subscription->is_purchased == '1')
+                                        @if ($subscription->is_purchased == '1')
                                             <label class="btn btn-all-dark w-100">
                                                 Current Plan
                                             </label>
-
                                         @else
                                             <button class="btn btn-all-dark w-100">
                                                 Subscribe Now
@@ -221,45 +219,45 @@
                         <h3>Standard License</h3>
                         <h4>Included with purchase</h4>
                         <ul class="license-subtitle">
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Use in digital products and websites
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Social media content
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Online advertising (up to 500,000 impressions)
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 YouTube and streaming platforms
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
@@ -275,54 +273,54 @@
                         <h3>Extended License</h3>
                         <h4>+$150 upgrade</h4>
                         <ul class="license-subtitle">
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 All Standard License benefits
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Broadcast TV (national)
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Theatrical releases
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Unlimited impressions
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
                                 </svg>
                                 Products for resale (templates, apps)
                             </li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                     <path d="m9 11 3 3L22 4"></path>
@@ -352,7 +350,8 @@
                         </div>
                         <div>
                             <h5 class="license-heading">License Duration</h5>
-                            <p class="license-subtext">All licenses are perpetual and worldwide. Once purchased, you may
+                            <p class="license-subtext">All licenses are perpetual and worldwide. Once purchased, you
+                                may
                                 use the footage indefinitely in accordance with the license terms.</p>
                         </div>
                     </div>
