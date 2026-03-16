@@ -116,7 +116,7 @@
                     <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 col-12">
                         <div class="heading ">
                             <h2 class="m-0">
-                                Explore stock<span class="yellow-headings"> Photos categories</span>
+                                Explore stock<span class="yellow-headings"> Photos Categories</span>
                             </h2>
                         </div>
                     </div>
