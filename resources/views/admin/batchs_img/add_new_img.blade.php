@@ -105,7 +105,7 @@
                                                         class="btn btn-orange btn-upload-device">Upload from
                                                         device</label> --}}
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
-                                                        file</label>
+                                                        files</label>
                                                     <button for="111myfile" disabled
                                                         class="btn btn-orange btn-upload-device"
                                                         data-type={{ $batch->submission_type }}>Upload Files</button>
@@ -801,9 +801,6 @@
                             <div class="no-file-selected">
 
                                 <div class="no-file-selected-content">
-                                    {{-- <p
-                                        class="no-file-selected-title no-file-selected-title-cursor no-file-selected-display-none total_file_selected">
-                                        No file selected</p> --}}
                                     <button type="button" class="btn btn-primary mobile-no-file-selcted-btn">No file
                                         selected <i class="fa-solid fa-angle-right"></i></button>
                                     <div class="no-file-template">
@@ -827,20 +824,16 @@
                                                         aria-describedby="visible-addon">
                                                     <i class="fa-regular fa-circle-question file-input-icon"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Enter a title for your image."></i> <input
-                                                        type="hidden" id="selected_file_id" name="file_id">
+                                                        title="Enter a title for your image."></i>
+                                                    <input type="hidden" id="selected_file_id" name="file_id">
                                                 </div>
                                             </div>
                                             <label id="title-error" class="error" for="title"></label>
-                                            {{-- <p>Please submit title only in English</p> --}}
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Description *</label>
                                                 <div class="file-inp-icon-grp">
-                                                    {{-- <input type="text" class="form-control upload-inp"
-                                                    placeholder="Descriptions *" name="description"
-                                                    aria-label="Username" aria-describedby="visible-addon"> --}}
                                                     <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
                                                         name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
                                                     <i class="fa-regular fa-circle-question file-input-icon"
@@ -848,15 +841,12 @@
                                                         title="Enter a clear description for your image."></i>
                                                 </div>
                                             </div>
-
-                                            {{-- <p>Please submit descriptions only in English</p> --}}
                                             <label id="description-error" class="error" for="description"></label>
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Price *</label>
                                                 <div class="file-inp-icon-grp">
-
                                                     <input type="text" class="form-control upload-inp"
                                                         placeholder="Price *" name="price" aria-label="Price"
                                                         oninput="this.value = this.value.replace(/[^0-9]/g, '');"
@@ -866,7 +856,6 @@
                                                         title="Enter a price for your image.($)"></i>
                                                 </div>
                                             </div>
-
                                             <label id="price-error" class="error" for="price"></label>
                                         </div>
                                         <div class="input-group">
@@ -883,25 +872,19 @@
                                             </div>
                                         </div>
                                         <div class="input-group">
-
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Select Category *</label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
                                                             name="category_id" id="category_id">
-                                                            <option value="">Select Category </option>
-
+                                                            <option value="">Select Category</option>
                                                             @foreach ($category as $cas)
                                                                 <option value="{{ $cas->id }}">
-                                                                    {{ $cas->category_name }}
-                                                                </option>
+                                                                    {{ $cas->category_name }}</option>
                                                             @endforeach
-
-
                                                         </select>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -913,19 +896,14 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
                                                             name="collection_id" id="collection_id">
-                                                            <option value="">Select Collection </option>
-
+                                                            <option value="">Select Collection</option>
                                                             @foreach ($getCollections as $coll)
                                                                 <option value="{{ $coll->id }}">
-                                                                    {{ $coll->name }}
-                                                                </option>
+                                                                    {{ $coll->name }}</option>
                                                             @endforeach
-
-
                                                         </select>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -937,11 +915,10 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
                                                             name="subcategory_id" id="subcategory_id">
-                                                            <option value="">Select Sub Category </option>
+                                                            <option value="">Select Sub Category</option>
                                                         </select>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -951,36 +928,146 @@
                                                 <label for="" class="heading-label">Country of shoot *</label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
-                                                        {{-- <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Country of shoot *<i class="fa-solid fa-angle-down"></i>
-                                                </button>
-                                                <i class="fa-regular fa-circle-question file-input-icon"></i>
-
-                                                <ul class="dropdown-menu file-dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="#">Something else
-                                                            here</a></li>
-                                                </ul> --}}
                                                         <select
-                                                            class="btn w-100 text-start  file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
                                                             name="country" id="country">
-                                                            <option value="">Country of shoot </option>
-                                                            {{-- <option value="usa">
-                                                        USA</option>
-                                                    <option value="uk">
-                                                        UK</option> --}}
+                                                            <option value="">Country of shoot</option>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- ===== ORIENTATION ===== --}}
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Orientation</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            name="orientation" id="orientation">
+                                                            <option value="">Select Orientation</option>
+                                                            <option value="landscape">Landscape</option>
+                                                            <option value="portrait">Portrait</option>
+                                                            <option value="square">Square</option>
+                                                            <option value="vertical">Vertical</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- ===== CAMERA MOVEMENT ===== --}}
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Camera Movement</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            name="camera_movement" id="camera_movement">
+                                                            <option value="">Select Camera Movement</option>
+                                                            <option value="static">Static</option>
+                                                            <option value="pan">Pan</option>
+                                                            <option value="tilt">Tilt</option>
+                                                            <option value="tracking">Tracking</option>
+                                                            <option value="aerial">Aerial</option>
+                                                            <option value="zoom">Zoom</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- ===== LICENSE TYPE ===== --}}
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">License Type</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            name="license_type" id="license_type">
+                                                            <option value="">Select License Type</option>
+                                                            <option value="rights_managed">Rights Managed</option>
+                                                            <option value="royalty_free">Royalty Free</option>
+                                                            <option value="editorial">Editorial</option>
+                                                            <option value="creative_commons">Creative Commons</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- ===== CONTENT FILTERS (Checkboxes → stored as JSON array) ===== --}}
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label class="heading-label">Content</label>
+                                                <div class="file-inp-icon-grp">
+                                                    <div class="d-flex flex-column gap-1 mt-1">
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="content_filters[]" value="with_people"
+                                                                id="cf_with_people">
+                                                            <label class="form-check-label" for="cf_with_people">
+                                                                With People
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="content_filters[]" value="without_people"
+                                                                id="cf_without_people">
+                                                            <label class="form-check-label" for="cf_without_people">
+                                                                Without People
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="content_filters[]" value="with_animals"
+                                                                id="cf_with_animals">
+                                                            <label class="form-check-label" for="cf_with_animals">
+                                                                Animals
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="content_filters[]" value="outdoors_nature"
+                                                                id="cf_outdoors_nature">
+                                                            <label class="form-check-label" for="cf_outdoors_nature">
+                                                                Outdoors / Nature
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="content_filters[]" value="indoors"
+                                                                id="cf_indoors">
+                                                            <label class="form-check-label" for="cf_indoors">
+                                                                Indoors
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="content_filters[]" value="copy_space"
+                                                                id="cf_copy_space">
+                                                            <label class="form-check-label" for="cf_copy_space">
+                                                                Copy Space
+                                                            </label>
+                                                        </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-
                                     </div>
+
                                     <div class="no-file-keywording">
                                         <div class="keyword-heading">
                                             <p class="keyword-title">Keywording</p>
@@ -988,7 +1075,6 @@
                                                 data-bs-target="#exampleModal">
                                                 Language:English(US)
                                             </button>
-
                                         </div>
                                         <p class="keyword-sub-text">Add accurate and relevant keywords to help
                                             customers find your imagery. You can add a title to get keyword suggestions.
@@ -998,14 +1084,12 @@
                                         <input name="tags" class="upload-inp form-control" id="tags"
                                             data-role="tagsinput" class="form-control">
                                         <div class="keyword-btn">
-                                            {{-- <button type="button" class="btn btn-all-dark btn-hover-dark">Get
-                                                SUggestions</button> --}}
                                             <button type="button"
                                                 class="btn btn-all-dark btn-hover-dark copy-keywords"
-                                                style="cursor: pointer;">Copy
-                                                Keywords</button>
+                                                style="cursor: pointer;">Copy Keywords</button>
                                         </div>
                                     </div>
+
                                     <div class="no-file-release d-none">
                                         <p class="release-title">Release</p>
                                         <div class="update-release">
@@ -1019,6 +1103,7 @@
                                         <button type="button" class="btn btn-all-dark btn-hover-dark">Update
                                             release</button>
                                     </div>
+
                                     <div
                                         class="no-file-video-propertise {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="video-title">Video Propertise</p>
@@ -1029,30 +1114,10 @@
                                                 aria-describedby="visible-addon" disabled>
                                         </div>
                                     </div>
+
                                     <div class="no-file-master-formate {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="master-title">Master Formate</p>
-                                        {{-- <div class="dropdown file-main-dropdown">
-                                            <div class="file-inp-icon-grp">
-                                                <button class="btn w-100 text-start  file-dropdown dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Country of shoot *<i class="fa-solid fa-angle-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu file-dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="#">Something else
-                                                            here</a></li>
-                                                </ul>
-                                            </div>
-                                        </div> --}}
                                         <div class="file-master-inp-grp">
-                                            {{-- <div class="input-group file-inp-label-grp">
-                                                <p style="font-size: 12px;">Media formate</p>
-                                                <input type="text" class="form-control upload-inp"
-                                                    placeholder="Quick Time" name="media_formate" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon">
-                                            </div> --}}
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame rate</p>
                                                 <input type="text" class="form-control upload-inp"
@@ -1067,24 +1132,11 @@
                                                     placeholder="550x550" name="frame_size" width="100%"
                                                     aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
-                                            {{-- <div class="input-group file-inp-label-grp">
-                                                <p style="font-size: 12px;">Scanning Method</p>
-                                                <input type="text" class="form-control upload-inp"
-                                                    placeholder="Progressive" name="scanning_method" width="100%"
-                                                    aria-label="Username" aria-describedby="visible-addon">
-                                            </div> --}}
                                         </div>
-                                        {{-- <div class="input-group file-inp-label-grp">
-                                            <p style="font-size: 12px;">Compression</p>
-                                            <input type="text" class="form-control upload-inp" placeholder="H.264"
-                                                name="compression" width="100%" aria-label="Username"
-                                                aria-describedby="visible-addon">
-                                        </div> --}}
                                     </div>
 
                                     <div class="no-file-master-formate {{ $batch_type == 'image' ? '' : 'd-none' }}">
                                         <p class="master-title">Image properties</p>
-
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
                                                 <label class="heading-label">Image Height</label>
@@ -1103,8 +1155,8 @@
 
                                     <div class="submit-metadaata text-center mt-4 mb-1">
                                         <button type="submit" disabled id="save-metadata"
-                                            class="btn btn-orange w-100 "
-                                            style="font-size: 16px; padding: 15px 0;cursor: pointer;">Save
+                                            class="btn btn-orange w-100"
+                                            style="font-size: 16px; padding: 15px 0; cursor: pointer;">Save
                                             metadata</button>
                                     </div>
                                 </div>
