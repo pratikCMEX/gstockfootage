@@ -1,15 +1,15 @@
 // alert();
 
- $(document).ready(function () {
+$(document).ready(function () {
 
-        let table = $('#products-table').DataTable();
+  let table = $('#products-table').DataTable();
 
-        // Reload table when filter changes
-        $('#categories, #subcategory, #collections , #type').change(function () {
-            table.ajax.reload();
-        });
+  // Reload table when filter changes
+  $('#categories, #subcategory, #collections , #type').change(function () {
+    table.ajax.reload();
+  });
 
-    });
+});
 function changeType(type) {
   let fileInput = document.getElementById("fileInput");
 
@@ -203,122 +203,123 @@ function previewVideo(event) {
 }
 
 function toggleDeleteButton() {
-    let totalCheckboxes = $(".row-checkbox").length;
-    let checkedCheckboxes = $(".row-checkbox:checked").length;
+  let totalCheckboxes = $(".row-checkbox").length;
+  let checkedCheckboxes = $(".row-checkbox:checked").length;
 
-    if (checkedCheckboxes > 0) {
-        $("#delete-selected").show();
-    } else {
-        $("#delete-selected").hide();
-    }
+  if (checkedCheckboxes > 0) {
+    $("#delete-selected").show();
+  } else {
+    $("#delete-selected").hide();
+  }
 
-    $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
+  $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
 }
 
 $(document).on("change", ".row-checkbox", function () {
-    toggleDeleteButton();
+  toggleDeleteButton();
 });
 
 $(document).on("change", "#select-all", function () {
-    $(".row-checkbox").prop("checked", this.checked);
-    toggleDeleteButton();
+  $(".row-checkbox").prop("checked", this.checked);
+  toggleDeleteButton();
 });
 
 
 
 $("#delete-selected").on("click", function () {
-    let ids = [];
+  let ids = [];
 
-    $(".row-checkbox:checked").each(function () {
-        ids.push($(this).val());
-    });
+  $(".row-checkbox:checked").each(function () {
+    ids.push($(this).val());
+  });
 
-    if (ids.length === 0) {
-        toastr.success("Please select at least one user");
-        return;
+  if (ids.length === 0) {
+    toastr.success("Please select at least one user");
+    return;
+  }
+
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: base_url + "/admin/delete_multiple_product",
+        type: "POST",
+        data: {
+          ids: ids,
+          _token: $('meta[name="csrf-token"]').attr("content"),
+        },
+        success: function (response) {
+          if (response.success == false) {
+            toastr.error(response.message);
+          } else {
+            toastr.success(response.message);
+          }
+          $("#select-all").prop("checked", false);
+          $("#delete-selected").css("display", "none");
+          $("#products-table").DataTable().ajax.reload();
+        },
+      });
     }
-
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: base_url + "/admin/delete_multiple_product",
-                type: "POST",
-                data: {
-                    ids: ids,
-                    _token: $('meta[name="csrf-token"]').attr("content"),
-                },
-                success: function (response) {
-                    if (response.success == false) {
-                        toastr.error(response.message);
-                    }else{
-                         toastr.success(response.message);
-                    }
-                    $("#select-all").prop("checked", false);
-                    $("#delete-selected").css("display", "none");
-                    $("#products-table").DataTable().ajax.reload();
-                },
-            });
-        }
-    });
+  });
 });
 
 $(document).on("click", ".deleteProduct", function () {
 
-    var id = $(this).data("id");
- 
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+  var id = $(this).data("id");
 
-        if (result.isConfirmed) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
 
-            $.ajax({
-                url: base_url + "/admin/delete_product",
-                type: "post",
-                data: {
-                    id: id,
-                    _token: $('meta[name="csrf-token"]').attr("content")
-                },
-                success: function (response) {
-                    if (response.success) {
-                        Swal.fire(
-                            "Deleted!",
-                           response.message,
-                            "success"
-                        );
+    if (result.isConfirmed) {
 
-                        $('#products-table').DataTable().ajax.reload(null, false);
-                    }else{
-                         Swal.fire(
-                        "Error!",
-                         response.message,
-                        "error"
-                    );
-                    }
-                },
-                error: function () {
-                    Swal.fire(
-                        "Error!",
-                        "Something went wrong.",
-                        "error"
-                    );
-                }
-            });
+      $.ajax({
+        url: base_url + "/admin/delete_product",
+        type: "post",
+        data: {
+          id: id,
+          _token: $('meta[name="csrf-token"]').attr("content")
+        },
+        success: function (response) {
+          if (response.success) {
+            Swal.fire(
+              "Deleted!",
+              response.message,
+              "success"
+            );
 
+            $('#products-table').DataTable().ajax.reload(null, false);
+          } else {
+            Swal.fire(
+              "Error!",
+              response.message,
+              "error"
+            );
+          }
+        },
+        error: function () {
+          Swal.fire(
+            "Error!",
+            "Something went wrong.",
+            "error"
+          );
         }
-    });
+      });
+
+    }
+  });
 });
+

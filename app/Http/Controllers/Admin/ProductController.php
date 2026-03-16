@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ProductDataTable;
+use App\DataTables\ProductPriorityDataTable;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessBatchVideo;
 use App\Models\Product;
@@ -393,5 +394,56 @@ class ProductController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
+    }
+
+
+    public function priority(ProductPriorityDataTable $DataTable)
+    {
+        $title = 'Products';
+        $page = 'admin.product.priority';
+        $js = ['products','product_priority'];
+        $category = Category::all();
+        $subcategory = SubCategory::all();
+        $collections = Collection::all();
+        $products = BatchFile::where('is_edited','1')->whereNull('priority')->orWhere('priority', 0)->get();
+
+        $priorityProducts = BatchFile::where('is_edited','1')->Where('priority', '!=', 0)
+            ->orderBy('priority', 'asc')
+            ->get();
+
+        return view("layouts.admin.layout", compact(
+            'title',
+            'page',
+            'js',
+            'category',
+            'subcategory',
+            'collections',
+            'products',
+            'priorityProducts'
+        ));
+        // return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'category', 'subcategory', 'collections'));
+    }
+    public function updatePriority(Request $request)
+    {
+        $order = $request->order ?? [];
+       
+        // Reset priority for products removed from priority list
+        BatchFile::whereNotIn('id', $order)->update([
+            'priority' => 0
+        ]);
+
+        // Update priority for selected products
+        foreach ($order as $index => $id) {
+
+            BatchFile::where('id', $id)->update([
+                'priority' => $index + 1
+            ]);
+
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Priority updated successfully'
+        ]);
     }
 }

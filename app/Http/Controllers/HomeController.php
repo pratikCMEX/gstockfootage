@@ -238,6 +238,7 @@ class HomeController extends Controller
         if ($category_id) {
             $query->where('category_id', $category_id);        // ← new
         }
+        
 
         $allPhotos = $query->get();
 

@@ -19,7 +19,7 @@
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <!-- toast js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 @if (isset($js))
     @foreach ($js as $value)
         <script src="{{ asset('assets/admin') }}/js/{{ $value }}.js"></script>

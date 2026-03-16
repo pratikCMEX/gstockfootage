@@ -6,7 +6,7 @@ $(document).on("click", ".addFavorite", function (e) {
   var type = $(this).data("type");
   var button = $(this);
 
-  console.log("Adding to favorites:", { product_id: id, product_type: type });
+  // console.log("Adding to favorites:", { product_id: id, product_type: type });
 
   $.ajax({
     url: base_url + "/add_favorite",
@@ -19,7 +19,7 @@ $(document).on("click", ".addFavorite", function (e) {
       product_type: type,
     },
     success: function (response) {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         toastr.success(response.message);
 
@@ -85,7 +85,7 @@ $(document).on("click", ".removeFavorite", function () {
       id: id,
     },
     success: function (response) {
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         toastr.success(response.message);
 

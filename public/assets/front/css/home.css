@@ -539,7 +539,12 @@
   justify-content: center;
   gap: 8px;
 }
-
+.text-orange{
+    color: orange;
+}
+.detailFavorite{
+    color: var(--primary) !important;
+}
 .popular-icon-btn:hover {
   color: var(--white);
   background-color: var(--primary);
