@@ -75,13 +75,18 @@
                                         {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
                                         {{-- <source src="{{ Storage::disk('s3')->url($data['low_path']) }}"> --}}
                                     </video>
+                                    <div class="big-slide-img-overlay"
+                                        style="background-image: url({{ $data['thumbnail'] }})">
+                                    </div>
                                 @else
                                     <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
+                                    <div class="big-slide-img-overlay"
+                                        style="background-image: url({{ $data['low_path'] }})">
+                                    </div>
                                 @endif
-                                {{ dd($data['thumbnail']) }}
-                                <div class="big-slide-img-overlay"
-                                    style="background-image: url({{ $data['thumbnail'] }})">
-                                </div>
+                                {{-- {{ dd($data['thumbnail']) }} --}}
+
+
 
                             </div>
                             {{-- </div>

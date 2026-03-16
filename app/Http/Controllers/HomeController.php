@@ -112,6 +112,7 @@ class HomeController extends Controller
                 $data['file_size'] = 'Video File';
             }
 
+            // dd($data);
             // return view('product.show', compact('data'));
             return view("layouts.front.layout", compact('title', 'page', 'data', 'js', 'productDatas'));
         } catch (\Exception $e) {
