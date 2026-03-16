@@ -20,12 +20,26 @@
                                     @foreach ($cartItems as $item)
                                         <li class="add-product-content">
                                             <div class="add-product-img">
-                                                @if ($item->product->type == '0')
+                                                {{-- @if ($item->product->type == '0')
                                                     <img src="{{ asset('uploads/images/low/' . $item->product->low_path) }}"
                                                         class="h-100 w-100" alt="">
                                                 @else
                                                     <img src="{{ asset('uploads/videos/thumbnails/' . $item->product->thumbnail_path) }}"
                                                         class="h-100 w-100" alt="">
+                                                @endif --}}
+
+                                                @if ($item->product->type == 'image')
+                                                    <img src="{{ Storage::disk('s3')->url($item->product->low_path) }}"
+                                                        class="h-100 w-100"
+                                                        alt="{{ Storage::disk('s3')->url($item->product->low_path) }}">
+                                                @else
+                                                    @if ($item->product->thumbnail_path == null)
+                                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                            class="h-100 w-100" alt="">
+                                                    @else
+                                                        <img src="{{ Storage::disk('s3')->url($item->product->thumbnail_path) }}"
+                                                            class="h-100 w-100" alt="">
+                                                    @endif
                                                 @endif
                                             </div>
                                             <div class="add-product-detail">

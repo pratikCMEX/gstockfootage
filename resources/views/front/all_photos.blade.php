@@ -8,27 +8,90 @@
             <div class="search-wrapper">
                 <div class="search-box shadow-lg">
 
+                    <!-- Dropdown -->
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle custom-dropdown" data-bs-toggle="dropdown">
-                            <i class="bi bi-image"></i>
-                            Photos
+                        <button class="btn dropdown-toggle custom-dropdown" data-bs-toggle="dropdown" id="dropdownBtn">
+                            <i class="bi bi-grid btn-icon"></i>
+                            <span class="btn-text">All content</span>
                         </button>
 
-                        <ul class="dropdown-menu custom-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-grid"></i> All content</a></li>
-                            <li><a class="dropdown-item" href="#">
-                                    <i class="bi bi-camera-video"></i>
-                                    Videos</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Artwork</a></li>
+                        <ul class="dropdown-menu custom-menu content-list-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" data-type="all" data-icon="bi bi-grid"
+                                    data-label="All content">
+                                    <i class="bi bi-grid"></i> <span>All content</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-type="video" data-icon="bi bi-camera-video"
+                                    data-label="Videos">
+                                    <i class="bi bi-camera-video"></i> <span>Videos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-type="image" data-icon="bi bi-image"
+                                    data-label="Photos">
+                                    <i class="bi bi-image"></i> <span>Photos</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
                     <div class="inp-search">
-                        <input type="text" placeholder="Start your next project" />
+                        <!-- Input -->
+                        <input type="text" class="home_search" placeholder="Search for photos, videos and more..." />
 
+                        <!-- Search Button -->
                         <button class="search-btn">
                             <i class="bi bi-search"></i>
                         </button>
+                        <div class="suggetion-search">
+                            <ul>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Image Search -->
+
+                <button type="button" class="btn image-search-btn shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    <i class="bi bi-camera"></i>
+                    Search by image
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body search-image-body">
+                                <input type="file" id="search-image" hidden>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-upload h-12 w-12  mb-2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" x2="12" y1="3" y2="15"></line>
+                                </svg>
+                                <label for="search-image">Click to upload an image
+                                    or drag and drop</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-hover-dark btn-all-dark cancel-btn"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-orange ">Search</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -60,10 +123,10 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 text-sm-end text-start">
                         <div class="heading-btn">
                             <div class="dropdown">
-                                <button class="btn btn-orange dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                {{-- <button class="btn btn-orange dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     More <i class="bi bi-three-dots"></i>
-                                </button>
+                                </button> --}}
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">All Clips</a></li>
                                     <li><a class="dropdown-item" href="#">Featured</a></li>
@@ -84,7 +147,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="brand-posibility">
                                 <div class="posibility-img">
-                                    <img width="100%" height="100%"
+                                    <img loading="lazy" width="100%" height="100%"
                                         src="{{ asset('uploads/images/category/' . $category->category_image) }}"
                                         alt="">
                                 </div>
@@ -107,7 +170,7 @@
                         <h2>
                             Photos that are <span class="yellow-headings"> trending today</span>
                         </h2>
-                        <p>Showing 4 photos</p>
+                        <p>Showing {{ count($allPhotos) }} photos</p>
                     </div>
                 </div>
 
@@ -119,8 +182,8 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
-                                    <img src="{{ Storage::disk('s3')->url($photos->low_path) }}" class="product-img"
-                                        alt="">
+                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($photos->low_path) }}"
+                                        class="product-img" alt="">
                                 </a>
 
                                 <div class="p-3">
@@ -143,8 +206,8 @@
                                                 class="bi {{ $photos->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
                                             {{ $photos->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
                                         <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" fill="currentColor" class="bi bi-share"
-                                                viewBox="0 0 16 16">
+                                                width="16" height="16" fill="currentColor"
+                                                class="bi bi-share" viewBox="0 0 16 16">
                                                 <path
                                                     d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                             </svg>
@@ -169,7 +232,7 @@
                     <div class="product-card">
 
                         <a href="{{ route('product.detail', encrypt(1)) }}">
-                            <img src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
+                            <img loading="lazy" src="{{ asset('assets/front/img/jivan-garcha-eqxjqXER9NY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
 
@@ -211,7 +274,7 @@
                     <div class="product-card">
 
                         <a href="{{ route('product.detail', encrypt(1)) }}">
-                            <img src="{{ asset('assets/front/img/land-o-lakes-inc-1w3tO5F8HYY-unsplash.jpg') }}"
+                            <img loading="lazy" src="{{ asset('assets/front/img/land-o-lakes-inc-1w3tO5F8HYY-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
 
@@ -255,7 +318,7 @@
                     <div class="product-card">
 
                         <a href="{{ route('product.detail', encrypt(1)) }}">
-                            <img src="{{ asset('assets/front/img/land-o-lakes-inc-BvZYHz9TeCk-unsplash.jpg') }}"
+                            <img loading="lazy" src="{{ asset('assets/front/img/land-o-lakes-inc-BvZYHz9TeCk-unsplash.jpg') }}"
                                 class="product-img" alt="">
                         </a>
 

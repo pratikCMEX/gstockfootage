@@ -68,7 +68,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body search-image-body">
                             <input type="file" id="search-image" hidden>
@@ -151,7 +152,7 @@
 
                             <div class="brand-posibility">
                                 <div class="posibility-img">
-                                    <img width="100%" height="100%"
+                                    <img loading="lazy" width="100%" height="100%"
                                         src="{{ asset('uploads/images/category/' . $category->category_image) }}"
                                         alt="{{ $category->category_name ?? '' }}">
                                 </div>
@@ -167,7 +168,7 @@
                 <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -178,7 +179,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -189,7 +190,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -200,7 +201,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/anita-austvika-7VTKbHqli9c-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -211,7 +212,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/brianna-parks-j6vp8NJPHOI-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -222,7 +223,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/christopher-stites-M6b7Pm2u-ms-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -233,7 +234,7 @@
                                                                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                                                                             <div class="brand-posibility">
                                                                                                 <div class="posibility-img">
-                                                                                                    <img width="100%" height="100%"
+                                                                                                    <img loading="lazy" width="100%" height="100%"
                                                                                                         src="{{ asset('assets/front/img/daniel-miksha-9U645Y6gxEc-unsplash.jpg') }}" alt="">
                                                                                                 </div>
                                                                                                 <div class="posibilty-title">
@@ -272,7 +273,8 @@
                             </button>
                             <div id="price" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    <input type="range" class="form-range" min="0" max="500" value="0" id="range4">
+                                    <input type="range" class="form-range" min="0" max="500"
+                                        value="0" id="range4">
                                     <output for="range4" id="rangeValue" aria-hidden="true"></output>
                                     <div class="range-values">
                                         <span>$0</span>
@@ -291,8 +293,8 @@
                             </button>
                             <div id="duration" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    <input type="range" class="form-range" min="0" max="120" value="0"
-                                        id="rangeseconds">
+                                    <input type="range" class="form-range" min="0" max="120"
+                                        value="0" id="rangeseconds">
                                     <output for="rangeseconds" id="rangesecondValue" aria-hidden="true"></output>
                                     <div class="range-values">
                                         <span>0s</span>
@@ -467,17 +469,20 @@
                         </div>
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <button type="button" class="nav-link active" aria-current="page" href="#">Jerusalem
+                                <button type="button" class="nav-link active" aria-current="page"
+                                    href="#">Jerusalem
                                     <i class="fa-solid fa-xmark"></i>
 
                                 </button>
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Aerial</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Aerial</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Drone</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Drone</button>
 
                             </li>
                             <li class="nav-item">
@@ -491,31 +496,38 @@
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Historic</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Historic</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Biblical</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Biblical</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Desert</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Desert</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Ancient</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Ancient</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">4K</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">4K</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Sunset</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Sunset</button>
 
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link " aria-current="page" href="#">Landscape</button>
+                                <button type="button" class="nav-link " aria-current="page"
+                                    href="#">Landscape</button>
 
                             </li>
                             <li class="nav-item">
@@ -547,14 +559,15 @@
 
                                 <!-- Price -->
                                 <div class="accordion-item">
-                                    <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#price">
+                                    <button class="accordion-button" data-bs-toggle="collapse"
+                                        data-bs-target="#price">
                                         Price Range
                                         <i class="fa-solid fa-angle-up"></i>
                                     </button>
                                     <div id="price" class="accordion-collapse collapse show">
                                         <div class="accordion-body">
-                                            <input type="range" class="form-range" min="0" max="500" value="0"
-                                                id="range4">
+                                            <input type="range" class="form-range" min="0" max="500"
+                                                value="0" id="range4">
                                             <output for="range4" id="rangeValue" aria-hidden="true"></output>
                                             <div class="range-values">
                                                 <span>$0</span>
@@ -574,8 +587,8 @@
                                     </button>
                                     <div id="duration" class="accordion-collapse collapse show">
                                         <div class="accordion-body">
-                                            <input type="range" class="form-range" min="0" max="120" value="0"
-                                                id="rangeseconds">
+                                            <input type="range" class="form-range" min="0" max="120"
+                                                value="0" id="rangeseconds">
                                             <output for="rangeseconds" id="rangesecondValue"
                                                 aria-hidden="true"></output>
                                             <div class="range-values">
@@ -622,17 +635,17 @@
                                         <div id="fps" class="accordion-collapse collapse">
                                             <div class="accordion-body">
                                                 <div class="filter-option form-check"><input class="form-check-input"
-                                                        type="checkbox" id="24fps"><label class="form-check-label"
-                                                        for="24fps">24 fps</label></div>
+                                                        type="checkbox" id="24fps"><label
+                                                        class="form-check-label" for="24fps">24 fps</label></div>
                                                 <div class="filter-option form-check"><input class="form-check-input"
-                                                        type="checkbox" id="30fps"><label class="form-check-label"
-                                                        for="30fps">30 fps</label></div>
+                                                        type="checkbox" id="30fps"><label
+                                                        class="form-check-label" for="30fps">30 fps</label></div>
                                                 <div class="filter-option form-check"><input class="form-check-input"
-                                                        type="checkbox" id="60fps"><label class="form-check-label"
-                                                        for="60fps">60 fps</label></div>
+                                                        type="checkbox" id="60fps"><label
+                                                        class="form-check-label" for="60fps">60 fps</label></div>
                                                 <div class="filter-option form-check"><input class="form-check-input"
-                                                        type="checkbox" id="120fps"><label class="form-check-label"
-                                                        for="120fps">120 fps</label></div>
+                                                        type="checkbox" id="120fps"><label
+                                                        class="form-check-label" for="120fps">120 fps</label></div>
                                             </div>
                                         </div>
                                     </div>
@@ -706,7 +719,8 @@
                                                         type="checkbox"><label class="form-check-label">Tilt</label>
                                                 </div>
                                                 <div class="filter-option form-check"><input class="form-check-input"
-                                                        type="checkbox"><label class="form-check-label">Tracking</label>
+                                                        type="checkbox"><label
+                                                        class="form-check-label">Tracking</label>
                                                 </div>
                                                 <div class="filter-option form-check"><input class="form-check-input"
                                                         type="checkbox"><label class="form-check-label">Aerial</label>
@@ -790,7 +804,7 @@
                                     <div class="product-card">
 
                                         <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            {{-- <img src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
+                                            {{-- <img loading="lazy" src="{{ Storage::disk('s3')->url($video['thumbnail_path']) }}"
                                                 class="product-img" alt=""> --}}
                                             <video class="product-img" controls width="100%"
                                                 poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
@@ -803,9 +817,10 @@
 
                                         <div class="p-3">
 
-                                            <span class="badge badge-custom mb-2">{{ $video->category->category_name }}</span>
+                                            <span
+                                                class="badge badge-custom mb-2">{{ $video->category->category_name }}</span>
 
-                                            <a href="{{ route('product.detail', encrypt(1)) }}">
+                                            <a href="{{ route('product.detail', encrypt($video->id)) }}">
                                                 <h6 class="popular-detail-title">{{ $video->title }}</h6>
                                             </a>
 
@@ -819,11 +834,13 @@
                                             </div>
                                             <div class="product-two-btn">
                                                 <button class="btn  popular-icon-btn addFavorite"
-                                                    data-Product-id="{{ $video->id }}" data-type="{{ $video->type }}"><i
+                                                    data-Product-id="{{ $video->id }}"
+                                                    data-type="{{ $video->type }}"><i
                                                         class="bi {{ $video->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
                                                     {{ $video->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
-                                                <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                        width="16" height="16" fill="currentColor" class="bi bi-share"
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-share"
                                                         viewBox="0 0 16 16">
                                                         <path
                                                             d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
@@ -848,7 +865,7 @@
                             <!-- <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -890,7 +907,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -932,7 +949,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -974,7 +991,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1016,7 +1033,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1058,7 +1075,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1100,7 +1117,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1142,7 +1159,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -1184,7 +1201,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt(1)) }}">
-                                    <img src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
+                                    <img loading="lazy" src="{{ asset('assets/front/img/francesco-ungaro-97-blyf3IxE-unsplash.jpg') }}"
                                         class="product-img" alt="">
                                 </a>
 
