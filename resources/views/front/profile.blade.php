@@ -5,8 +5,8 @@
                 <div class="profile-left">
                     <div class="profile-content">
                         <div class="profile-img">
-                            <img src="{{ asset('assets/front/img/demo_profile.jpg') }}"
-                                height="100%" width="100%" alt="">
+                            <img src="{{ asset('assets/front/img/demo_profile.jpg') }}" height="100%" width="100%"
+                                alt="">
                         </div>
                         <div class="profile-name">
                             <h4>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h4>
@@ -53,8 +53,8 @@
                             <div class="profile-manage-body">
                                 <div class="profile-manage-left">
                                     <div class="profile-manage-img">
-                                        <img src="{{ asset('assets/front/img/demo_profile.jpg') }}"
-                                            width="100%" height="100%" alt="">
+                                        <img src="{{ asset('assets/front/img/demo_profile.jpg') }}" width="100%"
+                                            height="100%" alt="">
                                         <!-- <div>
                                             <label for="myfile" class="mb-0" style="cursor: pointer;">
                                                 <i class="bi bi-camera"></i>
@@ -117,7 +117,7 @@
                                     <div class="subscription-plan-header">
                                         <span class="section-badge" style="padding: 3px 14px;">Subscription</span>
                                         <!-- <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
-                                                                            Active</span> -->
+                                                                                Active</span> -->
                                     </div>
                                     <div class="subscription-title-price">
                                         <div class="profile-subscription-title">
@@ -145,55 +145,55 @@
                                     </div>
                                 </div>
                                 <!-- <div class="subscription-right">
-                                                                                                                                                                                                            <div class="features-title">What's included</div>
-                                                                                                                                                                                                            <ul class="features">
-                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                    Unlimited projects &amp; workspaces
-                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                    Priority 24/7 customer support
-                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                    Advanced analytics &amp; reports
-                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                    100 GB secure cloud storage
-                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                    API access &amp; integrations
-                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                            </ul>
-                                                                                                                                                                                                        </div> -->
+                                                                                                                                                                                                                <div class="features-title">What's included</div>
+                                                                                                                                                                                                                <ul class="features">
+                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                        Unlimited projects &amp; workspaces
+                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                        Priority 24/7 customer support
+                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                        Advanced analytics &amp; reports
+                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                        100 GB secure cloud storage
+                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                        API access &amp; integrations
+                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                </ul>
+                                                                                                                                                                                                            </div> -->
                             </div>
                         @endif
                     </div>
@@ -387,7 +387,7 @@
                                     </div>
                                     <div>
                                         <span>Phone</span>
-                                        <p>{{ $user_profile->phone ?? '' }}</p>
+                                        <p>{{ $user_profile->phone ? $user_profile->phone: '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -457,12 +457,12 @@
                             <div>
                                 <label>Phone No</label>
 
-                                <div class="input-group">
-                                    <input type="text" id="phone" name="phone_number" class="form-control"
+                                <div class="input-group  phone-input">
+                                    <input type="tel" id="phone" name="phone_number" class="form-control"
                                         placeholder="Enter your phone number" value="{{ $user_profile->phone ?? '' }}"
                                         oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                 </div>
-
+                                
                                 <!-- Hidden field that stores full phone -->
                                 <input type="hidden" name="phone" id="full_phone"
                                     value="{{ $user_profile->phone ?? '' }}">

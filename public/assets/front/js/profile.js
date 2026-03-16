@@ -21,14 +21,14 @@ $(document).ready(function () {
 
             },
             phone_number: {
-                required: true,
+                // required: true,
                 minlength: 10,
                 maxlength: 15,
-                
+
             },
-            address: {
-                required: true,
-            },
+            // address: {
+            //     required: true,
+            // },
 
 
         },
@@ -46,17 +46,25 @@ $(document).ready(function () {
                 email: "Plase Enter a valid Email"
 
             }, phone_number: {
-                required: "Please enter phone number",
+                // required: "Please enter phone number",
                 minlength: "Phone number must be at least 10 digits",
                 maxlength: "Phone number cannot exceed 15 digits",
                 // digits: "Please enter valid phone number (digits only)",
             },
-            address: {
-                required: "Please enter address",
-            },
+            // address: {
+            //     required: "Please enter address",
+            // },
 
         },
+        errorPlacement: function (error, element) {
 
+        if (element.attr("id") == "phone") {
+            error.insertAfter(".phone-input .iti");
+        } else {
+            error.insertAfter(element);
+        }
+
+    },
         //  THIS IS THE KEY PART
         submitHandler: function (form) {
 
@@ -153,23 +161,23 @@ $(document).on('click', '.cancel', function (e) {
     window.close();
 })
 
- document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        var input = document.querySelector("#phone");
+    var input = document.querySelector("#phone");
 
-        var iti = window.intlTelInput(input, {
-            initialCountry: "us",
-            preferredCountries: ["us"],
-            separateDialCode: true,
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-        });
+    var iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        preferredCountries: ["us"],
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
 
-        document.querySelector("#profile_form").addEventListener("submit", function () {
+    document.querySelector("#profile_form").addEventListener("submit", function () {
 
-            var fullPhone = iti.getNumber();
+        var fullPhone = iti.getNumber();
 
-            document.querySelector("#full_phone").value = fullPhone;
-
-        });
+        document.querySelector("#full_phone").value = fullPhone;
 
     });
+
+});

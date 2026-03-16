@@ -122,7 +122,15 @@ $("#signup").validate({
       minlength: "Password Must Be At Least 6 Characters",
     },
   },
+errorPlacement: function (error, element) {
 
+        if (element.attr("id") == "phone") {
+            error.insertAfter(".phone-input .iti");
+        } else {
+            error.insertAfter(element);
+        }
+
+    },
   normalizer: function (value) {
     return $.trim(value);
   },

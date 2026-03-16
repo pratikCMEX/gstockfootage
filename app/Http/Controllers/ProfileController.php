@@ -50,7 +50,7 @@ class ProfileController extends Controller
         $wishLists = Favorites::with(['batchFile', 'batchFile.category'])
             ->where('user_id', $userId)
             ->get();
-
+    
         $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->where('status', 'active')->first();
 
         return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists', 'purchasePlan'));
@@ -67,8 +67,8 @@ class ProfileController extends Controller
             $request->validate([
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
-                'phone' => 'required|string|max:255',
-                'address' => 'required|string|max:255',
+                // 'phone' => 'required|string|max:255',
+                // 'address' => 'required|string|max:255',
                 'email' => 'required|string|max:255',
             ]);
 

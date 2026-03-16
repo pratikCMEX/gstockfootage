@@ -18,7 +18,19 @@
   font-family: var(--font-inter-medium);
   color: var(--white);
 } */
+.phone-input .iti{
+    width:100%;
+}
 
+.iti input{
+    width:100%;
+}
+
+label.error{
+    font-size:13px;
+    margin-top:4px;
+    display:block;
+}
 .auth-wrapper {
   min-height: 100vh;
   width: 100%;
