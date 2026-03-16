@@ -5,7 +5,7 @@
                 <div class="profile-left">
                     <div class="profile-content">
                         <div class="profile-img">
-                            <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            <img src="{{ asset('assets/front/img/demo_profile.jpg') }}"
                                 height="100%" width="100%" alt="">
                         </div>
                         <div class="profile-name">
@@ -53,14 +53,14 @@
                             <div class="profile-manage-body">
                                 <div class="profile-manage-left">
                                     <div class="profile-manage-img">
-                                        <img src="https://images.unsplash.com/photo-1772442199087-f03254e07bd0?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D%22
-                                        width=" 100%" height="100%" alt="">
-                                        <div>
+                                        <img src="{{ asset('assets/front/img/demo_profile.jpg') }}"
+                                            width="100%" height="100%" alt="">
+                                        <!-- <div>
                                             <label for="myfile" class="mb-0" style="cursor: pointer;">
                                                 <i class="bi bi-camera"></i>
                                             </label>
                                             <input type="file" id="myfile" name="myfile" multiple hidden><br><br>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="profile-manage-title">
                                         <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
