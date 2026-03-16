@@ -145,16 +145,20 @@
                 <div class="row row-gap-4">
                     @foreach ($categories as $category)
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="brand-posibility">
-                                <div class="posibility-img">
-                                    <img loading="lazy" width="100%" height="100%"
-                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}"
-                                        alt="">
+                            <a
+                                href="{{ route('all_photos', ['category_id' => encrypt($category->id), 'type' => 'image']) }}">
+
+                                <div class="brand-posibility">
+                                    <div class="posibility-img">
+                                        <img loading="lazy" width="100%" height="100%"
+                                            src="{{ asset('uploads/images/category/' . $category->category_image) }}"
+                                            alt="">
+                                    </div>
+                                    <div class="posibilty-title">
+                                        <h3>{{ $category->category_name }}</h3>
+                                    </div>
                                 </div>
-                                <div class="posibilty-title">
-                                    <h3>{{ $category->category_name }}</h3>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>
