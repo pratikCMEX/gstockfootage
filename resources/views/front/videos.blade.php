@@ -201,7 +201,6 @@
                             </button>
                             <div id="priceD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    {{-- CHANGE: replaced single range with min/max inputs + slider --}}
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="price_min_input"
                                             class="form-control form-control-sm" min="0" max="500"
@@ -210,8 +209,9 @@
                                             class="form-control form-control-sm" min="0" max="500"
                                             value="500" placeholder="$500">
                                     </div>
-                                    <input type="range" class="form-range" min="0" max="500"
-                                        value="500" id="priceRangeMax">
+
+                                    <input type="range" class="form-range  filled-range" min="0"
+                                        max="500" value="500" id="priceRangeMax">
                                     <div class="range-values">
                                         <span>$0</span>
                                         <span id="priceMaxLabel">$500</span>
@@ -228,7 +228,6 @@
                             </button>
                             <div id="durationD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    {{-- CHANGE: replaced single range with min/max inputs + slider --}}
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="duration_min_input"
                                             class="form-control form-control-sm" min="0" max="120"
@@ -248,7 +247,7 @@
                         </div>
 
                         <!-- Resolution -->
-                        <div class="accordion-item">
+                        {{-- <div class="accordion-item">
                             <button class="accordion-button collapsed" data-bs-toggle="collapse"
                                 data-bs-target="#resolutionD">
                                 Resolution
@@ -257,7 +256,6 @@
                             <div id="resolutionD" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="filter-option form-check">
-                                        {{-- CHANGE: added class="filter-check" name="resolution[]" value="HD" --}}
                                         <input class="form-check-input filter-check" type="checkbox" id="hd_d"
                                             name="resolution[]" value="HD">
                                         <label class="form-check-label" for="hd_d">HD</label>
@@ -274,7 +272,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Frame Rate -->
                         <div class="accordion-item">
@@ -286,7 +284,6 @@
                             <div id="fpsD" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="filter-option form-check">
-                                        {{-- CHANGE: added class="filter-check" name="frame_rate[]" value="24" --}}
                                         <input class="form-check-input filter-check" type="checkbox" id="24fps_d"
                                             name="frame_rate[]" value="24">
                                         <label class="form-check-label" for="24fps_d">24 fps</label>
@@ -320,7 +317,6 @@
                             <div id="orientationD" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="filter-option form-check">
-                                        {{-- CHANGE: added class="filter-check" name="orientation[]" value="landscape" --}}
                                         <input class="form-check-input filter-check" type="checkbox" id="landscape_d"
                                             name="orientation[]" value="landscape">
                                         <label class="form-check-label" for="landscape_d">Landscape</label>
@@ -345,7 +341,7 @@
                         </div>
 
                         <!-- License -->
-                        <div class="accordion-item">
+                        {{-- <div class="accordion-item">
                             <button class="accordion-button collapsed" data-bs-toggle="collapse"
                                 data-bs-target="#licenseD">
                                 License Type
@@ -353,7 +349,6 @@
                             </button>
                             <div id="licenseD" class="accordion-collapse collapse">
                                 <div class="accordion-body">
-                                    {{-- CHANGE: added class="filter-radio" value="Standard/Premium/Editorial" --}}
                                     <div class="filter-option form-check">
                                         <input class="form-check-input filter-radio" type="radio"
                                             id="lic_standard_d" name="license" value="Standard">
@@ -371,7 +366,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Camera Movement -->
                         <div class="accordion-item">
@@ -382,7 +377,6 @@
                             </button>
                             <div id="cameraD" class="accordion-collapse collapse">
                                 <div class="accordion-body">
-                                    {{-- CHANGE: added class="filter-check" name="camera_movement[]" value="Static" etc. --}}
                                     <div class="filter-option form-check">
                                         <input class="form-check-input filter-check" type="checkbox"
                                             id="cam_static_d" name="camera_movement[]" value="Static">
@@ -418,6 +412,7 @@
                         </div>
 
                         <!-- Content -->
+                        {{-- CHANGE: name changed from "with_people" to "content_filters[]", added 5 more options --}}
                         <div class="accordion-item">
                             <button class="accordion-button collapsed" data-bs-toggle="collapse"
                                 data-bs-target="#contentD">
@@ -427,10 +422,35 @@
                             <div id="contentD" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="filter-option form-check">
-                                        {{-- CHANGE: added class="filter-check" name="with_people" value="1" --}}
                                         <input class="form-check-input filter-check" type="checkbox"
-                                            id="with_people_d" name="with_people" value="1">
+                                            id="with_people_d" name="content_filters[]" value="with_people">
                                         <label class="form-check-label" for="with_people_d">With People</label>
+                                    </div>
+                                    <div class="filter-option form-check">
+                                        <input class="form-check-input filter-check" type="checkbox"
+                                            id="without_people_d" name="content_filters[]" value="without_people">
+                                        <label class="form-check-label" for="without_people_d">Without People</label>
+                                    </div>
+                                    <div class="filter-option form-check">
+                                        <input class="form-check-input filter-check" type="checkbox"
+                                            id="with_animals_d" name="content_filters[]" value="with_animals">
+                                        <label class="form-check-label" for="with_animals_d">Animals</label>
+                                    </div>
+                                    <div class="filter-option form-check">
+                                        <input class="form-check-input filter-check" type="checkbox"
+                                            id="outdoors_nature_d" name="content_filters[]" value="outdoors_nature">
+                                        <label class="form-check-label" for="outdoors_nature_d">Outdoors /
+                                            Nature</label>
+                                    </div>
+                                    <div class="filter-option form-check">
+                                        <input class="form-check-input filter-check" type="checkbox" id="indoors_d"
+                                            name="content_filters[]" value="indoors">
+                                        <label class="form-check-label" for="indoors_d">Indoors</label>
+                                    </div>
+                                    <div class="filter-option form-check">
+                                        <input class="form-check-input filter-check" type="checkbox"
+                                            id="copy_space_d" name="content_filters[]" value="copy_space">
+                                        <label class="form-check-label" for="copy_space_d">Copy Space</label>
                                     </div>
                                 </div>
                             </div>

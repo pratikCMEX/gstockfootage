@@ -75,7 +75,7 @@ a {
   color: var(--primary);
 }
 
-textarea{
+textarea {
   resize: none !important;
 }
 
@@ -152,6 +152,6 @@ textarea{
 .admin-box {
   background-color: var(--white) !important;
 }
-.gt-link{
+.gt-link {
   color: var(--primary) !important;
 }

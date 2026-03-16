@@ -1,6 +1,6 @@
 /* product-detail section */
 .product-detail {
-  padding-top: 12px;
+  padding-top: 40px;
 }
 .product-detail-img {
   display: flex;
@@ -328,6 +328,6 @@
     width: 100%;
   }
   .product-detail {
-    padding-top: 12px;
+    padding-top: 40px;
   }
 }
