@@ -320,6 +320,16 @@ class HomeController extends Controller
         }
 
         $allVideos = $query->get();
+        $allVideosKey = BatchFile::where('type', 'video')->select('keywords')->get();
+        $tags = $allVideosKey
+            ->pluck('keywords')             // get keywords column
+            ->filter()                      // remove null
+            ->flatMap(function ($item) {
+                return explode(',', $item); // split by comma
+            })
+            ->map(fn($tag) => trim($tag))   // remove spaces
+            ->unique()                      // remove duplicates
+            ->values();
 
         // AJAX: return only the card partial so JS can swap it without a full reload
         if ($request->ajax()) {
@@ -346,6 +356,7 @@ class HomeController extends Controller
             'camera_moves',
             'with_people',
             'sort',
+            'tags',
             'q'
         ));
     }

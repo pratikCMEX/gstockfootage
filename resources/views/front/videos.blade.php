@@ -472,81 +472,16 @@
                         {{-- CHANGE: added class="trending-tag-btn" + data-tag="..." to every pill button
                                      added class="tag-close d-none" to xmark icon --}}
                         <ul class="nav nav-pills">
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Jerusalem">
-                                    Jerusalem <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Aerial">
-                                    Aerial <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Drone">
-                                    Drone <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Holy Land">
-                                    Holy Land <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Golden Hour">
-                                    Golden Hour <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Historic">
-                                    Historic <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Biblical">
-                                    Biblical <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Desert">
-                                    Desert <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Ancient">
-                                    Ancient <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="4K">
-                                    4K <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Sunset">
-                                    Sunset <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Landscape">
-                                    Landscape <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Temple Mount">
-                                    Temple Mount <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="old City">
-                                    old City <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link trending-tag-btn" data-tag="Sea of Galilee">
-                                    Sea of Galilee <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
-                                </button>
-                            </li>
+                            @foreach ($tags as $tag)
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link trending-tag-btn"
+                                        data-tag="{{ $tag }}">
+                                        {{ $tag }}
+                                        <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
+                                    </button>
+                                </li>
+                            @endforeach
+
                         </ul>
                     </div>
 
