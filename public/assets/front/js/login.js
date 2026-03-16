@@ -24,13 +24,13 @@ $("#login").validate({
     return $.trim(value);
   },
 
-  errorClass: "text-danger",
+  errorClass: "text-light",
   errorElement: "label",
   highlight: function (element) {
-    $(element).addClass("is-invalid");
+    // $(element).addClass("is-invalid");
   },
   unhighlight: function (element) {
-    $(element).removeClass("is-invalid");
+    // $(element).removeClass("is-invalid");
   },
 });
 
@@ -51,13 +51,13 @@ $("#resend_mail_varification").validate({
     return $.trim(value);
   },
 
-  errorClass: "text-danger",
+  errorClass: "text-light",
   errorElement: "label",
   highlight: function (element) {
-    $(element).addClass("is-invalid");
+    // $(element).addClass("is-invalid");
   },
   unhighlight: function (element) {
-    $(element).removeClass("is-invalid");
+    // $(element).removeClass("is-invalid");
   },
 });
 
@@ -127,13 +127,13 @@ $("#signup").validate({
     return $.trim(value);
   },
 
-  errorClass: "text-danger",
+  errorClass: "text-light",
   errorElement: "label",
   highlight: function (element) {
-    $(element).addClass("is-invalid");
+    // $(element).addClass("is-invalid");
   },
   unhighlight: function (element) {
-    $(element).removeClass("is-invalid");
+    // $(element).removeClass("is-invalid");
   },
 });
 
@@ -168,13 +168,13 @@ $("#send_forget_link").validate({
     return $.trim(value);
   },
 
-  errorClass: "text-danger",
+  errorClass: "text-light",
   errorElement: "label",
   highlight: function (element) {
-    $(element).addClass("is-invalid");
+    // $(element).addClass("is-invalid");
   },
   unhighlight: function (element) {
-    $(element).removeClass("is-invalid");
+    // $(element).removeClass("is-invalid");
   },
 });
 
