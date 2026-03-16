@@ -78,7 +78,7 @@
                                 @else
                                     <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
                                 @endif
-
+                                {{ dd($data['thumbnail']) }}
                                 <div class="big-slide-img-overlay"
                                     style="background-image: url({{ $data['thumbnail'] }})">
                                 </div>
