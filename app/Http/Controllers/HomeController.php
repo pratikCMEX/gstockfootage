@@ -104,8 +104,8 @@ class HomeController extends Controller
                     ? Storage::disk('s3')->url($product->low_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
-                $data['thumbnail'] = $product->thumbnail
-                    ? Storage::disk('s3')->url($product->thumbnail)
+                $data['thumbnail'] = $product->thumbnail_path
+                    ? Storage::disk('s3')->url($product->thumbnail_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $data['resolution'] = 'HD Video';
@@ -155,7 +155,7 @@ class HomeController extends Controller
         }
     }
 
-    public function videos(Request $request)
+    public function videos_old(Request $request)
     {
         $title = 'Videos';
         $page = 'front.videos';
@@ -195,6 +195,158 @@ class HomeController extends Controller
         $allVideos = $query->get();
 
         return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
+    }
+
+    public function videos(Request $request)
+    {
+        $title = 'Videos';
+        $page = 'front.videos';
+        $js = ['home', 'favorites', 'videos'];
+
+        $q              = $request->get('q', '');
+        $collection_id  = $request->has('collection_id') ? decrypt($request->get('collection_id')) : null;
+        $category_id    = $request->has('category_id')   ? decrypt($request->get('category_id'))   : null;
+
+        // ── New filter params ──────────────────────────────────────────────────────
+        $price_min      = $request->get('price_min', 0);
+        $price_max      = $request->get('price_max', 500);
+        $duration_min   = $request->get('duration_min', 0);
+        $duration_max   = $request->get('duration_max', 120);
+        $resolutions    = $request->get('resolution', []);      // array: ['hd','fullhd','4k']
+        $frame_rates    = $request->get('frame_rate', []);      // array: ['24','30','60','120']
+        $orientations   = $request->get('orientation', []);     // array: ['landscape','portrait','square','vertical']
+        $license        = $request->get('license', '');         // 'standard'|'premium'|'editorial'
+        $camera_moves   = $request->get('camera_movement', []); // array: ['static','pan',…]
+        $with_people    = $request->get('with_people', '');     // '1' or ''
+        $sort           = $request->get('sort', 'relevant');    // sort order
+        // ──────────────────────────────────────────────────────────────────────────
+
+        $categories     = Category::where('is_display', '1')->get();
+        $CollectionList = Collection::get();
+
+        $query = BatchFile::with(['category'])
+            ->where('type', 'video')
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ]);
+
+        // Keyword search
+        if ($q) {
+            $query->where('keywords', 'like', '%' . $q . '%');
+        }
+
+        // Collection / Category
+        if ($collection_id) {
+            $query->where('collection_id', $collection_id);
+        }
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+
+        // Price range
+        $query->whereBetween('price', [(float)$price_min, (float)$price_max]);
+
+        // Duration range (stored in seconds in DB — adjust column name if different)
+        if ((int)$duration_min > 0) {
+            $query->where('duration', '>=', (int)$duration_min);
+        }
+        if ((int)$duration_max < 120) {
+            $query->where('duration', '<=', (int)$duration_max);
+        }
+
+        // Resolution  — adjust column name to match your DB ('resolution' | 'video_resolution' etc.)
+        if (!empty($resolutions)) {
+            $map = ['hd' => 'HD', 'fullhd' => 'Full HD', '4k' => '4K'];
+            $values = array_map(fn($r) => $map[$r] ?? $r, $resolutions);
+            $query->whereIn('resolution', $values);
+        }
+
+        // Frame rate  — adjust column name ('frame_rate' | 'fps' etc.)
+        if (!empty($frame_rates)) {
+            $query->whereIn('frame_rate', array_map('intval', $frame_rates));
+        }
+
+        // Orientation — adjust column name ('orientation' etc.)
+        if (!empty($orientations)) {
+            $query->whereIn('orientation', $orientations);
+        }
+
+        // License type — adjust column name ('license_type' etc.)
+        if ($license) {
+            $query->where('license_type', ucfirst($license));
+        }
+
+        // Camera movement — adjust column name ('camera_movement' etc.)
+        if (!empty($camera_moves)) {
+            $query->where(function ($q) use ($camera_moves) {
+                foreach ($camera_moves as $move) {
+                    $q->orWhere('camera_movement', 'like', '%' . $move . '%');
+                }
+            });
+        }
+
+        // With people — adjust column name ('has_people' | 'with_people' as boolean/tinyint)
+        if ($with_people === '1') {
+            $query->where('has_people', 1);
+        }
+
+        // Sorting
+        switch ($sort) {
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'popular':
+                $query->orderBy('views', 'desc');   // adjust column if different
+                break;
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'duration_asc':
+                $query->orderBy('duration', 'asc');
+                break;
+            case 'duration_desc':
+                $query->orderBy('duration', 'desc');
+                break;
+            default: // 'relevant' — keep default DB order or add your own relevance logic
+                $query->orderBy('id', 'desc');
+                break;
+        }
+
+        $allVideos = $query->get();
+
+        // AJAX: return only the card partial so JS can swap it without a full reload
+        if ($request->ajax()) {
+            return response()->json([
+                'html'  => view('front.partials.video-cards', compact('allVideos'))->render(),
+                'count' => $allVideos->count(),
+            ]);
+        }
+
+        return view("layouts.front.layout", compact(
+            'title',
+            'page',
+            'allVideos',
+            'categories',
+            'js',
+            'price_min',
+            'price_max',
+            'duration_min',
+            'duration_max',
+            'resolutions',
+            'frame_rates',
+            'orientations',
+            'license',
+            'camera_moves',
+            'with_people',
+            'sort',
+            'q'
+        ));
     }
 
     public function allPhotos(Request $request)

@@ -3,7 +3,7 @@
     // dd($perImage);
 @endphp
 <section class="product-detail">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row g-4">
             <!-- <div class="col-12">
                     <nav aria-label="breadcrumb">
@@ -14,7 +14,7 @@
                         </ol>
                     </nav>
                 </div> -->
-            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-12">
                 <div class="product-detail-img">
                     {{-- <div class="small-product-img">
                         <div thumbsSlider="" class="swiper sideproduct">
@@ -64,27 +64,33 @@
                             <i
                                 class="text-danger bi {{ $data['is_favorite'] == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i></a>
                         <div class="swiper frontproduct">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="big-slide-img">
-                                        @if ($data['type'] == 'video')
-                                            {{-- <video class="h-100 w-100" autoplay controls="true">
-                                                <source src="   {{ $data['low_path'] }}"> --}}
+                            {{-- <div class="swiper-wrapper">
+                                <div class="swiper-slide"> --}}
+                            <div class="big-slide-img">
+                                @if ($data['type'] == 'video')
+                                    <video class="h-100 w-100" autoplay controls="true">
+                                        <source src="   {{ $data['file_url'] }}">
 
-                                                <video class="h-100 w-100" autoplay controls="true" width="100%"
-                                                    poster="{{ !empty($data['thumbnail_path']) ? Storage::disk('s3')->url($data['low_path']) : asset('assets/admin/images/demo_thumbnail.png') }}">
-                                                </video>
-                                        @else
-                                                <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
-                                            @endif
-                                    </div>
+                                        {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
+                                        {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
+                                        {{-- <source src="{{ Storage::disk('s3')->url($data['low_path']) }}"> --}}
+                                    </video>
+                                @else
+                                    <img src=" {{ $data['low_path'] }}" class="h-100 w-100" alt="">
+                                @endif
+
+                                <div class="big-slide-img-overlay"
+                                    style="background-image: url({{ $data['thumbnail'] }})">
                                 </div>
+
                             </div>
+                            {{-- </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-12">
                 <div class="product-detail-content">
                     <div class="product-detail-title">
                         <h4>{{ $data['title'] }}</h4>
@@ -206,12 +212,15 @@
 
 
                                 @if ($data->type == 'image')
-                                    <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img" alt="">
+                                    <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img"
+                                        alt="">
                                 @else
                                     @if ($data->thumbnail_path == null)
-                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" class="product-img" alt="">
+                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                            class="product-img" alt="">
                                     @else
-                                        <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}" class="product-img" alt="">
+                                        <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}"
+                                            class="product-img" alt="">
                                     @endif
                                 @endif
 
@@ -237,8 +246,8 @@
                                                 class="bi {{ $data->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
                                             {{ $data->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
                                         <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" fill="currentColor" class="bi bi-share"
-                                                viewBox="0 0 16 16">
+                                                width="16" height="16" fill="currentColor"
+                                                class="bi bi-share" viewBox="0 0 16 16">
                                                 <path
                                                     d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                             </svg>

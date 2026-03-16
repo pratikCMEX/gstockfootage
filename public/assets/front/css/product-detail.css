@@ -1,6 +1,6 @@
 /* product-detail section */
 .product-detail {
-  padding-top: 80px;
+  padding-top: 12px;
 }
 .product-detail-img {
   display: flex;
@@ -22,7 +22,7 @@
 }
 .small-slide-img img,
 .big-slide-img img {
-  object-fit: cover;
+  object-fit: contain;
 }
 .big-product-img {
   position: relative;
@@ -30,15 +30,34 @@
   overflow: hidden;
 }
 .big-slide-img {
-  max-width: 470px;
+  /* max-width: 470px; */
   width: 100%;
   height: 565px;
+  position: relative;
+  padding-block: 40px;
 }
 .product-detail .swiper-arrows {
   display: flex;
   justify-content: center;
   gap: 20px;
 }
+
+.big-slide-img-overlay {
+  backdrop-filter: blur(50px);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(50px);
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  transform: scale(1.25);
+  width: 100%;
+  z-index: 0;
+  inset: 0;
+  z-index: -1;
+}
+
 .product-detail .swiper-arrows .product-detail-arrow {
   height: 40px;
   width: 40px;
@@ -56,7 +75,7 @@
   color: var(--white);
 }
 .big-product-img i {
-  color: var(--black);
+  color: var(--black) !important;
   font-size: 20px;
   position: absolute;
   right: 10px;
@@ -117,10 +136,10 @@
   gap: 15px;
   margin: 20px 0;
 }
-.product-detail-btn p{
-    font-size: 16px;
-    color: var(--secendory);
-    font-family: var(--font-inter-semibold);
+.product-detail-btn p {
+  font-size: 16px;
+  color: var(--secendory);
+  font-family: var(--font-inter-semibold);
 }
 .product-detail-btn .btn-orange i,
 .product-detail-btn .btn-all-dark i {
@@ -133,17 +152,16 @@
   margin: 20px 0;
 }
 .product-tag {
-  padding: 0px 20px;
+  padding: 20px 20px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   width: 205px;
-  height: 91px;
   display: flex;
   align-items: center;
   gap: 15px;
 }
 .tag-icon i {
-  font-size: 18px;
+  font-size: 24px;
   color: var(--primary);
 }
 .tag-title p {
@@ -156,9 +174,10 @@
 }
 .product-detail-tags {
   display: flex;
+  /* grid-template-columns: 1fr 1fr; */
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 /* related product section */
@@ -252,6 +271,9 @@
     transform: translateY(50%) rotate(-90deg);
     left: auto;
   }
+  .product-detail-tags {
+    flex-wrap: wrap;
+  }
 }
 @media only screen and (max-width: 767px) {
   .product-detail {
@@ -306,6 +328,6 @@
     width: 100%;
   }
   .product-detail {
-    padding-top: 40px;
+    padding-top: 12px;
   }
 }
