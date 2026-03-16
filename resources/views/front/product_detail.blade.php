@@ -69,7 +69,7 @@
                             <div class="big-slide-img">
                                 @if ($data['type'] == 'video')
                                     <video class="h-100 w-100" autoplay controls="true">
-                                        <source src="   {{ $data['file_url'] }}">
+                                        <source src="{{ $data['file_url'] }}">
 
                                         {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
                                         {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
