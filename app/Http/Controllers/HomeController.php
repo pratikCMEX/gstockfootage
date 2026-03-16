@@ -181,8 +181,6 @@ class HomeController extends Controller
                     $q->where('user_id', auth()->id());
                 }
             ]);
-
-        // Filter by keyword if coming from search
         if ($q) {
             $query->where('keywords', 'like', '%' . $q . '%');
         }
