@@ -57,6 +57,7 @@ class HomeController extends Controller
         try {
             $id = decrypt($id);
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
+                ->where('id', '!=', $id) // exclude this product
                 ->withExists([
                     'favorites as is_favorite' => function ($query) {
                         $query->where('user_id', auth()->id());
