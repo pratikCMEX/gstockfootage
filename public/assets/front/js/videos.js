@@ -28,6 +28,10 @@
 (function ($) {
   "use strict";
 
+  // Clear query params immediately on page load
+
+  /* GUARD */
+  //   if ($("#videoGrid").length === 0) return;
   /* -------------------------------------------------------------------------
        GUARD — only run on pages that have #videoGrid
     -------------------------------------------------------------------------- */
@@ -40,7 +44,9 @@
   var AJAX_URL = CONFIG.ajaxUrl || window.location.pathname;
   var CSRF =
     CONFIG.csrfToken || $('meta[name="csrf-token"]').attr("content") || "";
-
+  var MAX_PRICE = parseInt($("#priceRangeMax").attr("max")) || MAX_PRICE;
+  var MAX_DURATION =
+    parseInt($("#durationRangeMax").attr("max")) || MAX_DURATION;
   $.ajaxSetup({
     headers: {
       "X-CSRF-TOKEN": CSRF,
@@ -55,14 +61,15 @@
   var state = {
     q: "",
     price_min: 0,
-    price_max: 500,
+    price_max: MAX_PRICE,
     duration_min: 0,
-    duration_max: 120,
+    duration_max: MAX_DURATION,
     resolution: [],
     frame_rate: [],
     orientation: [],
     license: "",
     camera_movement: [],
+    content_filters: [], // ✅ ADD THIS
     with_people: "",
     sort: "relevant",
   };
@@ -97,9 +104,10 @@
     var params = {};
     if (state.q) params.q = state.q;
     if (state.price_min > 0) params.price_min = state.price_min;
-    if (state.price_max < 500) params.price_max = state.price_max;
+    if (state.price_max < MAX_PRICE) params.price_max = state.price_max;
     if (state.duration_min > 0) params.duration_min = state.duration_min;
-    if (state.duration_max < 120) params.duration_max = state.duration_max;
+    if (state.duration_max < MAX_DURATION)
+      params.duration_max = state.duration_max;
     if (state.resolution.length) params["resolution[]"] = state.resolution;
     if (state.frame_rate.length) params["frame_rate[]"] = state.frame_rate;
     if (state.orientation.length) params["orientation[]"] = state.orientation;
@@ -108,6 +116,8 @@
     if (state.license) params.license = state.license;
     if (state.with_people) params.with_people = state.with_people;
     if (state.sort !== "relevant") params.sort = state.sort;
+    if (state.content_filters.length)
+      params["content_filters[]"] = state.content_filters;
     return params;
   }
 
@@ -178,23 +188,23 @@
       });
     }
 
-    if (state.price_min > 0 || state.price_max < 500) {
+    if (state.price_min > 0 || state.price_max < MAX_PRICE) {
       addChip(
         "$" + state.price_min + " \u2013 $" + state.price_max,
         function () {
           state.price_min = 0;
-          state.price_max = 500;
+          state.price_max = MAX_PRICE;
           syncAllPriceUI();
         }
       );
     }
 
-    if (state.duration_min > 0 || state.duration_max < 120) {
+    if (state.duration_min > 0 || state.duration_max < MAX_DURATION) {
       addChip(
         state.duration_min + "s \u2013 " + state.duration_max + "s",
         function () {
           state.duration_min = 0;
-          state.duration_max = 120;
+          state.duration_max = MAX_DURATION;
           syncAllDurationUI();
         }
       );
@@ -243,12 +253,14 @@
       });
     }
 
-    if (state.with_people) {
-      addChip("With People", function () {
-        state.with_people = "";
-        $('input.filter-check[name="with_people"]').prop("checked", false);
+    $.each(state.content_filters, function (i, v) {
+      addChip("Content: " + capitalize(v.replace(/_/g, " ")), function () {
+        state.content_filters = $.grep(state.content_filters, function (x) {
+          return x !== v;
+        });
+        syncCheckboxes("content_filters[]", state.content_filters);
       });
-    }
+    });
   }
 
   /* -------------------------------------------------------------------------
@@ -257,12 +269,13 @@
   function resetAll() {
     state.q = "";
     state.price_min = 0;
-    state.price_max = 500;
+    state.price_max = MAX_PRICE;
     state.duration_min = 0;
-    state.duration_max = 120;
+    state.duration_max = MAX_DURATION;
     state.resolution = [];
     state.frame_rate = [];
     state.orientation = [];
+    state.content_filters = [];
     state.license = "";
     state.camera_movement = [];
     state.with_people = "";
@@ -304,7 +317,8 @@
        UI SYNC — Duration
     -------------------------------------------------------------------------- */
   function syncAllDurationUI() {
-    var label = state.duration_max + (state.duration_max >= 120 ? "s+" : "s");
+    var label =
+      state.duration_max + (state.duration_max >= MAX_DURATION ? "s+" : "s");
     // Desktop
     $("#durationRangeMax").val(state.duration_max);
     $("#duration_min_input").val(state.duration_min);
@@ -362,7 +376,7 @@
   $(document).on("change", "#price_max_input", function () {
     var val = Math.max(
       state.price_min,
-      Math.min(parseInt($(this).val(), 10) || 500, 500)
+      Math.min(parseInt($(this).val(), 10) || MAX_PRICE, MAX_PRICE)
     );
     state.price_max = val;
     syncAllPriceUI();
@@ -382,7 +396,7 @@
   $(document).on("change", ".price_max_mobile", function () {
     var val = Math.max(
       state.price_min,
-      Math.min(parseInt($(this).val(), 10) || 500, 500)
+      Math.min(parseInt($(this).val(), 10) || Max, MAX_PRICE)
     );
     state.price_max = val;
     syncAllPriceUI();
@@ -416,7 +430,7 @@
   $(document).on("change", "#duration_max_input", function () {
     var val = Math.max(
       state.duration_min,
-      Math.min(parseInt($(this).val(), 10) || 120, 120)
+      Math.min(parseInt($(this).val(), 10) || MAX_DURATION, MAX_DURATION)
     );
     state.duration_max = val;
     syncAllDurationUI();
@@ -436,7 +450,7 @@
   $(document).on("change", ".duration_max_mobile", function () {
     var val = Math.max(
       state.duration_min,
-      Math.min(parseInt($(this).val(), 10) || 120, 120)
+      Math.min(parseInt($(this).val(), 10) || MAX_DURATION, MAX_DURATION)
     );
     state.duration_max = val;
     syncAllDurationUI();
@@ -447,18 +461,20 @@
        Single handler for ALL checkboxes in BOTH sidebars (event delegation)         */
   $(document).on("change", "input.filter-check", function () {
     var $cb = $(this);
-    var name = $cb.attr("name"); // e.g. "resolution[]"
-    var key = name.replace("[]", ""); // e.g. "resolution"
+    var name = $cb.attr("name"); // e.g. "resolution[]" or "content_filters[]"
+    var key = name.replace("[]", ""); // e.g. "resolution" or "content_filters"
     var val = $cb.val();
 
     if (key === "with_people") {
+      // legacy standalone checkbox (if you still have it elsewhere)
       state.with_people = $cb.is(":checked") ? "1" : "";
-      // Sync the other sidebar's with_people checkbox
       $('input.filter-check[name="with_people"]').prop(
         "checked",
         $cb.is(":checked")
       );
     } else if ($.isArray(state[key])) {
+      // Handles: resolution[], frame_rate[], orientation[],
+      //          camera_movement[], content_filters[]
       if ($cb.is(":checked")) {
         if ($.inArray(val, state[key]) === -1) {
           state[key].push(val);
@@ -468,7 +484,7 @@
           return v !== val;
         });
       }
-      // Keep both desktop + mobile checkboxes in sync
+      // Keep desktop + mobile in sync
       syncCheckboxes(name, state[key]);
     }
 
@@ -577,7 +593,85 @@
   /* -------------------------------------------------------------------------
        INIT
     -------------------------------------------------------------------------- */
+  if (window.location.search) {
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+
+    resetAll(); // now state exists
+  }
+
   renderChips();
   syncAllPriceUI();
   syncAllDurationUI();
 })(jQuery);
+
+class RangeSlider {
+  constructor(el) {
+    this.el = el;
+    this.min = +el.dataset.min || 0;
+    this.max = +el.dataset.max || 100;
+    this.value = +el.dataset.value || this.min;
+
+    this.create();
+    this.updateUI();
+    this.events();
+  }
+
+  create() {
+    this.track = document.createElement("div");
+    this.track.className = "range-track";
+
+    this.fill = document.createElement("div");
+    this.fill.className = "range-fill";
+
+    this.thumb = document.createElement("div");
+    this.thumb.className = "range-thumb";
+
+    this.valueLabel = document.createElement("div");
+    this.valueLabel.className = "range-value";
+
+    this.track.appendChild(this.fill);
+    this.track.appendChild(this.thumb);
+    this.el.appendChild(this.track);
+    this.el.appendChild(this.valueLabel);
+  }
+
+  updateUI() {
+    const percent = ((this.value - this.min) / (this.max - this.min)) * 100;
+
+    this.fill.style.width = percent + "%";
+    this.thumb.style.left = percent + "%";
+    this.valueLabel.textContent = this.value;
+  }
+
+  setValue(percent) {
+    percent = Math.max(0, Math.min(100, percent));
+    this.value = Math.round(this.min + (percent / 100) * (this.max - this.min));
+    this.updateUI();
+  }
+
+  events() {
+    const move = (e) => {
+      const rect = this.track.getBoundingClientRect();
+      const percent = ((e.clientX - rect.left) / rect.width) * 100;
+      this.setValue(percent);
+    };
+
+    this.track.addEventListener("click", move);
+
+    this.thumb.addEventListener("mousedown", () => {
+      const onMove = (e) => move(e);
+      const stop = () => {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", stop);
+      };
+
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", stop);
+    });
+  }
+}
+
+document.querySelectorAll(".range-slider").forEach((el) => {
+  new RangeSlider(el);
+});

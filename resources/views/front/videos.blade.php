@@ -203,17 +203,27 @@
                                 <div class="accordion-body">
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="price_min_input"
-                                            class="form-control form-control-sm" min="0" max="500"
-                                            value="0" placeholder="$0">
+                                            class="form-control form-control-sm" min="0"
+                                            max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
                                         <input type="number" id="price_max_input"
-                                            class="form-control form-control-sm" min="0" max="500"
-                                            value="500" placeholder="$500">
+                                            class="form-control form-control-sm" min="0"
+                                            max="{{ $allVideos->max('price') }}"
+                                            value="{{ $allVideos->max('price') }}"
+                                            placeholder="${{ $allVideos->max('price') }}">
+
+
+
                                     </div>
-                                    <input type="range" class="form-range" min="0" max="500"
-                                        value="500" id="priceRangeMax">
+                                    <input type="range" class="range-slider" min="0"
+                                        max="{{ $allVideos->max('price') }}" value="{{ $allVideos->max('price') }}"
+                                        id="priceRangeMax">
+                                    {{-- <div class="range-slider" id="priceRangeMax" data-min="0"
+                                        data-max="{{ $allVideos->max('price') }}"
+                                        data-value="{{ $allVideos->max('price') }}">
+                                    </div> --}}
                                     <div class="range-values">
                                         <span>$0</span>
-                                        <span id="priceMaxLabel">$500</span>
+                                        <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -229,17 +239,24 @@
                                 <div class="accordion-body">
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="duration_min_input"
-                                            class="form-control form-control-sm" min="0" max="120"
-                                            value="0" placeholder="0s">
+                                            class="form-control form-control-sm" min="0"
+                                            max="{{ $allVideos->max('duration') }}" value="0" placeholder="0s">
                                         <input type="number" id="duration_max_input"
-                                            class="form-control form-control-sm" min="0" max="120"
-                                            value="120" placeholder="120s">
+                                            class="form-control form-control-sm" min="0"
+                                            max="{{ $allVideos->max('duration') }}"
+                                            value="{{ $allVideos->max('duration') }}"
+                                            placeholder="{{ $allVideos->max('duration') }}s">
                                     </div>
-                                    <input type="range" class="form-range" min="0" max="120"
-                                        value="120" id="durationRangeMax">
+                                    <input type="range" class="range-slider" min="0"
+                                        max="{{ $allVideos->max('duration') }}" value="120"
+                                        id="durationRangeMax">
+                                    {{-- <div class="range-slider" data-min="0"
+                                        data-max="{{ $allVideos->max('duration') }}"
+                                        data-value="{{ $allVideos->max('duration') }}">
+                                    </div> --}}
                                     <div class="range-values">
                                         <span>0s</span>
-                                        <span id="durationMaxLabel">120s+</span>
+                                        <span id="durationMaxLabel">{{ $allVideos->max('duration') }}s+</span>
                                     </div>
                                 </div>
                             </div>
@@ -518,16 +535,21 @@
                                             <div class="d-flex gap-2 mb-2">
                                                 <input type="number"
                                                     class="form-control form-control-sm price_min_mobile"
-                                                    min="0" max="500" value="0" placeholder="$0">
+                                                    min="0" max="{{ $allVideos->max('price') }}"
+                                                    value="0" placeholder="$0">
                                                 <input type="number"
                                                     class="form-control form-control-sm price_max_mobile"
-                                                    min="0" max="500" value="500" placeholder="$500">
+                                                    min="0" max="{{ $allVideos->max('price') }}"
+                                                    value="{{ $allVideos->max('price') }}"
+                                                    placeholder="${{ $allVideos->max('price') }}">
                                             </div>
                                             <input type="range" class="form-range priceRangeMax_mobile"
-                                                min="0" max="500" value="500">
+                                                min="0" max="{{ $allVideos->max('price') }}"
+                                                value="{{ $allVideos->max('price') }}">
                                             <div class="range-values">
                                                 <span>$0</span>
-                                                <span class="priceMaxLabel_mobile">$500</span>
+                                                <span
+                                                    class="priceMaxLabel_mobile">${{ $allVideos->max('price') }}</span>
                                             </div>
                                         </div>
                                     </div>

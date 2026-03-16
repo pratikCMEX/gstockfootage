@@ -44,7 +44,7 @@
                         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a>
                         </li> --}}
                         <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li>
-                        {{-- <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Store</a></li> --}}
+                        <li class="nav-item"><a class="nav-link" href="{{ route('print_store') }}">Store</a></li>
 
                     </ul>
                 </nav>
@@ -114,9 +114,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                    <a href="{{ route('logout') }}">
-                                                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                    <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                    </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">

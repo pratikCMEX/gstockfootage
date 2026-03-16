@@ -197,12 +197,23 @@ class HomeController extends Controller
 
         return view("layouts.front.layout", compact('title', 'page', 'allVideos', 'categories', 'js'));
     }
+    public function printStore(Request $request)
+    {
 
+        $title = 'Print';
+        $page = 'front.print_store';
+        $js = ['home'];
+
+        return view("layouts.front.layout", compact('title', 'page', 'js'));
+    }
     public function videos(Request $request)
     {
+
         $title = 'Videos';
         $page = 'front.videos';
         $js = ['home', 'favorites', 'videos'];
+
+
 
         $q              = $request->get('q', '');
         $collection_id  = $request->has('collection_id') ? decrypt($request->get('collection_id')) : null;
@@ -221,6 +232,7 @@ class HomeController extends Controller
         $with_people    = $request->get('with_people', '');     // '1' or ''
         $sort           = $request->get('sort', 'relevant');    // sort order
         // ──────────────────────────────────────────────────────────────────────────
+        $content_filters = $request->get('content_filters', []); // array: ['with_people','without_people',...]
 
         $categories     = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
@@ -293,6 +305,13 @@ class HomeController extends Controller
         if ($with_people === '1') {
             $query->where('has_people', 1);
         }
+        if (!empty($content_filters)) {
+            $query->where(function ($q) use ($content_filters) {
+                foreach ($content_filters as $filter) {
+                    $q->orWhereJsonContains('content_filters', $filter);
+                }
+            });
+        }
 
         // Sorting
         switch ($sort) {
@@ -321,6 +340,7 @@ class HomeController extends Controller
 
         $allVideos = $query->get();
         $allVideosKey = BatchFile::where('type', 'video')->select('keywords')->get();
+
         $tags = $allVideosKey
             ->pluck('keywords')             // get keywords column
             ->filter()                      // remove null
@@ -333,6 +353,7 @@ class HomeController extends Controller
 
         // AJAX: return only the card partial so JS can swap it without a full reload
         if ($request->ajax()) {
+
             return response()->json([
                 'html'  => view('front.partials.video-cards', compact('allVideos'))->render(),
                 'count' => $allVideos->count(),
@@ -354,6 +375,7 @@ class HomeController extends Controller
             'orientations',
             'license',
             'camera_moves',
+            'content_filters',
             'with_people',
             'sort',
             'tags',

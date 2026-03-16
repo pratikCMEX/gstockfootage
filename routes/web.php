@@ -87,6 +87,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/print', [HomeController::class, 'printStore'])->name('print_store');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
 Route::get('/allPhotos', [HomeController::class, 'allPhotos'])->name('all_photos');
 Route::get('/enterprise', [HomeController::class, 'enterprise'])->name('enterprise');
