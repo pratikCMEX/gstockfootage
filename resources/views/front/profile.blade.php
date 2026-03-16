@@ -264,7 +264,7 @@
                                                 <div class="wishlist-product-detail">
                                                     <div class="product-card">
                                                         <div class="product-img-div">
-                                                            <a href="product-detail.html">
+                                                            <a href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
                                                                 @if ($favorites->batchFile->type == 'image')
                                                                     <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
                                                                         class="product-img" alt="">
@@ -284,7 +284,7 @@
                                                                         class="bi bi-x"></i></a></div>
                                                         </div>
                                                         <div class="p-3">
-                                                            <a href="product-detail.html">
+                                                            <a href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
                                                                 <h6 class="popular-detail-title">
                                                                     {{ $favorites->batchFile->title }}
                                                                 </h6>
