@@ -23,7 +23,13 @@ function addToCart(product_id, btn = null) {
         let newCount = $(".cart-items .cart-content").length;
         updateCartCount(newCount);
         updateCartTotal(parseFloat(res.product.price), "add");
-
+        if (btn) {
+          $(btn)
+            .prop("disabled", true)
+            .addClass("btn-success already-added ")
+            .removeClass("btn-orange")
+            .html('<i class="bi bi-cart-dash"></i> Already Added to Cart');
+        }
         toastr.success(res.message);
       } else {
         toastr.warning(res.message);
@@ -48,8 +54,6 @@ function cartItemTemplate(product) {
   } else {
     imageUrl = product.thumbnail_path;
   }
-
-
 
   return `
   <div class="cart-content" id="cart-item-${product.id}" data-id="${product.id}"
