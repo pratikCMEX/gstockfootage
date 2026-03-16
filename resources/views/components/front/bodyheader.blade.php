@@ -114,9 +114,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                            <a href="{{ route('logout') }}">
-                                                                                                                                                                <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                            </a>
+                                                                                                                                                                                    <a href="{{ route('logout') }}">
+                                                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                    </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
@@ -264,10 +264,12 @@
                 <h5 class="total_cart_amt">${{ $cart['total'] }}</h5>
             </div>
             <div class="checkout-btn">
-                <a class="btn-orange btn w-100" href="{{ route('checkout') }}">Proccess to Checkout</a>
+                <a class="btn-orange btn w-100"
+                    href="{{ auth()->check() ? route('checkout') : route('login') }}">Proccess to Checkout</a>
             </div>
             <div class="view-cart-btn">
-                <a href="{{ route('cart.list') }}" class="w-100 btn btn-all-dark btn-hover-dark">View
+                <a href="{{ auth()->check() ? route('cart.list') : route('login') }}"
+                    class="w-100 btn btn-all-dark btn-hover-dark">View
                     Cart</a>
             </div>
         </div>

@@ -19,9 +19,16 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.24.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kL9yhHn6ArGDSYmHWhhDnsBnqkIpXzPxvSdeONtEdyocAAOKbe5egVKguoO4kGpj" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.6.1/dist/js/bootstrap.min.js"
+    integrity="sha384-ms58DsjSkncOiYjoY3Pfgwl1RZ69RpoQvmg/9O3Zf5G5Pna1uWmft8LrsAv4RrDg" crossorigin="anonymous">
+</script>
 <script>
-    
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))

@@ -209,9 +209,8 @@
                                             class="form-control form-control-sm" min="0" max="500"
                                             value="500" placeholder="$500">
                                     </div>
-
-                                    <input type="range" class="form-range  filled-range" min="0"
-                                        max="500" value="500" id="priceRangeMax">
+                                    <input type="range" class="form-range" min="0" max="500"
+                                        value="500" id="priceRangeMax">
                                     <div class="range-values">
                                         <span>$0</span>
                                         <span id="priceMaxLabel">$500</span>
