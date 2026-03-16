@@ -4,7 +4,7 @@
             <h1>Turn bold ideas into big results</h1>
             <p class="hero-text">Quality, quantity, expertise-gstock footage has everything your business needs to
                 create competitive work.</p>
-            <button type="button" class="btn btn-orange">Get Started</button>
+            <a href="{{ route('pricing') }}" type="button" class="btn btn-orange">Get Started</a>
         </div>
     </section>
     <section class="enterprise_section">
@@ -63,7 +63,8 @@
                 <div class="two-form-section">
                     <div class="left-section ">
                         <div class="enterprise-img">
-                            <img src="{{asset('assets/front/img/enterprisebg.jpg')}}" width="100%" height="100%" alt="">
+                            <img src="{{ asset('assets/front/img/enterprisebg.jpg') }}" width="100%" height="100%"
+                                alt="">
                         </div>
                         <h3 class="left-enterprise-content">Get a personalized package for your business</h3>
                     </div>
