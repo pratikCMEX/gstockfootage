@@ -156,7 +156,7 @@
                                     <label for="">Email</label>
                                     <input type="email" name="checkout_email" id="checkout_email"
                                         value="{{ auth()->user()->email }}" placeholder="you@email.com"
-                                        {{ auth()->check()->email ? '' : 'disabled' }}>
+                                        {{ auth()->user()->email ? '' : 'disabled' }}>
                                     <span>receipt will be sent to this email</span>
                                 </div>
                             </div>
