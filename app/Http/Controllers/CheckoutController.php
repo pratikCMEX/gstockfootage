@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchFile;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class CheckoutController extends Controller
             $sessionCart = session()->get('cart', []);
 
             foreach ($sessionCart as $item) {
-                $product = Product::find($item['product_id']);
+                $product = BatchFile::find($item['product_id']);
                 if ($product) {
                     $item['product'] = $product;
                     $item['qty'] = $item['qty'];

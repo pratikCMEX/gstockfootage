@@ -38,5 +38,8 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    'google_vision' => [
+        'key' => env('GOOGLE_VISION_API_KEY'),
+    ],
 
 ];

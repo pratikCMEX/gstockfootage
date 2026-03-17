@@ -131,8 +131,14 @@
 
 
                                                         @if (count($files) == 0)
-                                                            <img src="{{ asset('assets/front/img/no_img_avaliable.png') }}"
-                                                                width="100%" height="100%" alt="">
+                                                            @if ($list['submission_type'] == 'video')
+                                                                <img src="{{ asset('assets/front/img/no_video_preview.png') }}"
+                                                                    width="100%" height="100%" alt=""
+                                                                    style="object-fit: cover;">
+                                                            @else
+                                                                <img src="{{ asset('assets/front/img/no_img_avaliable.png') }}"
+                                                                    width="100%" height="100%" alt="">
+                                                            @endif
                                                         @endif
                                                         @foreach ($files->take(4) as $index => $file)
                                                             @php

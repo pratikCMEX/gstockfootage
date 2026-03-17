@@ -207,3 +207,61 @@ $(document).ready(function () {
     window.location.href = url;
   }
 });
+
+(function ($) {
+  "use strict";
+
+  // File selected via click
+  $(document).on("change", "#search-image", function () {
+    handleFile(this.files[0]);
+  });
+
+  // Drag & Drop
+  var dropZone = document.getElementById("imageDropZone");
+  if (dropZone) {
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      dropZone.classList.add("drag-over");
+    });
+    dropZone.addEventListener("dragleave", function () {
+      dropZone.classList.remove("drag-over");
+    });
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      dropZone.classList.remove("drag-over");
+      var file = e.dataTransfer.files[0];
+      if (file) {
+        // Assign to actual file input so form submits it
+        var dt = new DataTransfer();
+        dt.items.add(file);
+        document.getElementById("search-image").files = dt.files;
+        handleFile(file);
+      }
+    });
+  }
+
+  function handleFile(file) {
+    if (!file || !file.type.startsWith("image/")) return;
+
+    // Show preview
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagePreview").attr("src", e.target.result).show();
+      $("#uploadIcon").hide();
+      $("#uploadLabel").text(file.name);
+    };
+    reader.readAsDataURL(file);
+
+    // Enable search button
+    $("#searchByImageBtn").prop("disabled", false);
+  }
+
+  // Reset modal on close
+  $("#exampleModal").on("hidden.bs.modal", function () {
+    $("#search-image").val("");
+    $("#imagePreview").hide().attr("src", "");
+    $("#uploadIcon").show();
+    $("#uploadLabel").text("Click to upload an image or drag and drop");
+    $("#searchByImageBtn").prop("disabled", true);
+  });
+})(jQuery);

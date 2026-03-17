@@ -16,18 +16,18 @@ use FFMpeg\Coordinate\Dimension;
 
 class ProcessBatchVideo implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    // use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $batchFileId;
+    // protected $batchFileId;
 
-    public $timeout = 7200; // 2 hours
-    public $tries = 1;
-    public $maxExceptions = 1;
+    // public $timeout = 7200; // 2 hours
+    // public $tries = 1;
+    // public $maxExceptions = 1;
 
-    public function __construct($batchFileId)
-    {
-        $this->batchFileId = $batchFileId;
-    }
+    // public function __construct($batchFileId)
+    // {
+    //     $this->batchFileId = $batchFileId;
+    // }
 
     // public function handle()
     // {
@@ -209,6 +209,19 @@ class ProcessBatchVideo implements ShouldQueue
     //         $video->save();
     //     }
     // }
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $batchFileId;
+
+    public $timeout    = 7200;
+    public $tries      = 1;
+    public $maxExceptions = 1;
+
+    public function __construct($batchFileId)
+    {
+        $this->batchFileId = $batchFileId;
+    }
+
     public function handle()
     {
         $video = BatchFile::find($this->batchFileId);
@@ -220,7 +233,11 @@ class ProcessBatchVideo implements ShouldQueue
 
         try {
 
-            Log::info("🎬 Processing Started", ['video_id' => $video->id]);
+            $watermarkPath = storage_path('app/watermark.png');
+
+            $ffmpegBin  = '/usr/bin/ffmpeg';
+            $ffprobeBin = "/usr/bin/ffprobe";
+
 
             /*
             |--------------------------------------------------------------------------
@@ -228,7 +245,7 @@ class ProcessBatchVideo implements ShouldQueue
             |--------------------------------------------------------------------------
             */
             if (!Storage::disk('s3')->exists($video->file_path)) {
-                throw new \Exception("Original video not found in S3");
+                throw new \Exception("Original video not found in S3: {$video->file_path}");
             }
 
             /*
@@ -245,133 +262,204 @@ class ProcessBatchVideo implements ShouldQueue
 
             /*
             |--------------------------------------------------------------------------
-            | 3. Download From S3 (Stream Safe)
+            | 3. Download From S3
             |--------------------------------------------------------------------------
             */
+            Log::info("⬇️ Downloading from S3", ['path' => $video->file_path]);
+
             $stream = Storage::disk('s3')->readStream($video->file_path);
             file_put_contents($tempOriginalPath, stream_get_contents($stream));
             fclose($stream);
 
             /*
             |--------------------------------------------------------------------------
-            | 4. FAST Thumbnail Generation (Very Fast Method)
+            | 4. Get Video Metadata
             |--------------------------------------------------------------------------
             */
-            $thumbnailName = pathinfo($video->file_name, PATHINFO_FILENAME) . '_thumb.jpg';
-            $tempThumbnailPath = $tempDir . '/' . $thumbnailName;
+            $ffprobe = \FFMpeg\FFProbe::create([
+                'ffprobe.binaries' => $ffprobeBin,
+            ]);
 
-            // Fast thumbnail using direct FFmpeg command
-            $ffmpegPath = env('FFMPEG_BINARY_PATH');
+            $streams   = $ffprobe->streams($tempOriginalPath)->videos()->first();
+            $format    = $ffprobe->format($tempOriginalPath);
+            $fileSize  = filesize($tempOriginalPath);
+            $duration  = $format->get('duration');
+            $width     = $streams->get('width');
+            $height    = $streams->get('height');
+            $frameRate = $streams->get('r_frame_rate');
 
-            $command = "{$ffmpegPath} -ss 00:00:01 -i {$tempOriginalPath} -vframes 1 -q:v 2 {$tempThumbnailPath}";
-            exec($command);
-
+            if ($frameRate) {
+                [$num, $den] = explode('/', $frameRate);
+                $frameRate = $den != 0 ? round($num / $den, 2) : 0;
+            }
             /*
             |--------------------------------------------------------------------------
-            | 5. Upload Thumbnail To S3 Immediately
+            | 5. Generate Thumbnail
             |--------------------------------------------------------------------------
             */
+            $thumbnailName     = pathinfo($video->file_name, PATHINFO_FILENAME) . '_thumb.jpg';
+            $tempThumbnailPath = $tempDir . '/' . $thumbnailName;
+
+            $command = escapeshellcmd($ffmpegBin)
+                . ' -ss 00:00:01'
+                . ' -i ' . escapeshellarg($tempOriginalPath)
+                . ' -vframes 1'
+                . ' -q:v 2 '
+                . escapeshellarg($tempThumbnailPath)
+                . ' 2>&1';
+
+            exec($command, $thumbOutput, $thumbCode);
+
+            if ($thumbCode !== 0 || !file_exists($tempThumbnailPath)) {
+                Log::warning("⚠️ Thumbnail generation failed", [
+                    'output' => implode("\n", $thumbOutput),
+                ]);
+            } else {
+                Log::info("✅ Thumbnail generated");
+            }
+
             Storage::disk('s3')->putFileAs(
                 'batch/videos/thumbnails',
                 new \Illuminate\Http\File($tempThumbnailPath),
                 $thumbnailName,
-                [
-                    'visibility' => 'public'
-                ]
+                ['visibility' => 'public']
             );
+
+            Log::info("✅ Thumbnail uploaded to S3");
 
             /*
             |--------------------------------------------------------------------------
-            | 6. Generate Low Quality Video
+            | 6. Init FFMpeg
+            |--------------------------------------------------------------------------
+            */
+            $ffmpeg = FFMpeg::create([
+                'ffmpeg.binaries'  => $ffmpegBin,
+                'ffprobe.binaries' => $ffprobeBin,
+                'timeout'          => 7200,
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | 7. Generate MID Quality — 720p max, 2500kbps
+            |--------------------------------------------------------------------------
+            */
+            $midFileName = 'mid_' . $video->file_name;
+            $tempMidPath = $tempDir . '/' . $midFileName;
+
+            // Log your intent and logic (already good in your code)
+
+
+            $midVideo  = $ffmpeg->open($tempOriginalPath);
+            $midFormat = new X264('aac', 'libx264');
+            $midFormat->setKiloBitrate(2500);
+            $midFormat->setAudioKiloBitrate(128);
+
+            if ($height > 720 || $width > 1280) {
+                $midVideo->filters()
+                    ->resize(new Dimension(1280, 720))
+                    ->synchronize();
+            }
+
+
+            $midVideo->filters()->custom(
+                "movie={$watermarkPath} [wm]; [wm] scale=iw*0.08:-1 [watermark]; [in][watermark] overlay=W-w-20:H-h-20 [out]"
+            );
+            $midVideo->save($midFormat, $tempMidPath);
+
+
+
+            if (!file_exists($tempMidPath)) {
+                // Log::error("🔥 MID video was NOT created at: {$tempMidPath}");
+            } else {
+                // Log::info("✅ MID video generated", [
+                //     'path' => $tempMidPath,
+                //     'size' => filesize($tempMidPath),
+                // ]);
+
+                Storage::disk('s3')->putFileAs(
+                    'batch/videos/mid',
+                    new \Illuminate\Http\File($tempMidPath),
+                    $midFileName,
+                    ['visibility' => 'public']
+                );
+
+                // Log::info("✅ MID video uploaded to S3");
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 8. Generate LOW Quality — same resolution, 500kbps (quality reduction only)
             |--------------------------------------------------------------------------
             */
             $lowFileName = 'low_' . $video->file_name;
             $tempLowPath = $tempDir . '/' . $lowFileName;
 
-            $ffmpeg = FFMpeg::create([
-                'ffmpeg.binaries'  => env('FFMPEG_BINARY_PATH'),
-                'ffprobe.binaries' => env('FFPROBE_BINARY_PATH'),
-                'timeout'          => 7200,
-            ]);
+            // Log::info("🎞️ Generating LOW video");
 
+            $lowVideo  = $ffmpeg->open($tempOriginalPath);
+            $lowFormat = new X264('aac', 'libx264');
+            $lowFormat->setKiloBitrate(500);
+            $lowFormat->setAudioKiloBitrate(96);
 
-            $ffprobe = \FFMpeg\FFProbe::create([
-                'ffprobe.binaries' => env('FFPROBE_BINARY_PATH'),
-            ]);
+            $lowVideo->filters()->custom(
+                "movie={$watermarkPath} [wm]; [wm] scale=iw*0.08:-1 [watermark]; [in][watermark] overlay=W-w-20:H-h-20 [out]"
+            );
 
-            $streams = $ffprobe->streams($tempOriginalPath)->videos()->first();
+            // NO resize — keep original dimensions, only reduce bitrate/quality
+            $lowVideo->save($lowFormat, $tempLowPath);
 
-            $format = $ffprobe->format($tempOriginalPath);
-
-            $fileSize = filesize($tempOriginalPath);
-            $duration = $format->get('duration');
-
-            $width = $streams->get('width');
-            $height = $streams->get('height');
-
-            $frameRate = $streams->get('r_frame_rate'); // example: 30000/1001
-
-            if ($frameRate) {
-                list($num, $den) = explode('/', $frameRate);
-                $frameRate = $den != 0 ? round($num / $den, 2) : 0;
-            }
-            $videoFFMpeg = $ffmpeg->open($tempOriginalPath);
-
-            $format = new X264('aac', 'libx264');
-            $format->setKiloBitrate(500);
-            $format->setAudioKiloBitrate(96);
-
-            $videoFFMpeg->filters()
-                ->resize(new Dimension(640, 360))
-                ->synchronize();
-
-            $videoFFMpeg->save($format, $tempLowPath);
-
-            /*
-            |--------------------------------------------------------------------------
-            | 7. Upload Low Video To S3
-            |--------------------------------------------------------------------------
-            */
             Storage::disk('s3')->putFileAs(
                 'batch/videos/low',
                 new \Illuminate\Http\File($tempLowPath),
                 $lowFileName,
-                [
-                    'visibility' => 'public'
-                ]
+                ['visibility' => 'public']
             );
 
-            /*
-            |--------------------------------------------------------------------------
-            | 8. Update Database
-            |--------------------------------------------------------------------------
-            */
-            $video->height = $height;
-            $video->width = $width;
-            $video->duration = $duration;
-            $video->file_size = $fileSize;
-            $video->frame_rate = $frameRate;
-            $video->thumbnail_path = 'batch/videos/thumbnails/' . $thumbnailName;
-            $video->low_path = 'batch/videos/low/' . $lowFileName;
-            $video->status = 'submitted';
-            $video->save();
+            Log::info("✅ LOW video uploaded to S3");
 
             /*
             |--------------------------------------------------------------------------
-            | 9. Cleanup Temp Files
+            | 9. Update Database
+            |--------------------------------------------------------------------------
+            */
+            $video->width          = $width;
+            $video->height         = $height;
+            $video->duration       = $duration;
+            $video->file_size      = $fileSize;
+            $video->frame_rate     = $frameRate;
+            $video->thumbnail_path = 'batch/videos/thumbnails/' . $thumbnailName;
+            $video->mid_path       = 'batch/videos/mid/' . $midFileName;
+            $video->low_path       = 'batch/videos/low/' . $lowFileName;
+            $video->status         = 'submitted';
+            $video->save();
+
+            Log::info("✅ Database updated");
+
+            /*
+            |--------------------------------------------------------------------------
+            | 10. Cleanup Temp Files
             |--------------------------------------------------------------------------
             */
             @unlink($tempOriginalPath);
+            @unlink($tempMidPath);
             @unlink($tempLowPath);
             @unlink($tempThumbnailPath);
 
-            Log::info("✅ Processing Completed", ['video_id' => $video->id]);
+            Log::info("✅ Processing Completed Successfully", ['video_id' => $video->id]);
         } catch (\Exception $e) {
 
             Log::error("🔥 Processing Failed", [
                 'video_id' => $video->id,
-                'error' => $e->getMessage()
+                'error'    => $e->getMessage(),
+                'trace'    => $e->getTraceAsString(),
             ]);
+
+            // Cleanup temp files on failure too
+            @unlink($tempOriginalPath ?? '');
+            @unlink($tempMidPath ?? '');
+            @unlink($tempLowPath ?? '');
+            @unlink($tempThumbnailPath ?? '');
 
             $video->status = 'rejected';
             $video->save();

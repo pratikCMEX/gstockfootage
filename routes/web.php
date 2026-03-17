@@ -24,6 +24,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -86,6 +87,24 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+// Route::get('/test-vision', function () {
+//     $apiKey   = 'AIzaSyB69Z85Exygj04LYp9l5cc4RkEjDEmk-jk';
+//     $endpoint = "https://vision.googleapis.com/v1/images:annotate?key={$apiKey}";
+
+//     // Test with a public image URL
+//     $response = Http::post($endpoint, [
+//         'requests' => [[
+//             'image'    => ['source' => ['imageUri' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png']],
+//             'features' => [
+//                 ['type' => 'LABEL_DETECTION', 'maxResults' => 5],
+//             ],
+//         ]],
+//     ]);
+
+//     return $response->json();
+// });
+Route::post('/photos/search-by-image', [HomeController::class, 'searchByImage'])->name('photos.searchByImage');
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/print', [HomeController::class, 'printStore'])->name('print_store');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
@@ -135,7 +154,7 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [PaymentController::class, 'processCheckout'])->name('checkout.process');
 Route::get('/checkout/success', [PaymentController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
-Route::post('/stripe/webhook', [PaymentController::class, 'handleWebhook']);
+Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
 
 
 

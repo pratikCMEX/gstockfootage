@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -406,12 +407,71 @@ class HomeController extends Controller
         ));
     }
 
+    public function searchByImage(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
+        ]);
+
+        $image  = $request->file('image');
+        $base64 = base64_encode(file_get_contents($image->getRealPath()));
+
+        // ── Call Google Vision API ────────────────────────────────────────────────
+        $apiKey   = config('services.google_vision.key');
+        $endpoint = "https://vision.googleapis.com/v1/images:annotate?key={$apiKey}";
+
+        $response = Http::post($endpoint, [
+            'requests' => [[
+                'image'    => ['content' => $base64],
+                'features' => [
+                    ['type' => 'LABEL_DETECTION',    'maxResults' => 15],
+                    ['type' => 'LANDMARK_DETECTION', 'maxResults' => 5],
+                    ['type' => 'OBJECT_LOCALIZATION', 'maxResults' => 10],
+                ],
+            ]],
+        ]);
+
+        if ($response->failed()) {
+            return back()->withErrors(['image' => 'Image analysis failed. Please try again.']);
+        }
+
+        $result = $response->json();
+
+        // ── Extract keywords ──────────────────────────────────────────────────────
+        $keywords = collect();
+
+        $labels = data_get($result, 'responses.0.labelAnnotations', []);
+        $keywords = $keywords->merge(
+            collect($labels)->filter(fn($l) => $l['score'] >= 0.70)->pluck('description')
+        );
+
+        $landmarks = data_get($result, 'responses.0.landmarkAnnotations', []);
+        $keywords  = $keywords->merge(collect($landmarks)->pluck('description'));
+
+        $objects = data_get($result, 'responses.0.localizedObjectAnnotations', []);
+        $keywords = $keywords->merge(
+            collect($objects)->filter(fn($o) => $o['score'] >= 0.70)->pluck('name')
+        );
+
+        $keywords = $keywords->unique()->filter()->values();
+
+        if ($keywords->isEmpty()) {
+            return back()->withErrors(['image' => 'Could not detect anything from this image. Please try another.']);
+        }
+
+        // ── Redirect to photos page with q param ──────────────────────────────────
+        return redirect()->route('all_photos', [
+            'q' => $keywords->join(', '),
+        ]);
+    }
     public function allPhotos(Request $request)
     {
+
         $title = 'Photos';
         $page = 'front.all_photos';
         $js = ['home', 'favorites'];
-
+        // dd($request);
         $q = $request->get('q', '');
         $type = $request->get('type', 'image');
         $collection_id = $request->has('collection_id')
@@ -437,7 +497,21 @@ class HomeController extends Controller
             ]);
 
         if ($q) {
-            $query->where('keywords', 'like', '%' . $q . '%');
+            $keywords = collect(explode(',', $q))
+                ->map(fn($k) => trim($k))
+                ->filter()
+                ->values();
+            if ($keywords->count() === 1) {
+                // Single keyword — simple like search
+                $query->where('keywords', 'like', '%' . $keywords->first() . '%');
+            } else {
+                // Multiple keywords — match any of them
+                $query->where(function ($q) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $q->orWhere('keywords', 'like', '%' . $keyword . '%');
+                    }
+                });
+            }
         }
 
         if ($collection_id) {
@@ -447,7 +521,7 @@ class HomeController extends Controller
         if ($category_id) {
             $query->where('category_id', $category_id);        // ← new
         }
-        
+
 
         $allPhotos = $query->get();
 

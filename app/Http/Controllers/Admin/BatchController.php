@@ -709,26 +709,32 @@ class BatchController extends Controller
                 $manager = new ImageManager(new GdDriver());
             }
 
-            $imageName = Str::uuid() . '.webp';
-            $img = $manager->read($path);
+            $imageName    = Str::uuid() . '.webp';
+            $img          = $manager->read($path);
 
             $width        = $img->width();
             $height       = $img->height();
             $size         = $fileObj ? $fileObj->getSize() : filesize($path);
             $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
 
-            // Encode HIGH quality once, reuse the string
-            $highEncoded = $img->encode(new WebpEncoder(quality: 85))->toString();
-
+            // ── HIGH — 100% quality, original size ───────────────────────────────
+            $highEncoded = $img->encode(new WebpEncoder(quality: 100))->toString();
             Storage::disk('s3')->put(
                 "batch/image/high/$imageName",
                 $highEncoded,
                 ['visibility' => 'public']
             );
 
-            // Scale down for LOW version
-            $lowEncoded = $img->scale(width: 800)->encode(new WebpEncoder(quality: 75))->toString();
+            // ── MID — 80% quality, original size ─────────────────────────────────
+            $midEncoded = $img->encode(new WebpEncoder(quality: 80))->toString();
+            Storage::disk('s3')->put(
+                "batch/image/mid/mid_$imageName",
+                $midEncoded,
+                ['visibility' => 'public']
+            );
 
+            // ── LOW — 60% quality, scaled to 800px wide ───────────────────────────
+            $lowEncoded = $img->scale(width: 800)->encode(new WebpEncoder(quality: 60))->toString();
             Storage::disk('s3')->put(
                 "batch/image/low/low_$imageName",
                 $lowEncoded,
@@ -742,8 +748,9 @@ class BatchController extends Controller
                 'title'          => pathinfo($originalName, PATHINFO_FILENAME),
                 'file_name'      => $imageName,
                 'file_path'      => "batch/image/high/$imageName",
-                'thumbnail_path' => "",
+                'mid_path'       => "batch/image/mid/mid_$imageName",
                 'low_path'       => "batch/image/low/low_$imageName",
+                'thumbnail_path' => "",
                 'file_type'      => 'image',
                 'type'           => 'image',
                 'file_size'      => $size,
@@ -755,7 +762,7 @@ class BatchController extends Controller
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
             // Always free memory
-            unset($img, $lowEncoded, $highEncoded);
+            unset($img, $highEncoded, $midEncoded, $lowEncoded);
             gc_collect_cycles();
         }
     }
