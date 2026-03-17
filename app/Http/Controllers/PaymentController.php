@@ -373,7 +373,7 @@ class PaymentController extends Controller
         $endpoint_secret = config('services.stripe.webhook_secret');
 
 
-        dd($payload, $sig_header, $endpoint_secret);
+        // dd($payload, $sig_header, $endpoint_secret);
         // ── Verify Stripe signature ───────────────────────────────────────────────
         try {
             $event = \Stripe\Webhook::constructEvent(
@@ -383,7 +383,7 @@ class PaymentController extends Controller
             );
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
             Log::error("❌ Webhook signature invalid", ['error' => $e->getMessage()]);
-            return response('Invalid signature', 400);
+            return response(['error' => 'Invalid signature', 'endpoint_secret' => $endpoint_secret, 'sig_header' => $sig_header], 400);
         } catch (\Exception $e) {
             Log::error("❌ Webhook error", ['error' => $e->getMessage()]);
             return response('Webhook error', 400);
