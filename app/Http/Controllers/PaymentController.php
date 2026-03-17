@@ -421,6 +421,7 @@ class PaymentController extends Controller
 
             // ── Get cart from cache ───────────────────────────────────────────────
             $cartData = Cache::get('stripe_cart_' . $session->id);
+            $cartData = Cache::get('stripe_email_' . $session->customer_email);
 
             Log::info("🛒 Cart data from cache", [
                 'session_id' => $session->id,
