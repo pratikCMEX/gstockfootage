@@ -28,7 +28,7 @@
                                 <select class="form-select mr-sm-2" name="product_quality_id" id="product_quality_id">
                                     <option value="">Choose Product Quality...</option>
                                     @foreach ($qualities as $quality)
-                                        <option value="{{ $quality->id }}">{{ $quality->name }}</option>
+                                    <option value="{{ $quality->id }}">{{ $quality->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -60,12 +60,11 @@
                                 <div id="description-container">
 
                                     <div class="description-item mb-2">
-                                        <div class="input-group">
+                                        <div class="input-group license-description">
                                             <input type="text" name="description[]" class="form-control description"
                                                 placeholder="Enter description point">
 
-                                            <button type="button" class="btn btn-primary" id="add"
-                                                style="width: 120px;">
+                                            <button type="button" class="btn btn-license" id="add" style="width: 120px;">
                                                 + Add More
                                             </button>
                                         </div>
@@ -73,7 +72,7 @@
 
                                 </div>
 
-                                <div id="addHtml"></div>
+                                <div id="addHtml" class="license-description-add"></div>
 
                             </div>
 
@@ -85,15 +84,14 @@
                                         <input type="text" name="description[]" class="form-control description"
                                             placeholder="Enter description point">
 
-                                        <button type="button" class="btn btn-danger ms-2 remove"
-                                            style="width: 100%; max-width: 120px;">
+                                        <button type="button" class="btn btn-danger ms-2 remove" style="width: 120px;">
                                             Close
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-orange">Add License</button>
+                            <button type="submit" class="btn btn-orange">Add</button>
                         </form>
 
 

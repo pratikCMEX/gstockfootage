@@ -72,15 +72,15 @@ class ProductDataTable extends DataTable
 
                 if ($row->type === 'image') {
 
-                    return '<img src="' . Storage::disk('s3')->url($row->low_path) . '"
+                    return '<div class="product-img-video"><img src="' . Storage::disk('s3')->url($row->low_path) . '"
                         class="preview-image"
                         data-src="' . Storage::disk('s3')->url($row->file_path) . '"
                         width="80"
                         height="80"
-                        style="cursor:pointer" />';
+                        style="cursor:pointer" /> </div>';
                 }
 
-                return '<div class="video-thumbnail-wrapper position-relative d-inline-block">  
+                return '<div class="video-thumbnail-wrapper product-img-video position-relative d-inline-block">  
                             <img src="' . $thumbnail . '" 
                             width="100" height="100" 
                             class="video-thumbnail rounded cursor-pointer" 
@@ -220,7 +220,7 @@ class ProductDataTable extends DataTable
         if ($type !== null && $type !== '') {
             $query->where('type', $type);
         }
-         $query->orderBy('priority', 'asc');
+        $query->orderBy('priority', 'asc');
         return $query;
     }
 

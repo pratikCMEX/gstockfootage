@@ -1,48 +1,49 @@
 #productpriority-table tbody tr {
-    cursor: grab;
+  cursor: grab;
 }
 
 #productpriority-table tbody tr:active {
-    cursor: grabbing;
+  cursor: grabbing;
 }
-.table-scroll{
-max-height:500px;
-overflow-y:auto;
+.table-scroll {
+  max-height: 600px;
+  overflow-y: auto;
 }
 table {
-    table-layout: fixed;
-    width: 100%;
+  table-layout: fixed;
+  width: 100%;
 }
 
-th, td {
-    text-align: center;
-    vertical-align: middle;
-    padding: 8px;
-    border: 1px solid #dee2e6;
+th,
+td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px;
+  border: 1px solid #dee2e6;
 }
 
 #all-products tr,
-#priority-products tr{
-cursor: grab;
+#priority-products tr {
+  cursor: grab;
 }
 
 #all-products tr:active,
-#priority-products tr:active{
-cursor: grabbing;
+#priority-products tr:active {
+  cursor: grabbing;
 }
 
 #all-products input[type="checkbox"],
-#priority-products input[type="checkbox"]{
-cursor: pointer;
+#priority-products input[type="checkbox"] {
+  cursor: pointer;
 }
 #all-products input[type="checkbox"],
-#priority-products input[type="checkbox"]{
-    cursor: pointer !important;
+#priority-products input[type="checkbox"] {
+  cursor: pointer !important;
 }
 
 #all-products th input[type="checkbox"],
-#priority-products th input[type="checkbox"]{
-    cursor: pointer !important;
+#priority-products th input[type="checkbox"] {
+  cursor: pointer !important;
 }
 .card-body {
   position: relative;
@@ -1595,14 +1596,18 @@ table td {
   background: #2b2b2b;
   border-radius: 16px;
   padding: 18px 20px 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28), 0 4px 16px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.28),
+    0 4px 16px rgba(0, 0, 0, 0.18);
   font-family: "DM Sans", sans-serif;
 
   /* hidden by default */
   transform: translateY(20px) scale(0.96);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
   z-index: 9999;
 }
 .upload-toast.show {

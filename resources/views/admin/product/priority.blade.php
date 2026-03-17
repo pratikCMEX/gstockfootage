@@ -6,13 +6,13 @@
 
             <div class="col-md-4">
                 <h5 class="card-title fw-semibold">
-                    <a href="{{ route('admin.product') }}">Product List</a> / Priority
+                    <a href="{{ route('admin.product') }}" style="color: var(--primary);">Product List</a> / Priority
                 </h5>
             </div>
 
             <div class="col-md-8 text-end">
 
-                <button id="MoveToPriority" class="btn btn-info d-none">
+                <button id="MoveToPriority" class="btn btn-primary btn-orange d-none">
                     Move to Priority
                 </button>
 
@@ -42,13 +42,13 @@
             <!-- ALL PRODUCTS -->
             <div class="col-lg-6">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body product-priority">
 
                         <h5 class="card-title mb-3">All Products</h5>
 
                         <div class="mb-2">
                             <select id="filterProductType" class="form-control form-control-md">
-                                
+
                                 <option value="image">Images</option>
                                 <option value="video">Videos</option>
                             </select>
@@ -59,11 +59,11 @@
                                     placeholder="Search products...">
                             </div>
 
-                            <table class="table table-bordered table-sm" id="all-products-table">
+                            <table class="table table-borderless border-0 table-sm" id="all-products-table">
 
                                 <thead class="table-light">
                                     <tr>
-                                        <th><input Type='checkbox' name="allPriority" id='allPriority'></th>
+                                        <th><input Type='checkbox' class="form-check-input row-checkbox" name="allPriority" id='allPriority'></th>
                                         <th>Sr No.</th>
                                         <th>Name</th>
                                         <th width="80">Type</th>
@@ -74,56 +74,56 @@
 
                                 <tbody id="all-products">
                                     @php
-                                        $i = 0;
+                                    $i = 0;
                                     @endphp
                                     @foreach($products as $product)
-                                        @php
-                                            $i++;
-                                        @endphp
+                                    @php
+                                    $i++;
+                                    @endphp
 
-                                        @php
-                                            $thumbnail = $product->thumbnail_path
-                                                ? Storage::disk('s3')->url($product->thumbnail_path)
-                                                : asset('assets/admin/images/demo_thumbnail.png');
+                                    @php
+                                    $thumbnail = $product->thumbnail_path
+                                    ? Storage::disk('s3')->url($product->thumbnail_path)
+                                    : asset('assets/admin/images/demo_thumbnail.png');
 
-                                            $videoUrl = Storage::disk('s3')->url($product->file_path);
-                                        @endphp
+                                    $videoUrl = Storage::disk('s3')->url($product->file_path);
+                                    @endphp
 
-                                        <tr data-id="{{ $product->id }}">
-                                            <td><input Type='checkbox' name="selectPriority" id='selectPriority'
-                                                    value="{{ $product->id }}"></td>
-                                            <td>{{ $i++ }}</td>
-                                            <td>{{ $product->title }}</td>
-                                            <td>{{ $product->type }}</td>
+                                    <tr data-id="{{ $product->id }}">
+                                        <td><input Type='checkbox' name="selectPriority" id='selectPriority' class="form-check-input row-checkbox"
+                                                value="{{ $product->id }}"></td>
+                                        <td>{{ $i++ }}</td>
+                                        <td>{{ $product->title }}</td>
+                                        <td>{{ $product->type }}</td>
 
-                                            <td>
+                                        <td>
 
-                                                @if($product->type === 'image')
+                                            @if($product->type === 'image')
 
-                                                    <img src="{{ Storage::disk('s3')->url($product->low_path) }}"
-                                                        class="preview-image"
-                                                        data-src="{{ Storage::disk('s3')->url($product->file_path) }}"
-                                                        width="70" height="70" style="cursor:pointer">
+                                            <img src="{{ Storage::disk('s3')->url($product->low_path) }}"
+                                                class="preview-image"
+                                                data-src="{{ Storage::disk('s3')->url($product->file_path) }}"
+                                                width="70" height="70" style="cursor:pointer">
 
-                                                @else
+                                            @else
 
-                                                    <div class="video-thumbnail-wrapper position-relative d-inline-block">
+                                            <div class="video-thumbnail-wrapper position-relative d-inline-block">
 
-                                                        <img src="{{ $thumbnail }}" width="90" height="90"
-                                                            class="video-thumbnail rounded" data-video="{{ $videoUrl }}">
+                                                <img src="{{ $thumbnail }}" width="90" height="90"
+                                                    class="video-thumbnail rounded" data-video="{{ $videoUrl }}">
 
-                                                        <i class="ti ti-player-play play-icon video-thumbnail"
-                                                            data-video="{{ $videoUrl }}"></i>
+                                                <i class="ti ti-player-play play-icon video-thumbnail"
+                                                    data-video="{{ $videoUrl }}"></i>
 
-                                                    </div>
+                                            </div>
 
-                                                @endif
+                                            @endif
 
-                                            </td>
+                                        </td>
 
-                                            <td>{{ $product->price }}</td>
+                                        <td>{{ $product->price }}</td>
 
-                                        </tr>
+                                    </tr>
 
                                     @endforeach
 
@@ -142,22 +142,22 @@
             <!-- PRIORITY AREA -->
             <div class="col-lg-6">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body product-priority">
 
                         <h5 class="card-title mb-3">Priority List</h5>
 
-                        
+
                         <div class="table-scroll">
 
                             <div class="mb-2">
                                 <input type="text" id="searchPriorityProducts" class="form-control form-control-md"
                                     placeholder="Search priority products...">
                             </div>
-                            <table class="table table-bordered table-sm" id="priority-table">
+                            <table class="table table-borderless border-0 table-sm" id="priority-table">
 
                                 <thead class="table-light">
                                     <tr>
-                                        <th><input type="checkbox" id="allPrioritySelected"></th>
+                                        <th><input type="checkbox" class="form-check-input row-checkbox" id="allPrioritySelected"></th>
                                         <th width="70">Priority</th>
                                         <th>Name</th>
 
@@ -171,49 +171,49 @@
 
                                     @foreach($priorityProducts as $product)
 
-                                        @php
-                                            $thumbnail = $product->thumbnail_path
-                                                ? Storage::disk('s3')->url($product->thumbnail_path)
-                                                : asset('assets/admin/images/demo_thumbnail.png');
+                                    @php
+                                    $thumbnail = $product->thumbnail_path
+                                    ? Storage::disk('s3')->url($product->thumbnail_path)
+                                    : asset('assets/admin/images/demo_thumbnail.png');
 
-                                            $videoUrl = Storage::disk('s3')->url($product->file_path);
-                                        @endphp
+                                    $videoUrl = Storage::disk('s3')->url($product->file_path);
+                                    @endphp
 
-                                        <tr data-id="{{ $product->id }}">
-                                            <td><input type="checkbox" class="priorityCheck" value="{{ $product->id }}">
-                                            </td>
-                                            <td class="priority-number">{{ $product->priority }}</td>
+                                    <tr data-id="{{ $product->id }}">
+                                        <td><input type="checkbox" class="priorityCheck form-check-input row-checkbox" value="{{ $product->id }}">
+                                        </td>
+                                        <td class="priority-number">{{ $product->priority }}</td>
 
 
 
-                                            <td>{{ $product->title }}</td>
+                                        <td>{{ $product->title }}</td>
 
-                                            <td>{{ $product->type }}</td>
+                                        <td>{{ $product->type }}</td>
 
-                                            <td>
+                                        <td>
 
-                                                @if($product->type === 'image')
+                                            @if($product->type === 'image')
 
-                                                    <img src="{{ Storage::disk('s3')->url($product->low_path) }}" width="70"
-                                                        height="70">
+                                            <img src="{{ Storage::disk('s3')->url($product->low_path) }}" width="70"
+                                                height="70">
 
-                                                @else
+                                            @else
 
-                                                    <div class="video-thumbnail-wrapper position-relative d-inline-block">
+                                            <div class="video-thumbnail-wrapper position-relative d-inline-block">
 
-                                                        <img src="{{ $thumbnail }}" width="90" height="90">
+                                                <img src="{{ $thumbnail }}" width="90" height="90">
 
-                                                        <i class="ti ti-player-play play-icon"></i>
+                                                <i class="ti ti-player-play play-icon"></i>
 
-                                                    </div>
+                                            </div>
 
-                                                @endif
+                                            @endif
 
-                                            </td>
+                                        </td>
 
-                                            <td>{{ $product->price }}</td>
+                                        <td>{{ $product->price }}</td>
 
-                                        </tr>
+                                    </tr>
 
                                     @endforeach
 

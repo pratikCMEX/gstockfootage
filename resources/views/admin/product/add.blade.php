@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">
-                    <a href="{{ route('admin.product') }}">Product List</a> / Add Product
+                    <a href="{{ route('admin.product') }}" style="color: var(--primary);">Product List</a> / Add Product
                 </h5>
 
                 <div class="card">
@@ -37,7 +37,7 @@
                                 <select class="form-select" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($category as $cat)
-                                        <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -54,7 +54,7 @@
                                 <select class="form-select" name="collection" id="collection">
                                     <option value="">Choose Collection...</option>
                                     @foreach ($collections as $coll)
-                                        <option value="{{ $coll->id }}">{{ $coll->name }}</option>
+                                    <option value="{{ $coll->id }}">{{ $coll->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

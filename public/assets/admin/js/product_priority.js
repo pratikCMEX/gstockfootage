@@ -223,7 +223,7 @@ $(document).ready(function () {
 
       let newRow = `
 <tr data-id="${id}">
-<td><input type="checkbox" class="priorityCheck"></td>
+<td><input type="checkbox" class="priorityCheck form-check-input row-checkbox"></td>
 <td class="priority-number"></td>
 <td>${name}</td>
 <td>${type}</td>
