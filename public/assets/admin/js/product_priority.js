@@ -4,7 +4,7 @@ $(document).ready(function () {
   filterProducts();
   updateAllProductSrNo();
   toggleMoveButtons();
- 
+
 
   function filterProducts() {
 
@@ -41,6 +41,17 @@ $(document).ready(function () {
 
     });
 
+  }
+
+  function resetAllCheckboxes() {
+
+    // Uncheck all row checkboxes
+    $('#all-products input[name="selectPriority"]').prop('checked', false);
+    $('#priority-products .priorityCheck').prop('checked', false);
+
+    // Uncheck header checkboxes
+    $('#allPriority').prop('checked', false);
+    $('#allPrioritySelected').prop('checked', false);
   }
   $('#filterProductType').on('change', function () {
     filterProducts();
@@ -123,7 +134,7 @@ $(document).ready(function () {
     });
 
   }
- 
+
   function updateAllProductSrNo() {
 
     let count = 1;
@@ -158,7 +169,7 @@ $(document).ready(function () {
 
   });
 
- 
+
   $(document).on('change', 'input[name="selectPriority"]', function () {
 
     let total = $('#all-products tr:visible')
@@ -172,7 +183,7 @@ $(document).ready(function () {
     toggleMoveButtons();
   });
 
-  
+
   $(document).on('change', '.priorityCheck', function () {
 
     let total = $('#priority-products tr:visible').find('.priorityCheck').length;
@@ -204,7 +215,7 @@ $(document).ready(function () {
       $('#MoveToAllProducts').addClass('d-none');
     }
   }
- 
+
 
 
   /* MOVE TO PRIORITY BUTTON */
@@ -290,9 +301,51 @@ $(document).ready(function () {
     handle: "td:nth-child(n+3)",
     filter: "input[type='checkbox']",   // prevent drag from checkbox
     preventOnFilter: false,
+    onAdd: function (evt) {
+
+      let draggedRow = evt.item;
+      let id = $(draggedRow).data('id');
+
+      let name = $(draggedRow).find('td:eq(2)').html();
+      let type = $(draggedRow).find('td:eq(3)').html();
+      let preview = $(draggedRow).find('td:eq(4)').html();
+      let price = $(draggedRow).find('td:eq(5)').html();
+
+  
+
+      // CREATE fresh row (unchecked by default)
+      let newRow = `
+<tr data-id="${id}">
+<td><input type="checkbox" name="selectPriority" value="${id}"></td>
+<td></td>
+<td>${name}</td>
+<td>${type}</td>
+<td>${preview}</td>
+<td>${price}</td>
+</tr>
+`;
+
+    let rows = $('#all-products tr');
+
+  if (rows.length === 0 || evt.newIndex >= rows.length) {
+    $('#all-products').append(newRow);
+  } else {
+    $(rows[evt.newIndex]).before(newRow);
+  }
+    // REMOVE old row completely
+    
+  $(draggedRow).remove();
+
+      updatePriorityNumbers();
+      updateAllProductSrNo();
+      resetAllCheckboxes();   // 🔥 important
+      toggleMoveButtons();
+    },
     onEnd: function () {
       updatePriorityNumbers();
       updateAllProductSrNo();
+      resetAllCheckboxes();   // ✅ ADD
+      toggleMoveButtons();
     }
   });
 
@@ -316,7 +369,7 @@ $(document).ready(function () {
       let price = $(draggedRow).find('td:eq(5)').html();
 
       // remove dragged row completely
-      $(draggedRow).remove();
+    
 
       // build correct priority row
       let newRow = `
@@ -331,15 +384,25 @@ $(document).ready(function () {
   `;
 
       // append to priority table
-      $('#priority-products').append(newRow);
+    let rows = $('#priority-products tr');
 
+  if (rows.length === 0 || evt.newIndex >= rows.length) {
+    $('#priority-products').append(newRow);
+  } else {
+    $(rows[evt.newIndex]).before(newRow);
+  }
+  $(draggedRow).remove();
       updatePriorityNumbers();
       updateAllProductSrNo();
+      resetAllCheckboxes();
+      toggleMoveButtons();
     },
 
     onEnd: function () {
       updatePriorityNumbers();
       updateAllProductSrNo();
+      resetAllCheckboxes();
+      toggleMoveButtons();
     }
 
   });

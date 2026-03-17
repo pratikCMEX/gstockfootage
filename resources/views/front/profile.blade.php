@@ -19,10 +19,10 @@
                             id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
                             role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
                             Profile</button>
-                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'order') active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
                             id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
                             type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i
-                                class="bi bi-bag"></i> Order</button>
+                                class="bi bi-bag"></i> Donloads</button>
 
                         <button class="nav-link btn profile-btn @if (request()->get('tab') == 'wishlist') active @endif"
                             id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
@@ -198,54 +198,93 @@
                         @endif
                     </div>
 
-                    <div class="tab-pane fade profile-order" id="v-pills-profile" role="tabpanel"
-                        aria-labelledby="v-pills-profile-tab" tabindex="0">
-                        <div class="heading">
-                            <h2>Recent Order</h2>
-                        </div>
-                        <div class="order-content">
-                            <div class="order-detail-main">
-                                <div class="order-img">
-                                    <img src="https://images.unsplash.com/photo-1772752021285-27e336543d01?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="">
-                                </div>
-                                <div class="order-detail">
-                                    <div class="order-title">
-                                        <h4>Images Name</h4>
-                                        <span><i class="bi bi-calendar"></i> Oct 24 , 2025</span>
-                                    </div>
-                                    <h4 class="order-price">$199.00</h4>
-                                </div>
-                            </div>
-                            <div class="order-detail-main">
-                                <div class="order-img">
-                                    <img src="https://images.unsplash.com/photo-1772903813434-1ef535363867?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="">
-                                </div>
-                                <div class="order-detail">
-                                    <div class="order-title">
-                                        <h4>Images Name</h4>
-                                        <span><i class="bi bi-calendar"></i> June 4 , 2025</span>
-                                    </div>
-                                    <div class="order-price">$145.00</div>
-                                </div>
-                            </div>
-                            <div class="order-detail-main">
-                                <div class="order-img">
-                                    <img src="https://images.unsplash.com/photo-1772767511365-c7a5036bd55c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="">
-                                </div>
-                                <div class="order-detail">
-                                    <div class="order-title">
-                                        <h4>Images Name</h4>
-                                        <span><i class="bi bi-calendar"></i> Feb 8 , 2025</span>
-                                    </div>
-                                    <div class="order-price">$89.99</div>
-                                </div>
-                            </div>
+                  <div class="tab-pane fade profile-order @if (request()->get('tab') === 'downloads' || empty(request()->get('tab'))) show active @endif"
+    id="v-pills-profile" role="tabpanel">
 
-                        </div>
-                    </div>
+    <div class="heading">
+        <h2>Recent Order</h2>
+    </div>
+
+    @foreach ($order_data as $order)
+        <div class="batch-content">
+
+            <div class="batch-content-detail">
+                <a class="batch-content-img" href="{{ route('admin.add_new_img', encrypt($order->id)) }}">
+
+                  
+
+                   
+                </a>
+
+                <div class="batch-content-create">
+                    <p class="batchid">Order Id : {{ $order->order_number }}</p>
+                    <p class="batchcreated">
+                        Created :
+                        {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
+                    </p>
+                </div>
+
+                <div class="more-detail">
+                    <button class="btn more-detail-btn" type="button">
+                        <i class="fa-solid fa-angle-down"></i> More Detail
+                    </button>
+                </div>
+            </div>
+
+            <!-- DETAILS TABLE -->
+            <div class="batch-content-table-details ">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>File ID</th>
+                            <th>File Name</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($order->order_details as $file)
+                      
+                            @php
+                                if ($file->type == 'image') {
+                                    $path = $file->low_path;
+                                } else {
+                                    $path = $file->thumbnail_path ?? null;
+                                }
+
+                                $url = $path
+                                    ? Storage::disk('s3')->url($path)
+                                    : asset('assets/admin/images/demo_thumbnail.png');
+                            @endphp
+
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="{{ $url }}" width="40" height="40">
+                                        <span>{{ $file['file_code'] }}</span>
+                                    </div>
+                                </td>
+
+                                <td>{{ $file['original_name'] }}</td>
+                                <td>{{ $file->title }}</td>
+
+                                <td>
+                                    <span class="badge bg-success">
+                                        {{ ucfirst($file['status'] ?? 'accepted') }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    @endforeach
+
+</div>
 
                     <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
                         id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
@@ -258,8 +297,10 @@
                             </div>
                             <div class="wishlist-product-content">
                                 <div class="row row-gap-4">
-                                    @if ($wishLists->isNotEmpty())
+                                   
+                                    @if ($wishLists->isNotEmpty() && !empty($wishLists))
                                         @foreach ($wishLists as $favorites)
+                                       
                                             <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
                                                 <div class="wishlist-product-detail">
                                                     <div class="product-card">

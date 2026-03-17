@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Log;
 class PaymentController extends Controller
 {
 
-    public function processCheckout(Request $request)
+    public function     processCheckout(Request $request)
     {
 
         $request->validate([

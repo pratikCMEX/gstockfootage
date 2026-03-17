@@ -27,6 +27,21 @@ class ContactUsDataTable extends DataTable
             ->addColumn('checkbox', function ($row) {
                 return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
             })
+            
+->addColumn('message', function ($row) {
+
+    $shortMsg = \Illuminate\Support\Str::limit(strip_tags($row->message), 30);
+
+    return $shortMsg.'...' . ' 
+        <a href="javascript:void(0)" 
+           class="viewMessage text-primary" 
+           data-name="' . e($row->name) . '"
+           data-email="' . e($row->email) . '"
+           data-subject="' . e($row->subject) . '"
+           data-message="' . e($row->message) . '">
+           View 
+        </a>';
+})
             ->addColumn('actions', function ($row) {
 
                 $deleteButton = '

@@ -2,6 +2,23 @@
 
 var base_url = $("#base_url").val();
 
+$(document).on("click", ".more-detail-btn", function () {
+    let parent = $(this).closest(".batch-content");
+   
+    // close others
+    $(".batch-content-table-details")
+        .not(parent.find(".batch-content-table-details"))
+        .slideUp();
+
+    $(".more-detail-btn i")
+        .removeClass("fa-angle-up")
+        .addClass("fa-angle-down");
+
+    // toggle current
+    parent.find(".batch-content-table-details").slideToggle();
+
+    $(this).find("i").toggleClass("fa-angle-down fa-angle-up");
+});
 $(document).ready(function () {
     $('#profile_form').validate({
         errorClass: 'text-danger',

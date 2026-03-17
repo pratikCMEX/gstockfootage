@@ -76,7 +76,7 @@
   color: var(--white);
 }
 .big-product-img i {
-  color: var(--black) !important;
+  /* color: var(--black) !important; */
   font-size: 20px;
   position: absolute;
   right: 10px;

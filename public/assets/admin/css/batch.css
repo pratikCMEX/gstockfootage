@@ -9,7 +9,7 @@
 max-height:500px;
 overflow-y:auto;
 }
-table {
+/* table {
     table-layout: fixed;
     width: 100%;
 }
@@ -19,7 +19,7 @@ th, td {
     vertical-align: middle;
     padding: 8px;
     border: 1px solid #dee2e6;
-}
+} */
 
 #all-products tr,
 #priority-products tr{

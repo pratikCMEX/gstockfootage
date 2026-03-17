@@ -47,6 +47,7 @@ class OrderController extends Controller
                 }
             }
 
+          
             if (count($cartItems) == 0) {
                 return response()->json(['message' => 'Cart is empty'], 400);
             }

@@ -1,3 +1,24 @@
+.batch-content {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.batch-content-table-details {
+    margin-top: 10px;
+}
+
+.batch-collect-imgs {
+    display: grid;
+    gap: 5px;
+}
+
+.batch-collect-imgs img {
+    object-fit: cover;
+    border-radius: 5px;
+}
+
 .wishlist-product-content .row {
   display: flex;
   flex-wrap: wrap;

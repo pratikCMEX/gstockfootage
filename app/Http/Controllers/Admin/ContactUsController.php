@@ -19,6 +19,7 @@ class ContactUsController extends Controller
         $title = 'Contact Us';
         $page = 'admin.contact_us.list';
         $js = ['contact_us'];
+          
         return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js'));
     }
 
