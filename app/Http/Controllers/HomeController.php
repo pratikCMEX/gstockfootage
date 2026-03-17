@@ -208,31 +208,50 @@ class HomeController extends Controller
     }
     public function videos(Request $request)
     {
-
         $title = 'Videos';
-        $page = 'front.videos';
-        $js = ['home', 'favorites', 'videos'];
+        $page  = 'front.videos';
+        $js    = ['home', 'favorites', 'videos'];
 
+        $collection_id = $request->has('collection_id') ? decrypt($request->get('collection_id')) : null;
+        $category_id   = $request->has('category_id')   ? decrypt($request->get('category_id'))   : null;
 
+        // ── Dynamic max values from DB ────────────────────────────────────────────
+        $maxPrice    = (int) BatchFile::where('type', 'video')->where('is_edited', '1')->max('price')    ?: 500;
+        $maxDuration = (int) BatchFile::where('type', 'video')->where('is_edited', '1')->max('duration') ?: 120;
+        // ─────────────────────────────────────────────────────────────────────────
 
-        $q              = $request->get('q', '');
-        $collection_id  = $request->has('collection_id') ? decrypt($request->get('collection_id')) : null;
-        $category_id    = $request->has('category_id')   ? decrypt($request->get('category_id'))   : null;
-
-        // ── New filter params ──────────────────────────────────────────────────────
-        $price_min      = $request->get('price_min', 0);
-        $price_max      = $request->get('price_max', 500);
-        $duration_min   = $request->get('duration_min', 0);
-        $duration_max   = $request->get('duration_max', 120);
-        $resolutions    = $request->get('resolution', []);      // array: ['hd','fullhd','4k']
-        $frame_rates    = $request->get('frame_rate', []);      // array: ['24','30','60','120']
-        $orientations   = $request->get('orientation', []);     // array: ['landscape','portrait','square','vertical']
-        $license        = $request->get('license', '');         // 'standard'|'premium'|'editorial'
-        $camera_moves   = $request->get('camera_movement', []); // array: ['static','pan',…]
-        $with_people    = $request->get('with_people', '');     // '1' or ''
-        $sort           = $request->get('sort', 'relevant');    // sort order
-        // ──────────────────────────────────────────────────────────────────────────
-        $content_filters = $request->get('content_filters', []); // array: ['with_people','without_people',...]
+        // ── Filter params: only read from request on AJAX, else use defaults ──────
+        if ($request->ajax()) {
+            $q               = $request->get('q', '');
+            $price_min       = $request->get('price_min', 0);
+            $price_max       = $request->get('price_max', $maxPrice);
+            $duration_min    = $request->get('duration_min', 0);
+            $duration_max    = $request->get('duration_max', $maxDuration);
+            $resolutions     = $request->get('resolution', []);
+            $frame_rates     = $request->get('frame_rate', []);
+            $orientations    = $request->get('orientation', []);
+            $license         = $request->get('license', '');
+            $camera_moves    = $request->get('camera_movement', []);
+            $with_people     = $request->get('with_people', '');
+            $sort            = $request->get('sort', 'relevant');
+            $content_filters = $request->get('content_filters', []);
+        } else {
+            // Fresh page load — always reset to defaults, ignore any URL params
+            $q               = '';
+            $price_min       = 0;
+            $price_max       = $maxPrice;
+            $duration_min    = 0;
+            $duration_max    = $maxDuration;
+            $resolutions     = [];
+            $frame_rates     = [];
+            $orientations    = [];
+            $license         = '';
+            $camera_moves    = [];
+            $with_people     = '';
+            $sort            = 'relevant';
+            $content_filters = [];
+        }
+        // ─────────────────────────────────────────────────────────────────────────
 
         $categories     = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
@@ -262,37 +281,37 @@ class HomeController extends Controller
         // Price range
         $query->whereBetween('price', [(float)$price_min, (float)$price_max]);
 
-        // Duration range (stored in seconds in DB — adjust column name if different)
+        // Duration range
         if ((int)$duration_min > 0) {
             $query->where('duration', '>=', (int)$duration_min);
         }
-        if ((int)$duration_max < 120) {
+        if ((int)$duration_max < $maxDuration) {
             $query->where('duration', '<=', (int)$duration_max);
         }
 
-        // Resolution  — adjust column name to match your DB ('resolution' | 'video_resolution' etc.)
+        // Resolution
         if (!empty($resolutions)) {
-            $map = ['hd' => 'HD', 'fullhd' => 'Full HD', '4k' => '4K'];
+            $map    = ['hd' => 'HD', 'fullhd' => 'Full HD', '4k' => '4K'];
             $values = array_map(fn($r) => $map[$r] ?? $r, $resolutions);
             $query->whereIn('resolution', $values);
         }
 
-        // Frame rate  — adjust column name ('frame_rate' | 'fps' etc.)
+        // Frame rate
         if (!empty($frame_rates)) {
             $query->whereIn('frame_rate', array_map('intval', $frame_rates));
         }
 
-        // Orientation — adjust column name ('orientation' etc.)
+        // Orientation
         if (!empty($orientations)) {
             $query->whereIn('orientation', $orientations);
         }
 
-        // License type — adjust column name ('license_type' etc.)
+        // License type
         if ($license) {
             $query->where('license_type', ucfirst($license));
         }
 
-        // Camera movement — adjust column name ('camera_movement' etc.)
+        // Camera movement
         if (!empty($camera_moves)) {
             $query->where(function ($q) use ($camera_moves) {
                 foreach ($camera_moves as $move) {
@@ -301,10 +320,12 @@ class HomeController extends Controller
             });
         }
 
-        // With people — adjust column name ('has_people' | 'with_people' as boolean/tinyint)
+        // With people
         if ($with_people === '1') {
             $query->where('has_people', 1);
         }
+
+        // Content filters
         if (!empty($content_filters)) {
             $query->where(function ($q) use ($content_filters) {
                 foreach ($content_filters as $filter) {
@@ -319,7 +340,7 @@ class HomeController extends Controller
                 $query->orderBy('created_at', 'desc');
                 break;
             case 'popular':
-                $query->orderBy('views', 'desc');   // adjust column if different
+                $query->orderBy('views', 'desc');
                 break;
             case 'price_asc':
                 $query->orderBy('price', 'asc');
@@ -333,27 +354,26 @@ class HomeController extends Controller
             case 'duration_desc':
                 $query->orderBy('duration', 'desc');
                 break;
-            default: // 'relevant' — keep default DB order or add your own relevance logic
+            default:
                 $query->orderBy('id', 'desc');
                 break;
         }
 
         $allVideos = $query->get();
-        $allVideosKey = BatchFile::where('type', 'video')->select('keywords')->get();
 
-        $tags = $allVideosKey
-            ->pluck('keywords')             // get keywords column
-            ->filter()                      // remove null
-            ->flatMap(function ($item) {
-                return explode(',', $item); // split by comma
-            })
-            ->map(fn($tag) => trim($tag))   // remove spaces
-            ->unique()                      // remove duplicates
+        // Tags from all videos (unfiltered)
+        $tags = BatchFile::where('type', 'video')
+            ->select('keywords')
+            ->get()
+            ->pluck('keywords')
+            ->filter()
+            ->flatMap(fn($item) => explode(',', $item))
+            ->map(fn($tag) => trim($tag))
+            ->unique()
             ->values();
 
-        // AJAX: return only the card partial so JS can swap it without a full reload
+        // AJAX: return partial HTML + count
         if ($request->ajax()) {
-
             return response()->json([
                 'html'  => view('front.partials.video-cards', compact('allVideos'))->render(),
                 'count' => $allVideos->count(),
@@ -363,13 +383,17 @@ class HomeController extends Controller
         return view("layouts.front.layout", compact(
             'title',
             'page',
+            'js',
             'allVideos',
             'categories',
-            'js',
+            'CollectionList',
+            'q',
             'price_min',
             'price_max',
+            'maxPrice',
             'duration_min',
             'duration_max',
+            'maxDuration',
             'resolutions',
             'frame_rates',
             'orientations',
@@ -378,8 +402,7 @@ class HomeController extends Controller
             'content_filters',
             'with_people',
             'sort',
-            'tags',
-            'q'
+            'tags'
         ));
     }
 

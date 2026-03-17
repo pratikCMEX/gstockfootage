@@ -34,8 +34,17 @@ class BatchFile extends Model
         'country',
         'frame_rate',
         'keywords',
+        'orientation',
+        'camera_movement',
+        'license_type',
+        'content_filters',
     ];
 
+    protected $casts = [
+        // Automatically encodes array → JSON on save
+        // and decodes JSON → array on read
+        'content_filters' => 'array',
+    ];
     public function batch()
     {
         return $this->belongsTo(Batch::class);

@@ -780,24 +780,33 @@ class BatchController extends Controller
 
     public function saveFileMetadata(Request $request)
     {
-        // dd($request);
+        // dd($request->all());
         $file = BatchFile::findOrFail($request->file_id);
 
         $file->update([
-            'category_id' => $request->category_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'date_created' => $request->date_created,
-            'keywords' => $request->tags,
-            'is_edited' => '1',
-            'price' => $request->price,
-            'country' => $request->country,
+            'category_id'    => $request->category_id,
+            'title'          => $request->title,
+            'description'    => $request->description,
+            'date_created'   => $request->date_created,
+            'keywords'       => $request->tags,
+            'is_edited'      => '1',
+            'price'          => $request->price,
+            'country'        => $request->country,
             'subcategory_id' => $request->subcategory_id,
-            'collection_id' => $request->collection_id
+            'collection_id'  => $request->collection_id,
+
+            // New filter fields
+            'orientation'      => $request->orientation,
+            'camera_movement'  => $request->camera_movement,
+            'license_type'     => $request->license_type,
+
+            // Checkboxes array — store as JSON (model $casts handles encoding automatically)
+            // If no checkbox selected, store empty array []
+            'content_filters'  => $request->input('content_filters', []),
         ]);
 
         return response()->json([
-            'status' => true,
+            'status'  => true,
             'message' => 'Metadata saved'
         ]);
     }

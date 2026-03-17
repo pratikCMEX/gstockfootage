@@ -201,7 +201,7 @@
                             </button>
                             <div id="priceD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    <div class="d-flex gap-2 mb-2">
+                                    {{-- <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="price_min_input"
                                             class="form-control form-control-sm" min="0"
                                             max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
@@ -220,11 +220,33 @@
                                     {{-- <div class="range-slider" id="priceRangeMax" data-min="0"
                                         data-max="{{ $allVideos->max('price') }}"
                                         data-value="{{ $allVideos->max('price') }}">
+                                    </div> 
+                                    <div class="range-values">
+                                        <span>$0</span>
+                                        <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
                                     </div> --}}
+                                    {{-- Price Range --}}
+                                    <div class="d-flex gap-2 mb-2">
+                                        <input type="number" id="price_min_input"
+                                            class="form-control form-control-sm" min="0"
+                                            max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
+                                        <input type="number" id="price_max_input"
+                                            class="form-control form-control-sm" min="0"
+                                            max="{{ $allVideos->max('price') }}"
+                                            value="{{ $allVideos->max('price') }}"
+                                            placeholder="${{ $allVideos->max('price') }}">
+                                    </div>
+                                    <div class="track-wrap">
+                                        <div class="track-bg"></div>
+                                        <div class="track-fill"></div>
+                                        <input type="range" min="0" max="{{ $allVideos->max('price') }}"
+                                            value="{{ $allVideos->max('price') }}" id="priceRangeMax">
+                                    </div>
                                     <div class="range-values">
                                         <span>$0</span>
                                         <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -247,9 +269,16 @@
                                             value="{{ $allVideos->max('duration') }}"
                                             placeholder="{{ $allVideos->max('duration') }}s">
                                     </div>
-                                    <input type="range" class="range-slider" min="0"
+                                    {{-- <input type="range" class="range-slider" min="0"
                                         max="{{ $allVideos->max('duration') }}" value="120"
-                                        id="durationRangeMax">
+                                        id="durationRangeMax"> --}}
+                                    <div class="track-wrap">
+                                        <div class="track-bg"></div>
+                                        <div class="track-fill" style="width:100%"></div>
+                                        <input type="range" min="0" max="{{ $allVideos->max('duration') }}"
+                                            value="{{ $allVideos->max('duration') }}" id="durationRangeMax">
+                                    </div>
+
                                     {{-- <div class="range-slider" data-min="0"
                                         data-max="{{ $allVideos->max('duration') }}"
                                         data-value="{{ $allVideos->max('duration') }}">
@@ -854,13 +883,11 @@
                                 @foreach ($allVideos as $video)
                                     <div class="product-card">
                                         <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            <video class="product-img" width="100%" preload="none"
-                                                poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                onmouseenter="this.play()"
-                                                onmouseleave="this.pause(); this.currentTime=0;">
+                                            <video class="product-img" width="100%" muted loop playsinline
+                                                preload="auto"
+                                                poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                 <source src="{{ Storage::disk('s3')->url($video->file_path) }}"
                                                     type="video/mp4">
-                                                Your browser does not support the video tag.
                                             </video>
                                         </a>
                                         <div class="p-3">
@@ -983,11 +1010,14 @@
     #videoGrid.cols-1 .product-card {
         display: flex;
         flex-direction: row;
+        flex-direction: column;
         gap: 16px;
     }
 
     #videoGrid.cols-1 .product-card .product-img {
-        width: 200px;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
         flex-shrink: 0;
         object-fit: cover;
         border-radius: 8px;

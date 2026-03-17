@@ -37,6 +37,8 @@
     -------------------------------------------------------------------------- */
   if ($("#videoGrid").length === 0) return;
 
+  window.history.replaceState({}, "", window.location.pathname);
+
   /* -------------------------------------------------------------------------
        CONFIG
     -------------------------------------------------------------------------- */
@@ -44,9 +46,10 @@
   var AJAX_URL = CONFIG.ajaxUrl || window.location.pathname;
   var CSRF =
     CONFIG.csrfToken || $('meta[name="csrf-token"]').attr("content") || "";
-  var MAX_PRICE = parseInt($("#priceRangeMax").attr("max")) || MAX_PRICE;
-  var MAX_DURATION =
-    parseInt($("#durationRangeMax").attr("max")) || MAX_DURATION;
+  var MAX_PRICE = parseInt($("#priceRangeMax").attr("max")) || 0;
+  var MAX_DURATION = parseInt($("#durationRangeMax").attr("max")) || 0;
+  var isResetting = false;
+
   $.ajaxSetup({
     headers: {
       "X-CSRF-TOKEN": CSRF,
@@ -266,7 +269,9 @@
   /* -------------------------------------------------------------------------
        RESET ALL
     -------------------------------------------------------------------------- */
-  function resetAll() {
+  function resetAll(skipFetch = false) {
+    isResetting = true; // ← block slider event handlers
+
     state.q = "";
     state.price_min = 0;
     state.price_max = MAX_PRICE;
@@ -293,7 +298,11 @@
 
     syncAllPriceUI();
     syncAllDurationUI();
-    triggerFetch(0);
+    isResetting = false; // ← re-enable handlers
+
+    if (!skipFetch) {
+      triggerFetch(0);
+    }
   }
 
   /* -------------------------------------------------------------------------
@@ -301,6 +310,11 @@
        Syncs BOTH desktop inputs/slider AND mobile inputs/slider from state
     -------------------------------------------------------------------------- */
   function syncAllPriceUI() {
+    var el = document.getElementById("priceRangeMax");
+    if (el) {
+      el.value = state.price_max;
+      el.dispatchEvent(new Event("input"));
+    }
     // Desktop
     $("#priceRangeMax").val(state.price_max);
     $("#price_min_input").val(state.price_min);
@@ -319,12 +333,25 @@
   function syncAllDurationUI() {
     var label =
       state.duration_max + (state.duration_max >= MAX_DURATION ? "s+" : "s");
+
+    var el = document.getElementById("durationRangeMax");
+    if (el) {
+      el.value = state.duration_max;
+      el.dispatchEvent(new Event("input"));
+    }
     // Desktop
     $("#durationRangeMax").val(state.duration_max);
     $("#duration_min_input").val(state.duration_min);
     $("#duration_max_input").val(state.duration_max);
     $("#durationMaxLabel").text(label);
     // Mobile
+
+    var elM = document.querySelector(".durationRangeMax_mobile");
+    if (elM) {
+      elM.value = state.duration_max;
+      elM.dispatchEvent(new Event("input"));
+    }
+
     $(".durationRangeMax_mobile").val(state.duration_max);
     $(".duration_min_mobile").val(state.duration_min);
     $(".duration_max_mobile").val(state.duration_max);
@@ -351,6 +378,8 @@
 
   /* --- Desktop: Price Slider --- */
   $(document).on("input", "#priceRangeMax", function () {
+    if (isResetting) return; // ← add this guard
+
     state.price_max = parseInt($(this).val(), 10);
     syncAllPriceUI();
     triggerFetch();
@@ -358,6 +387,8 @@
 
   /* --- Mobile: Price Slider --- */
   $(document).on("input", ".priceRangeMax_mobile", function () {
+    if (isResetting) return;
+
     state.price_max = parseInt($(this).val(), 10);
     syncAllPriceUI();
     triggerFetch();
@@ -396,7 +427,7 @@
   $(document).on("change", ".price_max_mobile", function () {
     var val = Math.max(
       state.price_min,
-      Math.min(parseInt($(this).val(), 10) || Max, MAX_PRICE)
+      Math.min(parseInt($(this).val(), 10) || MAX_PRICE, MAX_PRICE)
     );
     state.price_max = val;
     syncAllPriceUI();
@@ -405,6 +436,7 @@
 
   /* --- Desktop: Duration Slider --- */
   $(document).on("input", "#durationRangeMax", function () {
+    if (isResetting) return; // ← add this guard
     state.duration_max = parseInt($(this).val(), 10);
     syncAllDurationUI();
     triggerFetch();
@@ -412,6 +444,8 @@
 
   /* --- Mobile: Duration Slider --- */
   $(document).on("input", ".durationRangeMax_mobile", function () {
+    if (isResetting) return;
+
     state.duration_max = parseInt($(this).val(), 10);
     syncAllDurationUI();
     triggerFetch();
@@ -593,85 +627,115 @@
   /* -------------------------------------------------------------------------
        INIT
     -------------------------------------------------------------------------- */
-  if (window.location.search) {
-    const cleanUrl = window.location.origin + window.location.pathname;
-    window.history.replaceState({}, document.title, cleanUrl);
-
-    resetAll(); // now state exists
-  }
 
   renderChips();
   syncAllPriceUI();
   syncAllDurationUI();
+  initRangeSlider("priceRangeMax"); // ← add this
+  initRangeSlider("durationRangeMax");
 })(jQuery);
+/* -------------------------------------------------------------------------
+     INIT — Read URL params and restore state
+  -------------------------------------------------------------------------- */
 
-class RangeSlider {
-  constructor(el) {
-    this.el = el;
-    this.min = +el.dataset.min || 0;
-    this.max = +el.dataset.max || 100;
-    this.value = +el.dataset.value || this.min;
+// class RangeSlider {
+//   constructor(el) {
+//     this.el = el;
+//     this.min = +el.dataset.min || 0;
+//     this.max = +el.dataset.max || 100;
+//     this.value = +el.dataset.value || this.min;
 
-    this.create();
-    this.updateUI();
-    this.events();
+//     this.create();
+//     this.updateUI();
+//     this.events();
+//   }
+
+//   create() {
+//     this.track = document.createElement("div");
+//     this.track.className = "range-track";
+
+//     this.fill = document.createElement("div");
+//     this.fill.className = "range-fill";
+
+//     this.thumb = document.createElement("div");
+//     this.thumb.className = "range-thumb";
+
+//     this.valueLabel = document.createElement("div");
+//     this.valueLabel.className = "range-value";
+
+//     this.track.appendChild(this.fill);
+//     this.track.appendChild(this.thumb);
+//     this.el.appendChild(this.track);
+//     this.el.appendChild(this.valueLabel);
+//   }
+
+//   updateUI() {
+//     const percent = ((this.value - this.min) / (this.max - this.min)) * 100;
+
+//     this.fill.style.width = percent + "%";
+//     this.thumb.style.left = percent + "%";
+//     this.valueLabel.textContent = this.value;
+//   }
+
+//   setValue(percent) {
+//     percent = Math.max(0, Math.min(100, percent));
+//     this.value = Math.round(this.min + (percent / 100) * (this.max - this.min));
+//     this.updateUI();
+//   }
+
+//   events() {
+//     const move = (e) => {
+//       const rect = this.track.getBoundingClientRect();
+//       const percent = ((e.clientX - rect.left) / rect.width) * 100;
+//       this.setValue(percent);
+//     };
+
+//     this.track.addEventListener("click", move);
+
+//     this.thumb.addEventListener("mousedown", () => {
+//       const onMove = (e) => move(e);
+//       const stop = () => {
+//         document.removeEventListener("mousemove", onMove);
+//         document.removeEventListener("mouseup", stop);
+//       };
+
+//       document.addEventListener("mousemove", onMove);
+//       document.addEventListener("mouseup", stop);
+//     });
+//   }
+// }
+
+// document.querySelectorAll(".range-slider").forEach((el) => {
+//   new RangeSlider(el);
+// });
+
+function initRangeSlider(inputId) {
+  var input = document.getElementById(inputId);
+  if (!input) return;
+
+  var wrap = input.closest(".track-wrap");
+  if (!wrap) return;
+
+  var fill = wrap.querySelector(".track-fill");
+  if (!fill) return;
+
+  function updateFill() {
+    var min = parseFloat(input.min) || 0;
+    var max = parseFloat(input.max) || 100;
+    var val = parseFloat(input.value) || 0;
+    var pct = ((val - min) / (max - min)) * 100;
+    fill.style.width = pct + "%";
   }
 
-  create() {
-    this.track = document.createElement("div");
-    this.track.className = "range-track";
-
-    this.fill = document.createElement("div");
-    this.fill.className = "range-fill";
-
-    this.thumb = document.createElement("div");
-    this.thumb.className = "range-thumb";
-
-    this.valueLabel = document.createElement("div");
-    this.valueLabel.className = "range-value";
-
-    this.track.appendChild(this.fill);
-    this.track.appendChild(this.thumb);
-    this.el.appendChild(this.track);
-    this.el.appendChild(this.valueLabel);
-  }
-
-  updateUI() {
-    const percent = ((this.value - this.min) / (this.max - this.min)) * 100;
-
-    this.fill.style.width = percent + "%";
-    this.thumb.style.left = percent + "%";
-    this.valueLabel.textContent = this.value;
-  }
-
-  setValue(percent) {
-    percent = Math.max(0, Math.min(100, percent));
-    this.value = Math.round(this.min + (percent / 100) * (this.max - this.min));
-    this.updateUI();
-  }
-
-  events() {
-    const move = (e) => {
-      const rect = this.track.getBoundingClientRect();
-      const percent = ((e.clientX - rect.left) / rect.width) * 100;
-      this.setValue(percent);
-    };
-
-    this.track.addEventListener("click", move);
-
-    this.thumb.addEventListener("mousedown", () => {
-      const onMove = (e) => move(e);
-      const stop = () => {
-        document.removeEventListener("mousemove", onMove);
-        document.removeEventListener("mouseup", stop);
-      };
-
-      document.addEventListener("mousemove", onMove);
-      document.addEventListener("mouseup", stop);
-    });
-  }
+  updateFill();
+  input.addEventListener("input", updateFill);
 }
 
-document.querySelectorAll(".range-slider").forEach((el) => {
-  new RangeSlider(el);
+$(document).on("mouseenter", ".product-img", function () {
+  this.play().catch(() => {});
+});
+
+$(document).on("mouseleave", ".product-img", function () {
+  this.pause();
+  this.currentTime = 0;
 });

@@ -205,10 +205,26 @@
 
 /* video sort items grid */
 .sort-product .sort-item-btn {
-  border: 1px solid var(--secendory);
+  /* border: 1px solid var(--secendory); */
 }
+
+.sort-product .sort-item-btn button {
+  border: 1px solid var(--secendory);
+  transition: all 0.3s ease-in-out;
+}
+
+.sort-product .sort-item-btn button.active {
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--white);
+}
+
 .sort-item-btn .btn i {
   color: var(--text);
+}
+
+.sort-item-btn button.active i {
+  color: var(--white);
 }
 
 .brows-main-section {

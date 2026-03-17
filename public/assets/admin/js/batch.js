@@ -466,6 +466,8 @@ function loadImageMetadata(file_id) {
       // fill form
       $(".error").text("");
       console.log(res);
+
+      // Existing fields
       $("input[name='file_id']").val(res.id);
       $("input[name='title']").val(res.title);
       $("#description").val(res.description);
@@ -473,11 +475,13 @@ function loadImageMetadata(file_id) {
       $("input[name='clip_length']").val(formatDuration(res.duration));
       $("input[name='frame_rate']").val(res.frame_rate);
       $("input[name='date_created']").val(res.date_created);
+
       if (res.height && res.width) {
         $("input[name='frame_size']").val(res.height + "x" + res.width);
       } else {
         $("input[name='frame_size']").val("");
       }
+
       $("input[name='image_height']").val(res.height);
       $("input[name='image_width']").val(res.width);
       $("input[name='price']").val(res.price);
@@ -485,16 +489,41 @@ function loadImageMetadata(file_id) {
       $("#category_id").val(res.category_id);
       $("#collection_id").val(res.collection_id);
       loadSubCategories(res.category_id, res.subcategory_id);
-      $("#tags").tagsinput("removeAll");
 
+      // Tags / keywords
+      $("#tags").tagsinput("removeAll");
       if (res.keywords) {
         let tags = res.keywords.split(",");
-
         tags.forEach(function (tag) {
           $("#tags").tagsinput("add", tag.trim());
         });
         updateKeywordCount();
       }
+
+      // ── New filter fields ──────────────────────────────────────
+
+      // Single-select dropdowns
+      $("#orientation").val(res.orientation ?? "");
+      $("#camera_movement").val(res.camera_movement ?? "");
+      $("#license_type").val(res.license_type ?? "");
+
+      // Content filter checkboxes
+      // 1. Uncheck all first
+      $("input[name='content_filters[]']").prop("checked", false);
+
+      // 2. Re-check only the saved ones
+      // res.content_filters is already a JS array because Laravel
+      // returns JSON and the model casts it as array
+      if (res.content_filters && res.content_filters.length > 0) {
+        res.content_filters.forEach(function (value) {
+          $("input[name='content_filters[]'][value='" + value + "']").prop(
+            "checked",
+            true
+          );
+        });
+      }
+
+      // ── End new filter fields ──────────────────────────────────
     },
     error: function (xhr) {
       console.log(xhr.responseText);
@@ -562,6 +591,13 @@ $("#add_new_img_form").validate({
   },
 
   submitHandler: function (form) {
+    // Collect all checked content_filters[] checkboxes into an array
+    // e.g. ["with_people", "outdoors_nature", "copy_space"]
+    let contentFilters = [];
+    $("input[name='content_filters[]']:checked").each(function () {
+      contentFilters.push($(this).val());
+    });
+
     let formData = {
       file_id: $("#selected_file_id").val(),
       title: $("input[name='title']").val(),
@@ -573,6 +609,15 @@ $("#add_new_img_form").validate({
       category_id: $("#category_id").val(),
       subcategory_id: $("#subcategory_id").val(),
       collection_id: $("#collection_id").val(),
+
+      // New filter fields
+      orientation: $("#orientation").val(),
+      camera_movement: $("#camera_movement").val(),
+      license_type: $("#license_type").val(),
+
+      // Checkboxes array — sent as content_filters[0], content_filters[1], etc.
+      content_filters: contentFilters,
+
       _token: $('meta[name="csrf-token"]').attr("content"),
     };
 
@@ -580,6 +625,10 @@ $("#add_new_img_form").validate({
       url: base_url + "/admin/batch/save_file_metadata",
       type: "POST",
       data: formData,
+
+      // IMPORTANT: tells jQuery to send arrays correctly as content_filters[]
+      // so Laravel receives it as an array, not content_filters[0], [1]...
+      traditional: false,
 
       success: function (res) {
         toastr.success("File metadata saved successfully");
