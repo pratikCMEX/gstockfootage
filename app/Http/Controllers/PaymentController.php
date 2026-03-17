@@ -375,73 +375,70 @@ class PaymentController extends Controller
 
     public function handleWebhook(Request $request)
     {
-        Log::info("🎣 Webhook received");
+        Log::info(" Webhook received");
 
         $payload         = $request->getContent();
-        $sig_header      = $request->server('HTTP_STRIPE_SIGNATURE');
-        $endpoint_secret = config('services.stripe.webhook_secret');
+        $sigHeader      = $request->server('HTTP_STRIPE_SIGNATURE');
+        $endpointSecret = config('services.stripe.webhook_secret');
 
         try {
             $event = \Stripe\Webhook::constructEvent(
                 $payload,
-                $sig_header,
-                $endpoint_secret
+                $sigHeader,
+                $endpointSecret
             );
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
-            Log::error("❌ Webhook signature invalid", ['error' => $e->getMessage()]);
+            Log::error(" Webhook signature invalid", ['error' => $e->getMessage()]);
             return response('Invalid signature', 400);
         } catch (\Exception $e) {
-            Log::error("❌ Webhook error", ['error' => $e->getMessage()]);
+            Log::error(" Webhook error", ['error' => $e->getMessage()]);
             return response('Webhook error', 400);
         }
 
-        Log::info("✅ Webhook event received", ['type' => $event->type]);
+        Log::info(" Webhook event received", ['type' => $event->type]);
 
         if ($event->type === 'checkout.session.completed') {
-
             $session = $event->data->object;
 
-            Log::info("💳 Session data", [
+            Log::info(" Session data", [
                 'session_id'     => $session->id,
                 'payment_status' => $session->payment_status,
                 'email'          => $session->customer_email,
             ]);
 
             if ($session->payment_status !== 'paid') {
-                Log::warning("⚠️ Payment not paid yet", ['status' => $session->payment_status]);
+                Log::warning(" Payment not paid yet", ['status' => $session->payment_status]);
                 return response('Webhook handled', 200);
             }
 
-            // ── Prevent duplicate order ───────────────────────────────────────────
+            // Prevent duplicate order
             $existingOrder = Order::where('stripe_session_id', $session->id)->first();
             if ($existingOrder) {
-                Log::warning("⚠️ Order already exists", ['session_id' => $session->id]);
+                Log::warning(" Order already exists", ['session_id' => $session->id]);
                 return response('Webhook handled', 200);
             }
 
-            // ── Get cart from cache ───────────────────────────────────────────────
+            // Get cart from cache
             $cartData = Cache::get('stripe_cart_' . $session->id);
 
-            $cartData = Cache::get('stripe_email_' . $session->customer_email);
-
-            Log::info("🛒 Cart data from cache", [
+            Log::info(" Cart data from cache", [
                 'session_id' => $session->id,
                 'found'      => $cartData ? 'YES' : 'NO',
                 'items'      => $cartData ? count($cartData['items']) : 0,
             ]);
 
             if (!$cartData || empty($cartData['items'])) {
-                Log::error("🔥 Cart data missing from cache", ['session_id' => $session->id]);
+                Log::error(" Cart data missing from cache", ['session_id' => $session->id]);
                 return response('Cart data missing', 400);
             }
 
             DB::beginTransaction();
 
             try {
-                // ── Find user by email ────────────────────────────────────────────
+                // Find user by email
                 $user = User::where('email', $session->customer_email)->first();
 
-                // ── Create Order ──────────────────────────────────────────────────
+                // Create Order
                 $order = Order::create([
                     'user_id'           => $user?->id,
                     'order_number'      => 'ORD-' . strtoupper(uniqid()),
@@ -452,13 +449,13 @@ class PaymentController extends Controller
                     'order_status'      => 'completed',
                 ]);
 
-                Log::info("✅ Order created", [
+                Log::info(" Order created", [
                     'order_id'     => $order->id,
                     'order_number' => $order->order_number,
                     'user_id'      => $order->user_id,
                 ]);
 
-                // ── Create Order Details ──────────────────────────────────────────
+                // Create Order Details
                 foreach ($cartData['items'] as $item) {
                     OrderDetail::create([
                         'order_id'   => $order->id,
@@ -467,39 +464,39 @@ class PaymentController extends Controller
                         'qty'        => $item['qty'],
                     ]);
 
-                    Log::info("✅ Order detail created", [
+                    Log::info(" Order detail created", [
                         'product_id' => $item['id'],
                         'price'      => $item['price'],
                         'qty'        => $item['qty'],
                     ]);
                 }
 
-                // ── Clear Cart ────────────────────────────────────────────────────
+                // Clear Cart
                 if ($user) {
                     // Logged in user — clear DB cart
                     Cart::where('user_id', $user->id)->delete();
-                    Log::info("🗑️ DB cart cleared", ['user_id' => $user->id]);
+                    Log::info(" DB cart cleared", ['user_id' => $user->id]);
                 }
 
                 // Clear cache cart regardless
                 Cache::forget('stripe_cart_' . $session->id);
-                Log::info("🗑️ Cache cart cleared");
+                Log::info(" Cache cart cleared");
 
                 DB::commit();
 
-                // ── Send Receipt Email ────────────────────────────────────────────
+                // Send Receipt Email
                 try {
                     $orderWithDetails = Order::with('order_details.product')->find($order->id);
                     Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
-                    Log::info("📧 Receipt email sent", ['email' => $order->email]);
+                    Log::info(" Receipt email sent", ['email' => $order->email]);
                 } catch (\Exception $mailException) {
-                    Log::error("❌ Email failed", ['error' => $mailException->getMessage()]);
+                    Log::error(" Email failed", ['error' => $mailException->getMessage()]);
                 }
 
-                Log::info("✅ Webhook processing completed", ['order_id' => $order->id]);
+                Log::info(" Webhook processing completed", ['order_id' => $order->id]);
             } catch (\Exception $e) {
                 DB::rollBack();
-                Log::error("🔥 Order creation failed", [
+                Log::error(" Order creation failed", [
                     'error' => $e->getMessage(),
                     'trace' => $e->getTraceAsString(),
                 ]);
