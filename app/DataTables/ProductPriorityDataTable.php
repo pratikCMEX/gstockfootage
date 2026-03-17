@@ -3,52 +3,29 @@
 namespace App\DataTables;
 
 use App\Models\BatchFile;
-use App\Models\Product;
+use App\Models\ProductPriority;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class ProductDataTable extends DataTable
+class ProductPriorityDataTable extends DataTable
 {
+    /**
+     * Build the DataTable class.
+     *
+     * @param QueryBuilder<ProductPriority> $query Results from query() method.
+     */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $counter = 1;
-
-        return datatables()
-            ->eloquent($query)
-            ->addIndexColumn()
-            ->filter(function ($query) {
-                if ($this->request->has('search')) {
-                    $keyword = $this->request->get('search')['value'];
-
-                    $query->where(function ($q) use ($keyword) {
-                        $q->where('title', 'LIKE', "%{$keyword}%")
-                            ->orWhere('price', 'LIKE', "%{$keyword}%")
-                            ->orWhere('description', 'LIKE', "%{$keyword}%")
-                            ->orWhere('keywords', 'LIKE', "%{$keyword}%")
-                            ->orWhereHas('category', function ($cat) use ($keyword) {
-                                $cat->where('category_name', 'LIKE', "%{$keyword}%");
-                            })
-
-                            ->orWhereHas('subcategory', function ($sub) use ($keyword) {
-                                $sub->where('name', 'LIKE', "%{$keyword}%");
-                            })
-                            ->orWhereHas('collection', function ($collection) use ($keyword) {
-                                $collection->where('name', 'LIKE', "%{$keyword}%");
-                            });
-                    });
-                }
-            })
-
-            ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="form-check-input row-checkbox" value="' . $row->id . '">';
-            })
-
+        return (new EloquentDataTable($query))
+             ->addIndexColumn()
+            ->setRowId('id')
             ->addColumn('category', function ($row) {
                 return $row->category?->category_name ?? '-';
             })
@@ -58,18 +35,42 @@ class ProductDataTable extends DataTable
             ->addColumn('collection', function ($row) {
                 return $row->collection?->name ?? '-';
             })
-
             ->editColumn('type', function ($row) {
                 return ($row->type == 'image') ? 'Image' : 'Video';
             })
-
             ->addColumn('preview', function ($row) {
                 $thumbnail = $row->thumbnail_path
                     ? Storage::disk('s3')->url($row->thumbnail_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $videoUrl = Storage::disk('s3')->url($row->file_path); // high_path == file_path
+    
+                if ($row->type === 'image') {
 
+                    return '<img src="' . Storage::disk('s3')->url($row->low_path) . '"
+                        class="preview-image"
+                        data-src="' . Storage::disk('s3')->url($row->file_path) . '"
+                        width="80"
+                        height="80"
+                        style="cursor:pointer" />';
+                }
+
+                return '<div class="video-thumbnail-wrapper position-relative d-inline-block">  
+                            <img src="' . $thumbnail . '" 
+                            width="100" height="100" 
+                            class="video-thumbnail rounded cursor-pointer" 
+                            data-video="' . $videoUrl . '" 
+                            alt="Video Thumbnail">
+                              <i class="ti ti-player-play play-icon video-thumbnail" data-video="' . $videoUrl . '" ></i>
+                        </div>';
+            })
+            ->addColumn('preview', function ($row) {
+                $thumbnail = $row->thumbnail_path
+                    ? Storage::disk('s3')->url($row->thumbnail_path)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+
+                $videoUrl = Storage::disk('s3')->url($row->file_path); // high_path == file_path
+    
                 if ($row->type === 'image') {
 
                     return '<img src="' . Storage::disk('s3')->url($row->low_path) . '"
@@ -102,25 +103,13 @@ class ProductDataTable extends DataTable
             //     ';
             // })
 
-            ->addColumn('actions', function ($row) {
-                $edit = route('admin.product_edit', encrypt($row->id));
-
-                return '
-                <div class="d-flex gap-2">
-                    <a href="' . $edit . '" class="btn btn-primary btn-sm">
-                        <i class="ti ti-edit"></i>
-                    </a>
-
-                    <button class="btn btn-danger btn-sm deleteProduct"
-                        data-id="' . encrypt($row->id) . '">
-                        <i class="ti ti-trash"></i>
-                    </button>
-                </div>';
+            ->addColumn('drag', function ($row) {
+                return '<i class="bi bi-arrows-move drag-handle"></i>';
             })
             ->orderColumn('category', function ($query, $order) {
                 $query->orderBy(
                     \App\Models\Category::select('category_name')
-                        ->whereColumn('categories.id', 'products.category_id')
+                        ->whereColumn('categories.id', 'batch_files.category_id')
                         ->limit(1),
                     $order
                 );
@@ -129,7 +118,7 @@ class ProductDataTable extends DataTable
             ->orderColumn('subcategory', function ($query, $order) {
                 $query->orderBy(
                     \App\Models\SubCategory::select('name')
-                        ->whereColumn('sub_categories.id', 'products.subcategory_id')
+                        ->whereColumn('sub_categories.id', 'batch_files.subcategory_id')
                         ->limit(1),
                     $order
                 );
@@ -138,14 +127,15 @@ class ProductDataTable extends DataTable
             ->orderColumn('collection', function ($query, $order) {
                 $query->orderBy(
                     \App\Models\Collection::select('name')
-                        ->whereColumn('collections.id', 'products.collection_id')
+                        ->whereColumn('collections.id', 'batch_files.collection_id')
                         ->limit(1),
                     $order
                 );
             })
+           
 
             ->rawColumns([
-                'checkbox',
+
                 'category',
                 'subcategory',
                 'collection',
@@ -156,46 +146,16 @@ class ProductDataTable extends DataTable
                 'description',
                 'display_status',
                 'created_at',
-                'actions'
+               
             ]);
     }
 
-    // public function query(Product $model, Request $request): QueryBuilder
-    // {
-    //     return $model
-    //         ->with('category')
-    //         ->latest();
-    // }
-    // public function query(Product $model)
-    // {
-    //     $query = $model->newQuery()
-    //         ->with(['category', 'subcategory', 'collection']);
-
-    //     $category = request()->category;
-    //     $subcategory = request()->subcategory;
-    //     $collection = request()->collections;
-    //     $type=request()->type;
-
-    //     if ($category || $subcategory || $collection || $type) {
-    //         $query->where(function ($q) use ($category, $subcategory, $collection,$type) {
-    //             if ($category) {
-    //                 $q->orWhere('category_id', $category);
-    //             }
-    //             if ($subcategory) {
-    //                 $q->orWhere('subcategory_id', $subcategory);
-    //             }
-    //             if ($collection) {
-    //                 $q->orWhere('collection_id', $collection);
-    //             }
-    //             if ($type) {
-    //                 $q->orWhere('type', $type);
-    //             }
-    //         });
-    //     }
-
-    //     return $query;
-    // }
-    public function query(BatchFile $model)
+    /**
+     * Get the query source of dataTable.
+     *
+     * @return QueryBuilder<BatchFile>
+     */
+    public function query(BatchFile $model): QueryBuilder
     {
         $query = $model->newQuery()
             ->with(['category', 'subcategory', 'collection'])->where('batch_id', null);
@@ -220,29 +180,19 @@ class ProductDataTable extends DataTable
         if ($type !== null && $type !== '') {
             $query->where('type', $type);
         }
-         $query->orderBy('priority', 'asc');
+        $query->orderBy('priority', 'asc');
         return $query;
     }
 
-
-
-
-
-
+    /**
+     * Optional method if you want to use the html builder.
+     */
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('products-table')
+            ->setTableId('productpriority-table')
             ->columns($this->getColumns())
-            ->ajax([
-                'url' => route('admin.product'), // your current route
-                'data' => 'function(d) {
-                d.category = $("#categories").val();
-                d.subcategory = $("#subcategory").val();
-                d.collections = $("#collections").val();
-                d.type=$("#type").val();
-            }'
-            ])
+            ->minifiedAjax()
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([
@@ -250,23 +200,27 @@ class ProductDataTable extends DataTable
                 Button::make('csv'),
                 Button::make('pdf'),
                 Button::make('print'),
-                Button::make('reload'),
+                Button::make('reset'),
+                Button::make('reload')
+            ])
+            ->parameters([
+                'ordering' => false,
+                'searching' => false,
+                'paging' => false
             ]);
+
     }
 
+    /**
+     * Get the dataTable columns definition.
+     */
     public function getColumns(): array
     {
         return [
-            Column::make('checkbox')
-                ->title('<input type="checkbox" class="form-check-input" id="select-all">')
-                ->orderable(false)
-                ->searchable(false),
-
-            Column::computed('DT_RowIndex')
-                ->title('No')
-                ->orderable(false)
-                ->searchable(false),
-
+           Column::computed('DT_RowIndex')
+    ->title('Priority')
+    ->searchable(false)
+    ->orderable(false),
             Column::make('category')->title('Category'),
             Column::make('subcategory')->title('Subcategory'),
             Column::make('collection')->title('Collection')->orderable(true),
@@ -277,12 +231,15 @@ class ProductDataTable extends DataTable
             Column::make('description')->title('Description'),
             Column::make('keywords')->title('Tags'),
             // Column::make('display_status')->title('Display')->orderable(false),
-            Column::make('actions')->title('Actions')->orderable(false),
+            // Column::make('drag')->title('Actions')->orderable(false),
         ];
     }
 
+    /**
+     * Get the filename for export.
+     */
     protected function filename(): string
     {
-        return 'Products_' . date('YmdHis');
+        return 'ProductPriority_' . date('YmdHis');
     }
 }

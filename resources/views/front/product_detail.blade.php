@@ -60,9 +60,8 @@
                         </div>
                     </div> --}}
                     <div class="big-product-img">
-                        <a class="   addFavorite" data-Product-id="{{ $data['id'] }}" data-type="{{ $data['type'] }}">
-                            <i
-                                class="text-danger bi {{ $data['is_favorite'] == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i></a>
+                        <a class=" addFavorite" data-Product-id="{{ $data['id'] }}" data-type="{{ $data['type'] }}">
+                            <i class="detailFavorite bi {{ $data['is_favorite'] == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i></a>
                         <div class="swiper frontproduct">
                             {{-- <div class="swiper-wrapper">
                                 <div class="swiper-slide"> --}}

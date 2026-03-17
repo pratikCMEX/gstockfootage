@@ -139,6 +139,9 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_multiple_product', [ProductController::class, 'deleteMultiple'])->name('admin.delete_multiple_product');
     Route::post('admin/toggle_product_display', [ProductController::class, 'toggleDisplay'])->name('admin.toggle_product_display');
 
+     Route::get('admin/product/priority', [ProductController::class, 'priority'])->name('admin.product_priority');
+     Route::post('admin/product/update-priority', [ProductController::class, 'updatePriority'])->name('admin.product.updatePriority');
+
     Route::get('admin/video', [VideoController::class, 'index'])->name('admin.video');
     Route::get('admin/add_video', [VideoController::class, 'addvideo'])->name('admin.video_add');
     Route::post('admin/store_video', [VideoController::class, 'store'])->name('admin.video_store');

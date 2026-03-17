@@ -45,6 +45,9 @@
                            
                         </select>
                     </div>
+                     <div>
+                    <a href="{{ route('admin.product_priority') }}" class="btn btn-orange">Set Priority</a>
+                </div>
                 <div>
                     <a href="{{ route('admin.product_add') }}" class="btn btn-orange">Add Product +</a>
                 </div>
