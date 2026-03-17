@@ -34,7 +34,7 @@
 
                             {{-- ================= CATEGORY ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Category</label>
+                                <label class="form-label">Category</label><label class="text-danger">*</label>
                                 <select class="form-select" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($categories as $cat)
@@ -76,14 +76,14 @@
 
                             {{-- ================= NAME ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Product Name</label>
+                                <label class="form-label">Product Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control"
                                     value="{{ $product->title }}">
                             </div>
 
                             {{-- ================= PRICE ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Price</label>
+                                <label class="form-label">Price</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" value="{{ $product->price }}"
                                     oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                             </div>
@@ -97,7 +97,7 @@
 
                             {{-- ================= DESCRIPTION ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Description</label>
+                                <label class="form-label">Description</label><label class="text-danger">*</label>
                                 <textarea name="description" class="form-control" rows="3">{{ $product->description }}</textarea>
                             </div>
 
@@ -120,7 +120,7 @@
                             {{-- ================= REPLACE FILE ================= --}}
                             @if ($product->type == 'image')
                                 <div class="mb-3 image_upload">
-                                    <label class="form-label">Upload File</label>
+                                    <label class="form-label">Upload File</label><label class="text-danger">*</label>
                                     <input class="form-control" type="file" name="file" id="fileInput"
                                         accept="image/*" onchange="loadFile(event)">
                                     <div class="mt-2 row">
@@ -133,7 +133,7 @@
                                 </div>
                             @else
                                 <div class="mb-3 video_upload">
-                                    <label class="form-label">Upload File</label>
+                                    <label class="form-label">Upload File</label><label class="text-danger">*</label>
                                     <input class="form-control" type="file" name="file" id="video"
                                         accept="video/mp4,video/x-m4v,video/*" onchange="previewVideo(event)">
 

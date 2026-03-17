@@ -12,13 +12,13 @@
                             @csrf <div class="mb-3">
                                 <input id="id" name="id"
                                     value="{{ isset($term_condition->id) ? $term_condition->id : '' }}" hidden />
-                                <label for="title" class="form-label">Title</label>
+                                <label for="title" class="form-label">Title</label><label class="text-danger">*</label>
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ isset($term_condition->title) ? $term_condition->title : '' }}"
                                     aria-describedby="emailHelp" placeholder="Please enter title">
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
+                                <label for="description" class="form-label">Description</label><label class="text-danger">*</label>
                                 <textarea class="form-control ckeditor" name="description" id="description"rows="3"
                                     placeholder="Please enter description">{{ isset($term_condition->content) ? $term_condition->content : '' }}</textarea>
                             </div>

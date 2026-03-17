@@ -33,7 +33,7 @@
 
                             {{-- ================= CATEGORY ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Category</label>
+                                <label class="form-label">Category</label><label class="text-danger">*</label>
                                 <select class="form-select" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($category as $cat)
@@ -61,14 +61,14 @@
 
                             {{-- ================= NAME ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Product Name</label>
+                                <label class="form-label">Product Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control"
                                     placeholder="Enter product name">
                             </div>
 
                             {{-- ================= PRICE ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Price</label>
+                                <label class="form-label">Price</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control"
                                     oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                             </div>
@@ -81,13 +81,13 @@
 
                             {{-- ================= DESCRIPTION ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Description</label>
+                                <label class="form-label">Description</label><label class="text-danger">*</label>
                                 <textarea name="description" class="form-control" rows="3"></textarea>
                             </div>
 
                             {{-- ================= FILE INPUT ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Upload File</label>
+                                <label class="form-label">Upload File</label><label class="text-danger">*</label>
                                 <input class="form-control" type="file" name="file" id="fileInput">
                             </div>
 

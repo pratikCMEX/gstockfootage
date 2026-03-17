@@ -11,14 +11,14 @@
                             action="{{ route('admin.collection_update') }}"enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="collection_name" class="form-label">Collection Name</label>
+                                <label for="collection_name" class="form-label">Collection Name</label><label class="text-danger">*</label>
                                 <input type="hidden" name="collection_id" id="collection_id"
                                     value="{{ encrypt($getCollectionDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
                                     placeholder="Please enter collection name" value="{{ $getCollectionDetail->name }}">
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload Image</label>
+                                <label for="image" class="form-label">Upload Image</label><label class="text-danger">*</label>
                                 <input class="form-control" type="file" name="image" id="image"
                                     onchange="loadFile(event)">
 

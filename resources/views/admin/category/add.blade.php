@@ -11,12 +11,12 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Category Name</label>
+                                <label for="exampleInputEmail1" class="form-label">Category Name</label><label for="" class="text-danger">*</label>
                                 <input type="text" name="category_name" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Please enter category name">
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload Image</label>
+                                <label for="image" class="form-label">Upload Image</label><label for="" class="text-danger">*</label>
                                 <input class="form-control" type="file" name="image" id="image"
                                     accept="image/*" onchange="loadFile(event)">
 

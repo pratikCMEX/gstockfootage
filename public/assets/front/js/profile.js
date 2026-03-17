@@ -4,18 +4,24 @@ var base_url = $("#base_url").val();
 
 $(document).on("click", ".more-detail-btn", function () {
     let parent = $(this).closest(".batch-content");
-   
+    let table = parent.find(".batch-content-table-details");
+
     // close others
-    $(".batch-content-table-details")
-        .not(parent.find(".batch-content-table-details"))
-        .slideUp();
+    $(".batch-content-table-details").not(table).slideUp().addClass("d-none");
 
     $(".more-detail-btn i")
+        .not($(this).find("i"))
         .removeClass("fa-angle-up")
         .addClass("fa-angle-down");
 
     // toggle current
-    parent.find(".batch-content-table-details").slideToggle();
+    if (table.hasClass("d-none")) {
+        table.removeClass("d-none").hide().slideDown();
+    } else {
+        table.slideUp(function () {
+            table.addClass("d-none");
+        });
+    }
 
     $(this).find("i").toggleClass("fa-angle-down fa-angle-up");
 });

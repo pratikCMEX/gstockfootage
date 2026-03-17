@@ -11,7 +11,7 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="category" class="form-label">Category</label>
+                                <label for="category" class="form-label">Category</label><label class="text-danger">*</label>
                                 <select class="form-select mr-sm-2" name="category" id="category">
                                     @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}"
@@ -22,23 +22,23 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="category_name" class="form-label">SubCategory Name</label>
+                                <label for="category_name" class="form-label">SubCategory Name</label><label class="text-danger">*</label>
                                 <input type="hidden" name="subcategory_id" id="subcategory_id"
                                     value="{{ encrypt($getSubCategoryDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
                                     placeholder="Please enter subcategory name"
                                     value="{{ $getSubCategoryDetail->name }}">
                             </div>
-                            <div class="mb-3">
-                                <label for="category_name" class="form-label">SubCategory Name</label>
+                            <!-- <div class="mb-3">
+                                <label for="category_name" class="form-label">SubCategory Name</label><label class="text-danger">*</label>
                                 <input type="hidden" name="subcategory_id" id="subcategory_id"
                                     value="{{ encrypt($getSubCategoryDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
                                     placeholder="Please enter subcategory name"
                                     value="{{ $getSubCategoryDetail->name }}">
-                            </div>
+                            </div> -->
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload Image</label>
+                                <label for="image" class="form-label">Upload Image</label><label class="text-danger">*</label>
                                 <input class="form-control" type="file" name="image" id="image"
                                     onchange="loadFile(event)">
 

@@ -12,7 +12,7 @@
                             @csrf
                             
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Name</label>
+                                <label for="exampleInputEmail1" class="form-label">Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Please enter subcategory name">
                             </div>
@@ -22,7 +22,7 @@
                                     aria-describedby="emailHelp" placeholder="Please enter subcategory name">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Message</label>
+                                <label for="exampleInputEmail1" class="form-label">Message</label><label class="text-danger">*</label>
                                 <input type="text" name="message" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Please enter subcategory name">
                             </div>
