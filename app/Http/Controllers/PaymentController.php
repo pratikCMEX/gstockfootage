@@ -372,6 +372,8 @@ class PaymentController extends Controller
         $sig_header      = $request->server('HTTP_STRIPE_SIGNATURE');
         $endpoint_secret = config('services.stripe.webhook_secret');
 
+
+        dd($payload, $sig_header, $endpoint_secret);
         // ── Verify Stripe signature ───────────────────────────────────────────────
         try {
             $event = \Stripe\Webhook::constructEvent(
