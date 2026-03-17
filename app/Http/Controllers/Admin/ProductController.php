@@ -401,13 +401,19 @@ class ProductController extends Controller
     {
         $title = 'Products';
         $page = 'admin.product.priority';
-        $js = ['products','product_priority'];
+        $js = ['products', 'product_priority'];
         $category = Category::all();
         $subcategory = SubCategory::all();
         $collections = Collection::all();
-        $products = BatchFile::where('is_edited','1')->whereNull('priority')->orWhere('priority', 0)->get();
+        // $products = BatchFile::where('is_edited', '1')->whereNull('priority')->orWhere('priority', 0)->get();
 
-        $priorityProducts = BatchFile::where('is_edited','1')->Where('priority', '!=', 0)
+        $products = BatchFile::where('is_edited', '1')
+            ->where(function ($query) {
+                $query->whereNull('priority')
+                    ->orWhere('priority', 0);
+            })
+            ->get();
+        $priorityProducts = BatchFile::where('is_edited', '1')->Where('priority', '!=', 0)
             ->orderBy('priority', 'asc')
             ->get();
 
@@ -424,9 +430,37 @@ class ProductController extends Controller
         // return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'category', 'subcategory', 'collections'));
     }
     public function updatePriority(Request $request)
+{
+    $imageOrder = $request->imageOrder ?? [];
+    $videoOrder = $request->videoOrder ?? [];
+
+    // Reset all first
+    BatchFile::whereIn('type', ['image','video'])->update([
+        'priority' => 0
+    ]);
+
+    // Image priority
+    foreach ($imageOrder as $index => $id) {
+        BatchFile::where('id', $id)->update([
+            'priority' => $index + 1
+        ]);
+    }
+
+    // Video priority
+    foreach ($videoOrder as $index => $id) {
+        BatchFile::where('id', $id)->update([
+            'priority' => $index + 1
+        ]);
+    }
+
+    return response()->json([
+        'status' => true
+    ]);
+}
+    public function updatePriority_old(Request $request)
     {
         $order = $request->order ?? [];
-       
+
         // Reset priority for products removed from priority list
         BatchFile::whereNotIn('id', $order)->update([
             'priority' => 0

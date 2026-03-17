@@ -27,7 +27,7 @@
                 <button id="savePriority" class="btn btn-orange">
                     Save
                 </button>
-                 <!-- <a href="{{ route('admin.product') }}" id="savePriority" class="btn btn-dark">
+                <!-- <a href="{{ route('admin.product') }}" id="savePriority" class="btn btn-dark">
                     Cancle
                 </a> -->
 
@@ -46,6 +46,13 @@
 
                         <h5 class="card-title mb-3">All Products</h5>
 
+                        <div class="mb-2">
+                            <select id="filterProductType" class="form-control form-control-md">
+                                
+                                <option value="image">Images</option>
+                                <option value="video">Videos</option>
+                            </select>
+                        </div>
                         <div class="table-scroll">
                             <div class="mb-2">
                                 <input type="text" id="searchAllProducts" class="form-control form-control-md"
@@ -139,6 +146,7 @@
 
                         <h5 class="card-title mb-3">Priority List</h5>
 
+                        
                         <div class="table-scroll">
 
                             <div class="mb-2">

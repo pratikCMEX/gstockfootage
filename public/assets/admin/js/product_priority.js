@@ -1,38 +1,73 @@
 $(document).ready(function () {
 
-  /* SEARCH ALL PRODUCTS */
+
+  filterProducts();
+  updateAllProductSrNo();
+  toggleMoveButtons();
+ 
+
+  function filterProducts() {
+
+    let type = $('#filterProductType').val().toLowerCase();
+
+    let searchAll = $('#searchAllProducts').val().toLowerCase();
+    let searchPriority = $('#searchPriorityProducts').val().toLowerCase();
+
+    // ALL PRODUCTS
+    $('#all-products tr').each(function () {
+
+      let rowType = $(this).find('td:eq(3)').text().toLowerCase().trim();
+      let rowText = $(this).text().toLowerCase();
+
+      if (rowType === type && rowText.includes(searchAll)) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+
+    });
+
+    // PRIORITY PRODUCTS
+    $('#priority-products tr').each(function () {
+
+      let rowType = $(this).find('td:eq(3)').text().toLowerCase().trim();
+      let rowText = $(this).text().toLowerCase();
+
+      if (rowType === type && rowText.includes(searchPriority)) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+
+    });
+
+  }
+  $('#filterProductType').on('change', function () {
+    filterProducts();
+    updatePriorityNumbers();
+    updateAllProductSrNo();
+    toggleMoveButtons();
+
+  });
+
 
   $('#searchAllProducts').on('keyup', function () {
-
-    let value = $(this).val().toLowerCase();
-
-    $('#all-products tr').filter(function () {
-
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-
-    });
-
+    filterProducts();
+    updateAllProductSrNo();
+    toggleMoveButtons();
   });
-
-
-  /* SEARCH PRIORITY PRODUCTS */
 
   $('#searchPriorityProducts').on('keyup', function () {
-
-    let value = $(this).val().toLowerCase();
-
-    $('#priority-products tr').filter(function () {
-
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-
-    });
-
+    filterProducts();
+    updatePriorityNumbers();
+    toggleMoveButtons();
   });
+  /* SEARCH PRIORITY PRODUCTS */
 
 
   $('#emptyPriorityList').click(function () {
 
-    $('#priority-products tr').each(function () {
+    $('#priority-products tr:visible').each(function () {
 
       let row = $(this);
       let id = row.data('id');
@@ -57,44 +92,61 @@ $(document).ready(function () {
 
     });
 
-    // clear priority table
-    $('#priority-products').empty();
+    // 🔥 Remove only visible rows (not all)
+    $('#priority-products tr:visible').remove();
 
+    updatePriorityNumbers();
     updateAllProductSrNo();
     toggleMoveButtons();
 
+    // reset checkboxes
+    $('#allPrioritySelected').prop('checked', false);
+
   });
+
+
   function updatePriorityNumbers() {
 
-    $('#priority-products tr').each(function (index) {
-      $(this).find('.priority-number').text(index + 1);
+    let imageCount = 1;
+    let videoCount = 1;
+
+    $('#priority-products tr').each(function () {
+
+      let type = $(this).find('td:eq(3)').text().toLowerCase().trim();
+
+      if (type === 'image') {
+        $(this).find('.priority-number').text(imageCount++);
+      } else if (type === 'video') {
+        $(this).find('.priority-number').text(videoCount++);
+      }
+
     });
 
   }
+ 
   function updateAllProductSrNo() {
 
-    $('#all-products tr').each(function (index) {
-      $(this).find('td:eq(1)').text(index + 1);
+    let count = 1;
+
+    $('#all-products tr:visible').each(function () {
+      $(this).find('td:eq(1)').text(count++);
     });
 
   }
-
-  updateAllProductSrNo();
   /* CHECKBOX LOGIC */
 
   $(document).on('change', '#allPriority', function () {
-    $('input[name="selectPriority"]').prop('checked', $(this).prop('checked'));
+    $('#all-products tr:visible').find('input[name="selectPriority"]')
+      .prop('checked', $(this).prop('checked'));
     toggleMoveButtons();
   });
-  /* PRIORITY SELECT ALL */
 
   $(document).on('change', '#allPrioritySelected', function () {
-
-    $('.priorityCheck').prop('checked', $(this).prop('checked'));
-
+    $('#priority-products tr:visible').find('.priorityCheck')
+      .prop('checked', $(this).prop('checked'));
     toggleMoveButtons();
-
   });
+
   $(document).on('change', '.priorityCheck', function () {
 
     let total = $('.priorityCheck').length;
@@ -106,27 +158,39 @@ $(document).ready(function () {
 
   });
 
+ 
   $(document).on('change', 'input[name="selectPriority"]', function () {
-   let total = $('input[name="selectPriority"]').length;
-    let checked = $('input[name="selectPriority"]:checked').length;
 
-    if (total === checked) {
-        $('#allPriority').prop('checked', true);
-    } else {
-        $('#allPriority').prop('checked', false);
-    }
+    let total = $('#all-products tr:visible')
+      .find('input[name="selectPriority"]').length;
+
+    let checked = $('#all-products tr:visible')
+      .find('input[name="selectPriority"]:checked').length;
+
+    $('#allPriority').prop('checked', total === checked);
+
     toggleMoveButtons();
   });
 
+  
   $(document).on('change', '.priorityCheck', function () {
+
+    let total = $('#priority-products tr:visible').find('.priorityCheck').length;
+    let checked = $('#priority-products tr:visible').find('.priorityCheck:checked').length;
+
+    $('#allPrioritySelected').prop('checked', total === checked);
+
     toggleMoveButtons();
   });
 
 
   function toggleMoveButtons() {
 
-    let selectedAllProducts = $('input[name="selectPriority"]:checked').length;
-    let selectedPriority = $('.priorityCheck:checked').length;
+    let selectedAllProducts = $('#all-products tr:visible')
+      .find('input[name="selectPriority"]:checked').length;
+
+    let selectedPriority = $('#priority-products tr:visible')
+      .find('.priorityCheck:checked').length;
 
     if (selectedAllProducts > 0) {
       $('#MoveToPriority').removeClass('d-none');
@@ -139,15 +203,15 @@ $(document).ready(function () {
     } else {
       $('#MoveToAllProducts').addClass('d-none');
     }
-
   }
+ 
 
 
   /* MOVE TO PRIORITY BUTTON */
 
   $('#MoveToPriority').click(function () {
 
-    $('input[name="selectPriority"]:checked').each(function () {
+    $('#all-products tr:visible').find('input[name="selectPriority"]:checked').each(function () {
 
       let row = $(this).closest('tr');
 
@@ -169,7 +233,6 @@ $(document).ready(function () {
 `;
 
       $('#priority-products').append(newRow);
-
       row.remove();
 
     });
@@ -178,18 +241,15 @@ $(document).ready(function () {
     updateAllProductSrNo();
     toggleMoveButtons();
 
-    // reset checkboxes
     $('#allPriority').prop('checked', false);
-    $('input[name="selectPriority"]').prop('checked', false);
-
   });
-
 
   /* MOVE TO ALL PRODUCTS */
 
+
   $('#MoveToAllProducts').click(function () {
 
-    $('.priorityCheck:checked').each(function () {
+    $('#priority-products tr:visible').find('.priorityCheck:checked').each(function () {
 
       let row = $(this).closest('tr');
 
@@ -212,7 +272,6 @@ $(document).ready(function () {
 `;
 
       $('#all-products').append(newRow);
-
       row.remove();
 
     });
@@ -220,13 +279,9 @@ $(document).ready(function () {
     updatePriorityNumbers();
     updateAllProductSrNo();
     toggleMoveButtons();
-    // reset priority checkboxes
-$('#allPrioritySelected').prop('checked', false);
-$('.priorityCheck').prop('checked', false);
 
+    $('#allPrioritySelected').prop('checked', false);
   });
-
-
   /* DRAG & DROP */
 
   new Sortable(document.getElementById('all-products'), {
@@ -240,6 +295,7 @@ $('.priorityCheck').prop('checked', false);
       updateAllProductSrNo();
     }
   });
+
 
 
   new Sortable(document.getElementById('priority-products'), {
@@ -264,15 +320,15 @@ $('.priorityCheck').prop('checked', false);
 
       // build correct priority row
       let newRow = `
-<tr data-id="${id}">
-<td><input type="checkbox" class="priorityCheck" value="${id}"></td>
-<td class="priority-number"></td>
-<td>${name}</td>
-<td>${type}</td>
-<td>${preview}</td>
-<td>${price}</td>
-</tr>
-`;
+  <tr data-id="${id}">
+  <td><input type="checkbox" class="priorityCheck" value="${id}"></td>
+  <td class="priority-number"></td>
+  <td>${name}</td>
+  <td>${type}</td>
+  <td>${preview}</td>
+  <td>${price}</td>
+  </tr>
+  `;
 
       // append to priority table
       $('#priority-products').append(newRow);
@@ -293,33 +349,65 @@ $('.priorityCheck').prop('checked', false);
 
   $('#savePriority').click(function () {
 
-    let order = [];
+    let imageOrder = [];
+    let videoOrder = [];
 
     $('#priority-products tr').each(function () {
 
-      order.push($(this).data('id'));
+      let id = $(this).data('id');
+      let type = $(this).find('td:eq(3)').text().toLowerCase().trim();
 
-    });
-
-    $.ajax({
-
-      url: "/admin/product/update-priority",
-      method: "POST",
-
-      data: {
-        order: order,
-        _token: $('meta[name="csrf-token"]').attr('content')
-      },
-
-      success: function () {
-
-        toastr.success("Priority Saved Successfully");
-
+      if (type === 'image') {
+        imageOrder.push(id);
+      } else if (type === 'video') {
+        videoOrder.push(id);
       }
 
     });
 
+    $.ajax({
+      url: "/admin/product/update-priority",
+      method: "POST",
+      data: {
+        imageOrder: imageOrder,
+        videoOrder: videoOrder,
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function () {
+        toastr.success("Priority Saved Successfully");
+      }
+    });
+
   });
+  // $('#savePriority').click(function () {
+
+  //   let order = [];
+
+  //   $('#priority-products tr').each(function () {
+
+  //     order.push($(this).data('id'));
+
+  //   });
+
+  //   $.ajax({
+
+  //     url: "/admin/product/update-priority",
+  //     method: "POST",
+
+  //     data: {
+  //       order: order,
+  //       _token: $('meta[name="csrf-token"]').attr('content')
+  //     },
+
+  //     success: function () {
+
+  //       toastr.success("Priority Saved Successfully");
+
+  //     }
+
+  //   });
+
+  // });
 
 
 });
