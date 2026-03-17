@@ -359,11 +359,10 @@ class ProcessBatchVideo implements ShouldQueue
                     ->resize(new Dimension(1280, 720))
                     ->synchronize();
             }
-
-
             $midVideo->filters()->custom(
-                "movie={$watermarkPath} [wm]; [wm] scale=iw*0.08:-1 [watermark]; [in][watermark] overlay=W-w-20:H-h-20 [out]"
+                "movie={$watermarkPath},scale=200:-1 [watermark]; [in][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]"
             );
+
             $midVideo->save($midFormat, $tempMidPath);
 
 
@@ -403,7 +402,7 @@ class ProcessBatchVideo implements ShouldQueue
             $lowFormat->setAudioKiloBitrate(96);
 
             $lowVideo->filters()->custom(
-                "movie={$watermarkPath} [wm]; [wm] scale=iw*0.08:-1 [watermark]; [in][watermark] overlay=W-w-20:H-h-20 [out]"
+                "movie={$watermarkPath},scale=200:-1 [watermark]; [in][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]"
             );
 
             // NO resize — keep original dimensions, only reduce bitrate/quality

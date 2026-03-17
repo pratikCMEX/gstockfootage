@@ -704,7 +704,6 @@ class BatchController extends Controller
     private function processImage($path, $batch_id, $fileObj = null, $manager = null)
     {
         try {
-            // Fallback if manager not passed (defensive)
             if (!$manager) {
                 $manager = new ImageManager(new GdDriver());
             }
@@ -717,30 +716,61 @@ class BatchController extends Controller
             $size         = $fileObj ? $fileObj->getSize() : filesize($path);
             $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
 
-            // ── HIGH — 100% quality, original size ───────────────────────────────
-            $highEncoded = $img->encode(new WebpEncoder(quality: 100))->toString();
+            $highImg = $manager->read($path);
+            $HighEncoded = $highImg->encode(new WebpEncoder(quality: 100))->toString();
             Storage::disk('s3')->put(
                 "batch/image/high/$imageName",
-                $highEncoded,
+                $HighEncoded,
                 ['visibility' => 'public']
             );
 
-            // ── MID — 80% quality, original size ─────────────────────────────────
-            $midEncoded = $img->encode(new WebpEncoder(quality: 80))->toString();
+
+            $watermarkPath = storage_path('app/watermark.png');
+
+            // ── Dynamic watermark size based on image megapixels ──────────────────
+            // ── Dynamic watermark size based on image megapixels ─────────────────────
+            $megapixels = ($width * $height) / 1000000;
+
+            $wmPercent = match (true) {
+                $megapixels >= 20 => 0.35,  // Very large  (20MP+)
+                $megapixels >= 10 => 0.38,  // Large       (10-20MP)
+                $megapixels >= 5  => 0.40,  // Medium      (5-10MP)
+                $megapixels >= 2  => 0.43,  // Small-med   (2-5MP)
+                default           => 0.45,  // Small       (<2MP)
+            };
+
+
+            $wmSize = (int)($width * $wmPercent);
+
+            // ── MID — 80% quality, original size, WITH watermark ─────────────────
+            $midImg = $manager->read($path);
+            $wmMid  = $manager->read($watermarkPath);
+            $wmMid->scale(width: $wmSize);
+
+            // Getty style — bottom center with opacity
+            $midImg->place($wmMid, 'bottom', 0, 30);
+
+            $midEncoded = $midImg->encode(new WebpEncoder(quality: 80))->toString();
             Storage::disk('s3')->put(
                 "batch/image/mid/mid_$imageName",
                 $midEncoded,
                 ['visibility' => 'public']
             );
 
-            // ── LOW — 60% quality, scaled to 800px wide ───────────────────────────
-            $lowEncoded = $img->scale(width: 800)->encode(new WebpEncoder(quality: 60))->toString();
+            // ── LOW — 60% quality, original size, WITH watermark ─────────────────
+            $lowImg = $manager->read($path);
+            $wmLow  = $manager->read($watermarkPath);
+            $wmLow->scale(width: $wmSize);
+
+            // Getty style — bottom center with opacity
+            $lowImg->place($wmLow, 'bottom', 0, 30);
+
+            $lowEncoded = $lowImg->encode(new WebpEncoder(quality: 60))->toString();
             Storage::disk('s3')->put(
                 "batch/image/low/low_$imageName",
                 $lowEncoded,
                 ['visibility' => 'public']
             );
-
             BatchFile::create([
                 'batch_id'       => $batch_id,
                 'file_code'      => mt_rand(1000000000, 9999999999),
@@ -761,8 +791,7 @@ class BatchController extends Controller
         } catch (\Throwable $e) {
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
-            // Always free memory
-            unset($img, $highEncoded, $midEncoded, $lowEncoded);
+            unset($img, $midImg, $lowImg, $highEncoded, $midEncoded, $lowEncoded, $wmMid, $wmLow);
             gc_collect_cycles();
         }
     }

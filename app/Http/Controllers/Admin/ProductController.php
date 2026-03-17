@@ -119,55 +119,68 @@ class ProductController extends Controller
         $height = $img->height();
         $size   = $file->getSize();
 
+        $watermarkPath = storage_path('app/watermark.png');
+
+        // ── WATERMARK HELPER ──────────────────────────────────────────────────────
+        $makeWatermark = function (int $baseWidth) use ($manager, $watermarkPath): ?\Intervention\Image\Interfaces\ImageInterface {
+            if (!file_exists($watermarkPath)) return null;
+            $wm = $manager->read($watermarkPath);
+            $wm->scale(width: (int) ($baseWidth * 0.20));
+            return $wm;
+        };
+
+        $placeWatermark = function ($image, $wm) use ($width, $height): void {
+            if (!$wm) return;
+            $posX = (int) (($image->width()  / 2) - ($wm->width()  / 2) + ($image->width()  * 0.08));
+            $posY = (int) (($image->height() / 2) - ($wm->height() / 2));
+            $image->place($wm, 'top-left', $posX, $posY);
+        };
+
         /*
-        |--------------------------------------------------------------------------
-        | HIGH — 100% quality, original size
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | HIGH — 100% quality, original size, with watermark
+    |--------------------------------------------------------------------------
+    */
+        $highImg = $manager->read($file->getRealPath());
+        // $placeWatermark($highImg, $makeWatermark($width));
         Storage::disk('s3')->put(
             "batch/images/high/$imageName",
-            $img->encode(new WebpEncoder(quality: 100))->toString(),
+            $highImg->encode(new WebpEncoder(quality: 100))->toString(),
             ['visibility' => 'public']
         );
 
         /*
-        |--------------------------------------------------------------------------
-        | MID — 80% quality, original size
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | MID — 80% quality, original size, with watermark
+    |--------------------------------------------------------------------------
+    */
+        $midImg = $manager->read($file->getRealPath());
+        $placeWatermark($midImg, $makeWatermark($width));
         Storage::disk('s3')->put(
             "batch/images/mid/mid_$imageName",
-            $img->encode(new WebpEncoder(quality: 80))->toString(),
+            $midImg->encode(new WebpEncoder(quality: 80))->toString(),
             ['visibility' => 'public']
         );
 
         /*
-        |--------------------------------------------------------------------------
-        | LOW — 60% quality, 800px wide, with watermark
-        |--------------------------------------------------------------------------
-        */
-        $low          = $manager->read($file->getRealPath());
-        $watermarkPath = public_path('watermark.png');
-
-        if (file_exists($watermarkPath)) {
-            $wm = $manager->read($watermarkPath);
-            $wm->scale(width: (int)($low->width() * 0.1));
-            $low->place($wm, 'bottom-right', 10, 10);
-        }
-
-        $low->scale(width: 800);
-
+    |--------------------------------------------------------------------------
+    | LOW — 60% quality, 800px wide, with watermark
+    |--------------------------------------------------------------------------
+    */
+        $lowImg = $manager->read($file->getRealPath());
+        $lowImg->scale(width: 800);
+        $placeWatermark($lowImg, $makeWatermark($lowImg->width()));
         Storage::disk('s3')->put(
             "batch/images/low/low_$imageName",
-            $low->encode(new WebpEncoder(quality: 60))->toString(),
+            $lowImg->encode(new WebpEncoder(quality: 60))->toString(),
             ['visibility' => 'public']
         );
 
         /*
-        |--------------------------------------------------------------------------
-        | SAVE DB
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | SAVE DB
+    |--------------------------------------------------------------------------
+    */
         $product->original_name = $file->getClientOriginalName();
         $product->file_name     = $imageName;
         $product->file_path     = "batch/images/high/$imageName";
@@ -176,6 +189,9 @@ class ProductController extends Controller
         $product->width         = $width;
         $product->height        = $height;
         $product->file_size     = $size;
+
+        unset($img, $highImg, $midImg, $lowImg);
+        gc_collect_cycles();
     }
     // private function handleProductVideoUpload(BatchFile $product, Request $request, &$tempOriginalPath = null)
     // {
