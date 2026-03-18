@@ -889,6 +889,22 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="input-group">
+                                            <div class="file-inp-main">
+                                                <label for="" class="heading-label">Select Sub Category
+                                                    *</label>
+                                                <div class="dropdown file-main-dropdown">
+                                                    <div class="file-inp-icon-grp input-group">
+                                                        <select
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            name="subcategory_id" id="subcategory_id">
+                                                            <option value="">Select Sub Category</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="input-group">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Select Collection
@@ -903,21 +919,6 @@
                                                                 <option value="{{ $coll->id }}">
                                                                     {{ $coll->name }}</option>
                                                             @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="file-inp-main">
-                                                <label for="" class="heading-label">Select Sub Category
-                                                    *</label>
-                                                <div class="dropdown file-main-dropdown">
-                                                    <div class="file-inp-icon-grp input-group">
-                                                        <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
-                                                            name="subcategory_id" id="subcategory_id">
-                                                            <option value="">Select Sub Category</option>
                                                         </select>
                                                     </div>
                                                 </div>
