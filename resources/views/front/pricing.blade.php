@@ -15,7 +15,7 @@
 
                             <div class="pricing-card {{ $pricing->most_popular == '1' ? 'popular' : '' }}">
                                 @if ($pricing->most_popular == '1')
-                                    <div class="popular-badge">Popular</div>
+                                    <div class="popular-badge popular-pricing-badge">Popular</div>
                                 @endif
                                 <h5>{{ $pricing->name }}</h5>
                                 <p class="text-secondary">{{ $pricing->title }}</p>

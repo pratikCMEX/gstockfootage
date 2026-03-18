@@ -708,7 +708,7 @@ class HomeController extends Controller
     {
         $title = 'About us';
         $page = 'front.about_us';
-        $about_us=AboutUs::first();
+        $about_us = AboutUs::first();
 
         return view("layouts.front.layout", compact('title', 'page', 'about_us'));
     }

@@ -417,6 +417,58 @@ class ProcessBatchVideo implements ShouldQueue
 
             Log::info("✅ LOW video uploaded to S3");
 
+
+            if ($duration >= 10) {
+                $previewFileName = 'preview_' . $video->file_name;
+                $tempPreviewPath = $tempDir . '/' . $previewFileName;
+
+                // Pick a random start time, ensuring 6s clip fits within the video
+                $maxStart   = max(0, floor($duration - 6));
+                $startTime  = rand(0, $maxStart);
+
+                Log::info("🎞️ Generating Preview video", [
+                    'duration'   => $duration,
+                    'start_time' => $startTime,
+                ]);
+
+                $previewCommand = escapeshellcmd($ffmpegBin)
+                    . ' -ss ' . escapeshellarg($startTime)
+                    . ' -i '  . escapeshellarg($tempOriginalPath)
+                    . ' -t 6'
+                    . ' -vf ' . escapeshellarg(
+                        "movie={$watermarkPath},scale=200:-1 [watermark]; [in][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]"
+                    )
+                    . ' -c:v libx264 -crf 23 -preset fast'
+                    . ' -c:a aac -b:a 96k'
+                    . ' -movflags +faststart'
+                    . ' -y '  . escapeshellarg($tempPreviewPath)
+                    . ' 2>&1';
+
+                exec($previewCommand, $previewOutput, $previewCode);
+
+                if ($previewCode !== 0 || !file_exists($tempPreviewPath)) {
+                    Log::warning("⚠️ Preview video generation failed", [
+                        'output' => implode("\n", $previewOutput),
+                    ]);
+                } else {
+                    Storage::disk('s3')->putFileAs(
+                        'batch/videos/preview',
+                        new \Illuminate\Http\File($tempPreviewPath),
+                        $previewFileName,
+                        ['visibility' => 'public']
+                    );
+
+                    $video->preview_path = 'batch/videos/preview/' . $previewFileName;
+
+                    Log::info("✅ Preview video uploaded to S3");
+                }
+
+                @unlink($tempPreviewPath);
+            }
+
+
+
+
             /*
             |--------------------------------------------------------------------------
             | 9. Update Database
