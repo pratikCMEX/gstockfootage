@@ -14,7 +14,7 @@
                         </ol>
                     </nav>
                 </div> -->
-            <div class="col-xl-8 col-lg-8 col-md-12 col-12">
+            <div class="col-xl-8 col-lg-12 col-md-12 col-12">
                 <div class="product-detail-img">
                     {{-- <div class="small-product-img">
                         <div thumbsSlider="" class="swiper sideproduct">
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-12 col-12">
+            <div class="col-xl-4 col-lg-8 col-md-12 col-12">
                 <div class="product-detail-content">
                     <div class="product-detail-title">
                         <h4>{{ $data['title'] }}</h4>
