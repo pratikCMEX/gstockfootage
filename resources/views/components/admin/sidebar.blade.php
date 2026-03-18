@@ -105,6 +105,13 @@
                         <span class="hide-menu">Contact Us</span>
                     </a>
                 </li>
+                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['contact_us']) ? 'active  ' : '' }} side-item"
+                        href="{{ route('admin.about_us') }}" aria-expanded="false">
+                      <i class="fa-solid fa-circle-info"></i>
+                        <span class="hide-menu">About Us</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['batch', 'add_new_img']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.batch') }}" aria-expanded="false">

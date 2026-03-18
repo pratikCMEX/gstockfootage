@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutUs;
 use App\Models\Batch;
 use App\Models\BatchFile;
 use App\Models\Category;
@@ -707,8 +708,9 @@ class HomeController extends Controller
     {
         $title = 'About us';
         $page = 'front.about_us';
+        $about_us=AboutUs::first();
 
-        return view("layouts.front.layout", compact('title', 'page'));
+        return view("layouts.front.layout", compact('title', 'page', 'about_us'));
     }
 
     // public function homeSearch(Request $request)

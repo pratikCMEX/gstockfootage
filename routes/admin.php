@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BatchController;
@@ -160,6 +161,9 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/privacy_policy_edit', [PrivacyPolicyController::class, 'edit'])->name('admin.privacy_policy_edit');
 
     Route::get('admin/video_stream', [VideoStreamController::class, 'stream'])->name('admin.video_stream');
+
+     Route::get('admin/about_us', [AboutUsController::class, 'index'])->name('admin.about_us');
+     Route::post('admin/about_us/save', [AboutUsController::class, 'store'])->name('admin.about_us_save');
 
     Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
     Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');
