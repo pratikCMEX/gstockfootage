@@ -484,13 +484,11 @@ class PaymentController extends Controller
         $sessionId = $request->query('sid');
         $fileId    = $request->query('fid');
 
-        // Validate both params exist
         if (!$sessionId || !$fileId) {
             abort(400, 'Missing parameters');
         }
 
-        // Verify the order actually exists and is paid
-        // Prevents unauthorized downloads
+        // Verify order is paid
         $order = Order::where('stripe_session_id', $sessionId)
             ->where('payment_status', 'paid')
             ->first();
@@ -499,7 +497,7 @@ class PaymentController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        // Verify this file belongs to this order
+        // Verify file belongs to this order
         $orderDetail = OrderDetail::where('order_id', $order->id)
             ->where('product_id', $fileId)
             ->first();
@@ -508,7 +506,7 @@ class PaymentController extends Controller
             abort(403, 'File not part of this order');
         }
 
-        // Get the file record
+        // Get file record
         $file = BatchFile::where('id', $fileId)
             ->select('id', 'file_path', 'file_name')
             ->first();
@@ -517,11 +515,21 @@ class PaymentController extends Controller
             abort(404, 'File not found');
         }
 
-        // Stream file from S3 and force browser download
-        return Storage::disk('s3')->download(
-            $file->file_path,
-            $file->file_name  // filename shown in browser download dialog
-        );
+        // Get raw file contents from S3
+        $fileContents = \Storage::disk('s3')->get($file->file_path);
+
+        // Detect correct mime type from actual file contents
+        $mimeType = \Storage::disk('s3')->mimeType($file->file_path);
+
+        // Force download with correct headers
+        return response($fileContents, 200, [
+            'Content-Type'        => $mimeType,
+            'Content-Disposition' => 'attachment; filename="' . $file->file_name . '"',
+            'Content-Length'      => strlen($fileContents),
+            'Cache-Control'       => 'no-cache, no-store, must-revalidate',
+            'Pragma'              => 'no-cache',
+            'Expires'             => '0',
+        ]);
     }
     public function handleWebhook(Request $request)
     {
