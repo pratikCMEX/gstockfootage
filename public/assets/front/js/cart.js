@@ -50,7 +50,7 @@ function cartItemTemplate(product) {
   let imageUrl = "";
 
   if (product.type == "image") {
-    imageUrl = product.low_path;
+    imageUrl = product.mid_path;
   } else {
     imageUrl = product.thumbnail_path;
   }
