@@ -228,18 +228,16 @@
     </div>
 
     <script>
-        // ─── Config ───────────────────────────────────────────────
-        const SESSION_ID = "{{ $sessionId }}";
+        // SESSION_ID is resolved server-side from the token — never appears in URL
+        const SESSION_ID = @json($sessionId);
         const CSRF_TOKEN = "{{ csrf_token() }}";
-        const POLL_INTERVAL = 2000; // poll every 2 seconds
-        const MAX_ATTEMPTS = 20; // stop after 40 seconds total
-        const DOWNLOAD_GAP = 900; // ms gap between each file download
-        const REDIRECT_DELAY = 5; // seconds before redirect to home
+        const POLL_INTERVAL = 2000;
+        const MAX_ATTEMPTS = 20;
+        const DOWNLOAD_GAP = 900;
+        const REDIRECT_DELAY = 5;
 
-        // ─── State ────────────────────────────────────────────────
         let attempts = 0;
 
-        // ─── DOM refs ─────────────────────────────────────────────
         const statusText = document.getElementById('status-text');
         const spinner = document.getElementById('spinner');
         const fileList = document.getElementById('file-list');
@@ -249,9 +247,6 @@
         const countdown = document.getElementById('countdown');
         const errorBox = document.getElementById('error-box');
 
-        // ─── Poll /order/status every 2s ──────────────────────────
-        // Webhook and browser redirect happen at the same time.
-        // We keep asking until the order exists in the database.
         function pollForOrder() {
 
             if (attempts >= MAX_ATTEMPTS) {
@@ -268,7 +263,7 @@
                 statusText.textContent = `Confirming payment... (${attempts}/${MAX_ATTEMPTS})`;
             }
 
-            // POST request — session_id in body to avoid ModSecurity WAF blocking
+            // session_id sent in POST body — never in URL — avoids ModSecurity
             fetch('/order/status', {
                     method: 'POST',
                     headers: {
@@ -292,13 +287,9 @@
                     if (!data) return;
 
                     if (data.status === 'pending') {
-                        // Webhook not processed yet — retry after interval
                         setTimeout(pollForOrder, POLL_INTERVAL);
-
                     } else if (data.status === 'ready') {
-                        // Order found — trigger downloads
                         handleDownloads(data.files);
-
                     } else {
                         showError();
                     }
@@ -309,8 +300,6 @@
                 });
         }
 
-        // ─── Handle downloads ─────────────────────────────────────
-        // Staggered to prevent browser from blocking multiple simultaneous downloads
         function handleDownloads(files) {
 
             if (!files || files.length === 0) {
@@ -324,7 +313,6 @@
             statusText.textContent = `Downloading ${files.length} file${files.length > 1 ? 's' : ''}...`;
             progressWrap.style.display = 'block';
 
-            // Build file rows in UI
             files.forEach((file, i) => {
                 const li = document.createElement('li');
                 li.id = `file-${i}`;
@@ -338,17 +326,14 @@
             files.forEach((file, i) => {
                 setTimeout(() => {
 
-                    // Mark as downloading
                     const li = document.getElementById(`file-${i}`);
                     if (li) {
                         li.classList.add('downloading');
                         li.innerHTML = `<span>⬇️</span> ${file.file_name}`;
                     }
 
-                    // Trigger browser download via hidden <a> click
                     triggerBrowserDownload(file.download_url, file.file_name);
 
-                    // Mark as done after 1.5s
                     setTimeout(() => {
                         if (li) {
                             li.classList.remove('downloading');
@@ -357,8 +342,6 @@
                         }
 
                         completed++;
-
-                        // Update progress bar
                         const pct = Math.round((completed / files.length) * 100);
                         progressBar.style.width = pct + '%';
 
@@ -373,8 +356,6 @@
             });
         }
 
-        // ─── Trigger browser download ──────────────────────────────
-        // Creates invisible <a> tag, clicks it, removes it
         function triggerBrowserDownload(url, fileName) {
             const a = document.createElement('a');
             a.href = url;
@@ -385,7 +366,6 @@
             document.body.removeChild(a);
         }
 
-        // ─── Countdown then redirect ───────────────────────────────
         function startRedirectCountdown() {
             redirectNote.style.display = 'block';
             let secs = REDIRECT_DELAY;
@@ -412,9 +392,12 @@
             setTimeout(goHome, 6000);
         }
 
-        // ─── Start ─────────────────────────────────────────────────
+        // Start — if sessionId is null, cache expired or token was invalid
         if (!SESSION_ID) {
-            showError();
+            spinner.classList.add('done');
+            statusText.textContent = 'Session expired. Check your email for order confirmation.';
+            errorBox.style.display = 'block';
+            setTimeout(goHome, 5000);
         } else {
             pollForOrder();
         }

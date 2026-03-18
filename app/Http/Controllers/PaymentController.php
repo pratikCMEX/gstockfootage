@@ -34,8 +34,7 @@ use Illuminate\Support\Facades\Storage;
 
 
 use Illuminate\Support\Facades\Log;
-
-
+use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
@@ -434,18 +433,23 @@ class PaymentController extends Controller
             ];
         }
 
+
+        $token = Str::random(32);  // short random token — safe for URLs, WAF won't flag
+        Cache::put('stripe_token_' . $token, null, now()->addHours(2));
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'customer_email' => $request->email,
             'line_items' => $lineItems,
             'mode' => 'payment',
             // 'success_url' => route('checkout.success'),
-            'success_url'          => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url'          => route('checkout.success') . '?token=' . $token,
 
             'cancel_url' => route('checkout.cancel'),
         ]);
 
         // ── Store cart in cache keyed by Stripe session ID ────────────────────────
+        Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
+
         Cache::put('stripe_cart_' . $session->id, $cart, now()->addHours(24));
 
         Log::info("🛒 Cart stored in cache", [
@@ -463,8 +467,12 @@ class PaymentController extends Controller
     // REPLACE your existing success() method with this:
     public function success(Request $request)
     {
-        $sessionId = $request->query('session_id');
-        return view('front.checkout_success', compact('sessionId'));
+        $token = $request->query('token'); // short safe token from URL
+
+        // Look up the real Stripe session_id from cache
+        $sessionId = $token ? \Cache::get('stripe_token_' . $token) : null;
+
+        return view('front.checkout_success', compact('sessionId', 'token'));
     }
     public function cancel()
     {
@@ -605,11 +613,6 @@ class PaymentController extends Controller
         return response('Webhook handled', 200);
     }
 
-    /**
-     * NEW METHOD
-     * Called by success page every 2 seconds via POST
-     * Returns signed S3 download URLs once webhook has created the order
-     */
     public function getOrderFiles(Request $request)
     {
         $sessionId = $request->input('session_id');
@@ -621,8 +624,6 @@ class PaymentController extends Controller
             ], 400);
         }
 
-        // Find order created by handleWebhook()
-        // Returns 'pending' if webhook hasn't fired yet
         $order = Order::where('stripe_session_id', $sessionId)
             ->where('payment_status', 'paid')
             ->with('order_details')
@@ -641,8 +642,7 @@ class PaymentController extends Controller
                 ->first();
 
             if ($file) {
-                // Signed S3 URL — valid for 10 minutes only
-                $signedUrl = \Storage::disk('s3')->temporaryUrl(
+                $signedUrl = Storage::disk('s3')->temporaryUrl(
                     $file->file_path,
                     now()->addMinutes(10)
                 );
