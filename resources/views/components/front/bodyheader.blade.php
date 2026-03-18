@@ -16,7 +16,7 @@
                 <nav class="navbar navbar-expand-lg">
                     <ul class="navbar-nav main-menu">
 
-                        <li class="nav-item dropdown hover-dropdown">
+                        {{-- <li class="nav-item dropdown hover-dropdown">
                             <a class="nav-link dropdown-toggle" href="#">Videos</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('videos') }}">All Videos</a></li>
@@ -30,7 +30,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('all_photos') }}">All Photos</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
 
                         <!-- <li class="nav-item dropdown hover-dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0);">Artwork</a>
@@ -40,11 +40,23 @@
                             </ul>
                         </li> -->
 
-                        <li class="nav-item"><a class="nav-link" href="{{ route('collection') }}">Collections</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->segment(1) == 'home' ? 'active' : '' }}"
+                                href="{{ route('home') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->segment(1) == 'videos' ? 'active' : '' }}"
+                                href="{{ route('videos') }}">Videos</a></li>
+                        <li class="nav-item"><a
+                                class="nav-link  {{ request()->segment(1) == 'allPhotos' ? 'active' : '' }}"
+                                href="{{ route('all_photos') }}">Images</a></li>
+                        <li class="nav-item"><a
+                                class="nav-link   {{ request()->segment(1) == 'collection' ? 'active' : '' }}"
+                                href="{{ route('collection') }}">Collections</a></li>
                         {{-- <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a>
                         </li> --}}
-                        <li class="nav-item"><a class="nav-link" href="{{ route('enterprise') }}">Enterprise</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('print_store') }}">Store</a></li>
+                        <li class="nav-item"><a
+                                class="nav-link    {{ request()->segment(1) == 'enterprise' ? 'active' : '' }}"
+                                href="{{ route('enterprise') }}">Enterprise</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->segment(1) == 'print' ? 'active' : '' }}"
+                                href="{{ route('print_store') }}">Store</a></li>
 
                     </ul>
                 </nav>
@@ -114,9 +126,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                                                    <a href="{{ route('logout') }}">
-                                                                                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">

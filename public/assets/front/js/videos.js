@@ -37,7 +37,7 @@
     -------------------------------------------------------------------------- */
   if ($("#videoGrid").length === 0) return;
 
-  window.history.replaceState({}, "", window.location.pathname);
+  // window.history.replaceState({}, "", window.location.pathname);
 
   /* -------------------------------------------------------------------------
        CONFIG

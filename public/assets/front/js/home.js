@@ -91,6 +91,10 @@ $(document).ready(function () {
     }
   }
 
+  // if (window.location.search) {
+  //   const cleanUrl = window.location.origin + window.location.pathname;
+  //   window.history.replaceState({}, document.title, cleanUrl);
+  // }
   // ══════════════════════════════════════════════════════
   // HELP SECTION SEARCH (pills + .help-search)
   // ══════════════════════════════════════════════════════
