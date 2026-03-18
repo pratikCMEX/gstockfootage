@@ -349,6 +349,15 @@ class PaymentController extends Controller
             'cancel_url'           => route('checkout.cancel'),
         ]);
 
+        // ── Store cart in cache keyed by Stripe session ID ────────────────────────
+        Cache::put('stripe_cart_' . $session->id, $cart, now()->addHours(24));
+
+        Log::info("🛒 Cart stored in cache", [
+            'session_id' => $session->id,
+            'items'      => count($cart['items']),
+            'total'      => $cart['total'] ?? 0,
+        ]);
+
         return response()->json([
             'id' => $session->id
         ]);
@@ -366,69 +375,72 @@ class PaymentController extends Controller
 
     public function handleWebhook(Request $request)
     {
-        Log::info("🎣 Webhook received");
+        Log::info(" Webhook received");
 
         $payload         = $request->getContent();
-        $sig_header      = $request->server('HTTP_STRIPE_SIGNATURE');
-        $endpoint_secret = 'whsec_aJYlDD1svhdvr1PFaWZ5GFA29PIRehPc';
+        $sigHeader      = $request->server('HTTP_STRIPE_SIGNATURE');
+        $endpointSecret = config('services.stripe.webhook_secret');
 
-        // ── Verify Stripe signature ───────────────────────────────────────────────
         try {
             $event = \Stripe\Webhook::constructEvent(
                 $payload,
-                $sig_header,
-                $endpoint_secret
+                $sigHeader,
+                $endpointSecret
             );
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
-            Log::error("❌ Webhook signature invalid", ['error' => $e->getMessage()]);
+            Log::error(" Webhook signature invalid", ['error' => $e->getMessage()]);
             return response('Invalid signature', 400);
         } catch (\Exception $e) {
-            Log::error("❌ Webhook error", ['error' => $e->getMessage()]);
+            Log::error(" Webhook error", ['error' => $e->getMessage()]);
             return response('Webhook error', 400);
         }
 
-        Log::info("✅ Webhook event received", ['type' => $event->type]);
+        Log::info(" Webhook event received", ['type' => $event->type]);
 
-        // ── Handle checkout.session.completed ────────────────────────────────────
         if ($event->type === 'checkout.session.completed') {
-
             $session = $event->data->object;
 
-            Log::info("💳 Session data", [
+            Log::info(" Session data", [
                 'session_id'     => $session->id,
                 'payment_status' => $session->payment_status,
                 'email'          => $session->customer_email,
             ]);
 
-            // Only process if actually paid
             if ($session->payment_status !== 'paid') {
-                Log::warning("⚠️ Payment not paid yet", ['status' => $session->payment_status]);
+                Log::warning(" Payment not paid yet", ['status' => $session->payment_status]);
                 return response('Webhook handled', 200);
             }
 
-            // ── Prevent duplicate order for same session ──────────────────────────
+            // Prevent duplicate order
             $existingOrder = Order::where('stripe_session_id', $session->id)->first();
-
             if ($existingOrder) {
-                Log::warning("⚠️ Order already exists for session", ['session_id' => $session->id]);
+                Log::warning(" Order already exists", ['session_id' => $session->id]);
                 return response('Webhook handled', 200);
             }
 
-            // ── Retrieve line items from Stripe ───────────────────────────────────
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-            $lineItems = \Stripe\Checkout\Session::allLineItems($session->id, ['limit' => 100]);
-
-            // ── Get cart from session (stored before redirect) ────────────────────
-            // We store cart in session before Stripe redirect — see note below
+            // Get cart from cache
             $cartData = Cache::get('stripe_cart_' . $session->id);
+
+            Log::info(" Cart data from cache", [
+                'session_id' => $session->id,
+                'found'      => $cartData ? 'YES' : 'NO',
+                'items'      => $cartData ? count($cartData['items']) : 0,
+            ]);
+
+            if (!$cartData || empty($cartData['items'])) {
+                Log::error(" Cart data missing from cache", ['session_id' => $session->id]);
+                return response('Cart data missing', 400);
+            }
 
             DB::beginTransaction();
 
             try {
-                // ── Create Order ──────────────────────────────────────────────────
+                // Find user by email
+                $user = User::where('email', $session->customer_email)->first();
+
+                // Create Order
                 $order = Order::create([
-                    'user_id'           => null, // filled below if user found
+                    'user_id'           => $user?->id,
                     'order_number'      => 'ORD-' . strtoupper(uniqid()),
                     'total_amount'      => $session->amount_total / 100,
                     'stripe_session_id' => $session->id,
@@ -437,53 +449,54 @@ class PaymentController extends Controller
                     'order_status'      => 'completed',
                 ]);
 
-                Log::info("✅ Order created", ['order_id' => $order->id, 'order_number' => $order->order_number]);
+                Log::info(" Order created", [
+                    'order_id'     => $order->id,
+                    'order_number' => $order->order_number,
+                    'user_id'      => $order->user_id,
+                ]);
 
-                // ── Create Order Details from cart cache ──────────────────────────
-                if ($cartData && !empty($cartData['items'])) {
-                    foreach ($cartData['items'] as $item) {
-                        OrderDetail::create([
-                            'order_id'   => $order->id,
-                            'product_id' => $item['id'],
-                            'price'      => $item['price'],
-                            'qty'        => $item['qty'],
-                        ]);
-                    }
+                // Create Order Details
+                foreach ($cartData['items'] as $item) {
+                    OrderDetail::create([
+                        'order_id'   => $order->id,
+                        'product_id' => $item['id'],
+                        'price'      => $item['price'],
+                        'qty'        => $item['qty'],
+                    ]);
 
-                    // Set user_id if logged in user matches email
-                    $user = User::where('email', $session->customer_email)->first();
-                    if ($user) {
-                        $order->user_id = $user->id;
-                        $order->save();
-                    }
-
-                    // Clear cart
-                    if ($user) {
-                        Cart::where('user_id', $user->id)->delete();
-                    }
-
-                    // Clear cache
-                    Cache::forget('stripe_cart_' . $session->id);
-                } else {
-                    Log::warning("⚠️ Cart data not found in cache", ['session_id' => $session->id]);
+                    Log::info(" Order detail created", [
+                        'product_id' => $item['id'],
+                        'price'      => $item['price'],
+                        'qty'        => $item['qty'],
+                    ]);
                 }
+
+                // Clear Cart
+                if ($user) {
+                    // Logged in user — clear DB cart
+                    Cart::where('user_id', $user->id)->delete();
+                    Log::info(" DB cart cleared", ['user_id' => $user->id]);
+                }
+
+                // Clear cache cart regardless
+                Cache::forget('stripe_cart_' . $session->id);
+                Log::info(" Cache cart cleared");
 
                 DB::commit();
 
-                // ── Send Receipt Email ────────────────────────────────────────────
+                // Send Receipt Email
                 try {
                     $orderWithDetails = Order::with('order_details.product')->find($order->id);
                     Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
-                    Log::info("📧 Receipt email sent", ['email' => $order->email]);
+                    Log::info(" Receipt email sent", ['email' => $order->email]);
                 } catch (\Exception $mailException) {
-                    Log::error("❌ Email failed", ['error' => $mailException->getMessage()]);
-                    // Don't fail the webhook for email errors
+                    Log::error(" Email failed", ['error' => $mailException->getMessage()]);
                 }
 
-                Log::info("✅ Webhook processing completed", ['order_id' => $order->id]);
+                Log::info(" Webhook processing completed", ['order_id' => $order->id]);
             } catch (\Exception $e) {
                 DB::rollBack();
-                Log::error("🔥 Order creation failed", [
+                Log::error(" Order creation failed", [
                     'error' => $e->getMessage(),
                     'trace' => $e->getTraceAsString(),
                 ]);
