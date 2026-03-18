@@ -712,4 +712,28 @@ class PaymentController extends Controller
             'files'  => $files,
         ]);
     }
+
+    public function debugFile($id)
+    {
+        $file = BatchFile::where('id', $id)->first();
+
+        if (!$file) {
+            return response()->json(['error' => 'File not found in DB']);
+        }
+
+        $exists   = \Storage::disk('s3')->exists($file->file_path);
+        $size     = $exists ? \Storage::disk('s3')->size($file->file_path) : null;
+        $mime     = $exists ? \Storage::disk('s3')->mimeType($file->file_path) : null;
+        $url      = $exists ? \Storage::disk('s3')->temporaryUrl($file->file_path, now()->addMinutes(5)) : null;
+
+        return response()->json([
+            'file_id'     => $file->id,
+            'file_name'   => $file->file_name,
+            'file_path'   => $file->file_path,
+            'exists_on_s3' => $exists,
+            'size_bytes'  => $size,
+            'mime_type'   => $mime,
+            'preview_url' => $url,   // open this in browser to see if file itself is ok
+        ]);
+    }
 }
