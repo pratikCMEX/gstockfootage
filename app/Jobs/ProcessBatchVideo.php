@@ -234,37 +234,42 @@ class ProcessBatchVideo implements ShouldQueue
         try {
 
             $watermarkPath = storage_path('app/watermark.png');
+            $ffmpegBin     = '/usr/bin/ffmpeg';
+            $ffprobeBin    = '/usr/bin/ffprobe';
 
-            $ffmpegBin  = '/usr/bin/ffmpeg';
-            $ffprobeBin = "/usr/bin/ffprobe";
-
+            // Proportional watermark filter — 15% of video width, works for any resolution
+            $watermarkFilter = "movie={$watermarkPath} [wm]; [wm][in] scale2ref=iw*0.15:ow/mdar [watermark][base]; [base][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]";
 
             /*
-            |--------------------------------------------------------------------------
-            | 1. Check Original Exists in S3
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 1. Check Original Exists in S3
+        |--------------------------------------------------------------------------
+        */
             if (!Storage::disk('s3')->exists($video->file_path)) {
                 throw new \Exception("Original video not found in S3: {$video->file_path}");
             }
 
             /*
-            |--------------------------------------------------------------------------
-            | 2. Create Temp Directory
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 2. Create Temp Directory
+        |--------------------------------------------------------------------------
+        */
             $tempDir = storage_path('app/temp');
             if (!file_exists($tempDir)) {
                 mkdir($tempDir, 0755, true);
             }
 
-            $tempOriginalPath = $tempDir . '/' . $video->file_name;
+            $tempOriginalPath  = $tempDir . '/' . $video->file_name;
+            $tempThumbnailPath = null;
+            $tempMidPath       = null;
+            $tempLowPath       = null;
+            $tempPreviewPath   = null;
 
             /*
-            |--------------------------------------------------------------------------
-            | 3. Download From S3
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 3. Download From S3
+        |--------------------------------------------------------------------------
+        */
             Log::info("⬇️ Downloading from S3", ['path' => $video->file_path]);
 
             $stream = Storage::disk('s3')->readStream($video->file_path);
@@ -272,10 +277,10 @@ class ProcessBatchVideo implements ShouldQueue
             fclose($stream);
 
             /*
-            |--------------------------------------------------------------------------
-            | 4. Get Video Metadata
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 4. Get Video Metadata
+        |--------------------------------------------------------------------------
+        */
             $ffprobe = \FFMpeg\FFProbe::create([
                 'ffprobe.binaries' => $ffprobeBin,
             ]);
@@ -292,23 +297,24 @@ class ProcessBatchVideo implements ShouldQueue
                 [$num, $den] = explode('/', $frameRate);
                 $frameRate = $den != 0 ? round($num / $den, 2) : 0;
             }
+
             /*
-            |--------------------------------------------------------------------------
-            | 5. Generate Thumbnail
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 5. Generate Thumbnail
+        |--------------------------------------------------------------------------
+        */
             $thumbnailName     = pathinfo($video->file_name, PATHINFO_FILENAME) . '_thumb.jpg';
             $tempThumbnailPath = $tempDir . '/' . $thumbnailName;
 
-            $command = escapeshellcmd($ffmpegBin)
+            $thumbCommand = escapeshellcmd($ffmpegBin)
                 . ' -ss 00:00:01'
                 . ' -i ' . escapeshellarg($tempOriginalPath)
                 . ' -vframes 1'
-                . ' -q:v 2 '
-                . escapeshellarg($tempThumbnailPath)
+                . ' -q:v 2'
+                . ' -y ' . escapeshellarg($tempThumbnailPath)
                 . ' 2>&1';
 
-            exec($command, $thumbOutput, $thumbCode);
+            exec($thumbCommand, $thumbOutput, $thumbCode);
 
             if ($thumbCode !== 0 || !file_exists($tempThumbnailPath)) {
                 Log::warning("⚠️ Thumbnail generation failed", [
@@ -316,115 +322,98 @@ class ProcessBatchVideo implements ShouldQueue
                 ]);
             } else {
                 Log::info("✅ Thumbnail generated");
+
+                Storage::disk('s3')->putFileAs(
+                    'batch/videos/thumbnails',
+                    new \Illuminate\Http\File($tempThumbnailPath),
+                    $thumbnailName,
+                    ['visibility' => 'public']
+                );
+
+                Log::info("✅ Thumbnail uploaded to S3");
             }
 
-            Storage::disk('s3')->putFileAs(
-                'batch/videos/thumbnails',
-                new \Illuminate\Http\File($tempThumbnailPath),
-                $thumbnailName,
-                ['visibility' => 'public']
-            );
-
-            Log::info("✅ Thumbnail uploaded to S3");
-
             /*
-            |--------------------------------------------------------------------------
-            | 6. Init FFMpeg
-            |--------------------------------------------------------------------------
-            */
-            $ffmpeg = FFMpeg::create([
-                'ffmpeg.binaries'  => $ffmpegBin,
-                'ffprobe.binaries' => $ffprobeBin,
-                'timeout'          => 7200,
-            ]);
-
-            /*
-            |--------------------------------------------------------------------------
-            | 7. Generate MID Quality — 720p max, 2500kbps
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 6. Generate MID Quality — ORIGINAL resolution, 2500kbps (NO resize)
+        |--------------------------------------------------------------------------
+        */
             $midFileName = 'mid_' . $video->file_name;
             $tempMidPath = $tempDir . '/' . $midFileName;
 
-            // Log your intent and logic (already good in your code)
+            $midCommand = escapeshellcmd($ffmpegBin)
+                . ' -i ' . escapeshellarg($tempOriginalPath)
+                . ' -vf ' . escapeshellarg($watermarkFilter)
+                . ' -c:v libx264 -crf 23 -preset ultrafast'
+                . ' -b:v 2500k'
+                . ' -c:a aac -b:a 128k'
+                . ' -movflags +faststart'
+                . ' -threads 0'
+                . ' -y ' . escapeshellarg($tempMidPath)
+                . ' 2>&1';
 
+            exec($midCommand, $midOutput, $midCode);
 
-            $midVideo  = $ffmpeg->open($tempOriginalPath);
-            $midFormat = new X264('aac', 'libx264');
-            $midFormat->setKiloBitrate(2500);
-            $midFormat->setAudioKiloBitrate(128);
-
-            if ($height > 720 || $width > 1280) {
-                $midVideo->filters()
-                    ->resize(new Dimension(1280, 720))
-                    ->synchronize();
-            }
-            $midVideo->filters()->custom(
-                "movie={$watermarkPath},scale=200:-1 [watermark]; [in][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]"
-            );
-
-            $midVideo->save($midFormat, $tempMidPath);
-
-
-
-            if (!file_exists($tempMidPath)) {
-                // Log::error("🔥 MID video was NOT created at: {$tempMidPath}");
+            if ($midCode !== 0 || !file_exists($tempMidPath)) {
+                Log::warning("⚠️ MID video generation failed", [
+                    'output' => implode("\n", $midOutput),
+                ]);
             } else {
-                // Log::info("✅ MID video generated", [
-                //     'path' => $tempMidPath,
-                //     'size' => filesize($tempMidPath),
-                // ]);
-
                 Storage::disk('s3')->putFileAs(
                     'batch/videos/mid',
                     new \Illuminate\Http\File($tempMidPath),
                     $midFileName,
                     ['visibility' => 'public']
                 );
-
-                // Log::info("✅ MID video uploaded to S3");
+                Log::info("✅ MID video uploaded to S3");
             }
 
-
             /*
-            |--------------------------------------------------------------------------
-            | 8. Generate LOW Quality — same resolution, 500kbps (quality reduction only)
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 7. Generate LOW Quality — ORIGINAL resolution, 500kbps (NO resize)
+        |--------------------------------------------------------------------------
+        */
             $lowFileName = 'low_' . $video->file_name;
             $tempLowPath = $tempDir . '/' . $lowFileName;
 
-            // Log::info("🎞️ Generating LOW video");
+            $lowCommand = escapeshellcmd($ffmpegBin)
+                . ' -i ' . escapeshellarg($tempOriginalPath)
+                . ' -vf ' . escapeshellarg($watermarkFilter)
+                . ' -c:v libx264 -crf 28 -preset ultrafast'
+                . ' -b:v 500k'
+                . ' -c:a aac -b:a 96k'
+                . ' -movflags +faststart'
+                . ' -threads 0'
+                . ' -y ' . escapeshellarg($tempLowPath)
+                . ' 2>&1';
 
-            $lowVideo  = $ffmpeg->open($tempOriginalPath);
-            $lowFormat = new X264('aac', 'libx264');
-            $lowFormat->setKiloBitrate(500);
-            $lowFormat->setAudioKiloBitrate(96);
+            exec($lowCommand, $lowOutput, $lowCode);
 
-            $lowVideo->filters()->custom(
-                "movie={$watermarkPath},scale=200:-1 [watermark]; [in][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]"
-            );
+            if ($lowCode !== 0 || !file_exists($tempLowPath)) {
+                Log::warning("⚠️ LOW video generation failed", [
+                    'output' => implode("\n", $lowOutput),
+                ]);
+            } else {
+                Storage::disk('s3')->putFileAs(
+                    'batch/videos/low',
+                    new \Illuminate\Http\File($tempLowPath),
+                    $lowFileName,
+                    ['visibility' => 'public']
+                );
+                Log::info("✅ LOW video uploaded to S3");
+            }
 
-            // NO resize — keep original dimensions, only reduce bitrate/quality
-            $lowVideo->save($lowFormat, $tempLowPath);
-
-            Storage::disk('s3')->putFileAs(
-                'batch/videos/low',
-                new \Illuminate\Http\File($tempLowPath),
-                $lowFileName,
-                ['visibility' => 'public']
-            );
-
-            Log::info("✅ LOW video uploaded to S3");
-
-
+            /*
+        |--------------------------------------------------------------------------
+        | 8. Generate Preview — 6 seconds random clip with watermark
+        |--------------------------------------------------------------------------
+        */
             if ($duration >= 10) {
                 $previewFileName = 'preview_' . $video->file_name;
                 $tempPreviewPath = $tempDir . '/' . $previewFileName;
 
-                // Pick a random start time, ensuring 6s clip fits within the video
-                $maxStart   = max(0, floor($duration - 6));
-                $startTime  = rand(0, $maxStart);
+                $maxStart  = max(0, floor($duration - 6));
+                $startTime = rand(0, $maxStart);
 
                 Log::info("🎞️ Generating Preview video", [
                     'duration'   => $duration,
@@ -435,13 +424,12 @@ class ProcessBatchVideo implements ShouldQueue
                     . ' -ss ' . escapeshellarg($startTime)
                     . ' -i '  . escapeshellarg($tempOriginalPath)
                     . ' -t 6'
-                    . ' -vf ' . escapeshellarg(
-                        "movie={$watermarkPath},scale=200:-1 [watermark]; [in][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]"
-                    )
-                    . ' -c:v libx264 -crf 23 -preset fast'
+                    . ' -vf ' . escapeshellarg($watermarkFilter)
+                    . ' -c:v libx264 -crf 23 -preset ultrafast'
                     . ' -c:a aac -b:a 96k'
                     . ' -movflags +faststart'
-                    . ' -y '  . escapeshellarg($tempPreviewPath)
+                    . ' -threads 0'
+                    . ' -y ' . escapeshellarg($tempPreviewPath)
                     . ' 2>&1';
 
                 exec($previewCommand, $previewOutput, $previewCode);
@@ -457,23 +445,18 @@ class ProcessBatchVideo implements ShouldQueue
                         $previewFileName,
                         ['visibility' => 'public']
                     );
-
                     $video->preview_path = 'batch/videos/preview/' . $previewFileName;
-
                     Log::info("✅ Preview video uploaded to S3");
                 }
 
                 @unlink($tempPreviewPath);
             }
 
-
-
-
             /*
-            |--------------------------------------------------------------------------
-            | 9. Update Database
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 9. Update Database
+        |--------------------------------------------------------------------------
+        */
             $video->width          = $width;
             $video->height         = $height;
             $video->duration       = $duration;
@@ -488,10 +471,10 @@ class ProcessBatchVideo implements ShouldQueue
             Log::info("✅ Database updated");
 
             /*
-            |--------------------------------------------------------------------------
-            | 10. Cleanup Temp Files
-            |--------------------------------------------------------------------------
-            */
+        |--------------------------------------------------------------------------
+        | 10. Cleanup Temp Files
+        |--------------------------------------------------------------------------
+        */
             @unlink($tempOriginalPath);
             @unlink($tempMidPath);
             @unlink($tempLowPath);
@@ -506,11 +489,11 @@ class ProcessBatchVideo implements ShouldQueue
                 'trace'    => $e->getTraceAsString(),
             ]);
 
-            // Cleanup temp files on failure too
             @unlink($tempOriginalPath ?? '');
             @unlink($tempMidPath ?? '');
             @unlink($tempLowPath ?? '');
             @unlink($tempThumbnailPath ?? '');
+            @unlink($tempPreviewPath ?? '');
 
             $video->status = 'rejected';
             $video->save();
