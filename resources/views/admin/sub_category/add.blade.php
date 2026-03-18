@@ -11,7 +11,7 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="category" class="form-label">Category</label>
+                                <label for="category" class="form-label">Category</label><label class="text-danger">*</label>
                                 <select class="form-select mr-sm-2" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($category as $cat)
@@ -20,12 +20,12 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">SubCategory Name</label>
+                                <label for="exampleInputEmail1" class="form-label">SubCategory Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Please enter subcategory name">
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload Image</label>
+                                <label for="image" class="form-label">Upload Image</label><label class="text-danger">*</label>
                                 <input class="form-control" type="file" name="image" id="image"  accept="image/*" 
                                     onchange="loadFile(event)">
 

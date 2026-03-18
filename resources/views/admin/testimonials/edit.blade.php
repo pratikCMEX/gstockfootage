@@ -12,7 +12,7 @@
 
                            
                             <div class="mb-3">
-                                <label for="name" class="form-label">SubCategory Name</label>
+                                <label for="name" class="form-label"> Name</label><label class="text-danger">*</label>
                                 <input type="hidden" name="id" id="id"
                                     value="{{ encrypt($getTestimonialDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
@@ -27,7 +27,7 @@
                                     value="{{ $getTestimonialDetail->designation }}">
                             </div>
                              <div class="mb-3">
-                                <label for="category_name" class="form-label">Message</label>
+                                <label for="category_name" class="form-label">Message</label><label class="text-danger">*</label>
                                
                                 <input type="text" name="message" class="form-control" id="message"
                                     placeholder="Please enter Designation"

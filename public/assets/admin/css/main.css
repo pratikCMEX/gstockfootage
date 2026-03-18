@@ -30,7 +30,10 @@ body {
 a {
   text-decoration: none;
 }
-
+.custom-scroll {
+    max-height: 300px;   /* adjust as needed */
+    overflow-y: auto;
+}
 /* orange btn */
 .btn-orange {
   background: var(--primary) !important;

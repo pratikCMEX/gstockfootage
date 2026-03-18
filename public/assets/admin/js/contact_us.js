@@ -1,4 +1,18 @@
 var base_url = $("#base_url").val();
+
+$(document).on('click', '.viewMessage', function () {
+
+    $('#modalName').text($(this).data('name'));
+    $('#modalEmail').text($(this).data('email'));
+    $('#modalSubject').text($(this).data('subject'));
+
+    // Use html if message has formatting
+    $('#modalMessage').html($(this).data('message'));
+
+    $('#viewMessageModal').modal('show');
+});
+
+
 $(document).on("click", ".deleteContactUs", function () {
 
     var id = $(this).data("id");

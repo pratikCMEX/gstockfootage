@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -23,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Email Verification Mail
+        
+         Paginator::useBootstrapFive();
+    // Email Verification Mail
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage())
                 ->subject('Verify Your Email')

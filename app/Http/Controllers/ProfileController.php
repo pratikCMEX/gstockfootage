@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Favorites;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\User_subscriptions;
@@ -49,11 +50,18 @@ class ProfileController extends Controller
         // Get user's wishlist items
         $wishLists = Favorites::with(['batchFile', 'batchFile.category'])
             ->where('user_id', $userId)
+            ->whereHas('batchFile')
             ->get();
-    
-        $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->where('status', 'active')->first();
 
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists', 'purchasePlan'));
+        // $order_data = Order::with('order_details.product')->where('user_id', $userId)->get();
+        $order_data = Order::with('order_details.product')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->paginate(3); // 👈 number of orders per page
+        
+       
+        $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->where('status', 'active')->first();
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists', 'purchasePlan', 'order_data'));
     }
 
     /**

@@ -45,6 +45,18 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])->where('is_edited', '1')
+            //  PRIORITY FIRST
+            ->orderByRaw("
+        CASE 
+            WHEN priority IS NULL OR priority = 0 THEN 1
+            ELSE 0
+        END
+    ")
+            ->orderBy('priority', 'ASC')
+
+            //  FALLBACK
+            ->orderBy('id', 'DESC')
+
             ->limit(4)
             ->get();
         // dd($product);
@@ -211,14 +223,14 @@ class HomeController extends Controller
     public function videos(Request $request)
     {
         $title = 'Videos';
-        $page  = 'front.videos';
-        $js    = ['home', 'favorites', 'videos'];
+        $page = 'front.videos';
+        $js = ['home', 'favorites', 'videos'];
 
         $collection_id = $request->has('collection_id') ? decrypt($request->get('collection_id')) : null;
-        $category_id   = $request->has('category_id')   ? decrypt($request->get('category_id'))   : null;
+        $category_id = $request->has('category_id') ? decrypt($request->get('category_id')) : null;
 
         // ── Dynamic max values from DB ────────────────────────────────────────────
-        $maxPrice    = (int) BatchFile::where('type', 'video')->where('is_edited', '1')->max('price')    ?: 500;
+        $maxPrice = (int) BatchFile::where('type', 'video')->where('is_edited', '1')->max('price') ?: 500;
         $maxDuration = (int) BatchFile::where('type', 'video')->where('is_edited', '1')->max('duration') ?: 120;
         // ─────────────────────────────────────────────────────────────────────────
 
@@ -255,7 +267,7 @@ class HomeController extends Controller
         }
         // ─────────────────────────────────────────────────────────────────────────
 
-        $categories     = Category::where('is_display', '1')->get();
+        $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
         $query = BatchFile::with(['category'])
@@ -304,19 +316,19 @@ class HomeController extends Controller
         }
 
         // Price range
-        $query->whereBetween('price', [(float)$price_min, (float)$price_max]);
+        $query->whereBetween('price', [(float) $price_min, (float) $price_max]);
 
         // Duration range
-        if ((int)$duration_min > 0) {
-            $query->where('duration', '>=', (int)$duration_min);
+        if ((int) $duration_min > 0) {
+            $query->where('duration', '>=', (int) $duration_min);
         }
-        if ((int)$duration_max < $maxDuration) {
-            $query->where('duration', '<=', (int)$duration_max);
+        if ((int) $duration_max < $maxDuration) {
+            $query->where('duration', '<=', (int) $duration_max);
         }
 
         // Resolution
         if (!empty($resolutions)) {
-            $map    = ['hd' => 'HD', 'fullhd' => 'Full HD', '4k' => '4K'];
+            $map = ['hd' => 'HD', 'fullhd' => 'Full HD', '4k' => '4K'];
             $values = array_map(fn($r) => $map[$r] ?? $r, $resolutions);
             $query->whereIn('resolution', $values);
         }
@@ -358,6 +370,14 @@ class HomeController extends Controller
                 }
             });
         }
+        $query->orderByRaw("
+    CASE 
+        WHEN priority IS NULL OR priority = 0 THEN 1
+        ELSE 0
+    END
+");
+
+        $query->orderBy('priority', 'ASC');
 
         // Sorting
         switch ($sort) {
@@ -384,6 +404,7 @@ class HomeController extends Controller
                 break;
         }
 
+
         $allVideos = $query->get();
 
         // Tags from all videos (unfiltered)
@@ -400,7 +421,7 @@ class HomeController extends Controller
         // AJAX: return partial HTML + count
         if ($request->ajax()) {
             return response()->json([
-                'html'  => view('front.partials.video-cards', compact('allVideos'))->render(),
+                'html' => view('front.partials.video-cards', compact('allVideos'))->render(),
                 'count' => $allVideos->count(),
             ]);
         }
@@ -643,6 +664,16 @@ class HomeController extends Controller
         if ($category_id) {
             $query->where('category_id', $category_id);        // ← new
         }
+
+        $query->orderByRaw("
+    CASE 
+        WHEN priority IS NULL OR priority = 0 THEN 1
+        ELSE 0
+    END
+");
+
+        $query->orderBy('priority', 'ASC');
+        $query->orderBy('id', 'DESC');
 
 
         $allPhotos = $query->get();

@@ -72,12 +72,12 @@ class ProductDataTable extends DataTable
 
                 if ($row->type === 'image') {
 
-                    return '<img src="' . Storage::disk('s3')->url($row->low_path) . '"
+                    return '<div class=""><img src="' . Storage::disk('s3')->url($row->low_path) . '"
                         class="preview-image"
                         data-src="' . Storage::disk('s3')->url($row->file_path) . '"
                         width="80"
                         height="80"
-                        style="cursor:pointer" />';
+                        style="cursor:pointer" /></div>';
                 }
 
                 return '<div class="video-thumbnail-wrapper position-relative d-inline-block">  

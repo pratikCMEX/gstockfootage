@@ -102,8 +102,8 @@
                                                 class="bi bi-person"></i>
                                             Profile</a></li>
                                     <li><a class="dropdown-item"
-                                            href="{{ route('user.profile', ['tab' => 'order']) }}"><i
-                                                class="bi bi-bag"></i> Order</a></li>
+                                            href="{{ route('user.profile', ['tab' => 'downloads']) }}"><i
+                                                class="bi bi-bag"></i> Downloads</a></li>
                                     <li class="wishlist"><a class="dropdown-item"
                                             href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i
                                                 class="bi bi-heart"></i>

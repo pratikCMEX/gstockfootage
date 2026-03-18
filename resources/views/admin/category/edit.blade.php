@@ -11,7 +11,7 @@
                             action="{{ route('admin.category_update') }}"enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="category_name" class="form-label">Category Name</label>
+                                <label for="category_name" class="form-label">Category Name</label><label for="" class="text-danger">*</label>
                                 <input type="hidden" name="category_id" id="category_id"
                                     value="{{ encrypt($getCategoryDetail->id) }}" />
                                 <input type="text" name="category_name" class="form-control" id="category_name"
@@ -19,7 +19,7 @@
                                     value="{{ $getCategoryDetail->category_name }}">
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload Image</label>
+                                <label for="image" class="form-label">Upload Image</label><label for="" class="text-danger">*</label>
                                 <input class="form-control" type="file" name="image" id="image"
                                     onchange="loadFile(event)">
 

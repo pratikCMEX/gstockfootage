@@ -551,7 +551,7 @@
 }
 
 .popular-icon-btn .bi-heart-fill {
-  color: red;
+  color: var(--primary);
 }
 
 .product-two-btn {

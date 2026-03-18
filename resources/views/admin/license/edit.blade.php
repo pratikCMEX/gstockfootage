@@ -13,22 +13,19 @@
                             <div class="mb-3">
                                 <input type="hidden" name="license_id" id="license_id"
                                     value="{{ encrypt($getLicenseDetail->id) }}">
-                                <label for="exampleInputEmail1" class="form-label">License Name</label><span
-                                    class="text-danger">*</span>
+                                <label for="exampleInputEmail1" class="form-label">License Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="name"
                                     value="{{ $getLicenseDetail->name }}" aria-describedby="emailHelp"
                                     placeholder="Please enter license name">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Title</label><span
-                                    class="text-danger">*</span>
+                                <label for="exampleInputEmail1" class="form-label">Title</label><label class="text-danger">*</label>
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ $getLicenseDetail->title }}" aria-describedby="emailHelp"
                                     placeholder="Please enter title">
                             </div>
                             <div class="mb-3">
-                                <label for="product_quality" class="form-label">Product Quantity</label><span
-                                    class="text-danger">*</span>
+                                <label for="product_quality" class="form-label">Product Quantity</label><label class="text-danger">*</label>
                                 <select class="form-select mr-sm-2" name="product_quality_id" id="product_quality_id">
                                     <option value="">Choose Product Quality...</option>
                                     @foreach ($qualities as $quality)
@@ -40,31 +37,27 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Quality</label><span
-                                    class="text-danger">*</span>
+                                <label for="exampleInputEmail1" class="form-label">Quality</label><label class="text-danger">*</label>
                                 <input type="text" name="quality" class="form-control" id="quality"
                                     value="{{ $getLicenseDetail->quality }}" aria-describedby="emailHelp"
                                     placeholder="Please enter quality">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Price</label><span
-                                    class="text-danger">*</span>
+                                <label for="exampleInputEmail1" class="form-label">Price</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" id="price"
                                     value="{{ $getLicenseDetail->price }}" aria-describedby="emailHelp"
                                     placeholder="Please enter price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Plan Price</label><span
-                                    class="text-danger">*</span>
+                                <label for="exampleInputEmail1" class="form-label">Plan Price</label><label class="text-danger">*</label>
                                 <input type="text" name="plan_price" class="form-control" id="plan_price"
                                     aria-describedby="emailHelp" value="{{ $getLicenseDetail->plan_price }}"
                                     placeholder="Please enter Plan price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label><span
-                                    class="text-danger">*</span>
+                                <label for="description" class="form-label">Description</label><label class="text-danger">*</label>
                                 <div id="description-container">
                                     @php
                                     $descriptions = !empty($getLicenseDetail->description)
