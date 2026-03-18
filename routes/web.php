@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController as ForgotPasswordController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController as ControllersCollectionController;
@@ -137,6 +138,9 @@ Route::get('/user_profile', [ProfileController::class, 'index'])->name('user.pro
 
 Route::get('/term', [WebpageController::class, 'term'])->name('term');
 Route::get('/privacy', [WebpageController::class, 'privacy'])->name('privacy');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog_detail', [BlogController::class, 'blog_detail'])->name('blog_detail');
 
 
 Route::post('/add_favorite', [FavoritesController::class, 'addToFavorite'])->name('add_favorite');

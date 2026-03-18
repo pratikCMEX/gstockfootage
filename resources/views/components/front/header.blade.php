@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/footer.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/header.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/blog.css') }}">
 {{-- <link rel="stylesheet" href="{{ asset('assets/front/css/login_in.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('assets/front/css/product-detail.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/var.css') }}">
@@ -32,6 +33,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
 
 <input type="hidden" id="base_url" value="{{ url('/') }}" />
