@@ -20,6 +20,11 @@
 <!-- toast js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @if (isset($js))
     @foreach ($js as $value)
         <script src="{{ asset('assets/admin') }}/js/{{ $value }}.js"></script>
@@ -27,6 +32,8 @@
 @endif
 
 <script>
+
+   
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))
@@ -42,4 +49,14 @@
             toastr.error("{{ $error }}");
         @endforeach
     @endif
+
+
+  $(document).ready(function () {
+    $('.searchable').select2({
+        width: 'resolve',
+        minimumResultsForSearch: 0, // always show search box
+        placeholder: "Type to search...",
+        allowClear: true
+    });
+});
 </script>

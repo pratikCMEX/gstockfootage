@@ -35,7 +35,7 @@
                             {{-- ================= CATEGORY ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Category</label><label class="text-danger">*</label>
-                                <select class="form-select" name="category" id="category">
+                                <select class="form-select searchable" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($categories as $cat)
                                         <option value="{{ $cat->id }}"
@@ -45,11 +45,12 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
 
                             {{-- ================= SUBCATEGORY ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">SubCategory</label>
-                                <select class="form-select" name="subcategory" id="subcategory">
+                                <select class="form-select searchable" name="subcategory" id="subcategory">
                                     <option value="">Choose SubCategory...</option>
                                     @foreach ($subcategories as $sub)
                                         <option value="{{ $sub->id }}"
@@ -63,7 +64,7 @@
                             {{-- ================= COLLECTION ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Collection</label>
-                                <select class="form-select" name="collection">
+                                <select class="form-select searchable" name="collection">
                                     <option value="">Choose Collection...</option>
                                     @foreach ($collections as $coll)
                                         <option value="{{ $coll->id }}"

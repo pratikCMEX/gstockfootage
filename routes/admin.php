@@ -4,14 +4,17 @@ use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\ContentMasterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SocialLinksController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\TermConditionController;
 use App\Http\Controllers\Admin\TestimonialsController;
@@ -140,8 +143,8 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_multiple_product', [ProductController::class, 'deleteMultiple'])->name('admin.delete_multiple_product');
     Route::post('admin/toggle_product_display', [ProductController::class, 'toggleDisplay'])->name('admin.toggle_product_display');
 
-     Route::get('admin/product/priority', [ProductController::class, 'priority'])->name('admin.product_priority');
-     Route::post('admin/product/update-priority', [ProductController::class, 'updatePriority'])->name('admin.product.updatePriority');
+    Route::get('admin/product/priority', [ProductController::class, 'priority'])->name('admin.product_priority');
+    Route::post('admin/product/update-priority', [ProductController::class, 'updatePriority'])->name('admin.product.updatePriority');
 
     Route::get('admin/video', [VideoController::class, 'index'])->name('admin.video');
     Route::get('admin/add_video', [VideoController::class, 'addvideo'])->name('admin.video_add');
@@ -160,10 +163,30 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/privacy_policy_store', [PrivacyPolicyController::class, 'store'])->name('admin.privacy_policy_store');
     Route::post('admin/privacy_policy_edit', [PrivacyPolicyController::class, 'edit'])->name('admin.privacy_policy_edit');
 
+
     Route::get('admin/video_stream', [VideoStreamController::class, 'stream'])->name('admin.video_stream');
 
-     Route::get('admin/about_us', [AboutUsController::class, 'index'])->name('admin.about_us');
-     Route::post('admin/about_us/save', [AboutUsController::class, 'store'])->name('admin.about_us_save');
+    Route::get('admin/blog', [BlogsController::class, 'index'])->name('admin.blog');
+     Route::get('admin/blog/add', [BlogsController::class, 'add'])->name('admin.blog_add');
+     Route::post('admin/blog/store', [BlogsController::class, 'store'])->name('admin.blog_store');
+     Route::get('admin/blog/edit/{id}', [BlogsController::class, 'edit'])->name('admin.blog_edit');
+     Route::post('admin/blog/update', [BlogsController::class, 'update'])->name('admin.blog_update');
+      Route::post('admin/delete_blog', [BlogsController::class, 'delete'])->name('admin.blog_delete');
+      Route::post('admin/delete_multiple_blog', [BlogsController::class, 'deleteMultiple'])->name('admin.delete_multiple_blog');
+
+
+    
+
+    Route::get('admin/content', [ContentMasterController::class, 'index'])->name('admin.content');
+    Route::post('admin/content/store', [ContentMasterController::class, 'store'])->name('admin.content_store');
+
+    Route::get('admin/about_us', [AboutUsController::class, 'index'])->name('admin.about_us');
+    Route::post('admin/about_us/store', [AboutUsController::class, 'store'])->name('admin.about_us_save');
+
+    Route::get('admin/social_links', [SocialLinksController::class, 'index'])->name('admin.social_links');
+    Route::post('admin/social_links/store', [SocialLinksController::class, 'store'])->name('admin.social_links_store');
+
+
 
     Route::get('admin/contact_us', [ContactUsController::class, 'index'])->name('admin.contact_us');
     Route::post('admin/delete_contact_us', [ContactUsController::class, 'delete'])->name('admin.contact_us_delete');

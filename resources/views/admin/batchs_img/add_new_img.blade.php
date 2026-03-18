@@ -877,7 +877,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="category_id" id="category_id">
                                                             <option value="">Select Category</option>
                                                             @foreach ($category as $cas)
@@ -896,7 +896,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class=" btn w-100 text-start file-dropdown dropdown-toggle  searchable "
                                                             name="collection_id" id="collection_id">
                                                             <option value="">Select Collection</option>
                                                             @foreach ($getCollections as $coll)
@@ -915,7 +915,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="subcategory_id" id="subcategory_id">
                                                             <option value="">Select Sub Category</option>
                                                         </select>
@@ -929,7 +929,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="country" id="country">
                                                             <option value="">Country of shoot</option>
                                                         </select>
@@ -945,7 +945,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="orientation" id="orientation">
                                                             <option value="">Select Orientation</option>
                                                             <option value="landscape">Landscape</option>
@@ -965,7 +965,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="camera_movement" id="camera_movement">
                                                             <option value="">Select Camera Movement</option>
                                                             <option value="static">Static</option>
@@ -987,7 +987,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="license_type" id="license_type">
                                                             <option value="">Select License Type</option>
                                                             <option value="rights_managed">Rights Managed</option>

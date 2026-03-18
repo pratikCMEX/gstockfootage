@@ -14,7 +14,7 @@
                             <input id="id" name="id" value="{{ isset($about_us->id) ? $about_us->id : '' }}" hidden />
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <label class="text-danger">*</label>
+                                <span class="text-danger">*</span>
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ isset($about_us->title) ? $about_us->title : '' }}"
                                     placeholder="Please enter title">
@@ -33,8 +33,7 @@
                                     placeholder="Please enter heading">
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label><label
-                                    class="text-danger">*</label>
+                                <label for="description" class="form-label">Description</label><label></label><label class="text-danger">*</label>
                                 <textarea class="form-control ckeditor" name="description" id="description" rows="6"
                                     placeholder="Please enter description">{{ isset($about_us->description) ? $about_us->description : '' }}</textarea>
                             </div>
@@ -59,6 +58,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 

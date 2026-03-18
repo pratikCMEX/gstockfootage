@@ -53,6 +53,7 @@ class ProfileController extends Controller
             ->whereHas('batchFile')
             ->get();
      
+     
         // $order_data = Order::with('order_details.product')->where('user_id', $userId)->get();
         $order_data = Order::with('order_details.product')
             ->where('user_id', auth()->id())

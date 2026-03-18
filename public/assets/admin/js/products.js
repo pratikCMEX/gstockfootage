@@ -141,9 +141,15 @@ function initProductValidation(formId, isFileRequired = true) {
     errorPlacement: function (error, element) {
       error.addClass("invalid-feedback");
 
-      if (element.attr("data-role") === "tagsinput") {
+      if (element.hasClass('searchable')) {
+        error.insertAfter(element.next('.select2'));
+      }
+      // Tagsinput fix (your existing)
+      else if (element.attr("data-role") === "tagsinput") {
         error.insertAfter(element.siblings(".bootstrap-tagsinput"));
-      } else {
+      }
+      //  Default
+      else {
         error.insertAfter(element);
       }
     },

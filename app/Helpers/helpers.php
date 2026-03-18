@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\License_master;
 use App\Models\Product;
+use App\Models\Social_links;
 use Illuminate\Support\Facades\Auth;
 
 function formatFileSize($bytes)
@@ -28,6 +29,9 @@ function duration($seconds)
 function getCategory()
 {
     return Category::get();
+}
+function getSocialLinks(){
+    return Social_links::first();
 }
 
 function isInCart($product_id)

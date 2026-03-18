@@ -1,50 +1,33 @@
 <main>
     <section class="about_section">
+        @if(!empty($about_us))
         <div class="about-header">
-            @if($about_us)
-                <div class="enterprise-badge">✦ {{ $about_us->heading ?? 'Our Story' }}</div>
-                <h2 class="enterprise-title"> <span class="yellow-headings">{{ $about_us->title ?? 'About Us' }} </span></h2>
-                <p class="enterprise-subtitle">{{ $about_us->sub_title ?? 'We\'re passionate about capturing the beauty and essence of the world through dramatic footage, helping creators bring their visions to life.' }}</p>
-            @else
-                <div class="enterprise-badge">✦ Our Story</div>
-                <h2 class="enterprise-title"> <span class="yellow-headings">About Us</span></h2>
-                <p class="enterprise-subtitle">We're passionate about capturing the beauty and essence of the world through dramatic footage, helping creators bring their visions to life.</p>
-            @endif
+            <div class="enterprise-badge">✦{{ $about_us->heading }}</div>
+            <h2 class="enterprise-title"> <span class="yellow-headings"> {{ $about_us->title }} </span></h2>
+            <p class="enterprise-subtitle">{{  $about_us->sub_title  }}</p>
         </div>
 
         <!-- Story -->
         <div class="story-wrap">
             <div class="story-box">
                 <div class="story-image">
-                    @if($about_us && $about_us->image)
-                        <img src="{{ asset('uploads/images/about_us/' . $about_us->image) }}" 
-                             alt="About Us Image"
-                             style="max-width: 100%; height: auto; border-radius: 8px;">
-                    @else
-                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80" 
-                             alt="Cinematography"
-                             style="max-width: 100%; height: auto; border-radius: 8px;">
-                    @endif
-                    <!-- <div class="story-image-overlay">
-                        <div class="story-image-badge">
+                    <img src="{{ asset('uploads/images/about_us/' . $about_us->image) }}" 
+                         alt="About Us Image"
+                         style="max-width: 100%; height: auto; border-radius: 8px;">
+                    <!-- <div class="story-image-overlay"> -->
+                        <!-- <div class="story-image-badge">
                             <div class="num">10K+</div>
                             <div class="lbl">Premium Clips</div>
-                        </div>
-                    </div> -->
+                        </div> -->
+                    <!-- </div> -->
                 </div>
                 <div class="story-content">
-                    @if($about_us)
-                        <h2>{{ $about_us->heading ?? 'Our Story' }}</h2>
-                        <p>{!! $about_us->description ?? 'Founded in the heart of Jerusalem, gstockfootage began with a simple mission: to capture and share the world\'s most stunning moments through world-class, cinematic footage. What started as a personal project documenting the ancient beauty of the Holy Land has grown into a comprehensive library of premium stock footage covering diverse locations, themes, and subjects. Today, we work with filmmakers, content creators, and production companies worldwide — giving them the high-quality visual assets they need to tell better stories.' !!}</p>
-                    @else
-                        <h2>Our Story</h2>
-                        <p>Founded in the heart of Jerusalem, gstockfootage began with a simple mission: to capture and share the world's most stunning moments through world-class, cinematic footage.</p>
-                        <p>What started as a personal project documenting the ancient beauty of the Holy Land has grown into a comprehensive library of premium stock footage covering diverse locations, themes, and subjects.</p>
-                        <p>Today, we work with filmmakers, content creators, and production companies worldwide — giving them the high-quality visual assets they need to tell better stories.</p>
-                    @endif
+                    <h2>{{ $about_us->heading }}</h2>
+                    <p>{!! $about_us->description !!}</p>
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Values -->
         <div class="values-wrap">

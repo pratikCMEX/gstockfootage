@@ -7,6 +7,7 @@ use App\Models\Batch;
 use App\Models\BatchFile;
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\ContentMaster;
 use App\Models\Image;
 use App\Models\Order;
 use App\Models\Product;
@@ -60,9 +61,11 @@ class HomeController extends Controller
 
             ->limit(4)
             ->get();
-        // dd($product);
+
+            $content_master=ContentMaster::first();
+       
         $testimonials = Testimonials::where('is_active', '1')->get();
-        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials'));
+        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master'));
     }
     public function productDetail(string $id)
     {
