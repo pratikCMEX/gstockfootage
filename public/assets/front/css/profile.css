@@ -1,27 +1,33 @@
 /* Table scroll area */
 /* Pagination compact design */
 /* Pagination (FINAL FIX 🔥) */
+
 .pagination-wrapper {
-    margin-top: 18px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* 🔥 LEFT + RIGHT */
+    align-items: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
 }
 
+
+/* Right pagination */
+.pagination-links {
+    display: flex;
+}
+
+/* Fix pagination size */
 .pagination {
-    display: flex;
-    gap: 5px;
+    margin: 0;
 }
 
-.page-link {
-    padding: 4px 8px !important;
-    font-size: 16px !important;
-    border-radius: 5px !important;
-}
-
-.page-item.active .page-link {
-    background: #ff7a00;
-    border-color: #ff7a00;
-    color: #fff;
+/* Optional spacing on mobile */
+@media (max-width: 576px) {
+    .pagination-wrapper {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
 }
 .table-scroll {
     max-height: 300px;   /* adjust as needed */
