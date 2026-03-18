@@ -516,10 +516,10 @@ class PaymentController extends Controller
         }
 
         // Get raw file contents from S3
-        $fileContents = \Storage::disk('s3')->get($file->file_path);
+        $fileContents = Storage::disk('s3')->url($file->file_path);
 
         // Detect correct mime type from actual file contents
-        $mimeType = \Storage::disk('s3')->mimeType($file->file_path);
+        $mimeType = Storage::disk('s3')->mimeType($file->file_path);
 
         // Force download with correct headers
         return response($fileContents, 200, [
