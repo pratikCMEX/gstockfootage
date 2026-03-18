@@ -707,7 +707,7 @@ class BatchController extends Controller
             if (!$manager) {
                 $manager = new ImageManager(new GdDriver());
             }
-
+            $imagePath = $path;
             $imageName    = Str::uuid() . '.webp';
             $img          = $manager->read($path);
 
@@ -716,11 +716,9 @@ class BatchController extends Controller
             $size         = $fileObj ? $fileObj->getSize() : filesize($path);
             $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
 
-            $highImg = $manager->read($path);
-            $HighEncoded = $highImg->encode(new WebpEncoder(quality: 100))->toString();
-            Storage::disk('s3')->put(
-                "batch/image/high/$imageName",
-                $HighEncoded,
+            // $highImg = clone $img;
+            $manager->make($imagePath)->encode(new WebpEncoder(quality: 100))->save(
+                Storage::disk('s3')->path("batch/image/high/$imageName"),
                 ['visibility' => 'public']
             );
 
@@ -743,7 +741,7 @@ class BatchController extends Controller
             $wmSize = (int)($width * $wmPercent);
 
             // ── MID — 80% quality, original size, WITH watermark ─────────────────
-            $midImg = $manager->read($path);
+            $midImg  = clone $img;
             $wmMid  = $manager->read($watermarkPath);
             $wmMid->scale(width: $wmSize);
 
