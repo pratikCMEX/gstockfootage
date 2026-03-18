@@ -479,6 +479,50 @@ class PaymentController extends Controller
         return redirect()->back()->with('msg_error', 'Payment cancelled.');
     }
 
+    public function downloadFile(Request $request)
+    {
+        $sessionId = $request->query('sid');
+        $fileId    = $request->query('fid');
+
+        // Validate both params exist
+        if (!$sessionId || !$fileId) {
+            abort(400, 'Missing parameters');
+        }
+
+        // Verify the order actually exists and is paid
+        // Prevents unauthorized downloads
+        $order = Order::where('stripe_session_id', $sessionId)
+            ->where('payment_status', 'paid')
+            ->first();
+
+        if (!$order) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Verify this file belongs to this order
+        $orderDetail = OrderDetail::where('order_id', $order->id)
+            ->where('product_id', $fileId)
+            ->first();
+
+        if (!$orderDetail) {
+            abort(403, 'File not part of this order');
+        }
+
+        // Get the file record
+        $file = BatchFile::where('id', $fileId)
+            ->select('id', 'file_path', 'file_name')
+            ->first();
+
+        if (!$file) {
+            abort(404, 'File not found');
+        }
+
+        // Stream file from S3 and force browser download
+        return Storage::disk('s3')->download(
+            $file->file_path,
+            $file->file_name  // filename shown in browser download dialog
+        );
+    }
     public function handleWebhook(Request $request)
     {
         Log::info(" Webhook received");
@@ -642,14 +686,15 @@ class PaymentController extends Controller
                 ->first();
 
             if ($file) {
-                $signedUrl = Storage::disk('s3')->temporaryUrl(
-                    $file->file_path,
-                    now()->addMinutes(10)
-                );
-
                 $files[] = [
                     'file_name'    => $file->file_name,
-                    'download_url' => $signedUrl,
+
+                    // CHANGED: use Laravel download route instead of direct S3 URL
+                    // This avoids CORS and forces browser download
+                    'download_url' => route('download.file', [
+                        'sid' => $sessionId,   // to verify order ownership
+                        'fid' => $file->id,    // to identify the file
+                    ]),
                 ];
             }
         }

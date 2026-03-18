@@ -158,7 +158,7 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [PaymentController::class, 'processCheckout'])->name('checkout.process');
 Route::get('/checkout/success', [PaymentController::class, 'success'])->name('checkout.success');
 Route::post('/order/status', [PaymentController::class, 'getOrderFiles'])->name('checkout.order-files');
-
+Route::get('/download/file', [PaymentController::class, 'downloadFile'])->name('download.file');
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
 Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
 

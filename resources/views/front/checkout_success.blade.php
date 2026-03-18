@@ -358,26 +358,16 @@
 
         // REPLACE with this:
         function triggerBrowserDownload(url, fileName) {
-            // Fetch the file as a blob first — this forces browser to download
-            // instead of opening/previewing the S3 signed URL inline
-            fetch(url)
-                .then(res => res.blob())
-                .then(blob => {
-                    const blobUrl = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = fileName; // forces download with correct filename
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-
-                    // Release blob memory after download triggers
-                    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 3000);
-                })
-                .catch(err => {
-                    console.warn('Download failed for:', fileName, err);
-                });
+            // URL is now your own Laravel route — no CORS issue
+            // Browser hits /download/file which streams S3 file as forced download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.target = '_blank'; // open in new tab — prevents page navigation
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         function startRedirectCountdown() {
