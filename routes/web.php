@@ -165,7 +165,8 @@ Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']
 Route::get('/download/file', [CheckoutController::class, 'downloadFile'])->name('download.file')->middleware('auth');
 // TEMPORARY DEBUG ROUTE — remove after fixing
 Route::get('/debug/file/{id}', [PaymentController::class, 'debugFile']);
-
+// TEMPORARY TEST — remove after fix
+Route::get('/test/download/{id}', [PaymentController::class, 'testDownload']);
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.list');
