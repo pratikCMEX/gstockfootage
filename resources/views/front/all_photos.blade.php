@@ -186,7 +186,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
-                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($photos->low_path) }}"
+                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($photos->mid_path) }}"
                                         class="product-img" alt="">
                                 </a>
 
