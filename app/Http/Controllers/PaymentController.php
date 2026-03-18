@@ -463,8 +463,6 @@ class PaymentController extends Controller
         ]);
     }
 
-    // REPLACE your existing success() method with this:
-    // REPLACE your existing success() method with this:
     public function success(Request $request)
     {
         $token = $request->query('token'); // short safe token from URL
@@ -765,46 +763,5 @@ class PaymentController extends Controller
             'status' => 'ready',
             'files'  => $files,
         ]);
-    }
-
-    // TEMPORARY TEST METHOD — remove after fix
-    public function testDownload($id)
-    {
-        $file = BatchFile::where('id', $id)->first();
-
-        // Close all output buffers — prevent anything corrupting the stream
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
-
-        $s3Client = Storage::disk('s3')->getClient();
-        $bucket   = config('filesystems.disks.s3.bucket');
-
-        // Get the object directly from S3
-        $result = $s3Client->getObject([
-            'Bucket' => $bucket,
-            'Key'    => $file->file_path,
-        ]);
-
-        $body     = $result['Body'];
-        $fileSize = $result['ContentLength'];
-        $mimeType = $result['ContentType'];
-        $fileName = $file->file_name;
-
-        // Send headers manually
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $fileName . '"');
-        header('Content-Length: ' . $fileSize);
-        header('Cache-Control: no-cache, no-store, must-revalidate');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        // Stream directly to output — no Laravel response wrapper
-        $body->rewind();
-        while (!$body->eof()) {
-            echo $body->read(1024 * 256); // 256KB chunks
-        }
-
-        exit; // stop Laravel from adding anything after
     }
 }
