@@ -515,19 +515,30 @@ class PaymentController extends Controller
             abort(404, 'File not found');
         }
 
-        // Generate a fresh signed S3 URL valid for 5 minutes
-        $s3Url = Storage::disk('s3')->temporaryUrl(
-            $file->file_path,
-            now()->addMinutes(5)
-        );
+        // Read file from S3 as a stream — efficient, no full memory load
+        $stream = \Storage::disk('s3')->readStream($file->file_path);
 
-        // Redirect browser directly to signed S3 URL
-        // S3 will serve the file — no memory issue, no corruption
-        // 'response-content-disposition' forces download in browser
-        $downloadUrl = $s3Url . '&response-content-disposition='
-            . urlencode('attachment; filename="' . $file->file_name . '"');
+        $fileName = $file->file_name;
+        $fileSize = \Storage::disk('s3')->size($file->file_path);
 
-        return redirect($downloadUrl);
+        // Stream directly to browser with forced download headers
+        return response()->stream(function () use ($stream) {
+            // Flush in chunks — handles large files without memory issues
+            while (!feof($stream)) {
+                echo fread($stream, 1024 * 256); // 256KB chunks
+                flush();
+                ob_flush();
+            }
+            fclose($stream);
+        }, 200, [
+            'Content-Type'              => 'application/octet-stream', // forces download always
+            'Content-Disposition'       => 'attachment; filename="' . $fileName . '"',
+            'Content-Length'            => $fileSize,
+            'Cache-Control'             => 'no-cache, no-store, must-revalidate',
+            'Pragma'                    => 'no-cache',
+            'Expires'                   => '0',
+            'X-Accel-Buffering'         => 'no', // disable nginx buffering for streams
+        ]);
     }
     public function handleWebhook(Request $request)
     {
