@@ -782,6 +782,7 @@ class BatchController extends Controller
                 'low_path'       => "batch/image/low/low_$imageName",
                 'thumbnail_path' => "",
                 'file_type'      => 'image',
+                'date_created' => Carbon::now()->toDateString(),
                 'type'           => 'image',
                 'file_size'      => $size,
                 'width'          => $width,
