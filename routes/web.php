@@ -166,7 +166,10 @@ Route::get('/download/file', [CheckoutController::class, 'downloadFile'])->name(
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.cart');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.list');
+// Add this NEW route alongside your existing checkout routes
+// Do NOT remove or change your existing routes
 
+// protect it — only logged-in users can fetch files
 Route::middleware('auth')->group(function () {
 
     Route::get('/view_profile', [ProfileController::class, 'edit'])->name('view_profile');
@@ -185,6 +188,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/license/checkout', [UserLicenceController::class, 'checkout'])->name('license.checkout');
     Route::get('/license/success', [UserLicenceController::class, 'success'])->name('license.success');
     Route::get('/license/cancel', [UserLicenceController::class, 'cancel'])->name('license.cancel');
+
+    Route::get('/checkout/order-files', [PaymentController::class, 'getOrderFiles'])
+        ->name('checkout.order-files');
 });
 
 Route::get('/dashboard', function () {

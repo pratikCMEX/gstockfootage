@@ -439,7 +439,9 @@ class PaymentController extends Controller
             'customer_email' => $request->email,
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('checkout.success'),
+            // 'success_url' => route('checkout.success'),
+            'success_url'          => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+
             'cancel_url' => route('checkout.cancel'),
         ]);
 
@@ -457,11 +459,17 @@ class PaymentController extends Controller
         ]);
     }
 
+    // REPLACE your existing success() method with this:
+    // REPLACE your existing success() method with this:
     public function success(Request $request)
     {
-        return redirect()->route('home')->with('msg_success', 'Payment successful! Your order has been placed.');
-    }
+        // Pass session_id from URL query string into the view
+        // Stripe appended this automatically via {CHECKOUT_SESSION_ID} placeholder
+        $sessionId = $request->query('session_id');
 
+        return view('front.checkout_success', compact('sessionId'));
+        // The view itself redirects to home after downloads complete
+    }
     public function cancel()
     {
         return redirect()->back()->with('msg_error', 'Payment cancelled.');
@@ -599,5 +607,67 @@ class PaymentController extends Controller
         }
 
         return response('Webhook handled', 200);
+    }
+
+    /**
+     * NEW METHOD — Poll endpoint for frontend to check if webhook has created the order.
+     * Called repeatedly by success.blade.php until the order is found (webhook may be slow).
+     * Returns signed S3 download URLs once the order exists and payment is confirmed.
+     */
+    public function getOrderFiles(Request $request)
+    {
+        // Get the Stripe session ID passed by the success page
+        $sessionId = $request->query('session_id');
+
+        // Safety check — session_id must be present
+        if (!$sessionId) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Missing session ID'
+            ], 400);
+        }
+
+        // Look for the order created by the webhook (handleWebhook method)
+        // The webhook may not have fired yet — so we return 'pending' if not found
+        $order = Order::where('stripe_session_id', $sessionId)
+            ->where('payment_status', 'paid')     // only confirmed paid orders
+            ->with('order_details')               // eager load details to avoid N+1
+            ->first();
+
+        // Order not yet created by webhook — tell frontend to keep polling
+        if (!$order) {
+            return response()->json(['status' => 'pending']);
+        }
+
+        // Order exists — build signed S3 download URLs for each purchased file
+        $files = [];
+
+        foreach ($order->order_details as $detail) {
+
+            // Fetch the file record using product_id stored in order_details
+            $file = BatchFile::where('id', $detail->product_id)
+                ->select('id', 'file_path', 'file_name')
+                ->first();
+
+            if ($file) {
+                // Generate a temporary signed S3 URL — valid for 10 minutes
+                // This keeps files private; only the buyer can download during this window
+                $signedUrl = \Storage::disk('s3')->temporaryUrl(
+                    $file->file_path,
+                    now()->addMinutes(10)
+                );
+
+                $files[] = [
+                    'file_name'    => $file->file_name,
+                    'download_url' => $signedUrl,
+                ];
+            }
+        }
+
+        // Return all download URLs — frontend will trigger <a> clicks for each
+        return response()->json([
+            'status' => 'ready',
+            'files'  => $files,
+        ]);
     }
 }
