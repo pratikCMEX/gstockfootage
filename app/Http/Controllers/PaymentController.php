@@ -652,7 +652,7 @@ class PaymentController extends Controller
             if ($file) {
                 // Generate a temporary signed S3 URL — valid for 10 minutes
                 // This keeps files private; only the buyer can download during this window
-                $signedUrl = \Storage::disk('s3')->temporaryUrl(
+                $signedUrl = Storage::disk('s3')->temporaryUrl(
                     $file->file_path,
                     now()->addMinutes(10)
                 );
