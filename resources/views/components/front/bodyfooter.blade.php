@@ -68,6 +68,7 @@
                     {{-- <li><a href="{{ route('contact') }}">Contact</a></li> --}}
                     <li><a href="{{ route('pricing') }}">Licenses</a></li>
                     <li><a href="{{ route('pricing') }}">Pricing</a></li>
+                    <li><a href="{{ route('blog') }}">Blog</a></li>
                 </ul>
             </div>
 
