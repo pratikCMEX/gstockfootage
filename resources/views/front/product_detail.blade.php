@@ -128,7 +128,7 @@
                                 {{ isInCart($data['id']) ? 'Added to Cart' : 'Add to Cart' }}
                             </button>
                         </div>
-                        <div class="extended product-detail-price">
+                        {{-- <div class="extended product-detail-price">
                             <div class="price-flex">
                                 <div class="two-price-title">
                                     <h5>Extended Licenses</h5>
@@ -137,10 +137,7 @@
                                 </div>
                                 <p>$ {{ isset($perImage) ? $perImage : $data['price'] }}</p>
                             </div>
-                            {{-- <button type="button" class="btn-orange btn add_to_cart"
-                                onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
-                                to
-                                Cart</button> --}}
+
                             <button type="button"
                                 class="btn add_to_cart {{ isInCart($data['id']) ? 'btn-success already-added' : 'btn-orange' }}"
                                 {{ isInCart($data['id']) ? 'disabled' : '' }}
@@ -148,7 +145,7 @@
                                 <i class="bi bi-cart{{ isInCart($data['id']) ? '-check' : '2' }}"></i>
                                 {{ isInCart($data['id']) ? 'Added to Cart' : 'Add to Cart' }}
                             </button>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="product-detail-btn">
 
@@ -253,8 +250,8 @@
                                                 class="bi {{ $data->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
                                             {{ $data->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
                                         <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" fill="currentColor"
-                                                class="bi bi-share" viewBox="0 0 16 16">
+                                                width="16" height="16" fill="currentColor" class="bi bi-share"
+                                                viewBox="0 0 16 16">
                                                 <path
                                                     d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                             </svg>

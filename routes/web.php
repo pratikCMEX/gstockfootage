@@ -160,6 +160,7 @@ Route::get('/checkout/success', [PaymentController::class, 'success'])->name('ch
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
 Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
 
+Route::get('/download/file', [CheckoutController::class, 'downloadFile'])->name('download.file')->middleware('auth');
 
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.cart');

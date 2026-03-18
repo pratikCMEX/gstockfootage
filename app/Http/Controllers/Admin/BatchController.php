@@ -750,7 +750,7 @@ class BatchController extends Controller
             // Getty style — bottom center with opacity
             $midImg->place($wmMid, 'bottom', 0, 30);
 
-            $midEncoded = $midImg->encode(new WebpEncoder(quality: 80))->toString();
+            $midEncoded = $midImg->encode(new WebpEncoder(quality: 70))->toString();
             Storage::disk('s3')->put(
                 "batch/image/mid/mid_$imageName",
                 $midEncoded,
@@ -759,18 +759,18 @@ class BatchController extends Controller
 
             // ── LOW — 60% quality, original size, WITH watermark ─────────────────
             $lowImg = $manager->read($path);
-            $wmLow  = $manager->read($watermarkPath);
-            $wmLow->scale(width: $wmSize);
+            // $wmLow  = $manager->read($watermarkPath);
+            // $wmLow->scale(width: $wmSize);
 
-            // Getty style — bottom center with opacity
-            $lowImg->place($wmLow, 'bottom', 0, 30);
+            // // Getty style — bottom center with opacity
+            // $lowImg->place($wmLow, 'bottom', 0, 30);
 
-            $lowEncoded = $lowImg->encode(new WebpEncoder(quality: 60))->toString();
-            Storage::disk('s3')->put(
-                "batch/image/low/low_$imageName",
-                $lowEncoded,
-                ['visibility' => 'public']
-            );
+            // $lowEncoded = $lowImg->encode(new WebpEncoder(quality: 60))->toString();
+            // Storage::disk('s3')->put(
+            //     "batch/image/low/low_$imageName",
+            //     $lowEncoded,
+            //     ['visibility' => 'public']
+            // );
             BatchFile::create([
                 'batch_id'       => $batch_id,
                 'file_code'      => mt_rand(1000000000, 9999999999),

@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 
 
 use App\Mail\OrderReceiptMail;
-
+use App\Models\BatchFile;
 use Illuminate\Http\Request;
 
 use Stripe\Stripe;
@@ -24,10 +24,12 @@ use App\Models\OrderDetail;
 
 use App\Models\Product;
 use App\Models\User;
+use App\Models\User_subscriptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -323,6 +325,98 @@ class PaymentController extends Controller
             return response()->json(['error' => 'Cart is empty'], 400);
         }
 
+
+        $user = auth()->user();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Subscription & Remaining Clips
+        |--------------------------------------------------------------------------
+        */
+        $subscription = User_subscriptions::where('user_id', $user->id)
+            ->where('status', 'active')
+            ->where('end_date', '>=', now())
+            ->first();
+
+        if ($subscription && $subscription->remaining_clips > 0) {
+
+            $cartItemCount = count($cart['items']);
+            if ($subscription->remaining_clips >= $cartItemCount) {
+                $subscription->used_clips      += $cartItemCount;
+                $subscription->remaining_clips -= $cartItemCount;
+                $subscription->save();
+                $totalAmount = collect($cart['items'])->sum(fn($item) => $item['price'] * $item['qty']);
+                $order = Order::create([
+                    'user_id'           => $user->id,
+                    'order_number'      => 'ORD-' . strtoupper(uniqid()),
+                    'total_amount'      => $totalAmount,
+                    'stripe_session_id' => null,         // no stripe session for subscription
+                    'email'             => $user->email,
+                    'payment_status'    => 'paid',
+                    'order_status'      => 'completed',
+                ]);
+
+                Log::info("✅ Order created via subscription", [
+                    'order_id'     => $order->id,
+                    'order_number' => $order->order_number,
+                    'user_id'      => $order->user_id,
+                ]);
+                $files = [];
+
+                // Create Order Details + UserDownload
+                foreach ($cart['items'] as $item) {
+
+                    OrderDetail::create([
+                        'order_id'   => $order->id,
+                        'product_id' => $item['id'],
+                        'price'      => $item['price'],
+                        'qty'        => $item['qty'],
+                    ]);
+
+                    Log::info("✅ Order detail created", [
+                        'product_id' => $item['id'],
+                        'price'      => $item['price'],
+                        'qty'        => $item['qty'],
+                    ]);
+
+                    $file = BatchFile::where('id', $item['id'])
+                        ->select('id', 'file_path', 'file_name')
+                        ->first();
+
+                    if ($file) {
+                        // Generate temporary S3 URL valid for 10 minutes
+                        $files[] = [
+                            'file_name' => $file->file_name,
+                            'file_path' => $file->file_path,  // just the S3 path, not URL
+
+                        ];
+                    }
+                }
+
+                // Clear cart
+                Cart::where('user_id', $user->id)->delete();
+
+                Log::info("✅ Downloaded via subscription", [
+                    'user_id'         => $user->id,
+                    'clips_used'      => $cartItemCount,
+                    'remaining_clips' => $subscription->remaining_clips,
+                ]);
+
+                return response()->json([
+                    'status'   => 'subscription',
+                    'img_paths' => $files,
+                    'message'  => 'Downloaded successfully using your subscription.',
+                ]);
+            }
+            // else {
+
+            //     return response()->json([
+            //         'status'   => 'insufficient_clips',
+            //         'redirect' => route('payment.plans'),
+            //         'message'  => "You only have {$subscription->remaining_clips} clips left but have {$cartItemCount} items in cart. Please upgrade your plan.",
+            //     ]);
+            // }
+        }
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
         $lineItems = [];
