@@ -83,7 +83,7 @@
                                     <img src="{{ $data['mid_path'] != '' ? $data['mid_path'] : $data['file_url'] }}"
                                         class="h-100 w-100" alt="">
                                     <div class="big-slide-img-overlay"
-                                        style="background-image: url({{ $data['low_path'] }})">
+                                        style="background-image: url({{ $data['mid_path'] }})">
                                     </div>
                                 @endif
                                 {{-- {{ dd($data['thumbnail']) }} --}}
