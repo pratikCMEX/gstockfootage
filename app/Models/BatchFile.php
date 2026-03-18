@@ -19,6 +19,7 @@ class BatchFile extends Model
         'file_path',
         'thumbnail_path',
         'mid_path',
+        'preview_path',
         'low_path',
         'file_type',
         'file_size',

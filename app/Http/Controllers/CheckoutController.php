@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CheckoutController extends Controller
 {
@@ -42,5 +43,29 @@ class CheckoutController extends Controller
         }
         // dd($cartItems->product->type);
         return view("layouts.front.layout", compact('title', 'page', 'cartItems', 'total', 'js'));
+    }
+
+    public function downloadFile(Request $request)
+    {
+        $request->validate([
+            'path' => 'required|string',
+            'name' => 'required|string',
+        ]);
+
+        $path = $request->path;
+
+        if (!Storage::disk('s3')->exists($path)) {
+            abort(404, 'File not found.');
+        }
+
+        $stream = Storage::disk('s3')->readStream($path);
+
+        return response()->stream(function () use ($stream) {
+            fpassthru($stream);
+        }, 200, [
+            'Content-Type'        => Storage::disk('s3')->mimeType($path),
+            'Content-Disposition' => 'attachment; filename="' . $request->name . '"',
+            'Cache-Control'       => 'no-cache, no-store, must-revalidate',
+        ]);
     }
 }

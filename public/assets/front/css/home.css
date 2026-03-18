@@ -551,7 +551,12 @@
 }
 
 .popular-icon-btn .bi-heart-fill {
-  color: var(--primary);
+  color: red !important;
+}
+
+.btn:first-child:active {
+  background-color: var(--tabBgcolor);
+  color: var(--text);
 }
 
 .product-two-btn {

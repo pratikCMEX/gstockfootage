@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateImageVariants;
 use App\Jobs\ProcessBatchVideo;
 use App\Jobs\ProcessUploadedVideo;
 use App\Models\Batch;
@@ -555,77 +556,6 @@ class BatchController extends Controller
     }
 
 
-    // public function uploadFiles(Request $request, $batch_id)
-    // {
-    //     set_time_limit(600);
-    //     $request->validate([
-    //         'files' => 'required',
-    //         'files.*' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,avi,zip|max:512000'
-    //     ]);
-    //     DB::beginTransaction();
-
-    //     try {
-    //         $extractPath = null;
-    //         foreach ($request->file('files') as $file) {
-    //             $extension = strtolower($file->getClientOriginalExtension());
-    //             if ($extension === 'zip') {
-    //                 $zip = new \ZipArchive;
-    //                 $zipPath = $file->getRealPath();
-
-    //                 if ($zip->open($zipPath) === TRUE) {
-
-    //                     $extractPath = storage_path('app/temp/' . uniqid());
-    //                     mkdir($extractPath, 0777, true);
-
-    //                     $zip->extractTo($extractPath);
-    //                     $zip->close();
-
-    //                     $files = glob($extractPath . '/*.{jpg,jpeg,png,webp,mp4,mov,avi}', GLOB_BRACE);
-    //                     $files = File::allFiles($extractPath);
-
-    //                     foreach ($files as $zipFile) {
-
-    //                         $ext = strtolower($zipFile->getExtension());
-
-    //                         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'mp4', 'mov', 'avi'])) {
-
-    //                             $path = $zipFile->getPathname();
-
-    //                             if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $request->batch_type == 'image') {
-    //                                 $this->processImage($path, $batch_id);
-    //                             }
-
-    //                             if (in_array($ext, ['mp4', 'mov', 'avi']) && $request->batch_type == 'video') {
-    //                                 $this->processVideo($path, $batch_id);
-    //                             }
-    //                         }
-    //                     }
-    //                     File::deleteDirectory($extractPath);
-    //                 }
-    //             } elseif (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
-    //                 $this->processImage($file->getRealPath(), $batch_id, $file);
-    //             } elseif (in_array($extension, ['mp4', 'mov', 'avi'])) {
-    //                 $this->processVideo($file, $batch_id);
-    //             }
-    //         }
-    //         DB::commit();
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'message' => 'Files uploaded successfully'
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'message' => $e->getMessage()
-    //         ], 500);
-    //     } finally {
-    //         if ($extractPath && File::exists($extractPath)) {
-    //             File::deleteDirectory($extractPath);
-    //         }
-    //     }
-    // }
-
     public function uploadFiles(Request $request, $batch_id)
     {
         Log::info('Files received: ' . count($request->file('files') ?? []));
@@ -701,13 +631,12 @@ class BatchController extends Controller
     }
 
 
-    private function processImage($path, $batch_id, $fileObj = null, $manager = null)
+    private function processImageOld($path, $batch_id, $fileObj = null, $manager = null)
     {
         try {
             if (!$manager) {
                 $manager = new ImageManager(new GdDriver());
             }
-
             $imageName    = Str::uuid() . '.webp';
             $img          = $manager->read($path);
 
@@ -743,7 +672,7 @@ class BatchController extends Controller
             $wmSize = (int)($width * $wmPercent);
 
             // ── MID — 80% quality, original size, WITH watermark ─────────────────
-            $midImg = $manager->read($path);
+            $midImg  = clone $img;
             $wmMid  = $manager->read($watermarkPath);
             $wmMid->scale(width: $wmSize);
 
@@ -758,19 +687,19 @@ class BatchController extends Controller
             );
 
             // ── LOW — 60% quality, original size, WITH watermark ─────────────────
-            $lowImg = $manager->read($path);
-            $wmLow  = $manager->read($watermarkPath);
-            $wmLow->scale(width: $wmSize);
+            // $lowImg = $manager->read($path);
+            // $wmLow  = $manager->read($watermarkPath);
+            // $wmLow->scale(width: $wmSize);
 
-            // Getty style — bottom center with opacity
-            $lowImg->place($wmLow, 'bottom', 0, 30);
+            // // Getty style — bottom center with opacity
+            // $lowImg->place($wmLow, 'bottom', 0, 30);
 
-            $lowEncoded = $lowImg->encode(new WebpEncoder(quality: 60))->toString();
-            Storage::disk('s3')->put(
-                "batch/image/low/low_$imageName",
-                $lowEncoded,
-                ['visibility' => 'public']
-            );
+            // $lowEncoded = $lowImg->encode(new WebpEncoder(quality: 60))->toString();
+            // Storage::disk('s3')->put(
+            //     "batch/image/low/low_$imageName",
+            //     $lowEncoded,
+            //     ['visibility' => 'public']
+            // );
             BatchFile::create([
                 'batch_id'       => $batch_id,
                 'file_code'      => mt_rand(1000000000, 9999999999),
@@ -782,6 +711,8 @@ class BatchController extends Controller
                 'low_path'       => "batch/image/low/low_$imageName",
                 'thumbnail_path' => "",
                 'file_type'      => 'image',
+
+                'date_created' => Carbon::now()->toDateString(),
                 'type'           => 'image',
                 'file_size'      => $size,
                 'width'          => $width,
@@ -792,6 +723,57 @@ class BatchController extends Controller
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
             unset($img, $midImg, $lowImg, $highEncoded, $midEncoded, $lowEncoded, $wmMid, $wmLow);
+            gc_collect_cycles();
+        }
+    }
+    private function processImage($path, $batch_id, $fileObj = null, $manager = null)
+    {
+        try {
+            $imageName    = Str::uuid() . '.' . ($fileObj ? $fileObj->getClientOriginalExtension() : pathinfo($path, PATHINFO_EXTENSION));
+            $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
+            $size         = $fileObj ? $fileObj->getSize() : filesize($path);
+
+            // Get dimensions only (fast, no encoding)
+            if (!$manager) {
+                $manager = new ImageManager(new GdDriver());
+            }
+            $img    = $manager->read($path);
+            $width  = $img->width();
+            $height = $img->height();
+            unset($img);
+
+            // Upload raw file directly to S3 — no encoding at all
+            $highPath = "batch/image/high/$imageName";
+            Storage::disk('s3')->put(
+                $highPath,
+                file_get_contents($path),
+                ['visibility' => 'public']
+            );
+            $batchFile = BatchFile::create([
+                'batch_id'       => $batch_id,
+                'file_code'      => mt_rand(1000000000, 9999999999),
+                'original_name'  => $originalName,
+                'title'          => pathinfo($originalName, PATHINFO_FILENAME),
+                'file_name'      => $imageName,
+                'file_path'      => $highPath,
+                'mid_path'       => null,   // filled by job
+                'low_path'       => null,
+                'thumbnail_path' => null,   // filled by job
+                'file_type'      => 'image',
+                'type'           => 'image',
+                'date_created'   => Carbon::now()->toDateString(),
+                'file_size'      => $size,
+                'width'          => $width,
+                'height'         => $height,
+                // 'status'         => 'processing',
+            ]);
+
+            // Dispatch background job for mid (watermarked) + thumbnail
+            GenerateImageVariants::dispatch($batchFile->id, $highPath)->onQueue('images');
+        } catch (\Throwable $e) {
+            Log::error('processImage failed: ' . $e->getMessage());
+        } finally {
+            unset($img, $highEncoded);
             gc_collect_cycles();
         }
     }

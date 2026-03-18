@@ -34,6 +34,37 @@ $(document).on("click", "#processPaymentBtn", function () {
         stripe.redirectToCheckout({
           sessionId: response.id,
         });
+      } else if (response.status == "subscription") {
+        toastr.success(
+          "Purchase successful! Your downloads will start shortly."
+        );
+
+        // Download all files one by one with a small delay
+        if (response.img_paths && response.img_paths.length > 0) {
+          console.log(response.img_paths);
+          // return;
+
+          response.img_paths.forEach(function (file, index) {
+            setTimeout(function () {
+              const a = document.createElement("a");
+              a.href =
+                base_url +
+                "/download/file?path=" +
+                encodeURIComponent(file.file_path) +
+                "&name=" +
+                encodeURIComponent(file.file_name);
+              a.download = file.file_name;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }, index * 2000);
+          });
+        }
+
+        // Redirect to home after all downloads triggered
+        setTimeout(function () {
+          window.location.href = base_url + "/home";
+        }, response.img_paths.length * 1500 + 2000);
       } else {
         toastr.error("Unable to initiate payment.");
       }

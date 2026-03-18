@@ -886,7 +886,8 @@
                                             <video class="product-img" width="100%" muted loop playsinline
                                                 preload="auto"
                                                 poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
-                                                <source src="{{ Storage::disk('s3')->url($video->file_path) }}"
+                                                <source
+                                                    src="{{ $video->preview_path ? Storage::disk('s3')->url($video->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                     type="video/mp4">
                                             </video>
                                         </a>
