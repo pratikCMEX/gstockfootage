@@ -14,7 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use SebastianBergmann\Environment\Console;
 
 class HomeController extends Controller
 {
@@ -233,8 +235,9 @@ class HomeController extends Controller
         // ─────────────────────────────────────────────────────────────────────────
 
         // ── Filter params: only read from request on AJAX, else use defaults ──────
+        $q = $request->get('q', '');
+
         if ($request->ajax()) {
-            $q = $request->get('q', '');
             $price_min = $request->get('price_min', 0);
             $price_max = $request->get('price_max', $maxPrice);
             $duration_min = $request->get('duration_min', 0);
@@ -248,8 +251,7 @@ class HomeController extends Controller
             $sort = $request->get('sort', 'relevant');
             $content_filters = $request->get('content_filters', []);
         } else {
-            // Fresh page load — always reset to defaults, ignore any URL params
-            $q = '';
+            // Only filters reset — NOT q
             $price_min = 0;
             $price_max = $maxPrice;
             $duration_min = 0;
@@ -278,8 +280,31 @@ class HomeController extends Controller
             ]);
 
         // Keyword search
+        // dd(1);
         if ($q) {
-            $query->where('keywords', 'like', '%' . $q . '%');
+
+            $keywords = collect(explode(',', $q))
+                ->map(fn($k) => trim($k))
+                ->filter()
+                ->values();
+
+            $query->where(function ($mainQuery) use ($keywords) {
+
+                foreach ($keywords as $keyword) {
+
+                    $mainQuery->orWhere(function ($subQuery) use ($keyword) {
+
+                        $subQuery->where('keywords', 'like', "%{$keyword}%")
+                            ->orWhere('title', 'like', "%{$keyword}%")
+                            ->orWhereHas('category', function ($q) use ($keyword) {
+                                $q->where('category_name', 'like', "%{$keyword}%");
+                            })
+                            ->orWhereHas('collection', function ($q) use ($keyword) {
+                                $q->where('name', 'like', "%{$keyword}%");
+                            });
+                    });
+                }
+            });
         }
 
         // Collection / Category
@@ -427,12 +452,146 @@ class HomeController extends Controller
         ));
     }
 
+    public function searchByImage(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
+        ]);
+
+        $image = $request->file('image');
+        $base64 = base64_encode(file_get_contents($image->getRealPath()));
+
+        // ── Call Google Vision API ────────────────────────────────────────────────
+        $apiKey = config('services.google_vision.key');
+        $endpoint = "https://vision.googleapis.com/v1/images:annotate?key={$apiKey}";
+
+        $response = Http::post($endpoint, [
+            'requests' => [
+                [
+                    'image' => ['content' => $base64],
+                    'features' => [
+                        ['type' => 'LABEL_DETECTION', 'maxResults' => 15],
+                        ['type' => 'LANDMARK_DETECTION', 'maxResults' => 5],
+                        ['type' => 'OBJECT_LOCALIZATION', 'maxResults' => 10],
+                    ],
+                ]
+            ],
+        ]);
+
+        if ($response->failed()) {
+            return back()->withErrors(['image' => 'Image analysis failed. Please try again.']);
+        }
+
+        $result = $response->json();
+
+        // ── Extract keywords ──────────────────────────────────────────────────────
+        $keywords = collect();
+
+        $labels = data_get($result, 'responses.0.labelAnnotations', []);
+        $keywords = $keywords->merge(
+            collect($labels)->filter(fn($l) => $l['score'] >= 0.70)->pluck('description')
+        );
+
+        $landmarks = data_get($result, 'responses.0.landmarkAnnotations', []);
+        $keywords = $keywords->merge(collect($landmarks)->pluck('description'));
+
+        $objects = data_get($result, 'responses.0.localizedObjectAnnotations', []);
+        $keywords = $keywords->merge(
+            collect($objects)->filter(fn($o) => $o['score'] >= 0.70)->pluck('name')
+        );
+
+        $keywords = $keywords->unique()->filter()->values();
+
+        if ($keywords->isEmpty()) {
+            return back()->withErrors(['image' => 'Could not detect anything from this image. Please try another.']);
+        }
+
+        // ── Redirect to photos page with q param ──────────────────────────────────
+        return redirect()->route('all_photos', [
+            'q' => $keywords->join(', '),
+        ]);
+    }
+    // public function allPhotos(Request $request)
+    // {
+
+    //     $title = 'Photos';
+    //     $page = 'front.all_photos';
+    //     $js = ['home', 'favorites'];
+    //     // dd($request);
+    //     $q = $request->get('q', '');
+    //     $type = $request->get('type', 'image');
+    //     $collection_id = $request->has('collection_id')
+    //         ? decrypt($request->get('collection_id'))
+    //         : null;
+
+    //     $category_id = $request->has('category_id')
+    //         ? decrypt($request->get('category_id'))
+    //         : null;
+
+    //     // $collection_id = decrypt($collection_id);
+    //     // $category_id = decrypt($category_id);
+
+    //     $categories = Category::where('is_display', '1')->get();
+
+    //     $query = BatchFile::with(['category'])
+    //         ->where('type', 'image')
+    //         ->where('is_edited', '1')
+    //         ->withExists([
+    //             'favorites as is_favorite' => function ($q) {
+    //                 $q->where('user_id', auth()->id());
+    //             }
+    //         ]);
+
+    //     if ($q) {
+    //         $keywords = collect(explode(',', $q))
+    //             ->map(fn($k) => trim($k))
+    //             ->filter()
+    //             ->values();
+    //         if ($keywords->count() === 1) {
+    //             // Single keyword — simple like search
+    //             $query->where('keywords', 'like', '%' . $keywords->first() . '%');
+    //         } else {
+    //             // Multiple keywords — match any of them
+    //             $query->where(function ($q) use ($keywords) {
+    //                 foreach ($keywords as $keyword) {
+    //                     $q->orWhere('keywords', 'like', '%' . $keyword . '%');
+    //                 }
+    //             });
+    //         }
+    //     }
+
+    //     if ($collection_id) {
+    //         $query->where('collection_id', $collection_id);
+    //     }
+
+    //     if ($category_id) {
+    //         $query->where('category_id', $category_id);        // ← new
+    //     }
+
+
+    //     $allPhotos = $query->get();
+
+    //     $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+    //     $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
+
+    //     return view("layouts.front.layout", compact(
+    //         'title',
+    //         'page',
+    //         'js',
+    //         'categories',
+    //         'allPhotos',
+    //         'selectedCollection',
+    //         'selectedCategory'
+    //     ));
+    // }
     public function allPhotos(Request $request)
     {
+
         $title = 'Photos';
         $page = 'front.all_photos';
         $js = ['home', 'favorites'];
-
+        // dd($request);
         $q = $request->get('q', '');
         $type = $request->get('type', 'image');
         $collection_id = $request->has('collection_id')
@@ -458,9 +617,48 @@ class HomeController extends Controller
             ]);
 
         if ($q) {
-            $query->where('keywords', 'like', '%' . $q . '%');
-        }
+            $keywords = collect(explode(',', $q))
+                ->map(fn($k) => trim($k))
+                ->filter()
+                ->values();
 
+            $query->where(function ($mainQuery) use ($keywords) {
+
+                if ($keywords->count() === 1) {
+
+                    $keyword = $keywords->first();
+
+                    $mainQuery->where(function ($q) use ($keyword) {
+                        $q->where('keywords', 'like', '%' . $keyword . '%')
+                            ->orWhere('title', 'like', '%' . $keyword . '%')
+                            ->orWhereHas('category', function ($q) use ($keyword) {
+                                $q->where('category_name', 'like', '%' . $keyword . '%');
+                            })
+                            ->orWhereHas('collection', function ($q) use ($keyword) {
+                                $q->where('name', 'like', '%' . $keyword . '%');
+                            });
+                    });
+                } else {
+
+                    $mainQuery->where(function ($q) use ($keywords) {
+
+                        foreach ($keywords as $keyword) {
+
+                            $q->orWhere(function ($sub) use ($keyword) {
+                                $sub->where('keywords', 'like', '%' . $keyword . '%')
+                                    ->orWhere('title', 'like', '%' . $keyword . '%')
+                                    ->orWhereHas('category', function ($q) use ($keyword) {
+                                        $q->where('category_name', 'like', '%' . $keyword . '%');
+                                    })
+                                    ->orWhereHas('collection', function ($q) use ($keyword) {
+                                        $q->where('name', 'like', '%' . $keyword . '%');
+                                    });
+                            });
+                        }
+                    });
+                }
+            });
+        }
         if ($collection_id) {
             $query->where('collection_id', $collection_id);
         }
@@ -513,44 +711,110 @@ class HomeController extends Controller
         return view("layouts.front.layout", compact('title', 'page'));
     }
 
+    // public function homeSearch(Request $request)
+    // {
+    //     $search = $request->get('search', '');
+    //     $type = $request->get('type', 'all');
+    //     $query = BatchFile::where('is_edited', 1)
+    //         ->where('keywords', 'like', '%' . $search . '%');
+
+    //     if ($type !== 'all') {
+    //         $query->where('type', $type);
+    //     }
+
+    //     $keywords = $query->limit(10)->pluck('keywords');
+
+    //     $allKeywords = [];
+
+    //     foreach ($keywords as $keywordString) {
+    //         if ($keywordString) {
+    //             foreach (explode(',', $keywordString) as $word) {
+    //                 $trimmed = trim($word);
+    //                 if ($trimmed !== '') {
+    //                     $allKeywords[] = $trimmed;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     $allKeywords = array_unique($allKeywords);
+
+    //     // Filter keywords that actually contain the search term
+    //     if ($search) {
+    //         $allKeywords = array_filter($allKeywords, function ($word) use ($search) {
+    //             return stripos($word, $search) !== false;
+    //         });
+    //     }
+
+    //     return response()->json(array_values($allKeywords));
+    // }
     public function homeSearch(Request $request)
     {
+
         $search = $request->get('search', '');
         $type = $request->get('type', 'all');
-        $query = BatchFile::where('is_edited', 1)
-            ->where('keywords', 'like', '%' . $search . '%');
+
+        $query = BatchFile::query()
+            ->with(['category', 'collection'])
+            ->where('is_edited', '1')
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($subQuery) use ($search) {
+                    $subQuery->where('keywords', 'like', "%{$search}%")
+                        ->orWhere('title', 'like', "%{$search}%")
+                        ->orWhereHas('category', function ($categoryQuery) use ($search) {
+                            $categoryQuery->where('category_name', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('collection', function ($collectionQuery) use ($search) {
+                            $collectionQuery->where('name', 'like', "%{$search}%");
+                        });
+                });
+            });
 
         if ($type !== 'all') {
             $query->where('type', $type);
         }
 
-        $keywords = $query->limit(10)->pluck('keywords');
+        // Get keywords + also title/category/collection if needed
+        $results = $query->take(10)->get();
 
-        $allKeywords = [];
+        $suggestions = [];
 
-        foreach ($keywords as $keywordString) {
-            if ($keywordString) {
-                foreach (explode(',', $keywordString) as $word) {
-                    $trimmed = trim($word);
-                    if ($trimmed !== '') {
-                        $allKeywords[] = $trimmed;
+        foreach ($results as $item) {
+
+            if ($item->keywords) {
+                foreach (explode(',', $item->keywords) as $word) {
+                    $word = trim($word);
+                    if ($word !== '') {
+                        $suggestions[] = $word;
                     }
                 }
             }
+
+            if ($item->title) {
+                $suggestions[] = $item->title;
+            }
+
+            if ($item->category && $item->category->category_name) {
+                $suggestions[] = $item->category->category_name;
+            }
+
+            if ($item->collection && $item->collection->name) {
+                $suggestions[] = $item->collection->name;
+            }
         }
 
-        $allKeywords = array_unique($allKeywords);
+        // Remove duplicates
+        $suggestions = array_unique($suggestions);
 
-        // Filter keywords that actually contain the search term
+        // Filter based on search
         if ($search) {
-            $allKeywords = array_filter($allKeywords, function ($word) use ($search) {
+            $suggestions = array_filter($suggestions, function ($word) use ($search) {
                 return stripos($word, $search) !== false;
             });
         }
 
-        return response()->json(array_values($allKeywords));
+        return response()->json(array_values($suggestions));
     }
-
     public function downloadAllFiles()
     {
         $files = Storage::disk('s3')->allFiles();

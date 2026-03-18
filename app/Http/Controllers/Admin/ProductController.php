@@ -20,6 +20,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
 
 class ProductController extends Controller
 {
@@ -109,53 +110,69 @@ class ProductController extends Controller
     {
         $request->validate(['file' => 'required|image']);
 
-        $file = $request->file('file');
+        $file      = $request->file('file');
         $imageName = time() . '_' . uniqid() . '.webp';
+        $manager   = new ImageManager(new Driver());
 
-        $manager = new ImageManager(new Driver());
-
-        $img = $manager->read($file->getRealPath());
-
-        $width = $img->width();
+        $img    = $manager->read($file->getRealPath());
+        $width  = $img->width();
         $height = $img->height();
-        $size = $file->getSize();
+        $size   = $file->getSize();
+
+        $watermarkPath = storage_path('app/watermark.png');
+
+        // ── WATERMARK HELPER ──────────────────────────────────────────────────────
+        $makeWatermark = function (int $baseWidth) use ($manager, $watermarkPath): ?\Intervention\Image\Interfaces\ImageInterface {
+            if (!file_exists($watermarkPath)) return null;
+            $wm = $manager->read($watermarkPath);
+            $wm->scale(width: (int) ($baseWidth * 0.20));
+            return $wm;
+        };
+
+        $placeWatermark = function ($image, $wm) use ($width, $height): void {
+            if (!$wm) return;
+            $posX = (int) (($image->width()  / 2) - ($wm->width()  / 2) + ($image->width()  * 0.08));
+            $posY = (int) (($image->height() / 2) - ($wm->height() / 2));
+            $image->place($wm, 'top-left', $posX, $posY);
+        };
 
         /*
     |--------------------------------------------------------------------------
-    | HIGH IMAGE
+    | HIGH — 100% quality, original size, with watermark
     |--------------------------------------------------------------------------
     */
-
+        $highImg = $manager->read($file->getRealPath());
+        // $placeWatermark($highImg, $makeWatermark($width));
         Storage::disk('s3')->put(
             "batch/images/high/$imageName",
-            $img->encode()->toString(),
+            $highImg->encode(new WebpEncoder(quality: 100))->toString(),
             ['visibility' => 'public']
         );
 
         /*
     |--------------------------------------------------------------------------
-    | LOW IMAGE WITH WATERMARK
+    | MID — 80% quality, original size, with watermark
     |--------------------------------------------------------------------------
     */
+        $midImg = $manager->read($file->getRealPath());
+        $placeWatermark($midImg, $makeWatermark($width));
+        Storage::disk('s3')->put(
+            "batch/images/mid/mid_$imageName",
+            $midImg->encode(new WebpEncoder(quality: 80))->toString(),
+            ['visibility' => 'public']
+        );
 
-        $low = $manager->read($file->getRealPath());
-
-        $watermarkPath = public_path('watermark.png');
-
-        if (file_exists($watermarkPath)) {
-
-            $wm = $manager->read($watermarkPath);
-
-            $wm->scale(width: $low->width() * 0.1);
-
-            $low->place($wm, 'bottom-right', 10, 10);
-        }
-
-        $low->scale(width: 800);
-
+        /*
+    |--------------------------------------------------------------------------
+    | LOW — 60% quality, 800px wide, with watermark
+    |--------------------------------------------------------------------------
+    */
+        $lowImg = $manager->read($file->getRealPath());
+        $lowImg->scale(width: 800);
+        $placeWatermark($lowImg, $makeWatermark($lowImg->width()));
         Storage::disk('s3')->put(
             "batch/images/low/low_$imageName",
-            $low->encode()->toString(),
+            $lowImg->encode(new WebpEncoder(quality: 60))->toString(),
             ['visibility' => 'public']
         );
 
@@ -164,14 +181,17 @@ class ProductController extends Controller
     | SAVE DB
     |--------------------------------------------------------------------------
     */
-
         $product->original_name = $file->getClientOriginalName();
-        $product->file_name = $imageName;
-        $product->file_path = "batch/images/high/$imageName";
-        $product->low_path = "batch/images/low/low_$imageName";
-        $product->width = $width;
-        $product->height = $height;
-        $product->file_size = $size;
+        $product->file_name     = $imageName;
+        $product->file_path     = "batch/images/high/$imageName";
+        $product->mid_path      = "batch/images/mid/mid_$imageName";
+        $product->low_path      = "batch/images/low/low_$imageName";
+        $product->width         = $width;
+        $product->height        = $height;
+        $product->file_size     = $size;
+
+        unset($img, $highImg, $midImg, $lowImg);
+        gc_collect_cycles();
     }
     // private function handleProductVideoUpload(BatchFile $product, Request $request, &$tempOriginalPath = null)
     // {
@@ -430,33 +450,33 @@ class ProductController extends Controller
         // return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'category', 'subcategory', 'collections'));
     }
     public function updatePriority(Request $request)
-{
-    $imageOrder = $request->imageOrder ?? [];
-    $videoOrder = $request->videoOrder ?? [];
+    {
+        $imageOrder = $request->imageOrder ?? [];
+        $videoOrder = $request->videoOrder ?? [];
 
-    // Reset all first
-    BatchFile::whereIn('type', ['image','video'])->update([
-        'priority' => 0
-    ]);
+        // Reset all first
+        BatchFile::whereIn('type', ['image', 'video'])->update([
+            'priority' => 0
+        ]);
 
-    // Image priority
-    foreach ($imageOrder as $index => $id) {
-        BatchFile::where('id', $id)->update([
-            'priority' => $index + 1
+        // Image priority
+        foreach ($imageOrder as $index => $id) {
+            BatchFile::where('id', $id)->update([
+                'priority' => $index + 1
+            ]);
+        }
+
+        // Video priority
+        foreach ($videoOrder as $index => $id) {
+            BatchFile::where('id', $id)->update([
+                'priority' => $index + 1
+            ]);
+        }
+
+        return response()->json([
+            'status' => true
         ]);
     }
-
-    // Video priority
-    foreach ($videoOrder as $index => $id) {
-        BatchFile::where('id', $id)->update([
-            'priority' => $index + 1
-        ]);
-    }
-
-    return response()->json([
-        'status' => true
-    ]);
-}
     public function updatePriority_old(Request $request)
     {
         $order = $request->order ?? [];
@@ -472,7 +492,6 @@ class ProductController extends Controller
             BatchFile::where('id', $id)->update([
                 'priority' => $index + 1
             ]);
-
         }
 
         return response()->json([

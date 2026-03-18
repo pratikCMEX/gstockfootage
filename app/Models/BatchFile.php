@@ -18,6 +18,7 @@ class BatchFile extends Model
         'file_name',
         'file_path',
         'thumbnail_path',
+        'mid_path',
         'low_path',
         'file_type',
         'file_size',
@@ -56,7 +57,7 @@ class BatchFile extends Model
     }
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id'); // or your actual column
     }
 
     public function subcategory()
