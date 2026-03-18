@@ -515,21 +515,19 @@ class PaymentController extends Controller
             abort(404, 'File not found');
         }
 
-        // Get raw file contents from S3
-        $fileContents = Storage::disk('s3')->url($file->file_path);
+        // Generate a fresh signed S3 URL valid for 5 minutes
+        $s3Url = Storage::disk('s3')->temporaryUrl(
+            $file->file_path,
+            now()->addMinutes(5)
+        );
 
-        // Detect correct mime type from actual file contents
-        $mimeType = Storage::disk('s3')->mimeType($file->file_path);
+        // Redirect browser directly to signed S3 URL
+        // S3 will serve the file — no memory issue, no corruption
+        // 'response-content-disposition' forces download in browser
+        $downloadUrl = $s3Url . '&response-content-disposition='
+            . urlencode('attachment; filename="' . $file->file_name . '"');
 
-        // Force download with correct headers
-        return response($fileContents, 200, [
-            'Content-Type'        => $mimeType,
-            'Content-Disposition' => 'attachment; filename="' . $file->file_name . '"',
-            'Content-Length'      => strlen($fileContents),
-            'Cache-Control'       => 'no-cache, no-store, must-revalidate',
-            'Pragma'              => 'no-cache',
-            'Expires'             => '0',
-        ]);
+        return redirect($downloadUrl);
     }
     public function handleWebhook(Request $request)
     {
