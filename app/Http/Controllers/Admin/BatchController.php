@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateImageVariants;
 use App\Jobs\ProcessBatchVideo;
 use App\Jobs\ProcessUploadedVideo;
 use App\Models\Batch;
@@ -630,7 +631,7 @@ class BatchController extends Controller
     }
 
 
-    private function processImage($path, $batch_id, $fileObj = null, $manager = null)
+    private function processImageOld($path, $batch_id, $fileObj = null, $manager = null)
     {
         try {
             if (!$manager) {
@@ -722,6 +723,57 @@ class BatchController extends Controller
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
             unset($img, $midImg, $lowImg, $highEncoded, $midEncoded, $lowEncoded, $wmMid, $wmLow);
+            gc_collect_cycles();
+        }
+    }
+    private function processImage($path, $batch_id, $fileObj = null, $manager = null)
+    {
+        try {
+            $imageName    = Str::uuid() . '.' . ($fileObj ? $fileObj->getClientOriginalExtension() : pathinfo($path, PATHINFO_EXTENSION));
+            $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
+            $size         = $fileObj ? $fileObj->getSize() : filesize($path);
+
+            // Get dimensions only (fast, no encoding)
+            if (!$manager) {
+                $manager = new ImageManager(new GdDriver());
+            }
+            $img    = $manager->read($path);
+            $width  = $img->width();
+            $height = $img->height();
+            unset($img);
+
+            // Upload raw file directly to S3 — no encoding at all
+            $highPath = "batch/image/high/$imageName";
+            Storage::disk('s3')->put(
+                $highPath,
+                file_get_contents($path),
+                ['visibility' => 'public']
+            );
+            $batchFile = BatchFile::create([
+                'batch_id'       => $batch_id,
+                'file_code'      => mt_rand(1000000000, 9999999999),
+                'original_name'  => $originalName,
+                'title'          => pathinfo($originalName, PATHINFO_FILENAME),
+                'file_name'      => $imageName,
+                'file_path'      => $highPath,
+                'mid_path'       => null,   // filled by job
+                'low_path'       => null,
+                'thumbnail_path' => null,   // filled by job
+                'file_type'      => 'image',
+                'type'           => 'image',
+                'date_created'   => Carbon::now()->toDateString(),
+                'file_size'      => $size,
+                'width'          => $width,
+                'height'         => $height,
+                // 'status'         => 'processing',
+            ]);
+
+            // Dispatch background job for mid (watermarked) + thumbnail
+            GenerateImageVariants::dispatch($batchFile->id, $highPath)->onQueue('images');
+        } catch (\Throwable $e) {
+            Log::error('processImage failed: ' . $e->getMessage());
+        } finally {
+            unset($img, $highEncoded);
             gc_collect_cycles();
         }
     }

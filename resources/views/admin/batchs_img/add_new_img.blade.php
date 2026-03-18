@@ -233,8 +233,8 @@
                                         @endif
                                         @endif --}}
                                             @if ($data['file_type'] == 'image')
-                                                <img src="{{ Storage::disk('s3')->url(ltrim($data['low_path'], '/')) }}"
-                                                    alt="">
+                                                <img src="{{ $data['mid_path'] != '' ? Storage::disk('s3')->url(ltrim($data['mid_path'], '/')) : Storage::disk('s3')->url(ltrim($data['file_path'], '/')) }}"
+                                                    class="h-100 w-100" alt="">
                                             @else
                                                 @if ($data['thumbnail_path'] == null)
                                                     <img
