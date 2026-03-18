@@ -466,3 +466,15 @@ div.dataTables_processing > div:last-child > div {
   color: var(--white);
   border-color: var(--primary) !important;
 }
+
+.select2-container--default .select2-selection--single{
+  position: relative;
+  border-color: #dfe5ef !important;
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+  top: 50% !important;
+  transform: translateY(-50%)
+}

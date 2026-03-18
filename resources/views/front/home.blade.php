@@ -713,31 +713,29 @@
             <div class="col-lg-5">
                 <div class="heading">
                     <h2 class="section-title ">
-                        Trusted by <span class="yellow-headings">Creators Worldwide</span>
+                         <span class="yellow-headings">{{ $content_master->title }}</span>
                     </h2>
                 </div>
 
                 <p class="trusted-subtitle">
-                    Premium stock footage designed for studios, filmmakers, and creative professionals.
+                   {{ $content_master->sub_title }}
                 </p>
 
-                <div class="feature-item">
-                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-award h-5 w-5 text-primary">
-                            <path
-                                d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526">
-                            </path>
-                            <circle cx="12" cy="8" r="6"></circle>
-                        </svg></div>
-                    <div>
-                        <h6>Professional 4K & 8K Quality</h6>
-                        <p>Cinematic-grade footage captured by experts</p>
-                    </div>
-                </div>
+             @foreach($content_master->content as $section)
+    <div class="feature-item">
+        <div class="">
+            <img src="{{ asset('uploads/images/content_master/'.$section['image']) }}" 
+                 width="24" height="24" style="object-fit:cover;">
+        </div>
 
-                <div class="feature-item">
+        <div>
+            <h6>{{ $section['title'] }}</h6>
+            <p>{{ $section['sub_title'] }}</p>
+        </div>
+    </div>
+@endforeach
+
+                <!-- <div class="feature-item">
                     <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
@@ -779,7 +777,7 @@
                         <h6>Authentic Locations</h6>
                         <p>Real footage from iconic destinations</p>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="mt-4 trusted-btn">
                     <a href="{{ route('pricing') }}" class="btn btn-orange me-lg-2">
@@ -865,7 +863,7 @@
     </div>
 </section>
 
-<section class="blog">
+<!-- <section class="blog">
     <div class="container">
 
         <div class="row g-3">
@@ -905,7 +903,7 @@
                         <p class="blog-text">Learn how to push your camera to the limits and
                             capture stunning, noise-free footage in
                             challenging nocturnal environments.</p>
-                        <a href="{{ route('blog_detail') }}" class="brows-btn">
+                        <a href="" class="brows-btn">
                             Read Article
                             <i class="bi bi-arrow-right-short"></i>
                         </a>
@@ -915,4 +913,4 @@
 
         </div>
     </div>
-</section>
+</section> -->

@@ -424,11 +424,11 @@ class PaymentController extends Controller
         foreach ($cart['items'] as $item) {
             $lineItems[] = [
                 'price_data' => [
-                    'currency'     => 'usd',
+                    'currency' => 'usd',
                     'product_data' => [
                         'name' => $item['title'],
                     ],
-                    'unit_amount'  => $item['price'] * 100,
+                    'unit_amount' => $item['price'] * 100,
                 ],
                 'quantity' => $item['qty'],
             ];
@@ -436,11 +436,11 @@ class PaymentController extends Controller
 
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
-            'customer_email'       => $request->email,
-            'line_items'           => $lineItems,
-            'mode'                 => 'payment',
-            'success_url'          => route('checkout.success'),
-            'cancel_url'           => route('checkout.cancel'),
+            'customer_email' => $request->email,
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+            'success_url' => route('checkout.success'),
+            'cancel_url' => route('checkout.cancel'),
         ]);
 
         // ── Store cart in cache keyed by Stripe session ID ────────────────────────
@@ -448,8 +448,8 @@ class PaymentController extends Controller
 
         Log::info("🛒 Cart stored in cache", [
             'session_id' => $session->id,
-            'items'      => count($cart['items']),
-            'total'      => $cart['total'] ?? 0,
+            'items' => count($cart['items']),
+            'total' => $cart['total'] ?? 0,
         ]);
 
         return response()->json([
@@ -471,8 +471,8 @@ class PaymentController extends Controller
     {
         Log::info(" Webhook received");
 
-        $payload         = $request->getContent();
-        $sigHeader      = $request->server('HTTP_STRIPE_SIGNATURE');
+        $payload = $request->getContent();
+        $sigHeader = $request->server('HTTP_STRIPE_SIGNATURE');
         $endpointSecret = config('services.stripe.webhook_secret');
 
         try {
@@ -495,9 +495,9 @@ class PaymentController extends Controller
             $session = $event->data->object;
 
             Log::info(" Session data", [
-                'session_id'     => $session->id,
+                'session_id' => $session->id,
                 'payment_status' => $session->payment_status,
-                'email'          => $session->customer_email,
+                'email' => $session->customer_email,
             ]);
 
             if ($session->payment_status !== 'paid') {
@@ -517,8 +517,8 @@ class PaymentController extends Controller
 
             Log::info(" Cart data from cache", [
                 'session_id' => $session->id,
-                'found'      => $cartData ? 'YES' : 'NO',
-                'items'      => $cartData ? count($cartData['items']) : 0,
+                'found' => $cartData ? 'YES' : 'NO',
+                'items' => $cartData ? count($cartData['items']) : 0,
             ]);
 
             if (!$cartData || empty($cartData['items'])) {
@@ -534,34 +534,34 @@ class PaymentController extends Controller
 
                 // Create Order
                 $order = Order::create([
-                    'user_id'           => $user?->id,
-                    'order_number'      => 'ORD-' . strtoupper(uniqid()),
-                    'total_amount'      => $session->amount_total / 100,
+                    'user_id' => $user?->id,
+                    'order_number' => 'ORD-' . strtoupper(uniqid()),
+                    'total_amount' => $session->amount_total / 100,
                     'stripe_session_id' => $session->id,
-                    'email'             => $session->customer_email,
-                    'payment_status'    => 'paid',
-                    'order_status'      => 'completed',
+                    'email' => $session->customer_email,
+                    'payment_status' => 'paid',
+                    'order_status' => 'completed',
                 ]);
 
                 Log::info(" Order created", [
-                    'order_id'     => $order->id,
+                    'order_id' => $order->id,
                     'order_number' => $order->order_number,
-                    'user_id'      => $order->user_id,
+                    'user_id' => $order->user_id,
                 ]);
 
                 // Create Order Details
                 foreach ($cartData['items'] as $item) {
                     OrderDetail::create([
-                        'order_id'   => $order->id,
+                        'order_id' => $order->id,
                         'product_id' => $item['id'],
-                        'price'      => $item['price'],
-                        'qty'        => $item['qty'],
+                        'price' => $item['price'],
+                        'qty' => $item['qty'],
                     ]);
 
                     Log::info(" Order detail created", [
                         'product_id' => $item['id'],
-                        'price'      => $item['price'],
-                        'qty'        => $item['qty'],
+                        'price' => $item['price'],
+                        'qty' => $item['qty'],
                     ]);
                 }
 

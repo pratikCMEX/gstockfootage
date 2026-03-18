@@ -31,7 +31,7 @@
     </div>
 </div>
 
-
+<!-- 
 <script>
     CKEDITOR.replace('description');
-</script>
+</script> -->

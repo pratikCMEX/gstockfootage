@@ -1,3 +1,9 @@
+@php
+    $social_links = getSocialLinks();
+    
+    
+@endphp
+
 <footer class="site-footer">
     <div class="container">
 
@@ -15,21 +21,27 @@
                 </p>
 
                 <div class="social-links">
-                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="{{ $social_links->facebook_link }}"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-facebook h-4 w-4 text-muted-foreground">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                         </svg></a>
-                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="{{ $social_links->twitter_link }}">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-twitter h-4 w-4 text-muted-foreground">
                             <path
                                 d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
                             </path>
-                        </svg></a>
-                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        </svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M18.244 2H21.5l-7.5 8.57L22 22h-6.828l-5.34-6.978L3.5 22H.244l8.028-9.178L2 2h6.828l4.79 6.318L18.244 2zm-2.394 18h1.885L7.1 4H5.087l10.763 16z" />
+                        </svg>
+                    </a>
+                    <a href="{{ $social_links->instagram_link }}"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-instagram h-4 w-4 text-muted-foreground">
@@ -38,7 +50,7 @@
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
                         </svg></a>
-                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="{{ $social_links->linkedin_link }}"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-linkedin h-4 w-4 text-muted-foreground">
@@ -47,7 +59,7 @@
                             <rect width="4" height="12" x="2" y="9"></rect>
                             <circle cx="4" cy="4" r="2"></circle>
                         </svg></a>
-                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <a href="{{ $social_links->youtube_link }}"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-youtube h-4 w-4 text-muted-foreground">

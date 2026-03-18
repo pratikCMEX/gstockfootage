@@ -831,6 +831,7 @@ table td {
   opacity: 40%;
 }
 
+.no-file-selected.active .dropdown,
 .no-file-selected.active input,
 .no-file-selected.active .file-dropdown,
 .no-file-keywording.active textarea,
@@ -840,6 +841,7 @@ table td {
   color: var(--black);
 }
 
+.no-file-selected.active .dropdown,
 .no-file-selected.active .no-file-inputs .input-group input,
 .no-file-selected.active .no-file-inputs .input-group textarea,
 .no-file-selected.active .no-file-video-propertise .input-group input,
@@ -866,6 +868,55 @@ table td {
 
 .no-file-selected .file-dropdown {
   border: 1px solid var(--secendory);
+}
+
+
+.no-file-selected .dropdown .select2-container--default.select2-container--focus .select2-selection--single {
+  border: 1px solid var(--secendory) !important;
+}
+
+.no-file-selected .select2-container--default .select2-selection--single {
+  min-height: 44px !important;
+  border-radius: 6px !important;
+  height: auto !important;
+  padding: 12px 20px !important;
+}
+
+
+.no-file-selected .select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #ffffffe1;
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.no-file-selected .select2-container--default .select2-selection--single .select2-selection__rendered{
+    font-family: var(--font-inter-regular);
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.no-file-selected .select2-container--default .select2-selection--single{
+  border-color: hsl(0deg 0% 78.04%)  !important;
+}
+
+.no-file-selected .select2-container--default .select2-selection--single {
+  background-color: hsl(0deg 0% 78.04%) !important;
+  /* opacity: 40%; */
+  color: var(--white);
+}
+
+.no-file-selected.active .select2-container--default .select2-selection--single{
+  border-color: var(--secendory) !important;
+}
+
+.no-file-selected.active .select2-container--default .select2-selection--single {
+  background-color: #fff !important;
+  opacity: 100%;
+}
+
+.no-file-selected.active .select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: var(--black) !important;
 }
 
 .no-file-selected-title.btn {

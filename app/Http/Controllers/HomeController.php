@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutUs;
 use App\Models\Batch;
 use App\Models\BatchFile;
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\ContentMaster;
 use App\Models\Image;
 use App\Models\Order;
 use App\Models\Product;
@@ -59,9 +61,11 @@ class HomeController extends Controller
 
             ->limit(4)
             ->get();
-        // dd($product);
+
+            $content_master=ContentMaster::first();
+       
         $testimonials = Testimonials::where('is_active', '1')->get();
-        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials'));
+        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master'));
     }
     public function productDetail(string $id)
     {
@@ -246,31 +250,31 @@ class HomeController extends Controller
         $q = $request->get('q', '');
 
         if ($request->ajax()) {
-            $price_min       = $request->get('price_min', 0);
-            $price_max       = $request->get('price_max', $maxPrice);
-            $duration_min    = $request->get('duration_min', 0);
-            $duration_max    = $request->get('duration_max', $maxDuration);
-            $resolutions     = $request->get('resolution', []);
-            $frame_rates     = $request->get('frame_rate', []);
-            $orientations    = $request->get('orientation', []);
-            $license         = $request->get('license', '');
-            $camera_moves    = $request->get('camera_movement', []);
-            $with_people     = $request->get('with_people', '');
-            $sort            = $request->get('sort', 'relevant');
+            $price_min = $request->get('price_min', 0);
+            $price_max = $request->get('price_max', $maxPrice);
+            $duration_min = $request->get('duration_min', 0);
+            $duration_max = $request->get('duration_max', $maxDuration);
+            $resolutions = $request->get('resolution', []);
+            $frame_rates = $request->get('frame_rate', []);
+            $orientations = $request->get('orientation', []);
+            $license = $request->get('license', '');
+            $camera_moves = $request->get('camera_movement', []);
+            $with_people = $request->get('with_people', '');
+            $sort = $request->get('sort', 'relevant');
             $content_filters = $request->get('content_filters', []);
         } else {
             // Only filters reset — NOT q
-            $price_min       = 0;
-            $price_max       = $maxPrice;
-            $duration_min    = 0;
-            $duration_max    = $maxDuration;
-            $resolutions     = [];
-            $frame_rates     = [];
-            $orientations    = [];
-            $license         = '';
-            $camera_moves    = [];
-            $with_people     = '';
-            $sort            = 'relevant';
+            $price_min = 0;
+            $price_max = $maxPrice;
+            $duration_min = 0;
+            $duration_max = $maxDuration;
+            $resolutions = [];
+            $frame_rates = [];
+            $orientations = [];
+            $license = '';
+            $camera_moves = [];
+            $with_people = '';
+            $sort = 'relevant';
             $content_filters = [];
         }
         // ─────────────────────────────────────────────────────────────────────────
@@ -467,22 +471,24 @@ class HomeController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
-        $image  = $request->file('image');
+        $image = $request->file('image');
         $base64 = base64_encode(file_get_contents($image->getRealPath()));
 
         // ── Call Google Vision API ────────────────────────────────────────────────
-        $apiKey   = config('services.google_vision.key');
+        $apiKey = config('services.google_vision.key');
         $endpoint = "https://vision.googleapis.com/v1/images:annotate?key={$apiKey}";
 
         $response = Http::post($endpoint, [
-            'requests' => [[
-                'image'    => ['content' => $base64],
-                'features' => [
-                    ['type' => 'LABEL_DETECTION',    'maxResults' => 15],
-                    ['type' => 'LANDMARK_DETECTION', 'maxResults' => 5],
-                    ['type' => 'OBJECT_LOCALIZATION', 'maxResults' => 10],
-                ],
-            ]],
+            'requests' => [
+                [
+                    'image' => ['content' => $base64],
+                    'features' => [
+                        ['type' => 'LABEL_DETECTION', 'maxResults' => 15],
+                        ['type' => 'LANDMARK_DETECTION', 'maxResults' => 5],
+                        ['type' => 'OBJECT_LOCALIZATION', 'maxResults' => 10],
+                    ],
+                ]
+            ],
         ]);
 
         if ($response->failed()) {
@@ -500,7 +506,7 @@ class HomeController extends Controller
         );
 
         $landmarks = data_get($result, 'responses.0.landmarkAnnotations', []);
-        $keywords  = $keywords->merge(collect($landmarks)->pluck('description'));
+        $keywords = $keywords->merge(collect($landmarks)->pluck('description'));
 
         $objects = data_get($result, 'responses.0.localizedObjectAnnotations', []);
         $keywords = $keywords->merge(
@@ -713,8 +719,9 @@ class HomeController extends Controller
     {
         $title = 'About us';
         $page = 'front.about_us';
+        $about_us = AboutUs::first();
 
-        return view("layouts.front.layout", compact('title', 'page'));
+        return view("layouts.front.layout", compact('title', 'page', 'about_us'));
     }
 
     // public function homeSearch(Request $request)
@@ -758,7 +765,7 @@ class HomeController extends Controller
     {
 
         $search = $request->get('search', '');
-        $type   = $request->get('type', 'all');
+        $type = $request->get('type', 'all');
 
         $query = BatchFile::query()
             ->with(['category', 'collection'])

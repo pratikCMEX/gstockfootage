@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -11,8 +12,9 @@ class BlogController extends Controller
         $title = 'Blog';
         $page = 'front.blog.listing';
         $js = ['home'];
-
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
+        $blogs=Blog::orderBy('id','desc')->get();
+       
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'blogs'));
     }
 
     public function blog_detail()
@@ -21,6 +23,8 @@ class BlogController extends Controller
         $page = 'front.blog.blog_detail';
         $js = ['home'];
 
-        return view("layouts.front.layout", compact('title', 'page', 'js'));
+        $blog_detail=Blog::find(decrypt(request()->id));
+
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'blog_detail'));
     }
 }

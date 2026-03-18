@@ -1,3 +1,7 @@
+<style>
+
+</style>
+
 <div class="body-wrapper-inner">
     <div class="container-fluid">
 
@@ -33,8 +37,8 @@
 
                             {{-- ================= CATEGORY ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Category</label><label class="text-danger">*</label>
-                                <select class="form-select" name="category" id="category">
+                                <label class="form-label ">Category</label><label class="text-danger">*</label>
+                                <select class="form-select searchable" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
@@ -43,15 +47,15 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">SubCategory</label>
-                                <select class="form-select" name="subcategory" id="subcategory">
+                                <label class="form-label ">SubCategory</label>
+                                <select class="form-select searchable" name="subcategory" id="subcategory">
                                     <option value="">Choose SubCategory...</option>
                                 </select>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Collection</label>
-                                <select class="form-select" name="collection" id="collection">
+                                <label class="form-label ">Collection</label>
+                                <select class="form-select searchable" name="collection" id="collection">
                                     <option value="">Choose Collection...</option>
                                     @foreach ($collections as $coll)
                                         <option value="{{ $coll->id }}">{{ $coll->name }}</option>

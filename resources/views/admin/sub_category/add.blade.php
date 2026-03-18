@@ -12,13 +12,13 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label><label class="text-danger">*</label>
-                                <select class="form-select mr-sm-2" name="category" id="category">
+                                <select class="form-select searchable mr-sm-2" name="category" id="category">
                                     <option value="">Choose Category...</option>
                                     @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div>  
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">SubCategory Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="exampleInputEmail1"
