@@ -25,7 +25,7 @@
                                     <div class="cart-product">
                                         <div class="cart-product-img">
                                             @if ($cartItem['type'] == 'image')
-                                                <img src="{{ Storage::disk('s3')->url($cartItem['low_path']) }}"
+                                                <img src="{{ Storage::disk('s3')->url($cartItem['mid_path']) }}"
                                                     class="h-100 w-100" alt="">
                                             @else
                                                 <img src="{{ Storage::disk('s3')->url($cartItem['thumbnail_path']) }}"
