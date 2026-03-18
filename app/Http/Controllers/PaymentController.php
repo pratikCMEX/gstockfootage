@@ -515,26 +515,40 @@ class PaymentController extends Controller
             abort(404, 'File not found');
         }
 
-        // Build S3 client directly to generate URL with forced download headers
-        // This tells S3 itself to send Content-Disposition: attachment
-        // so the browser downloads it — no PHP streaming involved at all
+        // Close all output buffers — this was the root cause of corruption
+        // Laravel/PHP output buffering was adding extra bytes to binary stream
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Get file directly from S3 using AWS SDK
         $s3Client = \Storage::disk('s3')->getClient();
         $bucket   = config('filesystems.disks.s3.bucket');
 
-        $cmd = $s3Client->getCommand('GetObject', [
-            'Bucket'                     => $bucket,
-            'Key'                        => $file->file_path,
-            'ResponseContentDisposition' => 'attachment; filename="' . $file->file_name . '"',
-            'ResponseContentType'        => 'application/octet-stream',
+        $result   = $s3Client->getObject([
+            'Bucket' => $bucket,
+            'Key'    => $file->file_path,
         ]);
 
-        // Pre-signed URL valid for 5 minutes
-        $presignedRequest = $s3Client->createPresignedRequest($cmd, '+5 minutes');
-        $presignedUrl     = (string) $presignedRequest->getUri();
+        $body     = $result['Body'];
+        $fileSize = $result['ContentLength'];
+        $fileName = $file->file_name;
 
-        // Redirect browser to pre-signed URL
-        // S3 serves the file directly with download headers — zero PHP involvement
-        return redirect()->away($presignedUrl);
+        // Send headers manually — bypasses Laravel response wrapper entirely
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Length: ' . $fileSize);
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        // Stream in chunks directly to browser output
+        $body->rewind();
+        while (!$body->eof()) {
+            echo $body->read(1024 * 256); // 256KB chunks
+        }
+
+        exit; // prevent Laravel adding anything after the stream
     }
     public function handleWebhook(Request $request)
     {
