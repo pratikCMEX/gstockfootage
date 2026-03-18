@@ -361,7 +361,7 @@
             const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
-            a.target = '_blank'; // open in new tab — success page stays visible
+            a.target = '_blank';
             a.style.display = 'none';
             document.body.appendChild(a);
             a.click();

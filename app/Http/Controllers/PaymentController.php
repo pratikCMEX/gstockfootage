@@ -481,6 +481,50 @@ class PaymentController extends Controller
 
     public function downloadFile(Request $request)
     {
+        // -------------------------------------------------------
+        // PATH 1: Subscription download (already working)
+        // Called with ?path=...&name=...
+        // -------------------------------------------------------
+        if ($request->has('path')) {
+
+            $filePath = $request->query('path');
+            $fileName = $request->query('name');
+
+            // Close output buffers to prevent corruption
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            $s3Client = \Storage::disk('s3')->getClient();
+            $bucket   = config('filesystems.disks.s3.bucket');
+
+            $result   = $s3Client->getObject([
+                'Bucket' => $bucket,
+                'Key'    => $filePath,
+            ]);
+
+            $body     = $result['Body'];
+            $fileSize = $result['ContentLength'];
+
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Content-Length: ' . $fileSize);
+            header('Cache-Control: no-cache, no-store, must-revalidate');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+
+            $body->rewind();
+            while (!$body->eof()) {
+                echo $body->read(1024 * 256);
+            }
+
+            exit;
+        }
+
+        // -------------------------------------------------------
+        // PATH 2: Stripe payment download
+        // Called with ?sid=...&fid=...
+        // -------------------------------------------------------
         $sessionId = $request->query('sid');
         $fileId    = $request->query('fid');
 
@@ -515,14 +559,12 @@ class PaymentController extends Controller
             abort(404, 'File not found');
         }
 
-        // Close all output buffers — this was the root cause of corruption
-        // Laravel/PHP output buffering was adding extra bytes to binary stream
+        // Close output buffers — prevents binary stream corruption
         while (ob_get_level()) {
             ob_end_clean();
         }
 
-        // Get file directly from S3 using AWS SDK
-        $s3Client = \Storage::disk('s3')->getClient();
+        $s3Client = Storage::disk('s3')->getClient();
         $bucket   = config('filesystems.disks.s3.bucket');
 
         $result   = $s3Client->getObject([
@@ -534,7 +576,6 @@ class PaymentController extends Controller
         $fileSize = $result['ContentLength'];
         $fileName = $file->file_name;
 
-        // Send headers manually — bypasses Laravel response wrapper entirely
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $fileName . '"');
         header('Content-Length: ' . $fileSize);
@@ -542,13 +583,12 @@ class PaymentController extends Controller
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        // Stream in chunks directly to browser output
         $body->rewind();
         while (!$body->eof()) {
-            echo $body->read(1024 * 256); // 256KB chunks
+            echo $body->read(1024 * 256);
         }
 
-        exit; // prevent Laravel adding anything after the stream
+        exit;
     }
     public function handleWebhook(Request $request)
     {
@@ -689,10 +729,7 @@ class PaymentController extends Controller
         $sessionId = $request->input('session_id');
 
         if (!$sessionId) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Missing session ID'
-            ], 400);
+            return response()->json(['status' => 'error', 'message' => 'Missing session ID'], 400);
         }
 
         $order = Order::where('stripe_session_id', $sessionId)
@@ -716,12 +753,10 @@ class PaymentController extends Controller
                 $files[] = [
                     'file_name'    => $file->file_name,
 
-                    // CHANGED: use Laravel download route instead of direct S3 URL
-                    // This avoids CORS and forces browser download
-                    'download_url' => route('download.file', [
-                        'sid' => $sessionId,   // to verify order ownership
-                        'fid' => $file->id,    // to identify the file
-                    ]),
+                    // Use same URL format as subscription — already proven to work
+                    'download_url' => url('/download/file')
+                        . '?path=' . urlencode($file->file_path)
+                        . '&name=' . urlencode($file->file_name),
                 ];
             }
         }
