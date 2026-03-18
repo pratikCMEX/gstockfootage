@@ -358,12 +358,10 @@
 
         // REPLACE with this:
         function triggerBrowserDownload(url, fileName) {
-            // URL is now your own Laravel route — no CORS issue
-            // Browser hits /download/file which streams S3 file as forced download
             const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
-            a.target = '_blank'; // open in new tab — prevents page navigation
+            a.target = '_blank'; // open in new tab — success page stays visible
             a.style.display = 'none';
             document.body.appendChild(a);
             a.click();

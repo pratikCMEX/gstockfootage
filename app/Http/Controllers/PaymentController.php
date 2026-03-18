@@ -515,30 +515,26 @@ class PaymentController extends Controller
             abort(404, 'File not found');
         }
 
-        // Read file from S3 as a stream — efficient, no full memory load
-        $stream = \Storage::disk('s3')->readStream($file->file_path);
+        // Build S3 client directly to generate URL with forced download headers
+        // This tells S3 itself to send Content-Disposition: attachment
+        // so the browser downloads it — no PHP streaming involved at all
+        $s3Client = \Storage::disk('s3')->getClient();
+        $bucket   = config('filesystems.disks.s3.bucket');
 
-        $fileName = $file->file_name;
-        $fileSize = \Storage::disk('s3')->size($file->file_path);
-
-        // Stream directly to browser with forced download headers
-        return response()->stream(function () use ($stream) {
-            // Flush in chunks — handles large files without memory issues
-            while (!feof($stream)) {
-                echo fread($stream, 1024 * 256); // 256KB chunks
-                flush();
-                ob_flush();
-            }
-            fclose($stream);
-        }, 200, [
-            'Content-Type'              => 'application/octet-stream', // forces download always
-            'Content-Disposition'       => 'attachment; filename="' . $fileName . '"',
-            'Content-Length'            => $fileSize,
-            'Cache-Control'             => 'no-cache, no-store, must-revalidate',
-            'Pragma'                    => 'no-cache',
-            'Expires'                   => '0',
-            'X-Accel-Buffering'         => 'no', // disable nginx buffering for streams
+        $cmd = $s3Client->getCommand('GetObject', [
+            'Bucket'                     => $bucket,
+            'Key'                        => $file->file_path,
+            'ResponseContentDisposition' => 'attachment; filename="' . $file->file_name . '"',
+            'ResponseContentType'        => 'application/octet-stream',
         ]);
+
+        // Pre-signed URL valid for 5 minutes
+        $presignedRequest = $s3Client->createPresignedRequest($cmd, '+5 minutes');
+        $presignedUrl     = (string) $presignedRequest->getUri();
+
+        // Redirect browser to pre-signed URL
+        // S3 serves the file directly with download headers — zero PHP involvement
+        return redirect()->away($presignedUrl);
     }
     public function handleWebhook(Request $request)
     {
