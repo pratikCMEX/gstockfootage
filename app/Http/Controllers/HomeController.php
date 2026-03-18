@@ -104,6 +104,7 @@ class HomeController extends Controller
             if ($product->type == "image") {
                 $data['file_url'] = Storage::disk('s3')->url($product->file_path);
                 $data['low_path'] = Storage::disk('s3')->url($product->low_path);
+                $data['mid_path'] = Storage::disk('s3')->url($product->mid_path);
                 $data['resolution'] = $product->width . ' x ' . $product->height;
                 $data['file_size'] = formatFileSize((int) $product->file_size);
             }
@@ -116,6 +117,9 @@ class HomeController extends Controller
 
                 $data['low_path'] = $product->low_path
                     ? Storage::disk('s3')->url($product->low_path)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+                $data['mid_path'] = $product->mid_path
+                    ? Storage::disk('s3')->url($product->mid_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $data['preview_path'] = $product->preview_path

@@ -69,7 +69,7 @@
                             <div class="big-slide-img">
                                 @if ($data['type'] == 'video')
                                     <video class="h-100 w-100" autoplay controls="true">
-                                        <source src="{{ $data['preview_path'] }}">
+                                        <source src="{{ $data['mid_path'] }}">
 
                                         {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
                                         {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
@@ -79,7 +79,7 @@
                                         style="background-image: url({{ $data['thumbnail'] }})">
                                     </div>
                                 @else
-                                    <img src=" {{ $data['file_url'] }}" class="h-100 w-100" alt="">
+                                    <img src=" {{ $data['mid_path'] }}" class="h-100 w-100" alt="">
                                     <div class="big-slide-img-overlay"
                                         style="background-image: url({{ $data['low_path'] }})">
                                     </div>
