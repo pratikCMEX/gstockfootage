@@ -29,9 +29,9 @@
                                                 @endif --}}
 
                                                 @if ($item->product->type == 'image')
-                                                    <img src="{{ Storage::disk('s3')->url($item->product->low_path) }}"
+                                                    <img src="{{ Storage::disk('s3')->url($item->product->mid_path) }}"
                                                         class="h-100 w-100"
-                                                        alt="{{ Storage::disk('s3')->url($item->product->low_path) }}">
+                                                        alt="{{ Storage::disk('s3')->url($item->product->mid_path) }}">
                                                 @else
                                                     @if ($item->product->thumbnail_path == null)
                                                         <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"

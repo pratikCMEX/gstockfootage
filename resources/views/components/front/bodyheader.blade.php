@@ -126,9 +126,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    <a href="{{ route('logout') }}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
@@ -237,7 +237,7 @@
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         @if ($item['type'] == 'image')
-                            <img src="{{ Storage::disk('s3')->url($item['low_path']) }}" class="h-100 w-100"
+                            <img src="{{ Storage::disk('s3')->url($item['mid_path']) }}" class="h-100 w-100"
                                 alt="">
                         @else
                             <img src="{{ Storage::disk('s3')->url($item['thumbnail_path']) }}" class="h-100 w-100"
