@@ -118,12 +118,16 @@ class HomeController extends Controller
                     ? Storage::disk('s3')->url($product->low_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
+                $data['preview_path'] = $product->preview_path
+                    ? Storage::disk('s3')->url($product->preview_path)
+                    : asset('assets/admin/images/demo_thumbnail.png');
+
                 $data['thumbnail'] = $product->thumbnail_path
                     ? Storage::disk('s3')->url($product->thumbnail_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $data['resolution'] = 'HD Video';
-                $data['file_size'] = 'Video File';
+                $data['file_size'] = formatFileSize((int) $product->file_size);
             }
 
             // dd($data);

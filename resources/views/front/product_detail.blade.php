@@ -61,14 +61,15 @@
                     </div> --}}
                     <div class="big-product-img">
                         <a class=" addFavorite" data-Product-id="{{ $data['id'] }}" data-type="{{ $data['type'] }}">
-                            <i class="detailFavorite bi {{ $data['is_favorite'] == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i></a>
+                            <i
+                                class="detailFavorite bi {{ $data['is_favorite'] == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i></a>
                         <div class="swiper frontproduct">
                             {{-- <div class="swiper-wrapper">
                                 <div class="swiper-slide"> --}}
                             <div class="big-slide-img">
                                 @if ($data['type'] == 'video')
                                     <video class="h-100 w-100" autoplay controls="true">
-                                        <source src="{{ $data['file_url'] }}">
+                                        <source src="{{ $data['preview_path'] }}">
 
                                         {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
                                         {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
