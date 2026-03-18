@@ -1,6 +1,6 @@
 @php
-    $perImage = getHighProductQualityPrice();
-    // dd($perImage);
+$perImage = getHighProductQualityPrice();
+// dd($perImage);
 @endphp
 <section class="product-detail">
     <div class="container-fluid">
@@ -14,7 +14,7 @@
                         </ol>
                     </nav>
                 </div> -->
-            <div class="col-xl-8 col-lg-8 col-md-12 col-12">
+            <div class="col-xl-8 col-lg-12 col-md-12 col-12">
                 <div class="product-detail-img">
                     {{-- <div class="small-product-img">
                         <div thumbsSlider="" class="swiper sideproduct">
@@ -67,21 +67,21 @@
                                 <div class="swiper-slide"> --}}
                             <div class="big-slide-img">
                                 @if ($data['type'] == 'video')
-                                    <video class="h-100 w-100" autoplay controls="true">
-                                        <source src="{{ $data['file_url'] }}">
+                                <video class="h-100 w-100" autoplay controls="true">
+                                    <source src="{{ $data['file_url'] }}">
 
-                                        {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
-                                        {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
-                                        {{-- <source src="{{ Storage::disk('s3')->url($data['low_path']) }}"> --}}
-                                    </video>
-                                    <div class="big-slide-img-overlay"
-                                        style="background-image: url({{ $data['thumbnail'] }})">
-                                    </div>
+                                    {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
+                                    {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
+                                    {{-- <source src="{{ Storage::disk('s3')->url($data['low_path']) }}"> --}}
+                                </video>
+                                <div class="big-slide-img-overlay"
+                                    style="background-image: url({{ $data['thumbnail'] }})">
+                                </div>
                                 @else
-                                    <img src=" {{ $data['file_url'] }}" class="h-100 w-100" alt="">
-                                    <div class="big-slide-img-overlay"
-                                        style="background-image: url({{ $data['low_path'] }})">
-                                    </div>
+                                <img src=" {{ $data['file_url'] }}" class="h-100 w-100" alt="">
+                                <div class="big-slide-img-overlay"
+                                    style="background-image: url({{ $data['low_path'] }})">
+                                </div>
                                 @endif
                                 {{-- {{ dd($data['thumbnail']) }} --}}
 
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-12 col-12">
+            <div class="col-xl-4 col-lg-8 col-md-12 col-12">
                 <div class="product-detail-content">
                     <div class="product-detail-title">
                         <h4>{{ $data['title'] }}</h4>
@@ -114,8 +114,8 @@
                             </div>
                             {{-- <button type="button" class="btn-orange btn add_to_cart"
                                 onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
-                                to
-                                Cart</button> --}}
+                            to
+                            Cart</button> --}}
 
                             <button type="button"
                                 class="btn add_to_cart {{ isInCart($data['id']) ? 'btn-success already-added' : 'btn-orange' }}"
@@ -136,8 +136,8 @@
                             </div>
                             {{-- <button type="button" class="btn-orange btn add_to_cart"
                                 onclick="addToCart({{ $data['id'] }}, this)"> <i class="bi bi-cart2"></i> Add
-                                to
-                                Cart</button> --}}
+                            to
+                            Cart</button> --}}
                             <button type="button"
                                 class="btn add_to_cart {{ isInCart($data['id']) ? 'btn-success already-added' : 'btn-orange' }}"
                                 {{ isInCart($data['id']) ? 'disabled' : '' }}
@@ -210,58 +210,58 @@
             <div class="swiper-wrapper">
 
                 @foreach ($productDatas as $data)
-                    <div class="swiper-slide">
-                        <a href="{{ route('product.detail', encrypt($data->id)) }}">
-                            <div class="product-card">
+                <div class="swiper-slide">
+                    <a href="{{ route('product.detail', encrypt($data->id)) }}">
+                        <div class="product-card">
 
 
-                                @if ($data->type == 'image')
-                                    <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img"
-                                        alt="">
-                                @else
-                                    @if ($data->thumbnail_path == null)
-                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                            class="product-img" alt="">
-                                    @else
-                                        <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}"
-                                            class="product-img" alt="">
-                                    @endif
-                                @endif
+                            @if ($data->type == 'image')
+                            <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img"
+                                alt="">
+                            @else
+                            @if ($data->thumbnail_path == null)
+                            <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                class="product-img" alt="">
+                            @else
+                            <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}"
+                                class="product-img" alt="">
+                            @endif
+                            @endif
 
-                                {{-- <img
+                            {{-- <img
                                     src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
-                                    class="product-img" alt=""> --}}
+                            class="product-img" alt=""> --}}
 
-                                <div class="p-3">
+                            <div class="p-3">
 
-                                    <span class="badge badge-custom mb-2">{{ $data->category->category_name }}</span>
+                                <span class="badge badge-custom mb-2">{{ $data->category->category_name }}</span>
 
-                                    <h6 class="popular-detail-title">{{ $data->title }}</h6>
+                                <h6 class="popular-detail-title">{{ $data->title }}</h6>
 
 
-                                    <div class="price-btn">
-                                        <span class="price">${{ $data->price }}</span>
-                                        {{-- <button class="btn  btn-orange">Add</button> --}}
-                                    </div>
-                                    <div class="product-two-btn">
-                                        <button class="btn  popular-icon-btn addFavorite "
-                                            data-Product-id="{{ $data->id }}" data-type="{{ $data->type }}">
-                                            <i
-                                                class="bi {{ $data->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                            {{ $data->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
-                                        <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" fill="currentColor"
-                                                class="bi bi-share" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                            </svg>
-                                            Share</button>
-                                    </div>
-
+                                <div class="price-btn">
+                                    <span class="price">${{ $data->price }}</span>
+                                    {{-- <button class="btn  btn-orange">Add</button> --}}
                                 </div>
+                                <div class="product-two-btn">
+                                    <button class="btn  popular-icon-btn addFavorite "
+                                        data-Product-id="{{ $data->id }}" data-type="{{ $data->type }}">
+                                        <i
+                                            class="bi {{ $data->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                        {{ $data->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
+                                    <button class="btn  popular-icon-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                            width="16" height="16" fill="currentColor"
+                                            class="bi bi-share" viewBox="0 0 16 16">
+                                            <path
+                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                        </svg>
+                                        Share</button>
+                                </div>
+
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
+                </div>
                 @endforeach
 
 

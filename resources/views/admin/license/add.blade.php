@@ -64,7 +64,7 @@
                                             <input type="text" name="description[]" class="form-control description"
                                                 placeholder="Enter description point">
 
-                                            <button type="button" class="btn btn-license" id="add" style="width: 120px;">
+                                            <button type="button" class="btn btn-primary" id="add" style="width: 120px;">
                                                 + Add More
                                             </button>
                                         </div>

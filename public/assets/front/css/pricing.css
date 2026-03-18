@@ -36,11 +36,12 @@
   position: relative;
   transform: scale(1.02);
 }
-
-.popular-badge {
+.popular-pricing-badge {
   position: absolute;
   top: 18px;
   right: 18px;
+}
+.popular-badge {
   background: var(--primary);
   color: var(--white);
   padding: 3px 15px;

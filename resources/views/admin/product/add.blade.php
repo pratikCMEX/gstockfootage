@@ -89,13 +89,13 @@
                             <div class="mb-3">
                                 <label class="form-label">Upload File</label>
                                 <input class="form-control" type="file" name="file" id="fileInput">
+                                <div class="mt-2 ">
+                                    <img id="preview_image" class="img-fluid rounded"
+                                        style="max-height:200px;display:none;">
+                                    <video id="preview_video" width="300" controls style="display:none;"></video>
+                                </div>
                             </div>
 
-                            <div class="mt-2">
-                                <img id="preview_image" class="img-fluid rounded"
-                                    style="max-height:200px;display:none;">
-                                <video id="preview_video" width="300" controls style="display:none;"></video>
-                            </div>
 
                             <button type="submit" class="btn btn-orange">Save Product</button>
 

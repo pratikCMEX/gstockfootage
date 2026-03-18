@@ -466,16 +466,19 @@ div.dataTables_processing > div:last-child > div {
 .table-bordered {
   border: none;
 }
-#all-products-table th,
-#all-products-table td,
-#priority-table th,
-#priority-table td {
+table,
+table thead,
+table tbody,
+table th,
+table td {
   border: none !important;
 }
-
-#all-products-table,
-#priority-table {
-  border: none !important;
+table.dataTable > thead > tr > th,
+table.dataTable > thead > tr > td {
+  text-align: center;
+}
+table tbody td .form-check {
+  display: inline-block !important;
 }
 .product-img-video {
   height: 100px;
@@ -489,19 +492,46 @@ div.dataTables_processing > div:last-child > div {
   height: 781px;
 }
 
-#products-table,
-#products-table th,
-#products-table td {
-  border: none !important;
-}
-
-#products-table thead {
-  border-bottom: none !important;
-}
-
-#products-table tbody tr {
-  border-bottom: none !important;
-}
 .card-title {
   color: var(--text);
+}
+#priority-table thead tr th:first-child,
+#all-products-table thead tr th:first-child {
+  width: 30px !important;
+}
+#testimonials-table thead tr th:first-child,
+#contactus-table thead tr th:first-child,
+#subscriptionplan-table thead tr th:first-child,
+#license-table thead tr th:first-child,
+#users-table thead tr th:first-child,
+#products-table thead tr th:first-child,
+#subcategory-table thead tr th:first-child,
+#collection-table thead tr th:first-child,
+#category-table thead tr th:first-child {
+  width: 20px !important;
+}
+#license-table thead tr th:nth-child(5),
+#license-table thead tr th:nth-child(6),
+#license-table thead tr th:nth-child(7),
+#license-table thead tr th:nth-child(2) {
+  width: 50px !important;
+}
+#testimonials-table thead tr th:nth-child(7),
+#category-table thead tr th:nth-child(4) {
+  width: 80px !important;
+}
+#users-table thead tr th:last-child,
+#products-table thead tr th:last-child,
+#subcategory-table thead tr th:last-child,
+#category-table thead tr th:last-child,
+#collection-table thead tr th:last-child {
+  width: 80px !important;
+}
+#contactus-table tbody tr td:last-child .d-flex,
+#users-table tbody tr td:last-child .d-flex,
+#products-table tbody tr td:last-child .d-flex,
+#subcategory-table tbody tr td:last-child .d-flex,
+#collection-table tbody tr td:last-child .d-flex,
+#category-table tbody tr td:last-child .d-flex {
+  justify-content: center !important;
 }

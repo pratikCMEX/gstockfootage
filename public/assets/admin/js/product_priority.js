@@ -4,7 +4,7 @@ $(document).ready(function () {
   filterProducts();
   updateAllProductSrNo();
   toggleMoveButtons();
- 
+
 
   function filterProducts() {
 
@@ -123,7 +123,7 @@ $(document).ready(function () {
     });
 
   }
- 
+
   function updateAllProductSrNo() {
 
     let count = 1;
@@ -158,7 +158,7 @@ $(document).ready(function () {
 
   });
 
- 
+
   $(document).on('change', 'input[name="selectPriority"]', function () {
 
     let total = $('#all-products tr:visible')
@@ -172,7 +172,7 @@ $(document).ready(function () {
     toggleMoveButtons();
   });
 
-  
+
   $(document).on('change', '.priorityCheck', function () {
 
     let total = $('#priority-products tr:visible').find('.priorityCheck').length;
@@ -204,7 +204,7 @@ $(document).ready(function () {
       $('#MoveToAllProducts').addClass('d-none');
     }
   }
- 
+
 
 
   /* MOVE TO PRIORITY BUTTON */
