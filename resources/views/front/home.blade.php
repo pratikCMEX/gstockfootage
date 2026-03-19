@@ -218,7 +218,7 @@
                 <ul class="nav custom-tabs mb-3">
                     <li class="nav-item">
                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#selected">
-                            Selected content
+                            Latest content
                         </button>
                     </li>
                     <li class="nav-item">
@@ -359,18 +359,15 @@
                                                 <div class="price-btn">
                                                     <span class="price">${{ $pro->price }}</span>
                                                     <button class="btn  btn-orange">Add</button>
+
                                                 </div>
                                                 <div class="product-two-btn">
                                                     <button type="button" data-Product-id="{{ $pro->id }}"
                                                         data-type="{{ $pro->type }}"
                                                         class="btn  popular-icon-btn addFavorite">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" fill="currentColor" class="bi bi-heart"
-                                                            viewBox="0 0 16 16">
-                                                            <path
-                                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                        </svg>
-                                                        Save</button>
+                                                        <i
+                                                            class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                                        {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
 
 
                                                     <button class="btn  popular-icon-btn"><svg
@@ -384,24 +381,48 @@
                                                 </div>
 
                                             </div>
-                                        </div>
-                                    </a>
+                                            <div class="product-two-btn">
+                                                <button type="button" data-Product-id="{{ $pro->id }}"
+                                                    data-type="{{ $pro->type }}"
+                                                    class="btn  popular-icon-btn addFavorite">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-heart"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                    </svg>
+                                                    Save</button>
 
+
+                                                <button class="btn  popular-icon-btn"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-share"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                    Share</button>
+                                            </div>
+
+                                        </div>
                                 </div>
-                            @endforeach
-                        @endif
+                                </a>
+
                     </div>
+                    @endforeach
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-12 text-center">
-            <a href="{{ route('all_photos') }}" class="brows-btn">Browse all content <svg
-                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-chevron-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg></a>
-        </div>
+    </div>
+    <div class="col-12 text-center">
+        <a href="{{ route('all_photos') }}" class="brows-btn">Browse all content <svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+            </svg></a>
+    </div>
     </div>
     </div>
 </section>

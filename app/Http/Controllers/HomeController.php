@@ -69,12 +69,22 @@ class HomeController extends Controller
         $blogs = Blog::limit(3)->orderBy('id', 'desc')->get();
 
         $popularProducts = BatchFile::with('category')
+            ->withCount([
+                'favorites as is_favorite' => function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                }
+            ])
             ->where('is_edited', '1')
             ->orderBy('views', 'desc')
             ->limit(4)
             ->get();
 
         $latestProducts = BatchFile::with('category')
+            ->withCount([
+                'favorites as is_favorite' => function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                }
+            ])
             ->where('is_edited', '1')
             ->orderBy('id', 'desc')
             ->limit(4)
@@ -317,6 +327,11 @@ class HomeController extends Controller
         $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
+        $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+        
+        $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
+
+
         $query = BatchFile::with(['category'])
             ->where('type', 'video')
             ->where('is_edited', '1')
@@ -513,7 +528,9 @@ class HomeController extends Controller
             'with_people',
             'sort',
             'tags',
-            'trendingTags'
+            'trendingTags',
+            'selectedCategory',
+            'selectedCollection'
         ));
     }
 
@@ -746,6 +763,7 @@ class HomeController extends Controller
         $allPhotos = $query->get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+        
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
         $trendingTags = BatchFile::where('is_edited', '1')

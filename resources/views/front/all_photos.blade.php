@@ -176,7 +176,15 @@
                 <div class="col-12">
                     <div class="heading ">
                         <h2>
-                            Photos that are <span class="yellow-headings"> trending today</span>
+                            Photos that are <span class="yellow-headings"> 
+                                @if(!empty($selectedCollection)) 
+                              from  {{ $selectedCollection->name }} Collection
+                              @elseif(!empty($selectedCategory))
+                              from  {{ $selectedCategory->category_name }} Category
+                              @else
+                                 trending today
+                                  @endif
+                                </span>
                         </h2>
                         <p>Showing {{ count($allPhotos) }} photos</p>
                     </div>

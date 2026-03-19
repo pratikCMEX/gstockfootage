@@ -174,7 +174,15 @@
             <div class="col-12">
                 <div class="heading ">
                     <h2>
-                        Videos that are<span class="yellow-headings"> trending today</span>
+                        Videos that are<span class="yellow-headings"> 
+                      @if(!empty($selectedCollection)) 
+                              from  {{ $selectedCollection->name }} Collection
+                              @elseif(!empty($selectedCategory))
+                              from  {{ $selectedCategory->category_name }} Category
+                              @else
+                                 trending today
+                                  @endif       
+                    </span>
                     </h2>
                 </div>
             </div>
