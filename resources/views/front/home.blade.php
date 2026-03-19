@@ -72,8 +72,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <form action="{{ route('photos.searchByImage') }}" method="POST" enctype="multipart/form-data">
@@ -189,8 +188,7 @@
                             <div class="fingertips-content">
                                 <div class="fingertips-img">
                                     <img loading="lazy" height="100%" width="100%"
-                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}"
-                                        alt="">
+                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}" alt="">
                                 </div>
                                 <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
                             </div>
@@ -230,8 +228,8 @@
                         class="btn btn-sm"><i class="bi bi-search"></i> Jerusalem views</a>
                     <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
-                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Golden hour</a>
+                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}" class="btn btn-sm"><i
+                            class="bi bi-search"></i> Golden hour</a>
                     <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
                         class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
                     <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
@@ -253,16 +251,14 @@
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
                                                 <img loading="lazy"
-                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) :'' }}"
+                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
                                                     class="product-img" alt="">
                                             @else
                                                 @if ($pro->thumbnail_path == null)
-                                                    <img loading="lazy"
-                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                    <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img loading="lazy"
-                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
                                                         class="product-img" alt="">
                                                 @endif
                                             @endif
@@ -289,9 +285,8 @@
 
 
                                                     <button class="btn  popular-icon-btn"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" fill="currentColor" class="bi bi-share"
-                                                            viewBox="0 0 16 16">
+                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                                                             <path
                                                                 d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                                         </svg>
@@ -309,8 +304,8 @@
                                 <a href="product-detail.html">
                                     <div class="product-card">
 
-                                        <img loading="lazy" src="{{ asset('assets/front/img/posibility_3.webp') }}" class="product-img"
-                                            alt="Punjabi Dum Aloo">
+                                        <img loading="lazy" src="{{ asset('assets/front/img/posibility_3.webp') }}"
+                                            class="product-img" alt="Punjabi Dum Aloo">
 
                                         <div class="p-3">
 
@@ -349,7 +344,8 @@
                                 <a href="product-detail.html">
                                     <div class="product-card">
 
-                                        <img loading="lazy" src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
+                                        <img loading="lazy"
+                                            src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
                                             class="product-img" alt="">
                                         <div class="p-3">
 
@@ -388,7 +384,8 @@
                                 <a href="product-detail.html">
                                     <div class="product-card">
 
-                                        <img loading="lazy" src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
+                                        <img loading="lazy"
+                                            src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
                                             class="product-img" alt="">
 
                                         <div class="p-3">
@@ -435,16 +432,14 @@
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
                                                 <img loading="lazy"
-                                                    src="{{ $pro->mid_path ?Storage::disk('s3')->url($pro->mid_path) :'' }}"
+                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
                                                     class="product-img" alt="">
                                             @else
                                                 @if ($pro->thumbnail_path == null)
-                                                    <img loading="lazy"
-                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                    <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img loading="lazy"
-                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
                                                         class="product-img" alt="">
                                                 @endif
                                             @endif
@@ -465,9 +460,8 @@
                                                     <button type="button" data-Product-id="{{ $pro->id }}"
                                                         data-type="{{ $pro->type }}"
                                                         class="btn  popular-icon-btn addFavorite">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" fill="currentColor" class="bi bi-heart"
-                                                            viewBox="0 0 16 16">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                                             <path
                                                                 d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
                                                         </svg>
@@ -475,9 +469,8 @@
 
 
                                                     <button class="btn  popular-icon-btn"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" fill="currentColor" class="bi bi-share"
-                                                            viewBox="0 0 16 16">
+                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                                                             <path
                                                                 d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                                                         </svg>
@@ -710,31 +703,33 @@
     <div class="container ">
         <div class="row g-4 align-items-center">
 
+        @if(!empty($content_master))
             <div class="col-lg-5">
                 <div class="heading">
                     <h2 class="section-title ">
-                         <span class="yellow-headings">{{ $content_master->title }}</span>
+                        <span class="yellow-headings">{{ $content_master->title }}</span>
                     </h2>
                 </div>
 
                 <p class="trusted-subtitle">
-                   {{ $content_master->sub_title }}
+                    {{ $content_master->sub_title }}
                 </p>
 
-             @foreach($content_master->content as $section)
-    <div class="feature-item">
-        <div class="">
-            <img src="{{ asset('uploads/images/content_master/'.$section['image']) }}" 
-                 width="24" height="24" style="object-fit:cover;">
-        </div>
+                @foreach($content_master->content as $section)
+                    <div class="feature-item">
+                        <div class="">
+                            <img src="{{ asset('uploads/images/content_master/' . $section['image']) }}" width="24"
+                                height="24" style="object-fit:cover;">
+                        </div>
 
-        <div>
-            <h6>{{ $section['title'] }}</h6>
-            <p>{{ $section['sub_title'] }}</p>
-        </div>
-    </div>
-@endforeach
+                        <div>
+                            <h6>{{ $section['title'] }}</h6>
+                            <p>{{ $section['sub_title'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
 
+               
                 <!-- <div class="feature-item">
                     <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
@@ -787,15 +782,16 @@
                         Contact Us
                     </a>
                 </div>
+                 @endif
             </div>
 
             <div class="col-lg-7">
                 @if ($testimonials->isNotEmpty())
                     @foreach ($testimonials as $testimonial)
                         <div class="testimonial-card">
-                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-quote h-8 w-8 text-primary/30 ">
                                     <path
                                         d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
@@ -863,54 +859,61 @@
     </div>
 </section>
 
-<!-- <section class="blog">
+<section class="blog">
     <div class="container">
-
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="blog-header">
-                    <div class="heading ">
-                        <h2 class="m-0">Latest stories</h2>
-                    </div>
-                    <a href="{{ route('blog') }}" class="btn btn-orange">View all</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <div class="blog-card">
-                    <div class="blog-img">
-                        <img src="https://images.unsplash.com/photo-1773633071680-a1b53fcb4e90?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            height="100%" width="100%" alt="">
-                        <span class="popular-badge blog-badge">Photographer</span>
-                    </div>
-                    <div class="p-3">
-                        <div class="blog-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                                <path
-                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                            </svg>
-                            <span>May 24, 2024 </span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
-                            </svg>
-                            <span> 6 min read</span>
+        @if($blogs->isNotEmpty())
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="blog-header">
+                        <div class="heading ">
+                            <h2 class="m-0">Latest stories</h2>
                         </div>
-                        <h6 class="blog-title">Mastering Low Light Video: Tips
-                            from the Pros</h6>
-                        <p class="blog-text">Learn how to push your camera to the limits and
-                            capture stunning, noise-free footage in
-                            challenging nocturnal environments.</p>
-                        <a href="" class="brows-btn">
-                            Read Article
-                            <i class="bi bi-arrow-right-short"></i>
-                        </a>
+                        <a href="{{ route('blog') }}" class="btn btn-orange">View all</a>
                     </div>
                 </div>
-            </div>
+                @foreach ($blogs as $blog)
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="blog-card">
+                            <div class="blog-img">
+                                <img src="{{  asset('uploads/images/blogs/' . $blog->image) }}" height="100%" width="100%"
+                                    alt="">
+                                <span class="popular-badge blog-badge">Photographer</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="blog-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-calendar" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                    </svg>
+                                    <span>{{ \Carbon\Carbon::parse($blog->publish_date)->format('F d, Y') }}</span>
+                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                                    </svg> -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z" />
+                                    </svg>
 
-        </div>
+                                    <span> {{ $blog->author_name }}</span>
+                                </div>
+                                <h6 class="blog-title">{{ $blog->title }}</h6>
+                                <p class="blog-text">{{ \Illuminate\Support\Str::limit(strip_tags($blog->description), 100) }}
+                                </p>
+                                <a href="{{ route('blog_detail', ['id' => encrypt($blog->id)]) }}" class="brows-btn">
+                                    Read Article
+                                    <i class="bi bi-arrow-right-short"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        @endif
     </div>
-</section> -->
+</section>
