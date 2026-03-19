@@ -1,4 +1,4 @@
-/* @import url(home.css); */
+@import url(home.css);
 @import url(var.css);
 @import url(font.css);
 /* @import url(header.css);
@@ -30,10 +30,7 @@ body {
 a {
   text-decoration: none;
 }
-.custom-scroll {
-    max-height: 300px;   /* adjust as needed */
-    overflow-y: auto;
-}
+
 /* orange btn */
 .btn-orange {
   background: var(--primary) !important;
@@ -466,15 +463,85 @@ div.dataTables_processing > div:last-child > div {
   color: var(--white);
   border-color: var(--primary) !important;
 }
-
-.select2-container--default .select2-selection--single{
-  position: relative;
-  border-color: #dfe5ef !important;
-  font-family: var(--font-inter-regular);
-  font-weight: 400;
+.table-bordered {
+  border: none;
+}
+table,
+table thead,
+table tbody,
+table th,
+table td {
+  border: none !important;
+}
+table.dataTable > thead > tr > th,
+table.dataTable > thead > tr > td {
+  text-align: center;
+}
+table tbody td .form-check {
+  display: inline-block !important;
+}
+.product-img-video {
+  height: 100px;
+  width: 100px;
+}
+.product-img-video img {
+  width: 100%;
+  height: 100%;
+}
+.product-priority {
+  height: 781px;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow{
-  top: 50% !important;
-  transform: translateY(-50%)
+.card-title {
+  color: var(--text);
+}
+#priority-table thead tr th:first-child,
+#all-products-table thead tr th:first-child {
+  width: 30px !important;
+}
+#testimonials-table thead tr th:first-child,
+#contactus-table thead tr th:first-child,
+#subscriptionplan-table thead tr th:first-child,
+#license-table thead tr th:first-child,
+#users-table thead tr th:first-child,
+#products-table thead tr th:first-child,
+#subcategory-table thead tr th:first-child,
+#collection-table thead tr th:first-child,
+#category-table thead tr th:first-child {
+  width: 20px !important;
+}
+#license-table thead tr th:nth-child(5),
+#license-table thead tr th:nth-child(6),
+#license-table thead tr th:nth-child(7),
+#license-table thead tr th:nth-child(2) {
+  width: 50px !important;
+}
+#testimonials-table thead tr th:nth-child(7),
+#category-table thead tr th:nth-child(4) {
+  width: 80px !important;
+}
+#users-table thead tr th:last-child,
+#products-table thead tr th:last-child,
+#subcategory-table thead tr th:last-child,
+#category-table thead tr th:last-child,
+#collection-table thead tr th:last-child {
+  width: 80px !important;
+}
+#contactus-table tbody tr td:last-child .d-flex,
+#users-table tbody tr td:last-child .d-flex,
+#products-table tbody tr td:last-child .d-flex,
+#subcategory-table tbody tr td:last-child .d-flex,
+#collection-table tbody tr td:last-child .d-flex,
+#category-table tbody tr td:last-child .d-flex {
+  justify-content: center !important;
+}
+
+table.dataTable thead th {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  background-color: #ff8000 !important; /* your color */
+  color: #fff !important; /* optional text color */
+}
+#subcategory-table_length {
+  margin-bottom: 20px;
 }
