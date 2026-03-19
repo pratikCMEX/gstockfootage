@@ -609,7 +609,7 @@
                     @foreach($content_master->content as $section)
                         <div class="feature-item">
                             <div class="feature-icon">
-                                {!! $section['svg'] ? $section['svg'] :'' !!}
+                                {!! $section['svg'] ?? '' !!}
                             </div>
                             <div>
                                 <h6>{{ $section['title'] }}</h6>
