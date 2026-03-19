@@ -42,415 +42,364 @@
                     </div>
 
                 </div>
-                /************* ✨ Windsurf Command 🌟 *************/
-            </div>
-            <div class="tab-content profile-right" id="v-pills-tabContent">
-                <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif" id="v-pills-home"
-                    role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-                    <div class="profile-manage ">
-                        <div class="profile-manage-header">
-                            <div class="profile-manage-heading">
-                                <h3>Profile Details</h3>
-                                <p>Manage your personal information and preferences.</p>
-                            </div>
-                            <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
-                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="bi bi-pencil"></i>
-                                Edit Profile
-                            </button>
+                <div class="tab-content profile-right" id="v-pills-tabContent">
+                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif" id="v-pills-home"
+                        role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                        <div class="profile-manage ">
+                            <div class="profile-manage-header">
+                                <div class="profile-manage-heading">
+                                    <h3>Profile Details</h3>
+                                    <p>Manage your personal information and preferences.</p>
+                                </div>
+                                <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
+                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <i class="bi bi-pencil"></i>
+                                    Edit Profile
+                                </button>
 
-                        </div>
-                        <div class="profile-manage-body">
-                            <div class="profile-manage-left">
-                                <div class="profile-manage-img">
-                                    <img src="{{ asset('assets/front/img/demo_profile.jpg') }}" width="100%"
-                                        height="100%" alt="">
-                                    <!-- <div>
+                            </div>
+                            <div class="profile-manage-body">
+                                <div class="profile-manage-left">
+                                    <div class="profile-manage-img">
+                                        <img src="{{ asset('assets/front/img/demo_profile.jpg') }}" width="100%"
+                                            height="100%" alt="">
+                                        <!-- <div>
                                             <label for="myfile" class="mb-0" style="cursor: pointer;">
                                                 <i class="bi bi-camera"></i>
                                             </label>
                                             <input type="file" id="myfile" name="myfile" multiple hidden><br><br>
                                         </div> -->
+                                    </div>
+                                    <div class="profile-manage-title">
+                                        <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
+                                        <p>Member since
+                                            {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="profile-manage-title">
-                                    <h3>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h3>
-                                    <p>Member since
-                                        {{ \Carbon\Carbon::parse($user_profile->created_at)->format('F Y') }}
-                                    </p>
+                                <div class="profile-manage-middle">
+                                    <div class="profile-mail profile-manage-text">
+                                        <span>Email Address</span>
+                                        <a href="mailto:alex.j@example.com">{{ $user_profile->email ?? '' }}</a>
+                                    </div>
+                                    <div class="profile-location profile-manage-text">
+                                        <span>Location</span>
+                                        <p>{{ $user_profile->address ? $user_profile->address : '-' }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="profile-manage-middle">
-                                <div class="profile-mail profile-manage-text">
-                                    <span>Email Address</span>
-                                    <a href="mailto:alex.j@example.com">{{ $user_profile->email ?? '' }}</a>
-                                </div>
-                                <div class="profile-location profile-manage-text">
-                                    <span>Location</span>
-                                    <p>{{ $user_profile->address ? $user_profile->address : '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="profile-manage-right">
-                                <div class="profile-number profile-manage-text">
-                                    <span>Phone Number</span>
-                                    <a
-                                        href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone : '-' }}</a>
-                                </div>
-                                <div class="profile-language profile-manage-text">
-                                    <span>Language</span>
-                                    <p>English</p>
+                                <div class="profile-manage-right">
+                                    <div class="profile-number profile-manage-text">
+                                        <span>Phone Number</span>
+                                        <a
+                                            href="tel:+1 (555) 000-1234">{{ $user_profile->phone ? $user_profile->phone : '-' }}</a>
+                                    </div>
+                                    <div class="profile-language profile-manage-text">
+                                        <span>Language</span>
+                                        <p>English</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                    @if (!empty($purchasePlan))
-                        @php
+                        @if (!empty($purchasePlan))
+                            @php
 
-                            $created = \Carbon\Carbon::parse($purchasePlan->subscription->created_at);
-                            $renewDate = $created; // default value
-                            $billingText = '';
-                            if ($purchasePlan->subscription->duration_type == 'Month') {
-                                $renewDate = $created->addMonths($purchasePlan->subscription->duration_value);
-                                $billingText = 'monthly';
-                            } elseif ($purchasePlan->subscription->duration_type == 'Year') {
-                                $renewDate = $created->addYears($purchasePlan->subscription->duration_value);
-                                $billingText = 'yearly';
-                            } elseif ($purchasePlan->subscription->duration_type == 'Quarter') {
-                                $renewDate = $created->addMonths($purchasePlan->subscription->duration_value * 3);
-                                $billingText = 'quarterly';
-                            }
+                                $created = \Carbon\Carbon::parse($purchasePlan->subscription->created_at);
+                                $renewDate = $created; // default value
+                                $billingText = '';
+                                if ($purchasePlan->subscription->duration_type == 'Month') {
+                                    $renewDate = $created->addMonths($purchasePlan->subscription->duration_value);
+                                    $billingText = 'monthly';
+                                } elseif ($purchasePlan->subscription->duration_type == 'Year') {
+                                    $renewDate = $created->addYears($purchasePlan->subscription->duration_value);
+                                    $billingText = 'yearly';
+                                } elseif ($purchasePlan->subscription->duration_type == 'Quarter') {
+                                    $renewDate = $created->addMonths($purchasePlan->subscription->duration_value * 3);
+                                    $billingText = 'quarterly';
+                                }
 
-                        @endphp
-                        <div class="subscription-plan">
-                            <div class="subscription-left">
-                                <div class="subscription-plan-header">
-                                    <span class="section-badge" style="padding: 3px 14px;">Subscription</span>
-                                    <!-- <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
+                            @endphp
+                            <div class="subscription-plan">
+                                <div class="subscription-left">
+                                    <div class="subscription-plan-header">
+                                        <span class="section-badge" style="padding: 3px 14px;">Subscription</span>
+                                        <!-- <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
                                                                                                     Active</span> -->
-                                </div>
-                                <div class="subscription-title-price">
-                                    <div class="profile-subscription-title">
-                                        <h3>{{ $purchasePlan->subscription->name }}</h3>
-                                        <p class="text-secondary">{{ $purchasePlan->subscription->total_clips }} HD
-                                            clips
-                                            per
-                                            {{ $purchasePlan->subscription->duration_type }}
-                                        </p>
                                     </div>
-                                    <!-- <p>{{ $purchasePlan->subscription->title }}</p> -->
-                                    <h2><span class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
-                                        <span class="gray"> /
-                                            {{ $purchasePlan->subscription->duration_type }}</span>
-                                    </h2>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="renewal-info">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                        <circle cx="7" cy="7" r="6" stroke="#ccc"
-                                            stroke-width="1.2"></circle>
-                                        <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
-                                            stroke-linecap="round"></path>
-                                    </svg>
-                                    Plan valid till <strong>{{ $renewDate->format('F d, Y') }}</strong>
+                                    <div class="subscription-title-price">
+                                        <div class="profile-subscription-title">
+                                            <h3>{{ $purchasePlan->subscription->name }}</h3>
+                                            <p class="text-secondary">{{ $purchasePlan->subscription->total_clips }} HD
+                                                clips
+                                                per
+                                                {{ $purchasePlan->subscription->duration_type }}
+                                            </p>
+                                        </div>
+                                        <!-- <p>{{ $purchasePlan->subscription->title }}</p> -->
+                                        <h2><span
+                                                class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
+                                            <span class="gray"> /
+                                                {{ $purchasePlan->subscription->duration_type }}</span>
+                                        </h2>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="renewal-info">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <circle cx="7" cy="7" r="6" stroke="#ccc"
+                                                stroke-width="1.2"></circle>
+                                            <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
+                                                stroke-linecap="round"></path>
+                                        </svg>
+                                        Plan valid till <strong>{{ $renewDate->format('F d, Y') }}</strong>
 
-                                    <!-- Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly -->
+                                        <!-- Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly -->
+                                    </div>
                                 </div>
+                                <!-- <div class="subscription-right">
+                                                                                                                                                                                                                                    <div class="features-title">What's included</div>
+                                                                                                                                                                                                                                    <ul class="features">
+                                                                                                                                                                                                                                        <li class="feature-item">
+                                                                                                                                                                                                                                            <span class="check-icon">
+                                                                                                                                                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                            Unlimited projects &amp; workspaces
+                                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                        <li class="feature-item">
+                                                                                                                                                                                                                                            <span class="check-icon">
+                                                                                                                                                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                            Priority 24/7 customer support
+                                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                        <li class="feature-item">
+                                                                                                                                                                                                                                            <span class="check-icon">
+                                                                                                                                                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                            Advanced analytics &amp; reports
+                                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                        <li class="feature-item">
+                                                                                                                                                                                                                                            <span class="check-icon">
+                                                                                                                                                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                            100 GB secure cloud storage
+                                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                        <li class="feature-item">
+                                                                                                                                                                                                                                            <span class="check-icon">
+                                                                                                                                                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                            API access &amp; integrations
+                                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                    </ul>
+                                                                                                                                                                                                                                </div> -->
                             </div>
-                            <!-- <div class="subscription-right">
-                                                                                                    <div class="features-title">What's included</div>
-                                                                                                    <ul class="features">
-                                                                                                        <li class="feature-item">
-                                                                                                            <span class="check-icon">
-                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                </svg>
-                                                                                                            </span>
-                                                                                                            Unlimited projects &amp; workspaces
-                                                                                                        </li>
-                                                                                                        <li class="feature-item">
-                                                                                                            <span class="check-icon">
-                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                </svg>
-                                                                                                            </span>
-                                                                                                            Priority 24/7 customer support
-                                                                                                        </li>
-                                                                                                        <li class="feature-item">
-                                                                                                            <span class="check-icon">
-                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                </svg>
-                                                                                                            </span>
-                                                                                                            Advanced analytics &amp; reports
-                                                                                                        </li>
-                                                                                                        <li class="feature-item">
-                                                                                                            <span class="check-icon">
-                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                </svg>
-                                                                                                            </span>
-                                                                                                            100 GB secure cloud storage
-                                                                                                        </li>
-                                                                                                        <li class="feature-item">
-                                                                                                            <span class="check-icon">
-                                                                                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                    <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                </svg>
-                                                                                                            </span>
-                                                                                                            API access &amp; integrations
-                                                                                                        </li>
-                                                                                                    </ul>
-                                                                                                    </div> -->
-                            <div class="features-title">What's included</div>
-                            <ul class="features">
-                                <li class="feature-item">
-                                    <span class="check-icon">
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </span>
-                                    Unlimited projects &amp; workspaces
-                                </li>
-                                <li class="feature-item">
-                                    <span class="check-icon">
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </span>
-                                    Priority 24/7 customer support
-                                </li>
-                                <li class="feature-item">
-                                    <span class="check-icon">
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </span>
-                                    Advanced analytics &amp; reports
-                                </li>
-                                <li class="feature-item">
-                                    <span class="check-icon">
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </span>
-                                    100 GB secure cloud storage
-                                </li>
-                                <li class="feature-item">
-                                    <span class="check-icon">
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </span>
-                                    API access &amp; integrations
-                                </li>
-                            </ul>
-                        </div> -->
-                </div>
-                @endif
-            </div>
-
-            <div class="tab-pane fade profile-order @if (request()->get('tab') === 'downloads') show active @endif"
-                id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-                id="v-pills-profile" role="tabpanel">
-                @if ($order_data->isNotEmpty())
-                    <div class="heading">
-                        <h2>Recent Orders
-
-                        </h2>
+                        @endif
                     </div>
-                    <div class="">
-                        @foreach ($order_data as $order)
-                            <div class="batch-content">
 
-                                <div class="batch-content-detail">
+                    <div class="tab-pane fade profile-order @if (request()->get('tab') === 'downloads') show active @endif"
+                        id="v-pills-profile" role="tabpanel">
+                        @if ($order_data->isNotEmpty())
+                            <div class="heading">
+                                <h2>Recent Orders
 
-                                    <div class="batch-content-create">
-                                        <p class="batchid">Order ID : {{ $order->order_number }}</p>
-                                        <p class="batchcreated">
-                                            Date :
-                                            {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
-                                        </p>
-                                        <p class="batchid">Total Amount : ${{ $order->total_amount }}</p>
-                                        <p class="batchid">Status : {{ $order->order_status }}</p>
-                                    </div>
+                                </h2>
+                            </div>
+                            <div class="">
+                                @foreach ($order_data as $order)
+                                    <div class="batch-content">
 
-                                    <div class="more-detail">
-                                        <button class="btn more-detail-btn" type="button">
-                                            <i class="fa-solid fa-angle-down"></i> More Detail
-                                        </button>
-                                    </div>
-                                </div>
+                                        <div class="batch-content-detail">
 
-                                <!-- DETAILS TABLE -->
-                                <div class="batch-content-table-details d-none">
-                                    <div class="table-scroll">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Product Type</th>
-                                                    <th>Product Name</th>
-                                                    <th>Price</th>
-                                                    <!-- <th>Status</th> -->
-                                                </tr>
-                                            </thead>
+                                            <div class="batch-content-create">
+                                                <p class="batchid">Order ID : {{ $order->order_number }}</p>
+                                                <p class="batchcreated">
+                                                    Date :
+                                                    {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
+                                                </p>
+                                                <p class="batchid">Total Amount : ${{ $order->total_amount }}</p>
+                                                <p class="batchid">Status : {{ $order->order_status }}</p>
+                                            </div>
 
-                                            <tbody>
-                                                @foreach ($order->order_details as $detail)
-                                                    @php
-                                                        $product = $detail->product;
+                                            <div class="more-detail">
+                                                <button class="btn more-detail-btn" type="button">
+                                                    <i class="fa-solid fa-angle-down"></i> More Detail
+                                                </button>
+                                            </div>
+                                        </div>
 
-                                                        if ($product && $product->type == 'image') {
-                                                            $path = $product->low_path;
-                                                        } else {
-                                                            $path = $product->thumbnail_path ?? null;
-                                                        }
+                                        <!-- DETAILS TABLE -->
+                                        <div class="batch-content-table-details d-none">
+                                            <div class="table-scroll">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>Product Type</th>
+                                                            <th>Product Name</th>
+                                                            <th>Price</th>
+                                                            <!-- <th>Status</th> -->
+                                                        </tr>
+                                                    </thead>
 
-                                                        $url = $path
-                                                            ? Storage::disk('s3')->url($path)
-                                                            : asset('assets/admin/images/demo_thumbnail.png');
-                                                    @endphp
+                                                    <tbody>
+                                                        @foreach ($order->order_details as $detail)
+                                                            @php
+                                                                $product = $detail->product;
 
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center gap-2">
-                                                                <img src="{{ $url }}" width="60"
-                                                                    height="60">
+                                                                if ($product && $product->type == 'image') {
+                                                                    $path = $product->low_path;
+                                                                } else {
+                                                                    $path = $product->thumbnail_path ?? null;
+                                                                }
 
-                                                            </div>
-                                                        </td>
-                                                        <td>{{ $detail->product->type }}</td>
-                                                        <td>{{ $detail->product->title }}</td>
-                                                        <td>$ {{ $detail->product->price }}</td>
+                                                                $url = $path
+                                                                    ? Storage::disk('s3')->url($path)
+                                                                    : asset('assets/admin/images/demo_thumbnail.png');
+                                                            @endphp
 
-                                                        <!-- <td>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                        <img src="{{ $url }}" width="60"
+                                                                            height="60">
+
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ $detail->product->type }}</td>
+                                                                <td>{{ $detail->product->title }}</td>
+                                                                <td>$ {{ $detail->product->price }}</td>
+
+                                                                <!-- <td>
                                                                                                             <span class="badge bg-success">
                                                                                                                 {{ ucfirst($file['status'] ?? 'accepted') }}
                                                                                                             </span>
                                                                                                         </td> -->
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
 
-                                        </table>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                                <div class="pagination-wrapper">
+                                    <div class="pagination-links ms-auto">
+                                        {{ $order_data->appends(['tab' => 'downloads'])->links() }}
                                     </div>
                                 </div>
-
-                            </div>
-                        @endforeach
-                        <div class="pagination-wrapper">
-                            <div class="pagination-links ms-auto">
-                                {{ $order_data->appends(['tab' => 'downloads'])->links() }}
-                            </div>
-                        </div>
-                    @else
-                        <div class="col-12 mt-4">
-                            <div class="empty-wishlist text-center ">
+                            @else
+                                <div class="col-12 mt-4">
+                                    <div class="empty-wishlist text-center ">
 
 
 
-                                <h4>Your Download History is Empty</h4>
+                                        <h4>Your Download History is Empty</h4>
 
-                                <p>
-                                    You haven't Purchase any items yet.
+                                        <p>
+                                            You haven't Purchase any items yet.
 
-                                </p>
+                                        </p>
 
-                                <a href="{{ url('/') }}" class="btn btn-orange mt-2">
-                                    Browse Products
-                                </a>
+                                        <a href="{{ url('/') }}" class="btn btn-orange mt-2">
+                                            Browse Products
+                                        </a>
 
-                            </div>
-                        </div>
-                @endif
-            </div>
-        </div>
-        <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
-            id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-            <div class="wishlist-content">
-                <div class="wishlist-heading">
-                    <div class="heading">
-                        <h2 class="mb-0">Wishlist</h2>
+                                    </div>
+                                </div>
+                        @endif
                     </div>
-                    <!-- <p class="item-count">3 items</p> -->
                 </div>
-                <div class="wishlist-product-content">
-                    <div class="row row-gap-4">
+                <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
+                    id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+                    <div class="wishlist-content">
+                        <div class="wishlist-heading">
+                            <div class="heading">
+                                <h2 class="mb-0">Wishlist</h2>
+                            </div>
+                            <!-- <p class="item-count">3 items</p> -->
+                        </div>
+                        <div class="wishlist-product-content">
+                            <div class="row row-gap-4">
 
-                        @if ($wishLists->isNotEmpty() && !empty($wishLists))
-                            @foreach ($wishLists as $favorites)
-                                <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
-                                    <div class="wishlist-product-detail">
-                                        <div class="product-card">
-                                            <div class="product-img-div">
-                                                <a
-                                                    href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                    @if ($favorites->batchFile->type == 'image')
-                                                        <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                            class="product-img" alt="">
-                                                    @else
-                                                        <video class="product-img" controls width="100%"
-                                                            poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                @if ($wishLists->isNotEmpty() && !empty($wishLists))
+                                    @foreach ($wishLists as $favorites)
+                                        <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
+                                            <div class="wishlist-product-detail">
+                                                <div class="product-card">
+                                                    <div class="product-img-div">
+                                                        <a
+                                                            href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
+                                                            @if ($favorites->batchFile->type == 'image')
+                                                                <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                    class="product-img" alt="">
+                                                            @else
+                                                                <video class="product-img" controls width="100%"
+                                                                    poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 
-                                                            <source
-                                                                src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                                type="video/mp4">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    @endif
-                                                </a>
-                                                <div class="remove-product"><a class="removeFavorite"
-                                                        data-id="{{ encrypt($favorites->id) }}"><i
-                                                            class="bi bi-x"></i></a></div>
-                                            </div>
-                                            <div class="p-3">
-                                                <a
-                                                    href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                    <h6 class="popular-detail-title">
-                                                        {{ $favorites->batchFile->title }}
-                                                    </h6>
-                                                </a>
-                                                <div class="price-btn">
-                                                    <span
-                                                        class="price mb-0">${{ $favorites->batchFile->price }}</span>
+                                                                    <source
+                                                                        src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                        type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            @endif
+                                                        </a>
+                                                        <div class="remove-product"><a class="removeFavorite"
+                                                                data-id="{{ encrypt($favorites->id) }}"><i
+                                                                    class="bi bi-x"></i></a></div>
+                                                    </div>
+                                                    <div class="p-3">
+                                                        <a
+                                                            href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
+                                                            <h6 class="popular-detail-title">
+                                                                {{ $favorites->batchFile->title }}
+                                                            </h6>
+                                                        </a>
+                                                        <div class="price-btn">
+                                                            <span
+                                                                class="price mb-0">${{ $favorites->batchFile->price }}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    @endforeach
+                                @else
+                                    <div class="col-12 mt-4">
+                                        <div class="empty-wishlist text-center ">
+
+
+
+                                            <h4>Your Wishlist is Empty</h4>
+
+                                            <p>
+                                                You haven't added any items to your wishlist yet.
+                                                Browse products and add your favorites here.
+                                            </p>
+
+                                            <a href="{{ url('/') }}" class="btn btn-orange mt-2">
+                                                Browse Products
+                                            </a>
+
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="col-12 mt-4">
-                                <div class="empty-wishlist text-center ">
-
-
-
-                                    <h4>Your Wishlist is Empty</h4>
-
-                                    <p>
-                                        You haven't added any items to your wishlist yet.
-                                        Browse products and add your favorites here.
-                                    </p>
-
-                                    <a href="{{ url('/') }}" class="btn btn-orange mt-2">
-                                        Browse Products
-                                    </a>
-
-                                </div>
-                            </div>
-                        @endif
-                        <!-- <div class="col-lg-4 col-md-6 col-xs-12">
+                                @endif
+                                <!-- <div class="col-lg-4 col-md-6 col-xs-12">
                                         <div class="wishlist-product-detail">
                                             <div class="product-card">
                                                 <div class="product-img-div">
@@ -490,73 +439,72 @@
                                             </div>
                                         </div>
                                     </div> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
-            id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-            <div class="heading">
-                <h2>Settings</h2>
-            </div>
-            <div class="setting-content">
-                <div class="acc-info setting-detail">
-                    <div class="acc-info-heading">
-                        <h4><span><i class="bi bi-person"></i></span>Account Information</h4>
-                        <button type="button" class="btn btn-orange" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
-                            Edit
-                        </button>
-                    </div>
-                    <div class="acc-info-body">
-                        <div>
-                            <span>Full Name</span>
-                            <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
-                        </div>
-                        <div>
-                            <span>Email Address</span>
-                            <p>{{ $user_profile->email ?? '' }}</p>
-                        </div>
-                        <div>
-                            <span>Phone</span>
-                            <p>{{ $user_profile->phone ? $user_profile->phone : '-' }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="security setting-detail">
-                    <div class="acc-info-heading">
-                        <h4><span><i class="bi bi-shield-lock"></i></span>Security</h4>
+                <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
+                    id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+                    <div class="heading">
+                        <h2>Settings</h2>
                     </div>
-                    <div class="security-password security-detail">
-                        <div class="pass-title">
-                            <h4>Password</h4>
-                            <p>Last changed
-                                {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
-                            </p>
+                    <div class="setting-content">
+                        <div class="acc-info setting-detail">
+                            <div class="acc-info-heading">
+                                <h4><span><i class="bi bi-person"></i></span>Account Information</h4>
+                                <button type="button" class="btn btn-orange" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+                                    Edit
+                                </button>
+                            </div>
+                            <div class="acc-info-body">
+                                <div>
+                                    <span>Full Name</span>
+                                    <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
+                                </div>
+                                <div>
+                                    <span>Email Address</span>
+                                    <p>{{ $user_profile->email ?? '' }}</p>
+                                </div>
+                                <div>
+                                    <span>Phone</span>
+                                    <p>{{ $user_profile->phone ? $user_profile->phone : '-' }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
-                            data-bs-toggle="modal" data-bs-target="#password_change">
-                            <i class="bi bi-pencil"></i>
-                            Change
-                        </button>
-                        <!-- <button type="button"
+                        <div class="security setting-detail">
+                            <div class="acc-info-heading">
+                                <h4><span><i class="bi bi-shield-lock"></i></span>Security</h4>
+                            </div>
+                            <div class="security-password security-detail">
+                                <div class="pass-title">
+                                    <h4>Password</h4>
+                                    <p>Last changed
+                                        {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
+                                    </p>
+                                </div>
+                                <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
+                                    data-bs-toggle="modal" data-bs-target="#password_change">
+                                    <i class="bi bi-pencil"></i>
+                                    Change
+                                </button>
+                                <!-- <button type="button"
                                         class="btn btn-all-dark btn-hover-dark pass-btn">Change</button> -->
-                    </div>
-                    <!-- <div class="security-two-factor security-detail">
+                            </div>
+                            <!-- <div class="security-two-factor security-detail">
                                     <div class="pass-title">
                                         <h4>Two-factor Auth</h4>
                                         <p>Protects your account with extra security</p>
                                     </div>
                                     <button type="button" class="btn btn-orange">Enable</button>
                                 </div> -->
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
-        </div>
 
-
-        </div>
-
-        /******* 22e0be92-2314-4ebe-8622-c785f6e8a647 *******/
         </div>
         <!-- Modal -->
         <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static"
