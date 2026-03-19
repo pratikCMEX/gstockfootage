@@ -325,81 +325,82 @@
                         @endif
                     </div>
                 </div>
-                <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
-                    id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-                    <div class="wishlist-content">
-                        <div class="wishlist-heading">
-                            <div class="heading">
-                                <h2 class="mb-0">Wishlist</h2>
-                            </div>
-                            <!-- <p class="item-count">3 items</p> -->
+            </div>
+            <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
+                id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+                <div class="wishlist-content">
+                    <div class="wishlist-heading">
+                        <div class="heading">
+                            <h2 class="mb-0">Wishlist</h2>
                         </div>
-                        <div class="wishlist-product-content">
-                            <div class="row row-gap-4">
+                        <!-- <p class="item-count">3 items</p> -->
+                    </div>
+                    <div class="wishlist-product-content">
+                        <div class="row row-gap-4">
 
-                                @if ($wishLists->isNotEmpty() && !empty($wishLists))
-                                    @foreach ($wishLists as $favorites)
-                                        <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
-                                            <div class="wishlist-product-detail">
-                                                <div class="product-card">
-                                                    <div class="product-img-div">
-                                                        <a
-                                                            href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                            @if ($favorites->batchFile->type == 'image')
-                                                                <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                                    class="product-img" alt="">
-                                                            @else
-                                                                <video class="product-img" controls width="100%"
-                                                                    poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                            @if ($wishLists->isNotEmpty() && !empty($wishLists))
+                                @foreach ($wishLists as $favorites)
+                                    <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
+                                        <div class="wishlist-product-detail">
+                                            <div class="product-card">
+                                                <div class="product-img-div">
+                                                    <a
+                                                        href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
+                                                        @if ($favorites->batchFile->type == 'image')
+                                                            <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                class="product-img" alt="">
+                                                        @else
+                                                            <video class="product-img" controls width="100%"
+                                                                poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 
-                                                                    <source
-                                                                        src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                                        type="video/mp4">
-                                                                    Your browser does not support the video tag.
-                                                                </video>
-                                                            @endif
-                                                        </a>
-                                                        <div class="remove-product"><a class="removeFavorite"
-                                                                data-id="{{ encrypt($favorites->id) }}"><i
-                                                                    class="bi bi-x"></i></a></div>
-                                                    </div>
-                                                    <div class="p-3">
-                                                        <a
-                                                            href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                            <h6 class="popular-detail-title">
-                                                                {{ $favorites->batchFile->title }}
-                                                            </h6>
-                                                        </a>
-                                                        <div class="price-btn">
-                                                            <span
-                                                                class="price mb-0">${{ $favorites->batchFile->price }}</span>
-                                                        </div>
+                                                                <source
+                                                                    src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                    type="video/mp4">
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                        @endif
+                                                    </a>
+                                                    <div class="remove-product"><a class="removeFavorite"
+                                                            data-id="{{ encrypt($favorites->id) }}"><i
+                                                                class="bi bi-x"></i></a></div>
+                                                </div>
+                                                <div class="p-3">
+                                                    <a
+                                                        href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
+                                                        <h6 class="popular-detail-title">
+                                                            {{ $favorites->batchFile->title }}
+                                                        </h6>
+                                                    </a>
+                                                    <div class="price-btn">
+                                                        <span
+                                                            class="price mb-0">${{ $favorites->batchFile->price }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-12 mt-4">
-                                        <div class="empty-wishlist text-center ">
-
-
-
-                                            <h4>Your Wishlist is Empty</h4>
-
-                                            <p>
-                                                You haven't added any items to your wishlist yet.
-                                                Browse products and add your favorites here.
-                                            </p>
-
-                                            <a href="{{ url('/') }}" class="btn btn-orange mt-2">
-                                                Browse Products
-                                            </a>
-
-                                        </div>
                                     </div>
-                                @endif
-                                <!-- <div class="col-lg-4 col-md-6 col-xs-12">
+                                @endforeach
+                            @else
+                                <div class="col-12 mt-4">
+                                    <div class="empty-wishlist text-center ">
+
+
+
+                                        <h4>Your Wishlist is Empty</h4>
+
+                                        <p>
+                                            You haven't added any items to your wishlist yet.
+                                            Browse products and add your favorites here.
+                                        </p>
+
+                                        <a href="{{ url('/') }}" class="btn btn-orange mt-2">
+                                            Browse Products
+                                        </a>
+
+                                    </div>
+                                </div>
+                            @endif
+                            <!-- <div class="col-lg-4 col-md-6 col-xs-12">
                                         <div class="wishlist-product-detail">
                                             <div class="product-card">
                                                 <div class="product-img-div">
@@ -439,71 +440,71 @@
                                             </div>
                                         </div>
                                     </div> -->
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
-                    id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-                    <div class="heading">
-                        <h2>Settings</h2>
-                    </div>
-                    <div class="setting-content">
-                        <div class="acc-info setting-detail">
-                            <div class="acc-info-heading">
-                                <h4><span><i class="bi bi-person"></i></span>Account Information</h4>
-                                <button type="button" class="btn btn-orange" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop">
-                                    Edit
-                                </button>
+            </div>
+            <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
+                id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+                <div class="heading">
+                    <h2>Settings</h2>
+                </div>
+                <div class="setting-content">
+                    <div class="acc-info setting-detail">
+                        <div class="acc-info-heading">
+                            <h4><span><i class="bi bi-person"></i></span>Account Information</h4>
+                            <button type="button" class="btn btn-orange" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">
+                                Edit
+                            </button>
+                        </div>
+                        <div class="acc-info-body">
+                            <div>
+                                <span>Full Name</span>
+                                <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
                             </div>
-                            <div class="acc-info-body">
-                                <div>
-                                    <span>Full Name</span>
-                                    <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
-                                </div>
-                                <div>
-                                    <span>Email Address</span>
-                                    <p>{{ $user_profile->email ?? '' }}</p>
-                                </div>
-                                <div>
-                                    <span>Phone</span>
-                                    <p>{{ $user_profile->phone ? $user_profile->phone : '-' }}</p>
-                                </div>
+                            <div>
+                                <span>Email Address</span>
+                                <p>{{ $user_profile->email ?? '' }}</p>
+                            </div>
+                            <div>
+                                <span>Phone</span>
+                                <p>{{ $user_profile->phone ? $user_profile->phone : '-' }}</p>
                             </div>
                         </div>
-                        <div class="security setting-detail">
-                            <div class="acc-info-heading">
-                                <h4><span><i class="bi bi-shield-lock"></i></span>Security</h4>
+                    </div>
+                    <div class="security setting-detail">
+                        <div class="acc-info-heading">
+                            <h4><span><i class="bi bi-shield-lock"></i></span>Security</h4>
+                        </div>
+                        <div class="security-password security-detail">
+                            <div class="pass-title">
+                                <h4>Password</h4>
+                                <p>Last changed
+                                    {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
+                                </p>
                             </div>
-                            <div class="security-password security-detail">
-                                <div class="pass-title">
-                                    <h4>Password</h4>
-                                    <p>Last changed
-                                        {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
-                                    </p>
-                                </div>
-                                <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
-                                    data-bs-toggle="modal" data-bs-target="#password_change">
-                                    <i class="bi bi-pencil"></i>
-                                    Change
-                                </button>
-                                <!-- <button type="button"
+                            <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
+                                data-bs-toggle="modal" data-bs-target="#password_change">
+                                <i class="bi bi-pencil"></i>
+                                Change
+                            </button>
+                            <!-- <button type="button"
                                         class="btn btn-all-dark btn-hover-dark pass-btn">Change</button> -->
-                            </div>
-                            <!-- <div class="security-two-factor security-detail">
+                        </div>
+                        <!-- <div class="security-two-factor security-detail">
                                     <div class="pass-title">
                                         <h4>Two-factor Auth</h4>
                                         <p>Protects your account with extra security</p>
                                     </div>
                                     <button type="button" class="btn btn-orange">Enable</button>
                                 </div> -->
-                        </div>
                     </div>
                 </div>
-
-
             </div>
+
+
+        </div>
 
         </div>
         <!-- Modal -->
