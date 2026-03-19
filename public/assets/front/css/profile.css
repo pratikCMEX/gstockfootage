@@ -706,6 +706,18 @@
   flex-shrink: 0; 
 }*/
 
+.empty-wishlist h4 {
+  font-family: var(--font-inter-semibold);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-wishlist p {
+  font-family: var(--font-inter-regular);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
 @media only screen and (max-width: 1399px) {
   .profile_section .subscription-plan .subscription-left {
     width: 100%;
