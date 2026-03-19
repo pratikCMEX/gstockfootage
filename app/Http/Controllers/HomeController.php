@@ -327,6 +327,11 @@ class HomeController extends Controller
         $categories = Category::where('is_display', '1')->get();
         $CollectionList = Collection::get();
 
+        $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+        
+        $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
+
+
         $query = BatchFile::with(['category'])
             ->where('type', 'video')
             ->where('is_edited', '1')
@@ -523,7 +528,9 @@ class HomeController extends Controller
             'with_people',
             'sort',
             'tags',
-            'trendingTags'
+            'trendingTags',
+            'selectedCategory',
+            'selectedCollection'
         ));
     }
 
@@ -756,6 +763,7 @@ class HomeController extends Controller
         $allPhotos = $query->get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+        
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
         $trendingTags = BatchFile::where('is_edited', '1')
