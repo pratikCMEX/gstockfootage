@@ -237,7 +237,7 @@
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         @if ($item['type'] == 'image')
-                            <img src="{{ Storage::disk('s3')->url($item['mid_path']) }}" class="h-100 w-100"
+                            <img src="{{$item['mid_path']? Storage::disk('s3')->url($item['mid_path']) :''}}" class="h-100 w-100"
                                 alt="">
                         @else
                             <img src="{{ Storage::disk('s3')->url($item['thumbnail_path']) }}" class="h-100 w-100"
