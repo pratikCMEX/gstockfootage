@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\User;
+use App\Models\Cart;
 use App\Models\Subscription_plans;
 use App\Models\User_subscriptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderReceiptMail;
 use Stripe\Stripe;
 use Carbon\Carbon;
 
@@ -15,19 +24,31 @@ class WebhookController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         $payload   = $request->getContent();
-        $sigHeader = $request->header('Stripe-Signature');
+        $sigHeader = $request->server('HTTP_STRIPE_SIGNATURE');
         $secret    = config('services.stripe.webhook_secret');
+
+        Log::info('Webhook received');
 
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sigHeader, $secret);
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
-            return response()->json(['error' => 'Invalid signature'], 400);
+            Log::error('Webhook signature invalid', ['error' => $e->getMessage()]);
+            return response('Invalid signature', 400);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            Log::error('Webhook error', ['error' => $e->getMessage()]);
+            return response('Webhook error', 400);
         }
+
+        Log::info('Webhook event received', ['type' => $event->type]);
 
         switch ($event->type) {
 
+            // ─── ORDER WEBHOOK ───────────────────────────────────────────
+            case 'checkout.session.completed':
+                $this->handleCheckoutCompleted($event->data->object);
+                break;
+
+            // ─── SUBSCRIPTION WEBHOOKS ───────────────────────────────────
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
                 $this->handleSubscriptionUpdated($event->data->object);
@@ -44,12 +65,109 @@ class WebhookController extends Controller
             case 'customer.subscription.deleted':
                 $this->handleSubscriptionDeleted($event->data->object);
                 break;
+
+            default:
+                Log::info('Unhandled webhook event', ['type' => $event->type]);
         }
 
-        return response()->json(['status' => 'ok'], 200);
+        return response('Webhook handled', 200);
     }
 
-    // ✅ Fired on subscription create/update — always sync dates from Stripe
+    // =========================================================
+    // ORDER HANDLERS
+    // =========================================================
+
+    private function handleCheckoutCompleted($session)
+    {
+        Log::info('checkout.session.completed', [
+            'session_id'     => $session->id,
+            'payment_status' => $session->payment_status,
+            'email'          => $session->customer_email,
+        ]);
+
+        if ($session->payment_status !== 'paid') {
+            Log::warning('Payment not paid yet', ['status' => $session->payment_status]);
+            return;
+        }
+
+        // Prevent duplicate order
+        if (Order::where('stripe_session_id', $session->id)->exists()) {
+            Log::warning('Order already exists', ['session_id' => $session->id]);
+            return;
+        }
+
+        // Get cart from cache
+        $cartData = Cache::get('stripe_cart_' . $session->id);
+
+        Log::info('Cart data from cache', [
+            'session_id' => $session->id,
+            'found'      => $cartData ? 'YES' : 'NO',
+            'items'      => $cartData ? count($cartData['items']) : 0,
+        ]);
+
+        if (!$cartData || empty($cartData['items'])) {
+            Log::error('Cart data missing from cache', ['session_id' => $session->id]);
+            return;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $user = User::where('email', $session->customer_email)->first();
+
+            $order = Order::create([
+                'user_id'           => $user?->id,
+                'order_number'      => 'ORD-' . strtoupper(uniqid()),
+                'total_amount'      => $session->amount_total / 100,
+                'stripe_session_id' => $session->id,
+                'email'             => $session->customer_email,
+                'payment_status'    => 'paid',
+                'order_status'      => 'completed',
+            ]);
+
+            Log::info('Order created', [
+                'order_id'     => $order->id,
+                'order_number' => $order->order_number,
+            ]);
+
+            foreach ($cartData['items'] as $item) {
+                OrderDetail::create([
+                    'order_id'   => $order->id,
+                    'product_id' => $item['id'],
+                    'price'      => $item['price'],
+                    'qty'        => $item['qty'],
+                ]);
+            }
+
+            if ($user) {
+                Cart::where('user_id', $user->id)->delete();
+                Log::info('DB cart cleared', ['user_id' => $user->id]);
+            }
+
+            Cache::forget('stripe_cart_' . $session->id);
+
+            DB::commit();
+
+            try {
+                $orderWithDetails = Order::with('order_details.product')->find($order->id);
+                Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
+                Log::info('Receipt email sent', ['email' => $order->email]);
+            } catch (\Exception $mailException) {
+                Log::error('Email failed', ['error' => $mailException->getMessage()]);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Order creation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+        }
+    }
+
+    // =========================================================
+    // SUBSCRIPTION HANDLERS
+    // =========================================================
+
     private function handleSubscriptionUpdated($stripeSub)
     {
         $dbSub = User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
@@ -68,28 +186,24 @@ class WebhookController extends Controller
             $updateData['payment_status'] = 'success';
         }
 
-        // Stripe marks cancel_at_period_end when user cancels but still has access
         if ($stripeSub->cancel_at_period_end) {
             $updateData['status'] = 'cancelled';
         }
 
         $dbSub->update($updateData);
+
+        Log::info('Subscription updated', ['stripe_sub_id' => $stripeSub->id]);
     }
 
-    // ✅ Fired on every successful payment (first payment + renewals)
     private function handlePaymentSucceeded($invoice)
     {
         $stripeSubId = $invoice->subscription;
 
         if (!$stripeSubId) return;
 
-        // Skip if it's not a subscription invoice (e.g. one-time payment)
-        if ($invoice->billing_reason === 'subscription_create') {
-            // First payment — dates already handled by subscription.created
-            return;
-        }
+        // First payment — handled by subscription.created
+        if ($invoice->billing_reason === 'subscription_create') return;
 
-        // Renewal — retrieve fresh subscription to get new period dates
         $stripeSub = \Stripe\Subscription::retrieve($stripeSubId);
 
         $dbSub = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
@@ -98,7 +212,6 @@ class WebhookController extends Controller
 
         if (!$dbSub) return;
 
-        // Reset clips and update dates for new billing period
         $dbSub->update([
             'start_date'      => Carbon::createFromTimestamp($stripeSub->current_period_start),
             'end_date'        => Carbon::createFromTimestamp($stripeSub->current_period_end),
@@ -107,9 +220,10 @@ class WebhookController extends Controller
             'payment_status'  => 'success',
             'status'          => 'active',
         ]);
+
+        Log::info('Subscription renewed', ['stripe_sub_id' => $stripeSubId]);
     }
 
-    // ❌ Fired when payment fails
     private function handlePaymentFailed($invoice)
     {
         $stripeSubId = $invoice->subscription;
@@ -123,9 +237,10 @@ class WebhookController extends Controller
                 'status'         => 'past_due',
                 'payment_status' => 'failed',
             ]);
+
+        Log::warning('Subscription payment failed', ['stripe_sub_id' => $stripeSubId]);
     }
 
-    // 🚫 Fired when subscription fully expires/deleted (after cancel_at_period_end passes)
     private function handleSubscriptionDeleted($stripeSub)
     {
         User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
@@ -135,5 +250,7 @@ class WebhookController extends Controller
                 'status'   => 'expired',
                 'end_date' => now(),
             ]);
+
+        Log::info('Subscription deleted/expired', ['stripe_sub_id' => $stripeSub->id]);
     }
 }
