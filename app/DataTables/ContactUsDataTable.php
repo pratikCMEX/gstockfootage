@@ -74,7 +74,7 @@ class ContactUsDataTable extends DataTable
             ->setTableId('contactus-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->orderBy(1)
+            ->orderBy(0, 'desc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),

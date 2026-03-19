@@ -92,14 +92,24 @@
 
         </div>
 
-        <div class="trending">
+        @if(!empty($trendingTags))
+            <div class="trending">
+                Trending:
+                @foreach ($trendingTags as $tags)
+                    <a
+                        href="{{$tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{$tags['tag']}}</a>@if(!$loop->last),@endif
+                @endforeach
+
+            </div>
+        @endif
+        <!-- <div class="trending">
             Trending:
             <a href="#">Jerusalem</a>,
             <a href="#">Temple Mount</a>,
             <a href="#">Dead Sea</a>,
             <a href="#">Western Wall</a>,
             <a href="#">Galilee</a>
-        </div>
+        </div> -->
 
     </div>
 </section>

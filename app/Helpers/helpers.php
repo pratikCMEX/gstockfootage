@@ -9,6 +9,8 @@ use App\Models\License_master;
 use App\Models\Product;
 use App\Models\Social_links;
 use Illuminate\Support\Facades\Auth;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 
 function formatFileSize($bytes)
 {
@@ -20,7 +22,22 @@ function formatFileSize($bytes)
         return $bytes . ' B';
     }
 }
+function formatPhoneByCountry($phone, $countryCode)
+{
+    if (!$phone || !$countryCode) return '-';
 
+    try {
+        $phoneUtil   = PhoneNumberUtil::getInstance();
+        $fullNumber  = $countryCode . preg_replace('/[^0-9]/', '', $phone);
+        $parsed      = $phoneUtil->parse($fullNumber, null);
+
+        // NATIONAL format = country-specific format
+        return $phoneUtil->format($parsed, PhoneNumberFormat::NATIONAL);
+
+    } catch (\Exception $e) {
+        return $phone; // fallback to raw number
+    }
+}
 function duration($seconds)
 {
     return gmdate('H:i:s', $seconds);

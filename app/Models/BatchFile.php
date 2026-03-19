@@ -52,6 +52,10 @@ class BatchFile extends Model
         return $this->belongsTo(Batch::class);
     }
 
+    public function incrementView(): void
+    {
+        $this->increment('views'); // atomic SQL increment, no race conditions
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
