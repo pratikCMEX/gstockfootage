@@ -19,6 +19,7 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserLicenceController;
 use App\Http\Controllers\UserSubscriptionController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WebpageController;
 use App\Models\QuoteRequest;
 use App\Models\User;
@@ -161,7 +162,8 @@ Route::post('/order/status', [PaymentController::class, 'getOrderFiles'])->name(
 Route::get('/download/file', [PaymentController::class, 'downloadFile'])->name('download.file');
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
 Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
-
+Route::post('/webhook/stripe', [WebhookController::class, 'handle'])
+    ->name('stripe.webhook');
 Route::get('/download/file', [CheckoutController::class, 'downloadFile'])->name('download.file')->middleware('auth');
 // TEMPORARY DEBUG ROUTE — remove after fixing
 Route::get('/debug/file/{id}', [PaymentController::class, 'debugFile']);

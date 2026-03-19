@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\License_master;
 use App\Models\Subscription_plans;
+use App\Models\User_subscriptions;
 use Illuminate\Http\Request;
 
 class PricingController extends Controller
@@ -22,20 +23,36 @@ class PricingController extends Controller
             ->get();
 
         // $subscriptionPlanList = Subscription_plans::where('is_active', '1')->get();
-        $subscriptionPlanList = Subscription_plans::where('is_active', '1')
-            ->withExists([
-                'userSubscriptions as is_purchased' => function ($query) {
-                    $query->where('user_id', auth()->id())
-                        ->where('status', 'active')
-                        ->where('end_date', '>', now());
-                }
-            ])
-            ->get();
+        // $subscriptionPlanList = Subscription_plans::where('is_active', '1')
+        //     ->withExists([
+        //         'userSubscriptions as is_purchased' => function ($query) {
+        //             $query->where('user_id', auth()->id())
+        //                 ->where('status', 'active')
+        //                 ->where('end_date', '>', now());
+        //         }
+        //     ])
+        //     ->get();
 
-        return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList', 'subscriptionPlanList'));
+        $currentSub = User_subscriptions::where('user_id', auth()->id())
+            ->where('status', 'active')
+            ->where('end_date', '>', now())
+            ->with('subscription')
+            ->latest()
+            ->first();
+
+        $currentPrice = $currentSub?->subscription?->price ?? 0;
+
+        $subscriptionPlanList = Subscription_plans::all()->map(function ($plan) use ($currentSub, $currentPrice) {
+
+            // Mark as current plan
+            $plan->is_purchased = ($currentSub && $currentSub->subscription_plan_id == $plan->id) ? '1' : '0';
+
+            // Mark as higher plan (upgrade option)
+            $plan->is_higher_plan = $currentSub && $plan->price > $currentPrice;
+
+            return $plan;
+        });
+
+        return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList', 'subscriptionPlanList', 'currentPrice'));
     }
-
-
-
-
 }
