@@ -37,7 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'stripe/handleWebhook',
             'stripe/webhook',
             'webhook/stripe',
-
+            'webhook/subscriptionWebhook'
         ]);
 
         $middleware->alias([

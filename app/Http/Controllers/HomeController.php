@@ -97,7 +97,7 @@ class HomeController extends Controller
             ->take(7)
             ->values();
 
-     
+
         return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master', 'blogs', 'popularProducts', 'latestProducts', 'trendingTags'));
     }
     public function productDetail(string $id)
@@ -473,7 +473,7 @@ class HomeController extends Controller
             ]);
         }
 
-         $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
@@ -748,7 +748,7 @@ class HomeController extends Controller
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
-         $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')

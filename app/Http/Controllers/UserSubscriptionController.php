@@ -152,12 +152,14 @@ class UserSubscriptionController extends Controller
             // Deactivate old subscription in DB
             $existingSubscription->update(['status' => 'inactive']);
 
+            $endDate = \Carbon\Carbon::createFromTimestamp($updatedSub->current_period_end);
+
             // Create new subscription record
             User_subscriptions::create([
                 'user_id'                => $user->id,
                 'subscription_plan_id'   => $newPlan->id,
                 'stripe_subscription_id' => $updatedSub->id, // same stripe sub ID
-                'start_date'             => $startDate,
+                'start_date'             => \Carbon\Carbon::createFromTimestamp($updatedSub->current_period_start),
                 'end_date'               => $endDate,
                 'total_clips'            => $newPlan->total_clips,
                 'used_clips'             => 0,
@@ -234,35 +236,19 @@ class UserSubscriptionController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        // Retrieve session from Stripe using session_id
-        $session = Session::retrieve($request->session_id);
+        $session             = Session::retrieve($request->session_id);
+        $stripeSubscription  = \Stripe\Subscription::retrieve($session->subscription);
+        $plan                = Subscription_plans::findOrFail($session->metadata->plan_id);
 
-        // Get Stripe subscription object
-        $stripeSubscription = \Stripe\Subscription::retrieve($session->subscription);
+        // Use Stripe dates if available, else fallback
+        $startDate = $stripeSubscription->current_period_start
+            ? \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_start)
+            : now();
 
-        // Get plan from metadata (more reliable than query param)
-        $plan = Subscription_plans::findOrFail($session->metadata->plan_id);
+        $endDate = $stripeSubscription->current_period_end
+            ? \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_end)
+            : now()->addMonth();
 
-        $startDate = now();
-
-        $type  = strtolower(trim($plan->duration_type));
-        $value = $plan->duration_value;
-
-        switch ($type) {
-            case 'month':
-                $endDate = now()->addMonths($value);
-                break;
-            case 'quarter':
-                $endDate = now()->addMonths($value * 3);
-                break;
-            case 'year':
-                $endDate = now()->addYears($value);
-                break;
-            default:
-                $endDate = now();
-        }
-
-        // Deactivate any existing active subscriptions
         User_subscriptions::where('user_id', auth()->id())
             ->where('status', 'active')
             ->update(['status' => 'inactive']);
@@ -270,21 +256,15 @@ class UserSubscriptionController extends Controller
         User_subscriptions::create([
             'user_id'                => auth()->id(),
             'subscription_plan_id'   => $plan->id,
-
-            'stripe_subscription_id' => $stripeSubscription->id,  // ← for webhook renewal
-
+            'stripe_subscription_id' => $stripeSubscription->id,
             'start_date'             => $startDate,
             'end_date'               => $endDate,
-
             'total_clips'            => $plan->total_clips,
             'used_clips'             => 0,
             'remaining_clips'        => $plan->total_clips,
-
             'amount'                 => $plan->price,
-
             'payment_gateway'        => 'stripe',
-            'transaction_id'         => $stripeSubscription->id,  // ← real Stripe ID now
-
+            'transaction_id'         => $stripeSubscription->id,
             'payment_status'         => 'success',
             'status'                 => 'active',
         ]);
