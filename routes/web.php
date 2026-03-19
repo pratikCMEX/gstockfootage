@@ -164,7 +164,10 @@ Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('chec
 Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
 Route::post('/webhook/stripe', [WebhookController::class, 'handle'])
     ->name('stripe.webhook');
-Route::post('/webhook/subscriptionWebhook', [WebhookController::class, 'subscriptionWebhook'])->name('stripe.subscriptionWebhook');
+// routes/web.php
+Route::post('/webhook/stripe', [WebhookController::class, 'handle'])
+    ->name('stripe.webhook');
+// Route::post('/webhook/subscriptionWebhook', [WebhookController::class, 'subscriptionWebhook'])->name('stripe.subscriptionWebhook');
 Route::get('/download/file', [CheckoutController::class, 'downloadFile'])->name('download.file')->middleware('auth');
 // TEMPORARY DEBUG ROUTE — remove after fixing
 Route::get('/debug/file/{id}', [PaymentController::class, 'debugFile']);
