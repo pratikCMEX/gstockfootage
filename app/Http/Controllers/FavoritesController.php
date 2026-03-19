@@ -57,7 +57,7 @@ class FavoritesController extends Controller
             $existingFavorite->delete();
             return response()->json(['success' => true, 'message' => 'Product removed from favorites', 'action' => 'removed']);
         }
-
+        $product->incrementView();
         // Add to favorites
         Favorites::create([
             'product_id' => $product_id,

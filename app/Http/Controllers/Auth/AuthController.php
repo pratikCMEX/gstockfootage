@@ -81,6 +81,7 @@ class AuthController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => ['nullable', 'string', 'max:20'],
+            'country_code' => ['nullable', 'string', 'max:10'],
             'address' => ['nullable', 'string', 'max:500'],
             'password' => 'required|min:6'
         ]);
@@ -91,6 +92,7 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'email' => strtolower($request->email),
             'phone' => $request->phone,
+            'country_code' => $request->country_code ?? '',
             'address' => $request->address,
             'password' => Hash::make($request->password),
             'role' => '0',

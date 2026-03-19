@@ -97,14 +97,16 @@
 
             </div>
 
+          @if(!empty($trendingTags))
             <div class="trending">
                 Trending:
-                <a href="#">Jerusalem</a>,
-                <a href="#">Temple Mount</a>,
-                <a href="#">Dead Sea</a>,
-                <a href="#">Western Wall</a>,
-                <a href="#">Galilee</a>
+                @foreach ($trendingTags as $tags)
+                    <a
+                        href="{{$tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{$tags['tag']}}</a>@if(!$loop->last),@endif
+                @endforeach
+
             </div>
+        @endif
 
         </div>
     </section>
@@ -186,7 +188,7 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
-                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($photos->mid_path) }}"
+                                    <img loading="lazy" src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) :'' }}"
                                         class="product-img" alt="">
                                 </a>
 

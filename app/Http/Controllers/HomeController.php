@@ -63,12 +63,42 @@ class HomeController extends Controller
             ->limit(4)
             ->get();
 
-            $content_master=ContentMaster::first();
-       
+        $content_master = ContentMaster::first();
+
         $testimonials = Testimonials::where('is_active', '1')->get();
-        $blogs=Blog::limit(3)->orderBy('id','desc')->get();
-      
-        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master', 'blogs'));
+        $blogs = Blog::limit(3)->orderBy('id', 'desc')->get();
+
+        $popularProducts = BatchFile::with('category')
+            ->where('is_edited', '1')
+            ->orderBy('views', 'desc')
+            ->limit(4)
+            ->get();
+
+        $latestProducts = BatchFile::with('category')
+            ->where('is_edited', '1')
+            ->orderBy('id', 'desc')
+            ->limit(4)
+            ->get();
+
+        $trendingTags = BatchFile::where('is_edited', '1')
+            ->whereNotNull('keywords')
+            ->where('keywords', '!=', '')
+            ->orderBy('views', 'desc')
+            ->limit(7)
+            ->get(['id', 'category_id', 'keywords', 'type'])
+            ->map(fn($product) => [
+                'product_id' => $product->id,
+                'category_id' => $product->category_id,
+                'tag' => trim(explode(',', $product->keywords)[0]),
+                'type' => strtolower(trim($product->type)) // ✅ normalize
+            ])
+            ->filter(fn($item) => !empty($item['tag']))
+            ->unique('tag')
+            ->take(7)
+            ->values();
+
+     
+        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master', 'blogs', 'popularProducts', 'latestProducts', 'trendingTags'));
     }
     public function productDetail(string $id)
     {
@@ -94,6 +124,8 @@ class HomeController extends Controller
                     }
                 ])
                 ->findOrFail($id);
+
+            $product->incrementView();
             // dd($product);
             $data = [
                 'id' => $product->id,
@@ -441,6 +473,23 @@ class HomeController extends Controller
             ]);
         }
 
+         $trendingTags = BatchFile::where('is_edited', '1')
+            ->whereNotNull('keywords')
+            ->where('keywords', '!=', '')
+            ->orderBy('views', 'desc')
+            ->limit(7)
+            ->get(['id', 'category_id', 'keywords', 'type'])
+            ->map(fn($product) => [
+                'product_id' => $product->id,
+                'category_id' => $product->category_id,
+                'tag' => trim(explode(',', $product->keywords)[0]),
+                'type' => strtolower(trim($product->type)) // ✅ normalize
+            ])
+            ->filter(fn($item) => !empty($item['tag']))
+            ->unique('tag')
+            ->take(7)
+            ->values();
+
         return view("layouts.front.layout", compact(
             'title',
             'page',
@@ -463,7 +512,8 @@ class HomeController extends Controller
             'content_filters',
             'with_people',
             'sort',
-            'tags'
+            'tags',
+            'trendingTags'
         ));
     }
 
@@ -698,6 +748,22 @@ class HomeController extends Controller
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
+         $trendingTags = BatchFile::where('is_edited', '1')
+            ->whereNotNull('keywords')
+            ->where('keywords', '!=', '')
+            ->orderBy('views', 'desc')
+            ->limit(7)
+            ->get(['id', 'category_id', 'keywords', 'type'])
+            ->map(fn($product) => [
+                'product_id' => $product->id,
+                'category_id' => $product->category_id,
+                'tag' => trim(explode(',', $product->keywords)[0]),
+                'type' => strtolower(trim($product->type)) // ✅ normalize
+            ])
+            ->filter(fn($item) => !empty($item['tag']))
+            ->unique('tag')
+            ->take(7)
+            ->values();
         return view("layouts.front.layout", compact(
             'title',
             'page',
@@ -705,7 +771,8 @@ class HomeController extends Controller
             'categories',
             'allPhotos',
             'selectedCollection',
-            'selectedCategory'
+            'selectedCategory',
+            'trendingTags'
         ));
     }
     public function enterprise()
@@ -724,8 +791,8 @@ class HomeController extends Controller
         $page = 'front.about_us';
         $about_us = AboutUs::first();
 
-         $blogs=Blog::limit(4)->orderBy('id','desc')->get();
-         
+        $blogs = Blog::limit(4)->orderBy('id', 'desc')->get();
+
         return view("layouts.front.layout", compact('title', 'page', 'about_us', 'blogs'));
     }
 

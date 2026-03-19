@@ -123,14 +123,16 @@
 
 
         <!-- Trending -->
-        <div class="trending">
-            Trending:
-            <a href="#">Jerusalem</a>,
-            <a href="#">Temple Mount</a>,
-            <a href="#">Dead Sea</a>,
-            <a href="#">Western Wall</a>,
-            <a href="#">Galilee</a>
-        </div>
+        @if(!empty($trendingTags))
+            <div class="trending">
+                Trending:
+                @foreach ($trendingTags as $tags)
+                    <a
+                        href="{{$tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{$tags['tag']}}</a>@if(!$loop->last),@endif
+                @endforeach
+
+            </div>
+        @endif
 
     </div>
 </section>
@@ -223,266 +225,158 @@
                 </ul>
 
                 <!-- Filter Buttons -->
-                <div class="popular-filter-pills filter-pills d-flex flex-wrap gap-2 mb-4">
-                    <a href="{{ route('all_photos', ['q' => 'Jerusalem views', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Jerusalem views</a>
-                    <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
-                    <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}" class="btn btn-sm"><i
-                            class="bi bi-search"></i> Golden hour</a>
-                    <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
-                    <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Holy Land nature</a>
-                    <a href="{{ route('all_photos', ['q' => 'Biblical locations', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Biblical locations</a>
-                    <a href="{{ route('all_photos', ['q' => 'Desert landscapes', 'type' => 'image']) }}"
-                        class="btn btn-sm"><i class="bi bi-search"></i> Desert landscapes</a>
-                </div>
+                @if(!empty($trendingTags))
+                    <div class="popular-filter-pills filter-pills d-flex flex-wrap gap-2 mb-4">
+                        @foreach ($trendingTags as $tags)
+                                    <a href="{{ 
+                                                                                $tags['type'] === 'image'
+                            ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']])
+                            : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) 
+                                                                            }}" class="btn btn-sm"><i
+                                            class="bi bi-search"></i>{{ $tags['tag'] }}</a>
+
+                        @endforeach
+                        <!-- <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
+                                            class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
+                                        <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}" class="btn btn-sm"><i
+                                                class="bi bi-search"></i> Golden hour</a>
+                                        <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
+                                            class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
+                                        <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
+                                            class="btn btn-sm"><i class="bi bi-search"></i> Holy Land nature</a>
+                                        <a href="{{ route('all_photos', ['q' => 'Biblical locations', 'type' => 'image']) }}"
+                                            class="btn btn-sm"><i class="bi bi-search"></i> Biblical locations</a>
+                                        <a href="{{ route('all_photos', ['q' => 'Desert landscapes', 'type' => 'image']) }}"
+                                            class="btn btn-sm"><i class="bi bi-search"></i> Desert landscapes</a> -->
+                    </div>
+                @endif
 
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="selected">
-                        <div class="row g-3">
+                        @if($latestProducts->isNotEmpty())
+                            <div class="row g-3">
 
-                            @foreach ($product as $pro)
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                    <a href="{{ route('product.detail', encrypt($pro->id)) }}">
-                                        <div class="product-card">
-                                            @if ($pro->type == 'image')
-                                                <img loading="lazy"
-                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
-                                                    class="product-img" alt="">
-                                            @else
-                                                @if ($pro->thumbnail_path == null)
-                                                    <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                @foreach ($latestProducts as $pro)
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                        <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                            <div class="product-card">
+                                                @if ($pro->type == 'image')
+                                                    <img loading="lazy"
+                                                        src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                        class="product-img" alt="">
+                                                    @if ($pro->thumbnail_path == null)
+                                                        <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                            class="product-img" alt="">
+                                                    @else
+                                                        <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                            class="product-img" alt="">
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            <div class="p-3">
+                                                <div class="p-3">
 
-                                                <span
-                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
+                                                    <span
+                                                        class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
 
-                                                <h6 class="popular-detail-title">{{ $pro->title }}
-                                                </h6>
+                                                    <h6 class="popular-detail-title">{{ $pro->title }}
+                                                    </h6>
 
 
-                                                <div class="price-btn">
-                                                    <span class="price">${{ $pro->price }}</span>
-                                                    <button class="btn  btn-orange">Add</button>
+                                                    <div class="price-btn">
+                                                        <span class="price">${{ $pro->price }}</span>
+                                                        <button class="btn  btn-orange">Add</button>
+                                                    </div>
+                                                    <div class="product-two-btn">
+                                                        <button type="button" data-Product-id="{{ $pro->id }}"
+                                                            data-type="{{ $pro->type }}"
+                                                            class="btn  popular-icon-btn addFavorite">
+                                                            <i
+                                                                class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                                            {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
+
+
+                                                        <button class="btn  popular-icon-btn"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                            </svg>
+                                                            Share</button>
+                                                    </div>
+
                                                 </div>
-                                                <div class="product-two-btn">
-                                                    <button type="button" data-Product-id="{{ $pro->id }}"
-                                                        data-type="{{ $pro->type }}"
-                                                        class="btn  popular-icon-btn addFavorite">
-                                                        <i
-                                                            class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                                        {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
-
-
-                                                    <button class="btn  popular-icon-btn"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                        </svg>
-                                                        Share</button>
-                                                </div>
-
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
 
-                                </div>
-                            @endforeach
-
-                            {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
-                                    <div class="product-card">
-
-                                        <img loading="lazy" src="{{ asset('assets/front/img/posibility_3.webp') }}"
-                                            class="product-img" alt="Punjabi Dum Aloo">
-
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">Food</span>
-
-                                            <h6 class="popular-detail-title">Punjabi-Dum-Aloo</h6>
-
-
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
-                                        </div>
                                     </div>
-                                </a>
+                                @endforeach
 
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
-                                    <div class="product-card">
-
-                                        <img loading="lazy"
-                                            src="{{ asset('assets/front/img/1770123205271-Malai-Chicken.jpg') }}"
-                                            class="product-img" alt="">
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">Food</span>
-
-                                            <h6 class="popular-detail-title">Malai Chicken</h6>
-
-
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                <a href="product-detail.html">
-                                    <div class="product-card">
-
-                                        <img loading="lazy"
-                                            src="{{ asset('assets/front/img/1770122985007-diamond_logo.png') }}"
-                                            class="product-img" alt="">
-
-                                        <div class="p-3">
-
-                                            <span class="badge badge-custom mb-2">Diamond</span>
-
-                                            <h6 class="popular-detail-title">Golden Diamond</h6>
-
-
-                                            <div class="price-btn">
-                                                <span class="price">$149</span>
-                                                <button class="btn  btn-orange">Add</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                    </svg>
-                                                    Save</button>
-                                                <button class="btn  popular-icon-btn"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                    Share</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div> --}}
+                        @endif
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="popular">
                         <div class="row g-3">
-                            @foreach ($product as $pro)
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                    <a href="{{ route('product.detail', encrypt($pro->id)) }}">
-                                        <div class="product-card">
-                                            @if ($pro->type == 'image')
-                                                <img loading="lazy"
-                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
-                                                    class="product-img" alt="">
-                                            @else
-                                                @if ($pro->thumbnail_path == null)
-                                                    <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                            @if($popularProducts->isNotEmpty())
+                                @foreach ($popularProducts as $pro)
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                        <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                            <div class="product-card">
+                                                @if ($pro->type == 'image')
+                                                    <img loading="lazy"
+                                                        src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                        class="product-img" alt="">
+                                                    @if ($pro->thumbnail_path == null)
+                                                        <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                            class="product-img" alt="">
+                                                    @else
+                                                        <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                            class="product-img" alt="">
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            <div class="p-3">
+                                                <div class="p-3">
 
-                                                <span
-                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
+                                                    <span
+                                                        class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
 
-                                                <h6 class="popular-detail-title">{{ $pro->name }}
-                                                </h6>
+                                                    <h6 class="popular-detail-title">{{ $pro->title }}
+                                                    </h6>
 
 
-                                                <div class="price-btn">
-                                                    <span class="price">${{ $pro->price }}</span>
-                                                    <button class="btn  btn-orange">Add</button>
+                                                    <div class="price-btn">
+                                                        <span class="price">${{ $pro->price }}</span>
+                                                        <button class="btn  btn-orange">Add</button>
+                                                    </div>
+                                                    <div class="product-two-btn">
+                                                        <button type="button" data-Product-id="{{ $pro->id }}"
+                                                            data-type="{{ $pro->type }}"
+                                                            class="btn  popular-icon-btn addFavorite">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                            </svg>
+                                                            Save</button>
+
+
+                                                        <button class="btn  popular-icon-btn"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                            </svg>
+                                                            Share</button>
+                                                    </div>
+
                                                 </div>
-                                                <div class="product-two-btn">
-                                                    <button type="button" data-Product-id="{{ $pro->id }}"
-                                                        data-type="{{ $pro->type }}"
-                                                        class="btn  popular-icon-btn addFavorite">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                            <path
-                                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                                        </svg>
-                                                        Save</button>
-
-
-                                                    <button class="btn  popular-icon-btn"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                        </svg>
-                                                        Share</button>
-                                                </div>
-
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
 
-                                </div>
-                            @endforeach
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -703,84 +597,84 @@
     <div class="container ">
         <div class="row g-4 align-items-center">
 
-        @if(!empty($content_master))
-            <div class="col-lg-5">
-                <div class="heading">
-                    <h2 class="section-title ">
-                        <span class="yellow-headings">{{ $content_master->title }}</span>
-                    </h2>
-                </div>
-
-                <p class="trusted-subtitle">
-                    {{ $content_master->sub_title }}
-                </p>
-
-                @foreach($content_master->content as $section)
-                    <div class="feature-item">
-                       <div class="feature-icon">
-                          {!! $section['svg'] !!}
+            @if(!empty($content_master))
+                <div class="col-lg-5">
+                    <div class="heading">
+                        <h2 class="section-title ">
+                            <span class="yellow-headings">{{ $content_master->title }}</span>
+                        </h2>
                     </div>
-                        <div>
-                            <h6>{{ $section['title'] }}</h6>
-                            <p>{{ $section['sub_title'] }}</p>
+
+                    <p class="trusted-subtitle">
+                        {{ $content_master->sub_title }}
+                    </p>
+
+                    @foreach($content_master->content as $section)
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                {!! $section['svg'] !!}
+                            </div>
+                            <div>
+                                <h6>{{ $section['title'] }}</h6>
+                                <p>{{ $section['sub_title'] }}</p>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
 
-               
-                <!-- <div class="feature-item">
-                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-shield h-5 w-5 text-primary">
-                            <path
-                                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
-                            </path>
-                        </svg></div>
-                    <div>
-                        <h6>Royalty-Free Licensing</h6>
-                        <p>Clear & flexible licensing for any project</p>
-                    </div>
-                </div>
 
-                <div class="feature-item">
-                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-download h-5 w-5 text-primary">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" x2="12" y1="15" y2="3"></line>
-                        </svg></div>
-                    <div>
-                        <h6>Instant Downloads</h6>
-                        <p>Get your files immediately after purchase</p>
-                    </div>
-                </div>
+                    <!-- <div class="feature-item">
+                                                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="lucide lucide-shield h-5 w-5 text-primary">
+                                                            <path
+                                                                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+                                                            </path>
+                                                        </svg></div>
+                                                    <div>
+                                                        <h6>Royalty-Free Licensing</h6>
+                                                        <p>Clear & flexible licensing for any project</p>
+                                                    </div>
+                                                </div>
 
-                <div class="feature-item">
-                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-clock h-5 w-5 text-primary">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg></div>
-                    <div>
-                        <h6>Authentic Locations</h6>
-                        <p>Real footage from iconic destinations</p>
-                    </div>
-                </div> -->
+                                                <div class="feature-item">
+                                                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="lucide lucide-download h-5 w-5 text-primary">
+                                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                                            <line x1="12" x2="12" y1="15" y2="3"></line>
+                                                        </svg></div>
+                                                    <div>
+                                                        <h6>Instant Downloads</h6>
+                                                        <p>Get your files immediately after purchase</p>
+                                                    </div>
+                                                </div>
 
-                <div class="mt-4 trusted-btn">
-                    <a href="{{ route('pricing') }}" class="btn btn-orange me-lg-2">
-                        View Licensing Options
-                    </a>
-                    <a href="{{ route('contact') }}" class="btn trusted-contact-btn btn-hover-dark btn-all-dark">
-                        Contact Us
-                    </a>
-                </div>
-                 @endif
+                                                <div class="feature-item">
+                                                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="lucide lucide-clock h-5 w-5 text-primary">
+                                                            <circle cx="12" cy="12" r="10"></circle>
+                                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                                        </svg></div>
+                                                    <div>
+                                                        <h6>Authentic Locations</h6>
+                                                        <p>Real footage from iconic destinations</p>
+                                                    </div>
+                                                </div> -->
+
+                    <div class="mt-4 trusted-btn">
+                        <a href="{{ route('pricing') }}" class="btn btn-orange me-lg-2">
+                            View Licensing Options
+                        </a>
+                        <a href="{{ route('contact') }}" class="btn trusted-contact-btn btn-hover-dark btn-all-dark">
+                            Contact Us
+                        </a>
+                    </div>
+            @endif
             </div>
 
             <div class="col-lg-7">
@@ -886,11 +780,11 @@
                                     </svg>
                                     <span>{{ \Carbon\Carbon::parse($blog->publish_date)->format('F d, Y') }}</span>
                                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-                                        <path
-                                            d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
-                                    </svg> -->
+                                                                                                        fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                                                                                        <path
+                                                                                                            d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                                                                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                                                                                                    </svg> -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         viewBox="0 0 24 24">
                                         <path

@@ -250,23 +250,44 @@ $("#change_forget_pass").validate({
     $(element).removeClass("is-invalid");
   },
 });
+
 $(document).ready(function () {
-  var input = $("#phone")[0]; // get DOM element from jQuery
+    var input = $("#phone")[0];
 
-  var iti = window.intlTelInput(input, {
-    initialCountry: "us",
-    preferredCountries: ["us"],
-    separateDialCode: true,
-    utilsScript:
-      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-  });
+    var iti = window.intlTelInput(input, {
+        initialCountry: "us",
+        preferredCountries: ["us"],
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+    });
 
-  $("#signup").on("submit", function () {
-    var fullPhone = iti.getNumber();
+    $("#signup").on("submit", function () {
+        var fullPhone = iti.getNumber();               // +919876543210
+        var countryData = iti.getSelectedCountryData();
+        var dialCode = '+' + countryData.dialCode;     // +91
+        var phoneOnly = iti.getNumber().replace(dialCode, '').trim(); // 9876543210
 
-    $("#full_phone").val(fullPhone);
-  });
+        $("#full_phone").val(phoneOnly);              
+        $("#country_code").val(dialCode);             
+    });
 });
+// $(document).ready(function () {
+//   var input = $("#phone")[0]; // get DOM element from jQuery
+
+//   var iti = window.intlTelInput(input, {
+//     initialCountry: "us",
+//     preferredCountries: ["us"],
+//     separateDialCode: true,
+//     utilsScript:
+//       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+//   });
+
+//   $("#signup").on("submit", function () {
+//     var fullPhone = iti.getNumber();
+
+//     $("#full_phone").val(fullPhone);
+//   });
+// });
 //  document.addEventListener("DOMContentLoaded", function () {
 
 //         var input = document.querySelector("#phone");

@@ -84,11 +84,12 @@ class ProfileController extends Controller
             $user_id = decrypt($request->user_id);
             $getData = User::where('id', $user_id)->first();
 
-
+            
             $getData->first_name = $request->first_name;
             $getData->last_name = $request->last_name;
             $getData->email = $request->email;
             $getData->phone = $request->phone;
+            $getData->country_code = $request->country_code ?? '';
             $getData->address = $request->address;
             $getData->save();
 
