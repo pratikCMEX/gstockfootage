@@ -66,7 +66,7 @@ class HomeController extends Controller
             $content_master=ContentMaster::first();
        
         $testimonials = Testimonials::where('is_active', '1')->get();
-        $blogs=Blog::limit(4)->get();
+        $blogs=Blog::limit(3)->orderBy('id','desc')->get();
       
         return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master', 'blogs'));
     }
@@ -724,7 +724,9 @@ class HomeController extends Controller
         $page = 'front.about_us';
         $about_us = AboutUs::first();
 
-        return view("layouts.front.layout", compact('title', 'page', 'about_us'));
+         $blogs=Blog::limit(4)->orderBy('id','desc')->get();
+         
+        return view("layouts.front.layout", compact('title', 'page', 'about_us', 'blogs'));
     }
 
     // public function homeSearch(Request $request)

@@ -160,11 +160,15 @@ $(document).ready(function () {
 
   $(document).on('change', '.priorityCheck', function () {
 
-    let total = $('.priorityCheck').length;
-    let checked = $('.priorityCheck:checked').length;
+    // let total = $('.priorityCheck').length;
+    // let checked = $('.priorityCheck:checked').length;
 
-    $('#allPrioritySelected').prop('checked', total === checked);
+    // $('#allPrioritySelected').prop('checked', total === checked);
 
+    let total = $('#priority-products tr:visible .priorityCheck').length;
+    let checked = $('#priority-products tr:visible .priorityCheck:checked').length;
+
+    $('#allPrioritySelected').prop('checked', total > 0 && total === checked);
     toggleMoveButtons();
 
   });
@@ -178,8 +182,8 @@ $(document).ready(function () {
     let checked = $('#all-products tr:visible')
       .find('input[name="selectPriority"]:checked').length;
 
-    $('#allPriority').prop('checked', total === checked);
-
+    // $('#allPriority').prop('checked', total === checked);
+    $('#allPriority').prop('checked', total > 0 && total === checked);
     toggleMoveButtons();
   });
 
@@ -189,7 +193,8 @@ $(document).ready(function () {
     let total = $('#priority-products tr:visible').find('.priorityCheck').length;
     let checked = $('#priority-products tr:visible').find('.priorityCheck:checked').length;
 
-    $('#allPrioritySelected').prop('checked', total === checked);
+    $('#allPriority').prop('checked', total > 0 && total === checked);
+    // $('#allPrioritySelected').prop('checked', total === checked);
 
     toggleMoveButtons();
   });
@@ -216,7 +221,20 @@ $(document).ready(function () {
     }
   }
 
+  function updateHeaderCheckboxes() {
 
+    // ALL PRODUCTS
+    let totalAll = $('#all-products tr:visible input[name="selectPriority"]').length;
+    let checkedAll = $('#all-products tr:visible input[name="selectPriority"]:checked').length;
+
+    $('#allPriority').prop('checked', totalAll > 0 && totalAll === checkedAll);
+
+    // PRIORITY PRODUCTS
+    let totalPriority = $('#priority-products tr:visible .priorityCheck').length;
+    let checkedPriority = $('#priority-products tr:visible .priorityCheck:checked').length;
+
+    $('#allPrioritySelected').prop('checked', totalPriority > 0 && totalPriority === checkedPriority);
+  }
 
   /* MOVE TO PRIORITY BUTTON */
 
@@ -311,7 +329,7 @@ $(document).ready(function () {
       let preview = $(draggedRow).find('td:eq(4)').html();
       let price = $(draggedRow).find('td:eq(5)').html();
 
-  
+
 
       // CREATE fresh row (unchecked by default)
       let newRow = `
@@ -325,26 +343,30 @@ $(document).ready(function () {
 </tr>
 `;
 
-    let rows = $('#all-products tr');
+      let rows = $('#all-products tr');
 
-  if (rows.length === 0 || evt.newIndex >= rows.length) {
-    $('#all-products').append(newRow);
-  } else {
-    $(rows[evt.newIndex]).before(newRow);
-  }
-    // REMOVE old row completely
-    
-  $(draggedRow).remove();
+      if (rows.length === 0 || evt.newIndex >= rows.length) {
+        $('#all-products').append(newRow);
+      } else {
+        $(rows[evt.newIndex]).before(newRow);
+      }
+      // REMOVE old row completely
+
+      $(draggedRow).remove();
 
       updatePriorityNumbers();
       updateAllProductSrNo();
-      resetAllCheckboxes();   // 🔥 important
+      updateHeaderCheckboxes();
+      syncCheckboxState('#all-products', '#allPriority', 'input[name="selectPriority"]');
+      // resetAllCheckboxes();   // 🔥 important
       toggleMoveButtons();
     },
     onEnd: function () {
       updatePriorityNumbers();
       updateAllProductSrNo();
-      resetAllCheckboxes();   // ✅ ADD
+      updateHeaderCheckboxes();
+      syncCheckboxState('#all-products', '#allPriority', 'input[name="selectPriority"]');
+      // resetAllCheckboxes();   // ✅ ADD
       toggleMoveButtons();
     }
   });
@@ -369,7 +391,7 @@ $(document).ready(function () {
       let price = $(draggedRow).find('td:eq(5)').html();
 
       // remove dragged row completely
-    
+
 
       // build correct priority row
       let newRow = `
@@ -384,30 +406,42 @@ $(document).ready(function () {
   `;
 
       // append to priority table
-    let rows = $('#priority-products tr');
+      let rows = $('#priority-products tr');
 
-  if (rows.length === 0 || evt.newIndex >= rows.length) {
-    $('#priority-products').append(newRow);
-  } else {
-    $(rows[evt.newIndex]).before(newRow);
-  }
-  $(draggedRow).remove();
+      if (rows.length === 0 || evt.newIndex >= rows.length) {
+        $('#priority-products').append(newRow);
+      } else {
+        $(rows[evt.newIndex]).before(newRow);
+      }
+      $(draggedRow).remove();
       updatePriorityNumbers();
       updateAllProductSrNo();
-      resetAllCheckboxes();
+      updateHeaderCheckboxes();
+      syncCheckboxState('#priority-products', '#allPrioritySelected', '.priorityCheck');
+      // resetAllCheckboxes();
       toggleMoveButtons();
     },
 
     onEnd: function () {
       updatePriorityNumbers();
       updateAllProductSrNo();
-      resetAllCheckboxes();
+      updateHeaderCheckboxes();
+      syncCheckboxState('#priority-products', '#allPrioritySelected', '.priorityCheck');
+      // resetAllCheckboxes();
       toggleMoveButtons();
     }
 
   });
 
+  function syncCheckboxState(container, headerCheckbox, rowCheckbox) {
 
+    let isHeaderChecked = $(headerCheckbox).prop('checked');
+
+    if (isHeaderChecked) {
+      $(container).find(rowCheckbox).prop('checked', true);
+    }
+
+  }
   /* SAVE PRIORITY */
 
   $('#savePriority').click(function () {

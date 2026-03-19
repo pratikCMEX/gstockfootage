@@ -34,7 +34,7 @@ class ContactUsDataTable extends DataTable
 
     return $shortMsg.'...' . ' 
         <a href="javascript:void(0)" 
-           class="viewMessage text-primary" 
+           class="viewMessage text-orange" 
            data-name="' . e($row->name) . '"
            data-email="' . e($row->email) . '"
            data-subject="' . e($row->subject) . '"
@@ -62,7 +62,7 @@ class ContactUsDataTable extends DataTable
      */
     public function query(ContactMessage $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->latest();
     }
 
     /**

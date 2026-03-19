@@ -46,14 +46,16 @@
                placeholder="Sub Title"
                value="{{ $sections[$i]['sub_title'] ?? '' }}">
 
-        <input type="file" 
-               name="sections[{{ $i }}][image]" 
-               class="form-control">
+        <label class="form-label mt-2">SVG Icon</label>
+        <textarea name="sections[{{ $i }}][svg]" 
+                  class="form-control mb-2" 
+                  rows="4"
+                  placeholder="Paste your SVG code here e.g. <svg>...</svg>">{{ $sections[$i]['svg'] ?? '' }}</textarea>
 
-        {{-- Show old image if exists --}}
-        @if(isset($sections[$i]['image']))
-           <img src="{{ asset('uploads/images/content_master/'.$sections[$i]['image']) }}" width="100">
-        @endif
+        {{-- ✅ Live SVG preview --}}
+        <!-- <div class="svg-preview mt-2" style="width:60px; height:60px;">
+            {!! $sections[$i]['svg'] ?? '' !!}
+        </div> -->
     </div>
 @endfor
                            

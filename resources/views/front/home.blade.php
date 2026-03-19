@@ -717,11 +717,9 @@
 
                 @foreach($content_master->content as $section)
                     <div class="feature-item">
-                        <div class="">
-                            <img src="{{ asset('uploads/images/content_master/' . $section['image']) }}" width="24"
-                                height="24" style="object-fit:cover;">
-                        </div>
-
+                       <div class="feature-icon">
+                          {!! $section['svg'] !!}
+                    </div>
                         <div>
                             <h6>{{ $section['title'] }}</h6>
                             <p>{{ $section['sub_title'] }}</p>
