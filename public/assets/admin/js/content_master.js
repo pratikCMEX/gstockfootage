@@ -52,21 +52,26 @@ $(document).ready(function () {
         });
 
         // Image validation
-        $(`[name="sections[${i}][image]"]`).rules("add", {
-            required: function () {
-                // Only required if no old image exists
-                let hasOldImage = $(`[name="sections[${i}][image]"]`)
-                    .closest('.card')
-                    .find('img').length > 0;
-
-                return !hasOldImage;
-            },
-            extension: "jpg|jpeg|png|gif|webp",
+        $(`[name="sections[${i}][svg]"]`).rules("add", {
+            required: true,
+            svgFormat: true,        // custom rule below
             messages: {
-                required: "Please select image",
-                extension: "Only JPG, PNG, GIF, WEBP allowed"
+                required: "Please paste SVG code",
+                svgFormat:  "Invalid SVG &mdash; must start with &lt;svg&gt; and end with &lt;/svg&gt;"
             }
         });
     }
+
+    // Custom SVG validation rule
+    // $.validator.addMethod("svgFormat", function(value, element) {
+    //     if (!value) return true; // optional if not required
+    //     let trimmed = value.trim();
+    //     return trimmed.startsWith('<svg') && trimmed.endsWith('</svg>');
+    // }, "Invalid SVG — must start with <svg and end with </svg>");
+
+    $.validator.addMethod("svgFormat", function (value) {
+        const trimmed = value.trim();
+        return trimmed.startsWith("<svg") && trimmed.endsWith("</svg>");
+    }, "Invalid SVG format");
 
 });
