@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AboutUs;
 use App\Models\Batch;
 use App\Models\BatchFile;
+use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\ContentMaster;
@@ -65,7 +66,9 @@ class HomeController extends Controller
             $content_master=ContentMaster::first();
        
         $testimonials = Testimonials::where('is_active', '1')->get();
-        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master'));
+        $blogs=Blog::limit(4)->get();
+      
+        return view("layouts.front.layout", compact('title', 'page', 'categoryList', 'ImageList', 'CollectionList', 'product', 'js', 'testimonials', 'content_master', 'blogs'));
     }
     public function productDetail(string $id)
     {
