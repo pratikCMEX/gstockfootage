@@ -325,82 +325,81 @@
                             </div>
                         @endif
                     </div>
-                </div>
-                <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
-                    id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-                    <div class="wishlist-content">
-                        <div class="wishlist-heading">
-                            <div class="heading">
-                                <h2 class="mb-0">Wishlist</h2>
+                    <div class="tab-pane fade profile-wishlist @if (request()->get('tab') == 'wishlist') show active @endif"
+                        id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+                        <div class="wishlist-content">
+                            <div class="wishlist-heading">
+                                <div class="heading">
+                                    <h2 class="mb-0">Wishlist</h2>
+                                </div>
+                                <!-- <p class="item-count">3 items</p> -->
                             </div>
-                            <!-- <p class="item-count">3 items</p> -->
-                        </div>
-                        <div class="wishlist-product-content">
-                            <div class="row row-gap-4">
+                            <div class="wishlist-product-content">
+                                <div class="row row-gap-4">
 
-                                @if ($wishLists->isNotEmpty() && !empty($wishLists))
-                                    @foreach ($wishLists as $favorites)
-                                        <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
-                                            <div class="wishlist-product-detail">
-                                                <div class="product-card">
-                                                    <div class="product-img-div">
-                                                        <a
-                                                            href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                            @if ($favorites->batchFile->type == 'image')
-                                                                <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                                    class="product-img" alt="">
-                                                            @else
-                                                                <video class="product-img" controls width="100%"
-                                                                    poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                    @if ($wishLists->isNotEmpty() && !empty($wishLists))
+                                        @foreach ($wishLists as $favorites)
+                                            <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
+                                                <div class="wishlist-product-detail">
+                                                    <div class="product-card">
+                                                        <div class="product-img-div">
+                                                            <a
+                                                                href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
+                                                                @if ($favorites->batchFile->type == 'image')
+                                                                    <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                        class="product-img" alt="">
+                                                                @else
+                                                                    <video class="product-img" controls width="100%"
+                                                                        poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
 
-                                                                    <source
-                                                                        src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                                        type="video/mp4">
-                                                                    Your browser does not support the video tag.
-                                                                </video>
-                                                            @endif
-                                                        </a>
-                                                        <div class="remove-product"><a class="removeFavorite"
-                                                                data-id="{{ encrypt($favorites->id) }}"><i
-                                                                    class="bi bi-x"></i></a></div>
-                                                    </div>
-                                                    <div class="p-3">
-                                                        <a
-                                                            href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                            <h6 class="popular-detail-title">
-                                                                {{ $favorites->batchFile->title }}
-                                                            </h6>
-                                                        </a>
-                                                        <div class="price-btn">
-                                                            <span
-                                                                class="price mb-0">${{ $favorites->batchFile->price }}</span>
+                                                                        <source
+                                                                            src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                            type="video/mp4">
+                                                                        Your browser does not support the video tag.
+                                                                    </video>
+                                                                @endif
+                                                            </a>
+                                                            <div class="remove-product"><a class="removeFavorite"
+                                                                    data-id="{{ encrypt($favorites->id) }}"><i
+                                                                        class="bi bi-x"></i></a></div>
+                                                        </div>
+                                                        <div class="p-3">
+                                                            <a
+                                                                href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
+                                                                <h6 class="popular-detail-title">
+                                                                    {{ $favorites->batchFile->title }}
+                                                                </h6>
+                                                            </a>
+                                                            <div class="price-btn">
+                                                                <span
+                                                                    class="price mb-0">${{ $favorites->batchFile->price }}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endforeach
+                                    @else
+                                        <div class="col-12 mt-4">
+                                            <div class="empty-wishlist text-center ">
+
+
+
+                                                <h4>Your Wishlist is Empty</h4>
+
+                                                <p>
+                                                    You haven't added any items to your wishlist yet.
+                                                    Browse products and add your favorites here.
+                                                </p>
+
+                                                <a href="{{ url('/') }}" class="btn btn-orange mt-2">
+                                                    Browse Products
+                                                </a>
+
+                                            </div>
                                         </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-12 mt-4">
-                                        <div class="empty-wishlist text-center ">
-
-
-
-                                            <h4>Your Wishlist is Empty</h4>
-
-                                            <p>
-                                                You haven't added any items to your wishlist yet.
-                                                Browse products and add your favorites here.
-                                            </p>
-
-                                            <a href="{{ url('/') }}" class="btn btn-orange mt-2">
-                                                Browse Products
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                @endif
-                                <!-- <div class="col-lg-4 col-md-6 col-xs-12">
+                                    @endif
+                                    <!-- <div class="col-lg-4 col-md-6 col-xs-12">
                                         <div class="wishlist-product-detail">
                                             <div class="product-card">
                                                 <div class="product-img-div">
@@ -440,215 +439,216 @@
                                             </div>
                                         </div>
                                     </div> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
-                    id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-                    <div class="heading">
-                        <h2>Settings</h2>
-                    </div>
-                    <div class="setting-content">
-                        <div class="acc-info setting-detail">
-                            <div class="acc-info-heading">
-                                <h4><span><i class="bi bi-person"></i></span>Account Information</h4>
-                                <button type="button" class="btn btn-orange" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop">
-                                    Edit
-                                </button>
-                            </div>
-                            <div class="acc-info-body">
-                                <div>
-                                    <span>Full Name</span>
-                                    <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
-                                </div>
-                                <div>
-                                    <span>Email Address</span>
-                                    <p>{{ $user_profile->email ?? '' }}</p>
-                                </div>
-                                <div>
-                                    <span>Phone</span>
-                                    <p>{{ $user_profile->phone ? $user_profile->phone : '-' }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="security setting-detail">
-                            <div class="acc-info-heading">
-                                <h4><span><i class="bi bi-shield-lock"></i></span>Security</h4>
-                            </div>
-                            <div class="security-password security-detail">
-                                <div class="pass-title">
-                                    <h4>Password</h4>
-                                    <p>Last changed
-                                        {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
-                                    </p>
+                    </div>
+                    <div class="tab-pane fade profile-setting @if (request()->get('tab') == 'settings') show active @endif"
+                        id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+                        <div class="heading">
+                            <h2>Settings</h2>
+                        </div>
+                        <div class="setting-content">
+                            <div class="acc-info setting-detail">
+                                <div class="acc-info-heading">
+                                    <h4><span><i class="bi bi-person"></i></span>Account Information</h4>
+                                    <button type="button" class="btn btn-orange" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop">
+                                        Edit
+                                    </button>
                                 </div>
-                                <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
-                                    data-bs-toggle="modal" data-bs-target="#password_change">
-                                    <i class="bi bi-pencil"></i>
-                                    Change
-                                </button>
-                                <!-- <button type="button"
+                                <div class="acc-info-body">
+                                    <div>
+                                        <span>Full Name</span>
+                                        <p>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</p>
+                                    </div>
+                                    <div>
+                                        <span>Email Address</span>
+                                        <p>{{ $user_profile->email ?? '' }}</p>
+                                    </div>
+                                    <div>
+                                        <span>Phone</span>
+                                        <p>{{ $user_profile->phone ? $user_profile->phone : '-' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="security setting-detail">
+                                <div class="acc-info-heading">
+                                    <h4><span><i class="bi bi-shield-lock"></i></span>Security</h4>
+                                </div>
+                                <div class="security-password security-detail">
+                                    <div class="pass-title">
+                                        <h4>Password</h4>
+                                        <p>Last changed
+                                            {{ \Carbon\Carbon::parse($user_profile->password_updated_at)->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                    <button type="button" class="btn profile-heading-btn btn-all-dark btn-hover-dark"
+                                        data-bs-toggle="modal" data-bs-target="#password_change">
+                                        <i class="bi bi-pencil"></i>
+                                        Change
+                                    </button>
+                                    <!-- <button type="button"
                                         class="btn btn-all-dark btn-hover-dark pass-btn">Change</button> -->
-                            </div>
-                            <!-- <div class="security-two-factor security-detail">
+                                </div>
+                                <!-- <div class="security-two-factor security-detail">
                                     <div class="pass-title">
                                         <h4>Two-factor Auth</h4>
                                         <p>Protects your account with extra security</p>
                                     </div>
                                     <button type="button" class="btn btn-orange">Enable</button>
                                 </div> -->
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
 
-
             </div>
-
-        </div>
-        <!-- Modal -->
-        <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static"
-            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
-                        id="profile_form">
-                        @csrf
-                        <div class="modal-body p-0">
-                            <div class="modal-inp-label">
-                                <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id) }}">
-                                <label>First Name</label>
-                                <input type="text" name="first_name" id="first_name" class="form-control"
-                                    value="{{ $user_profile->first_name }}" placeholder="Enter Your First Name">
-                            </div>
-                            <div class="modal-inp-label">
-                                <label>Last Name</label>
-                                <input type="text" name="last_name" id="last_name" class="form-control"
-                                    value="{{ $user_profile->last_name }}" placeholder="Enter Your Last Name">
-                            </div>
-                            <div class="modal-inp-label">
-                                <label>Email</label>
-                                <input type="email" name="email" id="email" class="form-control"
-                                    placeholder="you@example.com" value="{{ $user_profile->email }}">
-                            </div>
-
-                            <div>
-                                <label>Phone No</label>
-
-                                <div class="input-group  phone-input">
-                                    <input type="tel" id="phone" name="phone_number" class="form-control"
-                                        placeholder="Enter your phone number"
-                                        value="{{ $user_profile->phone ?? '' }}"
-                                        oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
+            <!-- Modal -->
+            <div class="modal fade profile-modal " id="staticBackdrop" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
+                            id="profile_form">
+                            @csrf
+                            <div class="modal-body p-0">
+                                <div class="modal-inp-label">
+                                    <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id) }}">
+                                    <label>First Name</label>
+                                    <input type="text" name="first_name" id="first_name" class="form-control"
+                                        value="{{ $user_profile->first_name }}" placeholder="Enter Your First Name">
+                                </div>
+                                <div class="modal-inp-label">
+                                    <label>Last Name</label>
+                                    <input type="text" name="last_name" id="last_name" class="form-control"
+                                        value="{{ $user_profile->last_name }}" placeholder="Enter Your Last Name">
+                                </div>
+                                <div class="modal-inp-label">
+                                    <label>Email</label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        placeholder="you@example.com" value="{{ $user_profile->email }}">
                                 </div>
 
-                                <!-- Hidden field that stores full phone -->
-                                <input type="hidden" name="phone" id="full_phone"
-                                    value="{{ $user_profile->phone ?? '' }}">
+                                <div>
+                                    <label>Phone No</label>
 
-                            </div>
-                            <!-- <div class="modal-inp-label">
+                                    <div class="input-group  phone-input">
+                                        <input type="tel" id="phone" name="phone_number"
+                                            class="form-control" placeholder="Enter your phone number"
+                                            value="{{ $user_profile->phone ?? '' }}"
+                                            oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
+                                    </div>
+
+                                    <!-- Hidden field that stores full phone -->
+                                    <input type="hidden" name="phone" id="full_phone"
+                                        value="{{ $user_profile->phone ?? '' }}">
+
+                                </div>
+                                <!-- <div class="modal-inp-label">
                                 <label>Phone No</label>
                                 <input type="tel" name="phone" id="phone" class="form-control"
                                     placeholder="Enter Phone no" value="{{ $user_profile->phone ?? '' }}">
                             </div> -->
-                            <div class="modal-inp-label">
-                                <label>Address</label>
-                                <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                <div class="modal-inp-label">
+                                    <label>Address</label>
+                                    <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                </div>
+
                             </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-all-dark btn-hover-dark"
-                                data-bs-dismiss="modal">Cancle</button>
-                            <button type="submit" class="btn btn-orange">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static"
-            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-all-dark btn-hover-dark"
+                                    data-bs-dismiss="modal">Cancle</button>
+                                <button type="submit" class="btn btn-orange">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
-                        id="password_form">
-                        @csrf
-                        <div class="modal-body p-0">
-                            <div class="modal-inp-label">
-                                <input type="hidden" name="id" value="{{ $user_profile->id ?? '' }}">
-                                <label>Current Password</label>
-                                <input type="password" name="current_password" id="current_password"
-                                    class="form-control" placeholder="Enter Current Password">
-                            </div>
-                            <div class="modal-inp-label">
-                                <label>New Password</label>
-                                <input type="password" name="new_password" id="new_password" class="form-control"
-                                    placeholder="Enter New Password">
-                            </div>
-                            <div class="modal-inp-label">
-                                <label>Confirm Password</label>
-                                <input type="password" name="confirm_password" id="confirm_password"
-                                    class="form-control" placeholder="Enter Confirm Password">
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-all-dark btn-hover-dark"
-                                data-bs-dismiss="modal">Cancle</button>
-                            <button type="submit" class="btn btn-orange">Submit</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
-        <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+
+            <div class="modal fade password-modal " id="password_change" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
+                            id="password_form">
+                            @csrf
+                            <div class="modal-body p-0">
+                                <div class="modal-inp-label">
+                                    <input type="hidden" name="id" value="{{ $user_profile->id ?? '' }}">
+                                    <label>Current Password</label>
+                                    <input type="password" name="current_password" id="current_password"
+                                        class="form-control" placeholder="Enter Current Password">
+                                </div>
+                                <div class="modal-inp-label">
+                                    <label>New Password</label>
+                                    <input type="password" name="new_password" id="new_password"
+                                        class="form-control" placeholder="Enter New Password">
+                                </div>
+                                <div class="modal-inp-label">
+                                    <label>Confirm Password</label>
+                                    <input type="password" name="confirm_password" id="confirm_password"
+                                        class="form-control" placeholder="Enter Confirm Password">
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-all-dark btn-hover-dark"
+                                    data-bs-dismiss="modal">Cancle</button>
+                                <button type="submit" class="btn btn-orange">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    <form action="">
-                        <div class="modal-body p-0">
-                            <div class="modal-inp-label">
-                                <label> Name</label>
-                                <input type="text" name="username" class="form-control"
-                                    placeholder="Enter Your Name">
-                            </div>
-                            <div class="modal-inp-label">
-                                <label>Email</label>
-                                <input type="email" name="email" class="form-control"
-                                    placeholder="you@example.com">
-                            </div>
-                            <div class="modal-inp-label">
-                                <label>Phone number</label>
-                                <input type="text" name="number" class="form-control" placeholder="1234567890">
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-all-dark btn-hover-dark"
-                                data-bs-dismiss="modal">Cancle</button>
-                            <button type="button" class="btn btn-orange">Submit</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
+            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="">
+                            <div class="modal-body p-0">
+                                <div class="modal-inp-label">
+                                    <label> Name</label>
+                                    <input type="text" name="username" class="form-control"
+                                        placeholder="Enter Your Name">
+                                </div>
+                                <div class="modal-inp-label">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="you@example.com">
+                                </div>
+                                <div class="modal-inp-label">
+                                    <label>Phone number</label>
+                                    <input type="text" name="number" class="form-control"
+                                        placeholder="1234567890">
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-all-dark btn-hover-dark"
+                                    data-bs-dismiss="modal">Cancle</button>
+                                <button type="button" class="btn btn-orange">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </section>
 </main>
