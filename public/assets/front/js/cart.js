@@ -38,8 +38,8 @@ function addToCart(product_id, btn = null) {
     complete: function () {
       // if (btn) {
       $(".add_to_cart").prop("disabled", true).text("Added to Cart");
-      $(".add_to_cart").removeClass("btn-orange");
-      $(".add_to_cart").addClass("btn-success already-added");
+      // $(".add_to_cart").removeClass("btn-orange");
+      // $(".add_to_cart").addClass("btn-success already-added");
       // }
       // $(".add_to_cart").prop("disabled", true).text("Added to Cart");
     },

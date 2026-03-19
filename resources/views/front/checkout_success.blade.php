@@ -38,7 +38,7 @@
         .check-wrap {
             width: 72px;
             height: 72px;
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #ff8000, #e67300);
             border-radius: 50%;
             display: flex;
             align-items: center;

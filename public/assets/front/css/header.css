@@ -454,6 +454,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-left: auto;
+  margin-right: 3px;
 }
 
 @media only screen and (max-width: 1399px) {

@@ -161,6 +161,31 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="sub-card">
+                                <div class="sub-card__header">
+                                    <div class="sub-card__title-wrap checkout-title">
+
+                                        <h4 class="sub-card__title">Subscription</h4>
+                                    </div>
+                                    <span class="sub-card__badge">Active</span>
+                                </div>
+                                <div class="sub-card__body">
+                                    <div class="sub-card__row">
+                                        <span class="sub-card__label">Plan</span>
+                                        <span class="sub-card__value">Standard</span>
+                                    </div>
+                                    <div class="sub-card__row">
+                                        <span class="sub-card__label">Downloads remaining</span>
+                                        <span class="sub-card__value">12 / 50</span>
+                                    </div>
+                                    <div class="sub-card__row">
+                                        <span class="sub-card__label">Renews on</span>
+                                        <span class="sub-card__value">Apr 19, 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
 

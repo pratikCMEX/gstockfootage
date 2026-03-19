@@ -188,8 +188,7 @@
                                             </button>
                                         @else
                                             {{-- No active subscription --}}
-                                            <button type="submit" class="btn btn-all-dark w-100"
-                                                {{ $currentPrice != '' ? 'disabled' : '' }}>
+                                            <button type="submit" class="btn btn-all-dark w-100">
                                                 Subscribe Now
                                             </button>
                                         @endif
