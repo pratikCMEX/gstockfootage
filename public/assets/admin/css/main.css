@@ -542,6 +542,12 @@ table.dataTable thead th {
   background-color: #ff8000 !important; /* your color */
   color: #fff !important; /* optional text color */
 }
+
+.dataTables_length,
 #subcategory-table_length {
   margin-bottom: 20px;
+}
+
+#license-table thead tr th[title="Most Popular"] {
+  width: 90px !important;
 }

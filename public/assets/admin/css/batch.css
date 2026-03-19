@@ -529,6 +529,19 @@ p {
   background-color: var(--black);
   border-color: var(--white);
 }
+th .form-check-input:checked {
+  border-color: var(--white) !important;
+  background-color: var(--white) !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ff8000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+th .form-check-input:focus {
+  border-color: var(--white) !important;
+}
+
+td .form-check-input {
+  border-color: var(--secendory);
+}
 
 .filter-text ul li {
   margin: 10px 0;
