@@ -11,6 +11,7 @@ class User_subscriptions extends Model
         'subscription_plan_id',
         'start_date',
         'end_date',
+        'stripe_subscription_id',
         'total_clips',
         'used_clips',
         'remaining_clips',
@@ -18,7 +19,8 @@ class User_subscriptions extends Model
         'amount',
         'payment_gateway',
         'transaction_id',
-        'payment_status'
+        'payment_status',
+        'stripe_subscription_id'
 
 
     ];

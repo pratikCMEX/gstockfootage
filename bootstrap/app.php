@@ -36,6 +36,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'stripe/handleWebhook',
             'stripe/webhook',
+            'webhook/stripe',
+
         ]);
 
         $middleware->alias([

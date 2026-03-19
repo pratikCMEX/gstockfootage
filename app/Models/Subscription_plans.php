@@ -17,7 +17,7 @@ class Subscription_plans extends Model
         'price_per_clip',
         'discount_percentage',
         'is_active',
-
+        'stripe_price_id'
 
     ];
     public function userSubscriptions()

@@ -115,7 +115,7 @@
                 <div class="subscription-content">
                     <div class="row g-4 justify-content-md-center">
 
-                        @foreach ($subscriptionPlanList as $subscription)
+                        {{-- @foreach ($subscriptionPlanList as $subscription)
                             <div class="col-lg-4 col-md-6">
                                 <div class="subscription-card">
                                     <div class="subscription-title">
@@ -153,6 +153,48 @@
                                     <!-- <button class="btn btn-all-dark  w-100">Subscribe Now</button> -->
 
 
+                                </div>
+                            </div>
+                        @endforeach --}}
+
+
+                        @foreach ($subscriptionPlanList as $subscription)
+                            <div class="col-lg-4 col-md-6">
+                                <div class="subscription-card">
+                                    <div class="subscription-title">
+                                        <div class="subscription-left">
+                                            <h5>{{ $subscription->name }}</h5>
+                                            <p class="text-secondary">{{ $subscription->total_clips }} HD clips per
+                                                {{ $subscription->duration_type }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="subscribe-price">${{ $subscription->price }}<span>/
+                                            {{ $subscription->duration_type }}</span></div>
+                                    <p class="text-secondary subscribe-price-text">${{ $subscription->price_per_clip }}
+                                        per clip
+                                    </p>
+                                    <form action="{{ route('subscription.stripe') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="plan_id" value="{{ $subscription->id }}">
+
+                                        @if ($subscription->is_purchased == '1')
+                                            <label class="btn btn-orange w-100">
+                                                ✓ Current Plan
+                                            </label>
+                                        @elseif ($subscription->is_higher_plan)
+                                            <button type="submit" class="btn btn-orange w-100">
+                                                ⬆ Upgrade Now
+                                            </button>
+                                        @else
+                                            {{-- No active subscription --}}
+                                            <button type="submit" class="btn btn-all-dark w-100"
+                                                {{ $currentPrice != '' ? 'disabled' : '' }}>
+                                                Subscribe Now
+                                            </button>
+                                        @endif
+
+                                    </form>
                                 </div>
                             </div>
                         @endforeach
