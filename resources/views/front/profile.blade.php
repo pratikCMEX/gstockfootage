@@ -40,7 +40,8 @@
                             data-bs-target="#v-pills-settings" 
                             type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i
                                 class="bi bi-gear"></i> Settings</button> -->
-                    </div>
+                    </div> 
+                    
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
                     <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif"
