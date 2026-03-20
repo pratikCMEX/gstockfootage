@@ -95,7 +95,7 @@
                             <div>
                                 <div class="mb-3">
                                     <label class="form-label">Upload File</label><label class="text-danger">*</label>
-                                    <input class="form-control" type="file" name="file" id="fileInput">
+                                    <input class="form-control" type="file"  accept="image/*" name="file" id="fileInput">
                                 </div>
 
                                 <div class="mt-2 mb-4">
