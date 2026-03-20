@@ -128,9 +128,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <a href="{{ route('logout') }}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
@@ -239,7 +239,7 @@
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         @if ($item['type'] == 'image')
-                            <img src="{{ $item['mid_path'] ? Storage::disk('s3')->url($item['mid_path']) : '' }}"
+                            <img src="{{ $item['mid_path'] ? Storage::disk('s3')->url($item['mid_path']) : asset('assets/admin/images/demo_thumbnail.png') }}"
                                 class="h-100 w-100" alt="">
                         @else
                             <img src="{{ $item['thumbnail_path'] ? Storage::disk('s3')->url($item['thumbnail_path']) : asset('assets/admin/images/demo_thumbnail.png') }}"
