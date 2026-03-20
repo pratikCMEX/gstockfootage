@@ -108,16 +108,16 @@ class DashboardController extends Controller
         });
 
         // New orders
-        Order::latest()->take(5)->get()->each(function ($o) use (&$recentActivity) {
-            $recentActivity->push([
-                'type'    => 'order',
-                'title'   => 'New order placed',
-                'sub'     => 'Order #' . $o->order_number . ' · $' . number_format($o->total_amount, 2),
-                'dot'     => 'green',
-                'icon'    => '<i class="fa-solid fa-cart-shopping"></i>',
-                'time'    => $o->created_at,
-            ]);
-        });
+        // Order::latest()->take(5)->get()->each(function ($o) use (&$recentActivity) {
+        //     $recentActivity->push([
+        //         'type'    => 'order',
+        //         'title'   => 'New order placed',
+        //         'sub'     => 'Order #' . $o->order_number . ' · $' . number_format($o->total_amount, 2),
+        //         'dot'     => 'green',
+        //         'icon'    => '<i class="fa-solid fa-cart-shopping"></i>',
+        //         'time'    => $o->created_at,
+        //     ]);
+        // });
 
         // New subscriptions
         User_subscriptions::with(['user', 'subscription'])->latest()->take(5)->get()->each(function ($s) use (&$recentActivity) {
