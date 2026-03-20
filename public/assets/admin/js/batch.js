@@ -486,8 +486,9 @@ function loadImageMetadata(file_id) {
       $("input[name='image_width']").val(res.width);
       $("input[name='price']").val(res.price);
       $("#country").val(res.country);
-      $("#category_id").val(res.category_id);
+      // $("#category_id").val(res.category_id);
       $("#collection_id").val(res.collection_id);
+      $("#category_id").val(res.category_id).trigger("change");
       loadSubCategories(res.category_id, res.subcategory_id);
 
       // Tags / keywords
