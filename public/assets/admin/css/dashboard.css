@@ -868,13 +868,16 @@
   font-size: 13px;
   font-weight: 700;
   color: var(--text);
+  min-width: 90px;
 }
 .db-plan-clips {
   font-size: 12px;
   color: var(--second-text);
+  min-width: 46px;
 }
 .db-plan-price {
   font-size: 13px;
   font-weight: 800;
   color: var(--primarycolor);
+  min-width: 90px;
 }
