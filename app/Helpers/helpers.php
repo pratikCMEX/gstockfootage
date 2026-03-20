@@ -144,7 +144,7 @@ function getCartItems()
                 'low_path' => $product->low_path,
                 'mid_path' => $product->mid_path,
                 'thumbnail_path' => $product->thumbnail_path,
-                'size' => ($product->height ?? 0) . ' x ' . ($product->width ?? 0) . '(H x W)',
+                'size' => ($product->height ?? 0) . ' x ' . ($product->width ?? 0) . ' (H x W)',
                 'quality' => 'HD Quality',
                 'subtotal' => $product->price * $cart->qty,
             ];
@@ -170,7 +170,7 @@ function getCartItems()
                     'low_path' => $product->low_path,
                     'mid_path' => $product->mid_path,
                     'thumbnail_path' => $product->thumbnail_path,
-                    'size' => ($product->height ?? 0) . ' x ' . ($product->width ?? 0) . '(H x W)',
+                    'size' => ($product->height ?? 0) . ' x ' . ($product->width ?? 0) . ' (H x W)',
                     'subtotal' => $product->price * $cart['qty'],
                 ];
                 $total += $product->price * $cart['qty'];
