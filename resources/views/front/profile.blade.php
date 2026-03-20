@@ -789,6 +789,11 @@
                                                                 $url = $path
                                                                     ? Storage::disk('s3')->url($path)
                                                                     : asset('assets/admin/images/demo_thumbnail.png');
+                                                                $final_url = Storage::disk('s3')->url(
+                                                                    $product->file_path,
+                                                                );
+
+                                                            @endphp
                                                             @endphp
 
                                                             <tr>
@@ -812,9 +817,9 @@
                                                                 </td>
                                                                 <td>
                                                                     @php
-                                                                        $downloadUrl = $path
+                                                                        $downloadUrl = $product->file_path
                                                                             ? Storage::disk('s3')->temporaryUrl(
-                                                                                $path,
+                                                                                $product->file_path,
                                                                                 now()->addMinutes(30),
                                                                             )
                                                                             : null;
