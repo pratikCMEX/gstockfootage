@@ -34,34 +34,35 @@ class PricingController extends Controller
         //     ->get();
 
         $activeSubscription = null;
+        $activePlan = null;
+
         if (auth()->check()) {
-            $activeSubscription = User_subscriptions::where('user_id', auth()->id())
+            $activeSubscription = User_subscriptions::with('plan')  // ✅ eager load
+                ->where('user_id', auth()->id())
                 ->whereIn('status', ['active', 'cancelled'])
                 ->where('end_date', '>', now())
                 ->latest()
                 ->first();
+
+            $activePlan = $activeSubscription?->plan ?? null;
         }
 
         $subscriptionPlanList = Subscription_plans::where('is_active', '1')
             ->orderBy('price', 'asc')
             ->get()
-            ->map(function ($plan) use ($activeSubscription) {
+            ->map(function ($plan) use ($activeSubscription, $activePlan) {
 
-                $plan->is_purchased    = false;
-                $plan->is_lower_plan   = false;
-                $plan->is_higher_plan  = false;
+                $plan->is_purchased   = false;
+                $plan->is_lower_plan  = false;
+                $plan->is_higher_plan = false;
 
-                if ($activeSubscription) {
-                    $activePlan = $activeSubscription->plan;
+                if ($activeSubscription && $activePlan) {
 
                     if ($activeSubscription->subscription_plan_id == $plan->id) {
-                        // This is the current plan
                         $plan->is_purchased = true;
                     } elseif ($plan->price < $activePlan->price) {
-                        // This plan is cheaper than current = lower plan
                         $plan->is_lower_plan = true;
                     } elseif ($plan->price > $activePlan->price) {
-                        // This plan is more expensive = upgrade
                         $plan->is_higher_plan = true;
                     }
                 }
