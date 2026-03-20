@@ -123,9 +123,13 @@ Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 
 Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
 
-Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('check.login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('check.login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+});
 Route::post('/check_user_is_exist', [AuthController::class, 'checkUserIsExist'])->name('user_check_exist');
 Route::post('/check_user_is_valid', [AuthController::class, 'checkUserValid'])->name('user_check_valid');
 
@@ -161,7 +165,7 @@ Route::get('/checkout/success', [PaymentController::class, 'success'])->name('ch
 Route::post('/order/status', [PaymentController::class, 'getOrderFiles'])->name('checkout.order-files');
 Route::get('/download/file', [PaymentController::class, 'downloadFile'])->name('download.file');
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
-// Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
+Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']);
 Route::post('/webhook/stripe', [WebhookController::class, 'handle'])
     ->name('stripe.webhook');
 // routes/web.php
