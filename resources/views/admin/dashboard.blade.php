@@ -52,7 +52,7 @@
                 <div class="oc-label">Total Orders</div>
                 <div class="oc-num">
                     {{ $totalOrder ?? 0 }}
-                    <span class="badge badge-success">↗ +{{ $newOrders ?? 0 }}</span>
+                    <span class="badge badge-success">↗ </span>
                 </div>
                 <div id="ordersSparkline"></div>
                 <div class="oc-mini">
