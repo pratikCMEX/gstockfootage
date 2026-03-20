@@ -2,6 +2,14 @@
   margin: 0;
   padding: 0;
 }
+.auth-btn:focus,
+.auth-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(253, 126, 20, 0.5);
+    background-color: #e06800; /* ✅ slightly darker on focus */
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
 
 .login-overlay::after {
   content: "";

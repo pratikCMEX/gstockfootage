@@ -45,7 +45,7 @@ class OrderHistoryDataTable extends DataTable
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->format('d M Y, h:i A');
             })
-            // ✅ Clean columns for export (no HTML, no $ sign)
+            //  Clean columns for export (no HTML, no $ sign)
             ->addColumn('export_order_status', fn($row) => ucfirst($row->order_status))
             ->addColumn('export_payment_status', fn($row) => ucfirst($row->payment_status))
             ->addColumn('export_total_amount', fn($row) => number_format($row->total_amount, 2))
@@ -77,7 +77,7 @@ class OrderHistoryDataTable extends DataTable
     //         ->setTableId('orderhistory-table')
     //         ->columns($this->getColumns())
     //         ->minifiedAjax()
-    //         ->orderBy(6, 'desc') // ✅ created_at column index = 6, latest first
+    //         ->orderBy(6, 'desc') //  created_at column index = 6, latest first
     //         ->selectStyleSingle()
     //         ->buttons([
     //             Button::make('excel'),
@@ -107,12 +107,12 @@ class OrderHistoryDataTable extends DataTable
             'dom' => 'Bfrtip',
         ])
         ->buttons([
-            // ✅ Exclude last column (action) from export using column index
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+            //  Exclude last column (action) from export using column index
+            // Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
             // Button::make('csv')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
             Button::make('pdf')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
-            // ✅ Fixed raw button syntax
+            // Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+            //  Fixed raw button syntax
            
         ]);
 }

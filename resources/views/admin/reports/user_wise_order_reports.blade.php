@@ -11,15 +11,13 @@
             </div>
 
         </div>
-
-
         <div class="row">
             <div class="col-lg-12 d-flex align-items-stretch">
 
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="mb-3 mb-sm-0 mb-4">
-                            <h5 class="card-title fw-semibold">Order History</h5>
+                            <h5 class="card-title fw-semibold">User Wise Order Report</h5>
                         </div>
                         <div class="table-responsive">
 
@@ -31,5 +29,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>

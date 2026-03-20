@@ -24,7 +24,7 @@ class ProductPriorityDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-             ->addIndexColumn()
+            ->addIndexColumn()
             ->setRowId('id')
             ->addColumn('category', function ($row) {
                 return $row->category?->category_name ?? '-';
@@ -132,7 +132,7 @@ class ProductPriorityDataTable extends DataTable
                     $order
                 );
             })
-           
+
 
             ->rawColumns([
 
@@ -146,7 +146,7 @@ class ProductPriorityDataTable extends DataTable
                 'description',
                 'display_status',
                 'created_at',
-               
+
             ]);
     }
 
@@ -217,10 +217,10 @@ class ProductPriorityDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-           Column::computed('DT_RowIndex')
-    ->title('Priority')
-    ->searchable(false)
-    ->orderable(false),
+            Column::computed('DT_RowIndex')
+                ->title('Priority')
+                ->searchable(false)
+                ->orderable(false),
             Column::make('category')->title('Category'),
             Column::make('subcategory')->title('Subcategory'),
             Column::make('collection')->title('Collection')->orderable(true),

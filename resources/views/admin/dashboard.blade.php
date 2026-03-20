@@ -219,7 +219,7 @@
             <div class="card">
                 <div class="card-head">
                     <h3>Recent Orders</h3>
-                    <a class="btn-sm" href="">See All <i class="fa-solid fa-arrow-right-long"></i></a>
+                    <a class="btn-sm" href="{{ route('admin.order_history') }}">See All <i class="fa-solid fa-arrow-right-long"></i></a>
                 </div>
                 <div class="card-table-main">
                     <table class="tbl">

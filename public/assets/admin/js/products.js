@@ -94,7 +94,8 @@ function initProductValidation(formId, isFileRequired = true) {
 
       file: {
         required: isFileRequired,
-        // fileTypeByProductType: true,
+        accept: "image/jpeg,image/png,image/jpg,image/gif,image/webp",
+
       },
     },
 
@@ -105,6 +106,7 @@ function initProductValidation(formId, isFileRequired = true) {
       description: "Please enter description",
       file: {
         required: "Please upload a file",
+        accept: "Only JPG, PNG, GIF, WEBP images are allowed",
       },
     },
 
@@ -141,14 +143,17 @@ function initProductValidation(formId, isFileRequired = true) {
     errorPlacement: function (error, element) {
       error.addClass("invalid-feedback");
 
-      if (element.hasClass('searchable')) {
+      if (element.attr('name') === 'file') {
+        // ✅ Place error after preview section, inside your existing span
+        error.appendTo('#fileInput-error').closest('span');
+        $('#fileInput-error').html(error);
+      }
+      else if (element.hasClass('searchable')) {
         error.insertAfter(element.next('.select2'));
       }
-      // Tagsinput fix (your existing)
       else if (element.attr("data-role") === "tagsinput") {
         error.insertAfter(element.siblings(".bootstrap-tagsinput"));
       }
-      //  Default
       else {
         error.insertAfter(element);
       }

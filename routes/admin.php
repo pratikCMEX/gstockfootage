@@ -176,9 +176,14 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/delete_multiple_blog', [BlogsController::class, 'deleteMultiple'])->name('admin.delete_multiple_blog');
 
 
+    // reports
     Route::get('admin/order_history', [ReportsController::class, 'order_history'])->name('admin.order_history');
-    // routes/web.php
     Route::get('/admin/order_detail/{id}', [ReportsController::class, 'detail'])->name('admin.order_detail');
+    Route::get('admin/user_subscriptions_list', [ReportsController::class, 'user_subscriptions_report'])->name('admin.user_subscriptions_report');
+    Route::get('admin/most_sold_product_report', [ReportsController::class, 'most_sold_product_report'])->name('admin.most_sold_product_report');
+    Route::get('admin/most_viewed_product_report', [ReportsController::class, 'most_viewed_product_report'])->name('admin.most_viewed_product_report');
+    Route::get('admin/live_cart_report', [ReportsController::class, 'live_cart_report'])->name('admin.live_cart_report');
+    Route::get('admin/user_wise_order_report', [ReportsController::class, 'user_wise_order_report'])->name('admin.user_wise_order_report');
 
 
     Route::get('admin/content', [ContentMasterController::class, 'index'])->name('admin.content');
