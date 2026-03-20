@@ -1,6 +1,4 @@
 $(document).on("click", "#processPaymentBtn", function () {
-  alert(Stripe(window.STRIPE_KEY));
-  return;
   let button = $(this);
   let email = $("#checkout_email").val();
 
