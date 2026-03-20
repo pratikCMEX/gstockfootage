@@ -367,6 +367,7 @@ $(document).ready(function () {
         setTimeout(function () {
           $("#copyLinkText").text("Copy Link");
         }, 2000);
+        toastr.success("Link copied!");
       })
       .catch(function () {
         const el = document.createElement("textarea");
