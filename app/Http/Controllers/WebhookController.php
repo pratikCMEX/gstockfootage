@@ -162,18 +162,25 @@ class WebhookController extends Controller
                     ->first();
 
                 if ($activeSubscription) {
+                    $totalClips = $activeSubscription->total_clips;
 
-                    if ($activeSubscription->remaining_clips < $totalQty) {
+
+                    if ($totalClips < $totalQty) {
                         Log::warning('⚠️ Not enough clips', [
                             'user_id'         => $user->id,
-                            'remaining_clips' => $activeSubscription->remaining_clips,
+                            'total_clips'     => $totalClips,
                             'requested'       => $totalQty,
                         ]);
                         // Optional: you can block the order here or just allow it
-                    }
+                    } else {
+                        $usedClips = min($totalQty, $activeSubscription->used_clips + $totalQty);
+                        $remainingClips = max(0, $activeSubscription->remaining_clips - $totalQty);
 
-                    $activeSubscription->increment('used_clips', $totalQty);
-                    $activeSubscription->decrement('remaining_clips', $totalQty);
+                        $activeSubscription->update([
+                            'used_clips' => $usedClips,
+                            'remaining_clips' => $remainingClips,
+                        ]);
+                    }
 
                     Log::info('✅ Clips deducted', [
                         'user_id'         => $user->id,
