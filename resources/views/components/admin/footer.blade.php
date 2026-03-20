@@ -64,8 +64,14 @@
     $('.searchable').select2({
         width: 'resolve',
         minimumResultsForSearch: 0, // always show search box
-        placeholder: "Type to search...",
+        placeholder: function () {
+            return $(this).data('placeholder') || "Type to search...";
+        },
         allowClear: true
+    });
+
+     $(document).on('select2:open', function () {
+        $('.select2-search__field').attr('placeholder', 'Type to search...');
     });
 });
 </script>
