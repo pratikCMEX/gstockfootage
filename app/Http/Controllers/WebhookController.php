@@ -152,6 +152,38 @@ class WebhookController extends Controller
 
             // Clear cart
 
+            // if ($user) {
+            //     $totalQty = collect($cartData['items'])->sum('qty');
+
+            //     $activeSubscription = User_subscriptions::where('user_id', $user->id)
+            //         ->where('status', 'active')
+            //         ->where('end_date', '>', now())
+            //         ->latest()
+            //         ->first();
+
+            //     if ($activeSubscription->remaining_clips < $totalQty) {
+            //         Log::warning('⚠️ Not enough clips', [
+            //             'user_id'         => $user->id,
+            //             'remaining_clips' => $activeSubscription->remaining_clips,
+            //             'requested'       => $totalQty,
+            //         ]);
+            //     } else {
+            //         $activeSubscription->update([
+            //             'used_clips'      => $activeSubscription->used_clips + $totalQty,
+            //             'remaining_clips' => $activeSubscription->remaining_clips - $totalQty,
+            //         ]);
+            //     }
+            // }
+            // if ($user) {
+            //     Cart::where('user_id', $user->id)->delete();
+            //     Log::info('DB cart cleared', ['user_id' => $user->id]);
+            // }
+
+            // Cache::forget('stripe_cart_' . $session->id);
+
+            // DB::commit();
+
+            // ✅ Deduct clips AFTER order details saved, BEFORE cart clear
             if ($user) {
                 $totalQty = collect($cartData['items'])->sum('qty');
 
@@ -162,38 +194,40 @@ class WebhookController extends Controller
                     ->first();
 
                 if ($activeSubscription) {
-                    $totalClips = $activeSubscription->total_clips;
+                    Log::info('Clips before deduction', [
+                        'used_clips'      => $activeSubscription->used_clips,
+                        'remaining_clips' => $activeSubscription->remaining_clips,
+                        'total_clips'     => $activeSubscription->total_clips,
+                        'qty_to_deduct'   => $totalQty,
+                    ]);
 
-
-                    if ($totalClips < $totalQty) {
+                    if ($activeSubscription->remaining_clips < $totalQty) {
                         Log::warning('⚠️ Not enough clips', [
                             'user_id'         => $user->id,
-                            'total_clips'     => $totalClips,
+                            'remaining_clips' => $activeSubscription->remaining_clips,
                             'requested'       => $totalQty,
                         ]);
-                        // Optional: you can block the order here or just allow it
                     } else {
-                        $usedClips = min($totalQty, $activeSubscription->used_clips + $totalQty);
-                        $remainingClips = max(0, $activeSubscription->remaining_clips - $totalQty);
+                        // ✅ Use DB-level atomic update — prevents race conditions
+                        User_subscriptions::where('id', $activeSubscription->id)
+                            ->update([
+                                'used_clips'      => $activeSubscription->used_clips + $totalQty,
+                                'remaining_clips' => $activeSubscription->remaining_clips - $totalQty,
+                            ]);
 
-                        $activeSubscription->update([
-                            'used_clips' => $usedClips,
-                            'remaining_clips' => $remainingClips,
+                        Log::info('✅ Clips deducted', [
+                            'user_id'         => $user->id,
+                            'qty_deducted'    => $totalQty,
+                            'used_clips'      => $activeSubscription->used_clips + $totalQty,
+                            'remaining_clips' => $activeSubscription->remaining_clips - $totalQty,
                         ]);
                     }
-
-                    Log::info('✅ Clips deducted', [
-                        'user_id'         => $user->id,
-                        'qty_deducted'    => $totalQty,
-                        'used_clips'      => $activeSubscription->fresh()->used_clips,
-                        'remaining_clips' => $activeSubscription->fresh()->remaining_clips,
-                    ]);
                 } else {
-                    Log::warning('⚠️ No active subscription found for user', [
-                        'user_id' => $user->id,
-                    ]);
+                    Log::warning('⚠️ No active subscription found', ['user_id' => $user->id]);
                 }
             }
+
+            // ✅ Clear cart AFTER clips deducted
             if ($user) {
                 Cart::where('user_id', $user->id)->delete();
                 Log::info('DB cart cleared', ['user_id' => $user->id]);
