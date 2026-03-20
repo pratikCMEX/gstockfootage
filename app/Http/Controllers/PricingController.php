@@ -33,25 +33,41 @@ class PricingController extends Controller
         //     ])
         //     ->get();
 
-        $currentSub = User_subscriptions::where('user_id', auth()->id())
-            ->where('status', 'active')
-            ->where('end_date', '>', now())
-            ->with('subscription')
-            ->latest()
-            ->first();
+        $activeSubscription = null;
+        if (auth()->check()) {
+            $activeSubscription = User_subscriptions::where('user_id', auth()->id())
+                ->whereIn('status', ['active', 'cancelled'])
+                ->where('end_date', '>', now())
+                ->latest()
+                ->first();
+        }
 
-        $currentPrice = $currentSub?->subscription?->price ?? 0;
+        $subscriptionPlanList = Subscription_plans::where('is_active', '1')
+            ->orderBy('price', 'asc')
+            ->get()
+            ->map(function ($plan) use ($activeSubscription) {
 
-        $subscriptionPlanList = Subscription_plans::all()->map(function ($plan) use ($currentSub, $currentPrice) {
+                $plan->is_purchased    = false;
+                $plan->is_lower_plan   = false;
+                $plan->is_higher_plan  = false;
 
-            // Mark as current plan
-            $plan->is_purchased = ($currentSub && $currentSub->subscription_plan_id == $plan->id) ? '1' : '0';
+                if ($activeSubscription) {
+                    $activePlan = $activeSubscription->plan;
 
-            // Mark as higher plan (upgrade option)
-            $plan->is_higher_plan = $currentSub && $plan->price > $currentPrice;
+                    if ($activeSubscription->subscription_plan_id == $plan->id) {
+                        // This is the current plan
+                        $plan->is_purchased = true;
+                    } elseif ($plan->price < $activePlan->price) {
+                        // This plan is cheaper than current = lower plan
+                        $plan->is_lower_plan = true;
+                    } elseif ($plan->price > $activePlan->price) {
+                        // This plan is more expensive = upgrade
+                        $plan->is_higher_plan = true;
+                    }
+                }
 
-            return $plan;
-        });
+                return $plan;
+            });
 
         return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList', 'subscriptionPlanList', 'currentPrice'));
     }
