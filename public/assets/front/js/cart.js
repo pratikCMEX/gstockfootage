@@ -136,6 +136,7 @@ function cartItemTemplate(product) {
 $(document).on("click", ".delete_add_to_cart", function () {
   var id = $(this).attr("data-id");
   // alert("HEllo guys");
+  $(this).prop("disabled", true);
   removeCartItem(id);
 });
 
@@ -167,6 +168,7 @@ function removeCartItem(product_id) {
         // 🔥 Remove sidebar + table row
         items.fadeOut(300, function () {
           $(this).remove();
+          $(".delete_add_to_cart").prop("disabled", false);
 
           /* --------------------------
              SIDEBAR UPDATE
