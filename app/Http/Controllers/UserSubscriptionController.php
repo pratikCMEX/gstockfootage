@@ -95,6 +95,8 @@ class UserSubscriptionController extends Controller
         $session = Session::create([
             'customer'             => $user->stripe_customer_id,
             'payment_method_types' => ['card'],
+            'customer_email' => $user->email,
+
             'line_items'           => [[
                 'price'    => $plan->stripe_price_id,
                 'quantity' => 1,
