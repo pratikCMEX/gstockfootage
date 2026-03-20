@@ -40,7 +40,6 @@
 
         {{-- Grid --}}
         <div class="row row-gap-4" id="mediaGrid">
-            {{ dd($media) }}
             @forelse($media as $item)
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 media-item" data-type="{{ $item->type }}">
                     <div class="product-card">

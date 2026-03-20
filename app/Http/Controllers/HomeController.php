@@ -203,9 +203,24 @@ class HomeController extends Controller
         $collection = Collection::where('id', $collectionId)->first();
         $media = BatchFile::with('category')
             ->where('collection_id', $collectionId)
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ])
             // ->where('status', 'approved')
             ->latest()
             ->get();
+
+        $query = BatchFile::with(['category'])
+            ->where('type', 'image')
+            ->where('is_edited', '1')
+            ->withExists([
+                'favorites as is_favorite' => function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            ]);
 
         $photos = $media->where('type', 'image')->values();
         $videos = $media->where('type', 'video')->values();
