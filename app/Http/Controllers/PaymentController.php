@@ -314,7 +314,7 @@ class PaymentController extends Controller
 
     public function processCheckout(Request $request)
     {
-        dd(1);
+
         $request->validate([
             'email' => 'required|email'
         ]);
