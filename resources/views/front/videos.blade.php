@@ -65,7 +65,7 @@
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header d-none">
                             <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
@@ -174,15 +174,15 @@
             <div class="col-12">
                 <div class="heading ">
                     <h2>
-                        Videos that are<span class="yellow-headings"> 
-                      @if(!empty($selectedCollection)) 
-                              from  {{ $selectedCollection->name }} Collection
-                              @elseif(!empty($selectedCategory))
-                              from  {{ $selectedCategory->category_name }} Category
-                              @else
-                                 trending today
-                                  @endif       
-                    </span>
+                        Videos that are<span class="yellow-headings">
+                            @if (!empty($selectedCollection))
+                                from {{ $selectedCollection->name }} Collection
+                            @elseif(!empty($selectedCategory))
+                                from {{ $selectedCategory->category_name }} Category
+                            @else
+                                trending today
+                            @endif
+                        </span>
                     </h2>
                 </div>
             </div>
