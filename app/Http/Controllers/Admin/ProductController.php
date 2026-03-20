@@ -133,7 +133,7 @@ class ProductController extends Controller
             if (!$wm) return;
             $posX = (int) (($image->width()  / 2) - ($wm->width()  / 2) + ($image->width()  * 0.08));
             $posY = (int) (($image->height() / 2) - ($wm->height() / 2));
-            $image->place($wm, 'top-left', $posX, $posY);
+            $image->place($wm, 'bottom', 0, 30);
         };
 
         /*
