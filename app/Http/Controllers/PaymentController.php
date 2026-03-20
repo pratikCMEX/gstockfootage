@@ -619,24 +619,41 @@ class PaymentController extends Controller
 
     public function downloadZip(Request $request)
     {
-        $files = $request->input('files', []);
-
-        if (empty($files)) {
-            return back()->with('msg_error', 'No files to download.');
+        // ✅ Kill any output buffering that might corrupt binary
+        while (ob_get_level()) {
+            ob_end_clean();
         }
 
-        $zip     = new \ZipArchive();
+        $files = $request->input('files', []);
+
+        Log::info('downloadZip called', ['file_count' => count($files)]);
+
+        if (empty($files)) {
+            return response()->json(['error' => 'No files to download.'], 400);
+        }
+
+        // ✅ Check ZipArchive is available
+        if (!class_exists('ZipArchive')) {
+            Log::error('ZipArchive class not available');
+            return response()->json(['error' => 'Zip not supported on server.'], 500);
+        }
+
         $zipName = 'downloads_' . time() . '.zip';
         $zipPath = storage_path('app/temp/' . $zipName);
 
-        // Make sure temp dir exists
+        // ✅ Ensure temp directory exists
         if (!file_exists(storage_path('app/temp'))) {
             mkdir(storage_path('app/temp'), 0755, true);
         }
 
-        if ($zip->open($zipPath, \ZipArchive::CREATE) !== true) {
-            return back()->with('msg_error', 'Could not create zip file.');
+        $zip = new \ZipArchive();
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            Log::error('Could not create zip file', ['path' => $zipPath]);
+            return response()->json(['error' => 'Could not create zip.'], 500);
         }
+
+        $addedFiles = 0;
 
         foreach ($files as $fileJson) {
             $file = json_decode($fileJson, true);
@@ -646,11 +663,15 @@ class PaymentController extends Controller
             if (!$path) continue;
 
             try {
-                // ── Stream from S3 ──
+                Log::info('Adding file to zip', ['path' => $path]);
                 $contents = Storage::disk('s3')->get($path);
-                $zip->addFromString($name, $contents);
+
+                if ($contents) {
+                    $zip->addFromString($name, $contents);
+                    $addedFiles++;
+                }
             } catch (\Exception $e) {
-                Log::error('Zip download failed for file', [
+                Log::error('Failed to add file to zip', [
                     'path'  => $path,
                     'error' => $e->getMessage(),
                 ]);
@@ -659,7 +680,22 @@ class PaymentController extends Controller
 
         $zip->close();
 
-        return response()->download($zipPath, $zipName)->deleteFileAfterSend(true);
+        Log::info('Zip created', ['path' => $zipPath, 'files_added' => $addedFiles]);
+
+        if ($addedFiles === 0) {
+            return response()->json(['error' => 'No files could be added to zip.'], 500);
+        }
+
+        if (!file_exists($zipPath) || filesize($zipPath) === 0) {
+            Log::error('Zip file empty or missing after creation');
+            return response()->json(['error' => 'Zip file creation failed.'], 500);
+        }
+
+        // ✅ Return proper binary response
+        return response()->download($zipPath, $zipName, [
+            'Content-Type'        => 'application/zip',
+            'Content-Disposition' => 'attachment; filename="' . $zipName . '"',
+        ])->deleteFileAfterSend(true);
     }
     public function handleWebhook(Request $request)
     {
