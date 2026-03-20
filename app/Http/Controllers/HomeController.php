@@ -220,7 +220,8 @@ class HomeController extends Controller
             'media',
             'photos',
             'videos',
-            'categories'
+            'categories',
+            'js'
         ));
     }
     public function productList()
