@@ -272,5 +272,6 @@ $(document).ready(function () {
   $(document).on("click", "#searchByImageBtn", function () {
     $(this).closest("form").submit();
     $(this).prop("disabled", true);
+    $(".cancel-btn").prop("disabled", true);
   });
 })(jQuery);
