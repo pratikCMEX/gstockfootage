@@ -258,6 +258,7 @@
 .select2-container--default .select2-selection--single .select2-selection__placeholder {
     color: #6c757d;
 }
+
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);

@@ -35,23 +35,23 @@
                         @csrf
                         <div class="">
                             <label>Email *</label>
-                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                            <input type="email" name="email" class="form-control" placeholder="you@example.com" tabindex="1">
                             <label id="email-error" class="" for="email"></label>
                         </div>
 
                         <div>
                             <label>Password *</label>
                             <div class="password-field">
-                                <input type="password" name="password" class="form-control" placeholder="••••••••">
-                                <i class="bi bi-eye-slash toggle-password"></i>
+                                <input type="password" name="password" tabindex="2" class="form-control" placeholder="••••••••">
+                                <i class="bi bi-eye-slash toggle-password" tabindex="-1"></i>
                             </div>
                             <label id="password-error" class="" for="password"></label>
                         </div>
-                        <button type="submit" class="btn auth-btn btn-orange">Sign In</button>
+                        <button type="submit" class="btn auth-btn btn-orange" tabindex="3">Sign In</button>
 
                         <!-- <a href="{{ route('home') }}" class="btn auth-btn btn-orange">Cancel</a> -->
 
-                        <a href="{{ route('password.request') }}" class="forgot">Forgot your password?</a>
+                        <a href="{{ route('password.request') }}" class="forgot" tabindex="4">Forgot your password?</a>
                     </form>
                     <!-- Resend Verification Section - Only show when login tab is active -->
                     {{-- <div class="mt-3 text-center" id="resend-verification-section">
