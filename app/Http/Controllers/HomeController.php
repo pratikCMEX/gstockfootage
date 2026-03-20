@@ -190,7 +190,37 @@ class HomeController extends Controller
             return back()->with('msg_error', $e->getMessage());
         }
     }
+    public function allMedia(Request $request)
+    {
+        $title = 'All Media';
+        $page  = 'front.all_media';
 
+        // ── Get collection 1 with its media ──
+        $collectionId = decrypt($request->collection_id);
+        $collection = Collection::where('id', $collectionId)->first();
+        $media = BatchFile::with('category')
+            ->where('collection_id', $collectionId)
+            ->where('status', 'approved')
+            ->latest()
+            ->get();
+
+        $photos = $media->where('type', 'image')->values();
+        $videos = $media->where('type', 'video')->values();
+
+        $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
+            $q->where('collection_id', $collectionId);
+        })->get();
+
+        return view('layouts.front.layout', compact(
+            'title',
+            'page',
+            'collection',
+            'media',
+            'photos',
+            'videos',
+            'categories'
+        ));
+    }
     public function productList()
     {
         try {

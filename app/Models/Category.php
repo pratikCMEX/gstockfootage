@@ -18,6 +18,11 @@ class Category extends Model
     ];
     public function subCategories()
     {
-        return $this->hasMany(SubCategory::class,'category_id');
+        return $this->hasMany(SubCategory::class, 'category_id');
+    }
+
+    public function batchfiles()
+    {
+        return $this->hasMany(BatchFile::class, 'category_id');
     }
 }
