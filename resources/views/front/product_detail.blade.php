@@ -373,12 +373,12 @@
                                                 <div class="share-divider"></div>
 
                                                 <!-- Copy Link -->
-                                                <button class="share-option copy-link-btn" id="copyLinkBtn">
+                                                <but ton class="share-option copy-link-btn" id="copyLinkBtn">
                                                     <span class="share-icon copy-icon">
                                                         <i class="bi bi-link-45deg" style="font-size:18px;"></i>
                                                     </span>
                                                     <span id="copyLinkText">Copy Link</span>
-                                                </button>
+                                                </but>
                                             </div>
                                         </div>
                                     </div>
