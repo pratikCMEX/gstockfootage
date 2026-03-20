@@ -314,6 +314,7 @@ class PaymentController extends Controller
 
     public function processCheckout(Request $request)
     {
+        dd(1);
         $request->validate([
             'email' => 'required|email'
         ]);
@@ -391,6 +392,14 @@ class PaymentController extends Controller
                     BatchFile::where('id', $item['id'])
                         ->increment('downloads', $item['qty'] ?? 1);
                 }
+
+                try {
+                    $orderWithDetails = Order::with('order_details.product')->find($order->id);
+                    Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
+                    Log::info('Email sent');
+                } catch (\Exception $mailException) {
+                    Log::error('Email failed', ['error' => $mailException->getMessage()]);
+                }
             }
 
             // ── All covered — no payment needed ──
@@ -437,13 +446,7 @@ class PaymentController extends Controller
 
             Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
             Cache::put('stripe_cart_' . $session->id, $partialCart, now()->addHours(24));
-            try {
-                $orderWithDetails = Order::with('order_details.product')->find($order->id);
-                Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
-                Log::info('Email sent');
-            } catch (\Exception $mailException) {
-                Log::error('Email failed', ['error' => $mailException->getMessage()]);
-            }
+
             return response()->json([
                 'status'           => 'mixed',
                 'id'               => $session->id,
