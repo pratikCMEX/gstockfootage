@@ -101,7 +101,7 @@
                                 <video id="preview_video" width="300" controls style="display:none;"></video>
                             </div>
 
-                            <button type="submit" class="btn btn-orange">Save Product</button>
+                            <button type="submit" class="btn btn-orange">Create Product</button>
 
                         </form>
 
