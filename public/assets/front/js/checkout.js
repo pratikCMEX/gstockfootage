@@ -99,7 +99,7 @@ $(document).on("click", "#processPaymentBtn", function () {
     toastr.error("Please enter your email");
     return;
   }
-  $("#loader").css("display", "block");
+  $("#loader").css("display", "flex");
   $.ajax({
     url: base_url + "/checkout/process",
     type: "POST",
@@ -189,11 +189,13 @@ $(document).on("click", "#processPaymentBtn", function () {
 
     error: function (xhr) {
       toastr.error(xhr.responseJSON?.error || "Something went wrong.");
+      $("#loader").css("display", "none");
     },
 
     complete: function () {
       button.prop("disabled", false);
       button.html("Process to payment");
+      $("#loader").css("display", "none");
     },
   });
 });
