@@ -103,6 +103,7 @@
                                         style="max-height:200px;display:none;">
                                     <video id="preview_video" width="300" controls style="display:none;"></video>
                                 </div>
+                                
                                 <span id="fileInput-error" class="text-danger invalid-feedback "></span>
 
                             </div>
