@@ -203,9 +203,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/license/cancel', [UserLicenceController::class, 'cancel'])->name('license.cancel');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/logout', function () {
     $user = Auth::guard('web')->user();
