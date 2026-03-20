@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Subscription_plans;
 use App\Models\User_subscriptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
@@ -252,6 +253,7 @@ class UserSubscriptionController extends Controller
             return redirect()->route('pricing')
                 ->with('msg_success', 'Subscription activated successfully!');
         } catch (\Exception $e) {
+
             Log::error('Success page error: ' . $e->getMessage());
             return redirect()->route('pricing')
                 ->with('msg_success', 'Payment received! Your subscription will activate shortly.');
