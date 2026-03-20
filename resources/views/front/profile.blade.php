@@ -570,8 +570,7 @@
                                                 stroke-linecap="round"></path>
                                         </svg>
                                         Plan valid till
-                                        <strong>{{ $purchasePlan->end_date->format('F d, Y') }}</strong>
-
+                                        <strong>{{ $purchasePlan?->end_date?->format('F d, Y') ?? 'N/A' }}</strong>
                                         <!-- Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly -->
                                     </div>
                                 </div>
