@@ -437,7 +437,12 @@ class PaymentController extends Controller
 
             Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
             Cache::put('stripe_cart_' . $session->id, $partialCart, now()->addHours(24));
-
+            try {
+                $orderWithDetails = Order::with('order_details.product')->find($order->id);
+                Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
+            } catch (\Exception $mailException) {
+                Log::error('Email failed', ['error' => $mailException->getMessage()]);
+            }
             return response()->json([
                 'status'           => 'mixed',
                 'id'               => $session->id,
