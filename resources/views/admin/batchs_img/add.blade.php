@@ -144,7 +144,7 @@
                                                             @php
                                                                 $url =
                                                                     $file['file_type'] == 'image'
-                                                                        ? $file['low_path']
+                                                                        ? $file['mid_path']
                                                                         : $file['thumbnail_path'];
 
                                                                 // $url = asset($url);
