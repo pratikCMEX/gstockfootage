@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscription_plans;
 use App\Models\User_subscriptions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Stripe\Checkout\Session;
@@ -161,14 +162,19 @@ class UserSubscriptionController extends Controller
             // Deactivate old subscription in DB
             $existingSubscription->update(['status' => 'inactive']);
 
-            $endDate = \Carbon\Carbon::createFromTimestamp($updatedSub->current_period_end);
+            $startDate = $updatedSub->current_period_start
+                ? Carbon::createFromTimestamp($updatedSub->current_period_start)
+                : now();
 
-            // Create new subscription record
+            $endDate = $updatedSub->current_period_end
+                ? Carbon::createFromTimestamp($updatedSub->current_period_end)
+                : now()->addMonth();
+
             User_subscriptions::create([
                 'user_id'                => $user->id,
                 'subscription_plan_id'   => $newPlan->id,
-                'stripe_subscription_id' => $updatedSub->id, // same stripe sub ID
-                'start_date'             => \Carbon\Carbon::createFromTimestamp($updatedSub->current_period_start),
+                'stripe_subscription_id' => $updatedSub->id,
+                'start_date'             => $startDate,
                 'end_date'               => $endDate,
                 'total_clips'            => $newPlan->total_clips,
                 'used_clips'             => 0,
