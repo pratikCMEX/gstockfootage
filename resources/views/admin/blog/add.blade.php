@@ -37,7 +37,7 @@
                             <div class="mb-3">
                                 <label for="publish_date" class="form-label">Publish Date</label><span
                                     class="text-danger">*</span>
-                                <input type="date" name="publish_date" class="form-control" id="publish_date">
+                                <input type="date" name="publish_date" class="form-control" id="publish_date"  max="{{ date('Y-m-d') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Image</label><span class="text-danger">*</span>

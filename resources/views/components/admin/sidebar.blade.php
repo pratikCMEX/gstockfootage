@@ -135,7 +135,7 @@
                     </a>
                 </li>
                   <li class="sidebar-item">
-                    <a class="sidebar-link {{ in_array(Request::segment(2), ['']) ? 'active  ' : '' }} side-item"
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['order_history','order_detail']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.order_history') }}" aria-expanded="false">
                         <!-- <i class="ti ti-user-circle"></i> -->
                         <i class="fa-regular fa-clone"></i>

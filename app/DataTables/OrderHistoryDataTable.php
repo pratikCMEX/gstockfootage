@@ -15,16 +15,13 @@ class OrderHistoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addIndexColumn() // ✅ sr no
+            ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                return '<a href="' . route('admin.order_detail', encrypt($row->id)) . '" 
+                return '<a href="' . route('admin.order_detail', encrypt($row->id)) . '"
                             class="btn btn-sm btn-info" title="View Detail">
                           <i class="fa-solid fa-info"></i>
                         </a>';
             })
-            // ->addColumn('user_name', function ($row) {
-            //     return $row->user ? $row->user->name : 'N/A';
-            // })
             ->editColumn('payment_status', function ($row) {
                 return match ($row->payment_status) {
                     'paid' => '<span class="badge bg-success">Paid</span>',
@@ -48,35 +45,77 @@ class OrderHistoryDataTable extends DataTable
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->format('d M Y, h:i A');
             })
-            ->rawColumns(['action', 'payment_status', 'order_status']) // ✅ render HTML
-            ->setRowId('id');
+            // ✅ Clean columns for export (no HTML, no $ sign)
+            ->addColumn('export_order_status', fn($row) => ucfirst($row->order_status))
+            ->addColumn('export_payment_status', fn($row) => ucfirst($row->payment_status))
+            ->addColumn('export_total_amount', fn($row) => number_format($row->total_amount, 2))
+            ->rawColumns(['action', 'payment_status', 'order_status'])
+            ->setRowId('id')
+            ->only(['DT_RowIndex', 'email', 'order_number', 'total_amount', 'order_status', 'payment_status', 'created_at', 'action', 'export_order_status', 'export_payment_status', 'export_total_amount']);
     }
 
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery()
+        $query = $model->newQuery()
             ->with('user')
-            ->select('orders.*')
-            ->latest('id');
+            ->select('orders.*');
+
+        if (request()->filled('from_date')) {
+            $query->whereDate('created_at', '>=', request('from_date'));
+        }
+
+        if (request()->filled('to_date')) {
+            $query->whereDate('created_at', '<=', request('to_date'));
+        }
+
+        return $query;
     }
 
-    public function html(): HtmlBuilder
-    {
-        return $this->builder()
-            ->setTableId('orderhistory-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
-            ]);
-    }
+    // public function html(): HtmlBuilder
+    // {
+    //     return $this->builder()
+    //         ->setTableId('orderhistory-table')
+    //         ->columns($this->getColumns())
+    //         ->minifiedAjax()
+    //         ->orderBy(6, 'desc') // ✅ created_at column index = 6, latest first
+    //         ->selectStyleSingle()
+    //         ->buttons([
+    //             Button::make('excel'),
+    //             Button::make('csv'),
+    //             Button::make('pdf'),
+    //             Button::make('print'),
+    //             Button::make('reset'),
+    //             Button::make('reload'),
+    //         ]);
+    // }
+   public function html(): HtmlBuilder
+{
+    return $this->builder()
+        ->setTableId('orderhistory-table')
+        ->columns($this->getColumns())
+        ->ajax([
+            'url'  => route('admin.order_history'),
+            'type' => 'GET',
+            'data' => 'function(d) {
+                d.from_date = $("#from_date").val();
+                d.to_date   = $("#to_date").val();
+            }',
+        ])
+        ->orderBy(6, 'desc')
+        ->selectStyleSingle()
+        ->parameters([
+            'dom' => 'Bfrtip',
+        ])
+        ->buttons([
+            // ✅ Exclude last column (action) from export using column index
+            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+            // Button::make('csv')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
+            Button::make('pdf')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
+            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+            // ✅ Fixed raw button syntax
+           
+        ]);
+}
 
     public function getColumns(): array
     {
@@ -85,13 +124,9 @@ class OrderHistoryDataTable extends DataTable
                 ->title('Sr No')
                 ->exportable(false)
                 ->printable(false)
+                ->orderable(false)
                 ->width(50)
                 ->addClass('text-center'),
-
-
-
-            // Column::computed('user_name')
-            //     ->title('User Name'),
 
             Column::make('email')
                 ->title('Email'),
@@ -110,12 +145,29 @@ class OrderHistoryDataTable extends DataTable
 
             Column::make('created_at')
                 ->title('Date'),
+
             Column::computed('action')
                 ->title('Action')
                 ->exportable(false)
                 ->printable(false)
+                ->orderable(false)
                 ->width(60)
-                ->addClass('text-center'),
+                ->addClass('text-center notexport'),
+             
+        ];
+    }
+
+    // ✅ Override export columns to use clean data (no HTML badges)
+    protected function getExportColumns(): array
+    {
+        return [
+            ['data' => 'DT_RowIndex', 'title' => 'Sr No'],
+            ['data' => 'email', 'title' => 'Email'],
+            ['data' => 'order_number', 'title' => 'Order Number'],
+            ['data' => 'export_total_amount', 'title' => 'Total Amount'],
+            ['data' => 'export_order_status', 'title' => 'Order Status'],
+            ['data' => 'export_payment_status', 'title' => 'Payment Status'],
+            ['data' => 'created_at', 'title' => 'Date'],
         ];
     }
 

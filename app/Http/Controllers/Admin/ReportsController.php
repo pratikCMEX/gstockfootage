@@ -13,8 +13,9 @@ class ReportsController extends Controller
     {
         $title = 'Order History';
         $page = 'admin.reports.order_history';
-        $js = [''];
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js'));
+        $js = ['reports'];
+         $css='reports';
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js','css'));
 
     }
     public function detail(string $id)
