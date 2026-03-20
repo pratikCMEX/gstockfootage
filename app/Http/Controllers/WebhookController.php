@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceiptMail;
+use App\Models\BatchFile;
 use Stripe\Stripe;
 use Carbon\Carbon;
 
@@ -136,6 +137,8 @@ class WebhookController extends Controller
                     'price'      => $item['price'],
                     'qty'        => $item['qty'],
                 ]);
+                BatchFile::where('id', $item['id'])
+                    ->increment('downloads', $item['qty'] ?? 1);
             }
 
             // =========================================================
