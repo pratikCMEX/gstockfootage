@@ -301,59 +301,107 @@
         }
 
         function handleDownloads(files) {
-
             if (!files || files.length === 0) {
                 spinner.classList.add('done');
-                statusText.textContent = 'Order complete! No files to download.';
+                statusText.textContent = 'Order complete!';
                 startRedirectCountdown();
                 return;
             }
 
             spinner.classList.add('done');
-            statusText.textContent = `Downloading ${files.length} file${files.length > 1 ? 's' : ''}...`;
             progressWrap.style.display = 'block';
 
-            files.forEach((file, i) => {
+            if (files.length === 1) {
+                // ── Single file ──
+                statusText.textContent = 'Downloading 1 file...';
+
                 const li = document.createElement('li');
-                li.id = `file-${i}`;
-                li.innerHTML = `<span>📄</span> ${file.file_name}`;
+                li.innerHTML = `<span>⬇️</span> ${files[0].file_name}`;
                 fileList.appendChild(li);
-                setTimeout(() => li.classList.add('visible'), i * 100);
-            });
+                setTimeout(() => li.classList.add('visible'), 100);
 
-            let completed = 0;
+                triggerBrowserDownload(files[0].download_url, files[0].file_name);
 
-            files.forEach((file, i) => {
                 setTimeout(() => {
+                    li.classList.add('done');
+                    li.innerHTML = `<span>✅</span> ${files[0].file_name}`;
+                    progressBar.style.width = '100%';
+                    statusText.textContent = 'File downloaded successfully!';
+                    setTimeout(startRedirectCountdown, 500);
+                }, 1500);
 
-                    const li = document.getElementById(`file-${i}`);
-                    if (li) {
-                        li.classList.add('downloading');
-                        li.innerHTML = `<span>⬇️</span> ${file.file_name}`;
-                    }
+            } else {
+                // ── Multiple files — download as zip ──
+                statusText.textContent = `Preparing zip of ${files.length} files...`;
 
-                    triggerBrowserDownload(file.download_url, file.file_name);
+                files.forEach((file, i) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>📄</span> ${file.file_name}`;
+                    fileList.appendChild(li);
+                    setTimeout(() => li.classList.add('visible'), i * 80);
+                });
 
-                    setTimeout(() => {
-                        if (li) {
-                            li.classList.remove('downloading');
+                progressBar.style.width = '30%';
+
+                const formData = new FormData();
+                formData.append('_token', CSRF_TOKEN);
+
+                files.forEach(function(file) {
+                    formData.append('files[]', JSON.stringify({
+                        path: file.file_path,
+                        name: file.file_name,
+                    }));
+                });
+
+                fetch('/download/zip', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(function(res) {
+                        const ct = res.headers.get('content-type') || '';
+                        if (!res.ok || ct.includes('application/json')) {
+                            return res.json().then(function(e) {
+                                throw new Error(e.error || 'Zip failed');
+                            });
+                        }
+                        return res.blob();
+                    })
+                    .then(function(blob) {
+                        progressBar.style.width = '80%';
+
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'payment_downloads_' + Date.now() + '.zip';
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+
+                        progressBar.style.width = '100%';
+
+                        // Mark all files done
+                        document.querySelectorAll('#file-list li').forEach(li => {
                             li.classList.add('done');
-                            li.innerHTML = `<span>✅</span> ${file.file_name}`;
-                        }
+                            li.innerHTML = `<span>✅</span> ` + li.textContent.trim();
+                        });
 
-                        completed++;
-                        const pct = Math.round((completed / files.length) * 100);
-                        progressBar.style.width = pct + '%';
+                        statusText.textContent = `All ${files.length} files downloaded as zip!`;
+                        setTimeout(startRedirectCountdown, 500);
+                    })
+                    .catch(function(err) {
+                        statusText.textContent = 'Zip failed. Trying individual downloads...';
 
-                        if (completed === files.length) {
-                            statusText.textContent = 'All files downloaded successfully!';
-                            setTimeout(startRedirectCountdown, 500);
-                        }
+                        // Fallback — download one by one
+                        files.forEach((file, i) => {
+                            setTimeout(() => triggerBrowserDownload(file.download_url, file.file_name), i *
+                                1200);
+                        });
 
-                    }, 1500);
-
-                }, i * DOWNLOAD_GAP);
-            });
+                        setTimeout(startRedirectCountdown, files.length * 1200 + 1000);
+                    });
+            }
         }
 
         // REPLACE with this:

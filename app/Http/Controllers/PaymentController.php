@@ -619,10 +619,7 @@ class PaymentController extends Controller
 
     public function downloadZip(Request $request)
     {
-        // ✅ Kill any output buffering that might corrupt binary
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
+        while (ob_get_level()) ob_end_clean();
 
         $files = $request->input('files', []);
 
@@ -632,16 +629,13 @@ class PaymentController extends Controller
             return response()->json(['error' => 'No files to download.'], 400);
         }
 
-        // ✅ Check ZipArchive is available
         if (!class_exists('ZipArchive')) {
-            Log::error('ZipArchive class not available');
-            return response()->json(['error' => 'Zip not supported on server.'], 500);
+            return response()->json(['error' => 'Zip not supported.'], 500);
         }
 
         $zipName = 'downloads_' . time() . '.zip';
         $zipPath = storage_path('app/temp/' . $zipName);
 
-        // ✅ Ensure temp directory exists
         if (!file_exists(storage_path('app/temp'))) {
             mkdir(storage_path('app/temp'), 0755, true);
         }
@@ -649,54 +643,41 @@ class PaymentController extends Controller
         $zip = new \ZipArchive();
 
         if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
-            Log::error('Could not create zip file', ['path' => $zipPath]);
             return response()->json(['error' => 'Could not create zip.'], 500);
         }
 
         $addedFiles = 0;
 
         foreach ($files as $fileJson) {
-            $file = json_decode($fileJson, true);
+            $file = is_array($fileJson) ? $fileJson : json_decode($fileJson, true);
             $path = $file['path'] ?? null;
             $name = $file['name'] ?? basename($path);
 
             if (!$path) continue;
 
             try {
-                Log::info('Adding file to zip', ['path' => $path]);
                 $contents = Storage::disk('s3')->get($path);
-
                 if ($contents) {
                     $zip->addFromString($name, $contents);
                     $addedFiles++;
                 }
             } catch (\Exception $e) {
-                Log::error('Failed to add file to zip', [
-                    'path'  => $path,
-                    'error' => $e->getMessage(),
-                ]);
+                Log::error('Failed to add file to zip', ['path' => $path, 'error' => $e->getMessage()]);
             }
         }
 
         $zip->close();
 
-        Log::info('Zip created', ['path' => $zipPath, 'files_added' => $addedFiles]);
-
-        if ($addedFiles === 0) {
-            return response()->json(['error' => 'No files could be added to zip.'], 500);
+        if ($addedFiles === 0 || !file_exists($zipPath) || filesize($zipPath) === 0) {
+            return response()->json(['error' => 'Zip creation failed.'], 500);
         }
 
-        if (!file_exists($zipPath) || filesize($zipPath) === 0) {
-            Log::error('Zip file empty or missing after creation');
-            return response()->json(['error' => 'Zip file creation failed.'], 500);
-        }
-
-        // ✅ Return proper binary response
         return response()->download($zipPath, $zipName, [
             'Content-Type'        => 'application/zip',
             'Content-Disposition' => 'attachment; filename="' . $zipName . '"',
         ])->deleteFileAfterSend(true);
     }
+
     public function handleWebhook(Request $request)
     {
         Log::info(" Webhook received");
@@ -851,7 +832,6 @@ class PaymentController extends Controller
         $files = [];
 
         foreach ($order->order_details as $detail) {
-
             $file = BatchFile::where('id', $detail->product_id)
                 ->select('id', 'file_path', 'file_name')
                 ->first();
@@ -859,8 +839,7 @@ class PaymentController extends Controller
             if ($file) {
                 $files[] = [
                     'file_name'    => $file->file_name,
-
-                    // Use same URL format as subscription — already proven to work
+                    'file_path'    => $file->file_path,
                     'download_url' => url('/download/file')
                         . '?path=' . urlencode($file->file_path)
                         . '&name=' . urlencode($file->file_name),
