@@ -9,12 +9,14 @@
                 </h5>
                 <div class="card">
                     <div class="card-body">
-                        <form name="content_master_form" id="content_master_form" method="POST" enctype="multipart/form-data" action="{{ route('admin.content_store') }}">
+                        <form name="content_master_form" id="content_master_form" method="POST"
+                            enctype="multipart/form-data" action="{{ route('admin.content_store') }}">
                             @csrf
-                            <input id="id" name="id" value="{{ isset($content_master->id) ? $content_master->id : '' }}" hidden />
+                            <input id="id" name="id"
+                                value="{{ isset($content_master->id) ? $content_master->id : '' }}" hidden />
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label><span class="text-danger">*</span>
-                               
+
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ isset($content_master->title) ? $content_master->title : '' }}"
                                     placeholder="Please enter title">
@@ -26,41 +28,32 @@
                                     placeholder="Please enter sub title">
                             </div>
                             @php
-                           
-    $sections = isset($content_master->content) ?  $content_master->content: [];
-@endphp
 
-@for($i = 0; $i < 4; $i++)
-    <div class="card p-3 mb-3">
-        <h6>Section {{ $i+1 }}</h6>
+                                $sections = isset($content_master->content) ? $content_master->content : [];
+                            @endphp
 
-        <input type="text" 
-               name="sections[{{ $i }}][title]" 
-               class="form-control mb-2"
-               placeholder="Title"
-               value="{{ $sections[$i]['title'] ?? '' }}">
+                            @for ($i = 0; $i < 4; $i++)
+                                <div class="card p-3 mb-3">
+                                    <h6>Section {{ $i + 1 }}</h6>
 
-        <input type="text" 
-               name="sections[{{ $i }}][sub_title]" 
-               class="form-control mb-2"
-               placeholder="Sub Title"
-               value="{{ $sections[$i]['sub_title'] ?? '' }}">
+                                    <input type="text" name="sections[{{ $i }}][title]"
+                                        class="form-control mb-2" placeholder="Title"
+                                        value="{{ $sections[$i]['title'] ?? '' }}">
 
-        <label class="form-label mt-2">SVG Icon</label>
-        <textarea name="sections[{{ $i }}][svg]" 
-                  class="form-control mb-2" 
-                  rows="4"
-                  placeholder="Paste your SVG code here e.g. <svg>...</svg>">{{ $sections[$i]['svg'] ?? '' }}</textarea>
+                                    <input type="text" name="sections[{{ $i }}][sub_title]"
+                                        class="form-control mb-2" placeholder="Sub Title"
+                                        value="{{ $sections[$i]['sub_title'] ?? '' }}">
 
-        {{-- ✅ Live SVG preview --}}
-        <!-- <div class="svg-preview mt-2" style="width:60px; height:60px;">
-            {!! $sections[$i]['svg'] ?? '' !!}
-        </div> -->
-    </div>
-@endfor
-                           
-                           
-                            <button type="submit" class="btn btn-orange">{{ $content_master ? 'Update' : 'Add' }}</button>
+                                    <label class="form-label mt-2">SVG Icon</label>
+                                    <textarea name="sections[{{ $i }}][svg]" class="form-control mb-2" rows="4"
+                                        placeholder="Paste your SVG code here e.g. <svg>...</svg>">{{ $sections[$i]['svg'] ?? '' }}</textarea>
+
+                                </div>
+                            @endfor
+
+
+                            <button type="submit"
+                                class="btn btn-orange">{{ $content_master ? 'Update' : 'Add' }}</button>
                         </form>
                     </div>
                 </div>
@@ -68,6 +61,3 @@
         </div>
     </div>
 </div>
-
-
-
