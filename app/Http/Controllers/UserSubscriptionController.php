@@ -99,14 +99,22 @@ class UserSubscriptionController extends Controller
                 'quantity' => 1,
             ]],
             'mode'        => 'subscription',
+
+            // ✅ ADD THIS — copies metadata onto the Subscription object itself
+            'subscription_data' => [
+                'metadata' => [
+                    'user_id' => $user->id,
+                    'plan_id' => $plan->id,
+                ],
+            ],
+
             'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('pricing'),
+            'cancel_url'  => route('pricing'),
             'metadata'    => [
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
             ],
         ]);
-
         return redirect($session->url);
     }
 

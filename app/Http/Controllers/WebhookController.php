@@ -198,38 +198,49 @@ class WebhookController extends Controller
     private function handlePaymentSucceeded($invoice)
     {
         $stripeSubId = $invoice->subscription;
-        if (!$stripeSubId) return;
 
-        $stripeSub = \Stripe\Subscription::retrieve($stripeSubId);
+        Log::info('handlePaymentSucceeded called', ['stripe_sub_id' => $stripeSubId]);
 
-        // Get plan_id from metadata (set during checkout session creation)
-        $planId = $stripeSub->metadata->plan_id ?? null;
-        $userId = $stripeSub->metadata->user_id ?? null;
-
-        if (!$planId || !$userId) {
-            Log::warning('Missing metadata on subscription', ['stripe_sub_id' => $stripeSubId]);
+        if (!$stripeSubId) {
+            Log::warning('No subscription ID on invoice');
             return;
         }
 
-        // Prevent duplicate inserts
-        $exists = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
+        $stripeSub = \Stripe\Subscription::retrieve($stripeSubId);
+
+        $planId = $stripeSub->metadata->plan_id ?? null;
+        $userId = $stripeSub->metadata->user_id ?? null;
+
+        Log::info('Subscription metadata', [
+            'plan_id' => $planId,
+            'user_id' => $userId,
+            'billing_reason' => $invoice->billing_reason,
+        ]);
+
+        if (!$planId || !$userId) {
+            Log::error('Missing metadata — subscription_data.metadata not set in checkout session');
+            return;
+        }
+
+        // Prevent duplicate on first payment
+        $alreadyExists = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
             ->where('status', 'active')
             ->exists();
 
-        if ($exists && $invoice->billing_reason === 'subscription_create') {
-            Log::info('Subscription already recorded, skipping', ['stripe_sub_id' => $stripeSubId]);
+        if ($alreadyExists && $invoice->billing_reason === 'subscription_create') {
+            Log::info('Already recorded, skipping duplicate');
             return;
         }
 
         $plan = Subscription_plans::find($planId);
         if (!$plan) {
-            Log::error('Plan not found', ['plan_id' => $planId]);
+            Log::error('Plan not found in DB', ['plan_id' => $planId]);
             return;
         }
 
-        // Deactivate any previous active subscriptions for this user
+        // Deactivate old subscriptions
         User_subscriptions::where('user_id', $userId)
-            ->where('status', 'active')
+            ->whereIn('status', ['active', 'cancelled'])
             ->update(['status' => 'inactive']);
 
         User_subscriptions::create([
@@ -248,7 +259,11 @@ class WebhookController extends Controller
             'status'                 => 'active',
         ]);
 
-        Log::info('Subscription saved to DB', ['stripe_sub_id' => $stripeSubId, 'user_id' => $userId]);
+        Log::info('✅ Subscription saved to DB', [
+            'user_id' => $userId,
+            'plan_id' => $planId,
+            'stripe_sub_id' => $stripeSubId,
+        ]);
     }
 
     private function handlePaymentFailed($invoice)
