@@ -358,7 +358,11 @@
 
                                                 <div class="price-btn">
                                                     <span class="price">${{ $pro->price }}</span>
-                                                    <button class="btn  btn-orange">Add</button>
+                                                    {{-- <button class="btn  btn-orange">Add</button> --}}
+                                                    <button class="btn add_to_cart btn-orange"
+                                                        {{ isInCart($pro->id) ? 'disabled' : '' }}
+                                                        onclick="addToCart({{ $pro->id }}, this)">
+                                                        {{ isInCart($pro->id) ? 'Added to Cart' : 'Add to Cart' }}</button>
 
                                                 </div>
                                                 <div class="product-two-btn">
