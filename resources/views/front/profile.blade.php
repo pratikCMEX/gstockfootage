@@ -821,6 +821,12 @@
                                                                             ? Storage::disk('s3')->temporaryUrl(
                                                                                 $product->file_path,
                                                                                 now()->addMinutes(30),
+                                                                                [
+                                                                                    'ResponseContentDisposition' =>
+                                                                                        'attachment; filename="' .
+                                                                                        basename($product->file_path) .
+                                                                                        '"',
+                                                                                ],
                                                                             )
                                                                             : null;
                                                                     @endphp
