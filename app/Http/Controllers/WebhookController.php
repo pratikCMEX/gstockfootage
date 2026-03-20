@@ -198,30 +198,57 @@ class WebhookController extends Controller
     private function handlePaymentSucceeded($invoice)
     {
         $stripeSubId = $invoice->subscription;
-
         if (!$stripeSubId) return;
-
-        // First payment — handled by subscription.created
-        if ($invoice->billing_reason === 'subscription_create') return;
 
         $stripeSub = \Stripe\Subscription::retrieve($stripeSubId);
 
-        $dbSub = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
-            ->latest()
-            ->first();
+        // Get plan_id from metadata (set during checkout session creation)
+        $planId = $stripeSub->metadata->plan_id ?? null;
+        $userId = $stripeSub->metadata->user_id ?? null;
 
-        if (!$dbSub) return;
+        if (!$planId || !$userId) {
+            Log::warning('Missing metadata on subscription', ['stripe_sub_id' => $stripeSubId]);
+            return;
+        }
 
-        $dbSub->update([
-            'start_date'      => Carbon::createFromTimestamp($stripeSub->current_period_start),
-            'end_date'        => Carbon::createFromTimestamp($stripeSub->current_period_end),
-            'used_clips'      => 0,
-            'remaining_clips' => $dbSub->total_clips,
-            'payment_status'  => 'success',
-            'status'          => 'active',
+        // Prevent duplicate inserts
+        $exists = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
+            ->where('status', 'active')
+            ->exists();
+
+        if ($exists && $invoice->billing_reason === 'subscription_create') {
+            Log::info('Subscription already recorded, skipping', ['stripe_sub_id' => $stripeSubId]);
+            return;
+        }
+
+        $plan = Subscription_plans::find($planId);
+        if (!$plan) {
+            Log::error('Plan not found', ['plan_id' => $planId]);
+            return;
+        }
+
+        // Deactivate any previous active subscriptions for this user
+        User_subscriptions::where('user_id', $userId)
+            ->where('status', 'active')
+            ->update(['status' => 'inactive']);
+
+        User_subscriptions::create([
+            'user_id'                => $userId,
+            'subscription_plan_id'   => $plan->id,
+            'stripe_subscription_id' => $stripeSub->id,
+            'start_date'             => Carbon::createFromTimestamp($stripeSub->current_period_start),
+            'end_date'               => Carbon::createFromTimestamp($stripeSub->current_period_end),
+            'total_clips'            => $plan->total_clips,
+            'used_clips'             => 0,
+            'remaining_clips'        => $plan->total_clips,
+            'amount'                 => $plan->price,
+            'payment_gateway'        => 'stripe',
+            'transaction_id'         => $stripeSub->id,
+            'payment_status'         => 'success',
+            'status'                 => 'active',
         ]);
 
-        Log::info('Subscription renewed', ['stripe_sub_id' => $stripeSubId]);
+        Log::info('Subscription saved to DB', ['stripe_sub_id' => $stripeSubId, 'user_id' => $userId]);
     }
 
     private function handlePaymentFailed($invoice)

@@ -234,43 +234,10 @@ class UserSubscriptionController extends Controller
 
     public function success(Request $request)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        $session             = Session::retrieve($request->session_id);
-        $stripeSubscription  = \Stripe\Subscription::retrieve($session->subscription);
-        $plan                = Subscription_plans::findOrFail($session->metadata->plan_id);
-
-        // Use Stripe dates if available, else fallback
-        $startDate = $stripeSubscription->current_period_start
-            ? \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_start)
-            : now();
-
-        $endDate = $stripeSubscription->current_period_end
-            ? \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_end)
-            : now()->addMonth();
-
-        User_subscriptions::where('user_id', auth()->id())
-            ->where('status', 'active')
-            ->update(['status' => 'inactive']);
-
-        User_subscriptions::create([
-            'user_id'                => auth()->id(),
-            'subscription_plan_id'   => $plan->id,
-            'stripe_subscription_id' => $stripeSubscription->id,
-            'start_date'             => $startDate,
-            'end_date'               => $endDate,
-            'total_clips'            => $plan->total_clips,
-            'used_clips'             => 0,
-            'remaining_clips'        => $plan->total_clips,
-            'amount'                 => $plan->price,
-            'payment_gateway'        => 'stripe',
-            'transaction_id'         => $stripeSubscription->id,
-            'payment_status'         => 'success',
-            'status'                 => 'active',
-        ]);
-
+        // Don't insert here — webhook handles it reliably
+        // Just confirm to the user
         return redirect()->route('pricing')
-            ->with('msg_success', 'Subscription activated successfully');
+            ->with('msg_success', 'Subscription activated successfully! It may take a moment to reflect.');
     }
 
     public function cancelSubscription(Request $request)
