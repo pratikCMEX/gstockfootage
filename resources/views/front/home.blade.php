@@ -109,7 +109,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-hover-dark btn-all-dark cancel-btn"
                                     data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-orange" id="searchByImageBtn" disabled>
+                                <button type="btn" class="btn btn-orange" id="searchByImageBtn" disabled>
                                     Search
                                 </button>
                             </div>
