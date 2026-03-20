@@ -62,7 +62,7 @@
 }
 .listing-card .listing-img {
   width: 100%;
-  height: 500px;
+  height: auto;
   overflow: hidden;
   border-radius: 12px;
   position: relative;

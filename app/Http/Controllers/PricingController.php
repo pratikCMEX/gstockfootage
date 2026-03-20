@@ -33,25 +33,44 @@ class PricingController extends Controller
         //     ])
         //     ->get();
 
-        $currentSub = User_subscriptions::where('user_id', auth()->id())
-            ->where('status', 'active')
-            ->where('end_date', '>', now())
-            ->with('subscription')
-            ->latest()
-            ->first();
+        $activeSubscription = null;
+        $activePlan = null;
 
-        $currentPrice = $currentSub?->subscription?->price ?? 0;
+        if (auth()->check()) {
+            $activeSubscription = User_subscriptions::with('subscription')
+                ->where('user_id', auth()->id())
+                ->whereIn('status', ['active', 'cancelled'])
+                ->where('end_date', '>', now())
+                ->latest()
+                ->first();
 
-        $subscriptionPlanList = Subscription_plans::all()->map(function ($plan) use ($currentSub, $currentPrice) {
+            $activePlan = $activeSubscription?->subscription ?? null;
 
-            // Mark as current plan
-            $plan->is_purchased = ($currentSub && $currentSub->subscription_plan_id == $plan->id) ? '1' : '0';
 
-            // Mark as higher plan (upgrade option)
-            $plan->is_higher_plan = $currentSub && $plan->price > $currentPrice;
+            $currentPrice = $activeSubscription?->subscription?->price ?? 0;
+        }
 
-            return $plan;
-        });
+        $subscriptionPlanList = Subscription_plans::where('is_active', '1')
+            ->orderBy('price', 'asc')
+            ->get()
+            ->map(function ($plan) use ($activeSubscription, $activePlan) {
+
+                $plan->is_purchased   = false;
+                $plan->is_lower_plan  = false;
+                $plan->is_higher_plan = false;
+                if ($activeSubscription && $activePlan) {
+
+                    if ($activeSubscription->subscription_plan_id == $plan->id) {
+                        $plan->is_purchased = true;
+                    } elseif ($plan->price < $activePlan->price) {
+                        $plan->is_lower_plan = true;
+                    } elseif ($plan->price > $activePlan->price) {
+                        $plan->is_higher_plan = true;
+                    }
+                }
+
+                return $plan;
+            });
 
         return view("layouts.front.layout", compact('title', 'page', 'js', 'priceList', 'subscriptionPlanList', 'currentPrice'));
     }

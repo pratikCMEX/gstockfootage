@@ -314,6 +314,7 @@ class PaymentController extends Controller
 
     public function processCheckout(Request $request)
     {
+
         $request->validate([
             'email' => 'required|email'
         ]);
@@ -336,35 +337,39 @@ class PaymentController extends Controller
             ->where('status', 'active')
             ->where('end_date', '>=', now())
             ->first();
-
         if ($subscription && $subscription->remaining_clips > 0) {
 
-            $cartItemCount = count($cart['items']);
-            if ($subscription->remaining_clips >= $cartItemCount) {
-                $subscription->used_clips      += $cartItemCount;
-                $subscription->remaining_clips -= $cartItemCount;
+            $cartItems     = array_values($cart['items']);
+            $cartItemCount = count($cartItems);
+            $remainingClips = $subscription->remaining_clips;
+
+            // ── How many can subscription cover ──
+            $coveredCount = min($remainingClips, $cartItemCount);
+            $paidCount    = $cartItemCount - $coveredCount;
+
+            $subscriptionItems = array_slice($cartItems, 0, $coveredCount);
+            $paymentItems      = array_slice($cartItems, $coveredCount);
+
+            $files = [];
+
+            // ── Process subscription items ──
+            if ($coveredCount > 0) {
+
+                $subscription->used_clips      += $coveredCount;
+                $subscription->remaining_clips -= $coveredCount;
                 $subscription->save();
-                $totalAmount = collect($cart['items'])->sum(fn($item) => $item['price'] * $item['qty']);
+
                 $order = Order::create([
                     'user_id'           => $user->id,
                     'order_number'      => 'ORD-' . strtoupper(uniqid()),
-                    'total_amount'      => $totalAmount,
-                    'stripe_session_id' => null,         // no stripe session for subscription
+                    'total_amount'      => collect($subscriptionItems)->sum(fn($i) => $i['price'] * $i['qty']),
+                    'stripe_session_id' => null,
                     'email'             => $user->email,
                     'payment_status'    => 'paid',
                     'order_status'      => 'completed',
                 ]);
 
-                Log::info("✅ Order created via subscription", [
-                    'order_id'     => $order->id,
-                    'order_number' => $order->order_number,
-                    'user_id'      => $order->user_id,
-                ]);
-                $files = [];
-
-                // Create Order Details + UserDownload
-                foreach ($cart['items'] as $item) {
-
+                foreach ($subscriptionItems as $item) {
                     OrderDetail::create([
                         'order_id'   => $order->id,
                         'product_id' => $item['id'],
@@ -372,49 +377,85 @@ class PaymentController extends Controller
                         'qty'        => $item['qty'],
                     ]);
 
-                    Log::info("✅ Order detail created", [
-                        'product_id' => $item['id'],
-                        'price'      => $item['price'],
-                        'qty'        => $item['qty'],
-                    ]);
-
                     $file = BatchFile::where('id', $item['id'])
-                        ->select('id', 'file_path', 'file_name')
+                        ->select('id', 'file_path', 'file_name', 'title')
                         ->first();
 
                     if ($file) {
-                        // Generate temporary S3 URL valid for 10 minutes
                         $files[] = [
                             'file_name' => $file->file_name,
-                            'file_path' => $file->file_path,  // just the S3 path, not URL
-
+                            'file_path' => $file->file_path,
+                            'title'     => $file->title,
                         ];
                     }
+
+                    BatchFile::where('id', $item['id'])
+                        ->increment('downloads', $item['qty'] ?? 1);
                 }
 
-                // Clear cart
+                try {
+                    $orderWithDetails = Order::with('order_details.product')->find($order->id);
+
+                    Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
+                    Log::info('Email sent');
+                } catch (\Exception $mailException) {
+                    Log::error('Email failed', ['error' => $mailException->getMessage()]);
+                }
+            }
+
+            // ── All covered — no payment needed ──
+            if ($paidCount === 0) {
                 Cart::where('user_id', $user->id)->delete();
-
-                Log::info("✅ Downloaded via subscription", [
-                    'user_id'         => $user->id,
-                    'clips_used'      => $cartItemCount,
-                    'remaining_clips' => $subscription->remaining_clips,
-                ]);
-
                 return response()->json([
-                    'status'   => 'subscription',
+                    'status'    => 'subscription',
                     'img_paths' => $files,
-                    'message'  => 'Downloaded successfully using your subscription.',
+                    'message'   => 'All items downloaded via subscription.',
                 ]);
             }
-            // else {
 
-            //     return response()->json([
-            //         'status'   => 'insufficient_clips',
-            //         'redirect' => route('payment.plans'),
-            //         'message'  => "You only have {$subscription->remaining_clips} clips left but have {$cartItemCount} items in cart. Please upgrade your plan.",
-            //     ]);
-            // }
+            // ── Some need payment — build paid items info ──
+            $paidItemTitles = collect($paymentItems)->pluck('title')->implode(', ');
+
+            // ── Remove subscription items from cart, keep only paid items ──
+            // Store partial cart for Stripe webhook
+            $partialCart          = $cart;
+            $partialCart['items'] = array_values($paymentItems);
+
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+            $lineItems = [];
+            foreach ($paymentItems as $item) {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency'     => 'usd',
+                        'product_data' => ['name' => $item['title']],
+                        'unit_amount'  => $item['price'] * 100,
+                    ],
+                    'quantity' => $item['qty'],
+                ];
+            }
+
+            $token = Str::random(32);
+            $session = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'customer_email'       => $request->email,
+                'line_items'           => $lineItems,
+                'mode'                 => 'payment',
+                'success_url'          => route('checkout.success') . '?token=' . $token,
+                'cancel_url'           => route('checkout.cancel'),
+            ]);
+
+            Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
+            Cache::put('stripe_cart_' . $session->id, $partialCart, now()->addHours(24));
+
+            return response()->json([
+                'status'           => 'mixed',
+                'id'               => $session->id,
+                'img_paths'        => $files,
+                'covered_count'    => $coveredCount,
+                'paid_count'       => $paidCount,
+                'paid_item_titles' => $paidItemTitles,
+            ]);
         }
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -588,6 +629,68 @@ class PaymentController extends Controller
 
         exit;
     }
+
+    public function downloadZip(Request $request)
+    {
+        while (ob_get_level()) ob_end_clean();
+
+        $files = $request->input('files', []);
+
+        Log::info('downloadZip called', ['file_count' => count($files)]);
+
+        if (empty($files)) {
+            return response()->json(['error' => 'No files to download.'], 400);
+        }
+
+        if (!class_exists('ZipArchive')) {
+            return response()->json(['error' => 'Zip not supported.'], 500);
+        }
+
+        $zipName = 'downloads_' . time() . '.zip';
+        $zipPath = storage_path('app/temp/' . $zipName);
+
+        if (!file_exists(storage_path('app/temp'))) {
+            mkdir(storage_path('app/temp'), 0755, true);
+        }
+
+        $zip = new \ZipArchive();
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            return response()->json(['error' => 'Could not create zip.'], 500);
+        }
+
+        $addedFiles = 0;
+
+        foreach ($files as $fileJson) {
+            $file = is_array($fileJson) ? $fileJson : json_decode($fileJson, true);
+            $path = $file['path'] ?? null;
+            $name = $file['name'] ?? basename($path);
+
+            if (!$path) continue;
+
+            try {
+                $contents = Storage::disk('s3')->get($path);
+                if ($contents) {
+                    $zip->addFromString($name, $contents);
+                    $addedFiles++;
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to add file to zip', ['path' => $path, 'error' => $e->getMessage()]);
+            }
+        }
+
+        $zip->close();
+
+        if ($addedFiles === 0 || !file_exists($zipPath) || filesize($zipPath) === 0) {
+            return response()->json(['error' => 'Zip creation failed.'], 500);
+        }
+
+        return response()->download($zipPath, $zipName, [
+            'Content-Type'        => 'application/zip',
+            'Content-Disposition' => 'attachment; filename="' . $zipName . '"',
+        ])->deleteFileAfterSend(true);
+    }
+
     public function handleWebhook(Request $request)
     {
         Log::info(" Webhook received");
@@ -742,7 +845,6 @@ class PaymentController extends Controller
         $files = [];
 
         foreach ($order->order_details as $detail) {
-
             $file = BatchFile::where('id', $detail->product_id)
                 ->select('id', 'file_path', 'file_name')
                 ->first();
@@ -750,8 +852,7 @@ class PaymentController extends Controller
             if ($file) {
                 $files[] = [
                     'file_name'    => $file->file_name,
-
-                    // Use same URL format as subscription — already proven to work
+                    'file_path'    => $file->file_path,
                     'download_url' => url('/download/file')
                         . '?path=' . urlencode($file->file_path)
                         . '&name=' . urlencode($file->file_name),

@@ -38,7 +38,7 @@ class HomeController extends Controller
         $userId = Auth::id();
 
         // $js = [''];
-        $categoryList = Category::get();
+        $categoryList = Category::where('is_display', '1')->get();
         $ImageList = Image::get();
         $CollectionList = Collection::limit(4)->get();
         // $product = Product::with('category')->limit(4)->get();
@@ -114,11 +114,12 @@ class HomeController extends Controller
     {
         $title = 'Product Detail View';
         $page = 'front.product_detail';
-        $js = ['favorites'];
+        $js = ['home', 'favorites'];
         try {
             $id = decrypt($id);
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
                 ->where('id', '!=', $id) // exclude this product
+                ->where('type', 'image') // exclude this product
                 ->withExists([
                     'favorites as is_favorite' => function ($query) {
                         $query->where('user_id', auth()->id());
@@ -147,7 +148,8 @@ class HomeController extends Controller
                 'collection' => optional($product->collection)->name,
                 'location' => $product->country ?? 'N/A',
                 'type' => $product->type,
-                'is_favorite' => $product->is_favorite
+                'is_favorite' => $product->is_favorite,
+                'downloads' => $product->downloads
             ];
 
             if ($product->type == "image") {
@@ -194,6 +196,7 @@ class HomeController extends Controller
     {
         $title = 'All Media';
         $page  = 'front.all_media';
+        $js = ['home', 'favorites'];
 
         // ── Get collection 1 with its media ──
         $collectionId = decrypt($request->collection_id);
@@ -218,7 +221,8 @@ class HomeController extends Controller
             'media',
             'photos',
             'videos',
-            'categories'
+            'categories',
+            'js'
         ));
     }
     public function productList()

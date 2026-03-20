@@ -169,7 +169,7 @@ Route::post('/stripe/handleWebhook', [PaymentController::class, 'handleWebhook']
 Route::post('/webhook/stripe', [WebhookController::class, 'handle'])
     ->name('stripe.webhook');
 // routes/web.php
-
+Route::post('/download/zip', [PaymentController::class, 'downloadZip'])->name('download.zip');
 // Route::post('/webhook/subscriptionWebhook', [WebhookController::class, 'subscriptionWebhook'])->name('stripe.subscriptionWebhook');
 Route::get('/download/file', [CheckoutController::class, 'downloadFile'])->name('download.file')->middleware('auth');
 // TEMPORARY DEBUG ROUTE — remove after fixing

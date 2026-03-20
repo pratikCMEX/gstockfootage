@@ -268,4 +268,115 @@ $(document).ready(function () {
     $("#uploadLabel").text("Click to upload an image or drag and drop");
     $("#searchByImageBtn").prop("disabled", true);
   });
+
+  $(document).on("click", "#searchByImageBtn", function () {
+    $(this).closest("form").submit();
+    $(this).prop("disabled", true);
+    $(".cancel-btn").prop("disabled", true);
+    $("#loader").css("display", "flex");
+  });
 })(jQuery);
+(function () {
+  // ── Build share URLs ──
+  function getShareUrl() {
+    return encodeURIComponent(window.location.href);
+  }
+
+  function getShareTitle() {
+    return encodeURIComponent(document.title || "Check this out!");
+  }
+
+  // ── Toggle dropdown ──
+  $(document).on("click", ".share-trigger-btn", function (e) {
+    e.stopPropagation();
+    const dropdown = $(this).siblings("#shareDropdown");
+
+    // Close all other open dropdowns first
+    $(".share-dropdown").not(dropdown).hide();
+    dropdown.toggle();
+  });
+
+  // ── Close on outside click ──
+  $(document).on("click", function (e) {
+    if (!$(e.target).closest(".share-wrapper").length) {
+      $(".share-dropdown").hide();
+    }
+  });
+
+  // ── Set share links on open ──
+  // ── Set share links on open ──
+  $(document).on("click", ".share-trigger-btn", function () {
+    const pageUrl = $(this).data("url") || window.location.href; // ✅ use data-url
+    const url = encodeURIComponent(pageUrl);
+    const title = getShareTitle();
+
+    // WhatsApp
+    $(this)
+      .siblings("#shareDropdown")
+      .find("#shareWhatsapp")
+      .attr(
+        "href",
+        "https://api.whatsapp.com/send?text=" + title + "%20" + url
+      );
+
+    // X (Twitter)
+    $(this)
+      .siblings("#shareDropdown")
+      .find("#shareX")
+      .attr(
+        "href",
+        "https://twitter.com/intent/tweet?text=" + title + "&url=" + url
+      );
+
+    // Instagram
+    $(this)
+      .siblings("#shareDropdown")
+      .find("#shareInstagram")
+      .attr("href", "https://www.instagram.com/")
+      .off("click")
+      .on("click", function () {
+        navigator.clipboard.writeText(pageUrl).then(function () {
+          toastr
+            ? toastr.info("Link copied! Paste it in Instagram.")
+            : alert("Link copied! Paste it in Instagram.");
+        });
+      });
+
+    // Facebook
+    $(this)
+      .siblings("#shareDropdown")
+      .find("#shareFacebook")
+      .attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + url);
+
+    // Store pageUrl on copy button for this specific share
+    $(this)
+      .siblings("#shareDropdown")
+      .find("#copyLinkBtn")
+      .data("copy-url", pageUrl);
+  });
+
+  // ── Copy link — use stored url from button ──
+  $(document).on("click", "#copyLinkBtn", function () {
+    const btn = $(this);
+    const copyUrl = btn.data("copy-url") || window.location.href; // ✅ use product url
+
+    navigator.clipboard
+      .writeText(copyUrl)
+      .then(function () {
+        $("#copyLinkText").text("Copied!");
+        setTimeout(function () {
+          $("#copyLinkText").text("Copy Link");
+        }, 2000);
+      })
+      .catch(function () {
+        const el = document.createElement("textarea");
+        el.value = copyUrl;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        $("#copyLinkText").text("Copied!");
+        setTimeout(() => $("#copyLinkText").text("Copy Link"), 2000);
+      });
+  });
+})();

@@ -414,8 +414,8 @@ window.addEventListener("load", function () {
   var ORANGE = "#ff8000";
   var ORANGE2 = "#ff8000";
   var ORANGE3 = "#fff3e6";
-  var ORANGE4 = "#73ffe8";
-  var ORANGE5 = "#f89575";
+  var ORANGE4 = "#fa896b";
+  var ORANGE5 = "#13deb9";
   var GREEN = "#13deb9";
   var RED = "#fa896b";
   var YELLOW = "#ffae1f";

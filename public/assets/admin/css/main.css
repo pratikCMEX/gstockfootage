@@ -302,6 +302,11 @@ a {
   }
 }
 
+#categoryBar .apexcharts-text tspan {
+  word-break: break-all !important;
+  max-width: 150px !important;
+}
+
 @media only screen and (max-width: 1399px) {
   .btn-orange {
     padding: 9px 18px !important;

@@ -522,7 +522,7 @@ p {
 
 .form-check-input {
   border-width: 2px;
-  border-color: var(--white);
+  border-color: var(--secendory);
 }
 
 .form-check-input:checked {
@@ -536,6 +536,10 @@ th .form-check-input:checked {
 }
 
 th .form-check-input:focus {
+  border-color: var(--white) !important;
+}
+
+th .form-check-input {
   border-color: var(--white) !important;
 }
 

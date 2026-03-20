@@ -29,7 +29,7 @@
                                                 @endif --}}
 
                                                 @if ($item->product->type == 'image')
-                                                    <img src="{{ $item->product->mid_path ? Storage::disk('s3')->url($item->product->mid_path) : ''}}"
+                                                    <img src="{{ $item->product->mid_path ? Storage::disk('s3')->url($item->product->mid_path) : '' }}"
                                                         class="h-100 w-100"
                                                         alt="{{ $item->product->mid_path ? Storage::disk('s3')->url($item->product->mid_path) : '' }}">
                                                 @else
@@ -203,3 +203,7 @@
         </div>
     </div>
 </section>
+
+<script>
+    window.STRIPE_KEY = "{{ config('services.stripe.key') }}";
+</script>
