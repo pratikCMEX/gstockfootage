@@ -120,11 +120,11 @@ class DashboardController extends Controller
         });
 
         // New subscriptions
-        User_subscriptions::with(['user', 'plan'])->latest()->take(5)->get()->each(function ($s) use (&$recentActivity) {
+        User_subscriptions::with(['user', 'subscription'])->latest()->take(5)->get()->each(function ($s) use (&$recentActivity) {
             $recentActivity->push([
                 'type'    => 'subscription',
                 'title'   => 'Subscription activated',
-                'sub'     => ($s->user->first_name ?? 'User') . ' · ' . ($s->plan->name ?? 'Plan'),
+                'sub'     => ($s->user->first_name ?? 'User') . ' · ' . ($s->subscription->name ?? 'Plan'),
                 'dot'     => 'purple',
                 'icon'    => '<i class="fa-solid fa-crown"></i>',
                 'time'    => $s->created_at,
