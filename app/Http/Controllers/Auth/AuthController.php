@@ -19,6 +19,9 @@ class AuthController extends Controller
         $title = 'Login';
         $page = 'auth.front.login';
         $js = ['login'];
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
         return view("layouts.front.auth_layout", compact('title', 'page', 'js'));
     }
     // public function login(Request $request)
