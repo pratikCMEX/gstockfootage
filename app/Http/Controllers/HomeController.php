@@ -195,6 +195,7 @@ class HomeController extends Controller
     {
         $title = 'All Media';
         $page  = 'front.all_media';
+        $js = ['home', 'favorites'];
 
         // ── Get collection 1 with its media ──
         $collectionId = decrypt($request->collection_id);

@@ -569,7 +569,8 @@
                                             <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
                                                 stroke-linecap="round"></path>
                                         </svg>
-                                        Plan valid till <strong>{{ $renewDate->format('F d, Y') }}</strong>
+                                        Plan valid till
+                                        <strong>{{ $purchasePlan->end_date->format('F d, Y') }}</strong>
 
                                         <!-- Renews on <strong>&nbsp;July 12, 2025&nbsp;</strong> · Billed monthly -->
                                     </div>
