@@ -214,18 +214,8 @@
                             <div class="product-card">
 
 
-                                @if ($data->type == 'image')
-                                    <img src="{{ Storage::disk('s3')->url($data->mid_pth) ?? asset('assets/admin/images/demo_thumbnail.png') }}"
-                                        class="product-img" alt="">
-                                @else
-                                    @if ($data->thumbnail_path == null)
-                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                            class="product-img" alt="">
-                                    @else
-                                        <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}"
-                                            class="product-img" alt="">
-                                    @endif
-                                @endif
+                                <img src="{{ $data->type == 'image' ? Storage::disk('s3')->url($data->mid_path) : ($data->thumbnail_path ? Storage::disk('s3')->url($data->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                    class="product-img" alt="">
 
                                 {{-- <img
                                     src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"
