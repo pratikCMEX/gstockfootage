@@ -139,6 +139,8 @@ class WebhookController extends Controller
                 ]);
                 BatchFile::where('id', $item['id'])
                     ->increment('downloads', $item['qty'] ?? 1);
+
+                log::info('Download count updated');
             }
 
             // =========================================================
