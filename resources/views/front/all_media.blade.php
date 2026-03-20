@@ -90,7 +90,7 @@
                                 <div class="share-wrapper position-relative d-inline-block">
                                     <div class="share-wrapper position-relative d-inline-block">
                                         <button type="button"
-                                            data-url="{{ route('product.detail', encrypt($photos->id)) }}"
+                                            data-url="{{ route('product.detail', encrypt($item->id)) }}"
                                             class="btn btn-all-dark btn-hover-dark share-trigger-btn">
                                             <i class="bi bi-share"></i> Share
                                         </button>
