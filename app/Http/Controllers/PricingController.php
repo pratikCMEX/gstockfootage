@@ -37,14 +37,14 @@ class PricingController extends Controller
         $activePlan = null;
 
         if (auth()->check()) {
-            $activeSubscription = User_subscriptions::with('plan')  // ✅ eager load
+            $activeSubscription = User_subscriptions::with('subscriptions')
                 ->where('user_id', auth()->id())
                 ->whereIn('status', ['active', 'cancelled'])
                 ->where('end_date', '>', now())
                 ->latest()
                 ->first();
 
-            $activePlan = $activeSubscription?->plan ?? null;
+            $activePlan = $activeSubscription?->subscriptions ?? null;
         }
 
         $subscriptionPlanList = Subscription_plans::where('is_active', '1')
@@ -55,7 +55,6 @@ class PricingController extends Controller
                 $plan->is_purchased   = false;
                 $plan->is_lower_plan  = false;
                 $plan->is_higher_plan = false;
-
                 if ($activeSubscription && $activePlan) {
 
                     if ($activeSubscription->subscription_plan_id == $plan->id) {
