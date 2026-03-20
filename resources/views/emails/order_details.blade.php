@@ -274,7 +274,7 @@
                             <tr>
                                 <td width="60" valign="middle">
                                     @if ($details->product->type == '0')
-                                        <img src="{{ asset('uploads/images/low/' . $details->product->low_path) }}"
+                                        <img src="{{ asset('uploads/images/low/' . $details->product->file_path) }}"
                                             width="46" height="46"
                                             style="border:1px solid #e8e2d9;background:#f7f4f0;">
                                     @else
