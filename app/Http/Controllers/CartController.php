@@ -57,9 +57,10 @@ class CartController extends Controller
                     'title' => $product->title,
                     'price' => $product->price,
                     'type' => $product->type,
+                    'file_path' => $product->file_path ? Storage::disk('s3')->url($product->file_path) : '',
                     'low_path' => $product->low_path ? Storage::disk('s3')->url($product->low_path) : '',
                     'mid_path' => $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '',
-                    'thumbnail_path' => $product->thumbnail_path ? Storage::disk('s3')->url($product->thumbnail_path) : '',
+                    'thumbnail_path' => $product->thumbnail_path ? Storage::disk('s3')->url($product->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png'),
                     // 'low_path' => asset('uploads/images/low/' . $product->low_path),
                     // 'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
                     'size' => $product->width . ' x ' . $product->height

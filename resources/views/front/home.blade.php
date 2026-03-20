@@ -264,44 +264,48 @@
                                 @foreach ($latestProducts as $pro)
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                         <div class="product-card">
-
                                             <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+
                                                 @if ($pro->type == 'image')
                                                     <img loading="lazy"
                                                         src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    <img loading="lazy"
-                                                        src="{{ $pro->thumbnail_path ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                        class="product-img" alt="">
+                                                    @if ($pro->thumbnail_path == null)
+                                                        <img loading="lazy"
+                                                            src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                            class="product-img" alt="">
+                                                    @else
+                                                        <img loading="lazy"
+                                                            src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                            class="product-img" alt="">
+                                                    @endif
                                                 @endif
                                             </a>
-
                                             <div class="p-3">
+
                                                 <span
                                                     class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
 
-                                                <a href="{{ route('product.detail', encrypt($pro->id)) }}">
-                                                    <h6 class="popular-detail-title">{{ $pro->title }}</h6>
-                                                </a>
+                                                <h6 class="popular-detail-title">{{ $pro->title }}
+                                                </h6>
+
 
                                                 <div class="price-btn">
                                                     <span class="price">${{ $pro->price }}</span>
                                                     <button class="btn add_to_cart btn-orange"
                                                         {{ isInCart($pro->id) ? 'disabled' : '' }}
                                                         onclick="addToCart({{ $pro->id }}, this)">
-                                                        {{ isInCart($pro->id) ? 'Added to Cart' : 'Add to Cart' }}
-                                                    </button>
+                                                        {{ isInCart($pro->id) ? 'Added to Cart' : 'Add to Cart' }}</button>
                                                 </div>
-
                                                 <div class="product-two-btn">
                                                     <button type="button" data-Product-id="{{ $pro->id }}"
                                                         data-type="{{ $pro->type }}"
-                                                        class="btn popular-icon-btn addFavorite">
+                                                        class="btn  popular-icon-btn addFavorite">
                                                         <i
                                                             class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                                        {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }}
-                                                    </button>
+                                                        {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
+
 
                                                     <div class="share-wrapper position-relative d-inline-block">
                                                         <button type="button"
@@ -310,10 +314,11 @@
                                                             <i class="bi bi-share"></i> Share
                                                         </button>
 
-                                                        <div class="share-dropdown">
+                                                        <div class="share-dropdown" id="shareDropdown">
                                                             <div class="share-dropdown-title">Share this page</div>
 
-                                                            <a class="share-option share-whatsapp" href="#"
+                                                            <!-- WhatsApp -->
+                                                            <a class="share-option" id="shareWhatsapp" href="#"
                                                                 target="_blank">
                                                                 <span class="share-icon whatsapp-icon">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -328,7 +333,8 @@
                                                                 <span>WhatsApp</span>
                                                             </a>
 
-                                                            <a class="share-option share-x" href="#"
+                                                            <!-- X (Twitter) -->
+                                                            <a class="share-option" id="shareX" href="#"
                                                                 target="_blank">
                                                                 <span class="share-icon x-icon">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -341,8 +347,9 @@
                                                                 <span>X (Twitter)</span>
                                                             </a>
 
-                                                            <a class="share-option share-instagram" href="#"
-                                                                target="_blank">
+                                                            <!-- Instagram -->
+                                                            <a class="share-option" id="shareInstagram"
+                                                                href="#" target="_blank">
                                                                 <span class="share-icon instagram-icon">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                         width="18" height="18"
@@ -354,7 +361,8 @@
                                                                 <span>Instagram</span>
                                                             </a>
 
-                                                            <a class="share-option share-facebook" href="#"
+                                                            <!-- Facebook -->
+                                                            <a class="share-option" id="shareFacebook" href="#"
                                                                 target="_blank">
                                                                 <span class="share-icon facebook-icon">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -369,22 +377,24 @@
 
                                                             <div class="share-divider"></div>
 
-                                                            <button class="share-option copy-link-btn">
+                                                            <!-- Copy Link -->
+                                                            <button class="share-option copy-link-btn"
+                                                                id="copyLinkBtn">
                                                                 <span class="share-icon copy-icon">
                                                                     <i class="bi bi-link-45deg"
                                                                         style="font-size:18px;"></i>
                                                                 </span>
-                                                                <span class="copy-link-text">Copy Link</span>
+                                                                <span id="copyLinkText">Copy Link</span>
                                                             </button>
                                                         </div>
-                                                    </div>{{-- end share-wrapper --}}
+                                                    </div>
+                                                </div>
 
-                                                </div>{{-- end product-two-btn --}}
+                                            </div>
+                                        </div>
 
-                                            </div>{{-- end p-3 --}}
 
-                                        </div>{{-- end product-card --}}
-                                    </div>{{-- end col --}}
+                                    </div>
                                 @endforeach
 
                         @endif
