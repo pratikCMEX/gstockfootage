@@ -147,7 +147,8 @@ class HomeController extends Controller
                 'collection' => optional($product->collection)->name,
                 'location' => $product->country ?? 'N/A',
                 'type' => $product->type,
-                'is_favorite' => $product->is_favorite
+                'is_favorite' => $product->is_favorite,
+                'downloads' => $product->downloads
             ];
 
             if ($product->type == "image") {

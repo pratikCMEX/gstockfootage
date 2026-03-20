@@ -150,7 +150,7 @@
 
                         <button type="button" class="btn btn-all-dark btn-hover-dark"><i class="bi bi-share"></i>
                             Share</button>
-                        <p>0 Downloads</p>
+                        <p>{{ $data['downloads'] }} Downloads</p>
                     </div>
                     <p class="product-description">
                         {{ $data['description'] }}
