@@ -98,6 +98,13 @@
                         <span class="hide-menu">Subscriptions </span>
                     </a>
                 </li>
+                <!-- <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions', 'add_subscription', 'edit_subscription']) ? 'active  ' : '' }} side-item"
+                        href="{{ route('admin.subscriptions') }}" aria-expanded="false">
+                        <i class="ti  ti-credit-card"></i>
+                        <span class="hide-menu">Users Subscriptions </span>
+                    </a> -->
+                </li>
                  <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['blog']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.blog') }}" aria-expanded="false">
