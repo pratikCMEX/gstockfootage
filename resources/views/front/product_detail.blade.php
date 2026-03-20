@@ -215,8 +215,8 @@
 
 
                                 @if ($data->type == 'image')
-                                    <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img"
-                                        alt="">
+                                    <img src="{{ Storage::disk('s3')->url($data->mid_pth) ?? asset('assets/admin/images/demo_thumbnail.png') }}"
+                                        class="product-img" alt="">
                                 @else
                                     @if ($data->thumbnail_path == null)
                                         <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
