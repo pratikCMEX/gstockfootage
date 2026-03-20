@@ -27,7 +27,7 @@ class WebhookController extends Controller
         $sigHeader = $request->server('HTTP_STRIPE_SIGNATURE');
         $secret    = config('services.stripe.webhook_secret');
 
-        Log::info('Webhook received');
+        Log::info('🔥 Webhook received', ['payload_length' => strlen($payload)]);
 
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sigHeader, $secret);
@@ -43,18 +43,17 @@ class WebhookController extends Controller
 
         switch ($event->type) {
 
-            // ─── ORDER WEBHOOK ───────────────────────────────────────────
             case 'checkout.session.completed':
                 $this->handleCheckoutCompleted($event->data->object);
                 break;
 
-            // ─── SUBSCRIPTION WEBHOOKS ───────────────────────────────────
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
                 $this->handleSubscriptionUpdated($event->data->object);
                 break;
 
             case 'invoice.payment_succeeded':
+            case 'invoice.paid':
                 $this->handlePaymentSucceeded($event->data->object);
                 break;
 
@@ -74,47 +73,38 @@ class WebhookController extends Controller
     }
 
     // =========================================================
-    // ORDER HANDLERS
+    // ORDER HANDLER
     // =========================================================
-
     private function handleCheckoutCompleted($session)
     {
         Log::info('checkout.session.completed', [
             'session_id'     => $session->id,
             'payment_status' => $session->payment_status,
-            'email'          => $session->customer_email,
+            'mode'           => $session->mode,
         ]);
 
-        if ($session->payment_status !== 'paid') {
-            Log::warning('Payment not paid yet', ['status' => $session->payment_status]);
+        // Skip subscription checkouts — handled by subscription webhooks
+        if ($session->mode === 'subscription') {
+            Log::info('Skipping subscription checkout — handled by subscription webhook');
             return;
         }
 
-        // Prevent duplicate order
+        if ($session->payment_status !== 'paid') return;
+
         if (Order::where('stripe_session_id', $session->id)->exists()) {
             Log::warning('Order already exists', ['session_id' => $session->id]);
             return;
         }
 
-        // Get cart from cache
         $cartData = Cache::get('stripe_cart_' . $session->id);
-
-        Log::info('Cart data from cache', [
-            'session_id' => $session->id,
-            'found'      => $cartData ? 'YES' : 'NO',
-            'items'      => $cartData ? count($cartData['items']) : 0,
-        ]);
-
         if (!$cartData || empty($cartData['items'])) {
-            Log::error('Cart data missing from cache', ['session_id' => $session->id]);
+            Log::error('Cart data missing', ['session_id' => $session->id]);
             return;
         }
 
         DB::beginTransaction();
-
         try {
-            $user = User::where('email', $session->customer_email)->first();
-
+            $user  = User::where('email', $session->customer_email)->first();
             $order = Order::create([
                 'user_id'           => $user?->id,
                 'order_number'      => 'ORD-' . strtoupper(uniqid()),
@@ -123,11 +113,6 @@ class WebhookController extends Controller
                 'email'             => $session->customer_email,
                 'payment_status'    => 'paid',
                 'order_status'      => 'completed',
-            ]);
-
-            Log::info('Order created', [
-                'order_id'     => $order->id,
-                'order_number' => $order->order_number,
             ]);
 
             foreach ($cartData['items'] as $item) {
@@ -139,11 +124,7 @@ class WebhookController extends Controller
                 ]);
             }
 
-            if ($user) {
-                Cart::where('user_id', $user->id)->delete();
-                Log::info('DB cart cleared', ['user_id' => $user->id]);
-            }
-
+            if ($user) Cart::where('user_id', $user->id)->delete();
             Cache::forget('stripe_cart_' . $session->id);
 
             DB::commit();
@@ -151,31 +132,77 @@ class WebhookController extends Controller
             try {
                 $orderWithDetails = Order::with('order_details.product')->find($order->id);
                 Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
-                Log::info('Receipt email sent', ['email' => $order->email]);
             } catch (\Exception $mailException) {
                 Log::error('Email failed', ['error' => $mailException->getMessage()]);
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Order creation failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
+            Log::error('Order creation failed', ['error' => $e->getMessage()]);
         }
     }
 
     // =========================================================
     // SUBSCRIPTION HANDLERS
     // =========================================================
-
     private function handleSubscriptionUpdated($stripeSub)
     {
+        Log::info('handleSubscriptionUpdated called', [
+            'stripe_sub_id' => $stripeSub->id,
+            'status'        => $stripeSub->status,
+            'metadata'      => (array) $stripeSub->metadata,
+        ]);
+
+        $planId = $stripeSub->metadata->plan_id ?? null;
+        $userId = $stripeSub->metadata->user_id ?? null;
+
         $dbSub = User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
-            ->latest()
-            ->first();
+            ->latest()->first();
 
-        if (!$dbSub) return;
+        // ✅ No record + has metadata = CREATE
+        if (!$dbSub && $planId && $userId) {
 
+            $plan = Subscription_plans::find($planId);
+            if (!$plan) {
+                Log::error('Plan not found', ['plan_id' => $planId]);
+                return;
+            }
+
+            // Deactivate old subscriptions
+            User_subscriptions::where('user_id', $userId)
+                ->whereIn('status', ['active', 'cancelled'])
+                ->update(['status' => 'inactive']);
+
+            User_subscriptions::create([
+                'user_id'                => $userId,
+                'subscription_plan_id'   => $plan->id,
+                'stripe_subscription_id' => $stripeSub->id,
+                'start_date'             => Carbon::createFromTimestamp($stripeSub->current_period_start),
+                'end_date'               => Carbon::createFromTimestamp($stripeSub->current_period_end),
+                'total_clips'            => $plan->total_clips,
+                'used_clips'             => 0,
+                'remaining_clips'        => $plan->total_clips,
+                'amount'                 => $plan->price,
+                'payment_gateway'        => 'stripe',
+                'transaction_id'         => $stripeSub->id,
+                'payment_status'         => 'success',
+                'status'                 => 'active',
+            ]);
+
+            Log::info('✅ Subscription CREATED in DB', [
+                'user_id' => $userId,
+                'plan_id' => $planId,
+            ]);
+            return;
+        }
+
+        if (!$dbSub) {
+            Log::warning('⚠️ No DB record and no metadata — skipping', [
+                'stripe_sub_id' => $stripeSub->id,
+            ]);
+            return;
+        }
+
+        // ✅ Record exists = UPDATE
         $updateData = [
             'start_date' => Carbon::createFromTimestamp($stripeSub->current_period_start),
             'end_date'   => Carbon::createFromTimestamp($stripeSub->current_period_end),
@@ -191,103 +218,65 @@ class WebhookController extends Controller
         }
 
         $dbSub->update($updateData);
-
-        Log::info('Subscription updated', ['stripe_sub_id' => $stripeSub->id]);
+        Log::info('✅ Subscription UPDATED in DB', ['stripe_sub_id' => $stripeSub->id]);
     }
 
     private function handlePaymentSucceeded($invoice)
     {
-        $stripeSubId = $invoice->subscription;
+        $stripeSubId = $invoice->subscription ?? null;
 
-        Log::info('handlePaymentSucceeded called', ['stripe_sub_id' => $stripeSubId]);
+        Log::info('handlePaymentSucceeded called', [
+            'stripe_sub_id'  => $stripeSubId,
+            'billing_reason' => $invoice->billing_reason ?? null,
+        ]);
 
-        if (!$stripeSubId) {
-            Log::warning('No subscription ID on invoice');
+        // First payment is handled by customer.subscription.created
+        if (!$stripeSubId || $invoice->billing_reason === 'subscription_create') {
+            Log::info('Skipping — first payment handled by subscription.created');
             return;
         }
 
         $stripeSub = \Stripe\Subscription::retrieve($stripeSubId);
+        $dbSub     = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
+            ->latest()->first();
 
-        $planId = $stripeSub->metadata->plan_id ?? null;
-        $userId = $stripeSub->metadata->user_id ?? null;
-
-        Log::info('Subscription metadata', [
-            'plan_id' => $planId,
-            'user_id' => $userId,
-            'billing_reason' => $invoice->billing_reason,
-        ]);
-
-        if (!$planId || !$userId) {
-            Log::error('Missing metadata — subscription_data.metadata not set in checkout session');
+        if (!$dbSub) {
+            Log::warning('No DB record found for renewal', ['stripe_sub_id' => $stripeSubId]);
             return;
         }
 
-        // Prevent duplicate on first payment
-        $alreadyExists = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
-            ->where('status', 'active')
-            ->exists();
-
-        if ($alreadyExists && $invoice->billing_reason === 'subscription_create') {
-            Log::info('Already recorded, skipping duplicate');
-            return;
-        }
-
-        $plan = Subscription_plans::find($planId);
-        if (!$plan) {
-            Log::error('Plan not found in DB', ['plan_id' => $planId]);
-            return;
-        }
-
-        // Deactivate old subscriptions
-        User_subscriptions::where('user_id', $userId)
-            ->whereIn('status', ['active', 'cancelled'])
-            ->update(['status' => 'inactive']);
-
-        User_subscriptions::create([
-            'user_id'                => $userId,
-            'subscription_plan_id'   => $plan->id,
-            'stripe_subscription_id' => $stripeSub->id,
-            'start_date'             => Carbon::createFromTimestamp($stripeSub->current_period_start),
-            'end_date'               => Carbon::createFromTimestamp($stripeSub->current_period_end),
-            'total_clips'            => $plan->total_clips,
-            'used_clips'             => 0,
-            'remaining_clips'        => $plan->total_clips,
-            'amount'                 => $plan->price,
-            'payment_gateway'        => 'stripe',
-            'transaction_id'         => $stripeSub->id,
-            'payment_status'         => 'success',
-            'status'                 => 'active',
+        // Renewal — reset clips and update dates
+        $dbSub->update([
+            'start_date'      => Carbon::createFromTimestamp($stripeSub->current_period_start),
+            'end_date'        => Carbon::createFromTimestamp($stripeSub->current_period_end),
+            'used_clips'      => 0,
+            'remaining_clips' => $dbSub->total_clips,
+            'payment_status'  => 'success',
+            'status'          => 'active',
         ]);
 
-        Log::info('✅ Subscription saved to DB', [
-            'user_id' => $userId,
-            'plan_id' => $planId,
-            'stripe_sub_id' => $stripeSubId,
-        ]);
+        Log::info('✅ Subscription RENEWED in DB', ['stripe_sub_id' => $stripeSubId]);
     }
 
     private function handlePaymentFailed($invoice)
     {
-        $stripeSubId = $invoice->subscription;
-
+        $stripeSubId = $invoice->subscription ?? null;
         if (!$stripeSubId) return;
 
         User_subscriptions::where('stripe_subscription_id', $stripeSubId)
-            ->latest()
-            ->first()
+            ->latest()->first()
             ?->update([
-                'status'         => 'past_due',
+                'status'         => 'payment_failed',
                 'payment_status' => 'failed',
             ]);
 
-        Log::warning('Subscription payment failed', ['stripe_sub_id' => $stripeSubId]);
+        Log::warning('❌ Subscription payment failed', ['stripe_sub_id' => $stripeSubId]);
     }
 
     private function handleSubscriptionDeleted($stripeSub)
     {
         User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
-            ->latest()
-            ->first()
+            ->latest()->first()
             ?->update([
                 'status'   => 'expired',
                 'end_date' => now(),
