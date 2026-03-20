@@ -37,14 +37,14 @@ class PricingController extends Controller
         $activePlan = null;
 
         if (auth()->check()) {
-            $activeSubscription = User_subscriptions::with('subscriptions')
+            $activeSubscription = User_subscriptions::with('subscription')
                 ->where('user_id', auth()->id())
                 ->whereIn('status', ['active', 'cancelled'])
                 ->where('end_date', '>', now())
                 ->latest()
                 ->first();
 
-            $activePlan = $activeSubscription?->subscriptions ?? null;
+            $activePlan = $activeSubscription?->subscription ?? null;
         }
 
         $subscriptionPlanList = Subscription_plans::where('is_active', '1')
