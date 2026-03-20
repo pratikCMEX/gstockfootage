@@ -4,12 +4,14 @@
         {{-- Heading --}}
         <div class="row mb-4">
             <div class="col-12">
-                <h2>
-                    All Media
-                    @if ($collection)
-                        <span class="yellow-headings"> from {{ $collection->name }} Collection</span>
-                    @endif
-                </h2>
+                <div class="heading">
+                    <h2>
+                        All Media
+                        @if ($collection)
+                            <span class="yellow-headings"> from {{ $collection->name }} Collection</span>
+                        @endif
+                    </h2>
+                </div>
                 <p class="text-muted">{{ $media->count() }} items &nbsp;·&nbsp;
                     {{ $photos->count() }} photos &nbsp;·&nbsp;
                     {{ $videos->count() }} videos

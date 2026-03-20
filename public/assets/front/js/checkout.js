@@ -26,48 +26,43 @@ $(document).on("click", "#processPaymentBtn", function () {
     },
 
     success: function (response) {
-      if (response.id) {
-        // let stripe = Stripe("{{ config('services.stripe.key') }}");
+      // ── All via Stripe (no subscription) ──
+      if (response.id && !response.status) {
         let stripe = Stripe(
           "pk_test_51SDJ0XPFNEui4O6lYW0lfpMqX8CuqElafy5JYngSpTY9lHeBZuAA1NIjhJJLlW5mY3TA9CBBq1y8xCvO1BymumuX00RirZPC2S"
         );
-        stripe.redirectToCheckout({
-          sessionId: response.id,
-        });
-      } else if (response.status == "subscription") {
-        toastr.success(
-          "Purchase successful! Your downloads will start shortly."
-        );
-
-        // Download all files one by one with a small delay
-        if (response.img_paths && response.img_paths.length > 0) {
-          console.log(response.img_paths);
-          // return;
-
-          response.img_paths.forEach(function (file, index) {
-            setTimeout(function () {
-              const a = document.createElement("a");
-              a.href =
-                base_url +
-                "/download/file?path=" +
-                encodeURIComponent(file.file_path) +
-                "&name=" +
-                encodeURIComponent(file.file_name);
-              a.download = file.file_name;
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-            }, index * 2000);
-          });
-        }
-
-        // Redirect to home after all downloads triggered
-        setTimeout(function () {
-          window.location.href = base_url + "/home";
-        }, response.img_paths.length * 1500 + 2000);
-      } else {
-        toastr.error("Unable to initiate payment.");
+        stripe.redirectToCheckout({ sessionId: response.id });
+        return;
       }
+
+      // ── All via subscription ──
+      if (response.status === "subscription") {
+        toastr.success("Purchase successful! Downloads starting...");
+        triggerDownloads(response.img_paths, function () {
+          window.location.href = base_url + "/home";
+        });
+        return;
+      }
+
+      // ── Mixed — some subscription, some need payment ──
+      if (response.status === "mixed") {
+        toastr.info(response.message);
+
+        // ✅ Download subscription items first
+        // triggerDownloads(response.img_paths, function () {
+        //   // ✅ Then redirect to Stripe for remaining items
+        //   toastr.info("Redirecting to payment for remaining items...");
+        //   setTimeout(function () {
+        //     let stripe = Stripe(
+        //       "pk_test_51SDJ0XPFNEui4O6lYW0lfpMqX8CuqElafy5JYngSpTY9lHeBZuAA1NIjhJJLlW5mY3TA9CBBq1y8xCvO1BymumuX00RirZPC2S"
+        //     );
+        //     stripe.redirectToCheckout({ sessionId: response.id });
+        //   }, 1000);
+        // });
+        return;
+      }
+
+      toastr.error("Unable to initiate payment.");
     },
 
     error: function (xhr) {

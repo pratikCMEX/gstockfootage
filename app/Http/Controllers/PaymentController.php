@@ -340,39 +340,41 @@ class PaymentController extends Controller
         if ($subscription && $subscription->remaining_clips > 0) {
 
             $cartItemCount = count($cart['items']);
-            if ($subscription->remaining_clips >= $cartItemCount) {
-                $subscription->used_clips      += $cartItemCount;
-                $subscription->remaining_clips -= $cartItemCount;
+            $remainingClips = $subscription->remaining_clips;
+
+            // ── How many can be covered by subscription ──
+            $coveredBySubscription = min($remainingClips, $cartItemCount);
+            $needsPayment          = $cartItemCount - $coveredBySubscription;
+
+            // ── Items covered by subscription ──
+            $subscriptionItems = array_slice($cart['items'], 0, $coveredBySubscription);
+            // ── Items needing payment ──
+            $paymentItems      = array_slice($cart['items'], $coveredBySubscription);
+
+            // ── Process subscription items ──
+            $files = [];
+
+            if ($coveredBySubscription > 0) {
+
+                $subscription->used_clips      += $coveredBySubscription;
+                $subscription->remaining_clips -= $coveredBySubscription;
                 $subscription->save();
-                $totalAmount = collect($cart['items'])->sum(fn($item) => $item['price'] * $item['qty']);
+
+                $totalAmount = collect($subscriptionItems)->sum(fn($item) => $item['price'] * $item['qty']);
+
                 $order = Order::create([
                     'user_id'           => $user->id,
                     'order_number'      => 'ORD-' . strtoupper(uniqid()),
                     'total_amount'      => $totalAmount,
-                    'stripe_session_id' => null,         // no stripe session for subscription
+                    'stripe_session_id' => null,
                     'email'             => $user->email,
                     'payment_status'    => 'paid',
                     'order_status'      => 'completed',
                 ]);
 
-                Log::info("✅ Order created via subscription", [
-                    'order_id'     => $order->id,
-                    'order_number' => $order->order_number,
-                    'user_id'      => $order->user_id,
-                ]);
-                $files = [];
-
-                // Create Order Details + UserDownload
-                foreach ($cart['items'] as $item) {
-
+                foreach ($subscriptionItems as $item) {
                     OrderDetail::create([
                         'order_id'   => $order->id,
-                        'product_id' => $item['id'],
-                        'price'      => $item['price'],
-                        'qty'        => $item['qty'],
-                    ]);
-
-                    Log::info("✅ Order detail created", [
                         'product_id' => $item['id'],
                         'price'      => $item['price'],
                         'qty'        => $item['qty'],
@@ -383,38 +385,76 @@ class PaymentController extends Controller
                         ->first();
 
                     if ($file) {
-                        // Generate temporary S3 URL valid for 10 minutes
                         $files[] = [
                             'file_name' => $file->file_name,
-                            'file_path' => $file->file_path,  // just the S3 path, not URL
-
+                            'file_path' => $file->file_path,
                         ];
                     }
                 }
 
-                // Clear cart
-                Cart::where('user_id', $user->id)->delete();
-
-                Log::info("✅ Downloaded via subscription", [
-                    'user_id'         => $user->id,
-                    'clips_used'      => $cartItemCount,
-                    'remaining_clips' => $subscription->remaining_clips,
-                ]);
-
-                return response()->json([
-                    'status'   => 'subscription',
-                    'img_paths' => $files,
-                    'message'  => 'Downloaded successfully using your subscription.',
+                Log::info("✅ Subscription items processed", [
+                    'covered'   => $coveredBySubscription,
+                    'remaining' => $subscription->remaining_clips,
                 ]);
             }
-            // else {
 
-            //     return response()->json([
-            //         'status'   => 'insufficient_clips',
-            //         'redirect' => route('payment.plans'),
-            //         'message'  => "You only have {$subscription->remaining_clips} clips left but have {$cartItemCount} items in cart. Please upgrade your plan.",
-            //     ]);
-            // }
+            // ── If all covered by subscription ──
+            if ($needsPayment === 0) {
+                Cart::where('user_id', $user->id)->delete();
+
+                return response()->json([
+                    'status'     => 'subscription',
+                    'img_paths'  => $files,
+                    'message'    => 'Downloaded successfully using your subscription.',
+                ]);
+            }
+
+            // ── Some items need payment — create Stripe session for remaining ──
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+            $lineItems = [];
+            foreach ($paymentItems as $item) {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency'     => 'usd',
+                        'product_data' => ['name' => $item['title']],
+                        'unit_amount'  => $item['price'] * 100,
+                    ],
+                    'quantity' => $item['qty'],
+                ];
+            }
+
+            $token = Str::random(32);
+            Cache::put('stripe_token_' . $token, null, now()->addHours(2));
+
+            // ── Store only payment items in cache (not subscription ones) ──
+            $partialCart           = $cart;
+            $partialCart['items']  = array_values($paymentItems);
+
+            $session = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'customer_email'       => $request->email,
+                'line_items'           => $lineItems,
+                'mode'                 => 'payment',
+                'success_url'          => route('checkout.success') . '?token=' . $token,
+                'cancel_url'           => route('checkout.cancel'),
+            ]);
+
+            Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
+            Cache::put('stripe_cart_' . $session->id, $partialCart, now()->addHours(24));
+
+            Log::info("🛒 Mixed checkout — subscription + stripe", [
+                'subscription_items' => $coveredBySubscription,
+                'stripe_items'       => $needsPayment,
+                'session_id'         => $session->id,
+            ]);
+
+            return response()->json([
+                'status'     => 'mixed',
+                'id'         => $session->id,         // Stripe session for remaining items
+                'img_paths'  => $files,               // Subscription downloads
+                'message'    => "{$coveredBySubscription} item(s) covered by subscription. {$needsPayment} item(s) require payment.",
+            ]);
         }
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
