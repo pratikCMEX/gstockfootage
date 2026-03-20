@@ -395,6 +395,7 @@ class PaymentController extends Controller
 
                 try {
                     $orderWithDetails = Order::with('order_details.product')->find($order->id);
+
                     Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
                     Log::info('Email sent');
                 } catch (\Exception $mailException) {

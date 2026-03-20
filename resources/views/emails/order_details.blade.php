@@ -273,7 +273,7 @@
                         @foreach ($order->order_details as $details)
                             <tr>
                                 <td width="60" valign="middle">
-                                    @if ($details->product->type == '0')
+                                    @if ($details->product->type == 'image')
                                         <img src="{{ Storage::disk('s3')->url($details->product->mid_path) }}"
                                             width="46" height="46"
                                             style="border:1px solid #e8e2d9;background:#f7f4f0;">
