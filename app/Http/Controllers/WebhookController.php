@@ -151,17 +151,18 @@ class WebhookController extends Controller
             }
 
             // Clear cart
+
             if ($user) {
                 $totalQty = collect($cartData['items'])->sum('qty');
-            
+
                 $activeSubscription = User_subscriptions::where('user_id', $user->id)
                     ->where('status', 'active')
                     ->where('end_date', '>', now())
                     ->latest()
                     ->first();
-            
+
                 if ($activeSubscription) {
-            
+
                     if ($activeSubscription->remaining_clips < $totalQty) {
                         Log::warning('⚠️ Not enough clips', [
                             'user_id'         => $user->id,
@@ -170,22 +171,26 @@ class WebhookController extends Controller
                         ]);
                         // Optional: you can block the order here or just allow it
                     }
-            
+
                     $activeSubscription->increment('used_clips', $totalQty);
                     $activeSubscription->decrement('remaining_clips', $totalQty);
-            
+
                     Log::info('✅ Clips deducted', [
                         'user_id'         => $user->id,
                         'qty_deducted'    => $totalQty,
                         'used_clips'      => $activeSubscription->fresh()->used_clips,
                         'remaining_clips' => $activeSubscription->fresh()->remaining_clips,
                     ]);
-            
                 } else {
                     Log::warning('⚠️ No active subscription found for user', [
                         'user_id' => $user->id,
                     ]);
                 }
+            }
+            if ($user) {
+                Cart::where('user_id', $user->id)->delete();
+                Log::info('DB cart cleared', ['user_id' => $user->id]);
+            }
 
             Cache::forget('stripe_cart_' . $session->id);
 
