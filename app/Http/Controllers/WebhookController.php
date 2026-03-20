@@ -167,7 +167,20 @@ class WebhookController extends Controller
                 return;
             }
 
-            // Deactivate old subscriptions
+            // ✅ Safely handle null timestamps
+            $startDate = $stripeSub->current_period_start
+                ? Carbon::createFromTimestamp($stripeSub->current_period_start)
+                : now();
+
+            $endDate = $stripeSub->current_period_end
+                ? Carbon::createFromTimestamp($stripeSub->current_period_end)
+                : now()->addMonth();
+
+            Log::info('Dates resolved', [
+                'start' => $startDate->toDateTimeString(),
+                'end'   => $endDate->toDateTimeString(),
+            ]);
+
             User_subscriptions::where('user_id', $userId)
                 ->whereIn('status', ['active', 'cancelled'])
                 ->update(['status' => 'inactive']);
@@ -176,8 +189,8 @@ class WebhookController extends Controller
                 'user_id'                => $userId,
                 'subscription_plan_id'   => $plan->id,
                 'stripe_subscription_id' => $stripeSub->id,
-                'start_date'             => Carbon::createFromTimestamp($stripeSub->current_period_start),
-                'end_date'               => Carbon::createFromTimestamp($stripeSub->current_period_end),
+                'start_date'             => $startDate,
+                'end_date'               => $endDate,
                 'total_clips'            => $plan->total_clips,
                 'used_clips'             => 0,
                 'remaining_clips'        => $plan->total_clips,
@@ -189,8 +202,10 @@ class WebhookController extends Controller
             ]);
 
             Log::info('✅ Subscription CREATED in DB', [
-                'user_id' => $userId,
-                'plan_id' => $planId,
+                'user_id'    => $userId,
+                'plan_id'    => $planId,
+                'start_date' => $startDate->toDateTimeString(),
+                'end_date'   => $endDate->toDateTimeString(),
             ]);
             return;
         }
@@ -204,8 +219,13 @@ class WebhookController extends Controller
 
         // ✅ Record exists = UPDATE
         $updateData = [
-            'start_date' => Carbon::createFromTimestamp($stripeSub->current_period_start),
-            'end_date'   => Carbon::createFromTimestamp($stripeSub->current_period_end),
+            'start_date' => $stripeSub->current_period_start
+                ? Carbon::createFromTimestamp($stripeSub->current_period_start)
+                : now(),
+
+            'end_date'   => $stripeSub->current_period_end
+                ? Carbon::createFromTimestamp($stripeSub->current_period_end)
+                : now()->addMonth(),
         ];
 
         if ($stripeSub->status === 'active') {
@@ -247,8 +267,12 @@ class WebhookController extends Controller
 
         // Renewal — reset clips and update dates
         $dbSub->update([
-            'start_date'      => Carbon::createFromTimestamp($stripeSub->current_period_start),
-            'end_date'        => Carbon::createFromTimestamp($stripeSub->current_period_end),
+            'start_date'      => $stripeSub->current_period_start
+                ? Carbon::createFromTimestamp($stripeSub->current_period_start)
+                : now(),
+            'end_date'        => $stripeSub->current_period_end
+                ? Carbon::createFromTimestamp($stripeSub->current_period_end)
+                : now()->addMonth(),
             'used_clips'      => 0,
             'remaining_clips' => $dbSub->total_clips,
             'payment_status'  => 'success',
@@ -279,7 +303,9 @@ class WebhookController extends Controller
             ->latest()->first()
             ?->update([
                 'status'   => 'expired',
-                'end_date' => now(),
+                'end_date' => $stripeSub->current_period_end
+                    ? Carbon::createFromTimestamp($stripeSub->current_period_end)
+                    : now(),
             ]);
 
         Log::info('Subscription deleted/expired', ['stripe_sub_id' => $stripeSub->id]);
