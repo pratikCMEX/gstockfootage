@@ -616,6 +616,51 @@ class PaymentController extends Controller
 
         exit;
     }
+
+    public function downloadZip(Request $request)
+    {
+        $files = $request->input('files', []);
+
+        if (empty($files)) {
+            return back()->with('msg_error', 'No files to download.');
+        }
+
+        $zip     = new \ZipArchive();
+        $zipName = 'downloads_' . time() . '.zip';
+        $zipPath = storage_path('app/temp/' . $zipName);
+
+        // Make sure temp dir exists
+        if (!file_exists(storage_path('app/temp'))) {
+            mkdir(storage_path('app/temp'), 0755, true);
+        }
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE) !== true) {
+            return back()->with('msg_error', 'Could not create zip file.');
+        }
+
+        foreach ($files as $fileJson) {
+            $file = json_decode($fileJson, true);
+            $path = $file['path'] ?? null;
+            $name = $file['name'] ?? basename($path);
+
+            if (!$path) continue;
+
+            try {
+                // ── Stream from S3 ──
+                $contents = Storage::disk('s3')->get($path);
+                $zip->addFromString($name, $contents);
+            } catch (\Exception $e) {
+                Log::error('Zip download failed for file', [
+                    'path'  => $path,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        $zip->close();
+
+        return response()->download($zipPath, $zipName)->deleteFileAfterSend(true);
+    }
     public function handleWebhook(Request $request)
     {
         Log::info(" Webhook received");

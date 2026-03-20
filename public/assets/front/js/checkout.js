@@ -1,4 +1,6 @@
 $(document).on("click", "#processPaymentBtn", function () {
+  alert(Stripe(window.STRIPE_KEY));
+  return;
   let button = $(this);
   let email = $("#checkout_email").val();
 
@@ -7,9 +9,6 @@ $(document).on("click", "#processPaymentBtn", function () {
     return;
   }
 
-  //   console.log(base_url);
-  //   console.log(Stripe("{{ config('services.stripe.key') }}"));
-  //   return;
   $.ajax({
     url: base_url + "/checkout/process",
     type: "POST",
@@ -28,9 +27,7 @@ $(document).on("click", "#processPaymentBtn", function () {
     success: function (response) {
       // ── Pure Stripe ──
       if (response.id && !response.status) {
-        let stripe = Stripe(
-          "pk_test_51SDJ0XPFNEui4O6lYW0lfpMqX8CuqElafy5JYngSpTY9lHeBZuAA1NIjhJJLlW5mY3TA9CBBq1y8xCvO1BymumuX00RirZPC2S"
-        );
+        let stripe = Stripe(window.STRIPE_KEY);
         stripe.redirectToCheckout({ sessionId: response.id });
         return;
       }
@@ -38,22 +35,20 @@ $(document).on("click", "#processPaymentBtn", function () {
       // ── Pure subscription ──
       if (response.status === "subscription") {
         toastr.success("All items downloaded via your subscription!");
-        triggerDownloads(response.img_paths, function () {
+        triggerDownloads(response.img_paths, null, function () {
           window.location.href = base_url + "/home";
         });
         return;
       }
 
-      // ── Mixed ──
+      // ── Mixed — some subscription, some need payment ──
       if (response.status === "mixed") {
-        // ✅ Show success for subscription items
         toastr.success(
           response.covered_count + " item(s) downloaded via your subscription!",
           "Download Started",
           { timeOut: 5000 }
         );
 
-        // ✅ Show warning for items that need payment
         setTimeout(function () {
           toastr.warning(
             '"' +
@@ -64,17 +59,8 @@ $(document).on("click", "#processPaymentBtn", function () {
           );
         }, 1500);
 
-        // ✅ Trigger downloads for subscription items
-        triggerDownloads(response.img_paths, function () {
-          // ✅ After downloads start, redirect to Stripe for remaining
-          setTimeout(function () {
-            let stripe = Stripe(
-              "pk_test_51SDJ0XPFNEui4O6lYW0lfpMqX8CuqElafy5JYngSpTY9lHeBZuAA1NIjhJJLlW5mY3TA9CBBq1y8xCvO1BymumuX00RirZPC2S"
-            );
-            stripe.redirectToCheckout({ sessionId: response.id });
-          }, 2000);
-        });
-
+        // ✅ Pass stripe session ID so zip download can redirect after
+        triggerDownloads(response.img_paths, response.id, null);
         return;
       }
 
@@ -92,31 +78,90 @@ $(document).on("click", "#processPaymentBtn", function () {
   });
 });
 
-// ── Trigger sequential downloads, then call callback when done ──
-function triggerDownloads(files, callback) {
+// ─────────────────────────────────────────────────────────────
+// triggerDownloads(files, stripeSessionId, callback)
+//   stripeSessionId — if set, redirect to Stripe after download
+//   callback        — if set, call after download (for home redirect)
+// ─────────────────────────────────────────────────────────────
+function triggerDownloads(files, stripeSessionId, callback) {
   if (!files || files.length === 0) {
-    if (callback) callback();
+    if (stripeSessionId) {
+      redirectToStripe(stripeSessionId);
+    } else if (callback) {
+      callback();
+    }
     return;
   }
 
-  files.forEach(function (file, index) {
-    setTimeout(function () {
-      const a = document.createElement("a");
-      a.href =
-        base_url +
-        "/download/file?path=" +
-        encodeURIComponent(file.file_path) +
-        "&name=" +
-        encodeURIComponent(file.file_name);
-      a.download = file.file_name;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+  if (files.length === 1) {
+    // ── Single file — direct download ──
+    const a = document.createElement("a");
+    a.href =
+      base_url +
+      "/download/file?path=" +
+      encodeURIComponent(files[0].file_path) +
+      "&name=" +
+      encodeURIComponent(files[0].file_name);
+    a.download = files[0].file_name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
-      // ── Call callback after last file ──
-      if (index === files.length - 1 && callback) {
-        setTimeout(callback, 1500);
+    setTimeout(function () {
+      if (stripeSessionId) {
+        redirectToStripe(stripeSessionId);
+      } else if (callback) {
+        callback();
       }
-    }, index * 2000);
-  });
+    }, 1500);
+  } else {
+    // ── Multiple files — download as zip via AJAX, then redirect ──
+    // ✅ Use AJAX instead of form.submit() so we can redirect after
+    let formData = new FormData();
+    formData.append("_token", $('meta[name="csrf-token"]').attr("content"));
+
+    files.forEach(function (file) {
+      formData.append(
+        "files[]",
+        JSON.stringify({
+          path: file.file_path,
+          name: file.file_name,
+        })
+      );
+    });
+
+    fetch(base_url + "/download/zip", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "downloads_" + Date.now() + ".zip";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        setTimeout(function () {
+          if (stripeSessionId) {
+            redirectToStripe(stripeSessionId);
+          } else if (callback) {
+            callback();
+          }
+        }, 1500);
+      })
+      .catch(function (err) {
+        console.error("Zip download failed", err);
+        toastr.error("Zip download failed.");
+        if (stripeSessionId) redirectToStripe(stripeSessionId);
+      });
+  }
+}
+
+function redirectToStripe(sessionId) {
+  let stripe = Stripe(window.STRIPE_KEY);
+  stripe.redirectToCheckout({ sessionId: sessionId });
 }
