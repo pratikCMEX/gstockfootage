@@ -268,7 +268,7 @@
 
                                                 @if ($pro->type == 'image')
                                                     <img loading="lazy"
-                                                        src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
+                                                        src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->high_path) }}"
                                                         class="product-img" alt="">
                                                 @else
                                                     @if ($pro->thumbnail_path == null)
@@ -410,7 +410,7 @@
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
                                                 <img loading="lazy"
-                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
+                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->high_path) }}"
                                                     class="product-img" alt="">
                                             @else
                                                 @if ($pro->thumbnail_path == null)
