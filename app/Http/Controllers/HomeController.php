@@ -114,7 +114,7 @@ class HomeController extends Controller
     {
         $title = 'Product Detail View';
         $page = 'front.product_detail';
-        $js = ['favorites'];
+        $js = ['home', 'favorites'];
         try {
             $id = decrypt($id);
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
