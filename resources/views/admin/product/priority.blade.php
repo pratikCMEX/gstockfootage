@@ -100,7 +100,7 @@
 
                                                 @if($product->type === 'image')
 
-                                                    <img src="{{ Storage::disk('s3')->url($product->low_path) }}"
+                                                    <img src="{{ $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '' }}"
                                                         class="preview-image"
                                                         data-src="{{ Storage::disk('s3')->url($product->file_path) }}"
                                                         width="70" height="70" style="cursor:pointer">
@@ -194,7 +194,7 @@
 
                                                 @if($product->type === 'image')
 
-                                                    <img src="{{ Storage::disk('s3')->url($product->low_path) }}" width="70"
+                                                    <img src="{{ $product->mid_path ? Storage::disk('s3')->url($product->mid_path) :'' }}" width="70"
                                                         height="70">
 
                                                 @else

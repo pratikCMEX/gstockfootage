@@ -134,6 +134,14 @@
                         <span class="hide-menu">Batchs</span>
                     </a>
                 </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['order_history','order_detail']) ? 'active  ' : '' }} side-item"
+                        href="{{ route('admin.order_history') }}" aria-expanded="false">
+                        <!-- <i class="ti ti-user-circle"></i> -->
+                        <i class="fa-regular fa-clone"></i>
+                        <span class="hide-menu">Order History</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), [ 'testimonials' , 'add_testimonials']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.testimonials') }}" aria-expanded="false">

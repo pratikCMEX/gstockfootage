@@ -37,13 +37,14 @@
                             <div class="mb-3">
                                 <label for="publish_date" class="form-label">Publish Date</label><span
                                     class="text-danger">*</span>
-                                <input type="date" name="publish_date" class="form-control" id="publish_date">
+                                <input type="date" name="publish_date" class="form-control" id="publish_date"  max="{{ date('Y-m-d') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Image</label><span class="text-danger">*</span>
                                 <input type="file" name="image" class="form-control" id="image" accept="image/*">
 
                             </div>
+                            <label id="image-error" class="text-danger" for="image"></label>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <span class="text-danger">*</span>

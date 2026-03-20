@@ -5,7 +5,11 @@
   text-align: center;
   background: var(--hero_bg);
 }
-
+.feature-icon svg {
+    width: 24px;
+    height: 24px;
+    color:white;
+}
 .hero h1 {
   font-size: 56px;
   font-family: var(--font-inter-bold);

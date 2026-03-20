@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SocialLinksController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\TermConditionController;
@@ -167,15 +168,18 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/video_stream', [VideoStreamController::class, 'stream'])->name('admin.video_stream');
 
     Route::get('admin/blog', [BlogsController::class, 'index'])->name('admin.blog');
-     Route::get('admin/blog/add', [BlogsController::class, 'add'])->name('admin.blog_add');
-     Route::post('admin/blog/store', [BlogsController::class, 'store'])->name('admin.blog_store');
-     Route::get('admin/blog/edit/{id}', [BlogsController::class, 'edit'])->name('admin.blog_edit');
-     Route::post('admin/blog/update', [BlogsController::class, 'update'])->name('admin.blog_update');
-      Route::post('admin/delete_blog', [BlogsController::class, 'delete'])->name('admin.blog_delete');
-      Route::post('admin/delete_multiple_blog', [BlogsController::class, 'deleteMultiple'])->name('admin.delete_multiple_blog');
+    Route::get('admin/blog/add', [BlogsController::class, 'add'])->name('admin.blog_add');
+    Route::post('admin/blog/store', [BlogsController::class, 'store'])->name('admin.blog_store');
+    Route::get('admin/blog/edit/{id}', [BlogsController::class, 'edit'])->name('admin.blog_edit');
+    Route::post('admin/blog/update', [BlogsController::class, 'update'])->name('admin.blog_update');
+    Route::post('admin/delete_blog', [BlogsController::class, 'delete'])->name('admin.blog_delete');
+    Route::post('admin/delete_multiple_blog', [BlogsController::class, 'deleteMultiple'])->name('admin.delete_multiple_blog');
 
 
-    
+    Route::get('admin/order_history', [ReportsController::class, 'order_history'])->name('admin.order_history');
+    // routes/web.php
+    Route::get('/admin/order_detail/{id}', [ReportsController::class, 'detail'])->name('admin.order_detail');
+
 
     Route::get('admin/content', [ContentMasterController::class, 'index'])->name('admin.content');
     Route::post('admin/content/store', [ContentMasterController::class, 'store'])->name('admin.content_store');

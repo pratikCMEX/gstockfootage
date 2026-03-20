@@ -232,23 +232,26 @@
                 @if (!empty($trendingTags))
                     <div class="popular-filter-pills filter-pills d-flex flex-wrap gap-2 mb-4">
                         @foreach ($trendingTags as $tags)
-                            <a href="{{ $tags['type'] === 'image'
-                                ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']])
-                                : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}"
-                                class="btn btn-sm"><i class="bi bi-search"></i>{{ $tags['tag'] }}</a>
+                                    <a href="{{ 
+                                                                                                $tags['type'] === 'image'
+                            ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']])
+                            : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) 
+                                                                                            }}" class="btn btn-sm"><i
+                                            class="bi bi-search"></i>{{ $tags['tag'] }}</a>
+
                         @endforeach
                         <!-- <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
-                                            class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
-                                        <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}" class="btn btn-sm"><i
-                                                class="bi bi-search"></i> Golden hour</a>
-                                        <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
-                                            class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
-                                        <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
-                                            class="btn btn-sm"><i class="bi bi-search"></i> Holy Land nature</a>
-                                        <a href="{{ route('all_photos', ['q' => 'Biblical locations', 'type' => 'image']) }}"
-                                            class="btn btn-sm"><i class="bi bi-search"></i> Biblical locations</a>
-                                        <a href="{{ route('all_photos', ['q' => 'Desert landscapes', 'type' => 'image']) }}"
-                                            class="btn btn-sm"><i class="bi bi-search"></i> Desert landscapes</a> -->
+                                                class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
+                                            <a href="{{ route('all_photos', ['q' => 'Golden hour', 'type' => 'image']) }}" class="btn btn-sm"><i
+                                                    class="bi bi-search"></i> Golden hour</a>
+                                            <a href="{{ route('all_photos', ['q' => 'Ancient sites', 'type' => 'image']) }}"
+                                                class="btn btn-sm"><i class="bi bi-search"></i> Ancient sites</a>
+                                            <a href="{{ route('all_photos', ['q' => 'Holy Land nature', 'type' => 'image']) }}"
+                                                class="btn btn-sm"><i class="bi bi-search"></i> Holy Land nature</a>
+                                            <a href="{{ route('all_photos', ['q' => 'Biblical locations', 'type' => 'image']) }}"
+                                                class="btn btn-sm"><i class="bi bi-search"></i> Biblical locations</a>
+                                            <a href="{{ route('all_photos', ['q' => 'Desert landscapes', 'type' => 'image']) }}"
+                                                class="btn btn-sm"><i class="bi bi-search"></i> Desert landscapes</a> -->
                     </div>
                 @endif
 
@@ -356,9 +359,28 @@
                                                 </h6>
 
 
-                                                <div class="price-btn">
-                                                    <span class="price">${{ $pro->price }}</span>
-                                                    <button class="btn  btn-orange">Add</button>
+                                                    <div class="price-btn">
+                                                        <span class="price">${{ $pro->price }}</span>
+                                                        <button class="btn  btn-orange">Add</button>
+
+                                                    </div>
+                                                    <div class="product-two-btn">
+                                                        <button type="button" data-Product-id="{{ $pro->id }}"
+                                                            data-type="{{ $pro->type }}"
+                                                            class="btn  popular-icon-btn addFavorite">
+                                                            <i
+                                                                class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                                            {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
+
+
+                                                        <button class="btn  popular-icon-btn"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                            </svg>
+                                                            Share</button>
+                                                    </div>
 
                                                 </div>
                                                 <div class="product-two-btn">
@@ -635,48 +657,48 @@
 
 
                     <!-- <div class="feature-item">
-                                                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="lucide lucide-shield h-5 w-5 text-primary">
-                                                            <path
-                                                                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
-                                                            </path>
-                                                        </svg></div>
-                                                    <div>
-                                                        <h6>Royalty-Free Licensing</h6>
-                                                        <p>Clear & flexible licensing for any project</p>
+                                                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="lucide lucide-shield h-5 w-5 text-primary">
+                                                                <path
+                                                                    d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+                                                                </path>
+                                                            </svg></div>
+                                                        <div>
+                                                            <h6>Royalty-Free Licensing</h6>
+                                                            <p>Clear & flexible licensing for any project</p>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="feature-item">
-                                                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="lucide lucide-download h-5 w-5 text-primary">
-                                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                                            <polyline points="7 10 12 15 17 10"></polyline>
-                                                            <line x1="12" x2="12" y1="15" y2="3"></line>
-                                                        </svg></div>
-                                                    <div>
-                                                        <h6>Instant Downloads</h6>
-                                                        <p>Get your files immediately after purchase</p>
+                                                    <div class="feature-item">
+                                                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="lucide lucide-download h-5 w-5 text-primary">
+                                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                                            </svg></div>
+                                                        <div>
+                                                            <h6>Instant Downloads</h6>
+                                                            <p>Get your files immediately after purchase</p>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="feature-item">
-                                                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="lucide lucide-clock h-5 w-5 text-primary">
-                                                            <circle cx="12" cy="12" r="10"></circle>
-                                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                                        </svg></div>
-                                                    <div>
-                                                        <h6>Authentic Locations</h6>
-                                                        <p>Real footage from iconic destinations</p>
-                                                    </div>
-                                                </div> -->
+                                                    <div class="feature-item">
+                                                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="lucide lucide-clock h-5 w-5 text-primary">
+                                                                <circle cx="12" cy="12" r="10"></circle>
+                                                                <polyline points="12 6 12 12 16 14"></polyline>
+                                                            </svg></div>
+                                                        <div>
+                                                            <h6>Authentic Locations</h6>
+                                                            <p>Real footage from iconic destinations</p>
+                                                        </div>
+                                                    </div> -->
 
                     <div class="mt-4 trusted-btn">
                         <a href="{{ route('pricing') }}" class="btn btn-orange me-lg-2">
@@ -779,9 +801,12 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="blog-card">
                             <div class="blog-img">
-                                <img src="{{ asset('uploads/images/blogs/' . $blog->image) }}" height="100%"
-                                    width="100%" alt="">
-                                <span class="popular-badge blog-badge">Photographer</span>
+                                <img src="{{  asset('uploads/images/blogs/' . $blog->image) }}" height="100%" width="100%"
+                                    alt="">
+                                @isset($blog->author_tag)
+                                    <span class="popular-badge listing-badge blog-badge">{{ $blog->author_tag }}</span>
+                                @endisset
+                                <!-- <span class="popular-badge blog-badge">Photographer</span> -->
                             </div>
                             <div class="p-3">
                                 <div class="blog-time">
@@ -792,13 +817,13 @@
                                     </svg>
                                     <span>{{ \Carbon\Carbon::parse($blog->publish_date)->format('F d, Y') }}</span>
                                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                                                        fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-                                                                                                        <path
-                                                                                                            d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                                                                                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
-                                                                                                    </svg> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" viewBox="0 0 24 24">
+                                                                                                                fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                                                                                                <path
+                                                                                                                    d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                                                                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                                                                                                            </svg> -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path
                                             d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z" />
                                     </svg>

@@ -80,7 +80,7 @@ class BlogDataTable extends DataTable
      */
     public function query(Blog $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->latest('id');
     }
 
     /**

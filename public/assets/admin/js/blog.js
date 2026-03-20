@@ -157,6 +157,12 @@ $(document).ready(function () {
     });
 
 
+    $("#blog_form input[name='image']").on("change", function () {
+        $("#blog_form").validate().element(this);
+    });
+    $("#blog_edit_form input[name='image']").on("change", function () {
+        $("#blog_edit_form").validate().element(this);
+    });
     // Custom validation method for CKEditor description
     $.validator.addMethod("checkDescription", function (value, element) {
         let data = CKEDITOR.instances.description.getData()
