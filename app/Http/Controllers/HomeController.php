@@ -200,7 +200,7 @@ class HomeController extends Controller
         $collection = Collection::where('id', $collectionId)->first();
         $media = BatchFile::with('category')
             ->where('collection_id', $collectionId)
-            ->where('status', 'approved')
+            // ->where('status', 'approved')
             ->latest()
             ->get();
 
