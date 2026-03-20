@@ -211,7 +211,7 @@ class HomeController extends Controller
         $videos = $media->where('type', 'video')->values();
 
         $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
-            $q->where('collection_id', $collectionId);
+            $q->where('collection_id', $collectionId)->where('is_display', '1');
         })->get();
 
         return view('layouts.front.layout', compact(
