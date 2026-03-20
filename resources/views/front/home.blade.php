@@ -232,13 +232,10 @@
                 @if (!empty($trendingTags))
                     <div class="popular-filter-pills filter-pills d-flex flex-wrap gap-2 mb-4">
                         @foreach ($trendingTags as $tags)
-                                    <a href="{{ 
-                                                                                                $tags['type'] === 'image'
-                            ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']])
-                            : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) 
-                                                                                            }}" class="btn btn-sm"><i
-                                            class="bi bi-search"></i>{{ $tags['tag'] }}</a>
-
+                            <a href="{{ $tags['type'] === 'image'
+                                ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']])
+                                : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}"
+                                class="btn btn-sm"><i class="bi bi-search"></i>{{ $tags['tag'] }}</a>
                         @endforeach
                         <!-- <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
                                                 class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
@@ -359,28 +356,9 @@
                                                 </h6>
 
 
-                                                    <div class="price-btn">
-                                                        <span class="price">${{ $pro->price }}</span>
-                                                        <button class="btn  btn-orange">Add</button>
-
-                                                    </div>
-                                                    <div class="product-two-btn">
-                                                        <button type="button" data-Product-id="{{ $pro->id }}"
-                                                            data-type="{{ $pro->type }}"
-                                                            class="btn  popular-icon-btn addFavorite">
-                                                            <i
-                                                                class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                                            {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
-
-
-                                                        <button class="btn  popular-icon-btn"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                            </svg>
-                                                            Share</button>
-                                                    </div>
+                                                <div class="price-btn">
+                                                    <span class="price">${{ $pro->price }}</span>
+                                                    <button class="btn  btn-orange">Add</button>
 
                                                 </div>
                                                 <div class="product-two-btn">
@@ -406,23 +384,26 @@
 
 
                                         </div>
-                                    </a>
+
 
                                 </div>
-                            @endforeach
-                        @endif
+                                </a>
+
                     </div>
+                    @endforeach
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-12 text-center">
-            <a href="{{ route('all_photos') }}" class="brows-btn">Browse all content <svg
-                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-chevron-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg></a>
-        </div>
+    </div>
+    <div class="col-12 text-center">
+        <a href="{{ route('all_photos') }}" class="brows-btn">Browse all content <svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+            </svg></a>
+    </div>
     </div>
     </div>
 </section>
@@ -801,8 +782,8 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="blog-card">
                             <div class="blog-img">
-                                <img src="{{  asset('uploads/images/blogs/' . $blog->image) }}" height="100%" width="100%"
-                                    alt="">
+                                <img src="{{ asset('uploads/images/blogs/' . $blog->image) }}" height="100%"
+                                    width="100%" alt="">
                                 @isset($blog->author_tag)
                                     <span class="popular-badge listing-badge blog-badge">{{ $blog->author_tag }}</span>
                                 @endisset
@@ -822,8 +803,8 @@
                                                                                                                     d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
                                                                                                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
                                                                                                             </svg> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z" />
                                     </svg>

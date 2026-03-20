@@ -18,20 +18,20 @@
         </div>
 
         {{-- Tabs --}}
-        <ul class="nav nav-pills mb-4" id="mediaTabs">
+        <ul class="nav nav-pills all-media-tabs mb-4" id="mediaTabs">
             <li class="nav-item">
                 <button class="nav-link active" data-tab="all">
-                    All <span class="badge bg-secondary ms-1">{{ $media->count() }}</span>
+                    All <span class="badge ms-1">{{ $media->count() }}</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" data-tab="image">
-                    Photos <span class="badge bg-secondary ms-1">{{ $photos->count() }}</span>
+                    Photos <span class="badge  ms-1">{{ $photos->count() }}</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" data-tab="video">
-                    Videos <span class="badge bg-secondary ms-1">{{ $videos->count() }}</span>
+                    Videos <span class="badge ms-1">{{ $videos->count() }}</span>
                 </button>
             </li>
         </ul>
@@ -60,8 +60,8 @@
                         </a>
 
                         {{-- Type badge --}}
-                        <span class="position-absolute top-0 start-0 m-2 badge"
-                            style="background: {{ $item->type === 'video' ? '#ff6b00' : '#0d6efd' }}; font-size:10px;">
+                        <span class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
+                            style="background: {{ $item->type === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
                             {{ $item->type === 'video' ? '▶ Video' : '🖼 Photo' }}
                         </span>
 
