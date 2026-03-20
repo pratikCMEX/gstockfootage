@@ -336,36 +336,32 @@ class PaymentController extends Controller
             ->where('status', 'active')
             ->where('end_date', '>=', now())
             ->first();
-
         if ($subscription && $subscription->remaining_clips > 0) {
 
-            $cartItemCount = count($cart['items']);
+            $cartItems     = array_values($cart['items']);
+            $cartItemCount = count($cartItems);
             $remainingClips = $subscription->remaining_clips;
 
-            // ── How many can be covered by subscription ──
-            $coveredBySubscription = min($remainingClips, $cartItemCount);
-            $needsPayment          = $cartItemCount - $coveredBySubscription;
+            // ── How many can subscription cover ──
+            $coveredCount = min($remainingClips, $cartItemCount);
+            $paidCount    = $cartItemCount - $coveredCount;
 
-            // ── Items covered by subscription ──
-            $subscriptionItems = array_slice($cart['items'], 0, $coveredBySubscription);
-            // ── Items needing payment ──
-            $paymentItems      = array_slice($cart['items'], $coveredBySubscription);
+            $subscriptionItems = array_slice($cartItems, 0, $coveredCount);
+            $paymentItems      = array_slice($cartItems, $coveredCount);
 
-            // ── Process subscription items ──
             $files = [];
 
-            if ($coveredBySubscription > 0) {
+            // ── Process subscription items ──
+            if ($coveredCount > 0) {
 
-                $subscription->used_clips      += $coveredBySubscription;
-                $subscription->remaining_clips -= $coveredBySubscription;
+                $subscription->used_clips      += $coveredCount;
+                $subscription->remaining_clips -= $coveredCount;
                 $subscription->save();
-
-                $totalAmount = collect($subscriptionItems)->sum(fn($item) => $item['price'] * $item['qty']);
 
                 $order = Order::create([
                     'user_id'           => $user->id,
                     'order_number'      => 'ORD-' . strtoupper(uniqid()),
-                    'total_amount'      => $totalAmount,
+                    'total_amount'      => collect($subscriptionItems)->sum(fn($i) => $i['price'] * $i['qty']),
                     'stripe_session_id' => null,
                     'email'             => $user->email,
                     'payment_status'    => 'paid',
@@ -381,35 +377,37 @@ class PaymentController extends Controller
                     ]);
 
                     $file = BatchFile::where('id', $item['id'])
-                        ->select('id', 'file_path', 'file_name')
+                        ->select('id', 'file_path', 'file_name', 'title')
                         ->first();
 
                     if ($file) {
                         $files[] = [
                             'file_name' => $file->file_name,
                             'file_path' => $file->file_path,
+                            'title'     => $file->title,
                         ];
                     }
                 }
-
-                Log::info("✅ Subscription items processed", [
-                    'covered'   => $coveredBySubscription,
-                    'remaining' => $subscription->remaining_clips,
-                ]);
             }
 
-            // ── If all covered by subscription ──
-            if ($needsPayment === 0) {
+            // ── All covered — no payment needed ──
+            if ($paidCount === 0) {
                 Cart::where('user_id', $user->id)->delete();
-
                 return response()->json([
-                    'status'     => 'subscription',
-                    'img_paths'  => $files,
-                    'message'    => 'Downloaded successfully using your subscription.',
+                    'status'    => 'subscription',
+                    'img_paths' => $files,
+                    'message'   => 'All items downloaded via subscription.',
                 ]);
             }
 
-            // ── Some items need payment — create Stripe session for remaining ──
+            // ── Some need payment — build paid items info ──
+            $paidItemTitles = collect($paymentItems)->pluck('title')->implode(', ');
+
+            // ── Remove subscription items from cart, keep only paid items ──
+            // Store partial cart for Stripe webhook
+            $partialCart          = $cart;
+            $partialCart['items'] = array_values($paymentItems);
+
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
             $lineItems = [];
@@ -425,12 +423,6 @@ class PaymentController extends Controller
             }
 
             $token = Str::random(32);
-            Cache::put('stripe_token_' . $token, null, now()->addHours(2));
-
-            // ── Store only payment items in cache (not subscription ones) ──
-            $partialCart           = $cart;
-            $partialCart['items']  = array_values($paymentItems);
-
             $session = \Stripe\Checkout\Session::create([
                 'payment_method_types' => ['card'],
                 'customer_email'       => $request->email,
@@ -443,17 +435,13 @@ class PaymentController extends Controller
             Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
             Cache::put('stripe_cart_' . $session->id, $partialCart, now()->addHours(24));
 
-            Log::info("🛒 Mixed checkout — subscription + stripe", [
-                'subscription_items' => $coveredBySubscription,
-                'stripe_items'       => $needsPayment,
-                'session_id'         => $session->id,
-            ]);
-
             return response()->json([
-                'status'     => 'mixed',
-                'id'         => $session->id,         // Stripe session for remaining items
-                'img_paths'  => $files,               // Subscription downloads
-                'message'    => "{$coveredBySubscription} item(s) covered by subscription. {$needsPayment} item(s) require payment.",
+                'status'           => 'mixed',
+                'id'               => $session->id,
+                'img_paths'        => $files,
+                'covered_count'    => $coveredCount,
+                'paid_count'       => $paidCount,
+                'paid_item_titles' => $paidItemTitles,
             ]);
         }
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
