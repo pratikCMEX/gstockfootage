@@ -43,24 +43,29 @@ class WebhookController extends Controller
 
         switch ($event->type) {
 
+            // ── Handles BOTH single purchase AND subscription first payment ──
             case 'checkout.session.completed':
                 $this->handleCheckoutCompleted($event->data->object);
                 break;
 
+            // ── Subscription created or upgraded ──
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
                 $this->handleSubscriptionUpdated($event->data->object);
                 break;
 
+            // ── Subscription renewal payment ──
             case 'invoice.payment_succeeded':
             case 'invoice.paid':
                 $this->handlePaymentSucceeded($event->data->object);
                 break;
 
+            // ── Payment failed ──
             case 'invoice.payment_failed':
                 $this->handlePaymentFailed($event->data->object);
                 break;
 
+            // ── Subscription fully cancelled/deleted ──
             case 'customer.subscription.deleted':
                 $this->handleSubscriptionDeleted($event->data->object);
                 break;
@@ -73,38 +78,54 @@ class WebhookController extends Controller
     }
 
     // =========================================================
-    // ORDER HANDLER
+    // SINGLE PURCHASE — checkout.session.completed
     // =========================================================
     private function handleCheckoutCompleted($session)
     {
-        Log::info('checkout.session.completed', [
+        Log::info('handleCheckoutCompleted called', [
             'session_id'     => $session->id,
             'payment_status' => $session->payment_status,
             'mode'           => $session->mode,
+            'email'          => $session->customer_email,
         ]);
 
-        // Skip subscription checkouts — handled by subscription webhooks
+        // ── Subscription checkout — handled by subscription webhooks ──
         if ($session->mode === 'subscription') {
-            Log::info('Skipping subscription checkout — handled by subscription webhook');
+            Log::info('Skipping — subscription mode handled by subscription webhooks');
             return;
         }
 
-        if ($session->payment_status !== 'paid') return;
+        // ── One-time payment only below ──
+        if ($session->payment_status !== 'paid') {
+            Log::warning('Payment not paid yet', ['status' => $session->payment_status]);
+            return;
+        }
 
+        // Prevent duplicate orders
         if (Order::where('stripe_session_id', $session->id)->exists()) {
             Log::warning('Order already exists', ['session_id' => $session->id]);
             return;
         }
 
+        // Get cart items from cache
         $cartData = Cache::get('stripe_cart_' . $session->id);
+
+        Log::info('Cart data from cache', [
+            'session_id' => $session->id,
+            'found'      => $cartData ? 'YES' : 'NO',
+            'items'      => $cartData ? count($cartData['items']) : 0,
+        ]);
+
         if (!$cartData || empty($cartData['items'])) {
-            Log::error('Cart data missing', ['session_id' => $session->id]);
+            Log::error('Cart data missing from cache', ['session_id' => $session->id]);
             return;
         }
 
         DB::beginTransaction();
+
         try {
-            $user  = User::where('email', $session->customer_email)->first();
+            $user = User::where('email', $session->customer_email)->first();
+
             $order = Order::create([
                 'user_id'           => $user?->id,
                 'order_number'      => 'ORD-' . strtoupper(uniqid()),
@@ -113,6 +134,11 @@ class WebhookController extends Controller
                 'email'             => $session->customer_email,
                 'payment_status'    => 'paid',
                 'order_status'      => 'completed',
+            ]);
+
+            Log::info('Order created', [
+                'order_id'     => $order->id,
+                'order_number' => $order->order_number,
             ]);
 
             foreach ($cartData['items'] as $item) {
@@ -124,42 +150,39 @@ class WebhookController extends Controller
                 ]);
             }
 
-            if ($user) Cart::where('user_id', $user->id)->delete();
+            // Clear cart
+            if ($user) {
+                Cart::where('user_id', $user->id)->delete();
+                Log::info('DB cart cleared', ['user_id' => $user->id]);
+            }
+
             Cache::forget('stripe_cart_' . $session->id);
 
             DB::commit();
 
+            // Send receipt email
             try {
                 $orderWithDetails = Order::with('order_details.product')->find($order->id);
                 Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
+                Log::info('Receipt email sent', ['email' => $order->email]);
             } catch (\Exception $mailException) {
                 Log::error('Email failed', ['error' => $mailException->getMessage()]);
             }
+
+            Log::info('✅ Order processing completed', ['order_id' => $order->id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Order creation failed', ['error' => $e->getMessage()]);
+            Log::error('Order creation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
     }
 
     // =========================================================
-    // SUBSCRIPTION HANDLERS
+    // SUBSCRIPTION CREATED OR UPGRADED
+    // customer.subscription.created / customer.subscription.updated
     // =========================================================
-
-
-    private function getFallbackEndDate($planId)
-    {
-        if (!$planId) return now()->addMonth();
-
-        $plan = Subscription_plans::find($planId);
-        if (!$plan) return now()->addMonth();
-
-        return match (strtolower(trim($plan->duration_type))) {
-            'month'   => now()->addMonth(),
-            'quarter' => now()->addMonths(3),
-            'year'    => now()->addYear(),
-            default   => now()->addMonth(),
-        };
-    }
     private function handleSubscriptionUpdated($stripeSub)
     {
         Log::info('handleSubscriptionUpdated called', [
@@ -168,15 +191,15 @@ class WebhookController extends Controller
             'metadata'      => (array) $stripeSub->metadata,
         ]);
 
-        // ✅ Always retrieve fresh from Stripe — webhook object can have null timestamps
+        // ✅ Always retrieve fresh — webhook object timestamps can be null
         try {
             $freshSub = \Stripe\Subscription::retrieve([
                 'id'     => $stripeSub->id,
-                'expand' => ['latest_invoice', 'customer'],
+                'expand' => ['latest_invoice'],
             ]);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve subscription from Stripe', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
             return;
         }
@@ -192,7 +215,6 @@ class WebhookController extends Controller
             'status'               => $freshSub->status,
         ]);
 
-        // ✅ Build safe dates
         $startDate = $freshSub->current_period_start
             ? Carbon::createFromTimestamp($freshSub->current_period_start)
             : now();
@@ -210,7 +232,7 @@ class WebhookController extends Controller
             ->latest()
             ->first();
 
-        // ✅ No record + has metadata = CREATE
+        // ── No record + has metadata = CREATE new subscription ──
         if (!$dbSub && $planId && $userId) {
 
             $plan = Subscription_plans::find($planId);
@@ -219,6 +241,7 @@ class WebhookController extends Controller
                 return;
             }
 
+            // Deactivate any existing active/cancelled subscriptions
             User_subscriptions::where('user_id', $userId)
                 ->whereIn('status', ['active', 'cancelled'])
                 ->update(['status' => 'inactive']);
@@ -249,13 +272,13 @@ class WebhookController extends Controller
         }
 
         if (!$dbSub) {
-            Log::warning('⚠️ No DB record and no metadata', [
-                'stripe_sub_id' => $freshSub->id
+            Log::warning('⚠️ No DB record and no metadata — cannot create', [
+                'stripe_sub_id' => $freshSub->id,
             ]);
             return;
         }
 
-        // ✅ Record exists = UPDATE dates/status
+        // ── Record exists = UPDATE dates and status ──
         $updateData = [
             'start_date' => $startDate,
             'end_date'   => $endDate,
@@ -279,6 +302,10 @@ class WebhookController extends Controller
         ]);
     }
 
+    // =========================================================
+    // SUBSCRIPTION RENEWAL
+    // invoice.payment_succeeded / invoice.paid
+    // =========================================================
     private function handlePaymentSucceeded($invoice)
     {
         $stripeSubId = $invoice->subscription ?? null;
@@ -288,9 +315,9 @@ class WebhookController extends Controller
             'billing_reason' => $invoice->billing_reason ?? null,
         ]);
 
-        // First payment handled by subscription.created
+        // First payment is handled by customer.subscription.created
         if (!$stripeSubId || $invoice->billing_reason === 'subscription_create') {
-            Log::info('Skipping — handled by subscription.created');
+            Log::info('Skipping — first payment handled by subscription.created');
             return;
         }
 
@@ -298,7 +325,9 @@ class WebhookController extends Controller
         try {
             $freshSub = \Stripe\Subscription::retrieve($stripeSubId);
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve subscription', ['error' => $e->getMessage()]);
+            Log::error('Failed to retrieve subscription for renewal', [
+                'error' => $e->getMessage(),
+            ]);
             return;
         }
 
@@ -315,10 +344,11 @@ class WebhookController extends Controller
             ->first();
 
         if (!$dbSub) {
-            Log::warning('No DB record for renewal', ['stripe_sub_id' => $stripeSubId]);
+            Log::warning('No DB record found for renewal', ['stripe_sub_id' => $stripeSubId]);
             return;
         }
 
+        // Renewal — reset clips and update dates
         $dbSub->update([
             'start_date'      => $startDate,
             'end_date'        => $endDate,
@@ -328,19 +358,25 @@ class WebhookController extends Controller
             'status'          => 'active',
         ]);
 
-        Log::info('✅ Subscription RENEWED', [
+        Log::info('✅ Subscription RENEWED in DB', [
             'stripe_sub_id' => $stripeSubId,
+            'start_date'    => $startDate->toDateTimeString(),
             'end_date'      => $endDate->toDateTimeString(),
         ]);
     }
 
+    // =========================================================
+    // PAYMENT FAILED
+    // =========================================================
     private function handlePaymentFailed($invoice)
     {
         $stripeSubId = $invoice->subscription ?? null;
+
         if (!$stripeSubId) return;
 
         User_subscriptions::where('stripe_subscription_id', $stripeSubId)
-            ->latest()->first()
+            ->latest()
+            ->first()
             ?->update([
                 'status'         => 'payment_failed',
                 'payment_status' => 'failed',
@@ -349,17 +385,37 @@ class WebhookController extends Controller
         Log::warning('❌ Subscription payment failed', ['stripe_sub_id' => $stripeSubId]);
     }
 
+    // =========================================================
+    // SUBSCRIPTION DELETED / EXPIRED
+    // =========================================================
     private function handleSubscriptionDeleted($stripeSub)
     {
         User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
-            ->latest()->first()
+            ->latest()
+            ->first()
             ?->update([
                 'status'   => 'expired',
-                'end_date' => $stripeSub->current_period_end
-                    ? Carbon::createFromTimestamp($stripeSub->current_period_end)
-                    : now(),
+                'end_date' => now(),
             ]);
 
         Log::info('Subscription deleted/expired', ['stripe_sub_id' => $stripeSub->id]);
+    }
+
+    // =========================================================
+    // HELPER — fallback end date based on plan type
+    // =========================================================
+    private function getFallbackEndDate($planId)
+    {
+        if (!$planId) return now()->addMonth();
+
+        $plan = Subscription_plans::find($planId);
+        if (!$plan) return now()->addMonth();
+
+        return match (strtolower(trim($plan->duration_type))) {
+            'month'   => now()->addMonth(),
+            'quarter' => now()->addMonths(3),
+            'year'    => now()->addYear(),
+            default   => now()->addMonth(),
+        };
     }
 }
