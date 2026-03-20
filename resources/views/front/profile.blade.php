@@ -520,6 +520,7 @@
 
 
                         @if (!empty($purchasePlan))
+                            {{ dd($purchasePlan) }}
                             @php
 
                                 $created = \Carbon\Carbon::parse($purchasePlan->subscription->created_at);
