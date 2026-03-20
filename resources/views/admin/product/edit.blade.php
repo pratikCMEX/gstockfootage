@@ -45,7 +45,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            
+
 
                             {{-- ================= SUBCATEGORY ================= --}}
                             <div class="mb-3">

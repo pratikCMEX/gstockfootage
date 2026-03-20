@@ -236,6 +236,9 @@ class BatchController extends Controller
                         'low_path' => !empty($file->low_path)
                             ? Storage::disk('s3')->url(ltrim($file->low_path, '/'))
                             : null,
+                        'mid_path' => !empty($file->mid_path)
+                            ? Storage::disk('s3')->url(ltrim($file->mid_path, '/'))
+                            : null,
                         'file_type' => $file->file_type,
                         'file_size' => $file->file_size,
                         'width' => $file->width,

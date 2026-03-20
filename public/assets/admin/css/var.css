@@ -1,6 +1,6 @@
 :root {
   --primary: #ff8000;
-  --primary-hover: hsla(30 100% 45%);
+  --primary-hover: #e67300;
   --secendory: hsla(0 0% 45%);
   --btn-hover: rgba(115, 115, 115, 0.274);
   --hero_bg: radial-gradient(circle at center, #7a4300 -5%, #000 100%);

@@ -154,7 +154,7 @@ class HomeController extends Controller
                 $data['file_url'] = $product->file_path ? Storage::disk('s3')->url($product->file_path) : '';
                 $data['low_path'] = $product->low_path ? Storage::disk('s3')->url($product->low_path) : '';
                 $data['mid_path'] = $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '';
-                $data['resolution'] = $product->width . ' x ' . $product->height;
+                $data['resolution'] = $product->height . ' x ' . $product->width;
                 $data['file_size'] = formatFileSize((int) $product->file_size);
             }
 
@@ -190,7 +190,37 @@ class HomeController extends Controller
             return back()->with('msg_error', $e->getMessage());
         }
     }
+    public function allMedia(Request $request)
+    {
+        $title = 'All Media';
+        $page  = 'front.all_media';
 
+        // ── Get collection 1 with its media ──
+        $collectionId = decrypt($request->collection_id);
+        $collection = Collection::where('id', $collectionId)->first();
+        $media = BatchFile::with('category')
+            ->where('collection_id', $collectionId)
+            // ->where('status', 'approved')
+            ->latest()
+            ->get();
+
+        $photos = $media->where('type', 'image')->values();
+        $videos = $media->where('type', 'video')->values();
+
+        $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
+            $q->where('collection_id', $collectionId);
+        })->get();
+
+        return view('layouts.front.layout', compact(
+            'title',
+            'page',
+            'collection',
+            'media',
+            'photos',
+            'videos',
+            'categories'
+        ));
+    }
     public function productList()
     {
         try {
@@ -328,7 +358,7 @@ class HomeController extends Controller
         $CollectionList = Collection::get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
-        
+
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
 
@@ -763,7 +793,7 @@ class HomeController extends Controller
         $allPhotos = $query->get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
-        
+
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
         $trendingTags = BatchFile::where('is_edited', '1')

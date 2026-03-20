@@ -34,7 +34,8 @@
                             <div class="si-lbl">Today's Sales</div>
                         </div>
                         <div class="si-item">
-                            <div class="si-val">0% <span class="arr">↗</span></div>
+                            <div class="si-val">{{ date('M d, Y', strtotime($lastMonth ?? date('Y-m-d'))) }}</span>
+                            </div>
                             <div class="si-lbl">Overall Performance</div>
                         </div>
                     </div>
@@ -51,7 +52,7 @@
                 <div class="oc-label">Total Orders</div>
                 <div class="oc-num">
                     {{ $totalOrder ?? 0 }}
-                    <span class="badge badge-success">↗ +0%</span>
+                    <span class="badge badge-success">↗ </span>
                 </div>
                 <div id="ordersSparkline"></div>
                 <div class="oc-mini">
@@ -260,56 +261,26 @@
             <div class="card">
                 <div class="card-head">
                     <h3>Recent Activity</h3>
-                    <a class="btn-sm" href="#">See All <i class="fa-solid fa-arrow-right-long"></i></a>
                 </div>
-                <div class="act-item">
-                    <div class="act-dot blue"><i class="fa-solid fa-user"></i></div>
-                    <div>
-                        <div class="act-title">New user registered</div>
-                        <div class="act-sub">A new account was created</div>
+
+                @forelse ($recentActivity as $activity)
+                    <div class="act-item">
+                        <div class="act-dot {{ $activity['dot'] }}">
+                            {!! $activity['icon'] !!}
+                        </div>
+                        <div>
+                            <div class="act-title">{{ $activity['title'] }}</div>
+                            <div class="act-sub">{{ $activity['sub'] }}</div>
+                        </div>
+                        <div class="act-time">
+                            {{ $activity['time'] ? $activity['time']->diffForHumans() : '—' }}
+                        </div>
                     </div>
-                    <div class="act-time">2m ago</div>
-                </div>
-                <div class="act-item">
-                    <div class="act-dot green">🛒</div>
-                    <div>
-                        <div class="act-title">New order placed</div>
-                        <div class="act-sub">Payment received successfully</div>
+                @empty
+                    <div class="act-item">
+                        <div class="act-sub">No recent activity found.</div>
                     </div>
-                    <div class="act-time">10m ago</div>
-                </div>
-                <div class="act-item">
-                    <div class="act-dot yellow">📦</div>
-                    <div>
-                        <div class="act-title">Batch submitted</div>
-                        <div class="act-sub">New batch entered review queue</div>
-                    </div>
-                    <div class="act-time">1h ago</div>
-                </div>
-                <div class="act-item">
-                    <div class="act-dot red">🎬</div>
-                    <div>
-                        <div class="act-title">Video uploaded</div>
-                        <div class="act-sub">bhakti reel.mp4 · 59s · 4K</div>
-                    </div>
-                    <div class="act-time">3h ago</div>
-                </div>
-                <div class="act-item">
-                    <div class="act-dot purple">🔑</div>
-                    <div>
-                        <div class="act-title">License activated</div>
-                        <div class="act-sub">Royalty-free plan for user</div>
-                    </div>
-                    <div class="act-time">5h ago</div>
-                </div>
-                <div class="act-item">
-                    <div class="act-dot blue">💳</div>
-                    <div>
-                        <div class="act-title">Subscription created</div>
-                        <div class="act-sub">Pro plan activated</div>
-                    </div>
-                    <div class="act-time">1d ago</div>
-                </div>
+                @endforelse
             </div>
 
         </div>
@@ -317,7 +288,7 @@
         {{-- ══════════════════════════════════════════
           ROW 6 — Recent Batch Files
      ══════════════════════════════════════════ --}}
-        <div class="card mb20">
+        {{-- <div class="card mb20">
             <div class="card-head">
                 <h3>Recent Batch Files</h3>
                 <a class="btn-sm" href="#">See All <i class="fa-solid fa-arrow-right-long"></i></a>
@@ -364,7 +335,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> --}}
 
         {{-- <div class="dash-footer">Design and Developed by <a href="#">Gstockfootage</a></div> --}}
     </div>

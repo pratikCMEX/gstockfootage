@@ -12,6 +12,7 @@ use App\Models\License_master;
 use App\Models\Order;
 use App\Models\Subscription_plans;
 use App\Models\User;
+use App\Models\User_subscriptions;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -41,7 +42,7 @@ class DashboardController extends Controller
             ->sum('total_amount');
 
         /* ── Recent orders (last 10) ── */
-        $recentOrders = Order::latest()->take(10)->get();
+        $recentOrders = Order::latest()->take(5)->get();
 
         /* ── Recent batch files (last 10) ── */
         $recentFiles = BatchFile::latest()->take(10)->get();
@@ -88,6 +89,66 @@ class DashboardController extends Controller
             ];
         })->toArray();
 
+
+
+
+        /* ── Recent activity (last 10 events combined) ── */
+        $recentActivity = collect();
+
+        // New users
+        User::latest()->take(5)->get()->each(function ($u) use (&$recentActivity) {
+            $recentActivity->push([
+                'type'    => 'user',
+                'title'   => 'New user registered',
+                'sub'     => $u->first_name . ' ' . $u->last_name . ' · ' . $u->email,
+                'dot'     => 'blue',
+                'icon'    => '<i class="fa-solid fa-user"></i>',
+                'time'    => $u->created_at,
+            ]);
+        });
+
+        // New orders
+        // Order::latest()->take(5)->get()->each(function ($o) use (&$recentActivity) {
+        //     $recentActivity->push([
+        //         'type'    => 'order',
+        //         'title'   => 'New order placed',
+        //         'sub'     => 'Order #' . $o->order_number . ' · $' . number_format($o->total_amount, 2),
+        //         'dot'     => 'green',
+        //         'icon'    => '<i class="fa-solid fa-cart-shopping"></i>',
+        //         'time'    => $o->created_at,
+        //     ]);
+        // });
+
+        // New subscriptions
+        User_subscriptions::with(['user', 'subscription'])->latest()->take(5)->get()->each(function ($s) use (&$recentActivity) {
+            $recentActivity->push([
+                'type'    => 'subscription',
+                'title'   => 'Subscription activated',
+                'sub'     => ($s->user->first_name ?? 'User') . ' · ' . ($s->subscription->name ?? 'Plan'),
+                'dot'     => 'purple',
+                'icon'    => '<i class="fa-solid fa-crown"></i>',
+                'time'    => $s->created_at,
+            ]);
+        });
+
+        // New uploads
+        BatchFile::latest()->take(5)->get()->each(function ($f) use (&$recentActivity) {
+            $recentActivity->push([
+                'type'    => 'upload',
+                'title'   => ucfirst($f->type ?? 'File') . ' uploaded',
+                'sub'     => basename($f->file_name ?? $f->file_path ?? 'Unknown file'),
+                'dot'     => 'red',
+                'icon'    => '<i class="fa-solid fa-film"></i>',
+                'time'    => $f->created_at,
+            ]);
+        });
+
+        // Sort all by time desc, take 10
+        $recentActivity = $recentActivity
+            ->sortByDesc('time')
+            ->take(5)
+            ->values();
+
         return view('layouts.admin.layout', compact(
             'title',
             'page',
@@ -113,7 +174,8 @@ class DashboardController extends Controller
             'subscriptionStats',
             'planNames',
             'planPrices',
-            'planList'
+            'planList',
+            'recentActivity'
         ));
     }
 }

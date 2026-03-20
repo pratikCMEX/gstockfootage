@@ -122,7 +122,7 @@ Route::get('/download-bucket', [HomeController::class, 'downloadAllFiles']);
 Route::get('/pricing', [PricingController::class, 'pricing'])->name('pricing');
 
 Route::get('/collection', [CollectionsController::class, 'index'])->name('collection');
-
+Route::get('/all-media', [HomeController::class, 'allMedia'])->name('all.media');
 
 
 Route::middleware('guest')->group(function () {

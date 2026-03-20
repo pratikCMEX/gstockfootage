@@ -170,7 +170,7 @@
                                 <i class="bi bi-camera"></i>
                             </div>
                             <div class="tag-title">
-                                <p>Resolution</p>
+                                <p>Resolution (H x W)</p>
                                 <h5>{{ $data['resolution'] }}</h5>
                             </div>
                         </div>
@@ -214,18 +214,8 @@
                             <div class="product-card">
 
 
-                                @if ($data->type == 'image')
-                                    <img src="{{ Storage::disk('s3')->url($data->low_path) }}" class="product-img"
-                                        alt="">
-                                @else
-                                    @if ($data->thumbnail_path == null)
-                                        <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                            class="product-img" alt="">
-                                    @else
-                                        <img src="{{ Storage::disk('s3')->url($data->thumbnail_path) }}"
-                                            class="product-img" alt="">
-                                    @endif
-                                @endif
+                                <img src="{{ $data->type == 'image' ? Storage::disk('s3')->url($data->mid_path) : ($data->thumbnail_path ? Storage::disk('s3')->url($data->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                    class="product-img" alt="">
 
                                 {{-- <img
                                     src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"

@@ -29,4 +29,9 @@ class User_subscriptions extends Model
     {
         return $this->belongsTo(Subscription_plans::class, 'subscription_plan_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

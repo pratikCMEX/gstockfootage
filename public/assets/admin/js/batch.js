@@ -471,23 +471,28 @@ function loadImageMetadata(file_id) {
       $("input[name='file_id']").val(res.id);
       $("input[name='title']").val(res.title);
       $("#description").val(res.description);
-      $("input[name='date_created']").val(res.date_created);
-      $("input[name='clip_length']").val(formatDuration(res.duration));
-      $("input[name='frame_rate']").val(res.frame_rate);
-      $("input[name='date_created']").val(res.date_created);
-
-      if (res.height && res.width) {
-        $("input[name='frame_size']").val(res.height + "x" + res.width);
-      } else {
-        $("input[name='frame_size']").val("");
-      }
-
-      $("input[name='image_height']").val(res.height);
-      $("input[name='image_width']").val(res.width);
       $("input[name='price']").val(res.price);
-      $("#country").val(res.country);
-      $("#category_id").val(res.category_id);
-      $("#collection_id").val(res.collection_id);
+      $("input[name='date_created']").val(res.date_created);
+
+      // ── Video properties ──
+      $("input[name='clip_length']").val(
+        res.duration ? formatDuration(res.duration) : ""
+      );
+      $("input[name='frame_rate']").val(res.frame_rate ?? "");
+      $("input[name='frame_size']").val(
+        res.height && res.width ? res.height + "x" + res.width : ""
+      );
+      $("input[name='image_height']").val(res.height ?? "");
+      $("input[name='image_width']").val(res.width ?? "");
+
+      // ── Searchable selects — use trigger('change') for Select2 ──
+      $("#category_id").val(res.category_id).trigger("change");
+      $("#collection_id").val(res.collection_id).trigger("change");
+      $("#country").val(res.country).trigger("change");
+      $("#orientation").val(res.orientation).trigger("change");
+      $("#camera_movement").val(res.camera_movement).trigger("change");
+      $("#license_type").val(res.license_type).trigger("change");
+
       loadSubCategories(res.category_id, res.subcategory_id);
 
       // Tags / keywords
