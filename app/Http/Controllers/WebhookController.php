@@ -89,35 +89,27 @@ class WebhookController extends Controller
             'email'          => $session->customer_email,
         ]);
 
-        // ── Subscription checkout — handled by subscription webhooks ──
+        // ── Subscription checkout skip ──
         if ($session->mode === 'subscription') {
-            Log::info('Skipping — subscription mode handled by subscription webhooks');
+            Log::info('Skipping — subscription mode handled separately');
             return;
         }
 
-        // ── One-time payment only below ──
         if ($session->payment_status !== 'paid') {
-            Log::warning('Payment not paid yet', ['status' => $session->payment_status]);
+            Log::warning('Payment not completed', ['status' => $session->payment_status]);
             return;
         }
 
-        // Prevent duplicate orders
+        // ✅ Prevent duplicate processing (VERY IMPORTANT)
         if (Order::where('stripe_session_id', $session->id)->exists()) {
-            Log::warning('Order already exists', ['session_id' => $session->id]);
+            Log::warning('⚠️ Duplicate webhook ignored', ['session_id' => $session->id]);
             return;
         }
 
-        // Get cart items from cache
         $cartData = Cache::get('stripe_cart_' . $session->id);
 
-        Log::info('Cart data from cache', [
-            'session_id' => $session->id,
-            'found'      => $cartData ? 'YES' : 'NO',
-            'items'      => $cartData ? count($cartData['items']) : 0,
-        ]);
-
         if (!$cartData || empty($cartData['items'])) {
-            Log::error('Cart data missing from cache', ['session_id' => $session->id]);
+            Log::error('❌ Cart data missing', ['session_id' => $session->id]);
             return;
         }
 
@@ -126,6 +118,7 @@ class WebhookController extends Controller
         try {
             $user = User::where('email', $session->customer_email)->first();
 
+            // ✅ Create order
             $order = Order::create([
                 'user_id'           => $user?->id,
                 'order_number'      => 'ORD-' . strtoupper(uniqid()),
@@ -134,11 +127,6 @@ class WebhookController extends Controller
                 'email'             => $session->customer_email,
                 'payment_status'    => 'paid',
                 'order_status'      => 'completed',
-            ]);
-
-            Log::info('Order created', [
-                'order_id'     => $order->id,
-                'order_number' => $order->order_number,
             ]);
 
             foreach ($cartData['items'] as $item) {
@@ -150,108 +138,88 @@ class WebhookController extends Controller
                 ]);
             }
 
-            // Clear cart
+            // =========================================================
+            // ✅ CLIP DEDUCTION (FIXED PROPERLY)
+            // =========================================================
 
-            // if ($user) {
-            //     $totalQty = collect($cartData['items'])->sum('qty');
-
-            //     $activeSubscription = User_subscriptions::where('user_id', $user->id)
-            //         ->where('status', 'active')
-            //         ->where('end_date', '>', now())
-            //         ->latest()
-            //         ->first();
-
-            //     if ($activeSubscription->remaining_clips < $totalQty) {
-            //         Log::warning('⚠️ Not enough clips', [
-            //             'user_id'         => $user->id,
-            //             'remaining_clips' => $activeSubscription->remaining_clips,
-            //             'requested'       => $totalQty,
-            //         ]);
-            //     } else {
-            //         $activeSubscription->update([
-            //             'used_clips'      => $activeSubscription->used_clips + $totalQty,
-            //             'remaining_clips' => $activeSubscription->remaining_clips - $totalQty,
-            //         ]);
-            //     }
-            // }
-            // if ($user) {
-            //     Cart::where('user_id', $user->id)->delete();
-            //     Log::info('DB cart cleared', ['user_id' => $user->id]);
-            // }
-
-            // Cache::forget('stripe_cart_' . $session->id);
-
-            // DB::commit();
-
-            // ✅ Deduct clips AFTER order details saved, BEFORE cart clear
             if ($user) {
                 $totalQty = collect($cartData['items'])->sum('qty');
 
                 $activeSubscription = User_subscriptions::where('user_id', $user->id)
                     ->where('status', 'active')
                     ->where('end_date', '>', now())
+                    ->lockForUpdate() // 🔥 IMPORTANT (prevents race condition)
                     ->latest()
                     ->first();
 
                 if ($activeSubscription) {
-                    Log::info('Clips before deduction', [
-                        'used_clips'      => $activeSubscription->used_clips,
-                        'remaining_clips' => $activeSubscription->remaining_clips,
-                        'total_clips'     => $activeSubscription->total_clips,
-                        'qty_to_deduct'   => $totalQty,
-                    ]);
 
                     if ($activeSubscription->remaining_clips < $totalQty) {
-                        Log::warning('⚠️ Not enough clips', [
-                            'user_id'         => $user->id,
-                            'remaining_clips' => $activeSubscription->remaining_clips,
-                            'requested'       => $totalQty,
+
+                        Log::warning('❌ Not enough clips', [
+                            'user_id'   => $user->id,
+                            'remaining' => $activeSubscription->remaining_clips,
+                            'needed'    => $totalQty,
                         ]);
+
+                        // ❗ Optional: rollback if clips are required
+                        // throw new \Exception('Not enough clips');
+
                     } else {
-                        // ✅ Use DB-level atomic update — prevents race conditions
-                        User_subscriptions::where('id', $activeSubscription->id)
+
+                        // ✅ Atomic update (NO race condition)
+                        $affected = User_subscriptions::where('id', $activeSubscription->id)
+                            ->where('remaining_clips', '>=', $totalQty)
                             ->update([
-                                'used_clips'      => $activeSubscription->used_clips + $totalQty,
-                                'remaining_clips' => $activeSubscription->remaining_clips - $totalQty,
+                                'used_clips'      => DB::raw("used_clips + $totalQty"),
+                                'remaining_clips' => DB::raw("remaining_clips - $totalQty"),
                             ]);
 
-                        Log::info('✅ Clips deducted', [
-                            'user_id'         => $user->id,
-                            'qty_deducted'    => $totalQty,
-                            'used_clips'      => $activeSubscription->used_clips + $totalQty,
-                            'remaining_clips' => $activeSubscription->remaining_clips - $totalQty,
+                        if ($affected === 0) {
+                            throw new \Exception('Clip deduction failed due to race condition');
+                        }
+
+                        Log::info('✅ Clips deducted safely', [
+                            'user_id' => $user->id,
+                            'qty'     => $totalQty,
                         ]);
                     }
                 } else {
-                    Log::warning('⚠️ No active subscription found', ['user_id' => $user->id]);
+                    Log::warning('⚠️ No active subscription found', [
+                        'user_id' => $user->id
+                    ]);
                 }
             }
 
-            // ✅ Clear cart AFTER clips deducted
+            // =========================================================
+            // ✅ CLEAR CART (AFTER SUCCESS)
+            // =========================================================
+
             if ($user) {
                 Cart::where('user_id', $user->id)->delete();
-                Log::info('DB cart cleared', ['user_id' => $user->id]);
             }
 
             Cache::forget('stripe_cart_' . $session->id);
 
             DB::commit();
 
-            // Send receipt email
+            // =========================================================
+            // ✅ SEND EMAIL (AFTER COMMIT)
+            // =========================================================
+
             try {
                 $orderWithDetails = Order::with('order_details.product')->find($order->id);
                 Mail::to($order->email)->send(new OrderReceiptMail($orderWithDetails));
-                Log::info('Receipt email sent', ['email' => $order->email]);
             } catch (\Exception $mailException) {
                 Log::error('Email failed', ['error' => $mailException->getMessage()]);
             }
 
-            Log::info('✅ Order processing completed', ['order_id' => $order->id]);
+            Log::info('🎉 Order completed successfully', ['order_id' => $order->id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Order creation failed', [
+
+            Log::error('❌ Order failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
             ]);
         }
     }
