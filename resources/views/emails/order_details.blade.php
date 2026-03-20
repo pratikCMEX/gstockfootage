@@ -39,7 +39,8 @@
     </style>
 </head>
 
-<body style="background: #f7f4f0;
+<body
+    style="background: #f7f4f0;
       font-family: 'Jost', sans-serif;
       font-weight: 400;
       color: #121212;
@@ -60,18 +61,22 @@
         </div>
         <!-- Orange Stripe -->
         <div class="header-stripe" style=" height: 4px;
-      background: linear-gradient(90deg, #ff8c00, #ff4500)"></div>
+      background: linear-gradient(90deg, #ff8c00, #ff4500)">
+        </div>
 
         <!-- card -->
-        <div class="card" style=" background: #ffffff;
+        <div class="card"
+            style=" background: #ffffff;
       border-radius: 4px;
       overflow: hidden;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.05);">
 
-            <div class="header" style="padding: 52px 56px 44px;
+            <div class="header"
+                style="padding: 52px 56px 44px;
     border-bottom: 1px solid #e8e2d9;
     text-align: center;">
-                <div class="status-badge" style="display: inline-flex;
+                <div class="status-badge"
+                    style="display: inline-flex;
     align-items: center;
    
     background: #fff3e6;
@@ -83,68 +88,86 @@
     height: 7px;
     border-radius: 50%;
     background: #ff8000;"></div> -->
-                    <span style="font-size: 11px;
+                    <span
+                        style="font-size: 11px;
     font-weight: 600;
     color: #ff8000;
     letter-spacing: 2px;
-    text-transform: uppercase;">Order Confirmed</span>
+    text-transform: uppercase;">Order
+                        Confirmed</span>
                 </div>
-                <h1 style="    font-family: 'Cormorant Garamond', serif;
+                <h1
+                    style="    font-family: 'Cormorant Garamond', serif;
     font-size: 38px;
     font-weight: 600;
     color: #121212;
     line-height: 1.15;
     letter-spacing: -0.3px;
-    margin-bottom: 14px;">Thank you for
+    margin-bottom: 14px;">
+                    Thank you for
                     <br />your order!
                 </h1>
-                <p style="font-size: 14px;
+                <p
+                    style="font-size: 14px;
     font-weight: 300;
     color: #737373;
     line-height: 1.7;
     max-width: 380px;
-    margin: 0 auto;">Your order has been received and is now being processed. Please review the details below
+    margin: 0 auto;">
+                    Your order has been received and is now being processed. Please review the details below
                     carefully.
                 </p>
             </div>
             <div class="card-body" style="padding: 44px 56px;">
-                <p class="greeting" style="font-family: 'Cormorant Garamond', serif;
+                <p class="greeting"
+                    style="font-family: 'Cormorant Garamond', serif;
     font-size: 20px;
     font-weight: 500;
     color: #121212;
-    margin-bottom: 12px;">Dear<strong> @if(isset($order->user) && !empty(isset($order->user)))
-        {{ $order->user->first_name . ' ' . $order->user->last_name }}
-    @else
+    margin-bottom: 12px;">
+                    Dear<strong>
+                        @if (isset($order->user) && !empty(isset($order->user)))
+                            {{ $order->user->first_name . ' ' . $order->user->last_name }}
+                        @else
                             {{ $order->email }}
                         @endif
-                        ,</strong>
+                        ,
+                    </strong>
                 </p>
-                <p class="intro" style="    font-size: 14px;
+                <p class="intro"
+                    style="    font-size: 14px;
     font-weight: 300;
     color: #737373;
     line-height: 1.85;
     margin-bottom: 40px;">
-                    Thank you for shopping with <strong style="color: #121212;
-    font-weight: 600;">Gstockfootage</strong>. We are pleased to confirm that
+                    Thank you for shopping with <strong
+                        style="color: #121212;
+    font-weight: 600;">Gstockfootage</strong>. We are pleased to confirm
+                    that
                     your order has been successfully placed. Your order details and estimated delivery information are
                     provided below.
                 </p>
                 <!-- Credentials -->
-                <div class="section-label" style="    display: flex;
+                <div class="section-label"
+                    style="    display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 16px;">
-                    <span style="    font-size: 10px;
+                    <span
+                        style="    font-size: 10px;
     font-weight: 600;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: #737373;">order information</span>
+    color: #737373;">order
+                        information</span>
                 </div>
-                <table class="info-table" style="width: 100%;
+                <table class="info-table"
+                    style="width: 100%;
     border-collapse: collapse;
     border: 1px solid #e8e2d9;">
                     <tr style="    border-bottom: 1px solid #e8e2d9;">
-                        <td class="td-label" style="    padding: 13px 16px;
+                        <td class="td-label"
+                            style="    padding: 13px 16px;
     vertical-align: middle;
                         font-size: 10.5px;
     font-weight: 500;
@@ -153,14 +176,17 @@
     color: #737373;
     width: 110px;
     border-right: 1px solid #e8e2d9;
-    background-color: #f7f4f0;">Order No</td>
+    background-color: #f7f4f0;">
+                            Order No</td>
                         <td style="    padding: 13px 16px;
                         font-size: 13px;
     vertical-align: middle;    color: #121212;
-    font-weight: 500;" class="td-value">{{ $order->order_number }} </td>
+    font-weight: 500;"
+                            class="td-value">{{ $order->order_number }} </td>
                     </tr>
                     <tr style="    border-bottom: 1px solid #e8e2d9;">
-                        <td class="td-label" style="    padding: 13px 16px;
+                        <td class="td-label"
+                            style="    padding: 13px 16px;
     vertical-align: middle;
                         font-size: 10.5px;
     font-weight: 500;
@@ -169,14 +195,17 @@
     color: #737373;
     width: 110px;
     border-right: 1px solid #e8e2d9;
-    background: #f7f4f0;">Date</td>
+    background: #f7f4f0;">
+                            Date</td>
                         <td style="    padding: 13px 16px;
                         font-size: 13px;
     vertical-align: middle;    color: #121212;
-    font-weight: 500;" class="td-value">{{ $order->created_at->format('F j, Y') }}</td>
+    font-weight: 500;"
+                            class="td-value">{{ $order->created_at->format('F j, Y') }}</td>
                     </tr>
                     <tr style="    border-bottom: 1px solid #e8e2d9;">
-                        <td class="td-label" style="    padding: 13px 16px;
+                        <td class="td-label"
+                            style="    padding: 13px 16px;
     vertical-align: middle;
                         font-size: 10.5px;
     font-weight: 500;
@@ -185,46 +214,19 @@
     color: #737373;
     width: 110px;
     border-right: 1px solid #e8e2d9;
-    background: #f7f4f0;">Payment</td>
+    background: #f7f4f0;">
+                            Payment</td>
                         <td style="    padding: 13px 16px;
                         font-size: 13px;
     vertical-align: middle;    color: #121212;
-    font-weight: 500;" class="td-value">Visa •••• 4242 </td>
+    font-weight: 500;"
+                            class="td-value">Visa •••• 4242 </td>
                     </tr>
-                    <tr style="border-bottom: 1px solid #e8e2d9;">
-                        <td class="td-label" style="    padding: 13px 16px;
-    vertical-align: middle;
-                        font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: #737373;
-    width: 110px;
-    border-right: 1px solid #e8e2d9;
-    background: #f7f4f0;">Ship To</td>
-                        <td style="    padding: 13px 16px;
-                        font-size: 13px;
-    vertical-align: middle;    color: #121212;
-    font-weight: 500;" class="td-value">340 Pine Street, Suite 800,<br />San Francisco, CA 94104</td>
-                    </tr>
-                    <tr style="    border-bottom: 1px solid #e8e2d9;">
-                        <td class="td-label" style="    padding: 13px 16px;
-    vertical-align: middle;
-                        font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: #737373;
-    width: 110px;
-    border-right: 1px solid #e8e2d9;
-    background: #f7f4f0;">Delivery</td>
-                        <td style="    padding: 13px 16px;
-                        font-size: 13px;
-    vertical-align: middle;    color: #121212;
-    font-weight: 500;" class="td-value">Mar 10 – 12, 2026 (Standard)</td>
-                    </tr>
+
+
                 </table>
-                <div class="notice-box" style="display: flex;
+                <div class="notice-box"
+                    style="display: flex;
     gap: 10px;
     align-items: flex-start;
     background: #fff3e6;
@@ -232,7 +234,8 @@
     border-left: 3px solid #ff8000;
     padding: 12px 16px;
     margin-top: 16px;">
-                    <svg viewBox="0 0 24 24" style="width: 14px;
+                    <svg viewBox="0 0 24 24"
+                        style="width: 14px;
     height: 14px;
     stroke: #ff8000;
     fill: none;
@@ -247,7 +250,8 @@
                     </svg>
                     <p style="    font-size: 12.5px;
     color: #737373;
-    line-height: 1.55;">You will receive a shipping confirmation email with your tracking number once your order has
+    line-height: 1.55;">You will receive a
+                        shipping confirmation email with your tracking number once your order has
                         been
                         dispatched.</p>
                 </div>
@@ -255,7 +259,8 @@
                     style="border-bottom:1px solid #e8e2d9;padding:14px 0;">
                     <!-- Items -->
                     <div class="items-section">
-                        <div class="section-label" style="display: flex;
+                        <div class="section-label"
+                            style="display: flex;
     align-items: center;
     gap: 12px;
     font-size: 10px;
@@ -263,16 +268,19 @@
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: #737373;
-    margin: 28px 0 16px;">Items Ordered</div>
+    margin: 28px 0 16px;">
+                            Items Ordered</div>
                         @foreach ($order->order_details as $details)
                             <tr>
                                 <td width="60" valign="middle">
                                     @if ($details->product->type == '0')
-                                        <img src="{{ asset('uploads/images/low/' . $details->product->low_path) }}" width="46"
-                                            height="46" style="border:1px solid #e8e2d9;background:#f7f4f0;">
+                                        <img src="{{ asset('uploads/images/low/' . $details->product->low_path) }}"
+                                            width="46" height="46"
+                                            style="border:1px solid #e8e2d9;background:#f7f4f0;">
                                     @else
                                         <img src="{{ asset('uploads/videos/thumbnails/' . $details->product->thumbnail_path) }}"
-                                            width="46" height="46" style="border:1px solid #e8e2d9;background:#f7f4f0;">
+                                            width="46" height="46"
+                                            style="border:1px solid #e8e2d9;background:#f7f4f0;">
                                     @endif
                                 </td>
 
@@ -404,20 +412,26 @@
 
                     </table>
                 </div>
-                <div class="cta-section">
-                    <h2 style="    font-family: 'Playfair Display', serif;
+                <div class="cta-section" style="display: none;">
+                    <h2
+                        style="    font-family: 'Playfair Display', serif;
     font-size: 20px;
     font-weight: 700;
     color: #121212;
-    margin-bottom: 8px;">Track your shipment</h2>
-                    <p style="    font-size: 13.5px;
+    margin-bottom: 8px;">
+                        Track your shipment</h2>
+                    <p
+                        style="    font-size: 13.5px;
     color: #737373;
     line-height: 1.65;
-    margin-bottom: 22px;">Your order is being prepared. Once shipped, you can track your package in real time.
+    margin-bottom: 22px;">
+                        Your order is being prepared. Once shipped, you can track your package in real time.
                         Estimated
                         delivery: <strong style="    color: #ff8000;
-    font-weight: 500;">Mar 10 – 12, 2026</strong>.</p>
-                    <a href="#" class="cta-btn" style="    display: inline-block;
+    font-weight: 500;">Mar 10 – 12, 2026</strong>.
+                    </p>
+                    <a href="#" class="cta-btn"
+                        style="    display: inline-block;
     background: #ff8000;
     color: #fff;
     text-decoration: none;
@@ -433,7 +447,8 @@
     column-gap: 5px;">
 
                         Track My Order
-                        <svg viewBox="0 0 24 24" style="    width: 14px;
+                        <svg viewBox="0 0 24 24"
+                            style="    width: 14px;
     height: 14px;
     stroke: #fff;
     fill: none;
@@ -448,8 +463,10 @@
                         margin-top: 14px;
     color: #737373;
     line-height: 1.65;
-    margin-bottom: 22px;" class="fallback-link">
-                        If the button doesn't work, copy and paste this link: <a href="#" style="color: #ff8000;
+    margin-bottom: 22px;"
+                        class="fallback-link">
+                        If the button doesn't work, copy and paste this link: <a href="#"
+                            style="color: #ff8000;
     font-weight: 500;">[TRACKING_LINK]</a>
                     </p>
                 </div>
@@ -460,7 +477,8 @@
     line-height: 1.7;">
                         If you did not place this order, please disregard this email. No action will be taken without
                         your confirmation. Should you have any questions, please contact our support team at <a
-                            href="mailto:support@example.com" style="color: #ff8000;
+                            href="mailto:support@example.com"
+                            style="color: #ff8000;
     font-weight: 500;">[support@example.com]</a>.
                     </p>
                 </div>
@@ -469,11 +487,13 @@
                     <p style="    font-size: 13px;
     color: #737373;
     margin-bottom: 6px;">Yours sincerely,</p>
-                    <p class="name" style="    font-family: 'Playfair Display', serif;
+                    <p class="name"
+                        style="    font-family: 'Playfair Display', serif;
     font-size: 20px;
     font-weight: 700;
     color: #121212;
-    margin-bottom: 4px;">Gstockfootage Support Team</p>
+    margin-bottom: 4px;">
+                        Gstockfootage Support Team</p>
                     <p class="sub" style="    font-size: 12px;
     color: #737373;">Gstockfootage</p>
                 </div>
@@ -482,7 +502,8 @@
                 style="padding:28px 56px 36px;border-top:1px solid #e8e2d9;">
                 <tr>
                     <td style="font-size:11px;color:#999;line-height:1.7;" align="left">
-                        © 2026 <a href="#" style="color:#ff8000;text-decoration:none;">Gstockfootage</a>. All rights
+                        © 2026 <a href="#" style="color:#ff8000;text-decoration:none;">Gstockfootage</a>. All
+                        rights
                         reserved.<br>
                         [Company Address, City, Country]
                     </td>
