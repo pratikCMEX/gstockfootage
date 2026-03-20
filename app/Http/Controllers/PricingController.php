@@ -45,6 +45,9 @@ class PricingController extends Controller
                 ->first();
 
             $activePlan = $activeSubscription?->subscription ?? null;
+
+
+            $currentPrice = $activeSubscription?->subscription?->price ?? 0;
         }
 
         $subscriptionPlanList = Subscription_plans::where('is_active', '1')
