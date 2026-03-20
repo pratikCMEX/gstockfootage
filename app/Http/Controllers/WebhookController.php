@@ -144,6 +144,22 @@ class WebhookController extends Controller
     // =========================================================
     // SUBSCRIPTION HANDLERS
     // =========================================================
+
+
+    private function getFallbackEndDate($planId)
+    {
+        if (!$planId) return now()->addMonth();
+
+        $plan = Subscription_plans::find($planId);
+        if (!$plan) return now()->addMonth();
+
+        return match (strtolower(trim($plan->duration_type))) {
+            'month'   => now()->addMonth(),
+            'quarter' => now()->addMonths(3),
+            'year'    => now()->addYear(),
+            default   => now()->addMonth(),
+        };
+    }
     private function handleSubscriptionUpdated($stripeSub)
     {
         Log::info('handleSubscriptionUpdated called', [
@@ -152,11 +168,47 @@ class WebhookController extends Controller
             'metadata'      => (array) $stripeSub->metadata,
         ]);
 
-        $planId = $stripeSub->metadata->plan_id ?? null;
-        $userId = $stripeSub->metadata->user_id ?? null;
+        // ✅ Always retrieve fresh from Stripe — webhook object can have null timestamps
+        try {
+            $freshSub = \Stripe\Subscription::retrieve([
+                'id'     => $stripeSub->id,
+                'expand' => ['latest_invoice', 'customer'],
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to retrieve subscription from Stripe', [
+                'error' => $e->getMessage()
+            ]);
+            return;
+        }
 
-        $dbSub = User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
-            ->latest()->first();
+        $planId = $freshSub->metadata->plan_id ?? $stripeSub->metadata->plan_id ?? null;
+        $userId = $freshSub->metadata->user_id ?? $stripeSub->metadata->user_id ?? null;
+
+        Log::info('Fresh subscription data', [
+            'plan_id'              => $planId,
+            'user_id'              => $userId,
+            'current_period_start' => $freshSub->current_period_start,
+            'current_period_end'   => $freshSub->current_period_end,
+            'status'               => $freshSub->status,
+        ]);
+
+        // ✅ Build safe dates
+        $startDate = $freshSub->current_period_start
+            ? Carbon::createFromTimestamp($freshSub->current_period_start)
+            : now();
+
+        $endDate = $freshSub->current_period_end
+            ? Carbon::createFromTimestamp($freshSub->current_period_end)
+            : $this->getFallbackEndDate($planId);
+
+        Log::info('Dates resolved', [
+            'start' => $startDate->toDateTimeString(),
+            'end'   => $endDate->toDateTimeString(),
+        ]);
+
+        $dbSub = User_subscriptions::where('stripe_subscription_id', $freshSub->id)
+            ->latest()
+            ->first();
 
         // ✅ No record + has metadata = CREATE
         if (!$dbSub && $planId && $userId) {
@@ -167,20 +219,6 @@ class WebhookController extends Controller
                 return;
             }
 
-            // ✅ Safely handle null timestamps
-            $startDate = $stripeSub->current_period_start
-                ? Carbon::createFromTimestamp($stripeSub->current_period_start)
-                : now();
-
-            $endDate = $stripeSub->current_period_end
-                ? Carbon::createFromTimestamp($stripeSub->current_period_end)
-                : now()->addMonth();
-
-            Log::info('Dates resolved', [
-                'start' => $startDate->toDateTimeString(),
-                'end'   => $endDate->toDateTimeString(),
-            ]);
-
             User_subscriptions::where('user_id', $userId)
                 ->whereIn('status', ['active', 'cancelled'])
                 ->update(['status' => 'inactive']);
@@ -188,7 +226,7 @@ class WebhookController extends Controller
             User_subscriptions::create([
                 'user_id'                => $userId,
                 'subscription_plan_id'   => $plan->id,
-                'stripe_subscription_id' => $stripeSub->id,
+                'stripe_subscription_id' => $freshSub->id,
                 'start_date'             => $startDate,
                 'end_date'               => $endDate,
                 'total_clips'            => $plan->total_clips,
@@ -196,7 +234,7 @@ class WebhookController extends Controller
                 'remaining_clips'        => $plan->total_clips,
                 'amount'                 => $plan->price,
                 'payment_gateway'        => 'stripe',
-                'transaction_id'         => $stripeSub->id,
+                'transaction_id'         => $freshSub->id,
                 'payment_status'         => 'success',
                 'status'                 => 'active',
             ]);
@@ -211,34 +249,34 @@ class WebhookController extends Controller
         }
 
         if (!$dbSub) {
-            Log::warning('⚠️ No DB record and no metadata — skipping', [
-                'stripe_sub_id' => $stripeSub->id,
+            Log::warning('⚠️ No DB record and no metadata', [
+                'stripe_sub_id' => $freshSub->id
             ]);
             return;
         }
 
-        // ✅ Record exists = UPDATE
+        // ✅ Record exists = UPDATE dates/status
         $updateData = [
-            'start_date' => $stripeSub->current_period_start
-                ? Carbon::createFromTimestamp($stripeSub->current_period_start)
-                : now(),
-
-            'end_date'   => $stripeSub->current_period_end
-                ? Carbon::createFromTimestamp($stripeSub->current_period_end)
-                : now()->addMonth(),
+            'start_date' => $startDate,
+            'end_date'   => $endDate,
         ];
 
-        if ($stripeSub->status === 'active') {
+        if ($freshSub->status === 'active') {
             $updateData['status']         = 'active';
             $updateData['payment_status'] = 'success';
         }
 
-        if ($stripeSub->cancel_at_period_end) {
+        if ($freshSub->cancel_at_period_end) {
             $updateData['status'] = 'cancelled';
         }
 
         $dbSub->update($updateData);
-        Log::info('✅ Subscription UPDATED in DB', ['stripe_sub_id' => $stripeSub->id]);
+
+        Log::info('✅ Subscription UPDATED in DB', [
+            'stripe_sub_id' => $freshSub->id,
+            'start_date'    => $startDate->toDateTimeString(),
+            'end_date'      => $endDate->toDateTimeString(),
+        ]);
     }
 
     private function handlePaymentSucceeded($invoice)
@@ -250,36 +288,50 @@ class WebhookController extends Controller
             'billing_reason' => $invoice->billing_reason ?? null,
         ]);
 
-        // First payment is handled by customer.subscription.created
+        // First payment handled by subscription.created
         if (!$stripeSubId || $invoice->billing_reason === 'subscription_create') {
-            Log::info('Skipping — first payment handled by subscription.created');
+            Log::info('Skipping — handled by subscription.created');
             return;
         }
 
-        $stripeSub = \Stripe\Subscription::retrieve($stripeSubId);
-        $dbSub     = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
-            ->latest()->first();
+        // ✅ Fresh retrieve for accurate timestamps
+        try {
+            $freshSub = \Stripe\Subscription::retrieve($stripeSubId);
+        } catch (\Exception $e) {
+            Log::error('Failed to retrieve subscription', ['error' => $e->getMessage()]);
+            return;
+        }
+
+        $startDate = $freshSub->current_period_start
+            ? Carbon::createFromTimestamp($freshSub->current_period_start)
+            : now();
+
+        $endDate = $freshSub->current_period_end
+            ? Carbon::createFromTimestamp($freshSub->current_period_end)
+            : now()->addMonth();
+
+        $dbSub = User_subscriptions::where('stripe_subscription_id', $stripeSubId)
+            ->latest()
+            ->first();
 
         if (!$dbSub) {
-            Log::warning('No DB record found for renewal', ['stripe_sub_id' => $stripeSubId]);
+            Log::warning('No DB record for renewal', ['stripe_sub_id' => $stripeSubId]);
             return;
         }
 
-        // Renewal — reset clips and update dates
         $dbSub->update([
-            'start_date'      => $stripeSub->current_period_start
-                ? Carbon::createFromTimestamp($stripeSub->current_period_start)
-                : now(),
-            'end_date'        => $stripeSub->current_period_end
-                ? Carbon::createFromTimestamp($stripeSub->current_period_end)
-                : now()->addMonth(),
+            'start_date'      => $startDate,
+            'end_date'        => $endDate,
             'used_clips'      => 0,
             'remaining_clips' => $dbSub->total_clips,
             'payment_status'  => 'success',
             'status'          => 'active',
         ]);
 
-        Log::info('✅ Subscription RENEWED in DB', ['stripe_sub_id' => $stripeSubId]);
+        Log::info('✅ Subscription RENEWED', [
+            'stripe_sub_id' => $stripeSubId,
+            'end_date'      => $endDate->toDateTimeString(),
+        ]);
     }
 
     private function handlePaymentFailed($invoice)
