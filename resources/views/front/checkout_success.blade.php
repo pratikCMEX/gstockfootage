@@ -316,6 +316,7 @@
                 statusText.textContent = 'Downloading 1 file...';
 
                 const li = document.createElement('li');
+                li.id = 'file-0';
                 li.innerHTML = `<span>⬇️</span> ${files[0].file_name}`;
                 fileList.appendChild(li);
                 setTimeout(() => li.classList.add('visible'), 100);
@@ -331,79 +332,138 @@
                 }, 1500);
 
             } else {
-                // ── Multiple files — download as zip ──
-                statusText.textContent = `Preparing zip of ${files.length} files...`;
+                // ── Multiple files — zip with step-by-step animation ──
 
+                // Step 1 — show all files as "queued"
                 files.forEach((file, i) => {
                     const li = document.createElement('li');
+                    li.id = 'file-' + i;
                     li.innerHTML = `<span>📄</span> ${file.file_name}`;
                     fileList.appendChild(li);
                     setTimeout(() => li.classList.add('visible'), i * 80);
                 });
 
-                progressBar.style.width = '30%';
+                // Step 2 — animate through files one by one (fake progress feel)
+                let step = 0;
+                const perFileProgress = Math.floor(70 / files.length); // 0–70% = per file pass
+                // Leave 70–100% for actual zip fetch + download
 
-                const formData = new FormData();
-                formData.append('_token', CSRF_TOKEN);
+                statusText.textContent = 'Reading files...';
+                progressBar.style.width = '5%';
 
-                files.forEach(function(file) {
-                    formData.append('files[]', JSON.stringify({
-                        path: file.file_path,
-                        name: file.file_name,
-                    }));
-                });
-
-                fetch('/download/zip', {
-                        method: 'POST',
-                        body: formData,
-                    })
-                    .then(function(res) {
-                        const ct = res.headers.get('content-type') || '';
-                        if (!res.ok || ct.includes('application/json')) {
-                            return res.json().then(function(e) {
-                                throw new Error(e.error || 'Zip failed');
-                            });
+                const fileStepInterval = setInterval(() => {
+                    if (step < files.length) {
+                        const li = document.getElementById('file-' + step);
+                        if (li) {
+                            li.classList.add('downloading');
+                            li.innerHTML = `<span>⬇️</span> ${files[step].file_name}`;
                         }
-                        return res.blob();
-                    })
-                    .then(function(blob) {
-                        progressBar.style.width = '80%';
 
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = 'payment_downloads_' + Date.now() + '.zip';
-                        a.style.display = 'none';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
+                        // Mark previous as done
+                        if (step > 0) {
+                            const prev = document.getElementById('file-' + (step - 1));
+                            if (prev) {
+                                prev.classList.remove('downloading');
+                                prev.classList.add('done');
+                                prev.innerHTML = `<span>✅</span> ${files[step - 1].file_name}`;
+                            }
+                        }
 
-                        progressBar.style.width = '100%';
+                        progressBar.style.width = (5 + (step + 1) * perFileProgress) + '%';
+                        statusText.textContent = `Packaging file ${step + 1} of ${files.length}...`;
+                        step++;
 
-                        // Mark all files done
-                        document.querySelectorAll('#file-list li').forEach(li => {
-                            li.classList.add('done');
-                            li.innerHTML = `<span>✅</span> ` + li.textContent.trim();
-                        });
+                    } else {
+                        // Mark last file done
+                        const last = document.getElementById('file-' + (files.length - 1));
+                        if (last) {
+                            last.classList.remove('downloading');
+                            last.classList.add('done');
+                            last.innerHTML = `<span>✅</span> ${files[files.length - 1].file_name}`;
+                        }
 
-                        statusText.textContent = `All ${files.length} files downloaded as zip!`;
-                        setTimeout(startRedirectCountdown, 500);
-                    })
-                    .catch(function(err) {
-                        statusText.textContent = 'Zip failed. Trying individual downloads...';
+                        clearInterval(fileStepInterval);
+                        progressBar.style.width = '75%';
+                        statusText.textContent = 'Creating zip archive...';
 
-                        // Fallback — download one by one
-                        files.forEach((file, i) => {
-                            setTimeout(() => triggerBrowserDownload(file.download_url, file.file_name), i *
-                                1200);
-                        });
-
-                        setTimeout(startRedirectCountdown, files.length * 1200 + 1000);
-                    });
+                        // Step 3 — actual zip fetch
+                        _fetchAndDownloadZip(files);
+                    }
+                }, 350); // 350ms per file — feels natural
             }
         }
 
+
+        function _fetchAndDownloadZip(files) {
+            const formData = new FormData();
+            formData.append('_token', CSRF_TOKEN);
+
+            files.forEach(function(file) {
+                formData.append('files[]', JSON.stringify({
+                    path: file.file_path,
+                    name: file.file_name,
+                }));
+            });
+
+            fetch('/download/zip', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(function(res) {
+                    const ct = res.headers.get('content-type') || '';
+                    if (!res.ok || ct.includes('application/json')) {
+                        return res.json().then(function(e) {
+                            throw new Error(e.error || 'Zip failed');
+                        });
+                    }
+                    return res.blob();
+                })
+                .then(function(blob) {
+                    progressBar.style.width = '90%';
+                    statusText.textContent = 'Starting download...';
+
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'payment_downloads_' + Date.now() + '.zip';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+
+                    setTimeout(function() {
+                        progressBar.style.width = '100%';
+                        statusText.textContent = `All ${files.length} files downloaded as zip!`;
+                        setTimeout(startRedirectCountdown, 800);
+                    }, 600);
+                })
+                .catch(function(err) {
+                    console.error('Zip failed:', err);
+                    statusText.textContent = 'Zip failed — downloading files individually...';
+                    progressBar.style.width = '80%';
+
+                    // Fallback — individual downloads
+                    files.forEach((file, i) => {
+                        setTimeout(() => {
+                            triggerBrowserDownload(file.download_url, file.file_name);
+                            const li = document.getElementById('file-' + i);
+                            if (li) {
+                                li.classList.remove('downloading');
+                                li.classList.add('done');
+                                li.innerHTML = `<span>✅</span> ${file.file_name}`;
+                            }
+                            const pct = Math.round(((i + 1) / files.length) * 20) + 80;
+                            progressBar.style.width = pct + '%';
+                        }, i * 1200);
+                    });
+
+                    setTimeout(function() {
+                        statusText.textContent = 'All files downloaded!';
+                        setTimeout(startRedirectCountdown, 500);
+                    }, files.length * 1200 + 500);
+                });
+        }
         // REPLACE with this:
         function triggerBrowserDownload(url, fileName) {
             const a = document.createElement('a');
