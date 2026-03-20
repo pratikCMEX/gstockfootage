@@ -170,7 +170,7 @@
                                 <i class="bi bi-camera"></i>
                             </div>
                             <div class="tag-title">
-                                <p>Resolution(H x W)</p>
+                                <p>Resolution (H x W)</p>
                                 <h5>{{ $data['resolution'] }}</h5>
                             </div>
                         </div>
