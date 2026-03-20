@@ -387,6 +387,9 @@ class PaymentController extends Controller
                             'title'     => $file->title,
                         ];
                     }
+
+                    BatchFile::where('id', $item['id'])
+                        ->increment('downloads', $item['qty'] ?? 1);
                 }
             }
 
