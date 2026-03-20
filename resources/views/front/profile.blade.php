@@ -781,7 +781,7 @@
                                                                 $product = $detail->product;
 
                                                                 if ($product && $product->type == 'image') {
-                                                                    $path = $product->low_path;
+                                                                    $path = $product->mid_path;
                                                                 } else {
                                                                     $path = $product->thumbnail_path ?? null;
                                                                 }
@@ -793,7 +793,6 @@
                                                                     $product->file_path,
                                                                 );
 
-                                                            @endphp
                                                             @endphp
 
                                                             <tr>
