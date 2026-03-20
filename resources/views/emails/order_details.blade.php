@@ -274,11 +274,11 @@
                             <tr>
                                 <td width="60" valign="middle">
                                     @if ($details->product->type == '0')
-                                        <img src="{{ asset('uploads/images/low/' . $details->product->file_path) }}"
+                                        <img src="{{ Storage::disk('s3')->url($details->product->mid_path) }}"
                                             width="46" height="46"
                                             style="border:1px solid #e8e2d9;background:#f7f4f0;">
                                     @else
-                                        <img src="{{ asset('uploads/videos/thumbnails/' . $details->product->thumbnail_path) }}"
+                                        <img src="{{ Storage::disk('s3')->url($details->product->thumbnail_path) }}"
                                             width="46" height="46"
                                             style="border:1px solid #e8e2d9;background:#f7f4f0;">
                                     @endif
