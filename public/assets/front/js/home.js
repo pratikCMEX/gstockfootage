@@ -268,4 +268,15 @@ $(document).ready(function () {
     $("#uploadLabel").text("Click to upload an image or drag and drop");
     $("#searchByImageBtn").prop("disabled", true);
   });
+
+  $(document)
+    .on("submit", "#imageDropZone")
+    .closest("form")
+    .on("submit", function () {
+      $("#searchByImageBtn")
+        .prop("disabled", true)
+        .html(
+          '<span class="spinner-border spinner-border-sm"></span> Searching...'
+        );
+    });
 })(jQuery);
