@@ -52,6 +52,7 @@
                                     </div>
                                 @endif
                             </div>
+                            <label id="image-error" class="text-danger" for="image"></label>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <span class="text-danger">*</span>

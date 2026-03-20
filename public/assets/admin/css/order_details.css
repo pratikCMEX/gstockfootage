@@ -1,0 +1,348 @@
+.order-detail-wrapper {
+    padding: 24px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Page Header */
+.order-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.order-page-header h4 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.order-page-header .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.order-page-header .back-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.status-badge.completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.pending {
+    background: #fef9c3;
+    color: #a16207;
+}
+
+.status-badge.cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-badge.processing {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-badge.paid {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.failed {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Cards */
+.detail-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e8ecf0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.detail-card .card-header-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+}
+
+.detail-card .card-header-custom .header-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.detail-card .card-header-custom h6 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.detail-card .card-body-custom {
+    padding: 20px;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.info-grid.three-col {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+
+    .info-grid,
+    .info-grid.three-col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-item label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    margin-bottom: 5px;
+}
+
+.info-item .info-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* Order Summary Top */
+.order-summary-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px;
+    background: var(--primary);
+    border-radius: 14px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.order-summary-top .order-number-block h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: #fff;
+}
+
+.order-summary-top .order-number-block span {
+    font-size: 13px;
+    color: white;
+}
+
+.order-summary-top .order-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Order Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.items-table thead tr {
+    background: #f8fafc;
+}
+
+.items-table thead th {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    border-bottom: 1px solid #e8ecf0;
+    text-align: left;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s;
+}
+
+.items-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.items-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.items-table tbody td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #374151;
+    vertical-align: middle;
+}
+
+.product-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e8ecf0;
+}
+
+.product-info-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-info-cell .product-title {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 14px;
+}
+
+.product-info-cell .product-type {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* Total Section */
+.total-section {
+    border-top: 1px solid #e8ecf0;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.total-breakdown {
+    min-width: 260px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.total-row.grand-total {
+    border-top: 1px solid #e8ecf0;
+    margin-top: 8px;
+    padding-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 28px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: #e8ecf0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -24px;
+    top: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #e8ecf0;
+    background: #94a3b8;
+}
+
+.timeline-dot.active {
+    background: #3b82f6;
+    box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+.timeline-dot.success {
+    background: #22c55e;
+    box-shadow: 0 0 0 2px #bbf7d0;
+}
+
+.timeline-dot.danger {
+    background: #ef4444;
+    box-shadow: 0 0 0 2px #fecaca;
+}
+
+.timeline-item .tl-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.timeline-item .tl-time {
+    font-size: 12px;
+    color: #94a3b8;
+}
