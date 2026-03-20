@@ -38,7 +38,7 @@ class HomeController extends Controller
         $userId = Auth::id();
 
         // $js = [''];
-        $categoryList = Category::get();
+        $categoryList = Category::where('is_display', '1')->get();
         $ImageList = Image::get();
         $CollectionList = Collection::limit(4)->get();
         // $product = Product::with('category')->limit(4)->get();
