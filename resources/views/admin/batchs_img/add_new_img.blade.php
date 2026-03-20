@@ -881,7 +881,7 @@
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
-                                                            class="btn w-100 text-start file-dropdown dropdown-toggle"
+                                                            class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="subcategory_id" id="subcategory_id">
                                                             <option value="">Select Sub Category</option>
                                                         </select>
