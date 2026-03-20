@@ -111,7 +111,13 @@ class MostSoldProductReportDataTable extends DataTable
             ->orderBy(3, 'desc') //  total_orders = index 3, highest sold first
             ->selectStyleSingle()
             ->parameters([
-                'dom' => 'Bfrtip',
+                'dom' => 'Blfrtip',
+                'lengthChange' => true,
+                'lengthMenu' => [
+                    [10, 25, 50, 100, -1],       
+                    [10, 25, 50, 100, 'All']         
+                ],
+                'pageLength' => 10,
             ])
             ->buttons([
 

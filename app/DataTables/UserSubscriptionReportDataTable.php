@@ -95,8 +95,14 @@ class UserSubscriptionReportDataTable extends DataTable
             ])
             ->orderBy(3, 'desc')
             ->selectStyleSingle()
-            ->parameters([
-                'dom' => 'Bfrtip',
+           ->parameters([
+                'dom' => 'Blfrtip',
+                'lengthChange' => true,
+                'lengthMenu' => [
+                    [10, 25, 50, 100, -1],       
+                    [10, 25, 50, 100, 'All']         
+                ],
+                'pageLength' => 10,
             ])
             ->buttons([
                 Button::make('pdf')->exportOptions(['columns' => ':visible']),

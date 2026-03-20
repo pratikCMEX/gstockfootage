@@ -96,10 +96,14 @@ class MostViewedProductsReportDataTable extends DataTable
             ])
             ->orderBy(3, 'desc') //  total_views = index 3
             ->selectStyleSingle()
-            ->parameters([
-                'dom' => 'Bfrtip',
-                'pageLength' => 25,
-                'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
+           ->parameters([
+                'dom' => 'Blfrtip',
+                'lengthChange' => true,
+                'lengthMenu' => [
+                    [10, 25, 50, 100, -1],       
+                    [10, 25, 50, 100, 'All']         
+                ],
+                'pageLength' => 10,
             ])
             ->buttons([
                 // Button::make('excel')->exportOptions(['columns' => ':visible']),

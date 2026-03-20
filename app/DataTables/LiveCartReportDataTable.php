@@ -107,10 +107,14 @@ class LiveCartReportDataTable extends DataTable
             ])
             ->orderBy(5, 'desc')
             ->selectStyleSingle()
-            ->parameters([
-                'dom' => 'Bfrtip',
-                'pageLength' => 25,
-                'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
+           ->parameters([
+                'dom' => 'Blfrtip',
+                'lengthChange' => true,
+                'lengthMenu' => [
+                    [10, 25, 50, 100, -1],       
+                    [10, 25, 50, 100, 'All']         
+                ],
+                'pageLength' => 10,
             ])
             ->buttons([
 

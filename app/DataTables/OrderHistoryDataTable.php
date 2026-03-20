@@ -88,34 +88,47 @@ class OrderHistoryDataTable extends DataTable
     //             Button::make('reload'),
     //         ]);
     // }
-   public function html(): HtmlBuilder
-{
-    return $this->builder()
-        ->setTableId('orderhistory-table')
-        ->columns($this->getColumns())
-        ->ajax([
-            'url'  => route('admin.order_history'),
-            'type' => 'GET',
-            'data' => 'function(d) {
+    public function html(): HtmlBuilder
+    {
+        return $this->builder()
+            ->setTableId('orderhistory-table')
+            ->columns($this->getColumns())
+            ->ajax([
+                'url' => route('admin.order_history'),
+                'type' => 'GET',
+                'data' => 'function(d) {
                 d.from_date = $("#from_date").val();
                 d.to_date   = $("#to_date").val();
             }',
-        ])
-        ->orderBy(6, 'desc')
-        ->selectStyleSingle()
-        ->parameters([
-            'dom' => 'Bfrtip',
-        ])
-        ->buttons([
-            //  Exclude last column (action) from export using column index
-            // Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
-            // Button::make('csv')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
-            Button::make('pdf')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
-            // Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
-            //  Fixed raw button syntax
-           
-        ]);
-}
+            ])
+            ->orderBy(6, 'desc')
+            ->selectStyleSingle()
+            ->parameters([
+                'dom' => 'Blfrtip',
+                'lengthChange' => true,
+                'lengthMenu' => [
+                    [10, 25, 50, 100, -1],       
+                    [10, 25, 50, 100, 'All']         
+                ],
+                'pageLength' => 10,
+            ])
+            ->buttons([
+                //  Exclude last column (action) from export using column index
+                // Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+                // Button::make('csv')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
+                Button::make('pdf')->exportOptions([
+                    'columns' => [0, 1, 2, 3, 4, 5, 6],
+                    'modifier' => [
+                        'page' => 'all', 
+                        'search' => 'applied', 
+                        'order' => 'applied',
+                    ],
+                ]),
+                // Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+                //  Fixed raw button syntax
+
+            ]);
+    }
 
     public function getColumns(): array
     {
@@ -153,7 +166,7 @@ class OrderHistoryDataTable extends DataTable
                 ->orderable(false)
                 ->width(60)
                 ->addClass('text-center notexport'),
-             
+
         ];
     }
 
