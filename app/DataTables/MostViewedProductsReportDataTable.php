@@ -33,7 +33,7 @@ class MostViewedProductsReportDataTable extends DataTable
                     : '<span class="badge bg-secondary">Inactive</span>';
             })
 
-            // ✅ Sorting
+            //  Sorting
             ->orderColumn('product_name', 'batch_files.title $1')
             ->orderColumn('category_name', function ($query, $order) {
                 $query->orderBy(
@@ -45,7 +45,7 @@ class MostViewedProductsReportDataTable extends DataTable
             })
             ->orderColumn('total_views', 'views $1')
 
-            // ✅ Searching
+            //  Searching
             ->filterColumn('product_name', function ($query, $keyword) {
                 $query->where('batch_files.title', 'like', "%{$keyword}%");
             })
@@ -94,7 +94,7 @@ class MostViewedProductsReportDataTable extends DataTable
         d.to_date   = $("#to_date").val();
     }',
             ])
-            ->orderBy(3, 'desc') // ✅ total_views = index 3
+            ->orderBy(3, 'desc') //  total_views = index 3
             ->selectStyleSingle()
             ->parameters([
                 'dom' => 'Bfrtip',

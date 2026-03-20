@@ -23,9 +23,9 @@ class CollectionDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
 
-       return datatables()
+        return datatables()
             ->eloquent($query)
-             ->addIndexColumn()
+            ->addIndexColumn()
             ->filter(function ($query) {
                 if ($this->request->has('search')) {
                     $keyword = $this->request->get('search')['value'];
@@ -63,7 +63,7 @@ class CollectionDataTable extends DataTable
             ->addColumn('created_at', function ($row) {
                 return $row->created_at;
             })
-            
+
             ->addColumn('actions', function ($row) {
 
                 $updateButton = '
@@ -148,7 +148,7 @@ class CollectionDataTable extends DataTable
                 ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
-             Column::computed('DT_RowIndex')
+            Column::computed('DT_RowIndex')
                 ->title('No')
                 ->orderable(false)
                 ->searchable(false),

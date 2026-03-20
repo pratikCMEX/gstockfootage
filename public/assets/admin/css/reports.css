@@ -1,95 +1,110 @@
+/* Export Buttons */
+.dt-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
 
-    /* Export Buttons */
-    .dt-buttons {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 12px;
-    }
+.dt-button {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    border: none !important;
+    cursor: pointer;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-    .dt-button {
-        display: inline-flex !important;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 16px !important;
-        font-size: 13px !important;
-        font-weight: 500 !important;
-        border-radius: 6px !important;
-        border: none !important;
-        cursor: pointer;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+/* Excel - Green */
+.dt-button:nth-child(1) {
+    background: var(--primary) !important;
+    color: #fff !important;
+}
 
-    /* Excel - Green */
-    .dt-button:nth-child(1) {
-        background: linear-gradient(135deg, #1D6F42, #2e8b57) !important;
-        color: #fff !important;
-    }
-    .dt-button:nth-child(1):hover {
-        background: linear-gradient(135deg, #155234, #1D6F42) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(29,111,66,0.4) !important;
-    }
+.dt-button:nth-child(1):hover {
+    background:var(--primary-hover) !important;
+}
 
-    /* CSV - Blue */
-    .dt-button:nth-child(2) {
-        background: linear-gradient(135deg, #0d6efd, #3b8ff5) !important;
-        color: #fff !important;
-    }
-    .dt-button:nth-child(2):hover {
-        background: linear-gradient(135deg, #0a58ca, #0d6efd) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(13,110,253,0.4) !important;
-    }
+/* CSV - Blue */
+.dt-button:nth-child(2) {
+    background: linear-gradient(135deg, #0d6efd, #3b8ff5) !important;
+    color: #fff !important;
+}
 
-    /* PDF - Red */
-    .dt-button:nth-child(3) {
-        background: linear-gradient(135deg, #dc3545, #f05a67) !important;
-        color: #fff !important;
-    }
-    .dt-button:nth-child(3):hover {
-        background: linear-gradient(135deg, #b02a37, #dc3545) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(220,53,69,0.4) !important;
-    }
+.dt-button:nth-child(2):hover {
+    background: linear-gradient(135deg, #0a58ca, #0d6efd) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.4) !important;
+}
 
-    /* Print - Orange */
-    .dt-button:nth-child(4) {
-        background: linear-gradient(135deg, #fd7e14, #ffa040) !important;
-        color: #fff !important;
-    }
-    .dt-button:nth-child(4):hover {
-        background: linear-gradient(135deg, #dc6a0f, #fd7e14) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(253,126,20,0.4) !important;
-    }
+/* PDF - Red */
+.dt-button:nth-child(3) {
+    background: linear-gradient(135deg, #dc3545, #f05a67) !important;
+    color: #fff !important;
+}
 
-    /* Reload - Teal */
-    .dt-button:nth-child(5) {
-        background: linear-gradient(135deg, #0dcaf0, #3dd6f5) !important;
-        color: #fff !important;
-    }
-    .dt-button:nth-child(5):hover {
-        background: linear-gradient(135deg, #0aa8c7, #0dcaf0) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(13,202,240,0.4) !important;
-    }
+.dt-button:nth-child(3):hover {
+    background: linear-gradient(135deg, #b02a37, #dc3545) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4) !important;
+}
 
-    /* Reset - Gray */
-    .dt-button:nth-child(6) {
-        background: linear-gradient(135deg, #6c757d, #8d959d) !important;
-        color: #fff !important;
-    }
-    .dt-button:nth-child(6):hover {
-        background: linear-gradient(135deg, #565e64, #6c757d) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(108,117,125,0.4) !important;
-    }
+/* Print - Orange */
+.dt-button:nth-child(4) {
+    background: linear-gradient(135deg, #fd7e14, #ffa040) !important;
+    color: #fff !important;
+}
 
-    .dt-button:active {
-        transform: translateY(0px) !important;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
-    }
+.dt-button:nth-child(4):hover {
+    background: linear-gradient(135deg, #dc6a0f, #fd7e14) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(253, 126, 20, 0.4) !important;
+}
+
+/* Reload - Teal */
+.dt-button:nth-child(5) {
+    background: linear-gradient(135deg, #0dcaf0, #3dd6f5) !important;
+    color: #fff !important;
+}
+
+.dt-button:nth-child(5):hover {
+    background: linear-gradient(135deg, #0aa8c7, #0dcaf0) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 202, 240, 0.4) !important;
+}
+
+/* Reset - Gray */
+.dt-button:nth-child(6) {
+    background: linear-gradient(135deg, #6c757d, #8d959d) !important;
+    color: #fff !important;
+}
+
+.dt-button:nth-child(6):hover {
+    background: linear-gradient(135deg, #565e64, #6c757d) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.4) !important;
+}
+
+.dt-button:active {
+    transform: translateY(0px) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.table-date {
+    justify-content: end;
+}
+
+.buttons-pdf {
+    padding: 8px 30px !important;
+}
+div.dt-buttons{
+    float: right !important;
+    margin-left: 10px !important; 
+}

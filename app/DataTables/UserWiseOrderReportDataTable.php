@@ -41,10 +41,10 @@ class UserWiseOrderReportDataTable extends DataTable
                     : 'N/A';
             })
 
-            // ✅ Export clean columns
+            // Export clean columns
             ->addColumn('export_total_amount', fn($row) => number_format($row->total_amount ?? 0, 2))
 
-            // ✅ Sorting
+            //  Sorting
             ->orderColumn('user_name', 'first_name $1')
             ->orderColumn('total_orders', 'total_orders $1')
             ->orderColumn('total_amount', 'total_amount $1')
@@ -53,7 +53,7 @@ class UserWiseOrderReportDataTable extends DataTable
             ->orderColumn('cancelled_orders', 'cancelled_orders $1')
             ->orderColumn('last_order_date', 'last_order_date $1')
 
-            // ✅ Searching
+            //  Searching
             ->filterColumn('user_name', function ($query, $keyword) {
                 $query->where(function ($q) use ($keyword) {
                     $q->where('first_name', 'like', "%{$keyword}%")
@@ -102,7 +102,7 @@ class UserWiseOrderReportDataTable extends DataTable
             ->join('orders', 'orders.user_id', '=', 'users.id')
             ->groupBy('users.id');
 
-        // ✅ Date filter
+        //  Date filter
         if (request()->filled('from_date')) {
             $subQuery->whereDate('orders.created_at', '>=', request('from_date'));
         }
@@ -111,7 +111,7 @@ class UserWiseOrderReportDataTable extends DataTable
             $subQuery->whereDate('orders.created_at', '<=', request('to_date'));
         }
 
-        // ✅ Wrap as subquery for searchable aggregated columns
+        //  Wrap as subquery for searchable aggregated columns
         $query = User::from(DB::raw("({$subQuery->toSql()}) as users"))
             ->mergeBindings($subQuery)
             ->select('users.*');
@@ -125,14 +125,14 @@ class UserWiseOrderReportDataTable extends DataTable
             ->setTableId('userwiseorderreport-table')
             ->columns($this->getColumns())
             ->ajax([
-                'url' => route('admin.user_wise_order_report'), // ✅ update with your route
+                'url' => route('admin.user_wise_order_report'), //  update with your route
                 'type' => 'GET',
                 'data' => 'function(d) {
                     d.from_date = $("#from_date").val();
                     d.to_date   = $("#to_date").val();
                 }',
             ])
-            ->orderBy(2, 'desc') // ✅ total_orders = index 2
+            ->orderBy(2, 'desc') //  total_orders = index 2
             ->selectStyleSingle()
             ->parameters([
                 'dom' => 'Bfrtip',

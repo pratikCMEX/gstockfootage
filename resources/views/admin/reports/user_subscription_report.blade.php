@@ -1,6 +1,6 @@
 <div class="body-wrapper-inner">
     <div class="container-fluid">
-  <div class="row mb-3">
+  <div class="row mb-3 table-date">
             <div class="col-md-3">
                 <label>From Date</label>
                 <input type="date" id="from_date" class="form-control">
