@@ -647,3 +647,7 @@ input[type="range"]::-moz-range-track {
   background: #dcfce7;
   color: #16a34a;
 }
+
+body:has(.cart-section.show_popup) {
+  overflow: hidden;
+}
