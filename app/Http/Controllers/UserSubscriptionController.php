@@ -55,7 +55,7 @@ class UserSubscriptionController extends Controller
 
             'mode' => 'payment',
 
-            'success_url' => route('subscription.success') . '?paid=1',
+            'success_url' => route('subscription.success'),
             'cancel_url' => route('subscription.cancel'),
 
         ]);
@@ -108,7 +108,7 @@ class UserSubscriptionController extends Controller
                 ],
             ],
 
-            'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('subscription.success'),
             'cancel_url'  => route('pricing'),
             'metadata'    => [
                 'user_id' => $user->id,
