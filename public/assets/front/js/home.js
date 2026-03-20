@@ -273,5 +273,6 @@ $(document).ready(function () {
     $(this).closest("form").submit();
     $(this).prop("disabled", true);
     $(".cancel-btn").prop("disabled", true);
+    $("#loader").css("display", "flex");
   });
 })(jQuery);
