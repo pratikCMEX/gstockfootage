@@ -138,6 +138,7 @@ $(document).on("click", "#processPaymentBtn", function () {
         // Single = direct, Multiple = zip
         smartDownload(response.img_paths, "subscription", function () {
           window.location.href = base_url + "/home";
+          $("#loader").css("display", "none");
         });
         return;
       }
@@ -192,10 +193,10 @@ $(document).on("click", "#processPaymentBtn", function () {
       $("#loader").css("display", "none");
     },
 
-    complete: function () {
-      button.prop("disabled", false);
-      button.html("Process to payment");
-      $("#loader").css("display", "none");
-    },
+    // complete: function () {
+    //   button.prop("disabled", false);
+    //   button.html("Process to payment");
+    //   $("#loader").css("display", "none");
+    // },
   });
 });
