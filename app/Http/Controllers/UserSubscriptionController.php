@@ -55,7 +55,7 @@ class UserSubscriptionController extends Controller
 
             'mode' => 'payment',
 
-            'success_url' => route('subscription.success') . '?plan=' . $plan->id,
+            'success_url' => route('subscription.success') . '?paid=1',
             'cancel_url' => route('subscription.cancel'),
 
         ]);
@@ -243,32 +243,10 @@ class UserSubscriptionController extends Controller
 
     public function success(Request $request)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        Log::info('Success page hit', ['user_id' => auth()->id()]);
 
-        Log::info('Success page hit', ['session_id' => $request->session_id]);
-
-        if (!$request->session_id) {
-            return redirect()->route('pricing')
-                ->with('msg_success', 'Payment successful! Subscription activating shortly.');
-        }
-
-        try {
-            $session = Session::retrieve($request->session_id);
-
-            Log::info('Session data', [
-                'payment_status' => $session->payment_status,
-                'subscription'   => $session->subscription,
-                'metadata'       => (array) $session->metadata,
-            ]);
-
-            // Webhook handles DB insert — just confirm to user
-            return redirect()->route('pricing')
-                ->with('msg_success', 'Subscription activated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Success page error: ' . $e->getMessage());
-            return redirect()->route('pricing')
-                ->with('msg_success', 'Payment received! Subscription activating shortly.');
-        }
+        return redirect()->route('pricing')
+            ->with('msg_success', 'Subscription activated successfully!');
     }
 
     public function cancelSubscription(Request $request)
