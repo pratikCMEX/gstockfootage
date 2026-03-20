@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscription_plans;
 use App\Models\User_subscriptions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
@@ -54,7 +56,7 @@ class UserSubscriptionController extends Controller
 
             'mode' => 'payment',
 
-            'success_url' => route('subscription.success') . '?plan=' . $plan->id,
+            'success_url' => route('subscription.success'),
             'cancel_url' => route('subscription.cancel'),
 
         ]);
@@ -98,14 +100,22 @@ class UserSubscriptionController extends Controller
                 'quantity' => 1,
             ]],
             'mode'        => 'subscription',
-            'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('pricing'),
+
+            // ✅ ADD THIS — copies metadata onto the Subscription object itself
+            'subscription_data' => [
+                'metadata' => [
+                    'user_id' => $user->id,
+                    'plan_id' => $plan->id,
+                ],
+            ],
+
+            'success_url' => route('subscription.success'),
+            'cancel_url'  => route('pricing'),
             'metadata'    => [
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
             ],
         ]);
-
         return redirect($session->url);
     }
 
@@ -152,11 +162,18 @@ class UserSubscriptionController extends Controller
             // Deactivate old subscription in DB
             $existingSubscription->update(['status' => 'inactive']);
 
-            // Create new subscription record
+            $startDate = $updatedSub->current_period_start
+                ? Carbon::createFromTimestamp($updatedSub->current_period_start)
+                : now();
+
+            $endDate = $updatedSub->current_period_end
+                ? Carbon::createFromTimestamp($updatedSub->current_period_end)
+                : now()->addMonth();
+
             User_subscriptions::create([
                 'user_id'                => $user->id,
                 'subscription_plan_id'   => $newPlan->id,
-                'stripe_subscription_id' => $updatedSub->id, // same stripe sub ID
+                'stripe_subscription_id' => $updatedSub->id,
                 'start_date'             => $startDate,
                 'end_date'               => $endDate,
                 'total_clips'            => $newPlan->total_clips,
@@ -232,65 +249,10 @@ class UserSubscriptionController extends Controller
 
     public function success(Request $request)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        // Retrieve session from Stripe using session_id
-        $session = Session::retrieve($request->session_id);
-
-        // Get Stripe subscription object
-        $stripeSubscription = \Stripe\Subscription::retrieve($session->subscription);
-
-        // Get plan from metadata (more reliable than query param)
-        $plan = Subscription_plans::findOrFail($session->metadata->plan_id);
-
-        $startDate = now();
-
-        $type  = strtolower(trim($plan->duration_type));
-        $value = $plan->duration_value;
-
-        switch ($type) {
-            case 'month':
-                $endDate = now()->addMonths($value);
-                break;
-            case 'quarter':
-                $endDate = now()->addMonths($value * 3);
-                break;
-            case 'year':
-                $endDate = now()->addYears($value);
-                break;
-            default:
-                $endDate = now();
-        }
-
-        // Deactivate any existing active subscriptions
-        User_subscriptions::where('user_id', auth()->id())
-            ->where('status', 'active')
-            ->update(['status' => 'inactive']);
-
-        User_subscriptions::create([
-            'user_id'                => auth()->id(),
-            'subscription_plan_id'   => $plan->id,
-
-            'stripe_subscription_id' => $stripeSubscription->id,  // ← for webhook renewal
-
-            'start_date'             => $startDate,
-            'end_date'               => $endDate,
-
-            'total_clips'            => $plan->total_clips,
-            'used_clips'             => 0,
-            'remaining_clips'        => $plan->total_clips,
-
-            'amount'                 => $plan->price,
-
-            'payment_gateway'        => 'stripe',
-            'transaction_id'         => $stripeSubscription->id,  // ← real Stripe ID now
-
-            'payment_status'         => 'success',
-            'status'                 => 'active',
-        ]);
+        Log::info('Success page hit', ['user_id' => auth()->id()]);
 
         return redirect()->route('pricing')
-            ->with('msg_success', 'Subscription activated successfully');
+            ->with('msg_success', 'Subscription activated successfully!');
     }
 
     public function cancelSubscription(Request $request)

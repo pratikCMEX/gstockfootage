@@ -104,11 +104,13 @@
                                     <li><a class="dropdown-item"
                                             href="{{ route('user.profile', ['tab' => 'downloads']) }}"><i
                                                 class="bi bi-bag"></i> Downloads</a></li>
-                                    <li class="wishlist"><a class="dropdown-item"
-                                            href="{{ route('user.profile', ['tab' => 'wishlist']) }}"><i
-                                                class="bi bi-heart"></i>
-                                            Wishlist</a>
-                                        <p class="wishlist-count">{{ auth()->user()->favorites()->count() }}</p>
+                                    <li class="wishlist">
+                                        <a class="dropdown-item"
+                                            href="{{ route('user.profile', ['tab' => 'wishlist']) }}">
+                                            <i class="bi bi-heart"></i>
+                                            Wishlist
+                                            <p class="wishlist-count">{{ auth()->user()->favorites()->count() }}</p>
+                                        </a>
                                     </li>
                                     <li><a class="dropdown-item" href="{{ route('logout') }}"><i
                                                 class="bi bi-box-arrow-right"></i>
@@ -126,9 +128,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <a href="{{ route('logout') }}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
@@ -237,8 +239,8 @@
                     data-price="{{ $item['price'] }}">
                     <div class="cart-img">
                         @if ($item['type'] == 'image')
-                            <img src="{{$item['mid_path']? Storage::disk('s3')->url($item['mid_path']) :''}}" class="h-100 w-100"
-                                alt="">
+                            <img src="{{ $item['mid_path'] ? Storage::disk('s3')->url($item['mid_path']) : '' }}"
+                                class="h-100 w-100" alt="">
                         @else
                             <img src="{{ Storage::disk('s3')->url($item['thumbnail_path']) }}" class="h-100 w-100"
                                 alt="">

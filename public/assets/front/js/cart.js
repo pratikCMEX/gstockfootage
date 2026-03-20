@@ -1,3 +1,51 @@
+// function addToCart(product_id, btn = null) {
+//   $.ajax({
+//     url: base_url + "/add-to-cart",
+//     type: "POST",
+//     headers: {
+//       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+//     },
+//     data: {
+//       product_id: product_id,
+//       qty: 1,
+//     },
+//     beforeSend: function () {
+//       if (btn) {
+//         $(btn).prop("disabled", true).text("Adding...");
+//       }
+//     },
+//     success: function (res) {
+//       if (res.status === true) {
+//         let html = cartItemTemplate(res.product);
+//         $(".cart-items").prepend(html);
+//         let count = parseInt($(".cart-count").text());
+//         $(".cart-count").text(Math.max(count + 1, 0));
+//         let newCount = $(".cart-items .cart-content").length;
+//         updateCartCount(newCount);
+//         updateCartTotal(parseFloat(res.product.price), "add");
+//         // if (btn) {
+//         // alert();
+//         // }
+//         //
+//         toastr.success(res.message);
+//       } else {
+//         toastr.warning(res.message);
+//       }
+//     },
+//     error: function (xhr) {
+//       toastr.error("Something went wrong. Please try again.");
+//     },
+//     complete: function () {
+//       // if (btn) {
+//       $(".add_to_cart").prop("disabled", true).text("Added to Cart");
+//       // $(".add_to_cart").removeClass("btn-orange");
+//       // $(".add_to_cart").addClass("btn-success already-added");
+//       // }
+//       // $(".add_to_cart").prop("disabled", true).text("Added to Cart");
+//     },
+//   });
+// }
+// alert();
 function addToCart(product_id, btn = null) {
   $.ajax({
     url: base_url + "/add-to-cart",
@@ -23,29 +71,28 @@ function addToCart(product_id, btn = null) {
         let newCount = $(".cart-items .cart-content").length;
         updateCartCount(newCount);
         updateCartTotal(parseFloat(res.product.price), "add");
-        // if (btn) {
-        // alert();
-        // }
-        //
         toastr.success(res.message);
       } else {
         toastr.warning(res.message);
       }
     },
     error: function (xhr) {
+      if (btn) {
+        // ✅ Re-enable only the clicked button on error
+        $(btn).prop("disabled", false).text("Add");
+      }
       toastr.error("Something went wrong. Please try again.");
     },
     complete: function () {
-      // if (btn) {
-      $(".add_to_cart").prop("disabled", true).text("Added to Cart");
-      $(".add_to_cart").removeClass("btn-orange");
-      $(".add_to_cart").addClass("btn-success already-added");
-      // }
-      // $(".add_to_cart").prop("disabled", true).text("Added to Cart");
+      if (btn) {
+        // ✅ Only update the specific button that was clicked
+        $(btn)
+          .prop("disabled", true)
+          .html('<i class="bi bi-cart-check"></i> Added to Cart');
+      }
     },
   });
 }
-
 function cartItemTemplate(product) {
   let imageUrl = "";
 

@@ -1,3 +1,398 @@
+<style>
+    /* ── Google Font ── */
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap');
+
+    /* ── Tokens (uses your existing CSS variables where possible) ── */
+    :root {
+        --order-font: 'DM Sans', sans-serif;
+        --order-mono: 'DM Mono', monospace;
+        --order-radius: 14px;
+        --order-radius-sm: 8px;
+        --order-orange: #e67000;
+        --order-orange-bg: #fff4e6;
+        --order-orange-bd: #ffd199;
+        --order-green: #1a7a40;
+        --order-green-bg: #e8f7ee;
+        --order-green-bd: #a8d8bc;
+        --order-surface: #ffffff;
+        --order-surface-2: #f8f8f8;
+        --order-border: rgba(0, 0, 0, .08);
+        --order-border-md: rgba(0, 0, 0, .12);
+        --order-text: #111111;
+        --order-muted: #737373;
+        --order-shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 4px 16px rgba(0, 0, 0, .04);
+        --order-shadow-lg: 0 4px 24px rgba(0, 0, 0, .10);
+    }
+
+    /* ── Wrapper per order ── */
+    .batch-content {
+        font-family: var(--order-font);
+        background: var(--order-surface);
+        border: 1px solid var(--order-border);
+        border-radius: var(--order-radius);
+        box-shadow: var(--order-shadow);
+        margin-bottom: 16px;
+        overflow: hidden;
+        transition: box-shadow .2s ease;
+    }
+
+    .batch-content:hover {
+        box-shadow: var(--order-shadow-lg);
+    }
+
+    /* ── Header row ── */
+    .batch-content-detail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 22px;
+    }
+
+    /* ── Left meta block ── */
+    .batch-content-create {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+    }
+
+    .batch-content-create p {
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    /* Order ID */
+    .batch-content-create .batchid:first-child {
+        font-family: var(--order-mono);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--order-text);
+        letter-spacing: .01em;
+        width: 100%;
+        /* full row on its own line */
+        margin-bottom: 4px;
+    }
+
+    /* Date */
+    .batch-content-create .batchcreated {
+        font-size: 12px;
+        color: var(--order-muted);
+    }
+
+    /* Total Amount */
+    .batch-content-create .batchid.total-amount {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--order-orange);
+        letter-spacing: -.01em;
+    }
+
+    /* Status */
+    .batch-content-create .batchid.order-status {
+        display: inline-flex;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 11px;
+        border-radius: 20px;
+        letter-spacing: .04em;
+        text-transform: capitalize;
+        background: var(--order-green-bg);
+        color: var(--order-green);
+        border: 1px solid var(--order-green-bd);
+    }
+
+    /* ── More Detail button ── */
+    .more-detail {
+        flex-shrink: 0;
+    }
+
+    .more-detail-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--order-font);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--order-muted);
+        background: transparent;
+        border: 1px solid var(--order-border-md);
+        border-radius: var(--order-radius-sm);
+        padding: 7px 14px;
+        cursor: pointer;
+        transition: background .15s, color .15s, border-color .15s;
+        white-space: nowrap;
+    }
+
+    .more-detail-btn:hover {
+        background: var(--order-surface-2);
+        color: var(--order-text);
+        border-color: rgba(0, 0, 0, .2);
+    }
+
+    .more-detail-btn i {
+        font-size: 11px;
+        transition: transform .25s ease;
+    }
+
+    .more-detail-btn.open i {
+        transform: rotate(180deg);
+    }
+
+    /* ── Table wrapper ── */
+    .batch-content-table-details {
+        /* border-top: 1px solid var(--order-border); */
+        background: var(--order-surface-2);
+        padding: 0;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── Table ── */
+    .batch-content-table-details .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        font-size: 13px;
+    }
+
+    .batch-content-table-details .table thead tr {
+        background: #f2f2f2;
+        border-bottom: 1px solid var(--order-border-md);
+    }
+
+    .batch-content-table-details .table thead th {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--order-muted);
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        padding: 10px 18px;
+        border: none;
+        white-space: nowrap;
+    }
+
+    .batch-content-table-details .table tbody tr {
+        border-bottom: 1px solid var(--order-border);
+        transition: background .12s;
+    }
+
+    .batch-content-table-details .table tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .batch-content-table-details .table tbody tr:hover {
+        background: #fff;
+    }
+
+    .batch-content-table-details .table td {
+        padding: 14px 18px;
+        vertical-align: middle;
+        border: none;
+        color: var(--order-text);
+    }
+
+    /* Product thumbnail */
+    .batch-content-table-details .table td img {
+        width: 54px;
+        height: 54px;
+        object-fit: cover;
+        border-radius: 9px;
+        border: 1px solid var(--order-border);
+        display: block;
+    }
+
+    /* Type pill */
+    .product-type-pill {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 6px;
+        background: var(--order-orange-bg);
+        color: #b85c00;
+        border: 1px solid var(--order-orange-bd);
+        text-transform: capitalize;
+    }
+
+    /* Product name */
+    .product-title {
+        font-weight: 500;
+        color: var(--order-text);
+    }
+
+    /* Price cell */
+    .product-price {
+        font-weight: 600;
+        color: var(--order-text);
+        white-space: nowrap;
+    }
+
+    .order-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .invoice-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--font-inter-medium), 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--white);
+        background: var(--primary);
+        border: none;
+        border-radius: 8px;
+        padding: 8px 15px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background .18s, transform .12s;
+        white-space: nowrap;
+        line-height: 1;
+    }
+
+    .invoice-btn:hover {
+        background: var(--primary-hover);
+        color: var(--white);
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+
+    .invoice-btn:active {
+        transform: translateY(0);
+    }
+
+    .invoice-btn svg {
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
+    }
+
+    /* ── Pagination ── */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        padding: 24px 0 8px;
+    }
+
+    .pagination-links {
+        display: flex;
+        align-items: center;
+    }
+
+    .pagination-links .pagination {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .pagination-links .pagination li span,
+    .pagination-links .pagination li a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        font-family: var(--font-inter-medium), 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        transition: background .15s, color .15s, border-color .15s;
+        color: var(--second-text);
+        background: transparent;
+        line-height: 1;
+    }
+
+    .pagination-links .pagination li a:hover {
+        background: var(--badge-color);
+        color: var(--primary);
+        border-color: rgba(255, 128, 0, .25);
+    }
+
+    .pagination-links .pagination li.active span,
+    .pagination-links .pagination li span[aria-current="page"] {
+        background: var(--primary);
+        color: var(--white);
+        border-color: var(--primary);
+        font-weight: 600;
+        cursor: default;
+    }
+
+    .pagination-links .pagination li.disabled span {
+        opacity: .35;
+        cursor: not-allowed;
+        background: transparent;
+        color: var(--second-text);
+    }
+
+    .pagination-links .pagination li:first-child a,
+    .pagination-links .pagination li:last-child a,
+    .pagination-links .pagination li:first-child span,
+    .pagination-links .pagination li:last-child span {
+        padding: 0 13px;
+        color: var(--text);
+        background: var(--white);
+        border-color: rgba(0, 0, 0, .10);
+    }
+
+    .pagination-links .pagination li:first-child a:hover,
+    .pagination-links .pagination li:last-child a:hover {
+        background: var(--badge-color);
+        color: var(--primary);
+        border-color: rgba(255, 128, 0, .3);
+    }
+
+    /* Per-product download icon */
+    .product-dl-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 128, 0, .30);
+        background: var(--badge-color);
+        color: var(--primary);
+        cursor: pointer;
+        text-decoration: none;
+        transition: background .15s, border-color .15s, transform .12s;
+        flex-shrink: 0;
+    }
+
+    .product-dl-btn:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--white);
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+
+    .product-dl-btn:active {
+        transform: translateY(0);
+    }
+
+    .product-dl-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .pagination-links .small.text-muted {
+        margin-right: 10px
+    }
+</style>
 <main>
     <section class="profile_section">
         <div class="container">
@@ -14,13 +409,12 @@
                         </div>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button
-                            class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
                             id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i
+                                class="bi bi-person"></i>
                             Profile</button>
-                        <button
-                            class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
                             id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
                             type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i
                                 class="fa-solid fa-download"></i> Downloads</button>
@@ -44,8 +438,8 @@
 
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif"
-                        id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif" id="v-pills-home"
+                        role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                         <div class="profile-manage ">
                             <div class="profile-manage-header">
                                 <div class="profile-manage-heading">
@@ -96,7 +490,7 @@
                                     </div> -->
                                     <div class="profile-number profile-manage-text">
                                         <span>Phone Number</span>
-                                        @if($user_profile->phone)
+                                        @if ($user_profile->phone)
                                             @php
                                                 $phone = $user_profile->phone;
                                                 $countryCode = $user_profile->country_code ?? '';
@@ -153,14 +547,16 @@
                                     <div class="subscription-title-price">
                                         <div class="profile-subscription-title">
                                             <h3>{{ $purchasePlan->subscription->name }}</h3>
-                                            <p class="text-secondary">{{ $purchasePlan->subscription->total_clips }} HD
+                                            <p class="text-secondary">{{ $purchasePlan->subscription->total_clips }}
+                                                HD
                                                 clips
                                                 per
                                                 {{ $purchasePlan->subscription->duration_type }}
                                             </p>
                                         </div>
                                         <!-- <p>{{ $purchasePlan->subscription->title }}</p> -->
-                                        <h2><span class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
+                                        <h2><span
+                                                class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
                                             <span class="gray"> /
                                                 {{ $purchasePlan->subscription->duration_type }}</span>
                                         </h2>
@@ -168,7 +564,8 @@
                                     <div class="divider"></div>
                                     <div class="renewal-info">
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <circle cx="7" cy="7" r="6" stroke="#ccc" stroke-width="1.2"></circle>
+                                            <circle cx="7" cy="7" r="6" stroke="#ccc"
+                                                stroke-width="1.2"></circle>
                                             <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
                                                 stroke-linecap="round"></path>
                                         </svg>
@@ -240,7 +637,7 @@
                                 </h2>
                             </div>
                             <div class="">
-                                @foreach ($order_data as $order)
+                                {{-- @foreach ($order_data as $order)
                                     <div class="batch-content">
 
                                         <div class="batch-content-detail">
@@ -312,6 +709,159 @@
                                                         @endforeach
                                                     </tbody>
 
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endforeach --}}
+                                @foreach ($order_data as $order)
+                                    <div class="batch-content">
+
+                                        <div class="batch-content-detail">
+
+                                            <div class="batch-content-create">
+                                                {{-- Order ID --}}
+                                                <p class="batchid">Order ID : {{ $order->order_number }}</p>
+
+                                                {{-- Date --}}
+                                                <p class="batchcreated">
+                                                    Date :
+                                                    {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
+                                                </p>
+
+                                                {{-- Total Amount — extra class added for styling only --}}
+                                                <p class="batchid total-amount">Total Amount :
+                                                    ${{ $order->total_amount }}</p>
+
+                                                {{-- Status — extra class added for styling only --}}
+                                                <p class="batchid order-status">{{ $order->order_status }}</p>
+                                            </div>
+
+                                            <div class="order-actions">
+
+                                                {{-- Invoice Download Button --}}
+                                                {{-- <a href="{{ route('orders.invoice', $order->id) }}" --}}
+                                                <a href="#" class="invoice-btn d-none"
+                                                    title="Download Invoice">
+                                                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                                                        stroke-width="1.6" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path d="M7 1v8M4 6l3 3 3-3" />
+                                                        <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                    </svg>
+                                                    Invoice
+                                                </a>
+
+                                                {{-- More Detail Toggle --}}
+                                                <button class="btn more-detail-btn" type="button">
+                                                    <i class="fa-solid fa-angle-down"></i> More Detail
+                                                </button>
+
+                                            </div>
+                                        </div>
+
+                                        {{-- DETAILS TABLE --}}
+                                        <div class="batch-content-table-details d-none">
+                                            <div class="table-scroll">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>Product Type</th>
+                                                            <th>Product Name</th>
+                                                            <th>Price</th>
+                                                            <th>Download</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @foreach ($order->order_details as $detail)
+                                                            @php
+                                                                $product = $detail->product;
+
+                                                                if ($product && $product->type == 'image') {
+                                                                    $path = $product->mid_path;
+                                                                } else {
+                                                                    $path = $product->thumbnail_path ?? null;
+                                                                }
+
+                                                                $url = $path
+                                                                    ? Storage::disk('s3')->url($path)
+                                                                    : asset('assets/admin/images/demo_thumbnail.png');
+                                                                $final_url = Storage::disk('s3')->url(
+                                                                    $product->file_path,
+                                                                );
+
+                                                            @endphp
+
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                        <img src="{{ $url }}" width="60"
+                                                                            height="60">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <span
+                                                                        class="product-type-pill">{{ $detail->product->type }}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span
+                                                                        class="product-title">{{ $detail->product->title }}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="product-price">$
+                                                                        {{ $detail->product->price }}</span>
+                                                                </td>
+                                                                <td>
+                                                                    @php
+                                                                        $downloadUrl = $product->file_path
+                                                                            ? Storage::disk('s3')->temporaryUrl(
+                                                                                $product->file_path,
+                                                                                now()->addMinutes(30),
+                                                                                [
+                                                                                    'ResponseContentDisposition' =>
+                                                                                        'attachment; filename="' .
+                                                                                        basename($product->file_path) .
+                                                                                        '"',
+                                                                                ],
+                                                                            )
+                                                                            : null;
+                                                                    @endphp
+                                                                    @if ($downloadUrl)
+                                                                        <a href="{{ $downloadUrl }}"
+                                                                            class="product-dl-btn" download
+                                                                            title="Download {{ $detail->product->title }}">
+                                                                            <svg viewBox="0 0 14 14" fill="none"
+                                                                                stroke="currentColor"
+                                                                                stroke-width="1.6"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round">
+                                                                                <path d="M7 1v8M4 6l3 3 3-3" />
+                                                                                <path
+                                                                                    d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                                            </svg>
+                                                                        </a>
+                                                                    @else
+                                                                        <span class="product-dl-btn"
+                                                                            style="opacity:.35;cursor:not-allowed;"
+                                                                            title="Not available">
+                                                                            <svg viewBox="0 0 14 14" fill="none"
+                                                                                stroke="currentColor"
+                                                                                stroke-width="1.6"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round">
+                                                                                <path d="M7 1v8M4 6l3 3 3-3" />
+                                                                                <path
+                                                                                    d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                                            </svg>
+                                                                        </span>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -488,7 +1038,7 @@
                                     </div>
                                     <div>
                                         <span>Phone Number</span>
-                                        @if($user_profile->phone)
+                                        @if ($user_profile->phone)
                                             @php
                                                 $phone = $user_profile->phone;
                                                 $countryCode = $user_profile->country_code ?? '';
@@ -501,7 +1051,8 @@
 
                                             <a href="tel:{{ $countryCode }}{{ $cleanPhone }}"
                                                 style="color: inherit; text-decoration: none;">
-                                                <p>{{ $countryCode ? $countryCode . ' ' . $formatted : $formatted }}</p>
+                                                <p>{{ $countryCode ? $countryCode . ' ' . $formatted : $formatted }}
+                                                </p>
                                             </a>
                                         @else
                                             <p>-</p>
@@ -550,7 +1101,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
                             id="profile_form">
@@ -575,8 +1127,8 @@
                                 <div>
                                     <label>Phone No</label>
                                     <div class="input-group phone-input">
-                                        <input type="tel" id="phone" name="phone_number" class="form-control"
-                                            placeholder="Enter your phone number"
+                                        <input type="tel" id="phone" name="phone_number"
+                                            class="form-control" placeholder="Enter your phone number"
                                             value="{{ $user_profile->phone ?? '' }}"
                                             oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                     </div>
@@ -609,8 +1161,7 @@
                             </div> -->
                                 <div class="modal-inp-label">
                                     <label>Address</label>
-                                    <textarea name="address"
-                                        class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                    <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
                                 </div>
 
                             </div>
@@ -630,7 +1181,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
                             id="password_form">
@@ -644,8 +1196,8 @@
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>New Password</label>
-                                    <input type="password" name="new_password" id="new_password" class="form-control"
-                                        placeholder="Enter New Password">
+                                    <input type="password" name="new_password" id="new_password"
+                                        class="form-control" placeholder="Enter New Password">
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Confirm Password</label>
@@ -663,13 +1215,14 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form action="">
                             <div class="modal-body p-0">
@@ -680,11 +1233,13 @@
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Email</label>
-                                    <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="you@example.com">
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Phone number</label>
-                                    <input type="text" name="number" class="form-control" placeholder="1234567890">
+                                    <input type="text" name="number" class="form-control"
+                                        placeholder="1234567890">
                                 </div>
 
                             </div>
@@ -699,3 +1254,18 @@
             </div>
     </section>
 </main>
+{{-- <script>
+    document.querySelectorAll('.more-detail-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var card = btn.closest('.batch-content');
+            var table = card.querySelector('.batch-content-table-details');
+            var isOpen = !table.classList.contains('d-none');
+
+            table.classList.toggle('d-none', isOpen);
+            btn.classList.toggle('open', !isOpen);
+            btn.innerHTML = isOpen ?
+                '<i class="fa-solid fa-angle-down"></i> More Detail' :
+                '<i class="fa-solid fa-angle-up"></i> Less Detail';
+        });
+    });
+</script> --}}

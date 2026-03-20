@@ -72,7 +72,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title fs-5" id="exampleModalLabel">Search by Image</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
 
                         <form action="{{ route('photos.searchByImage') }}" method="POST" enctype="multipart/form-data">
@@ -123,12 +124,15 @@
 
 
         <!-- Trending -->
-        @if(!empty($trendingTags))
+        @if (!empty($trendingTags))
             <div class="trending">
                 Trending:
                 @foreach ($trendingTags as $tags)
                     <a
-                        href="{{$tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{$tags['tag']}}</a>@if(!$loop->last),@endif
+                        href="{{ $tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{ $tags['tag'] }}</a>
+                    @if (!$loop->last)
+                        ,
+                    @endif
                 @endforeach
             </div>
         @endif
@@ -189,7 +193,8 @@
                             <div class="fingertips-content">
                                 <div class="fingertips-img">
                                     <img loading="lazy" height="100%" width="100%"
-                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}" alt="">
+                                        src="{{ asset('uploads/images/category/' . $category->category_image) }}"
+                                        alt="">
                                 </div>
                                 <h4>{{ $category->category_name }} <i class="bi bi-arrow-right"></i></h4>
                             </div>
@@ -224,7 +229,7 @@
                 </ul>
 
                 <!-- Filter Buttons -->
-                @if(!empty($trendingTags))
+                @if (!empty($trendingTags))
                     <div class="popular-filter-pills filter-pills d-flex flex-wrap gap-2 mb-4">
                         @foreach ($trendingTags as $tags)
                                     <a href="{{ 
@@ -253,95 +258,105 @@
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="selected">
-                        @if($latestProducts->isNotEmpty())
+                        @if ($latestProducts->isNotEmpty())
                             <div class="row g-3">
 
                                 @foreach ($latestProducts as $pro)
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                        <a href="{{ route('product.detail', encrypt($pro->id)) }}">
-                                            <div class="product-card">
+                                        <div class="product-card">
+                                            <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+
                                                 @if ($pro->type == 'image')
                                                     <img loading="lazy"
                                                         src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
                                                         class="product-img" alt="">
                                                 @else
                                                     @if ($pro->thumbnail_path == null)
-                                                        <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                                             class="product-img" alt="">
                                                     @else
-                                                        <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                        <img loading="lazy"
+                                                            src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
                                                             class="product-img" alt="">
                                                     @endif
                                                 @endif
-                                                <div class="p-3">
+                                            </a>
+                                            <div class="p-3">
 
-                                                    <span
-                                                        class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
+                                                <span
+                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
 
-                                                    <h6 class="popular-detail-title">{{ $pro->title }}
-                                                    </h6>
-
-
-                                                    <div class="price-btn">
-                                                        <span class="price">${{ $pro->price }}</span>
-                                                        <button class="btn  btn-orange">Add</button>
-                                                    </div>
-                                                    <div class="product-two-btn">
-                                                        <button type="button" data-Product-id="{{ $pro->id }}"
-                                                            data-type="{{ $pro->type }}"
-                                                            class="btn  popular-icon-btn addFavorite">
-                                                            <i
-                                                                class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                                            {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
+                                                <h6 class="popular-detail-title">{{ $pro->title }}
+                                                </h6>
 
 
-                                                        <button class="btn  popular-icon-btn"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                            </svg>
-                                                            Share</button>
-                                                    </div>
-
+                                                <div class="price-btn">
+                                                    <span class="price">${{ $pro->price }}</span>
+                                                    <button class="btn add_to_cart btn-orange"
+                                                        {{ isInCart($pro->id) ? 'disabled' : '' }}
+                                                        onclick="addToCart({{ $pro->id }}, this)">
+                                                        {{ isInCart($pro->id) ? 'Added to Cart' : 'Add to Cart' }}</button>
                                                 </div>
+                                                <div class="product-two-btn">
+                                                    <button type="button" data-Product-id="{{ $pro->id }}"
+                                                        data-type="{{ $pro->type }}"
+                                                        class="btn  popular-icon-btn addFavorite">
+                                                        <i
+                                                            class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                                        {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
+
+
+                                                    <button class="btn  popular-icon-btn"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-share"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                        </svg>
+                                                        Share</button>
+                                                </div>
+
                                             </div>
-                                        </a>
+                                        </div>
+
 
                                     </div>
                                 @endforeach
 
                         @endif
-                        </div>
                     </div>
+                </div>
 
-                    <div class="tab-pane fade" id="popular">
-                        <div class="row g-3">
-                            @if($popularProducts->isNotEmpty())
-                                @foreach ($popularProducts as $pro)
-                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                                        <a href="{{ route('product.detail', encrypt($pro->id)) }}">
-                                            <div class="product-card">
-                                                @if ($pro->type == 'image')
+                <div class="tab-pane fade" id="popular">
+                    <div class="row g-3">
+                        @if ($popularProducts->isNotEmpty())
+                            @foreach ($popularProducts as $pro)
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                    <a href="{{ route('product.detail', encrypt($pro->id)) }}">
+                                        <div class="product-card">
+                                            @if ($pro->type == 'image')
+                                                <img loading="lazy"
+                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
+                                                    class="product-img" alt="">
+                                            @else
+                                                @if ($pro->thumbnail_path == null)
                                                     <img loading="lazy"
-                                                        src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : '' }}"
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    @if ($pro->thumbnail_path == null)
-                                                        <img loading="lazy" src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                            class="product-img" alt="">
-                                                    @else
-                                                        <img loading="lazy" src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                            class="product-img" alt="">
-                                                    @endif
+                                                    <img loading="lazy"
+                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
+                                                        class="product-img" alt="">
                                                 @endif
-                                                <div class="p-3">
+                                            @endif
+                                            <div class="p-3">
 
-                                                    <span
-                                                        class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
+                                                <span
+                                                    class="badge badge-custom mb-2">{{ $pro->category->category_name ?? '' }}</span>
 
-                                                    <h6 class="popular-detail-title">{{ $pro->title }}
-                                                    </h6>
+                                                <h6 class="popular-detail-title">{{ $pro->title }}
+                                                </h6>
 
 
                                                     <div class="price-btn">
@@ -368,25 +383,47 @@
                                                     </div>
 
                                                 </div>
-                                            </div>
-                                        </a>
+                                                <div class="product-two-btn">
+                                                    <button type="button" data-Product-id="{{ $pro->id }}"
+                                                        data-type="{{ $pro->type }}"
+                                                        class="btn  popular-icon-btn addFavorite">
+                                                        <i
+                                                            class="bi {{ $pro->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                                        {{ $pro->is_favorite == 1 ? 'Saved' : 'Save' }} </button>
 
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
+
+                                                    <button class="btn  popular-icon-btn"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" class="bi bi-share"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                        </svg>
+                                                        Share</button>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </a>
+
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="col-12 text-center">
-                <a href="{{ route('all_photos') }}" class="brows-btn">Browse all content <svg
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-chevron-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                    </svg></a>
-            </div>
         </div>
+        <div class="col-12 text-center">
+            <a href="{{ route('all_photos') }}" class="brows-btn">Browse all content <svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-chevron-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                </svg></a>
+        </div>
+    </div>
     </div>
 </section>
 <section class="help_section hero-wrapper d-flex align-items-center justify-content-center">
@@ -594,7 +631,7 @@
     <div class="container ">
         <div class="row g-4 align-items-center">
 
-            @if(!empty($content_master))
+            @if (!empty($content_master))
                 <div class="col-lg-5">
                     <div class="heading">
                         <h2 class="section-title ">
@@ -606,7 +643,7 @@
                         {{ $content_master->sub_title }}
                     </p>
 
-                    @foreach($content_master->content as $section)
+                    @foreach ($content_master->content as $section)
                         <div class="feature-item">
                             <div class="feature-icon">
                                 {!! $section['svg'] ?? '' !!}
@@ -672,51 +709,51 @@
                         </a>
                     </div>
             @endif
-            </div>
+        </div>
 
-            <div class="col-lg-7">
-                @if ($testimonials->isNotEmpty())
-                    @foreach ($testimonials as $testimonial)
-                        <div class="testimonial-card">
-                            <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-quote h-8 w-8 text-primary/30 ">
-                                    <path
-                                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                    </path>
-                                    <path
-                                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                    </path>
-                                </svg></div>
-                            <div class="testimonial-text">
-                                {{ $testimonial->message }}
-                            </div>
-                            @php
-                                $name = trim($testimonial->name);
-                                $words = explode(' ', $name);
+        <div class="col-lg-7">
+            @if ($testimonials->isNotEmpty())
+                @foreach ($testimonials as $testimonial)
+                    <div class="testimonial-card">
+                        <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-quote h-8 w-8 text-primary/30 ">
+                                <path
+                                    d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                </path>
+                                <path
+                                    d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
+                                </path>
+                            </svg></div>
+                        <div class="testimonial-text">
+                            {{ $testimonial->message }}
+                        </div>
+                        @php
+                            $name = trim($testimonial->name);
+                            $words = explode(' ', $name);
 
-                                $initials = '';
+                            $initials = '';
 
-                                if (count($words) >= 2) {
-                                    $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
-                                } else {
-                                    $initials = strtoupper(substr($name, 0, 1));
-                                }
-                            @endphp
-                            <div class="testimonial-user">
-                                <div class="avatar">{{ $initials }}</div>
-                                <div class="user-info">
-                                    <strong>{{ $testimonial->name }}</strong>
-                                    <small>{{ $testimonial->designation }}</small>
-                                </div>
+                            if (count($words) >= 2) {
+                                $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                            } else {
+                                $initials = strtoupper(substr($name, 0, 1));
+                            }
+                        @endphp
+                        <div class="testimonial-user">
+                            <div class="avatar">{{ $initials }}</div>
+                            <div class="user-info">
+                                <strong>{{ $testimonial->name }}</strong>
+                                <small>{{ $testimonial->designation }}</small>
                             </div>
                         </div>
-                    @endforeach
-                @endif
-            </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
 
-            <!-- <div class="testimonial-card">
+        <!-- <div class="testimonial-card">
                     <div class="quote-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
@@ -741,7 +778,7 @@
                     </div>
                 </div> -->
 
-        </div>
+    </div>
     </div>
 
     </div>
@@ -750,7 +787,7 @@
 
 <section class="blog">
     <div class="container">
-        @if($blogs->isNotEmpty())
+        @if ($blogs->isNotEmpty())
             <div class="row g-3">
                 <div class="col-12">
                     <div class="blog-header">
@@ -773,8 +810,8 @@
                             </div>
                             <div class="p-3">
                                 <div class="blog-time">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-calendar" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                         <path
                                             d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
                                     </svg>
@@ -794,7 +831,8 @@
                                     <span> {{ $blog->author_name }}</span>
                                 </div>
                                 <h6 class="blog-title">{{ $blog->title }}</h6>
-                                <p class="blog-text">{{ \Illuminate\Support\Str::limit(strip_tags($blog->description), 100) }}
+                                <p class="blog-text">
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($blog->description), 100) }}
                                 </p>
                                 <a href="{{ route('blog_detail', ['id' => encrypt($blog->id)]) }}" class="brows-btn">
                                     Read Article

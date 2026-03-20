@@ -8,6 +8,7 @@ use App\Models\Collection;
 use App\Models\License_master;
 use App\Models\Product;
 use App\Models\Social_links;
+use App\Models\User_subscriptions;
 use Illuminate\Support\Facades\Auth;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -33,7 +34,6 @@ function formatPhoneByCountry($phone, $countryCode)
 
         // NATIONAL format = country-specific format
         return $phoneUtil->format($parsed, PhoneNumberFormat::NATIONAL);
-
     } catch (\Exception $e) {
         return $phone; // fallback to raw number
     }
@@ -47,7 +47,8 @@ function getCategory()
 {
     return Category::get();
 }
-function getSocialLinks(){
+function getSocialLinks()
+{
     return Social_links::first();
 }
 
@@ -75,6 +76,17 @@ function getHighProductQualityPrice()
         ->first();
 
     return $record ? $record->price : null;
+}
+
+
+function checkSubscription($user_id)
+{
+    $subscription = User_subscriptions::where('user_id', $user_id)
+        ->where('status', 'active')
+        ->where('end_date', '>', now())
+        ->first();
+
+    return $subscription;
 }
 
 function getCollections()

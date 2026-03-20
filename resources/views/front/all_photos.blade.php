@@ -97,16 +97,18 @@
 
             </div>
 
-          @if(!empty($trendingTags))
-            <div class="trending">
-                Trending:
-                @foreach ($trendingTags as $tags)
-                    <a
-                        href="{{$tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{$tags['tag']}}</a>@if(!$loop->last),@endif
-                @endforeach
-
-            </div>
-        @endif
+            @if (!empty($trendingTags))
+                <div class="trending">
+                    Trending:
+                    @foreach ($trendingTags as $tags)
+                        <a
+                            href="{{ $tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{ $tags['tag'] }}</a>
+                        @if (!$loop->last)
+                            ,
+                        @endif
+                    @endforeach
+                </div>
+            @endif
 
         </div>
     </section>
@@ -196,7 +198,8 @@
                             <div class="product-card">
 
                                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
-                                    <img loading="lazy" src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) :'' }}"
+                                    <img loading="lazy"
+                                        src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) : '' }}"
                                         class="product-img" alt="">
                                 </a>
 
@@ -210,8 +213,10 @@
                                     <div class="price-btn">
                                         <span class="price">${{ $photos->price }}</span>
                                         {{-- <button class="btn  btn-orange">Add</button> --}}
-                                        <a href="{{ route('product.detail', encrypt($photos->id)) }}"
-                                            class="btn btn-orange">Add</a>
+                                        <button type="button" {{ isInCart($photos->id) ? 'disabled' : '' }}
+                                            class="btn add_to_cart btn-orange"
+                                            onclick="addToCart({{ $photos->id }}, this)">
+                                            {{ isInCart($photos->id) ? 'Added to Cart' : 'Add to Cart' }}</button>
                                     </div>
                                     <div class="product-two-btn ">
                                         <button class="btn  popular-icon-btn addFavorite "

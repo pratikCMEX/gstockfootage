@@ -92,14 +92,16 @@
 
         </div>
 
-        @if(!empty($trendingTags))
+        @if (!empty($trendingTags))
             <div class="trending">
                 Trending:
                 @foreach ($trendingTags as $tags)
                     <a
-                        href="{{$tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{$tags['tag']}}</a>@if(!$loop->last),@endif
+                        href="{{ $tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{ $tags['tag'] }}</a>
+                    @if (!$loop->last)
+                        ,
+                    @endif
                 @endforeach
-
             </div>
         @endif
         <!-- <div class="trending">
@@ -917,8 +919,12 @@
                                             </a>
                                             <div class="price-btn">
                                                 <span class="price">${{ $video->price }}</span>
-                                                <a href="{{ route('product.detail', encrypt($video->id)) }}"
-                                                    class="btn btn-orange">Add</a>
+                                                {{-- <a href="{{ route('product.detail', encrypt($video->id)) }}"
+                                                    class="btn btn-orange">Add</a> --}}
+                                                <button type="button" {{ isInCart($video->id) ? 'disabled' : '' }}
+                                                    class="btn add_to_cart btn-orange"
+                                                    onclick="addToCart({{ $video->id }}, this)">
+                                                    {{ isInCart($video->id) ? 'Added to Cart' : 'Add to Cart' }}</button>
                                             </div>
                                             <div class="product-two-btn">
                                                 <button class="btn popular-icon-btn addFavorite"
