@@ -99,7 +99,7 @@ $(document).on("click", "#processPaymentBtn", function () {
     toastr.error("Please enter your email");
     return;
   }
-
+  $("#loader").css("display", "block");
   $.ajax({
     url: base_url + "/checkout/process",
     type: "POST",
