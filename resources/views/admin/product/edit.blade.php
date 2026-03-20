@@ -78,28 +78,28 @@
                             {{-- ================= NAME ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Product Name</label><label class="text-danger">*</label>
-                                <input type="text" name="name" class="form-control"
+                                <input type="text" name="name" class="form-control" placeholder="Enter product name"
                                     value="{{ $product->title }}">
                             </div>
 
                             {{-- ================= PRICE ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Price</label><label class="text-danger">*</label>
-                                <input type="text" name="price" class="form-control" value="{{ $product->price }}"
+                                <input type="text" name="price" class="form-control" value="{{ $product->price }}"  placeholder="Enter product price"
                                     oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                             </div>
 
                             {{-- ================= TAGS ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Tags</label>
-                                <input type="text" name="tags" class="form-control"
+                                <input type="text" name="tags" class="form-control"  placeholder="Enter product tags"
                                     value="{{ $product->keywords }}" data-role="tagsinput">
                             </div>
 
                             {{-- ================= DESCRIPTION ================= --}}
                             <div class="mb-3">
                                 <label class="form-label">Description</label><label class="text-danger">*</label>
-                                <textarea name="description" class="form-control" rows="3">{{ $product->description }}</textarea>
+                                <textarea name="description" class="form-control" rows="3"  placeholder="Enter product description">{{ $product->description }}</textarea>
                             </div>
 
                             {{-- ================= CURRENT FILE PREVIEW ================= --}}

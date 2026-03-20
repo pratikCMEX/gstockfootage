@@ -179,6 +179,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/order_history', [ReportsController::class, 'order_history'])->name('admin.order_history');
     // routes/web.php
     Route::get('/admin/order_detail/{id}', [ReportsController::class, 'detail'])->name('admin.order_detail');
+    Route::get('admin/user_subscriptions_list', [ReportsController::class, 'user_subscriptions_report'])->name('admin.user_subscriptions_report');
 
 
     Route::get('admin/content', [ContentMasterController::class, 'index'])->name('admin.content');
