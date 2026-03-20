@@ -234,10 +234,28 @@ class UserSubscriptionController extends Controller
 
     public function success(Request $request)
     {
-        // Don't insert here — webhook handles it reliably
-        // Just confirm to the user
-        return redirect()->route('pricing')
-            ->with('msg_success', 'Subscription activated successfully! It may take a moment to reflect.');
+        try {
+            Stripe::setApiKey(config('services.stripe.secret'));
+
+            if (!$request->session_id) {
+                return redirect()->route('pricing')
+                    ->with('msg_success', 'Payment successful! Subscription will activate shortly.');
+            }
+
+            $session = Session::retrieve($request->session_id);
+
+            if (!$session || $session->payment_status !== 'paid') {
+                return redirect()->route('pricing')
+                    ->with('msg_error', 'Payment verification failed.');
+            }
+
+            return redirect()->route('pricing')
+                ->with('msg_success', 'Subscription activated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Success page error: ' . $e->getMessage());
+            return redirect()->route('pricing')
+                ->with('msg_success', 'Payment received! Your subscription will activate shortly.');
+        }
     }
 
     public function cancelSubscription(Request $request)
