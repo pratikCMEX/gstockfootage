@@ -539,6 +539,10 @@ th .form-check-input:focus {
   border-color: var(--white) !important;
 }
 
+th .form-check-input {
+  border-color: var(--white) !important;
+}
+
 td .form-check-input {
   border-color: var(--secendory);
 }
