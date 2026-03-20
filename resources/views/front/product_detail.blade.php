@@ -171,7 +171,7 @@
                             </div>
                             <div class="tag-title">
                                 <p>Resolution</p>
-                                <h5>{{ $data['resolution'] }}</h5>
+                                <h5>{{ $data['resolution'] }} (H x W)</h5>
                             </div>
                         </div>
                         <div class="file-size-tag product-tag">
