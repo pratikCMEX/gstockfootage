@@ -879,13 +879,13 @@ class BatchController extends Controller
     public function generateAiContent(Request $request)
     {
         $request->validate(['img_url' => 'required|url']);
-        $geminiKey = 'AIzaSyB3cf2BvjadYjMUqT2jC9-D1wgUmTwSdD4';
+        $geminiKey = 'AIzaSyAbX98vVYVWAFHXNGSOGW7gjJIUaHX0UcY';
 
         // This asks Google: "What models can I actually use?"
         $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
         // $data = getModelList();
         // 1. USE YOUR ORIGINAL CLOUD KEY FOR VISION (The AIzaSyACDB... one)
-        $visionKey = 'AIzaSyB3cf2BvjadYjMUqT2jC9-D1wgUmTwSdD4';
+        $visionKey = 'AIzaSyC2K4E30GA60RYPUw2QI7ABH8c3y3zxNoY';
 
         // 2. USE YOUR AI STUDIO KEY FOR GEMINI (The AIzaSyB69Z... one from screenshot)
 
@@ -921,25 +921,48 @@ class BatchController extends Controller
 
 
         $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$geminiKey}";
-        $gResponse = Http::timeout(30) // 30 seconds is plenty for Flash
-            ->retry(2, 100) // Automatically retry once if it glitches
+
+        $gResponse = Http::timeout(60)
+            ->retry(2, 100)
             ->post($geminiUrl, [
-                'contents' => [
-                    ['parts' => [[
-                        'text' => "Task: Write a high-end, cinematic stock photo description for '{$subject}'.
-                        
-                        Requirements:
-                        - Length: Approximately 70 words.
-                        - Detail: Describe the specific lighting (like golden hour or soft rim lighting), the camera lens/perspective, and the fine textures.
-                        - Style: Professional and evocative.
-                        - Restriction: Start the text immediately. No intro, no 'Here is the description'."
-                    ]]]
-                ],
+                'contents' => [[
+                    'parts' => [
+                        // ── Send actual image ─────────────────
+                        [
+                            'inline_data' => [
+                                'mime_type' => 'image/jpeg',
+                                'data'      => $imageData,
+                            ]
+                        ],
+                        // ── Prompt ────────────────────────────
+                        [
+                            'text' => "Look at this image carefully and write a simple, clear, professional stock photo description.
+                            1. title: A short, overall title (2-3 words max) that describes the WHOLE scene, not just one object. Like a newspaper headline for the image.
+                            2. description: A simple, clear, professional stock photo description of exactly what is visible. 2-3 sentences, 50-60 words. No poetic language. Do NOT mention any watermark or logo.
+
+                            Rules For Description:
+                            - Describe ONLY what is actually visible in this image.
+                            - Use simple, easy to understand words. No poetic or dramatic language.
+                            - Mention the main subject, location, weather/sky, and mood.
+                            - Length: 2-3 sentences max (around 50-60 words).
+                            - Start directly. No intro like 'This image shows' or 'Here is'.
+                            
+                            
+                            
+                            Return ONLY raw JSON like:
+                            {\"title\": \"...\", \"description\": \"...\"}
+                            No markdown, no explanation, nothing else.
+                            "
+
+
+                        ]
+                    ]
+                ]],
                 'generationConfig' => [
-                    'temperature' => 0.9,
-                    'maxOutputTokens' => 1500, // ← increase from 600 to 1500
-                    'topP' => 0.95,
-                    'topK' => 40,
+                    'temperature'     => 0.7, // ← lower = more factual, less creative
+                    'maxOutputTokens' => 1500,
+                    'topP'            => 0.95,
+                    'topK'            => 40,
                 ]
             ]);
         // dd($gResponse->json());
@@ -953,14 +976,29 @@ class BatchController extends Controller
             ], 404);
         }
 
-        $aiDescription = data_get($gResponse->json(), 'candidates.0.content.parts.0.text');
+        // $aiDescription = data_get($gResponse->json(), 'candidates.0.content.parts.0.text');
+
+        // return response()->json([
+        //     'status' => true,
+        //     'data' => [
+        //         'title' => ucfirst($subject),
+        //         'description' => trim($aiDescription),
+        //         'tags' => $labels->take(10)->join(', ')
+        //     ]
+        // ]);
+
+        $raw = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
+
+        // ── Strip markdown fences if any ─────────────────────
+        $clean = preg_replace('/```json|```/', '', $raw);
+        $parsed = json_decode(trim($clean), true);
 
         return response()->json([
             'status' => true,
-            'data' => [
-                'title' => ucfirst($subject),
-                'description' => trim($aiDescription),
-                'tags' => $labels->take(10)->join(', ')
+            'data'   => [
+                'title'       => ucfirst($parsed['title']       ?? $subject),
+                'description' => trim($parsed['description']    ?? $raw),
+                'tags'        => $labels->take(10)->join(', '),
             ]
         ]);
     }

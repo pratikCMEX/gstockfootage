@@ -518,6 +518,9 @@ function loadImageMetadata(file_id) {
       // 2. Re-check only the saved ones
       // res.content_filters is already a JS array because Laravel
       // returns JSON and the model casts it as array
+
+      $(".generate-ai").prop("disabled", false).text("Generate AI Content");
+
       if (res.content_filters && res.content_filters.length > 0) {
         res.content_filters.forEach(function (value) {
           $("input[name='content_filters[]'][value='" + value + "']").prop(
@@ -541,7 +544,7 @@ $(document).on("click", ".generate-ai", function () {
   let imgUrl = btn.data("img");
 
   btn.prop("disabled", true).text("Generating...");
-
+  $("#loader").css("display", "flex");
   $.ajax({
     url: base_url + "/generate-ai-content",
     type: "POST",
@@ -549,24 +552,36 @@ $(document).on("click", ".generate-ai", function () {
       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
     },
     data: { img_url: imgUrl },
+
     success: function (res) {
-      console.log(res);
-      return;
+      // console.log(res);
+      // return;
       if (res.status === true) {
-        $("#ai_title").val(res.data.title);
-        $("#ai_name").val(res.data.name);
-        $("#ai_description").val(res.data.description);
-        $("#ai_tags").val(res.data.tags);
+        $("input[name='title']").val(res.data.title);
+        $("#description").val(res.data.description);
+
+        $("#tags").tagsinput("removeAll");
+        if (res.data.tags) {
+          let tags = res.data.tags.split(",");
+          tags.forEach(function (tag) {
+            $("#tags").tagsinput("add", tag.trim());
+          });
+          updateKeywordCount();
+        }
+        // $("#ai_tags").val(res.data.tags);
 
         btn.text("Generated ✓");
+        $("#loader").css("display", "none");
       } else {
         toastr.warning(res.message);
         btn.prop("disabled", false).text("Generate AI Content");
+        $("#loader").css("display", "none");
       }
     },
     error: function () {
       toastr.error("Something went wrong.");
       btn.prop("disabled", false).text("Generate AI Content");
+      $("#loader").css("display", "none");
     },
   });
 });
