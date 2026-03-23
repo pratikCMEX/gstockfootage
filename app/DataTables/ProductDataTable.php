@@ -82,8 +82,8 @@ class ProductDataTable extends DataTable
 
                 return '<div class="product-img-video video-thumbnail-wrapper position-relative d-inline-block">  
                             <img src="' . $thumbnail . '" 
-                            width="100" height="100" 
-                            class="video-thumbnail rounded cursor-pointer" 
+                         
+                            class="video-thumbnail  cursor-pointer" 
                             data-video="' . $videoUrl . '" 
                             alt="Video Thumbnail">
                               <i class="ti ti-player-play play-icon video-thumbnail" data-video="' . $videoUrl . '" ></i>
