@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutUsController;
+use App\Http\Controllers\Admin\AffiliateController;
+use App\Http\Controllers\Admin\AffiliateSettingController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BatchController;
@@ -207,6 +209,23 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
 
     Route::get('admin/userplan', [PlanController::class, 'index'])->name('admin.userplan');
     Route::get('admin/userplan_delete', [PlanController::class, 'delete'])->name('admin.userplan_delete');
+
+    // In routes/web.php inside admin middleware group
+    Route::get('admin/affiliate-setting', [AffiliateSettingController::class, 'index'])
+        ->name('admin.affiliate.setting');
+
+    Route::post('admin/affiliate-setting/update', [AffiliateSettingController::class, 'update'])
+        ->name('admin.affiliate.setting.update');
+
+    Route::get('admin/affiliates', [AffiliateController::class, 'index'])->name('admin.affiliates.list');
+    Route::get('admin/affiliates/create', [AffiliateController::class, 'create'])->name('admin.affiliates.create');
+    Route::post('admin/affiliates/store', [AffiliateController::class, 'store'])->name('admin.affiliates.store');
+    Route::get('admin/affiliates/{id}/edit', [AffiliateController::class, 'edit'])->name('admin.affiliates.edit');
+    Route::put('admin/affiliates/{id}/update', [AffiliateController::class, 'update'])->name('admin.affiliates.update');
+    // Route::post('admin/affiliates/{id}/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
+     Route::post('admin/affiliates/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
+    // Route::delete('admin/affiliates/{id}/delete', [AffiliateController::class, 'destroy'])->name('admin.affiliates.destroy');
+    Route::post('admin/affiliates/delete', [AffiliateController::class, 'destroy'])->name('admin.affiliates.delete');
 });
 
 Route::get('admin/', [AuthAdmin::class, 'showLogin'])

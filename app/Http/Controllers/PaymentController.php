@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\OrderReceiptMail;
 use App\Models\BatchFile;
+use App\Services\AffiliateService;
 use Illuminate\Http\Request;
 
 use Stripe\Stripe;
@@ -339,42 +340,44 @@ class PaymentController extends Controller
             ->first();
         if ($subscription && $subscription->remaining_clips > 0) {
 
-            $cartItems     = array_values($cart['items']);
+            $cartItems = array_values($cart['items']);
             $cartItemCount = count($cartItems);
             $remainingClips = $subscription->remaining_clips;
 
             // ── How many can subscription cover ──
             $coveredCount = min($remainingClips, $cartItemCount);
-            $paidCount    = $cartItemCount - $coveredCount;
+            $paidCount = $cartItemCount - $coveredCount;
 
             $subscriptionItems = array_slice($cartItems, 0, $coveredCount);
-            $paymentItems      = array_slice($cartItems, $coveredCount);
+            $paymentItems = array_slice($cartItems, $coveredCount);
 
             $files = [];
 
             // ── Process subscription items ──
             if ($coveredCount > 0) {
 
-                $subscription->used_clips      += $coveredCount;
+                $subscription->used_clips += $coveredCount;
                 $subscription->remaining_clips -= $coveredCount;
                 $subscription->save();
 
                 $order = Order::create([
-                    'user_id'           => $user->id,
-                    'order_number'      => 'ORD-' . strtoupper(uniqid()),
-                    'total_amount'      => collect($subscriptionItems)->sum(fn($i) => $i['price'] * $i['qty']),
+                    'user_id' => $user->id,
+                    'order_number' => 'ORD-' . strtoupper(uniqid()),
+                    'total_amount' => collect($subscriptionItems)->sum(fn($i) => $i['price'] * $i['qty']),
                     'stripe_session_id' => null,
-                    'email'             => $user->email,
-                    'payment_status'    => 'paid',
-                    'order_status'      => 'completed',
+                    'email' => $user->email,
+                    'payment_status' => 'paid',
+                    'order_status' => 'completed',
                 ]);
 
+             
+                
                 foreach ($subscriptionItems as $item) {
                     OrderDetail::create([
-                        'order_id'   => $order->id,
+                        'order_id' => $order->id,
                         'product_id' => $item['id'],
-                        'price'      => $item['price'],
-                        'qty'        => $item['qty'],
+                        'price' => $item['price'],
+                        'qty' => $item['qty'],
                     ]);
 
                     $file = BatchFile::where('id', $item['id'])
@@ -385,7 +388,7 @@ class PaymentController extends Controller
                         $files[] = [
                             'file_name' => $file->file_name,
                             'file_path' => $file->file_path,
-                            'title'     => $file->title,
+                            'title' => $file->title,
                         ];
                     }
 
@@ -407,9 +410,9 @@ class PaymentController extends Controller
             if ($paidCount === 0) {
                 Cart::where('user_id', $user->id)->delete();
                 return response()->json([
-                    'status'    => 'subscription',
+                    'status' => 'subscription',
                     'img_paths' => $files,
-                    'message'   => 'All items downloaded via subscription.',
+                    'message' => 'All items downloaded via subscription.',
                 ]);
             }
 
@@ -418,7 +421,7 @@ class PaymentController extends Controller
 
             // ── Remove subscription items from cart, keep only paid items ──
             // Store partial cart for Stripe webhook
-            $partialCart          = $cart;
+            $partialCart = $cart;
             $partialCart['items'] = array_values($paymentItems);
 
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
@@ -427,9 +430,9 @@ class PaymentController extends Controller
             foreach ($paymentItems as $item) {
                 $lineItems[] = [
                     'price_data' => [
-                        'currency'     => 'usd',
+                        'currency' => 'usd',
                         'product_data' => ['name' => $item['title']],
-                        'unit_amount'  => $item['price'] * 100,
+                        'unit_amount' => $item['price'] * 100,
                     ],
                     'quantity' => $item['qty'],
                 ];
@@ -438,22 +441,22 @@ class PaymentController extends Controller
             $token = Str::random(32);
             $session = \Stripe\Checkout\Session::create([
                 'payment_method_types' => ['card'],
-                'customer_email'       => $request->email,
-                'line_items'           => $lineItems,
-                'mode'                 => 'payment',
-                'success_url'          => route('checkout.success') . '?token=' . $token,
-                'cancel_url'           => route('checkout.cancel'),
+                'customer_email' => $request->email,
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => route('checkout.success') . '?token=' . $token,
+                'cancel_url' => route('checkout.cancel'),
             ]);
 
             Cache::put('stripe_token_' . $token, $session->id, now()->addHours(2));
             Cache::put('stripe_cart_' . $session->id, $partialCart, now()->addHours(24));
 
             return response()->json([
-                'status'           => 'mixed',
-                'id'               => $session->id,
-                'img_paths'        => $files,
-                'covered_count'    => $coveredCount,
-                'paid_count'       => $paidCount,
+                'status' => 'mixed',
+                'id' => $session->id,
+                'img_paths' => $files,
+                'covered_count' => $coveredCount,
+                'paid_count' => $paidCount,
                 'paid_item_titles' => $paidItemTitles,
             ]);
         }
@@ -483,7 +486,7 @@ class PaymentController extends Controller
             'line_items' => $lineItems,
             'mode' => 'payment',
             // 'success_url' => route('checkout.success'),
-            'success_url'          => route('checkout.success') . '?token=' . $token,
+            'success_url' => route('checkout.success') . '?token=' . $token,
 
             'cancel_url' => route('checkout.cancel'),
         ]);
@@ -535,14 +538,14 @@ class PaymentController extends Controller
             }
 
             $s3Client = \Storage::disk('s3')->getClient();
-            $bucket   = config('filesystems.disks.s3.bucket');
+            $bucket = config('filesystems.disks.s3.bucket');
 
-            $result   = $s3Client->getObject([
+            $result = $s3Client->getObject([
                 'Bucket' => $bucket,
-                'Key'    => $filePath,
+                'Key' => $filePath,
             ]);
 
-            $body     = $result['Body'];
+            $body = $result['Body'];
             $fileSize = $result['ContentLength'];
 
             header('Content-Type: application/octet-stream');
@@ -565,7 +568,7 @@ class PaymentController extends Controller
         // Called with ?sid=...&fid=...
         // -------------------------------------------------------
         $sessionId = $request->query('sid');
-        $fileId    = $request->query('fid');
+        $fileId = $request->query('fid');
 
         if (!$sessionId || !$fileId) {
             abort(400, 'Missing parameters');
@@ -604,14 +607,14 @@ class PaymentController extends Controller
         }
 
         $s3Client = Storage::disk('s3')->getClient();
-        $bucket   = config('filesystems.disks.s3.bucket');
+        $bucket = config('filesystems.disks.s3.bucket');
 
-        $result   = $s3Client->getObject([
+        $result = $s3Client->getObject([
             'Bucket' => $bucket,
-            'Key'    => $file->file_path,
+            'Key' => $file->file_path,
         ]);
 
-        $body     = $result['Body'];
+        $body = $result['Body'];
         $fileSize = $result['ContentLength'];
         $fileName = $file->file_name;
 
@@ -632,7 +635,8 @@ class PaymentController extends Controller
 
     public function downloadZip(Request $request)
     {
-        while (ob_get_level()) ob_end_clean();
+        while (ob_get_level())
+            ob_end_clean();
 
         $files = $request->input('files', []);
 
@@ -666,7 +670,8 @@ class PaymentController extends Controller
             $path = $file['path'] ?? null;
             $name = $file['name'] ?? basename($path);
 
-            if (!$path) continue;
+            if (!$path)
+                continue;
 
             try {
                 $contents = Storage::disk('s3')->get($path);
@@ -686,7 +691,7 @@ class PaymentController extends Controller
         }
 
         return response()->download($zipPath, $zipName, [
-            'Content-Type'        => 'application/zip',
+            'Content-Type' => 'application/zip',
             'Content-Disposition' => 'attachment; filename="' . $zipName . '"',
         ])->deleteFileAfterSend(true);
     }
@@ -851,8 +856,8 @@ class PaymentController extends Controller
 
             if ($file) {
                 $files[] = [
-                    'file_name'    => $file->file_name,
-                    'file_path'    => $file->file_path,
+                    'file_name' => $file->file_name,
+                    'file_path' => $file->file_path,
                     'download_url' => url('/download/file')
                         . '?path=' . urlencode($file->file_path)
                         . '&name=' . urlencode($file->file_name),
@@ -862,7 +867,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'status' => 'ready',
-            'files'  => $files,
+            'files' => $files,
         ]);
     }
 }
