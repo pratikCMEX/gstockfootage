@@ -148,7 +148,16 @@ $(document).ready(function () {
             address: {
 
                 minlength: 10
-            }
+            },
+            commission_type: {
+                required: true,
+
+            },
+            commission_value: {
+                required: true,
+
+            },
+
 
         },
 
@@ -173,7 +182,13 @@ $(document).ready(function () {
             address: {
 
                 minlength: "Address must be at least 10 characters"
-            }
+            },
+            commission_type: {
+                required: 'Please select commission type',
+            },
+            commission_value: {
+                required: 'Please enter commission value',
+            },
         },
         errorClass: 'text-danger',
         errorElement: 'span',
@@ -216,7 +231,7 @@ $(document).ready(function () {
             toastr.success('Referral link copied!');
         });
     });
-    
+
     $(document).on("click", ".deleteAffiliateUser", function () {
 
         var id = $(this).data("id");

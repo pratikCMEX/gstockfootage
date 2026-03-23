@@ -65,7 +65,7 @@ class AffiliateDataTable extends DataTable
             ->orderColumn('user_name', "(SELECT CONCAT(first_name, ' ', last_name) FROM affiliate_users WHERE affiliate_users.id = affiliates.affiliate_user_id) $1")
             ->orderColumn('email', "(SELECT email FROM affiliate_users WHERE affiliate_users.id = affiliates.affiliate_user_id) $1")
             ->orderColumn('total_earnings', 'total_earnings $1')
-            ->orderColumn('total_orders', 'total_orders $1')
+            ->orderColumn('total_referrals', 'total_referrals $1')
             ->orderColumn('referral_code', 'referral_code $1')
             ->orderColumn('status', 'status $1')
 
@@ -145,8 +145,8 @@ class AffiliateDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
 
-            Column::make('total_orders')
-                ->title('Total Orders'),
+            Column::make('total_referrals')
+                ->title('Total Refferal'),
 
             Column::make('total_earnings')
                 ->title('Total Earnings'),

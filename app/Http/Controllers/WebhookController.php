@@ -102,7 +102,7 @@ class WebhookController extends Controller
             return;
         }
 
-        // ✅ Prevent duplicate processing (VERY IMPORTANT)
+        //  Prevent duplicate processing (VERY IMPORTANT)
         if (Order::where('stripe_session_id', $session->id)->exists()) {
             Log::warning('⚠️ Duplicate webhook ignored', ['session_id' => $session->id]);
             return;
@@ -120,7 +120,7 @@ class WebhookController extends Controller
         try {
             $user = User::where('email', $session->customer_email)->first();
 
-            // ✅ Create order
+            //  Create order
             $order = Order::create([
                 'user_id' => $user?->id,
                 'order_number' => 'ORD-' . strtoupper(uniqid()),
@@ -147,7 +147,7 @@ class WebhookController extends Controller
             }
 
             // =========================================================
-            // ✅ CLIP DEDUCTION (FIXED PROPERLY)
+            //  CLIP DEDUCTION (FIXED PROPERLY)
             // =========================================================
 
             if ($user) {
@@ -175,7 +175,7 @@ class WebhookController extends Controller
 
                     } else {
 
-                        // ✅ Atomic update (NO race condition)
+                        //  Atomic update (NO race condition)
                         $affected = User_subscriptions::where('id', $activeSubscription->id)
                             ->where('remaining_clips', '>=', $totalQty)
                             ->update([
@@ -187,7 +187,7 @@ class WebhookController extends Controller
                             throw new \Exception('Clip deduction failed due to race condition');
                         }
 
-                        Log::info('✅ Clips deducted safely', [
+                        Log::info(' Clips deducted safely', [
                             'user_id' => $user->id,
                             'qty' => $totalQty,
                         ]);
@@ -200,7 +200,7 @@ class WebhookController extends Controller
             }
 
             // =========================================================
-            // ✅ CLEAR CART (AFTER SUCCESS)
+            //  CLEAR CART (AFTER SUCCESS)
             // =========================================================
 
             if ($user) {
@@ -212,7 +212,7 @@ class WebhookController extends Controller
             DB::commit();
 
             // =========================================================
-            // ✅ SEND EMAIL (AFTER COMMIT)
+            //  SEND EMAIL (AFTER COMMIT)
             // =========================================================
 
             try {
@@ -244,7 +244,7 @@ class WebhookController extends Controller
             'metadata' => (array) $stripeSub->metadata,
         ]);
 
-        // ✅ Always retrieve fresh — webhook object timestamps can be null
+        //  Always retrieve fresh — webhook object timestamps can be null
         try {
             $freshSub = \Stripe\Subscription::retrieve([
                 'id' => $stripeSub->id,
@@ -315,7 +315,7 @@ class WebhookController extends Controller
                 'status' => 'active',
             ]);
 
-            Log::info('✅ Subscription CREATED in DB', [
+            Log::info(' Subscription CREATED in DB', [
                 'user_id' => $userId,
                 'plan_id' => $planId,
                 'start_date' => $startDate->toDateTimeString(),
@@ -348,7 +348,7 @@ class WebhookController extends Controller
 
         $dbSub->update($updateData);
 
-        Log::info('✅ Subscription UPDATED in DB', [
+        Log::info(' Subscription UPDATED in DB', [
             'stripe_sub_id' => $freshSub->id,
             'start_date' => $startDate->toDateTimeString(),
             'end_date' => $endDate->toDateTimeString(),
@@ -374,7 +374,7 @@ class WebhookController extends Controller
             return;
         }
 
-        // ✅ Fresh retrieve for accurate timestamps
+        //  Fresh retrieve for accurate timestamps
         try {
             $freshSub = \Stripe\Subscription::retrieve($stripeSubId);
         } catch (\Exception $e) {
@@ -411,7 +411,7 @@ class WebhookController extends Controller
             'status' => 'active',
         ]);
 
-        Log::info('✅ Subscription RENEWED in DB', [
+        Log::info(' Subscription RENEWED in DB', [
             'stripe_sub_id' => $stripeSubId,
             'start_date' => $startDate->toDateTimeString(),
             'end_date' => $endDate->toDateTimeString(),

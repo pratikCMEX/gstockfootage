@@ -182,6 +182,7 @@ class AuthController extends Controller
             'role' => '0',
             'referred_by' => $referralCode ?? null,
         ]);
+
         Cookie::queue(Cookie::forget('referral_code'));
         event(new Registered($user)); // sends verification email
 

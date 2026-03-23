@@ -117,13 +117,23 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="form-label">Status <span class="text-danger">*</span></label>
-                                <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                    <option value="active" {{ old('status', $affiliate->status) === 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive" {{ old('status', $affiliate->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
-                                </select>
-                                @error('status')
+                              <div class="mb-3">
+                                <label class="form-label">Commision Type <span class="text-danger">*</span></label>
+                               <select name="commission_type" id="commission_type" class="form-select" @error('commission_type') is-invalid @enderror>
+                                <option value="">Select Commission Type</option>
+                                <option value="fixed" {{  $affiliate->commission_type == 'fixed' ? 'selected':'' }}>Fix</option>
+                                <option value="percentage" {{  $affiliate->commission_type == 'percentage' ? 'selected':'' }}>Percentage</option>
+                               </select>
+                                @error('commission_type')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            
+                              <div class="mb-3">
+                                <label class="form-label">Commission Value <span class="text-danger">*</span></label>
+                                <input type="text" name="commission_value" class="form-control @error('commission_value') is-invalid @enderror"
+                                    placeholder="Enter commission value" value="{{ old('commission_value', $affiliate->commission_value) }}">
+                                @error('commission_value')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
