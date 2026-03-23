@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AffiliateReferral extends Model
 {
-   protected $fillable = [
+    protected $fillable = [
         'affiliate_id',
         'user_id',
         'order_id',
@@ -14,7 +14,7 @@ class AffiliateReferral extends Model
         'commission_amount',
         'status',
     ];
-     public function affiliate()
+    public function affiliate()
     {
         return $this->belongsTo(Affiliate::class);
     }

@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Affiliate extends Model
 {
-    protected $fillable = [
-        'affiliate_user_id', // ✅ updated
-        'referral_code',
-        'total_earnings',
-        'total_orders',
-        'status',
-    ];
+   protected $fillable = [
+    'affiliate_user_id',
+    'referral_code',
+    'commission_type',
+    'commission_value',
+    'total_earnings',
+    'total_referrals',
+    'status',
+];
     public function affiliateUser()
     {
         return $this->belongsTo(AffiliateUser::class, 'affiliate_user_id');

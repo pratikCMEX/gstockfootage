@@ -43,6 +43,8 @@ class AffiliateController extends Controller
             'email' => 'required|email|unique:affiliate_users,email',
             'password' => 'required|min:6',
             'address' => 'min:10',
+            'commission_type' => 'required|in:fixed,percentage',
+            'commission_value' => 'required|numeric|min:0',
 
         ], [
             'first_name.required' => 'Please enter first name',
@@ -51,7 +53,11 @@ class AffiliateController extends Controller
             'email.unique' => 'This email is already registered',
             'password.required' => 'Please enter password',
             'password.min' => 'Password must be at least 6 characters',
-            'address.min' => 'Address should be minimum 10 character'
+            'address.min' => 'Address should be minimum 10 character',
+            'commission_type.required' => 'Please select commission type',
+            'commission_value.required' => 'Please enter commission value',
+            'commission_value.numeric' => 'Please enter valid number',
+            'commission_value.min' => 'Value must be 0 or greater',
         ]);
 
         DB::beginTransaction();
@@ -75,6 +81,9 @@ class AffiliateController extends Controller
             Affiliate::create([
                 'affiliate_user_id' => $affiliateUser->id,
                 'referral_code' => $referralCode,
+                'commission_type' => $request->commission_type,
+                'commission_value' => $request->commission_value,
+                'status' => 'active',
             ]);
 
             DB::commit();
@@ -97,7 +106,7 @@ class AffiliateController extends Controller
         $page = 'admin.affiliate.edit';
         $js = ['affiliate'];
         $affiliate = Affiliate::with('affiliateUser')->findOrFail($id);
-       
+
         return view('layouts.admin.layout', compact('title', 'page', 'js', 'affiliate'));
 
     }
@@ -111,6 +120,8 @@ class AffiliateController extends Controller
             'email' => 'required|email|unique:affiliate_users,email,' . $affiliate->affiliate_user_id,
             'address' => 'nullable|min:10',
             'password' => 'nullable|min:6',
+            'commission_type' => 'required|in:fixed,percentage',
+            'commission_value' => 'required|numeric|min:0',
         ], [
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
@@ -118,6 +129,10 @@ class AffiliateController extends Controller
             'email.unique' => 'This email is already registered',
             'address.min' => 'Address must be at least 10 characters',
             'password.min' => 'Password must be at least 6 characters',
+            'commission_type.required' => 'Please select commission type',
+            'commission_value.required' => 'Please enter commission value',
+            'commission_value.numeric' => 'Please enter valid number',
+            'commission_value.min' => 'Value must be 0 or greater',
         ]);
 
         DB::beginTransaction();
@@ -138,6 +153,10 @@ class AffiliateController extends Controller
             }
 
             $affiliate->affiliateUser->update($userData);
+            $affiliate->update([
+                'commission_type' => $request->commission_type,  
+                'commission_value' => $request->commission_value,  
+            ]);
 
             DB::commit();
 
@@ -172,20 +191,20 @@ class AffiliateController extends Controller
     }
     public function destroy(Request $request)
     {
-        
+
         try {
             DB::beginTransaction();
             $id = decrypt($request->id);
             $affiliate = Affiliate::findOrFail($id);
             $affiliate->delete();
-                DB::commit();
+            DB::commit();
 
             return response()->json([
-                    'success' => true,
-                    'message' => 'Affiliate User deleted successfully'
-                ]);
+                'success' => true,
+                'message' => 'Affiliate User deleted successfully'
+            ]);
         } catch (\Exception $e) {
-           DB::rollBack();
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Affiliate User not deleted'
