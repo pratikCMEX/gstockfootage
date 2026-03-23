@@ -488,6 +488,7 @@ table tbody td .form-check {
 .product-img-video {
   height: 100px;
   width: 100%;
+  min-width: 100px;
 }
 .product-img-video img {
   width: 100%;
