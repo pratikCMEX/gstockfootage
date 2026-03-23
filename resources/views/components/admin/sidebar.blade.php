@@ -80,7 +80,8 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions', 'add_subscription', 'edit_subscription']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.subscriptions') }}" aria-expanded="false">
-                        <i class="fa-solid fa-square-rss"></i>
+                        {{-- <i class="fa-solid fa-square-rss"></i> --}}
+                        <i class="fa-regular fa-rectangle-list"></i>
                         <span class="hide-menu">Subscriptions</span>
                     </a>
                 </li>
@@ -89,6 +90,8 @@
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['user_subscriptions', 'add_user_subscription', 'edit_user_subscription']) ? 'active  ' : '' }} side-item"
                         href="{{ route('admin.user_subscriptions_report') }}" aria-expanded="false">
                         <i class="fa-solid fa-id-card"></i>
+                        {{-- <image src="{{ asset('assets/admin/img/Subscription Manager.png') }}" width="20px"
+                            height="20px" alt=""> --}}
                         <span class="hide-menu">Users Subscriptions</span>
                     </a>
                 </li>
