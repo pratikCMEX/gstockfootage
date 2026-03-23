@@ -31,8 +31,6 @@ a {
   text-decoration: none;
 }
 
-
-
 /* orange btn */
 .btn-orange {
   background: var(--primary) !important;
@@ -557,4 +555,7 @@ table.dataTable thead th {
 
 #license-table thead tr th[title="Most Popular"] {
   width: 90px !important;
+}
+.form-select {
+  padding: 12px 58px 12px 22px;
 }
