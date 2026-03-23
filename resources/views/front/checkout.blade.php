@@ -1,4 +1,3 @@
-{{-- {{ dd($cartItems, $total) }} --}}
 <section class="checkout">
     <div class="container">
         <div class="row">
@@ -49,8 +48,9 @@
                                                     </h5>
                                                     <p>${{ $item->product->price }}</p>
                                                 </div>
-                                                @if ($item->product->type == '0')
-                                                    <p>{{ $item->product->height }} x {{ $item->product->width }}</p>
+                                                @if ($item->product->height != '' && $item->product->width != '')
+                                                    <p>{{ $item->product->height }} x {{ $item->product->width }} (H x
+                                                        W)</p>
                                                 @else
                                                     <p>HD Quality</p>
                                                 @endif
