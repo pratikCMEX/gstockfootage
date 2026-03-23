@@ -130,14 +130,14 @@ class UsersDataTable extends DataTable
             ->selectStyleSingle()
             ->parameters([
                 'language' => [
-                    'emptyTable'  => 'No user plans found',
-                    'info'        => 'Showing _START_ to _END_ of _TOTAL_ user plans',
-                    'infoEmpty'   => 'Showing 0 user plans',
-                    'infoFiltered' => '(filtered from _MAX_ total user plans)',
-                    'lengthMenu'  => 'Show _MENU_ user plans',
-                    'search'      => 'Search user plan:',
-                    'zeroRecords' => 'No matching user plans found',
-                    'processing'  => 'Loading user plans...',
+                    'emptyTable'  => 'No user  found',
+                    'info'        => 'Showing _START_ to _END_ of _TOTAL_ user ',
+                    'infoEmpty'   => 'Showing 0 user ',
+                    'infoFiltered' => '(filtered from _MAX_ total user )',
+                    'lengthMenu'  => 'Show _MENU_ user ',
+                    'search'      => 'Search user :',
+                    'zeroRecords' => 'No matching user  found',
+                    'processing'  => 'Loading user ...',
                     'paginate'    => [
                         'first'    => 'First',
                         'last'     => 'Last',
