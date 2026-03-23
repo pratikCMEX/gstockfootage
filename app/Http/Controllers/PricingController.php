@@ -49,6 +49,8 @@ class PricingController extends Controller
 
             $currentPrice = $activeSubscription?->subscription?->price ?? 0;
         }
+        $currentPrice =  0;
+
 
         $subscriptionPlanList = Subscription_plans::where('is_active', '1')
             ->orderBy('price', 'asc')
