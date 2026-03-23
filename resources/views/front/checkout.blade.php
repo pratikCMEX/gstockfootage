@@ -45,7 +45,7 @@
                                             <div class="add-product-detail">
                                                 <div class="checkout-title-price">
                                                     <h5>
-                                                        {{ $item->product->name }}
+                                                        {{ $item->product->title }}
                                                     </h5>
                                                     <p>${{ $item->product->price }}</p>
                                                 </div>
