@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'affiliate' => [
+            'driver' => 'session',
+            'provider' => 'affiliate_users',
+        ],
 
         'admin' => [
             'driver' => 'session',

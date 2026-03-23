@@ -34,6 +34,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 @if (isset($js))
     @foreach ($js as $value)
         <script src="{{ asset('assets/admin') }}/js/{{ $value }}.js"></script>

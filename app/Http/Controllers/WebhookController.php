@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Cart;
 use App\Models\Subscription_plans;
 use App\Models\User_subscriptions;
+use App\Services\AffiliateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -24,9 +25,9 @@ class WebhookController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payload   = $request->getContent();
+        $payload = $request->getContent();
         $sigHeader = $request->server('HTTP_STRIPE_SIGNATURE');
-        $secret    = config('services.stripe.webhook_secret');
+        $secret = config('services.stripe.webhook_secret');
 
         Log::info('🔥 Webhook received', ['payload_length' => strlen($payload)]);
 
@@ -84,10 +85,10 @@ class WebhookController extends Controller
     private function handleCheckoutCompleted($session)
     {
         Log::info('handleCheckoutCompleted called', [
-            'session_id'     => $session->id,
+            'session_id' => $session->id,
             'payment_status' => $session->payment_status,
-            'mode'           => $session->mode,
-            'email'          => $session->customer_email,
+            'mode' => $session->mode,
+            'email' => $session->customer_email,
         ]);
 
         // ── Subscription checkout skip ──
@@ -121,21 +122,23 @@ class WebhookController extends Controller
 
             // ✅ Create order
             $order = Order::create([
-                'user_id'           => $user?->id,
-                'order_number'      => 'ORD-' . strtoupper(uniqid()),
-                'total_amount'      => $session->amount_total / 100,
+                'user_id' => $user?->id,
+                'order_number' => 'ORD-' . strtoupper(uniqid()),
+                'total_amount' => $session->amount_total / 100,
                 'stripe_session_id' => $session->id,
-                'email'             => $session->customer_email,
-                'payment_status'    => 'paid',
-                'order_status'      => 'completed',
+                'email' => $session->customer_email,
+                'payment_status' => 'paid',
+                'order_status' => 'completed',
             ]);
+
+            app(AffiliateService::class)->processCommission($order);
 
             foreach ($cartData['items'] as $item) {
                 OrderDetail::create([
-                    'order_id'   => $order->id,
+                    'order_id' => $order->id,
                     'product_id' => $item['id'],
-                    'price'      => $item['price'],
-                    'qty'        => $item['qty'],
+                    'price' => $item['price'],
+                    'qty' => $item['qty'],
                 ]);
                 BatchFile::where('id', $item['id'])
                     ->increment('downloads', $item['qty'] ?? 1);
@@ -162,9 +165,9 @@ class WebhookController extends Controller
                     if ($activeSubscription->remaining_clips < $totalQty) {
 
                         Log::warning('❌ Not enough clips', [
-                            'user_id'   => $user->id,
+                            'user_id' => $user->id,
                             'remaining' => $activeSubscription->remaining_clips,
-                            'needed'    => $totalQty,
+                            'needed' => $totalQty,
                         ]);
 
                         // ❗ Optional: rollback if clips are required
@@ -176,7 +179,7 @@ class WebhookController extends Controller
                         $affected = User_subscriptions::where('id', $activeSubscription->id)
                             ->where('remaining_clips', '>=', $totalQty)
                             ->update([
-                                'used_clips'      => DB::raw("used_clips + $totalQty"),
+                                'used_clips' => DB::raw("used_clips + $totalQty"),
                                 'remaining_clips' => DB::raw("remaining_clips - $totalQty"),
                             ]);
 
@@ -186,7 +189,7 @@ class WebhookController extends Controller
 
                         Log::info('✅ Clips deducted safely', [
                             'user_id' => $user->id,
-                            'qty'     => $totalQty,
+                            'qty' => $totalQty,
                         ]);
                     }
                 } else {
@@ -237,14 +240,14 @@ class WebhookController extends Controller
     {
         Log::info('handleSubscriptionUpdated called', [
             'stripe_sub_id' => $stripeSub->id,
-            'status'        => $stripeSub->status,
-            'metadata'      => (array) $stripeSub->metadata,
+            'status' => $stripeSub->status,
+            'metadata' => (array) $stripeSub->metadata,
         ]);
 
         // ✅ Always retrieve fresh — webhook object timestamps can be null
         try {
             $freshSub = \Stripe\Subscription::retrieve([
-                'id'     => $stripeSub->id,
+                'id' => $stripeSub->id,
                 'expand' => ['latest_invoice'],
             ]);
         } catch (\Exception $e) {
@@ -258,11 +261,11 @@ class WebhookController extends Controller
         $userId = $freshSub->metadata->user_id ?? $stripeSub->metadata->user_id ?? null;
 
         Log::info('Fresh subscription data', [
-            'plan_id'              => $planId,
-            'user_id'              => $userId,
+            'plan_id' => $planId,
+            'user_id' => $userId,
             'current_period_start' => $freshSub->current_period_start,
-            'current_period_end'   => $freshSub->current_period_end,
-            'status'               => $freshSub->status,
+            'current_period_end' => $freshSub->current_period_end,
+            'status' => $freshSub->status,
         ]);
 
         $startDate = $freshSub->current_period_start
@@ -275,7 +278,7 @@ class WebhookController extends Controller
 
         Log::info('Dates resolved', [
             'start' => $startDate->toDateTimeString(),
-            'end'   => $endDate->toDateTimeString(),
+            'end' => $endDate->toDateTimeString(),
         ]);
 
         $dbSub = User_subscriptions::where('stripe_subscription_id', $freshSub->id)
@@ -297,26 +300,26 @@ class WebhookController extends Controller
                 ->update(['status' => 'inactive']);
 
             User_subscriptions::create([
-                'user_id'                => $userId,
-                'subscription_plan_id'   => $plan->id,
+                'user_id' => $userId,
+                'subscription_plan_id' => $plan->id,
                 'stripe_subscription_id' => $freshSub->id,
-                'start_date'             => $startDate,
-                'end_date'               => $endDate,
-                'total_clips'            => $plan->total_clips,
-                'used_clips'             => 0,
-                'remaining_clips'        => $plan->total_clips,
-                'amount'                 => $plan->price,
-                'payment_gateway'        => 'stripe',
-                'transaction_id'         => $freshSub->id,
-                'payment_status'         => 'success',
-                'status'                 => 'active',
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'total_clips' => $plan->total_clips,
+                'used_clips' => 0,
+                'remaining_clips' => $plan->total_clips,
+                'amount' => $plan->price,
+                'payment_gateway' => 'stripe',
+                'transaction_id' => $freshSub->id,
+                'payment_status' => 'success',
+                'status' => 'active',
             ]);
 
             Log::info('✅ Subscription CREATED in DB', [
-                'user_id'    => $userId,
-                'plan_id'    => $planId,
+                'user_id' => $userId,
+                'plan_id' => $planId,
                 'start_date' => $startDate->toDateTimeString(),
-                'end_date'   => $endDate->toDateTimeString(),
+                'end_date' => $endDate->toDateTimeString(),
             ]);
             return;
         }
@@ -331,11 +334,11 @@ class WebhookController extends Controller
         // ── Record exists = UPDATE dates and status ──
         $updateData = [
             'start_date' => $startDate,
-            'end_date'   => $endDate,
+            'end_date' => $endDate,
         ];
 
         if ($freshSub->status === 'active') {
-            $updateData['status']         = 'active';
+            $updateData['status'] = 'active';
             $updateData['payment_status'] = 'success';
         }
 
@@ -347,8 +350,8 @@ class WebhookController extends Controller
 
         Log::info('✅ Subscription UPDATED in DB', [
             'stripe_sub_id' => $freshSub->id,
-            'start_date'    => $startDate->toDateTimeString(),
-            'end_date'      => $endDate->toDateTimeString(),
+            'start_date' => $startDate->toDateTimeString(),
+            'end_date' => $endDate->toDateTimeString(),
         ]);
     }
 
@@ -361,7 +364,7 @@ class WebhookController extends Controller
         $stripeSubId = $invoice->subscription ?? null;
 
         Log::info('handlePaymentSucceeded called', [
-            'stripe_sub_id'  => $stripeSubId,
+            'stripe_sub_id' => $stripeSubId,
             'billing_reason' => $invoice->billing_reason ?? null,
         ]);
 
@@ -400,18 +403,18 @@ class WebhookController extends Controller
 
         // Renewal — reset clips and update dates
         $dbSub->update([
-            'start_date'      => $startDate,
-            'end_date'        => $endDate,
-            'used_clips'      => 0,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'used_clips' => 0,
             'remaining_clips' => $dbSub->total_clips,
-            'payment_status'  => 'success',
-            'status'          => 'active',
+            'payment_status' => 'success',
+            'status' => 'active',
         ]);
 
         Log::info('✅ Subscription RENEWED in DB', [
             'stripe_sub_id' => $stripeSubId,
-            'start_date'    => $startDate->toDateTimeString(),
-            'end_date'      => $endDate->toDateTimeString(),
+            'start_date' => $startDate->toDateTimeString(),
+            'end_date' => $endDate->toDateTimeString(),
         ]);
     }
 
@@ -422,13 +425,14 @@ class WebhookController extends Controller
     {
         $stripeSubId = $invoice->subscription ?? null;
 
-        if (!$stripeSubId) return;
+        if (!$stripeSubId)
+            return;
 
         User_subscriptions::where('stripe_subscription_id', $stripeSubId)
             ->latest()
             ->first()
-            ?->update([
-                'status'         => 'payment_failed',
+                ?->update([
+                'status' => 'payment_failed',
                 'payment_status' => 'failed',
             ]);
 
@@ -443,8 +447,8 @@ class WebhookController extends Controller
         User_subscriptions::where('stripe_subscription_id', $stripeSub->id)
             ->latest()
             ->first()
-            ?->update([
-                'status'   => 'expired',
+                ?->update([
+                'status' => 'expired',
                 'end_date' => now(),
             ]);
 
@@ -456,16 +460,18 @@ class WebhookController extends Controller
     // =========================================================
     private function getFallbackEndDate($planId)
     {
-        if (!$planId) return now()->addMonth();
+        if (!$planId)
+            return now()->addMonth();
 
         $plan = Subscription_plans::find($planId);
-        if (!$plan) return now()->addMonth();
+        if (!$plan)
+            return now()->addMonth();
 
         return match (strtolower(trim($plan->duration_type))) {
-            'month'   => now()->addMonth(),
+            'month' => now()->addMonth(),
             'quarter' => now()->addMonths(3),
-            'year'    => now()->addYear(),
-            default   => now()->addMonth(),
+            'year' => now()->addYear(),
+            default => now()->addMonth(),
         };
     }
 }

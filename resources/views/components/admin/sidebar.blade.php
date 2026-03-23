@@ -27,6 +27,22 @@
                         <span class="hide-menu">Login Banner</span>
                     </a>
                 </li>
+                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliate-setting']) ? 'active  ' : '' }}side-item"
+                        href="{{ route('admin.affiliate.setting') }}" aria-expanded="false">
+                        <!-- <i class="ti ti-layout-grid"></i> -->
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span class="hide-menu">Affiliate Settings</span>
+                    </a>
+                </li>
+                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliate']) ? 'active  ' : '' }}side-item"
+                        href="{{ route('admin.affiliates.list') }}" aria-expanded="false">
+                        <!-- <i class="ti ti-layout-grid"></i> -->
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span class="hide-menu">Affiliate User</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ in_array(Request::segment(2), ['category', 'add_category', 'edit_category']) ? 'active  ' : '' }}side-item"
                         href="{{ route('admin.category') }}" aria-expanded="false">

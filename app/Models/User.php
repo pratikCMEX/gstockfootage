@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'country_code',
         'password_updated_at',
         'remember_token',
+        'referred_by',
 
     ];
 

@@ -27,11 +27,11 @@ class MostViewedProductsReportDataTable extends DataTable
             ->addColumn('total_views', function ($row) {
                 return number_format($row->views ?? 0);
             })
-            ->addColumn('status', function ($row) {
-                return $row->status == 1
-                    ? '<span class="badge bg-success">Active</span>'
-                    : '<span class="badge bg-secondary">Inactive</span>';
-            })
+            // ->addColumn('status', function ($row) {
+            //     return $row->status == 1
+            //         ? '<span class="badge bg-success">Active</span>'
+            //         : '<span class="badge bg-secondary">Inactive</span>';
+            // })
 
             //  Sorting
             ->orderColumn('product_name', 'batch_files.title $1')
@@ -135,8 +135,8 @@ class MostViewedProductsReportDataTable extends DataTable
             Column::make('total_views')
                 ->title('Total Views'),
 
-            Column::make('status')
-                ->title('Status'),
+            // Column::make('status')
+            //     ->title('Status'),
         ];
     }
 
