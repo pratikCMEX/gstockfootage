@@ -332,10 +332,12 @@ function updateUI() {
     $(".delete-count").hide();
     $(".total_file_selected").text("No File Selected");
     $("#save-metadata").prop("disabled", true);
+    $(".generate-ai").prop("disabled", true);
   } else {
     $(".delete-count").show();
     $(".total_file_selected").text(selectedCount + " File Selected");
     $("#save-metadata").prop("disabled", false);
+    $(".generate-ai").prop("disabled", false);
   }
 
   // Panels
@@ -464,7 +466,9 @@ function loadImageMetadata(file_id) {
     },
     success: function (res) {
       // fill form
-      $(".error").text("");
+      // $(".error").text("");
+      let validator = $("#add_new_img_form").validate();
+      validator.resetForm(); // 🔥 resets errors properly
       console.log(res);
 
       // Existing fields
@@ -615,6 +619,7 @@ $(document).ready(function () {
   });
 });
 $("#add_new_img_form").validate({
+  ignore: [],
   rules: {
     title: {
       required: true,
@@ -637,13 +642,30 @@ $("#add_new_img_form").validate({
   },
 
   messages: {
-    title: "Please enter title",
-    description: "Please enter description",
-    price: "Please enter valid price",
-    category_id: "Please select a category",
-    subcategory_id: "Please select a subcategory",
-  },
+    title: {
+      required: "Please enter title",
+    },
+    description: {
+      required: "Please enter description",
+    },
+    price: {
+      required: "Please enter price",
+    },
+    category_id: {
+      required: "Please select a category",
+    },
 
+    subcategory_id: {
+      required: "Please select a subcategory",
+    },
+  },
+  errorPlacement: function (error, element) {
+    if (element.hasClass("select2-hidden-accessible")) {
+      error.insertAfter(element.next(".select2")); // ✅ place after UI
+    } else {
+      error.insertAfter(element);
+    }
+  },
   submitHandler: function (form) {
     // Collect all checked content_filters[] checkboxes into an array
     // e.g. ["with_people", "outdoors_nature", "copy_space"]

@@ -799,6 +799,16 @@
                                                 <li>Grey fileds show information is shared acress all files</li>
                                             </ul>
                                         </div>
+                                        <div class="generateAi-section d-none">
+
+                                            <button type="button" disabled class="btn btn-orange generate-ai"
+                                                data-img="#">
+                                                Generate AI Content
+                                            </button>
+                                            <p class="mt-1"><i class="fa-solid fa-circle-info"></i> This will
+                                                generate content like
+                                                title, description, keywords.</p>
+                                        </div>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Title *</label>
@@ -814,10 +824,7 @@
                                             </div>
                                             <label id="title-error" class="error" for="title"></label>
                                         </div>
-                                        <button type="button" class="btn btn-orange generate-ai d-none"
-                                            data-img="#">
-                                            Generate AI Content
-                                        </button>
+
                                         <div class="input-group ">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Description *</label>

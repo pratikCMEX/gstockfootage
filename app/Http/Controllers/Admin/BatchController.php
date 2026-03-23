@@ -879,13 +879,13 @@ class BatchController extends Controller
     public function generateAiContent(Request $request)
     {
         $request->validate(['img_url' => 'required|url']);
-        $geminiKey = 'AIzaSyAbX98vVYVWAFHXNGSOGW7gjJIUaHX0UcY';
+        $geminiKey = 'AIzaSyAldQyhVM5jkdO_v7Wldv0qwyGkZvuBkJw';
 
         // This asks Google: "What models can I actually use?"
         $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
         // $data = getModelList();
         // 1. USE YOUR ORIGINAL CLOUD KEY FOR VISION (The AIzaSyACDB... one)
-        $visionKey = 'AIzaSyC2K4E30GA60RYPUw2QI7ABH8c3y3zxNoY';
+        $visionKey = 'AIzaSyAldQyhVM5jkdO_v7Wldv0qwyGkZvuBkJw';
 
         // 2. USE YOUR AI STUDIO KEY FOR GEMINI (The AIzaSyB69Z... one from screenshot)
 
