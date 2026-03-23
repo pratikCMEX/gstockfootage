@@ -9,6 +9,7 @@ use App\Jobs\ProcessUploadedVideo;
 use App\Models\Batch;
 use App\Models\BatchFile;
 use Carbon\Carbon;
+use Exception;
 use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,9 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
 use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Http\Client\ConnectionException;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 // use Intervention\Image\ImageManager;
 
@@ -796,9 +798,30 @@ class BatchController extends Controller
     {
         $file = BatchFile::find($request->file_id);
 
-        return response()->json($file);
-    }
+        return response()->json([
+            'id'              => $file->id,
+            'title'           => $file->title,
+            'description'     => $file->description,
+            'price'           => $file->price,
+            'date_created'    => $file->date_created,
+            'duration'        => $file->duration,
+            'frame_rate'      => $file->frame_rate,
+            'height'          => $file->height,
+            'width'           => $file->width,
+            'category_id'     => $file->category_id,
+            'collection_id'   => $file->collection_id,
+            'country'         => $file->country,
+            'orientation'     => $file->orientation,
+            'camera_movement' => $file->camera_movement,
+            'license_type'    => $file->license_type,
+            'subcategory_id'  => $file->subcategory_id,
+            'keywords'        => $file->keywords,
+            'content_filters' => $file->content_filters,
 
+            // ── S3 full URL ──────────────────────────────
+            'file_path'       => Storage::disk('s3')->url($file->file_path),
+        ]);
+    }
     public function saveFileMetadata(Request $request)
     {
         // dd($request->all());
@@ -850,6 +873,95 @@ class BatchController extends Controller
         return response()->json([
             'status' => 1,
             'message' => 'Batch deleted'
+        ]);
+    }
+
+    public function generateAiContent(Request $request)
+    {
+        $request->validate(['img_url' => 'required|url']);
+        $geminiKey = 'AIzaSyB3cf2BvjadYjMUqT2jC9-D1wgUmTwSdD4';
+
+        // This asks Google: "What models can I actually use?"
+        $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
+        // $data = getModelList();
+        // 1. USE YOUR ORIGINAL CLOUD KEY FOR VISION (The AIzaSyACDB... one)
+        $visionKey = 'AIzaSyB3cf2BvjadYjMUqT2jC9-D1wgUmTwSdD4';
+
+        // 2. USE YOUR AI STUDIO KEY FOR GEMINI (The AIzaSyB69Z... one from screenshot)
+
+        // --- STEP 1: Get Vision Data ---
+        $imageData = base64_encode(file_get_contents($request->img_url));
+        $vResponse = Http::timeout(60) // Increase to 60 seconds
+            ->withOptions([
+                'curl' => [
+                    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4, // Force IPv4
+                ],
+            ])
+            ->post("https://vision.googleapis.com/v1/images:annotate?key={$visionKey}", [
+                'requests' => [
+                    [
+                        'image' => ['content' => $imageData],
+                        'features' => [['type' => 'WEB_DETECTION'], ['type' => 'LABEL_DETECTION']]
+                    ]
+                ]
+            ]);
+        if ($vResponse->failed()) {
+            return response()->json(['error' => 'Vision API Failed', 'details' => $vResponse->json()], 400);
+        }
+
+        $subject = data_get($vResponse->json(), 'responses.0.webDetection.bestGuessLabels.0.label', 'Atmospheric Scene');
+        $labels = collect(data_get($vResponse->json(), 'responses.0.labelAnnotations', []))->pluck('description');
+
+        // $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
+
+        // return $response->json();
+        // --- STEP 2: Get Gemini Data (Proper Data Only) ---
+        // We use v1beta and gemini-1.5-flash which is the standard for AI Studio
+        // $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$geminiKey}";
+
+
+        $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$geminiKey}";
+        $gResponse = Http::timeout(30) // 30 seconds is plenty for Flash
+            ->retry(2, 100) // Automatically retry once if it glitches
+            ->post($geminiUrl, [
+                'contents' => [
+                    ['parts' => [[
+                        'text' => "Task: Write a high-end, cinematic stock photo description for '{$subject}'.
+                        
+                        Requirements:
+                        - Length: Approximately 70 words.
+                        - Detail: Describe the specific lighting (like golden hour or soft rim lighting), the camera lens/perspective, and the fine textures.
+                        - Style: Professional and evocative.
+                        - Restriction: Start the text immediately. No intro, no 'Here is the description'."
+                    ]]]
+                ],
+                'generationConfig' => [
+                    'temperature' => 0.9,
+                    'maxOutputTokens' => 1500, // ← increase from 600 to 1500
+                    'topP' => 0.95,
+                    'topK' => 40,
+                ]
+            ]);
+        // dd($gResponse->json());
+        // --- STEP 3: Handle the Result ---
+        if ($gResponse->failed()) {
+            // This will print the EXACT error from Google so we can stop guessing
+            return response()->json([
+                'error' => 'Gemini API still returning 404',
+                'google_says' => $gResponse->json(),
+                'url_attempted' => $geminiUrl
+            ], 404);
+        }
+
+        $aiDescription = data_get($gResponse->json(), 'candidates.0.content.parts.0.text');
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'title' => ucfirst($subject),
+                'description' => trim($aiDescription),
+                'tags' => $labels->take(10)->join(', ')
+            ]
         ]);
     }
 }

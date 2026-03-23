@@ -42,5 +42,8 @@ return [
     'google_vision' => [
         'key' => env('GOOGLE_VISION_API_KEY'),
     ],
+    'claude' => [
+        'key' => env('CLAUDE_API_KEY'),
+    ],
 
 ];

@@ -473,8 +473,7 @@ function loadImageMetadata(file_id) {
       $("#description").val(res.description);
       $("input[name='price']").val(res.price);
       $("input[name='date_created']").val(res.date_created);
-
-      // ── Video properties ──
+      $(".generate-ai").attr("data-img", res.file_path);
       $("input[name='clip_length']").val(
         res.duration ? formatDuration(res.duration) : ""
       );
@@ -536,6 +535,41 @@ function loadImageMetadata(file_id) {
     },
   });
 }
+
+$(document).on("click", ".generate-ai", function () {
+  let btn = $(this);
+  let imgUrl = btn.data("img");
+
+  btn.prop("disabled", true).text("Generating...");
+
+  $.ajax({
+    url: base_url + "/generate-ai-content",
+    type: "POST",
+    headers: {
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
+    data: { img_url: imgUrl },
+    success: function (res) {
+      console.log(res);
+      return;
+      if (res.status === true) {
+        $("#ai_title").val(res.data.title);
+        $("#ai_name").val(res.data.name);
+        $("#ai_description").val(res.data.description);
+        $("#ai_tags").val(res.data.tags);
+
+        btn.text("Generated ✓");
+      } else {
+        toastr.warning(res.message);
+        btn.prop("disabled", false).text("Generate AI Content");
+      }
+    },
+    error: function () {
+      toastr.error("Something went wrong.");
+      btn.prop("disabled", false).text("Generate AI Content");
+    },
+  });
+});
 
 $(document).on("click", ".clear-data", function () {
   clearMetadata();

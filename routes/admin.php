@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Auth;
 Route::post('admin/vide_batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
 Route::post('admin/image_upload/{batch}', [BatchController::class, 'uploadFiles'])->name('batch.image_upload');
 Route::post('admin/batch/get_file_metadata', [BatchController::class, 'getFileMetadata']);
+Route::post('/generate-ai-content', [BatchController::class, 'generateAiContent']);
 Route::post('admin/batch/save_file_metadata', [BatchController::class, 'saveFileMetadata']);
 Route::post('admin/batch/rename', [BatchController::class, 'UpdateBatchName']);
 Route::post('admin/batch/delete', [BatchController::class, 'DeleteBatch']);

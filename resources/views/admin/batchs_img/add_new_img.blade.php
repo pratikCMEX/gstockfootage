@@ -33,8 +33,8 @@
                         <ul class="dropdown-menu more-detail-menu">
                             <li>
                                 <button type="button" class="dropdown-item-upload dropdown-item BatchrenameModal"
-                                    data-bs-toggle="modal" data-bs-target="#BatchrenameModal" data-id="{{ $batch->id }}"
-                                    data-name="{{ $batch->title }}">
+                                    data-bs-toggle="modal" data-bs-target="#BatchrenameModal"
+                                    data-id="{{ $batch->id }}" data-name="{{ $batch->title }}">
                                     <i class="fa-solid fa-pencil"></i>
                                     Rename
                                 </button>
@@ -93,8 +93,8 @@
                                                 </div>
                                             </div>
                                             <div class="upload-from-device-content
-                                                text-center align-items-center" id="dndZone"
-                                                data-type="{{ $batch->submission_type }}">
+                                                text-center align-items-center"
+                                                id="dndZone" data-type="{{ $batch->submission_type }}">
                                                 <div class="upload-device-content-detail">
                                                     <h2 class="upload-title">
                                                         Drag and drop your files here or upload from <span
@@ -107,7 +107,8 @@
                                                     <label for="myfile" class="btn btn-orange btn-upload">Select
                                                         files</label>
                                                     <button for="111myfile" disabled
-                                                        class="btn btn-orange btn-upload-device" data-type={{ $batch->submission_type }}>Upload Files</button>
+                                                        class="btn btn-orange btn-upload-device"
+                                                        data-type={{ $batch->submission_type }}>Upload Files</button>
                                                     {{-- <input type="file" id="myfile" name="myfile" multiple hidden>
                                                     --}}
 
@@ -177,7 +178,8 @@
                                 <div class="image-range">
                                     <i class="fa-solid fa-image small-img"></i>
                                     <div class="range-container">
-                                        <input type="range" min="1" max="5" value="1" id="rangeSlider" class="slider">
+                                        <input type="range" min="1" max="5" value="1"
+                                            id="rangeSlider" class="slider">
                                     </div>
                                     <i class="fa-solid fa-image big-img"></i>
                                 </div>
@@ -199,8 +201,8 @@
                                 @foreach ($batch_data as $data)
                                     <div class="upload-image" id="upload_images" data-id="{{ $data->id }}">
                                         <div class="dot-menu text-end align-self-end">
-                                            <button class="btn  text-start dot-dropdown dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button class="btn  text-start dot-dropdown dropdown-toggle"
+                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="fa-solid fa-ellipsis-vertical "></i></button>
                                             <ul class="dropdown-menu more-detail-menu">
                                                 <li>
@@ -235,7 +237,8 @@
                                                     class="h-100 w-100" alt="">
                                             @else
                                                 @if ($data['thumbnail_path'] == null)
-                                                    <img src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
+                                                    <img
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
                                                 @else
                                                     <img src="{{ Storage::disk('s3')->url(ltrim($data['thumbnail_path'], '/')) }}"
                                                         alt="">
@@ -800,8 +803,8 @@
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Title *</label>
                                                 <div class="file-inp-icon-grp">
-                                                    <input type="text" class="form-control upload-inp" name="title"
-                                                        placeholder="Title *" aria-label="Username"
+                                                    <input type="text" class="form-control upload-inp"
+                                                        name="title" placeholder="Title *" aria-label="Username"
                                                         aria-describedby="visible-addon">
                                                     <i class="fa-regular fa-circle-question file-input-icon"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
@@ -811,14 +814,16 @@
                                             </div>
                                             <label id="title-error" class="error" for="title"></label>
                                         </div>
+                                        <button type="button" class="btn btn-orange generate-ai d-none"
+                                            data-img="#">
+                                            Generate AI Content
+                                        </button>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Description *</label>
                                                 <div class="file-inp-icon-grp">
-                                                    <textarea class="form-control upload-inp upload-textarea"
-                                                        placeholder="Descriptions *" id="description" name="description"
-                                                        aria-label="Username"
-                                                        aria-describedby="visible-addon"></textarea>
+                                                    <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
+                                                        name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
                                                     <i class="fa-regular fa-circle-question file-input-icon"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Enter a clear description for your image."></i>
@@ -1070,7 +1075,8 @@
                                         <input name="tags" class="upload-inp form-control" id="tags"
                                             data-role="tagsinput" class="form-control">
                                         <div class="keyword-btn">
-                                            <button type="button" class="btn btn-all-dark btn-hover-dark copy-keywords"
+                                            <button type="button"
+                                                class="btn btn-all-dark btn-hover-dark copy-keywords"
                                                 style="cursor: pointer;">Copy Keywords</button>
                                         </div>
                                     </div>
@@ -1089,7 +1095,8 @@
                                             release</button>
                                     </div>
 
-                                    <div class="no-file-video-propertise {{ $batch_type == 'video' ? '' : 'd-none' }}">
+                                    <div
+                                        class="no-file-video-propertise {{ $batch_type == 'video' ? '' : 'd-none' }}">
                                         <p class="video-title">Video Propertise</p>
                                         <div class="input-group file-inp-label-grp">
                                             <p style="font-size: 12px;">Clip Length</p>
@@ -1104,17 +1111,17 @@
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame rate</p>
-                                                <input type="text" class="form-control upload-inp" placeholder="29.97"
-                                                    name="frame_rate" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon" disabled>
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="29.97" name="frame_rate" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                         </div>
                                         <div class="file-master-inp-grp">
                                             <div class="input-group file-inp-label-grp">
                                                 <p style="font-size: 12px;">Frame size</p>
-                                                <input type="text" class="form-control upload-inp" placeholder="550x550"
-                                                    name="frame_size" width="100%" aria-label="Username"
-                                                    aria-describedby="visible-addon" disabled>
+                                                <input type="text" class="form-control upload-inp"
+                                                    placeholder="550x550" name="frame_size" width="100%"
+                                                    aria-label="Username" aria-describedby="visible-addon" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -1138,7 +1145,8 @@
                                     </div>
 
                                     <div class="submit-metadaata text-center mt-4 mb-1">
-                                        <button type="submit" disabled id="save-metadata" class="btn btn-orange w-100"
+                                        <button type="submit" disabled id="save-metadata"
+                                            class="btn btn-orange w-100"
                                             style="font-size: 16px; padding: 15px 0; cursor: pointer;">Save
                                             metadata</button>
                                     </div>
@@ -1154,8 +1162,8 @@
                             <div class="filter-search-text">
                                 <div class="input-search-filter flex-nowrap">
                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                    <input type="text" class="form-control upload-inp" placeholder="Enter Search Text"
-                                        aria-describedby="addon-wrapping">
+                                    <input type="text" class="form-control upload-inp"
+                                        placeholder="Enter Search Text" aria-describedby="addon-wrapping">
                                 </div>
                             </div>
                             <div class="upload-filter-by-status">
@@ -1167,62 +1175,74 @@
                                             Accepted (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault9">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault9">
                                         <label class="form-check-label ms-3" for="checkDefault9">
                                             Accepted and Publihed (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault10">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault10">
                                         <label class="form-check-label ms-3" for="checkDefault10">
                                             Awaiting review (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault11">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault11">
                                         <label class="form-check-label ms-3" for="checkDefault11">
                                             Invalid file (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault12">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault12">
                                         <label class="form-check-label ms-3" for="checkDefault12">
                                             Processing (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault13">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault13">
                                         <label class="form-check-label ms-3" for="checkDefault13">
                                             Queued for upload (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault14">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault14">
                                         <label class="form-check-label ms-3" for="checkDefault14">
                                             Signature plus nominated (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault15">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault15">
                                         <label class="form-check-label ms-3" for="checkDefault15">
                                             REady to submit (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault16">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault16">
                                         <label class="form-check-label ms-3" for="checkDefault16">
                                             Revisible (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault17">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault17">
                                         <label class="form-check-label ms-3" for="checkDefault17">
                                             Rejected (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault18">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault18">
                                         <label class="form-check-label ms-3" for="checkDefault18">
                                             Uploaded filed (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault19">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault19">
                                         <label class="form-check-label ms-3" for="checkDefault19">
                                             Uploading (0)
                                         </label>
                                     </li>
-                                    <li> <input class="form-check-input" type="checkbox" value="" id="checkDefault20">
+                                    <li> <input class="form-check-input" type="checkbox" value=""
+                                            id="checkDefault20">
                                         <label class="form-check-label ms-3" for="checkDefault20">
                                             Work in progress (0)
                                         </label>
@@ -1243,8 +1263,8 @@
                 <div class="spin-ring" id="spinRing">
                     <svg viewBox="0 0 36 36" fill="none">
                         <circle class="track" cx="18" cy="18" r="15" stroke-width="3" />
-                        <circle class="arc" cx="18" cy="18" r="15" stroke-width="3" stroke-dashoffset="0"
-                            transform="rotate(-90 18 18)" />
+                        <circle class="arc" cx="18" cy="18" r="15" stroke-width="3"
+                            stroke-dashoffset="0" transform="rotate(-90 18 18)" />
                     </svg>
                 </div>
                 <!-- success check (hidden initially) -->
@@ -1252,8 +1272,8 @@
                     <svg viewBox="0 0 36 36" fill="none">
                         <circle cx="18" cy="18" r="15" fill="#4ade80" opacity=".15" />
                         <circle cx="18" cy="18" r="15" stroke="#4ade80" stroke-width="2.5" />
-                        <polyline points="11,18 16,23 25,13" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"
-                            stroke-linejoin="round" />
+                        <polyline points="11,18 16,23 25,13" stroke="#4ade80" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
 
@@ -1351,8 +1371,7 @@
 
                 <div class="modal-body">
                     <label class="modal-label">Note</label>
-                    <textarea class="form-control batch-inp" placeholder="Leave a comment here" id="floatingTextarea"
-                        rows="4"></textarea>
+                    <textarea class="form-control batch-inp" placeholder="Leave a comment here" id="floatingTextarea" rows="4"></textarea>
                 </div>
 
                 <div class="modal-footer">
