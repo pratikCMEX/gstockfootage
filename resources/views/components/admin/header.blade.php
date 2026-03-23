@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="{{ asset('assets/admin/css/responsive.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/admin/css/owl.carousel.min.css') }}">
 <!-- toast css -->
-@if (request()->is('admin/dashboard'))
+@if (request()->is('admin/dashboard') || request()->is('affiliate/*'))
     <link rel="stylesheet" href="{{ asset('assets/admin/css/dashboard.css') }}">
 @endif
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

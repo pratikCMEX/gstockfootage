@@ -17,7 +17,7 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Email</label>
                                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                                        value="{{ old('password', Cookie::get('admin_email')) }}"  tabindex="1" 
+                                        value="{{ old('email', Cookie::get('admin_email')) }}"  tabindex="1" 
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-4">

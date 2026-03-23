@@ -74,7 +74,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-
+        'affiliate_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AffiliateUser::class,
+        ],
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class, // same table but role=1

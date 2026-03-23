@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AffiliateAuth;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -32,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\TrackReferral::class,
+           
         ]);
 
         $middleware->validateCsrfTokens(except: [
@@ -45,7 +47,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'adminauth' => AdminAuth::class,
             'checkuser' => CheckUser::class,
             'nocache' => NoCache::class,
-
+            'affiliate.auth' => AffiliateAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

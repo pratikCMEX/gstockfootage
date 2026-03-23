@@ -22,7 +22,7 @@
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-        <!-- // {{ auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name }} -->
+       
                 <li class="nav-item dropdown">
                     <label class="nav-link " id="drop2" data-bs-toggle="dropdown"
                         aria-expanded="false">
