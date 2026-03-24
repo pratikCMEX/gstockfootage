@@ -224,6 +224,8 @@ class ProcessBatchVideo implements ShouldQueue
 
     public function handle()
     {
+        Log::error("started 0");
+
         $video = BatchFile::find($this->batchFileId);
 
         if (!$video) {
