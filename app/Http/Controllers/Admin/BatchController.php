@@ -953,7 +953,10 @@ class BatchController extends Controller
                                 6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise null.
                                 7. collection_id: Pick the BEST matching collection ID from this list (use the id number):
                                                         {$collectionList}
-                                Return ONLY raw JSON. No markdown, no explanation, nothing else.
+                                    Return ONLY a valid JSON object.
+                                    DO NOT wrap in ```json or ``` blocks.
+                                    DO NOT include any text before or after JSON.
+                                    Your response must start with { and end with }.
                                 Example: {\"title\": \"...\", \"description\": \"<ul><li>...</li><li>...</li></ul>\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null}",
                         ],
                     ],
