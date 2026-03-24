@@ -147,7 +147,7 @@ class AffiliateController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
-                'phone_no' => $request->phone_no ?? '',
+                'phone' => $request->phone_number ?? '',
                 'country_code' => $request->country_code,
                 'address' => $request->address ?? '',
             ];
