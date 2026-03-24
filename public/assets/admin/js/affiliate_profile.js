@@ -5,35 +5,6 @@ $.validator.addMethod("validPhone", function (value, element) {
     if (!value || value.trim() === '') return true;
     return iti && iti.isValidNumber();
 }, "Please enter a valid phone number for selected country");
-
-$.validator.addMethod("notEqualTo", function (value, element, param) {
-    return value !== $(param).val();
-}, "Values must be different.");
-
-$(document).on("click", ".more-detail-btn", function () {
-    let parent = $(this).closest(".batch-content");
-    let table  = parent.find(".batch-content-table-details");
-
-    $(".batch-content-table-details").not(table).slideUp().addClass("d-none");
-    $(".more-detail-btn i")
-        .not($(this).find("i"))
-        .removeClass("fa-angle-up")
-        .addClass("fa-angle-down");
-
-    if (table.hasClass("d-none")) {
-        table.removeClass("d-none").hide().slideDown();
-    } else {
-        table.slideUp(function () {
-            table.addClass("d-none");
-        });
-    }
-    $(this).find("i").toggleClass("fa-angle-down fa-angle-up");
-});
-
-$(document).on('click', '.cancel', function (e) {
-    window.close();
-});
-
 $(document).ready(function () {
 
     // ─── intlTelInput Init ───────────────────────────────
@@ -49,7 +20,7 @@ $(document).ready(function () {
     //  Pre-fill after utilsScript loads
     input.addEventListener("loadUtils", function () {
         var savedCountryCode = $("#country_code").val();
-        var savedPhone       = $("#full_phone").val();
+        var savedPhone = $("#full_phone").val();
 
         if (savedCountryCode && savedPhone) {
             iti.setNumber(savedCountryCode + savedPhone);
@@ -58,7 +29,7 @@ $(document).ready(function () {
 
     // Fallback pre-fill (if utils already loaded)
     var savedCountryCode = $("#country_code").val();
-    var savedPhone       = $("#full_phone").val();
+    var savedPhone = $("#full_phone").val();
     if (savedCountryCode && savedPhone) {
         iti.setNumber(savedCountryCode + savedPhone);
     }
@@ -66,8 +37,8 @@ $(document).ready(function () {
     // ─── Update Hidden Fields ────────────────────────────
     function updateHiddenFields() {
         var countryData = iti.getSelectedCountryData();
-        var dialCode    = '+' + countryData.dialCode;
-        var phoneOnly   = $("#phone").val().replace(/[^0-9]/g, '');
+        var dialCode = '+' + countryData.dialCode;
+        var phoneOnly = $("#phone").val().replace(/[^0-9]/g, '');
 
         $("#full_phone").val(phoneOnly);
         $("#country_code").val(dialCode);

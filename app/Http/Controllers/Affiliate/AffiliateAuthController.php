@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Affiliate;
 
+use App\DataTables\CommissionHistoryDataTable;
+use App\DataTables\PendingPaymentsDataTable;
+use App\DataTables\RaferralUsersListDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Affiliate;
 use App\Models\AffiliateReferral;
@@ -10,7 +13,66 @@ use Illuminate\Support\Facades\Auth;
 
 class AffiliateAuthController extends Controller
 {
+
     public function dashboard()
+    {
+        $title = 'Dashboard';
+        $page = 'affiliate.dashboard';
+        $affiliateUser = Auth::guard('affiliate')->user();
+        $affiliate = $affiliateUser->affiliate;
+
+        //  Total referred users count
+        $totalReferredUsers = \App\Models\User::where('referred_by', $affiliate->referral_code)->count();
+
+        //  Total commission earnings
+        $totalEarnings = $affiliate->total_earnings ?? 0;
+        $totalReferrals = $affiliate->total_referrals ?? 0;
+
+        // Pending and paid amounts
+        $pendingAmount = \App\Models\AffiliateReferral::where('affiliate_id', $affiliate->id)
+            ->where('status', 'pending')
+            ->sum('commission_amount');
+
+        $paidAmount = \App\Models\AffiliateReferral::where('affiliate_id', $affiliate->id)
+            ->where('status', 'paid')
+            ->sum('commission_amount');
+
+        //  Commission info
+        $commissionInfo = $affiliate->commission_type === 'fixed'
+            ? '$' . number_format($affiliate->commission_value, 2) . ' per order'
+            : $affiliate->commission_value . '% per order';
+
+        $referralLink = url('/') . '?ref=' . $affiliate->referral_code;
+
+        //  Recent referral commissions
+        $recentReferrals = \App\Models\AffiliateReferral::where('affiliate_id', $affiliate->id)
+            ->with(['user', 'order'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        //  Today's earnings
+        $todayEarnings = \App\Models\AffiliateReferral::where('affiliate_id', $affiliate->id)
+            ->whereDate('created_at', today())
+            ->sum('commission_amount');
+        return view('layouts.admin.layout', compact(
+            'title',
+            'page',
+            'affiliateUser',
+            'affiliate',
+            'totalReferredUsers', //  count of users who registered via this affiliate's link
+            'totalEarnings',
+            'totalReferrals',
+            'pendingAmount',
+            'paidAmount',
+            'commissionInfo',
+            'referralLink',
+            'recentReferrals',
+            'todayEarnings'
+        ));
+
+    }
+    public function dashboard_old()
     {
         $title = 'Dashboard';
         $page = 'affiliate.dashboard';
@@ -61,12 +123,54 @@ class AffiliateAuthController extends Controller
         ));
     }
 
-    public function referrals()
+    public function referrals(RaferralUsersListDataTable $DataTable)
     {
-        $affiliate = Auth::guard('affiliate')->user()->affiliate;
-        $referrals = $affiliate->referrals()->with('user')->latest()->get();
 
-        return view('affiliate.referrals', compact('affiliate', 'referrals'));
+
+        $title = 'Raferral Users List';
+        $page = 'affiliate.referral_user_list';
+        $js = [''];
+        $affiliateUser = Auth::guard('affiliate')->user();
+        $affiliate = $affiliateUser->affiliate;
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'affiliate', 'affiliateUser'));
+    }
+    public function commission_history(CommissionHistoryDataTable $DataTable)
+    {
+
+
+        $title = 'Commission History';
+        $page = 'affiliate.commission_history';
+        $js = [''];
+        $affiliateUser = Auth::guard('affiliate')->user();
+        $affiliate = $affiliateUser->affiliate;
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'affiliate', 'affiliateUser'));
+    }
+    public function pending_payments(PendingPaymentsDataTable $DataTable)
+    {
+        $title = 'Commission History';
+        $page = 'affiliate.pending_payment_list';
+        $js = [''];
+        $affiliateUser = Auth::guard('affiliate')->user();
+        $affiliate = $affiliateUser->affiliate;
+  
+        $totalPending = \App\Models\AffiliateReferral::where('affiliate_id', $affiliate->id)
+            ->where('status', 'pending')
+            ->sum('commission_amount');
+
+        $totalCount = \App\Models\AffiliateReferral::where('affiliate_id', $affiliate->id)
+            ->where('status', 'pending')
+            ->count();
+
+        return $DataTable->render('layouts.admin.layout', compact(
+            'title',
+            'page',
+            'js',
+            'affiliateUser',
+            'affiliate',
+            'totalPending',
+            'totalCount'
+        ));
+
     }
 
     public function logout(Request $request)

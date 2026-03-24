@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Affiliate\AffiliateAuthController;
+use App\Http\Controllers\Affiliate\AffiliateProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\NoCache;
@@ -242,10 +243,15 @@ Route::get('admin/logout', [AuthAdmin::class, 'logout'])
 
 Route::prefix('affiliate')->name('affiliate.')->group(function () {
 
-    Route::middleware('affiliate.auth')->group(function () { // ✅ use string alias
+    Route::middleware('affiliate.auth')->group(function () { //  use string alias
         Route::get('dashboard', [AffiliateAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('referrals', [AffiliateAuthController::class, 'referrals'])->name('referrals');
+        Route::get('commission_history', [AffiliateAuthController::class, 'commission_history'])->name('commission_history');
+        Route::get('pending_payments', [AffiliateAuthController::class, 'pending_payments'])->name('pending_payments');
         Route::post('logout', [AffiliateAuthController::class, 'logout'])->name('logout');
+
+          Route::get('my_profile', [AffiliateProfileController::class, 'index'])->name('my_profile');
+          Route::post('update_profile', [AffiliateProfileController::class, 'update_profile'])->name('update_profile');
     });
 
 });

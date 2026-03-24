@@ -13,12 +13,33 @@
             <ul id="sidebarnav">
 
                 @auth('affiliate')
-                    <!-- ✅ ONLY DASHBOARD -->
+                    <!--  ONLY DASHBOARD -->
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ Request::segment(2) == 'dashboard' ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.dashboard') }}" aria-expanded="false">
                             <i class="ti ti-home"></i>
                             <span class="hide-menu">Dashboard</span>
+                        </a>
+                    </li>
+                     <li class="sidebar-item">
+                        <a class="sidebar-link {{ Request::segment(2) == 'referrals' ? 'active  ' : '' }} side-item"
+                            href="{{ route('affiliate.referrals') }}" aria-expanded="false">
+                            <i class="fa-solid fa-users"></i>
+                            <span class="hide-menu">Refarral Users</span>
+                        </a>
+                    </li>
+                      <li class="sidebar-item">
+                        <a class="sidebar-link {{ Request::segment(2) == 'commission_history' ? 'active  ' : '' }} side-item"
+                            href="{{ route('affiliate.commission_history') }}" aria-expanded="false">
+                            🕘
+                            <span class="hide-menu">Commision History</span>
+                        </a>
+                    </li>
+                     <li class="sidebar-item">
+                        <a class="sidebar-link {{ Request::segment(2) == 'pending_payments' ? 'active  ' : '' }} side-item"
+                            href="{{ route('affiliate.pending_payments') }}" aria-expanded="false">
+                          <i class="fa fa-hourglass-half"></i>
+                            <span class="hide-menu">Pending Payments List</span>
                         </a>
                     </li>
                 @else
@@ -37,7 +58,7 @@
                             <span class="hide-menu">Login Banner</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
+                    <li class="sidebar-item d-none">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliate-setting']) ? 'active  ' : '' }}side-item"
                             href="{{ route('admin.affiliate.setting') }}" aria-expanded="false">
                             <!-- <i class="ti ti-layout-grid"></i> -->
