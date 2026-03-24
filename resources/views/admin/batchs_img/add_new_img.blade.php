@@ -829,8 +829,10 @@
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Description *</label>
                                                 <div class="file-inp-icon-grp">
-                                                    <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
-                                                        name="description" aria-label="Username" aria-describedby="visible-addon"></textarea>
+                                                    {{-- <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
+                                                        name="description" aria-label="Username" aria-describedby="visible-addon"></textarea> --}}
+                                                    <textarea class="form-control upload-inp upload-textarea ckeditor" name="description" id="description"rows="3"
+                                                        placeholder="Please enter description"></textarea>
                                                     <i class="fa-regular fa-circle-question file-input-icon"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Enter a clear description for your image."></i>
@@ -904,7 +906,7 @@
                                         <div class="input-group">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Select Collection
-                                                    *</label>
+                                                </label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
@@ -923,7 +925,7 @@
                                         </div>
                                         <div class="input-group">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Country of shoot *</label>
+                                                <label for="" class="heading-label">Country of shoot </label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
