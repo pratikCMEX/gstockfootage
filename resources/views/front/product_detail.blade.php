@@ -221,7 +221,6 @@
                         <p>{{ $data['downloads'] }} Downloads</p>
                     </div>
 
-
                     <p class="product-description">
                         {!! $data['description'] !!}
                     </p>
