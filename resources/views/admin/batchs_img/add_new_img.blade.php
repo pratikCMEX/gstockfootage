@@ -799,7 +799,7 @@
                                                 <li>Grey fileds show information is shared acress all files</li>
                                             </ul>
                                         </div>
-                                        <div class="generateAi-section d-none">
+                                        <div class="generateAi-section">
 
                                             <button type="button" disabled class="btn btn-orange generate-ai"
                                                 data-img="#">

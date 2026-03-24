@@ -477,7 +477,11 @@ function loadImageMetadata(file_id) {
       $("#description").val(res.description);
       $("input[name='price']").val(res.price);
       $("input[name='date_created']").val(res.date_created);
-      $(".generate-ai").attr("data-img", res.file_path);
+      if (res.type == "image") {
+        $(".generate-ai").attr("data-img", res.file_path);
+      } else {
+        $(".generate-ai").attr("data-img", res.thumbnail_path);
+      }
       $("input[name='clip_length']").val(
         res.duration ? formatDuration(res.duration) : ""
       );
