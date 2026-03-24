@@ -182,6 +182,7 @@ class HomeController extends Controller
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 // $data['resolution'] = 'HD Video';
+
                 $data['resolution'] = $product->height . ' x ' . $product->width;
 
                 $data['file_size'] = formatFileSize((int) $product->file_size);
