@@ -514,7 +514,7 @@ class BatchController extends Controller
         } else {
 
             // uploaded file
-            $path = Storage::disk('s3')->put(
+            $path = Storage::disk('s3')->putFileAs(
                 'batch/videos/high',
                 $file,
                 $fileName,
