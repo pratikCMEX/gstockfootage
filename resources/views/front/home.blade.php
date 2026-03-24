@@ -871,9 +871,16 @@
                             } else {
                                 $initials = strtoupper(substr($name, 0, 1));
                             }
+                            
                         @endphp
                         <div class="testimonial-user">
-                            <div class="avatar">{{ $initials }}</div>
+                            <div class="avatar">
+                                @if(!empty($testimonial->profile_image) && file_exists(public_path('uploads/images/testimonials/' . $testimonial->profile_image)))
+                                    <img  class='avatar' src="{{ asset('uploads/images/testimonials/' . $testimonial->profile_image) }}" alt="{{ $testimonial->name }}" >
+                                @else
+                                    {{ $initials }}
+                                @endif
+                            </div>
                             <div class="user-info">
                                 <strong>{{ $testimonial->name }}</strong>
                                 <small>{{ $testimonial->designation }}</small>

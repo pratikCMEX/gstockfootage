@@ -185,9 +185,17 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
 
     // reports
     Route::get('admin/order_history', [ReportsController::class, 'order_history'])->name('admin.order_history');
+    Route::get('admin/order_history/export_pdf', [ReportsController::class, 'exportOrderPdf'])->name('admin.order_history.export_pdf');
+
     Route::get('/admin/order_detail/{id}', [ReportsController::class, 'detail'])->name('admin.order_detail');
+
     Route::get('admin/user_subscriptions_list', [ReportsController::class, 'user_subscriptions_report'])->name('admin.user_subscriptions_report');
+    Route::get('admin/user_subscriptions_report/export_pdf', [ReportsController::class, 'exportSubscriptionPdf'])->name('admin.user_subscriptions_report.export_pdf');
+
     Route::get('admin/most_sold_product_report', [ReportsController::class, 'most_sold_product_report'])->name('admin.most_sold_product_report');
+    Route::get('admin/most_sold_product_report/export_pdf', [ReportsController::class, 'exportMostSoldPdf'])->name('admin.most_sold_product_report.export_pdf');
+
+
     Route::get('admin/most_viewed_product_report', [ReportsController::class, 'most_viewed_product_report'])->name('admin.most_viewed_product_report');
     Route::get('admin/live_cart_report', [ReportsController::class, 'live_cart_report'])->name('admin.live_cart_report');
     Route::get('admin/user_wise_order_report', [ReportsController::class, 'user_wise_order_report'])->name('admin.user_wise_order_report');
@@ -226,7 +234,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/affiliates/store', [AffiliateController::class, 'store'])->name('admin.affiliates.store');
     Route::get('admin/affiliates/{id}/edit', [AffiliateController::class, 'edit'])->name('admin.affiliates.edit');
     Route::put('admin/affiliates/{id}/update', [AffiliateController::class, 'update'])->name('admin.affiliates.update');
-     Route::post('admin/check_affiliate_is_exist', [AffiliateController::class, 'checkAffiliateIsExist'])->name('admin.check_affiliate_is_exist');
+    Route::post('admin/check_affiliate_is_exist', [AffiliateController::class, 'checkAffiliateIsExist'])->name('admin.check_affiliate_is_exist');
     // Route::post('admin/affiliates/{id}/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
     Route::post('admin/affiliates/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
     // Route::delete('admin/affiliates/{id}/delete', [AffiliateController::class, 'destroy'])->name('admin.affiliates.destroy');
@@ -245,7 +253,7 @@ Route::get('admin/logout', [AuthAdmin::class, 'logout'])
 
 Route::prefix('affiliate')->name('affiliate.')->group(function () {
 
-   
+
 
     Route::middleware('affiliate.auth')->group(function () { //  use string alias
         Route::get('dashboard', [AffiliateAuthController::class, 'dashboard'])->name('dashboard');

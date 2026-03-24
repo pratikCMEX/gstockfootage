@@ -39,7 +39,7 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Discount(%)</label>
                                 <input type="text" name="discount" class="form-control" id="discount"
-                                    aria-describedby="emailHelp" placeholder="Please enter total clips"
+                                    aria-describedby="emailHelp" placeholder="Please enter Discount"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 

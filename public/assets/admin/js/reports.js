@@ -37,7 +37,7 @@ $(document).ready(function () {
     if ($('#orderhistory-table').length) {
         let orderTable = window.LaravelDataTables['orderhistory-table'];
         if (orderTable) {
-            $('#from_date, #to_date').on('change', function () {
+            $('#from_date, #to_date,#payment_status,#order_status').on('change', function () {
                 orderTable.ajax.reload();
             });
         }
@@ -47,7 +47,7 @@ $(document).ready(function () {
     if ($('#usersubscriptionreport-table').length) {
         let userSubTable = window.LaravelDataTables['usersubscriptionreport-table'];
         if (userSubTable) {
-            $('#from_date, #to_date').on('change', function () {
+            $('#from_date, #to_date,#payment_status,#status').on('change', function () {
                 userSubTable.ajax.reload();
             });
         }

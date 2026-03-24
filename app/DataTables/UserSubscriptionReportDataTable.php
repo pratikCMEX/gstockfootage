@@ -49,6 +49,28 @@ class UserSubscriptionReportDataTable extends DataTable
             ->addColumn('plan_name', function ($row) {
                 return $row->subscription ? $row->subscription->name : 'N/A';
             })
+            ->filterColumn('user_name', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$keyword}%"]);
+                });
+            })
+
+            ->filterColumn('plan_name', function ($query, $keyword) {
+                $query->whereHas('subscription', function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%{$keyword}%");
+                });
+            })
+            ->orderColumn('user_name', function ($query, $order) {
+                $query->whereHas('user', function ($q) use ($order) {
+                    $q->orderBy('first_name', $order);
+                });
+            })
+
+            ->orderColumn('plan_name', function ($query, $order) {
+                $query->whereHas('subscription', function ($q) use ($order) {
+                    $q->orderBy('name', $order);
+                });
+            })
 
             ->addColumn('export_status', fn($row) => ucfirst($row->status))
             ->addColumn('export_payment_status', fn($row) => ucfirst($row->payment_status))
@@ -78,6 +100,14 @@ class UserSubscriptionReportDataTable extends DataTable
             $query->whereDate('start_date', '<=', request('to_date'));
         }
 
+        if (request()->filled('status')) {
+            $query->where('status', request('status'));
+        }
+
+        //  Payment status filter
+        if (request()->filled('payment_status')) {
+            $query->where('payment_status', request('payment_status'));
+        }
         return $query;
     }
     public function html(): HtmlBuilder
@@ -91,22 +121,43 @@ class UserSubscriptionReportDataTable extends DataTable
                 'data' => 'function(d) {
                     d.from_date = $("#from_date").val();
                     d.to_date   = $("#to_date").val();
+                     d.status   = $("#status").val();   
+                    d.payment_status = $("#payment_status").val(); 
                 }',
             ])
             ->orderBy(3, 'desc')
             ->selectStyleSingle()
-           ->parameters([
+            ->parameters([
                 'dom' => 'Blfrtip',
                 'lengthChange' => true,
                 'lengthMenu' => [
-                    [10, 25, 50, 100, -1],       
-                    [10, 25, 50, 100, 'All']         
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, 'All']
                 ],
                 'pageLength' => 10,
             ])
             ->buttons([
-                Button::make('pdf')->exportOptions(['columns' => ':visible']),
+                Button::raw([
+                    'text' => '<i class="fa fa-file-pdf"></i> PDF',
+                    'action' => 'function(e, dt, node, config) {
+            let from           = $("#from_date").val();
+            let to             = $("#to_date").val();
+            let status   = $("#status").val();
+            let payment_status = $("#payment_status").val();
+
+            let url = "' . route('admin.user_subscriptions_report.export_pdf') . '"
+                + "?from_date="      + from
+                + "&to_date="        + to
+                + "&status="   + status
+                + "&payment_status=" + payment_status;
+
+            window.location.href = url;
+        }',
+                ]),
             ]);
+        // ->buttons([
+        //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
+        // ]);
     }
     public function getColumns(): array
     {
@@ -120,14 +171,12 @@ class UserSubscriptionReportDataTable extends DataTable
                 ->addClass('text-center'),
 
             Column::make('user_name')
-                ->title('User Name')
-                ->orderable(false)
-                ->searchable(false),
+                ->title('User Name'),
+
 
             Column::make('plan_name')
-                ->title('Plan Name')
-                ->orderable(false)
-                ->searchable(false),
+                ->title('Plan Name'),
+
 
             Column::make('start_date')
                 ->title('Start Date'),
