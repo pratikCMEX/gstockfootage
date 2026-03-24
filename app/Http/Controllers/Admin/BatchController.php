@@ -524,6 +524,11 @@ class BatchController extends Controller
             $originalName = $file->getClientOriginalName();
 
             Log::info("⬇️ Downloading from S3", ['aws_path' => $path]);
+            if (!$path) {
+                Log::error('❌ S3 Upload Failed');
+
+                return false; // OR throw exception
+            }
         }
 
         $originalNameOnly = pathinfo($originalName, PATHINFO_FILENAME);
