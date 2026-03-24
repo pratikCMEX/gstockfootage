@@ -181,6 +181,8 @@ class HomeController extends Controller
                     ? Storage::disk('s3')->url($product->thumbnail_path)
                     : asset('assets/admin/images/demo_thumbnail.png');
 
+
+
                 // $data['resolution'] = 'HD Video';
                 $data['resolution'] = $product->height . ' x ' . $product->width;
 
