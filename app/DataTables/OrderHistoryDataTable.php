@@ -68,6 +68,14 @@ class OrderHistoryDataTable extends DataTable
             $query->whereDate('created_at', '<=', request('to_date'));
         }
 
+        if (request()->filled('order_status')) {
+            $query->where('order_status', request('order_status'));
+        }
+
+        if (request()->filled('payment_status')) {
+            $query->where('payment_status', request('payment_status'));
+        }
+
         return $query;
     }
 
@@ -99,6 +107,8 @@ class OrderHistoryDataTable extends DataTable
                 'data' => 'function(d) {
                 d.from_date = $("#from_date").val();
                 d.to_date   = $("#to_date").val();
+                d.order_status   = $("#order_status").val();   
+                d.payment_status = $("#payment_status").val();
             }',
             ])
             ->orderBy(6, 'desc')
@@ -107,27 +117,47 @@ class OrderHistoryDataTable extends DataTable
                 'dom' => 'Blfrtip',
                 'lengthChange' => true,
                 'lengthMenu' => [
-                    [10, 25, 50, 100, -1],       
-                    [10, 25, 50, 100, 'All']         
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, 'All']
                 ],
                 'pageLength' => 10,
             ])
             ->buttons([
-                //  Exclude last column (action) from export using column index
-                // Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
-                // Button::make('csv')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
-                Button::make('pdf')->exportOptions([
-                    'columns' => [0, 1, 2, 3, 4, 5, 6],
-                    'modifier' => [
-                        'page' => 'all', 
-                        'search' => 'applied', 
-                        'order' => 'applied',
-                    ],
-                ]),
-                // Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
-                //  Fixed raw button syntax
+    //  Custom PDF button - exports ALL records with filters
+    Button::raw([
+        'text'   => '<i class="fa fa-file-pdf"></i> PDF',
+        'action' => 'function(e, dt, node, config) {
+            let from           = $("#from_date").val();
+            let to             = $("#to_date").val();
+            let order_status   = $("#order_status").val();
+            let payment_status = $("#payment_status").val();
 
-            ]);
+            let url = "' . route('admin.order_history.export_pdf') . '"
+                + "?from_date="      + from
+                + "&to_date="        + to
+                + "&order_status="   + order_status
+                + "&payment_status=" + payment_status;
+
+            window.location.href = url;
+        }',
+    ]),
+]);
+            // ->buttons([
+            //     //  Exclude last column (action) from export using column index
+            //     // Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+            //     // Button::make('csv')->exportOptions(['columns'   => [0, 1, 2, 3, 4, 5, 6]]),
+            //     Button::make('pdf')->exportOptions([
+            //         'columns' => [0, 1, 2, 3, 4, 5, 6],
+            //         'modifier' => [
+            //             'page' => 'all',
+            //             'search' => 'applied',
+            //             'order' => 'applied',
+            //         ],
+            //     ]),
+            //     // Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5, 6]]),
+            //     //  Fixed raw button syntax
+
+            // ]);
     }
 
     public function getColumns(): array

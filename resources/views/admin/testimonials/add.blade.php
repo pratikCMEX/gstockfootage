@@ -14,17 +14,17 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Please enter subcategory name">
+                                    aria-describedby="emailHelp" placeholder="Please enter  name">
                             </div>
                              <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Designation</label>
                                 <input type="text" name="designation" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Please enter subcategory name">
+                                    aria-describedby="emailHelp" placeholder="Please enter Designation ">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Message</label><label class="text-danger">*</label>
                                 <input type="text" name="message" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Please enter subcategory name">
+                                    aria-describedby="emailHelp" placeholder="Please enter Message">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload User Image</label>
