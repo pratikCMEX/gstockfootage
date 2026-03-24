@@ -132,7 +132,7 @@ class ProcessBatchVideo implements ShouldQueue
             } else {
                 Log::info("✅ Thumbnail generated");
 
-                Storage::disk('s3')->put(
+                Storage::disk('s3')->putFileAs(
                     'batch/videos/thumbnails',
                     new \Illuminate\Http\File($tempThumbnailPath),
                     $thumbnailName,
@@ -168,7 +168,7 @@ class ProcessBatchVideo implements ShouldQueue
                     'output' => implode("\n", $midOutput),
                 ]);
             } else {
-                Storage::disk('s3')->put(
+                Storage::disk('s3')->putFileAs(
                     'batch/videos/mid',
                     new \Illuminate\Http\File($tempMidPath),
                     $midFileName,
@@ -203,7 +203,7 @@ class ProcessBatchVideo implements ShouldQueue
                     'output' => implode("\n", $lowOutput),
                 ]);
             } else {
-                Storage::disk('s3')->put(
+                Storage::disk('s3')->putFileAs(
                     'batch/videos/low',
                     new \Illuminate\Http\File($tempLowPath),
                     $lowFileName,
@@ -248,7 +248,7 @@ class ProcessBatchVideo implements ShouldQueue
                         'output' => implode("\n", $previewOutput),
                     ]);
                 } else {
-                    Storage::disk('s3')->put(
+                    Storage::disk('s3')->putFileAs(
                         'batch/videos/preview',
                         new \Illuminate\Http\File($tempPreviewPath),
                         $previewFileName,
