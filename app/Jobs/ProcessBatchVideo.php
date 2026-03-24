@@ -463,7 +463,7 @@ class ProcessBatchVideo implements ShouldQueue
             $video->duration       = $duration;
             $video->file_size      = $fileSize;
             $video->frame_rate     = $frameRate;
-            $video->thumbnail_path = 'batch/videos/thumbnails/' . $thumbnailName;
+            $video->thumbnail_path = $thumbnailName ? 'batch/videos/thumbnails/' . $thumbnailName : null;
             $video->mid_path       = 'batch/videos/mid/' . $midFileName;
             $video->low_path       = 'batch/videos/low/' . $lowFileName;
             $video->status         = 'submitted';
