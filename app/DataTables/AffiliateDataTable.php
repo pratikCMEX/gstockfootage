@@ -38,6 +38,15 @@ class AffiliateDataTable extends DataTable
             ->addColumn('total_earnings', function ($row) {
                 return '$' . number_format($row->total_earnings, 2);
             })
+            ->addColumn('commission_value', function ($row) {
+                if ($row->commission_type === 'fixed') {
+                    return '$' . number_format($row->commission_value, 2);
+                } elseif ($row->commission_type === 'percentage') {
+                    return number_format($row->commission_value, 2) . '%';
+                }
+
+                return $row->commission_value; // fallback
+            })
             ->addColumn('status', function ($row) {
                 $checked = $row->status == 'active' ? 'checked' : '';
                 return '
@@ -144,6 +153,12 @@ class AffiliateDataTable extends DataTable
                 ->title('Referral Link')
                 ->orderable(false)
                 ->searchable(false),
+
+            Column::make('commission_type')
+                ->title('Commission Type'),
+
+            Column::make('commission_value')
+                ->title('Commission Value'),
 
             Column::make('total_referrals')
                 ->title('Total Refferal'),

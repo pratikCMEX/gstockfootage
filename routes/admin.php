@@ -28,6 +28,8 @@ use App\Http\Controllers\Admin\WalletTransactionsController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Affiliate\AffiliateAuthController;
+use App\Http\Controllers\Affiliate\AffiliateProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\NoCache;
@@ -35,6 +37,8 @@ use App\Models\WebPages;
 use Database\Factories\UserFactory;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+
+
 
 Route::post('admin/vide_batch/{batch}', [BatchController::class, 'uploadMultipleVideos'])->name('batch.video_upload');
 Route::post('admin/image_upload/{batch}', [BatchController::class, 'uploadFiles'])->name('batch.image_upload');
@@ -223,7 +227,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/affiliates/{id}/edit', [AffiliateController::class, 'edit'])->name('admin.affiliates.edit');
     Route::put('admin/affiliates/{id}/update', [AffiliateController::class, 'update'])->name('admin.affiliates.update');
     // Route::post('admin/affiliates/{id}/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
-     Route::post('admin/affiliates/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
+    Route::post('admin/affiliates/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
     // Route::delete('admin/affiliates/{id}/delete', [AffiliateController::class, 'destroy'])->name('admin.affiliates.destroy');
     Route::post('admin/affiliates/delete', [AffiliateController::class, 'destroy'])->name('admin.affiliates.delete');
 });
@@ -236,3 +240,19 @@ Route::post('admin/', [AuthAdmin::class, 'checkLogin'])
 
 Route::get('admin/logout', [AuthAdmin::class, 'logout'])
     ->name('admin.logout');
+
+
+Route::prefix('affiliate')->name('affiliate.')->group(function () {
+
+    Route::middleware('affiliate.auth')->group(function () { //  use string alias
+        Route::get('dashboard', [AffiliateAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('referrals', [AffiliateAuthController::class, 'referrals'])->name('referrals');
+        Route::get('commission_history', [AffiliateAuthController::class, 'commission_history'])->name('commission_history');
+        Route::get('pending_payments', [AffiliateAuthController::class, 'pending_payments'])->name('pending_payments');
+        Route::post('logout', [AffiliateAuthController::class, 'logout'])->name('logout');
+
+          Route::get('my_profile', [AffiliateProfileController::class, 'index'])->name('my_profile');
+          Route::post('update_profile', [AffiliateProfileController::class, 'update_profile'])->name('update_profile');
+    });
+
+});
