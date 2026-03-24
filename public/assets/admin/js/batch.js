@@ -549,7 +549,7 @@ function loadImageMetadata(file_id) {
 
 $(document).on("click", ".generate-ai", function () {
   let btn = $(this);
-  let imgUrl = btn.data("img");
+  let imgUrl = btn.attr("data-img"); // ✅ reads live attribute, not cached value
 
   btn.prop("disabled", true).text("Generating...");
   $("#loader").css("display", "flex");
@@ -567,6 +567,8 @@ $(document).on("click", ".generate-ai", function () {
       if (res.status === true) {
         $("input[name='title']").val(res.data.title);
         $("#description").val(res.data.description);
+        $("#category_id").val(res.category_id).trigger("change");
+        loadSubCategories(res.category_id, res.subcategory_id);
 
         $("#tags").tagsinput("removeAll");
         if (res.data.tags) {

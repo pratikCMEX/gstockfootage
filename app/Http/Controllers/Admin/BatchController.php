@@ -8,6 +8,8 @@ use App\Jobs\ProcessBatchVideo;
 use App\Jobs\ProcessUploadedVideo;
 use App\Models\Batch;
 use App\Models\BatchFile;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Carbon\Carbon;
 use Exception;
 use FFMpeg\FFProbe;
@@ -877,6 +879,174 @@ class BatchController extends Controller
         return response()->json([
             'status' => 1,
             'message' => 'Batch deleted'
+        ]);
+    }
+
+    public function generateAiContentNew(Request $request)
+    {
+        $request->validate(['img_url' => 'required|url']);
+        $geminiKey = env('GOOGLE_GEMINI_API_KEY');
+
+
+        $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
+
+        $visionKey = env('GOOGLE_VISION_API_KEY');
+
+        $imageData = base64_encode(file_get_contents($request->img_url));
+        $vResponse = Http::timeout(60)
+            ->withOptions([
+                'curl' => [
+                    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+                ],
+            ])
+            ->post("https://vision.googleapis.com/v1/images:annotate?key={$visionKey}", [
+                'requests' => [
+                    [
+                        'image' => ['content' => $imageData],
+                        'features' => [['type' => 'WEB_DETECTION'], ['type' => 'LABEL_DETECTION']]
+                    ]
+                ]
+            ]);
+        if ($vResponse->failed()) {
+            return response()->json(['error' => 'Vision API Failed', 'details' => $vResponse->json()], 400);
+        }
+
+        $subject = data_get($vResponse->json(), 'responses.0.webDetection.bestGuessLabels.0.label', 'Atmospheric Scene');
+        $labels = collect(data_get($vResponse->json(), 'responses.0.labelAnnotations', []))->pluck('description');
+
+
+        $allCategories = Category::select('id', 'category_name')->get();
+        $allSubCategories = SubCategory::select('id', 'category_id', 'name')->get();
+
+        $categoryList = $allCategories->map(function ($cat) use ($allSubCategories) {
+            $subs = $allSubCategories
+                ->where('category_id', $cat->id)
+                ->map(fn($s) => "{$s->name} (id:{$s->id})")
+                ->join(', ');
+            return "- {$cat->category_name} (id:{$cat->id})" . ($subs ? " → Subcategories: {$subs}" : ' → Subcategories: none');
+        })->join("\n");
+
+        $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$geminiKey}";
+
+        $gResponse = Http::timeout(60)
+            ->retry(2, 100)
+            ->post($geminiUrl, [
+                'contents' => [[
+                    'parts' => [
+                        [
+                            'inline_data' => [
+                                'mime_type' => 'image/jpeg',
+                                'data'      => $imageData,
+                            ],
+                        ],
+                        [
+                            'text' => "Look at this image carefully and return a JSON object with the following fields.
+
+                            1. title: A short, overall title (2-3 words max) describing the WHOLE scene.
+                            2. description: A simple, clear, professional stock photo description of exactly what is visible. 2-3 sentences, 50-60 words. No poetic language. Do NOT mention any watermark or logo.
+                            Rules:
+                            - Describe ONLY what is actually visible.
+                            - Mention main subject, location, weather/sky, and mood.
+                            - Start directly. No intro like 'This image shows'.
+                            3. category_id: Pick the BEST matching category ID from this list (use the id number):
+                            {$categoryList}
+                            If absolutely none match, set category_id to null and suggest a new category name in new_category.
+                            4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category (use the id number).
+                            If none match, set subcategory_id to null and suggest a new subcategory name in new_subcategory.
+                            5. new_category: (only if category_id is null) Suggested new category name. Otherwise omit or null.
+                            6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise omit or null.
+
+                            Return ONLY raw JSON. No markdown, no explanation, nothing else.
+                            Example: {\"title\": \"...\", \"description\": \"...\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null}",
+                        ],
+                    ],
+                ]],
+                'generationConfig' => [
+                    'temperature'     => 0.7,
+                    'maxOutputTokens' => 1500,
+                    'topP'            => 0.95,
+                    'topK'            => 40,
+                ],
+            ]);
+
+        if ($gResponse->failed()) {
+            return response()->json([
+                'error' => 'Gemini API still returning 404',
+                'google_says' => $gResponse->json(),
+                'url_attempted' => $geminiUrl
+            ], 404);
+        }
+
+        $raw = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
+
+        $clean = preg_replace('/```json|```/', '', $raw);
+        $parsed = json_decode(trim($clean), true);
+
+        $categoryId = null;
+        $categoryName = null;
+
+        if (!empty($parsed['category_id'])) {
+            // Gemini matched an existing category
+            $cat = $allCategories->firstWhere('id', $parsed['category_id']);
+            if ($cat) {
+                $categoryId   = $cat->id;
+                $categoryName = $cat->category_name;
+            }
+        }
+
+        if (!$categoryId && !empty($parsed['new_category'])) {
+            // No match — create new category
+            $categoryId = Category::insertGetId([
+                'category_name' => $parsed['new_category'],
+                'is_display'    => '1',
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ]);
+            $categoryName = $parsed['new_category'];
+        }
+
+        // ── 5. Resolve / create Subcategory ───────────────────────────────
+        $subcategoryId   = null;
+        $subcategoryName = null;
+
+        if (!empty($parsed['subcategory_id'])) {
+            // Gemini matched an existing subcategory
+            $sub = $allSubCategories->firstWhere('id', $parsed['subcategory_id']);
+            if ($sub && $sub->category_id == $categoryId) {
+                $subcategoryId   = $sub->id;
+                $subcategoryName = $sub->name;
+            }
+        }
+
+        if (!$subcategoryId && $categoryId && !empty($parsed['new_subcategory'])) {
+            // No match — create new subcategory under the resolved category
+            // $slugBase = \Str::slug($parsed['new_subcategory']);
+            // $slug = $slugBase;
+            // $i = 1;
+            // while (\DB::table('sub_categories')->where('slug', $slug)->exists()) {
+            //     $slug = $slugBase . '-' . $i++;
+            // }
+
+            $subcategoryId = SubCategory::insertGetId([
+                'category_id' => $categoryId,
+                'name'        => $parsed['new_subcategory'],
+                // 'slug'        => $slug,
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ]);
+            $subcategoryName = $parsed['new_subcategory'];
+        }
+        return response()->json([
+            'status' => true,
+            'data'   => [
+                'title'       => ucfirst($parsed['title']       ?? $subject),
+                'description' => trim($parsed['description']    ?? $raw),
+                'tags'        => $labels->take(10)->join(', '),
+                'category_id'      => $categoryId,
+                'category_name'    => $categoryName,
+                'subcategory_id'   => $subcategoryId,
+                'subcategory_name' => $subcategoryName,
+            ]
         ]);
     }
 
