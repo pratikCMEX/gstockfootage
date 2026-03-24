@@ -40,6 +40,7 @@ class ProcessBatchVideo implements ShouldQueue
         }
 
         try {
+            Log::error("started 1");
 
             $watermarkPath = storage_path('app/watermark.png');
             $ffmpegBin     = env('FFMPEG_BINARY_PATH', '/usr/bin/ffmpeg');
@@ -47,6 +48,7 @@ class ProcessBatchVideo implements ShouldQueue
 
             // Proportional watermark filter — 15% of video width, works for any resolution
             $watermarkFilter = "movie={$watermarkPath} [wm]; [wm][in] scale2ref=iw*0.15:ow/mdar [watermark][base]; [base][watermark] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]";
+            Log::error("started 2");
 
             /*
         |--------------------------------------------------------------------------
@@ -79,6 +81,7 @@ class ProcessBatchVideo implements ShouldQueue
         |--------------------------------------------------------------------------
         */
             Log::info("⬇️ Downloading from S3", ['path' => $video->file_path]);
+            Log::error("started 3");
 
             $stream = Storage::disk('s3')->readStream($video->file_path);
             file_put_contents($tempOriginalPath, stream_get_contents($stream));
