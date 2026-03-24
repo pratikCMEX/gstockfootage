@@ -977,6 +977,7 @@ class BatchController extends Controller
             ], 404);
         }
 
+
         $raw = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
 
         $clean = preg_replace('/```json|```/', '', $raw);
