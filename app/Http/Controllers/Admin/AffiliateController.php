@@ -23,8 +23,9 @@ class AffiliateController extends Controller
             ->latest()
             ->paginate(10);
         $js = ['affiliate'];
+         $css = 'affiliate';
         // return view('layouts.admin.layout', compact('title', 'page', 'js', 'affiliates'));
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'affiliates'));
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'affiliates','css'));
     }
     public function create()
     {
@@ -32,7 +33,8 @@ class AffiliateController extends Controller
         $title = 'Affiliates';
         $page = 'admin.affiliate.add';
         $js = ['affiliate'];
-        return view('layouts.admin.layout', compact('title', 'page', 'js'));
+        $css = 'affiliate';
+        return view('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
     }
 
     public function store(Request $request)
@@ -105,9 +107,11 @@ class AffiliateController extends Controller
         $title = 'Affiliates Edit';
         $page = 'admin.affiliate.edit';
         $js = ['affiliate'];
+
+        $css = 'affiliate';
         $affiliate = Affiliate::with('affiliateUser')->findOrFail($id);
 
-        return view('layouts.admin.layout', compact('title', 'page', 'js', 'affiliate'));
+        return view('layouts.admin.layout', compact('title', 'page', 'js', 'css', 'affiliate'));
 
     }
     public function update(Request $request, $id)
@@ -154,8 +158,8 @@ class AffiliateController extends Controller
 
             $affiliate->affiliateUser->update($userData);
             $affiliate->update([
-                'commission_type' => $request->commission_type,  
-                'commission_value' => $request->commission_value,  
+                'commission_type' => $request->commission_type,
+                'commission_value' => $request->commission_value,
             ]);
 
             DB::commit();
@@ -188,6 +192,30 @@ class AffiliateController extends Controller
             return response()->json(['success' => false]);
         }
 
+    }
+    public function checkAffiliateIsExist(Request $request)
+    {
+       
+        try {
+            $user = AffiliateUser::where(['email' => $request->email])->get();
+            if (count($user) > 0) {
+                if (isset($request->id) && !empty($request->id)) {
+                    if ($user[0]->id ==$request->id) {
+                        $return = true;
+                        echo json_encode($return);
+                        exit;
+                    }
+                }
+                $return = false;
+            } else {
+                $return = true;
+            }
+            echo json_encode($return);
+            exit;
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json(false);
+        }
     }
     public function destroy(Request $request)
     {

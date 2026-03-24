@@ -44,7 +44,7 @@ class PendingPaymentsDataTable extends DataTable
                 return '$' . number_format($row->commission_amount, 2);
             })
             ->editColumn('created_at', function ($row) {
-                return $row->created_at->format('d M Y, h:i A');
+                return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
             })
 
             //  Sorting
@@ -88,7 +88,7 @@ class PendingPaymentsDataTable extends DataTable
             ->where('affiliate_id', $this->affiliateId)
             ->where('status', 'pending') //  pending only
             ->with(['user', 'order'])
-            ->select('affiliate_referrals.*');
+            ->select('affiliate_referrals.*')->latest();
     }
 
     public function html(): HtmlBuilder
@@ -100,7 +100,7 @@ class PendingPaymentsDataTable extends DataTable
                 'url'  => route('affiliate.pending_payments'),
                 'type' => 'GET',
             ])
-            ->orderBy(1, 'desc') //  created_at = index 7
+            ->orderBy(0, 'desc') //  created_at = index 7
             ->selectStyleSingle()
             ->parameters([
                 'dom'        => 'Blfrtip',

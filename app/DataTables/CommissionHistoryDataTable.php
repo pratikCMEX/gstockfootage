@@ -50,10 +50,10 @@ class CommissionHistoryDataTable extends DataTable
                     : '<span class="badge bg-warning">Pending</span>';
             })
             ->editColumn('created_at', function ($row) {
-                return $row->created_at->format('d M Y, h:i A');
+                return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
             })
 
-            // ✅ Sorting
+            // ✅ Sorting   
             ->orderColumn('user_name', "(SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE users.id = affiliate_referrals.user_id) $1")
             ->orderColumn('user_email', "(SELECT email FROM users WHERE users.id = affiliate_referrals.user_id) $1")
             ->orderColumn('order_number', "(SELECT order_number FROM orders WHERE orders.id = affiliate_referrals.order_id) $1")

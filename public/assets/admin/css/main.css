@@ -1,6 +1,7 @@
 /* @import url(home.css); */
 @import url(var.css);
 @import url(font.css);
+
 /* @import url(header.css);
 @import url(footer.css);
 @import url(log_in.css);
@@ -13,6 +14,7 @@
   margin: 0;
   padding: 0;
 }
+
 h1,
 h2,
 h3,
@@ -23,10 +25,12 @@ p {
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: var(--font-inter-regular);
   font-size: 14px;
 }
+
 a {
   text-decoration: none;
 }
@@ -40,6 +44,7 @@ a {
   padding: 12px 24px !important;
   font-size: 16px;
 }
+
 .btn-orange:hover {
   background: var(--primary-hover) !important;
   color: var(--white) !important;
@@ -59,6 +64,7 @@ a {
   color: var(--white);
   border-color: var(--white);
 }
+
 .btn-hover-dark:hover {
   color: var(--text) !important;
   border-color: var(--text) !important;
@@ -71,6 +77,7 @@ a {
   letter-spacing: 1px;
   color: var(--text);
 }
+
 .yellow-headings {
   color: var(--primary);
 }
@@ -114,6 +121,7 @@ a {
 
 /* Animations */
 @keyframes ringA {
+
   from,
   4% {
     stroke-dasharray: 0 660;
@@ -161,6 +169,7 @@ a {
 }
 
 @keyframes ringB {
+
   from,
   12% {
     stroke-dasharray: 0 220;
@@ -254,6 +263,7 @@ a {
 }
 
 @keyframes ringD {
+
   from,
   8% {
     stroke-dasharray: 0 440;
@@ -309,14 +319,17 @@ a {
   .btn-orange {
     padding: 9px 18px !important;
   }
+
   .btn-all-light {
     padding: 9px 18px;
   }
 }
+
 @media only screen and (max-width: 1199px) {
   .heading h2 {
     font-size: 36px !important;
   }
+
   .btn-orange {
     font-size: 15px;
   }
@@ -325,27 +338,32 @@ a {
     font-size: 15px;
   }
 }
+
 @media only screen and (max-width: 991px) {
   .heading h2 {
     margin-bottom: 3px;
     font-size: 32px !important;
   }
+
   .btn-orange {
     font-size: 16px;
     border-radius: 7px !important;
   }
+
   .btn-all-dark {
     padding: 9px 22px !important;
   }
 }
-@media only screen and (max-width: 767px) {
-}
+
+@media only screen and (max-width: 767px) {}
+
 @media only screen and (max-width: 575px) {
   .btn-all-dark {
     padding: 9px 18px !important;
     border-radius: 7px;
   }
 }
+
 @media only screen and (max-width: 424px) {
   .heading h2 {
     font-size: 25px !important;
@@ -359,32 +377,38 @@ a {
   color: var(--black);
   font-size: 16px;
 }
+
 .sidebar-nav ul .sidebar-item .sidebar-link.active:hover {
   background-color: var(--primary);
   color: var(--white) !important;
 }
+
 .sidebar-nav ul .sidebar-item .sidebar-link.side-item:hover {
   background-color: transparent;
   color: var(--black);
 }
+
 .sidebar-nav ul .sidebar-item .sidebar-link:hover {
   background: transparent !important;
   color: var(--black) !important;
 }
+
 .sidebar-nav .has-arrow::after {
   color: var(--black);
   top: 25px !important;
 }
+
 .sidebar-nav ul .sidebar-item .sidebar-link:hover.has-arrow::after {
   border-color: var(--black) !important;
 }
+
 .sidebar-nav ul .sidebar-item .sidebar-link.active:hover.has-arrow::after {
   border-color: var(--white) !important;
 }
 
-.sidebar-nav ul .sidebar-item.selected > .sidebar-link.active,
-.sidebar-nav ul .sidebar-item.selected > .sidebar-link,
-.sidebar-nav ul .sidebar-item > .sidebar-link.active {
+.sidebar-nav ul .sidebar-item.selected>.sidebar-link.active,
+.sidebar-nav ul .sidebar-item.selected>.sidebar-link,
+.sidebar-nav ul .sidebar-item>.sidebar-link.active {
   background-color: var(--primary) !important;
   color: var(--white) !important;
 }
@@ -392,6 +416,7 @@ a {
 .admin-box {
   background-color: var(--white) !important;
 }
+
 .gt-link {
   color: var(--primary) !important;
 }
@@ -400,6 +425,7 @@ a {
   color: var(--black);
   border-color: var(--black);
 }
+
 .form-select:focus {
   border-color: var(--black);
 }
@@ -412,6 +438,7 @@ a {
   width: 18px;
   margin-right: 10px;
 }
+
 .status-checkbox .form-check-input:checked,
 .row-checkbox:checked {
   background-color: var(--primary) !important;
@@ -432,10 +459,11 @@ a {
 }
 
 .form-check-input:checked {
-  background-color: var(--primary) !important ;
+  background-color: var(--primary) !important;
   border-color: var(--primary) !important;
 }
-div.dataTables_processing > div:last-child > div {
+
+div.dataTables_processing>div:last-child>div {
   background: var(--primary) !important;
 }
 
@@ -468,9 +496,11 @@ div.dataTables_processing > div:last-child > div {
   color: var(--white);
   border-color: var(--primary) !important;
 }
+
 .table-bordered {
   border: none;
 }
+
 table,
 table thead,
 table tbody,
@@ -478,22 +508,27 @@ table th,
 table td {
   border: none !important;
 }
-table.dataTable > thead > tr > th,
-table.dataTable > thead > tr > td {
+
+table.dataTable>thead>tr>th,
+table.dataTable>thead>tr>td {
   text-align: center;
 }
+
 table tbody td .form-check {
   display: inline-block !important;
 }
+
 .product-img-video {
   height: 100px;
   width: 100%;
   min-width: 100px;
 }
+
 .product-img-video img {
   width: 100%;
   height: 100%;
 }
+
 .product-priority {
   height: 781px;
 }
@@ -501,10 +536,12 @@ table tbody td .form-check {
 .card-title {
   color: var(--text);
 }
+
 #priority-table thead tr th:first-child,
 #all-products-table thead tr th:first-child {
   width: 30px !important;
 }
+
 #testimonials-table thead tr th:first-child,
 #contactus-table thead tr th:first-child,
 #subscriptionplan-table thead tr th:first-child,
@@ -516,16 +553,20 @@ table tbody td .form-check {
 #category-table thead tr th:first-child {
   width: 20px !important;
 }
+
 #license-table thead tr th:nth-child(5),
 #license-table thead tr th:nth-child(6),
 #license-table thead tr th:nth-child(7),
 #license-table thead tr th:nth-child(2) {
   width: 50px !important;
 }
+
 #testimonials-table thead tr th:nth-child(7),
 #category-table thead tr th:nth-child(4) {
   width: 80px !important;
 }
+
+#affiliate-table thead tr th:last-child,
 #users-table thead tr th:last-child,
 #products-table thead tr th:last-child,
 #subcategory-table thead tr th:last-child,
@@ -533,6 +574,8 @@ table tbody td .form-check {
 #collection-table thead tr th:last-child {
   width: 80px !important;
 }
+
+#affiliate-table tbody tr td:last-child .d-flex,
 #contactus-table tbody tr td:last-child .d-flex,
 #users-table tbody tr td:last-child .d-flex,
 #products-table tbody tr td:last-child .d-flex,
@@ -542,11 +585,18 @@ table tbody td .form-check {
   justify-content: center !important;
 }
 
+
+#affiliate-table tbody tr td:last-child .d-flex{
+  gap: 4px !important;
+}
+
 table.dataTable thead th {
   padding-top: 15px !important;
   padding-bottom: 15px !important;
-  background-color: #ff8000 !important; /* your color */
-  color: #fff !important; /* optional text color */
+  background-color: #ff8000 !important;
+  /* your color */
+  color: #fff !important;
+  /* optional text color */
 }
 
 .dataTables_length,
@@ -557,6 +607,25 @@ table.dataTable thead th {
 #license-table thead tr th[title="Most Popular"] {
   width: 90px !important;
 }
+
 .form-select {
   padding: 12px 58px 12px 22px;
+}
+
+
+
+.iti {
+  width: 100%;
+}
+
+
+
+
+.affiliate-dashboard .stat-card .sc-row{
+align-items: start !important;
+
+}
+.affiliate-dashboard .row2{
+  display: flex;
+  flex-wrap: wrap;
 }

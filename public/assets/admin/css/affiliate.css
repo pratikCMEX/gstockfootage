@@ -1,0 +1,30 @@
+.affiliate-form-flex {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.affiliate-form-flex .form-select {
+    padding: 8px 38px 8px 16px !important;
+}
+
+.affiliate-form-flex textarea {
+    resize: none;
+}
+
+.affiliate-textarea {
+    resize: none;
+}
+
+#affiliate-table thead tr th:last-child {
+    width: 80px !important;
+}
+
+#affiliate-table thead tr th:last-child .d-flex {
+    justify-content: center !important;
+}
+
+#affiliate-table thead tr th:last-child .d-flex {
+    gap: 5px !important;
+}

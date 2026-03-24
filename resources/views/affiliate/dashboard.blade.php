@@ -9,7 +9,7 @@ Extends your admin layout. Inject inside body-wrapper-inner.
     <link rel="stylesheet" href="{{ asset('assets/admin/css/dashboard.css') }}">
 @endpush
 
-<div class="body-wrapper-inner">
+<div class="body-wrapper-inner affiliate-dashboard">
     <div class="container-fluid">
 
         {{-- ══════════════════════════════════════════

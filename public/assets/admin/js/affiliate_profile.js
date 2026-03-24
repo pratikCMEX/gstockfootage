@@ -128,7 +128,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 6,
                 remote: {
-                    url: base_url + "/check_password",
+                    url: base_url + "/affiliate/check_affiliate_password",
                     type: "post",
                     data: {
                         id: function () {

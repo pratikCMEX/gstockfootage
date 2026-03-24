@@ -14,34 +14,34 @@
                         <input type="hidden" name="id" value="{{ $affiliateUser->id ?? '' }}">
                         <input type="hidden" name="affiliateUser_id" value="{{ encrypt($affiliateUser->id)  }}">
                         <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="name">First Name</label>
+                                    <label class="form-label" for="name">First Name</label>
                                     <input type="text" name="first_name" class="form-control" id="first_name"
                                         placeholder="Enter affiliateUser Name"
                                         value="{{ $affiliateUser->first_name ?? '' }}">
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="name">Last Name</label>
+                                    <label class="form-label" for="name">Last Name</label>
                                     <input type="text" name="last_name" class="form-control" id="last_name"
                                         placeholder="Enter affiliateUser Name"
                                         value="{{ $affiliateUser->last_name ?? '' }}">
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="email">Email</label>
+                                    <label class="form-label" for="email">Email</label>
                                     <input type="text" name="email" class="form-control"
                                         value="{{ $affiliateUser->email ?? '' }}" id="email"
                                         placeholder="Please Enter E-mail Address">
                                 </div>
                             </div>
-                            <div>
-                                <label>Phone No</label>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <label class="form-label">Phone No</label>
                                 <div class="input-group phone-input">
                                     <input type="tel" id="phone" name="phone_number" class="form-control"
                                         placeholder="Enter your phone number" value="{{ $affiliateUser->phone ?? '' }}"
@@ -55,11 +55,11 @@
                                     value="{{ $affiliateUser->country_code ?? '' }}">
                             </div>
                             <label id="phone-error" class="text-danger mb-2 mt-2" for="phone"></label>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="email">Address</label>
-                                    <textarea name="address"
-                                        class="form-control">{{ $affiliateUser->address ?? '' }}</textarea>
+                                    <label class="form-label" for="email">Address</label>
+                                    <textarea name="address" rows="4"
+                                        class="form-control w-50">{{ $affiliateUser->address ?? '' }}</textarea>
 
                                 </div>
                             </div>
@@ -100,12 +100,12 @@
 
 
 
-            <!-- <div class="add-new-customer-wrp">
+             <div class="add-new-customer-wrp">
                 <h3 class="p-2">Update Password</h3>
                 <div class="card">
                     <div class="card-body">
 
-                        <form method="post" action="{{ route('admin.update_password') }}" name="password_form"
+                        <form method="post" action="{{ route('affiliate.update_password') }}" name="password_form"
                             id="password_form" class="">
                             @csrf
 
@@ -115,7 +115,7 @@
                             <div class="row">
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name">Current Password</label>
+                                        <label for="name" class="form-label">Current Password</label>
                                         <input type="password" name="current_password" class="form-control"
                                             id="current_password" placeholder="Enter current password">
                                     </div>
@@ -123,7 +123,7 @@
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name">New Password</label>
+                                        <label for="name" class="form-label">New Password</label>
                                         <input type="password" name="new_password" class="form-control"
                                             id="new_password" placeholder="Enter new password">
                                     </div>
@@ -131,7 +131,7 @@
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name">Confirm Password</label>
+                                        <label for="name" class="form-label">Confirm Password</label>
                                         <input type="password" name="confirm_password" class="form-control"
                                             id="confirm_password" placeholder="Enter confirm password">
                                     </div>
@@ -144,4 +144,4 @@
                                 style="">Update</button>
                     </div>
                 </div>
-            </div> -->
+            </div> 
