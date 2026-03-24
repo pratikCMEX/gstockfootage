@@ -557,6 +557,8 @@ class BatchController extends Controller
         $batchFile->status = 'accepted';
         $batchFile->save();
 
+        log::info('Video file added: ' . $batchFile->id);
+
         ProcessBatchVideo::dispatch($batchFile->id)->onQueue('videos');
     }
 
