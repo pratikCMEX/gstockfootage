@@ -823,7 +823,7 @@ class BatchController extends Controller
 
             // ── S3 full URL ──────────────────────────────
             'file_path'       => Storage::disk('s3')->url($file->file_path),
-            'thumbnail_path'       => Storage::disk('s3')->url($file->thumbnail_path),
+            'thumbnail_path'       => $file->thumbnail_path ? Storage::disk('s3')->url($file->thumbnail_path) : "",
         ]);
     }
     public function saveFileMetadata(Request $request)
