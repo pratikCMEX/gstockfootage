@@ -226,6 +226,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/affiliates/store', [AffiliateController::class, 'store'])->name('admin.affiliates.store');
     Route::get('admin/affiliates/{id}/edit', [AffiliateController::class, 'edit'])->name('admin.affiliates.edit');
     Route::put('admin/affiliates/{id}/update', [AffiliateController::class, 'update'])->name('admin.affiliates.update');
+     Route::post('admin/check_affiliate_is_exist', [AffiliateController::class, 'checkAffiliateIsExist'])->name('admin.check_affiliate_is_exist');
     // Route::post('admin/affiliates/{id}/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
     Route::post('admin/affiliates/toggle-status', [AffiliateController::class, 'toggleStatus'])->name('admin.affiliates.toggle_status');
     // Route::delete('admin/affiliates/{id}/delete', [AffiliateController::class, 'destroy'])->name('admin.affiliates.destroy');
@@ -244,6 +245,8 @@ Route::get('admin/logout', [AuthAdmin::class, 'logout'])
 
 Route::prefix('affiliate')->name('affiliate.')->group(function () {
 
+   
+
     Route::middleware('affiliate.auth')->group(function () { //  use string alias
         Route::get('dashboard', [AffiliateAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('referrals', [AffiliateAuthController::class, 'referrals'])->name('referrals');
@@ -251,8 +254,11 @@ Route::prefix('affiliate')->name('affiliate.')->group(function () {
         Route::get('pending_payments', [AffiliateAuthController::class, 'pending_payments'])->name('pending_payments');
         Route::post('logout', [AffiliateAuthController::class, 'logout'])->name('logout');
 
-          Route::get('my_profile', [AffiliateProfileController::class, 'index'])->name('my_profile');
-          Route::post('update_profile', [AffiliateProfileController::class, 'update_profile'])->name('update_profile');
+
+        Route::get('my_profile', [AffiliateProfileController::class, 'index'])->name('my_profile');
+        Route::post('update_profile', [AffiliateProfileController::class, 'update_profile'])->name('update_profile');
+        Route::post('check_affiliate_password', [AffiliateProfileController::class, 'check_affiliate_password'])->name('check_affiliate_password');
+        Route::post('update_password', [AffiliateProfileController::class, 'update_password'])->name('update_password');
     });
 
 });

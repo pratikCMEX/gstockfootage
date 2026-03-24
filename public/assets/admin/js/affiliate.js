@@ -125,14 +125,15 @@ $(document).ready(function () {
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                     },
-                    url: base_url + "/check_user_is_exist",
+                    url: base_url + "/admin/check_affiliate_is_exist",
                     type: "POST",
                     data: {
-                        category_name: function () {
+                       
+                        email: function () {
                             return $("input[name='email']").val();
                         },
                         id: function () {
-                            return $("input[name='user_id']").val() ?? null; // ✅ passes user_id on edit
+                            return $("input[name='user_id']").val() ?? null;
                         },
                     },
                 },
