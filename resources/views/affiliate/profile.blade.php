@@ -53,8 +53,9 @@
                                     value="{{ $affiliateUser->phone ?? '' }}">
                                 <input type="hidden" name="country_code" id="country_code"
                                     value="{{ $affiliateUser->country_code ?? '' }}">
+                                     <label id="phone-error" class="text-danger mb-2 mt-2" for="phone"></label>
                             </div>
-                            <label id="phone-error" class="text-danger mb-2 mt-2" for="phone"></label>
+                           
                             <div class="col-12 mb-3">
                                 <div class="form-group input-section">
                                     <label class="form-label" for="email">Address</label>
