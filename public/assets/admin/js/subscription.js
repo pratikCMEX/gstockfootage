@@ -50,7 +50,7 @@ $("#subscription_form").validate({
             remote: "This Subscription Plan already exists",
         },
         duration_type: {
-            required: "Please enter Duration type",
+            required: "Please select Duration type",
         },
         duration_value: {
             required: "Please enter Duration value",

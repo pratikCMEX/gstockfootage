@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliate','affiliates']) ? 'active  ' : '' }}side-item"
+                        <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliates']) ? 'active  ' : '' }}side-item"
                             href="{{ route('admin.affiliates.list') }}" aria-expanded="false">
                             <!-- <i class="ti ti-layout-grid"></i> -->
                             <i class="fa-solid fa-table-cells-large"></i>
