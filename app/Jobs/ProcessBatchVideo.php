@@ -320,6 +320,7 @@ class ProcessBatchVideo implements ShouldQueue
                 Log::warning("⚠️ Thumbnail generation failed", [
                     'output' => implode("\n", $thumbOutput),
                 ]);
+                $thumbnailName = "";
             } else {
                 Log::info("✅ Thumbnail generated");
 
