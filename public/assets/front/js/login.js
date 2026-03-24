@@ -1,4 +1,11 @@
 var base_url = $("#base_url").val();
+var iti;
+
+$.validator.addMethod("validPhone", function (value, element) {
+  if (!value || value.trim() === '') return true;
+  return iti && iti.isValidNumber();
+}, "Please enter a valid phone number for selected country");
+
 $("#login").validate({
   rules: {
     email: {
@@ -89,8 +96,7 @@ $("#signup").validate({
       },
     },
     phone_number: {
-      minlength: 10,
-      maxlength: 15,
+     validPhone: true,
       // digits: true,
     },
 
@@ -112,9 +118,7 @@ $("#signup").validate({
       remote: "This Email Already Exists",
     },
     phone_number: {
-      minlength: "Phone Number Must Be At Least 10 Digits",
-      maxlength: "Phone Number Cannot Exceed 15 Digits",
-      // digits: "Please Enter Valid Phone Number (Digits Only)",
+     validPhone: "Please enter a valid phone number for selected country",
     },
 
     password: {
@@ -122,15 +126,15 @@ $("#signup").validate({
       minlength: "Password Must Be At Least 6 Characters",
     },
   },
-errorPlacement: function (error, element) {
+  errorPlacement: function (error, element) {
 
-        if (element.attr("id") == "phone") {
-            error.insertAfter(".phone-input .iti");
-        } else {
-            error.insertAfter(element);
-        }
+    if (element.attr("id") == "phone") {
+      error.insertAfter(".phone-input .iti");
+    } else {
+      error.insertAfter(element);
+    }
 
-    },
+  },
   normalizer: function (value) {
     return $.trim(value);
   },
@@ -252,59 +256,75 @@ $("#change_forget_pass").validate({
 });
 
 $(document).ready(function () {
-    var input = $("#phone")[0];
+  var input = $("#phone")[0];
 
-    var iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        preferredCountries: ["us"],
-        separateDialCode: true,
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-    });
+  iti = window.intlTelInput(input, {
+    initialCountry: "us",
+    preferredCountries: ["us"],
+    separateDialCode: true,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+  });
 
-    $("#signup").on("submit", function () {
-        var fullPhone = iti.getNumber();               // +919876543210
-        var countryData = iti.getSelectedCountryData();
-        var dialCode = '+' + countryData.dialCode;     // +91
-        var phoneOnly = iti.getNumber().replace(dialCode, '').trim(); // 9876543210
+  //  Pre-fill after utilsScript loads
+  input.addEventListener("loadUtils", function () {
+    var savedCountryCode = $("#country_code").val();
+    var savedPhone = $("#full_phone").val();
 
-        $("#full_phone").val(phoneOnly);              
-        $("#country_code").val(dialCode);             
-    });
+    if (savedCountryCode && savedPhone) {
+      iti.setNumber(savedCountryCode + savedPhone);
+    }
+  });
+
+  // Fallback pre-fill (if utils already loaded)
+  var savedCountryCode = $("#country_code").val();
+  var savedPhone = $("#full_phone").val();
+  if (savedCountryCode && savedPhone) {
+    iti.setNumber(savedCountryCode + savedPhone);
+  }
+
+  // ─── Update Hidden Fields ────────────────────────────
+  function updateHiddenFields() {
+    var countryData = iti.getSelectedCountryData();
+    var dialCode = '+' + countryData.dialCode;
+    var phoneOnly = $("#phone").val().replace(/[^0-9]/g, '');
+
+    $("#full_phone").val(phoneOnly);
+    $("#country_code").val(dialCode);
+  }
+
+  //  Re-validate using name attribute not id
+  function reValidatePhone() {
+    var validator = $('#profile_form').data('validator');
+    if (validator) {
+      validator.element('[name="phone_number"]'); //  name not id
+    }
+  }
+
+  $("#phone").on("input change", function () {
+    updateHiddenFields();
+    reValidatePhone(); // 
+  });
+
+  //  Country change event
+  input.addEventListener("countrychange", function () {
+    updateHiddenFields();
+    reValidatePhone(); //  Re-validate after country changes
+  });
+
+  // $("#profile_form").on("submit", function () {
+  //   updateHiddenFields();
+  // });
+
+
+
+  $("#signup").on("submit", function () {
+    updateHiddenFields();
+    // var fullPhone = iti.getNumber();               // +919876543210
+    // var countryData = iti.getSelectedCountryData();
+    // var dialCode = '+' + countryData.dialCode;     // +91
+    // var phoneOnly = iti.getNumber().replace(dialCode, '').trim(); // 9876543210
+
+    // $("#full_phone").val(phoneOnly);
+    // $("#country_code").val(dialCode);
+  });
 });
-// $(document).ready(function () {
-//   var input = $("#phone")[0]; // get DOM element from jQuery
-
-//   var iti = window.intlTelInput(input, {
-//     initialCountry: "us",
-//     preferredCountries: ["us"],
-//     separateDialCode: true,
-//     utilsScript:
-//       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-//   });
-
-//   $("#signup").on("submit", function () {
-//     var fullPhone = iti.getNumber();
-
-//     $("#full_phone").val(fullPhone);
-//   });
-// });
-//  document.addEventListener("DOMContentLoaded", function () {
-
-//         var input = document.querySelector("#phone");
-
-//         var iti = window.intlTelInput(input, {
-//             initialCountry: "us",
-//             preferredCountries: ["us"],
-//             separateDialCode: true,
-//             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-//         });
-
-//         document.querySelector("#signup").addEventListener("submit", function () {
-
-//             var fullPhone = iti.getNumber();
-
-//             document.querySelector("#full_phone").value = fullPhone;
-
-//         });
-
-//     });
