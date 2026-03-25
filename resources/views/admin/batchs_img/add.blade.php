@@ -259,7 +259,7 @@
                                                                                 class="w-100 h-100"
                                                                                 alt="Nature Flower">
                                                                         </div>
-                                                                        <p>{{ $file['file_code'] }}</p>
+                                                                        {{-- <p>{{ $file['file_code'] }}</p> --}}
                                                                     </div>
                                                                 </td>
 
