@@ -134,23 +134,54 @@ class UserWiseOrderReportDataTable extends DataTable
             ])
             ->orderBy(2, 'desc') //  total_orders = index 2
             ->selectStyleSingle()
-           ->parameters([
+            ->parameters([
                 'dom' => 'Blfrtip',
                 'lengthChange' => true,
                 'lengthMenu' => [
-                    [10, 25, 50, 100, -1],       
-                    [10, 25, 50, 100, 'All']         
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, 'All']
                 ],
                 'pageLength' => 10,
+                'drawCallback' => 'function(settings) {
+        let api = this.api();
+        let count = api.rows({ filter: "applied" }).data().length;
+
+        let pdfBtn = $(".dt-button").filter(function() {
+            return $(this).text().includes("PDF");
+        });
+
+        if (count === 0) {
+            pdfBtn.hide();
+        } else {
+            pdfBtn.show();
+        }
+    }',
             ])
             ->buttons([
-                // Button::make('excel')->exportOptions(['columns' => ':visible']),
-                // Button::make('csv')->exportOptions(['columns'   => ':visible']),
-                Button::make('pdf')->exportOptions(['columns' => ':visible']),
-                // Button::make('print')->exportOptions(['columns' => ':visible']),
-                // Button::raw('reload'),
-                // Button::raw('resetTable'),
+                //  Custom PDF button - exports ALL records with filters
+                Button::raw([
+                    'text' => '<i class="fa fa-file-pdf"></i> PDF',
+                    'action' => 'function(e, dt, node, config) {
+            let from           = $("#from_date").val();
+            let to             = $("#to_date").val();
+           
+
+            let url = "' . route('admin.user_wise_order_report.export_pdf') . '"
+                + "?from_date="      + from
+                + "&to_date="        + to
+              
+            window.location.href = url;
+        }',
+                ]),
             ]);
+        // ->buttons([
+        //     // Button::make('excel')->exportOptions(['columns' => ':visible']),
+        //     // Button::make('csv')->exportOptions(['columns'   => ':visible']),
+        //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
+        //     // Button::make('print')->exportOptions(['columns' => ':visible']),
+        //     // Button::raw('reload'),
+        //     // Button::raw('resetTable'),
+        // ]);
     }
 
     public function getColumns(): array

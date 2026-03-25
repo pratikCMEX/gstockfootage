@@ -128,7 +128,7 @@ $(document).ready(function () {
                     url: base_url + "/admin/check_affiliate_is_exist",
                     type: "POST",
                     data: {
-                       
+
                         email: function () {
                             return $("input[name='email']").val();
                         },
@@ -225,13 +225,35 @@ $(document).ready(function () {
         });
 
     });
-    // ✅ Copy referral link
+    //  Copy referral link
+    // $(document).on('click', '.copy-btn', function () {
+    //     let link = $(this).data('link');
+    //     navigator.clipboard.writeText(link).then(function () {
+    //         toastr.success('Referral link copied!');
+    //     });
+    // });
     $(document).on('click', '.copy-btn', function () {
         let link = $(this).data('link');
-        navigator.clipboard.writeText(link).then(function () {
-            toastr.success('Referral link copied!');
-        });
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(link)
+                .then(() => toastr.success('Referral link copied!'))
+                .catch(() => fallbackCopy(link));
+        } else {
+            fallbackCopy(link);
+        }
     });
+
+    function fallbackCopy(text) {
+        let input = document.createElement("input");
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+
+        toastr.success('Referral link copied!');
+    }
 
     $(document).on("click", ".deleteAffiliateUser", function () {
 
