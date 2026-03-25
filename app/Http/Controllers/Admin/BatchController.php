@@ -730,8 +730,6 @@ class BatchController extends Controller
     private function processImage($path, $batch_id, $fileObj = null, $manager = null)
     {
         try {
-            log::info('started 0');
-
             $imageName    = Str::uuid() . '.' . ($fileObj ? $fileObj->getClientOriginalExtension() : pathinfo($path, PATHINFO_EXTENSION));
             $originalName = $fileObj ? $fileObj->getClientOriginalName() : basename($path);
             $size         = $fileObj ? $fileObj->getSize() : filesize($path);
@@ -745,8 +743,6 @@ class BatchController extends Controller
             $height = $img->height();
             unset($img);
 
-
-            log::info('started 1');
             // Upload raw file directly to S3 — no encoding at all
             $highPath = "batch/image/high/$imageName";
             Storage::disk('s3')->put(
@@ -754,9 +750,6 @@ class BatchController extends Controller
                 file_get_contents($path),
                 ['visibility' => 'public']
             );
-
-            log::info('started 2');
-
             $batchFile = BatchFile::create([
                 'batch_id'       => $batch_id,
                 'file_code'      => mt_rand(1000000000, 9999999999),
@@ -776,14 +769,8 @@ class BatchController extends Controller
                 // 'status'         => 'processing',
             ]);
 
-            log::info('started 3');
-
             // Dispatch background job for mid (watermarked) + thumbnail
-            GenerateImageVariants::dispatch($batchFile->id, $highPath)
-                ->delay(now()->addSeconds(3))
-                ->onQueue('images');
-
-            log::info('started 4');
+            GenerateImageVariants::dispatch($batchFile->id, $highPath)->onQueue('images')->delay(now()->addSeconds(5));
         } catch (\Throwable $e) {
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
