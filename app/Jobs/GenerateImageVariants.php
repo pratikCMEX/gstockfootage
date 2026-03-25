@@ -37,35 +37,19 @@ class GenerateImageVariants implements ShouldQueue
         $tempPath = storage_path('app/temp/' . uniqid() . '_' . $imageName);
 
         try {
+            log::info('started 4');
             // Stream from S3 to disk instead of loading into memory
-            // $stream = Storage::disk('s3')->readStream($this->highPath);
-
-
-            $attempts = 0;
-
-            while ($attempts < 6) {
-                if (Storage::disk('s3')->exists($this->highPath)) {
-                    break;
-                }
-
-                sleep(2);
-                $attempts++;
-            }
+            $stream = Storage::disk('s3')->readStream($this->highPath);
+            log::info('started 5');
 
             if (!Storage::disk('s3')->exists($this->highPath)) {
-                throw new \Exception("File not ready on S3: {$this->highPath}");
+                throw new \Exception("File not available on S3: {$this->highPath}");
             }
-
-            $stream = Storage::disk('s3')->readStream($this->highPath);
-
-            if (!is_resource($stream)) {
-                throw new \Exception("Invalid stream from S3: {$this->highPath}");
-            }
-
             $tempFile = fopen($tempPath, 'wb');
             stream_copy_to_stream($stream, $tempFile);
             fclose($tempFile);
             if (is_resource($stream)) fclose($stream);
+            log::info('started 6');
 
             $manager = new ImageManager(new GdDriver());
 
@@ -95,6 +79,7 @@ class GenerateImageVariants implements ShouldQueue
             $midPath    = "batch/image/mid/mid_$imageName";
 
             Storage::disk('s3')->put($midPath, $midEncoded, ['visibility' => 'public']);
+            log::info('started 7');
 
             // Free MID memory immediately before doing thumbnail
             unset($midImg, $wm, $midEncoded);

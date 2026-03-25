@@ -783,7 +783,7 @@ class BatchController extends Controller
                 ->delay(now()->addSeconds(3))
                 ->onQueue('images');
 
-            log::info('started 4');
+            log::info('started end');
         } catch (\Throwable $e) {
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
