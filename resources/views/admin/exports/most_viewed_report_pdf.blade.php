@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h2>Most Sold Product Report</h2>
+    <h2>Most viewed Product Report</h2>
     <p class="subtitle">Generated on {{ now()->timezone('Asia/Kolkata')->format('d M Y, h:i A') }}</p>
 
    
@@ -34,28 +34,27 @@
     <table>
         <thead>
             <tr>
-                <!-- <th>#</th> -->
+                <th>#</th>
                 <th>Product Name</th>
                 <th>Category</th>
-                <th>Total Orders</th>
-                <th>Total Revenue</th>
+                <th>Total Views</th>
+               
             </tr>
         </thead>
         <tbody>
             @forelse($products as $index => $data)
             <tr>
-               
+                <td>{{ $index + 1 }}</td>
                 <td>{{ $data->title }}</td>
                 <td>{{ $data->category->category_name ?? $data->category->category_name  }}</td>
-                <td>{{ $data->total_orders }}</td>
-                <td>${{ number_format($data->total_revenue ?? 0, 2) }}</td>
+                <td>{{ $data->views }}</td>
                
                
                
             </tr>
             @empty
             <tr>
-                <td colspan="7" style="text-align:center; padding:15px;">No records found</td>
+                <td colspan="4" style="text-align:center; padding:15px;">No records found</td>
             </tr>
             @endforelse
         </tbody>

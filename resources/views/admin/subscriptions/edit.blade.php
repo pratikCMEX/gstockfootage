@@ -22,9 +22,9 @@
                                 <label for="category" class="form-label">Duration Type</label><label class="text-danger">*</label>
                                 <select class="form-select mr-sm-2" name="duration_type" id="duration_tye">
                                     <option value="">Choose Duration...</option>
-                                    <option value="Month" {{ ($getSubscriptionPlanDetail->duration_type ?? '') == 'Month' ? 'selected' : '' }}>Month</option>
-                                    <option value="Quarter" {{ ($getSubscriptionPlanDetail->duration_type ?? '') == 'Quarter' ? 'selected' : '' }}>Quarter</option>
-                                    <option value="Year" {{ ($getSubscriptionPlanDetail->duration_type ?? '') == 'Year' ? 'selected' : '' }}>Year</option>
+                                    <option value="Month" {{  strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'month' ? 'selected' : '' }}>Month</option>
+                                    <option value="Quarter" {{  strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'quarter' ? 'selected' : '' }}>Quarter</option>
+                                    <option value="Year" {{  strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'year' ? 'selected' : '' }}>Year</option>
 
                                 </select>
                             </div>

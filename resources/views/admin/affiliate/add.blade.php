@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary px-4">
-                                <i class="fa fa-save me-1"></i> Save Affiliate
+                                <i class="fa fa-save me-1"></i> Create Affiliate
                             </button>
                         </form>
                     </div>
