@@ -74,3 +74,25 @@
         });
     });
 </script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const sidebar = document.querySelector(".simplebar-content-wrapper");
+
+        if (!sidebar) return;
+
+        // 🔥 Restore scroll position
+        const savedScroll = localStorage.getItem("sidebarScroll");
+        if (savedScroll !== null) {
+            sidebar.scrollTop = parseInt(savedScroll);
+        }
+
+        // 🔥 Save scroll position
+        sidebar.addEventListener("scroll", function() {
+            localStorage.setItem("sidebarScroll", sidebar.scrollTop);
+        });
+
+    });
+</script>

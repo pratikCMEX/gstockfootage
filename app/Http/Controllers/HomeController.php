@@ -117,9 +117,17 @@ class HomeController extends Controller
         $js = ['home', 'favorites'];
         try {
             $id = decrypt($id);
+            $product = BatchFile::with(['category', 'subcategory', 'collection'])
+                ->withExists([
+                    'favorites as is_favorite' => function ($query) {
+                        $query->where('user_id', auth()->id());
+                    }
+                ])
+                ->findOrFail($id);
+
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
                 ->where('id', '!=', $id) // exclude this product
-                ->where('type', 'image') // exclude this product
+                ->where('type', $product->type) // exclude this product
                 ->withExists([
                     'favorites as is_favorite' => function ($query) {
                         $query->where('user_id', auth()->id());
@@ -128,13 +136,7 @@ class HomeController extends Controller
                 ->limit(6)
                 ->get();
             // $id = 19;
-            $product = BatchFile::with(['category', 'subcategory', 'collection'])
-                ->withExists([
-                    'favorites as is_favorite' => function ($query) {
-                        $query->where('user_id', auth()->id());
-                    }
-                ])
-                ->findOrFail($id);
+
 
             $product->incrementView();
             // dd($product);

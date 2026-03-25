@@ -278,7 +278,8 @@
         <div class="row g-3 mb-2 align-items-center">
             <div class="col-lg-8 col-md-6">
                 <div class="heading">
-                    <h2>Related <span class="yellow-headings">Pictures</span></h2>
+                    <h2>Related <span
+                            class="yellow-headings">{{ $data['type'] === 'image' ? 'Images' : 'Videos' }}</span></h2>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
