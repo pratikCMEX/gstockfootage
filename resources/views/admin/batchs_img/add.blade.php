@@ -15,6 +15,7 @@
                             <div class="flex-batch-filter-content">
 
 
+
                                 <div class="diff-batches-content" id="batch-content-active">
 
 

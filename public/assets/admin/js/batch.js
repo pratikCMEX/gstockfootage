@@ -457,6 +457,9 @@ function loadSubCategories(category_id, selected_subcategory = null) {
   });
 }
 function loadImageMetadata(file_id) {
+  $("html, body").animate({ scrollTop: 0 }, 300);
+  $(".no-file-selected").animate({ scrollTop: 0 }, 300);
+
   $.ajax({
     url: base_url + "/admin/batch/get_file_metadata",
     type: "POST",
@@ -469,12 +472,31 @@ function loadImageMetadata(file_id) {
       // $(".error").text("");
       let validator = $("#add_new_img_form").validate();
       validator.resetForm(); // 🔥 resets errors properly
+
       console.log(res);
 
       // Existing fields
       $("input[name='file_id']").val(res.id);
       $("input[name='title']").val(res.title);
-      $("#description").val(res.description);
+      // $("#description").val(res.description);
+      // setEditorData(res.description);
+
+      if (
+        typeof CKEDITOR !== "undefined" &&
+        CKEDITOR.instances["description"]
+      ) {
+        CKEDITOR.instances["description"].setData(res.description ?? "", {
+          noSnapshot: true, // prevents undo history entry
+          callback: function () {
+            // Clear any description error after data is set
+            $("label[for='description'].error").hide().text("");
+            $("#cke_description").removeClass("error");
+          },
+        });
+      } else {
+        $("#description").val(res.description ?? "");
+      }
+
       $("input[name='price']").val(res.price);
       $("input[name='date_created']").val(res.date_created);
       if (res.type == "image") {
@@ -493,15 +515,16 @@ function loadImageMetadata(file_id) {
       $("input[name='image_width']").val(res.width ?? "");
 
       // ── Searchable selects — use trigger('change') for Select2 ──
-      $("#category_id").val(res.category_id).trigger("change");
-      $("#collection_id").val(res.collection_id).trigger("change");
-      $("#country").val(res.country).trigger("change");
-      $("#orientation").val(res.orientation).trigger("change");
-      $("#camera_movement").val(res.camera_movement).trigger("change");
-      $("#license_type").val(res.license_type).trigger("change");
+      $("#category_id").val(res.category_id).trigger("change.select2");
+      $("#collection_id").val(res.collection_id).trigger("change.select2");
+      $("#country").val(res.country).trigger("change.select2");
+      $("#orientation").val(res.orientation).trigger("change.select2");
+      $("#camera_movement").val(res.camera_movement).trigger("change.select2");
+      $("#license_type").val(res.license_type).trigger("change.select2");
 
-      loadSubCategories(res.category_id, res.subcategory_id);
-
+      setTimeout(function () {
+        loadSubCategories(res.category_id, res.subcategory_id);
+      }, 100);
       // Tags / keywords
       $("#tags").tagsinput("removeAll");
       if (res.keywords) {
@@ -509,6 +532,7 @@ function loadImageMetadata(file_id) {
         tags.forEach(function (tag) {
           $("#tags").tagsinput("add", tag.trim());
         });
+
         updateKeywordCount();
       }
 
@@ -547,6 +571,16 @@ function loadImageMetadata(file_id) {
   });
 }
 
+function setEditorData(data) {
+  if (CKEDITOR.instances.description) {
+    CKEDITOR.instances.description.setData(data || "");
+  } else {
+    setTimeout(function () {
+      setEditorData(data);
+    }, 200);
+  }
+}
+
 $(document).on("click", ".generate-ai", function () {
   let btn = $(this);
   let imgUrl = btn.attr("data-img"); // ✅ reads live attribute, not cached value
@@ -562,13 +596,21 @@ $(document).on("click", ".generate-ai", function () {
     data: { img_url: imgUrl },
 
     success: function (res) {
-      // console.log(res);
+      console.log(res);
       // return;
       if (res.status === true) {
         $("input[name='title']").val(res.data.title);
-        $("#description").val(res.data.description);
-        $("#category_id").val(res.category_id).trigger("change");
-        loadSubCategories(res.category_id, res.subcategory_id);
+        // $("#description").val(res.data.description);
+        setEditorData(res.data.description);
+        $("#category_id").val(res.data.category_id).trigger("change.select2");
+        $("#collection_id")
+          .val(res.data.collection_id)
+          .trigger("change.select2");
+
+        setTimeout(function () {
+          loadSubCategories(res.data.category_id, res.data.subcategory_id);
+        }, 500);
+        // loadSubCategories(res.category_id, res.subcategory_id);
 
         $("#tags").tagsinput("removeAll");
         if (res.data.tags) {
@@ -624,24 +666,133 @@ $(document).ready(function () {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 });
+// $("#add_new_img_form").validate({
+//   ignore: [],
+//   rules: {
+//     title: {
+//       required: true,
+//       minlength: 1,
+//     },
+//     description: {
+//       required: true,
+//       minlength: 5,
+//     },
+//     price: {
+//       required: true,
+//       number: true,
+//     },
+//     category_id: {
+//       required: true,
+//     },
+//     subcategory_id: {
+//       required: true,
+//     },
+//   },
+
+//   messages: {
+//     title: {
+//       required: "Please enter title",
+//     },
+//     description: {
+//       required: "Please enter description",
+//     },
+//     price: {
+//       required: "Please enter price",
+//     },
+//     category_id: {
+//       required: "Please select a category",
+//     },
+
+//     subcategory_id: {
+//       required: "Please select a subcategory",
+//     },
+//   },
+//   errorPlacement: function (error, element) {
+//     if (element.hasClass("select2-hidden-accessible")) {
+//       error.insertAfter(element.next(".select2")); // ✅ place after UI
+//     } else {
+//       error.insertAfter(element);
+//     }
+//   },
+//   submitHandler: function (form) {
+//     // Collect all checked content_filters[] checkboxes into an array
+//     // e.g. ["with_people", "outdoors_nature", "copy_space"]
+//     let contentFilters = [];
+//     $("input[name='content_filters[]']:checked").each(function () {
+//       contentFilters.push($(this).val());
+//     });
+
+//     let formData = {
+//       file_id: $("#selected_file_id").val(),
+//       title: $("input[name='title']").val(),
+//       description: $("#description").val(),
+//       price: parseFloat($("input[name='price']").val()),
+//       date_created: $("input[name='date_created']").val(),
+//       tags: $("input[name='tags']").val(),
+//       country: $("#country").val(),
+//       category_id: $("#category_id").val(),
+//       subcategory_id: $("#subcategory_id").val(),
+//       collection_id: $("#collection_id").val(),
+
+//       // New filter fields
+//       orientation: $("#orientation").val(),
+//       camera_movement: $("#camera_movement").val(),
+//       license_type: $("#license_type").val(),
+
+//       // Checkboxes array — sent as content_filters[0], content_filters[1], etc.
+//       content_filters: contentFilters,
+
+//       _token: $('meta[name="csrf-token"]').attr("content"),
+//     };
+
+//     $.ajax({
+//       url: base_url + "/admin/batch/save_file_metadata",
+//       type: "POST",
+//       data: formData,
+
+//       // IMPORTANT: tells jQuery to send arrays correctly as content_filters[]
+//       // so Laravel receives it as an array, not content_filters[0], [1]...
+//       traditional: false,
+
+//       success: function (res) {
+//         toastr.success("File metadata saved successfully");
+//       },
+
+//       error: function (xhr) {
+//         toastr.error("Something went wrong");
+//         console.log(xhr.responseText);
+//       },
+//     });
+
+//     return false; // prevent normal submit
+//   },
+// });
+
 $("#add_new_img_form").validate({
   ignore: [],
+
   rules: {
     title: {
       required: true,
       minlength: 1,
     },
+
     description: {
-      required: true,
-      minlength: 5,
+      required: function () {
+        return CKEDITOR.instances.description.getData().trim() === "";
+      },
+      // minlength: 5,
     },
+
     price: {
       required: true,
       number: true,
     },
+
     category_id: {
       required: true,
     },
+
     subcategory_id: {
       required: true,
     },
@@ -660,21 +811,31 @@ $("#add_new_img_form").validate({
     category_id: {
       required: "Please select a category",
     },
-
     subcategory_id: {
       required: "Please select a subcategory",
     },
   },
+
   errorPlacement: function (error, element) {
-    if (element.hasClass("select2-hidden-accessible")) {
-      error.insertAfter(element.next(".select2")); // ✅ place after UI
+    // ✅ CKEditor error placement
+    if (element.attr("name") === "description") {
+      error.insertAfter("#cke_description");
+    }
+
+    // ✅ Select2 error placement
+    else if (element.hasClass("select2-hidden-accessible")) {
+      error.insertAfter(element.next(".select2"));
     } else {
       error.insertAfter(element);
     }
   },
+
   submitHandler: function (form) {
-    // Collect all checked content_filters[] checkboxes into an array
-    // e.g. ["with_people", "outdoors_nature", "copy_space"]
+    // ✅ IMPORTANT: Sync CKEditor data
+    if (CKEDITOR.instances.description) {
+      CKEDITOR.instances.description.updateElement();
+    }
+
     let contentFilters = [];
     $("input[name='content_filters[]']:checked").each(function () {
       contentFilters.push($(this).val());
@@ -683,7 +844,10 @@ $("#add_new_img_form").validate({
     let formData = {
       file_id: $("#selected_file_id").val(),
       title: $("input[name='title']").val(),
-      description: $("#description").val(),
+
+      // ✅ FIXED: get from CKEditor
+      description: CKEDITOR.instances.description.getData(),
+
       price: parseFloat($("input[name='price']").val()),
       date_created: $("input[name='date_created']").val(),
       tags: $("input[name='tags']").val(),
@@ -692,12 +856,10 @@ $("#add_new_img_form").validate({
       subcategory_id: $("#subcategory_id").val(),
       collection_id: $("#collection_id").val(),
 
-      // New filter fields
       orientation: $("#orientation").val(),
       camera_movement: $("#camera_movement").val(),
       license_type: $("#license_type").val(),
 
-      // Checkboxes array — sent as content_filters[0], content_filters[1], etc.
       content_filters: contentFilters,
 
       _token: $('meta[name="csrf-token"]').attr("content"),
@@ -707,9 +869,6 @@ $("#add_new_img_form").validate({
       url: base_url + "/admin/batch/save_file_metadata",
       type: "POST",
       data: formData,
-
-      // IMPORTANT: tells jQuery to send arrays correctly as content_filters[]
-      // so Laravel receives it as an array, not content_filters[0], [1]...
       traditional: false,
 
       success: function (res) {
@@ -722,9 +881,23 @@ $("#add_new_img_form").validate({
       },
     });
 
-    return false; // prevent normal submit
+    return false;
   },
 });
+
+if (typeof CKEDITOR !== "undefined") {
+  CKEDITOR.on("instanceReady", function (e) {
+    if (e.editor.name === "description") {
+      e.editor.on("change", function () {
+        // Sync CKEditor content back to textarea
+        e.editor.updateElement();
+
+        // Re-validate only the description field to clear error instantly
+        $("#add_new_img_form").validate().element("#description");
+      });
+    }
+  });
+}
 
 $(document).on("click", ".select-btn", function () {
   let images = $(".upload-image");
@@ -1392,10 +1565,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+$(document).on("change", "#subcategory_id", function () {
+  let categoryId = $(this).val();
+  $(this).valid();
+});
 
 $(document).on("change", "#category_id", function () {
   // alert();
   let categoryId = $(this).val();
+  $(this).valid();
 
   // $("#subcategory").html("<option>Loading...</option>");
 

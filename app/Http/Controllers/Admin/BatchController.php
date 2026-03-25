@@ -9,6 +9,7 @@ use App\Jobs\ProcessUploadedVideo;
 use App\Models\Batch;
 use App\Models\BatchFile;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\SubCategory;
 use Carbon\Carbon;
 use Exception;
@@ -521,30 +522,17 @@ class BatchController extends Controller
             );
 
             $originalName = $file->getClientOriginalName();
+
+            Log::info("⬇️ Downloading from S3", ['aws_path' => $path]);
+            if (!$path) {
+                Log::error('❌ S3 Upload Failed');
+
+                return false; // OR throw exception
+            }
         }
 
         $originalNameOnly = pathinfo($originalName, PATHINFO_FILENAME);
 
-        // $videoPath = public_path('uploads/batch/videos/high/');
-
-        // // create directory if not exists
-        // if (!file_exists($videoPath)) {
-        //     mkdir($videoPath, 0777, true);
-        // }
-
-        // if (is_string($file)) {
-        //     // file coming from extracted ZIP
-        //     copy($file, $videoPath . $fileName);
-
-        //     $path = "uploads/batch/videos/high/" . $fileName;
-        //     $originalName = basename($file);
-        // } else {
-        //     // uploaded directly from form
-        //     $file->move($videoPath, $fileName);
-
-        //     $path = "uploads/batch/videos/high/" . $fileName;
-        //     $originalName = $file->getClientOriginalName();
-        // }
 
         $batchFile = new BatchFile();
         $batchFile->batch_id = $batch_id;
@@ -882,7 +870,7 @@ class BatchController extends Controller
         ]);
     }
 
-    public function generateAiContentNew(Request $request)
+    public function generateAiContent(Request $request)
     {
         $request->validate(['img_url' => 'required|url']);
         $geminiKey = env('GOOGLE_GEMINI_API_KEY');
@@ -917,6 +905,7 @@ class BatchController extends Controller
 
         $allCategories = Category::select('id', 'category_name')->get();
         $allSubCategories = SubCategory::select('id', 'category_id', 'name')->get();
+        $allCollections = Collection::select('id', 'name')->get();
 
         $categoryList = $allCategories->map(function ($cat) use ($allSubCategories) {
             $subs = $allSubCategories
@@ -925,6 +914,7 @@ class BatchController extends Controller
                 ->join(', ');
             return "- {$cat->category_name} (id:{$cat->id})" . ($subs ? " → Subcategories: {$subs}" : ' → Subcategories: none');
         })->join("\n");
+        $collectionList = $allCollections->map(fn($c) => "- {$c->name} (id:{$c->id})")->join("\n");
 
         $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$geminiKey}";
 
@@ -942,22 +932,29 @@ class BatchController extends Controller
                         [
                             'text' => "Look at this image carefully and return a JSON object with the following fields.
 
-                            1. title: A short, overall title (2-3 words max) describing the WHOLE scene.
-                            2. description: A simple, clear, professional stock photo description of exactly what is visible. 2-3 sentences, 50-60 words. No poetic language. Do NOT mention any watermark or logo.
-                            Rules:
-                            - Describe ONLY what is actually visible.
-                            - Mention main subject, location, weather/sky, and mood.
-                            - Start directly. No intro like 'This image shows'.
-                            3. category_id: Pick the BEST matching category ID from this list (use the id number):
-                            {$categoryList}
-                            If absolutely none match, set category_id to null and suggest a new category name in new_category.
-                            4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category (use the id number).
-                            If none match, set subcategory_id to null and suggest a new subcategory name in new_subcategory.
-                            5. new_category: (only if category_id is null) Suggested new category name. Otherwise omit or null.
-                            6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise omit or null.
+                                1. title: A short, overall title (2-3 words max) describing the WHOLE scene.
+                                2. description: A professional stock photo description in HTML bullet points format.
+                                Rules:
+                                - Use <ul><li> HTML tags for bullet points (will be shown in a rich text editor).
+                                - Write 4-5 bullet points.
+                                - Each bullet point covers ONE aspect: main subject, location, weather/sky, mood, or use case.
+                                - Keep each bullet point short (8-12 words max).
+                                - Describe ONLY what is actually visible.
+                                - No poetic language. No watermark mention. No intro like 'This image shows'.
+                                Example format:
+                                <ul><li>Aerial view of a vast desert landscape under clear blue sky.</li><li>Rocky terrain with golden sand dunes stretching to the horizon.</li><li>Bright daylight with warm sunlight casting soft shadows.</li><li>Calm and serene mood, suitable for travel and nature content.</li></ul>
 
-                            Return ONLY raw JSON. No markdown, no explanation, nothing else.
-                            Example: {\"title\": \"...\", \"description\": \"...\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null}",
+                                3. category_id: Pick the BEST matching category ID from this list (use the id number):
+                                {$categoryList}
+                                If absolutely none match, set category_id to null and suggest a new category name in new_category.
+                                4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category (use the id number).
+                                If none match, set subcategory_id to null and suggest a new subcategory name in new_subcategory.
+                                5. new_category: (only if category_id is null) Suggested new category name. Otherwise null.
+                                6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise null.
+                                7. collection_id: Pick the BEST matching collection ID from this list (use the id number):
+                                                        {$collectionList}
+                                Return ONLY raw JSON. No markdown, no explanation, nothing else.
+                                Example: {\"title\": \"...\", \"description\": \"<ul><li>...</li><li>...</li></ul>\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null}",
                         ],
                     ],
                 ]],
@@ -1036,6 +1033,26 @@ class BatchController extends Controller
             ]);
             $subcategoryName = $parsed['new_subcategory'];
         }
+
+        // $collectionId   = null;
+        // $collectionName = null;
+
+        // if (!empty($parsed['collection_id'])) {
+        //     $col = $allCollections->firstWhere('id', $parsed['collection_id']);
+        //     if ($col) {
+        //         $collectionId   = $col->id;
+        //         $collectionName = $col->name;
+        //     }
+        // }
+
+        // if (!$collectionId && !empty($parsed['new_collection'])) {
+        //     $collectionId = Collection::insertGetId([
+        //         'name'       => $parsed['new_collection'],
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        //     $collectionName = $parsed['new_collection'];
+        // }
         return response()->json([
             'status' => true,
             'data'   => [
@@ -1046,11 +1063,13 @@ class BatchController extends Controller
                 'category_name'    => $categoryName,
                 'subcategory_id'   => $subcategoryId,
                 'subcategory_name' => $subcategoryName,
+                // 'collection_id'   => $collectionId,
+                // 'collection_name' => $collectionName,
             ]
         ]);
     }
 
-    public function generateAiContent(Request $request)
+    public function generateAiContent1(Request $request)
     {
         $request->validate(['img_url' => 'required|url']);
         // $geminiKey = 'AIzaSyC_C6siKOWPHFxN2Px_fwMSpczbdn3VP-s';
