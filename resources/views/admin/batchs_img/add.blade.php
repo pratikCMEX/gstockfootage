@@ -244,9 +244,13 @@
                                                                     </video> --}}
                                                                             @php
                                                                                 $path = '';
-                                                                                $path = $file['thumbnail_path'];
+                                                                                $path =
+                                                                                    $file['thumbnail_path'] ??
+                                                                                    asset(
+                                                                                        'assets/admin/images/demo_thumbnail.png',
+                                                                                    );
                                                                                 if ($file['file_type'] == 'image') {
-                                                                                    $path = $file['low_path'];
+                                                                                    $path = $file['mid_path'];
                                                                                 }
                                                                             @endphp
 
