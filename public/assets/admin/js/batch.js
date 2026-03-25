@@ -618,10 +618,25 @@ $(document).on("click", ".generate-ai", function () {
           }
           $catSelect.val(res.data.category_id).trigger("change.select2");
         }
-
-        $("#collection_id")
-          .val(res.data.collection_id)
-          .trigger("change.select2");
+        if (res.data.collection_id && res.data.collection_name) {
+          var $colSelect = $("#collection_id");
+          if (
+            $colSelect.find("option[value='" + res.data.collection_id + "']")
+              .length === 0
+          ) {
+            var newColOption = new Option(
+              res.data.collection_name,
+              res.data.collection_id,
+              true,
+              true
+            );
+            $colSelect.append(newColOption);
+          }
+          $colSelect.val(res.data.collection_id).trigger("change.select2");
+        }
+        // $("#collection_id")
+        //   .val(res.data.collection_id)
+        //   .trigger("change.select2");
 
         setTimeout(function () {
           loadSubCategories(

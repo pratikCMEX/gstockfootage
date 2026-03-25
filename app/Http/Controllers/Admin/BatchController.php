@@ -968,8 +968,6 @@ class BatchController extends Controller
         $clean  = preg_replace('/```json|```/', '', $raw);
         $parsed = json_decode(trim($clean), true);
 
-        // ── Helper: generate & save a thumbnail image via Imagen ──────────
-        // ── Helper: generate & save a thumbnail image via Imagen ──────────
         $generateThumbnail = function (string $name, string $subFolder) use ($geminiKey): ?string {
 
             $model = "imagen-4.0-fast-generate-001";
@@ -1009,7 +1007,7 @@ class BatchController extends Controller
             // ✅ Save Logic (Refined)
             $slug     = \Str::slug($name);
             $filename = $slug . '-' . time() . '.jpg';
-            $relativeFolder = 'uploads/images/category';
+            $relativeFolder = "uploads/images/{$subFolder}";
             $savePath = public_path($relativeFolder);
 
             if (!file_exists($savePath)) {
@@ -1112,6 +1110,44 @@ class BatchController extends Controller
             }
         }
 
+
+        $collectionId    = null;
+        $collectionName  = null;
+        $collectionImage = null;
+
+        if (!empty($parsed['collection_id'])) {
+            $col = $allCollections->firstWhere('id', $parsed['collection_id']);
+            if ($col) {
+                $collectionId    = $col->id;
+                $collectionName  = $col->name;
+                $collectionImage = $col->image;
+            }
+        }
+
+        if (!$collectionId) {
+            $newColName = $parsed['new_collection'] ?? null;
+            if ($newColName) {
+                $existingCol = Collection::where('name', $newColName)->first();
+                if ($existingCol) {
+                    $collectionId    = $existingCol->id;
+                    $collectionName  = $existingCol->name;
+                    $collectionImage = $existingCol->image;
+                } else {
+                    // ✅ Generate thumbnail for brand-new collection
+                    $colThumbUrl  = $generateThumbnail($newColName, 'collection');
+                    $collectionId = Collection::insertGetId([
+                        'name'       => $newColName,
+                        'image'      => $colThumbUrl,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    $collectionName  = $newColName;
+                    $collectionImage = $colThumbUrl;
+                }
+            }
+        }
+
+
         return response()->json([
             'status' => true,
             'data'   => [
@@ -1126,6 +1162,10 @@ class BatchController extends Controller
                 'subcategory_id'    => $subcategoryId,
                 'subcategory_name'  => $subcategoryName,
                 'subcategory_image' => $subcategoryImage, // ← new
+
+                'collection_id'    => $collectionId,
+                'collection_name'  => $collectionName,
+                'collection_image' => $collectionImage, // ← new
             ]
         ]);
     }
