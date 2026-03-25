@@ -947,8 +947,9 @@ class BatchController extends Controller
                                 3. category_id: Pick the BEST matching category ID from this list (use the id number):
                                 {$categoryList}
                                 If absolutely none match, set category_id to null and suggest a new category name in new_category.
-                                4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category (use the id number).
-                                If none match, set subcategory_id to null and suggest a new subcategory name in new_subcategory.
+                                4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category.
+                                ⚠️ If the list is empty OR none match, set subcategory_id to null and you MUST 
+                                provide a name in new_subcategory. new_subcategory must NEVER be null if subcategory_id is null                                If none match, set subcategory_id to null and suggest a new subcategory name in new_subcategory.
                                 5. new_category: (only if category_id is null) Suggested new category name. Otherwise null.
                                 6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise null.
                                 7. collection_id: Pick the BEST matching collection ID from this list (use the id number):
@@ -995,15 +996,31 @@ class BatchController extends Controller
             }
         }
 
-        if (!$categoryId && !empty($parsed['new_category'])) {
-            // No match — create new category
-            $categoryId = Category::insertGetId([
-                'category_name' => $parsed['new_category'],
-                'is_display'    => '1',
-                'created_at'    => now(),
-                'updated_at'    => now(),
-            ]);
-            $categoryName = $parsed['new_category'];
+        if (!$categoryId) {
+            $newCatName = $parsed['new_category'] ?? null;
+
+            // ✅ If Gemini returned an ID but it didn't match, extract name from prompt
+            // Or just use a label from Vision API as last resort
+            if (!$newCatName && !empty($subject)) {
+                $newCatName = ucfirst($subject);
+            }
+
+            if ($newCatName) {
+                // Avoid duplicate category creation
+                $existing = Category::where('category_name', $newCatName)->first();
+                if ($existing) {
+                    $categoryId   = $existing->id;
+                    $categoryName = $existing->category_name;
+                } else {
+                    $categoryId = Category::insertGetId([
+                        'category_name' => $newCatName,
+                        'is_display'    => '1',
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ]);
+                    $categoryName = $newCatName;
+                }
+            }
         }
 
         // ── 5. Resolve / create Subcategory ───────────────────────────────
@@ -1011,7 +1028,6 @@ class BatchController extends Controller
         $subcategoryName = null;
 
         if (!empty($parsed['subcategory_id'])) {
-            // Gemini matched an existing subcategory
             $sub = $allSubCategories->firstWhere('id', $parsed['subcategory_id']);
             if ($sub && $sub->category_id == $categoryId) {
                 $subcategoryId   = $sub->id;
@@ -1019,25 +1035,33 @@ class BatchController extends Controller
             }
         }
 
-        if (!$subcategoryId && $categoryId && !empty($parsed['new_subcategory'])) {
-            // No match — create new subcategory under the resolved category
-            // $slugBase = \Str::slug($parsed['new_subcategory']);
-            // $slug = $slugBase;
-            // $i = 1;
-            // while (\DB::table('sub_categories')->where('slug', $slug)->exists()) {
-            //     $slug = $slugBase . '-' . $i++;
-            // }
+        if (!$subcategoryId && $categoryId) {
+            // Use new_subcategory if Gemini gave one, else fall back to subject/label
+            $newSubName = $parsed['new_subcategory']
+                ?? $parsed['title']
+                ?? $subject
+                ?? null;
 
-            $subcategoryId = SubCategory::insertGetId([
-                'category_id' => $categoryId,
-                'name'        => $parsed['new_subcategory'],
-                // 'slug'        => $slug,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ]);
-            $subcategoryName = $parsed['new_subcategory'];
+            if ($newSubName) {
+                // ✅ Prevent duplicates
+                $existingSub = SubCategory::where('category_id', $categoryId)
+                    ->where('name', $newSubName)
+                    ->first();
+
+                if ($existingSub) {
+                    $subcategoryId   = $existingSub->id;
+                    $subcategoryName = $existingSub->name;
+                } else {
+                    $subcategoryId = SubCategory::insertGetId([
+                        'category_id' => $categoryId,
+                        'name'        => $newSubName,
+                        'created_at'  => now(),
+                        'updated_at'  => now(),
+                    ]);
+                    $subcategoryName = $newSubName;
+                }
+            }
         }
-
         // $collectionId   = null;
         // $collectionName = null;
 
