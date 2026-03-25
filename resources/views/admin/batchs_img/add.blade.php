@@ -54,8 +54,13 @@
                                     {{-- {{ dd($batch_list) }} --}}
                                     @foreach ($batch_list as $list)
                                         <div class="batch-content">
+
                                             <div class="batch-content-title">
-                                                <h5>{{ $list['title'] }}</h5>
+                                                <a class="batch-content-img"
+                                                    href="{{ route('admin.add_new_img', encrypt($list['id'])) }}">
+
+                                                    <h5>{{ $list['title'] }}</h5>
+                                                </a>
                                                 <div class="content-dropdown">
                                                     <button class="btn  text-start dot-dropdown dropdown-toggle"
                                                         type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -169,9 +174,14 @@
 
                                                     </div>
                                                 </a>
+
+
                                                 <div class="batch-content-create">
                                                     <div class="batch-content-create-text">
-                                                        <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
+                                                        <a
+                                                            href="{{ route('admin.add_new_img', encrypt($list['id'])) }}">
+                                                            <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
+                                                        </a>
                                                         {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
                                                         <div>
                                                             <p class="batchcreated">
