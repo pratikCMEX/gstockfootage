@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.subscriptions') }}">Subscription Plan list</a>/Edit Subscription Plan</h5>
+                        href="{{ route('admin.subscriptions') }}">Subscription Plans</a>/Edit Subscription Plan</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -59,7 +59,8 @@
                             </div>
 
 
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange">Edit Subscription Plan</button>
+                            <a href="{{ route('admin.subscriptions') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

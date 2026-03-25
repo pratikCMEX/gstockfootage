@@ -17,7 +17,7 @@ class AffiliateController extends Controller
 
     public function index(AffiliateDataTable $DataTable)
     {
-        $title = 'Affiliates';
+        $title = 'Affiliate Users';
         $page = 'admin.affiliate.list';
         $affiliates = Affiliate::with('affiliateUser')
             ->latest()

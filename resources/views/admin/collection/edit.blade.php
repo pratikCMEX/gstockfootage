@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.collection') }}">Collection list</a>/Edit collection</h5>
+                        href="{{ route('admin.collection') }}">Collection</a> / Edit collection</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_collection_form" method="POST"

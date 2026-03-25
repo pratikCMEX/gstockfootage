@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.sub_category') }}">SubCategory list</a> / Add SubCategory</h5>
+                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Add SubCategory</h5>
 
                 <div class="card">
                     <div class="card-body">

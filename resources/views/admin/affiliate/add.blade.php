@@ -6,8 +6,9 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.affiliates.list') }}">Affiliate User list</a>/Add Affiliate</h5>
-                           
+                                    href="{{ route('admin.affiliates.list') }}">Affiliate Users</a> / Add Affiliate User
+                            </h5>
+
                             <!-- <a href="{{ route('admin.affiliates.list') }}" class="btn btn-secondary btn-sm">
                                 <i class="fa fa-arrow-left me-1"></i> Back
                             </a> -->
@@ -88,7 +89,7 @@
                                     <label class="form-label">Commision Type <span class="text-danger">*</span></label>
                                     <select name="commission_type" id="commission_type" class="form-select"
                                         @error('commission_type') is-invalid @enderror>
-                                        <option value="">Select Commission Type</option>
+                                        <option value="">Select commission type</option>
                                         <option value="fixed">Fix</option>
                                         <option value="percentage">Percentage</option>
                                     </select>
@@ -104,12 +105,13 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" name="commission_value"
                                         class="form-control @error('commission_value') is-invalid @enderror"
-                                        placeholder="Enter commission value" value="{{ old('last_name') }}">
+                                        placeholder="Enter commission value" value="{{ old('last_name') }}" 
+                                         oninput="this.value = this.value.replace(/[^0-9.]/g,'')">
                                     @error('commission_value')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                
+
                                 <div class="mb-3 w-100 ">
                                     <label class="form-label">Address</label>
                                     <textarea name="address" placeholder="Enter address" rows="4"
@@ -120,8 +122,11 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary px-4">
-                                <i class="fa fa-save me-1"></i> Create Affiliate
+                                Add Affiliate User
                             </button>
+                            <a href="{{ route('admin.affiliates.list') }}" class="btn btn-primary px-4">
+                                Cancel
+                            </a>
                         </form>
                     </div>
                 </div>

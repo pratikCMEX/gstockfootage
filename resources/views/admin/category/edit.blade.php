@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.category') }}">Category list </a>/ Edit Category</h5>
+                        href="{{ route('admin.category') }}">Categories </a>/ Edit Category</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_category_form" method="POST"

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.user') }}">User list</a> / Add User</h5>
+                        href="{{ route('admin.user') }}">Users</a> / Add User</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="add_user_form" method="POST" action="{{ route('admin.user_store') }}">
@@ -29,7 +29,7 @@
                                     placeholder="Please enter password">
                             </div>
 
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Add User</button>
                         </form>
                     </div>
                 </div>

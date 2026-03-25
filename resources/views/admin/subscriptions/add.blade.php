@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.subscriptions') }}">Subscription Plan list</a>/Add Subscription Plan</h5>
+                        href="{{ route('admin.subscriptions') }}">Subscription Plans</a>/Add Subscription Plan</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -11,14 +11,14 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Plan Name</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Subscription Plan Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="name"
-                                    aria-describedby="emailHelp" placeholder="Please enter license name">
+                                    aria-describedby="emailHelp" placeholder="Please enter subscriptin plan name">
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Duration Type</label><label class="text-danger">*</label>
                                 <select class="form-select mr-sm-2" name="duration_type" id="duration_tye">
-                                    <option value="">Choose Duration...</option>
+                                    <option value="">Choose Duration Type...</option>
                                     <option value="Month">Month</option>
                                     <option value="Quarter">Quarter</option>
                                     <option value="Year">Year</option>
@@ -44,14 +44,15 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Price</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" id="price"
                                     aria-describedby="emailHelp" placeholder="Please enter price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
 
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Add Subscription Plan</button>
+                            <a href="{{ route('admin.subscriptions') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

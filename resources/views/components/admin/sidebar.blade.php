@@ -88,7 +88,7 @@
                             href="{{ route('admin.sub_category') }}" aria-expanded="false">
                             <!-- <i class="ti ti-layout-grid"></i> -->
                             <i class="fa-solid fa-table-list"></i>
-                            <span class="hide-menu">Sub Categories</span>
+                            <span class="hide-menu">Subcategories</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -142,7 +142,7 @@
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['subscriptions', 'add_subscription', 'edit_subscription']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.subscriptions') }}" aria-expanded="false">
                             <i class="fa-solid fa-square-rss"></i>
-                            <span class="hide-menu">Subscriptions </span>
+                            <span class="hide-menu">Subscription Plans </span>
                         </a>
                     </li>
                     <li class="sidebar-item">

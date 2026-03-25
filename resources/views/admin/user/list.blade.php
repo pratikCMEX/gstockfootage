@@ -3,7 +3,7 @@
         <div class="row">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">User List</h5>
+                    <h5 class="card-title fw-semibold">Users</h5>
                 </div>
                 <div>
                     <a href="{{ route('admin.user_add') }}" class="btn btn-orange">+ Add User</a>

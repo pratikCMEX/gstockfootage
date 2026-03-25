@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">{{ $title }}</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.affiliates.create') }}" class="btn btn-orange">+ Add Affiliate </a>
+                    <a href="{{ route('admin.affiliates.create') }}" class="btn btn-orange">+ Add Affiliate User </a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

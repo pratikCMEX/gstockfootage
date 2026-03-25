@@ -39,10 +39,10 @@ class LicenseDataTable extends DataTable
     ';
             })
             ->addColumn('price', function ($row) {
-                return '$' . number_format($row->price, 2);
+                return  number_format($row->price, 2);
             })
             ->addColumn('plan_price', function ($row) {
-                return '$' . number_format($row->plan_price, 2);
+                return  number_format($row->plan_price, 2);
             })
             ->addColumn('action', function ($row) {
 
@@ -115,12 +115,12 @@ class LicenseDataTable extends DataTable
                 ->title('No')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('name'),
+            Column::make('name')->title('Licence Name'),
             Column::make('title'),
             Column::make('quality'),
-            Column::make('price'),
-            Column::make('plan_price'),
-            Column::make('description'),
+            Column::make('price')->title('Price ($)'),
+            Column::make('plan_price')->title('Plan Price ($)'),
+            // Column::make('description'),
             Column::computed('most_popular')
                 ->exportable(false)
                 ->printable(false)
