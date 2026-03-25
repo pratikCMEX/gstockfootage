@@ -312,8 +312,7 @@ a {
   max-width: 150px !important;
 }
 
-
-#content_master_form .image-bg-section{
+#content_master_form .image-bg-section {
   width: 100%;
   max-width: 80px;
   height: 80px;
@@ -321,7 +320,7 @@ a {
   background-color: var(--primary);
   border-radius: 5px;
 }
- .image-bg-section img{
+.image-bg-section img {
   width: 100%;
   height: 100%;
   margin-top: 0px !important;
@@ -621,8 +620,8 @@ table.dataTable thead th {
   width: 90px !important;
 }
 
-.form-select {
-  padding: 12px 58px 12px 22px;
+.Subcategories-main_section #category.form-select {
+  padding: 12px 58px 12px 22px !important;
 }
 
 .iti {
