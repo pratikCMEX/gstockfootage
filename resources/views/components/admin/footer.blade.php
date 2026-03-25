@@ -105,18 +105,10 @@
         menuLinks.forEach(link => {
             link.addEventListener("click", function() {
 
-                // 🔴 Remove active from all
-                document.querySelectorAll(".has-arrow").forEach(el => {
-                    el.classList.remove("active", "btn-orange");
-                });
-
-                // 🔴 Add active to current
-                this.classList.add("active", "btn-orange");
-
                 const currentItem = this.closest(".sidebar-item");
                 const currentMenu = currentItem.querySelector(".collapse");
 
-                // 🔴 Close others
+                // 🔴 Close all others
                 document.querySelectorAll(".sidebar-item .collapse").forEach(menu => {
                     if (menu !== currentMenu) {
                         menu.classList.remove("in");
