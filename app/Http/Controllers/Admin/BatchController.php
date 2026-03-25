@@ -770,7 +770,7 @@ class BatchController extends Controller
             ]);
 
             // Dispatch background job for mid (watermarked) + thumbnail
-            GenerateImageVariants::dispatch($batchFile->id, $highPath)->onQueue('images')->delay(now()->addSeconds(5));
+            GenerateImageVariants::dispatch($batchFile->id, $highPath)->onQueue('images');
         } catch (\Throwable $e) {
             Log::error('processImage failed: ' . $e->getMessage());
         } finally {
