@@ -107,6 +107,14 @@
                                 <span class="hide-menu">Batchs</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ in_array(Request::segment(2), ['product']) ? 'active  ' : '' }} side-item"
+                                href="{{ route('admin.product_priority') }}" aria-expanded="false">
+                                <!-- <i class="ti ti-user-circle"></i> -->
+                               <i class="fa-solid fa-list"></i>
+                                <span class="hide-menu">Product Priority</span>
+                            </a>
+                        </li>
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link {{ in_array(Request::segment(2), ['image', 'add_image', 'edit_image']) ? 'active  ' : '' }} side-item"
                                 href="{{ route('admin.image') }}" aria-expanded="false">
@@ -176,7 +184,7 @@
                                             <div class="round-16 d-flex align-items-center justify-content-center">
                                                 <i class="ti ti-circle"></i>
                                             </div>
-                                            <span class="hide-menu">Most Viewed Product</span>
+                                            <span class="hide-menu">Most Viewed Products</span>
                                         </div>
                                     </a>
                                 </li>

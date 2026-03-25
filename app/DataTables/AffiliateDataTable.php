@@ -36,11 +36,11 @@ class AffiliateDataTable extends DataTable
                 </div>';
             })
             ->addColumn('total_earnings', function ($row) {
-                return '$' . number_format($row->total_earnings, 2);
+                return number_format($row->total_earnings, 2);
             })
             ->addColumn('commission_value', function ($row) {
                 if ($row->commission_type === 'fixed') {
-                    return '$' . number_format($row->commission_value, 2);
+                    return number_format($row->commission_value, 2);
                 } elseif ($row->commission_type === 'percentage') {
                     return number_format($row->commission_value, 2) . '%';
                 }

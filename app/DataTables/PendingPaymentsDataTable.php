@@ -38,10 +38,10 @@ class PendingPaymentsDataTable extends DataTable
                 return $row->order ? $row->order->order_number : 'N/A';
             })
             ->editColumn('order_amount', function ($row) {
-                return '$' . number_format($row->order_amount, 2);
+                return number_format($row->order_amount, 2);
             })
             ->editColumn('commission_amount', function ($row) {
-                return '$' . number_format($row->commission_amount, 2);
+                return number_format($row->commission_amount, 2);
             })
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');

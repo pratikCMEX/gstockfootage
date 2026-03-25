@@ -28,7 +28,7 @@ class LiveCartReportDataTable extends DataTable
             })
             ->addColumn('total_amount', function ($row) {
                 $total = $row->qty * ($row->product->price ?? 0);
-                return '$' . number_format($total, 2);
+                return number_format($total, 2);
             })
             ->editColumn('created_at', function ($row) {
                 return $row->created_at ? $row->created_at->format('d M Y, h:i A') : 'N/A';

@@ -43,7 +43,7 @@ class RaferralUsersListDataTable extends DataTable
                 $amount = AffiliateReferral::where('affiliate_id', $affiliateId)
                     ->where('user_id', $row->id)
                     ->sum('commission_amount');
-                return '$' . number_format($amount, 2);
+                return number_format($amount, 2);
             })
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->format('d M Y');

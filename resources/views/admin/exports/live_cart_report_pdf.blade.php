@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h2>Most viewed Product Report</h2>
+    <h2>Live Cart Report</h2>
     <p class="subtitle">Generated on {{ now()->timezone('Asia/Kolkata')->format('d M Y, h:i A') }}</p>
 
    

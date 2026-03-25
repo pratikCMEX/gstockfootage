@@ -43,7 +43,7 @@
                 <th>#</th>
                 <th>Email</th>
                 <th>Order Number</th>
-                <th>Total Amount</th>
+                <th>Total Amount ($)</th>
                 <th>Order Status</th>
                 <th>Payment Status</th>
                 <th>Created Date</th>
@@ -55,7 +55,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $order->user->email ?? '-' }}</td>
                 <td>{{ $order->order_number }}</td>
-                <td>${{ number_format($order->total_amount, 2) }}</td>
+                <td>{{ number_format($order->total_amount, 2) }}</td>
                 <td>
                     @if($order->order_status === 'completed')
                         <span class="badge-success">Completed</span>
