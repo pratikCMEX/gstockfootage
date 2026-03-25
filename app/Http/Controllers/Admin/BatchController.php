@@ -872,6 +872,7 @@ class BatchController extends Controller
 
     public function generateAiContent(Request $request)
     {
+
         $request->validate(['img_url' => 'required|url']);
         $geminiKey = env('GOOGLE_GEMINI_API_KEY');
         $visionKey = env('GOOGLE_VISION_API_KEY');
