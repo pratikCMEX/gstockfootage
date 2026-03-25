@@ -85,7 +85,7 @@
                                 @endif --}}
                                 @if ($data['type'] == 'video')
                                     {{-- ✅ Unique ID per video using file code or id --}}
-                                    <video id="hls-video-{{ $data['id'] }}" class="h-100 w-100" controls
+                                    <video id="hls-video-{{ $data['id'] }}" class="h-100 w-100" autoplay controls
                                         poster="{{ $data['thumbnail'] ?? '' }}" data-hls="{{ $data['hls_path'] ?? '' }}"
                                         data-fallback="{{ $data['mid_path'] != '' ? $data['mid_path'] : $data['file_url'] }}">
                                     </video>
