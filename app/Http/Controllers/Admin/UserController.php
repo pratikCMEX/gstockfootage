@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Auth\Events\Registered;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
@@ -45,6 +47,9 @@ class UserController extends Controller
             $newUser->password = Hash::make($request->password);
             $newUser->role = "0";
             $newUser->save();
+
+            event(new Registered($newUser)); // sends verification email
+
             DB::commit();
             return redirect()->route('admin.user')->with('msg_success', 'User added successfully !');
         } catch (QueryException $e) {
