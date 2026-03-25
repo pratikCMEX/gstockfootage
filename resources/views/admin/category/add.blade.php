@@ -16,7 +16,7 @@
                                         for="" class="text-danger">*</label>
                                     <input type="text" name="category_name" class="form-control"
                                         id="exampleInputEmail1" aria-describedby="emailHelp"
-                                        placeholder="Please enter category name">
+                                        placeholder=" enter category name">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="image" class="form-label">Upload Image</label><label for=""

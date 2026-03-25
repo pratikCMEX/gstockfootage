@@ -18,7 +18,7 @@
                                     <input type="hidden" name="category_id" id="category_id"
                                         value="{{ encrypt($getCategoryDetail->id) }}" />
                                     <input type="text" name="category_name" class="form-control" id="category_name"
-                                        placeholder="Please enter category name"
+                                        placeholder=" enter category name"
                                         value="{{ $getCategoryDetail->category_name }}">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">

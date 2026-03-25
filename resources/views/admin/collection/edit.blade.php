@@ -17,8 +17,7 @@
                                     <input type="hidden" name="collection_id" id="collection_id"
                                         value="{{ encrypt($getCollectionDetail->id) }}" />
                                     <input type="text" name="name" class="form-control" id="name"
-                                        placeholder="Please enter collection name"
-                                        value="{{ $getCollectionDetail->name }}">
+                                        placeholder=" enter collection name" value="{{ $getCollectionDetail->name }}">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="image" class="form-label">Upload Image</label><label

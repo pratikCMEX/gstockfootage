@@ -17,13 +17,13 @@
                                     <input type="hidden" name="id" id="id"
                                         value="{{ encrypt($getTestimonialDetail->id) }}" />
                                     <input type="text" name="name" class="form-control" id="name"
-                                        placeholder="Please enter  name" value="{{ $getTestimonialDetail->name }}">
+                                        placeholder=" enter  name" value="{{ $getTestimonialDetail->name }}">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="designation" class="form-label">Designation</label>
 
                                     <input type="text" name="designation" class="form-control" id="designation"
-                                        placeholder="Please enter Designation"
+                                        placeholder=" enter Designation"
                                         value="{{ $getTestimonialDetail->designation }}">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
@@ -31,7 +31,7 @@
                                         class="text-danger">*</label>
 
                                     <input type="text" name="message" class="form-control" id="message"
-                                        placeholder="Please enter message" value="{{ $getTestimonialDetail->message }}">
+                                        placeholder=" enter message" value="{{ $getTestimonialDetail->message }}">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="image" class="form-label">Upload Image</label>

@@ -9,9 +9,11 @@
                 </h5>
                 <div class="card">
                     <div class="card-body">
-                        <form id="about_us_form" method="POST" enctype="multipart/form-data" action="{{ route('admin.about_us_save') }}">
+                        <form id="about_us_form" method="POST" enctype="multipart/form-data"
+                            action="{{ route('admin.about_us_save') }}">
                             @csrf
-                            <input id="id" name="id" value="{{ isset($about_us->id) ? $about_us->id : '' }}" hidden />
+                            <input id="id" name="id" value="{{ isset($about_us->id) ? $about_us->id : '' }}"
+                                hidden />
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <span class="text-danger">*</span>
@@ -33,20 +35,23 @@
                                     placeholder="enter heading">
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label><label></label><label class="text-danger">*</label>
+                                <label for="description" class="form-label">Description</label><label></label><label
+                                    class="text-danger">*</label>
                                 <textarea class="form-control ckeditor" name="description" id="description" rows="6"
                                     placeholder="enter description">{{ isset($about_us->description) ? $about_us->description : '' }}</textarea>
                             </div>
-                           <label id="description-error" class="text-danger" for="description"></label>
+                            <label id="description-error" class="text-danger" for="description"></label>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Image</label><label class="text-danger">*</label>
-                                <input type="file" name="image" class="form-control" id="image" accept="image/*">
-                                @if(isset($about_us->image))
+                                <label for="image" class="form-label">Image</label><label
+                                    class="text-danger">*</label>
+                                <input type="file" name="image" class="form-control" id="image"
+                                    accept="image/*">
+                                @if (isset($about_us->image))
                                     <div class="mt-2">
                                         <p class="small text-muted mb-2">Current Image:</p>
                                         <img src="{{ asset('uploads/images/about_us/' . $about_us->image) }}"
-                                             style="max-width: 200px; border-radius: 5px; border: 1px solid #ddd;" 
-                                             alt="About Us Image">
+                                            style="max-width: 200px; border-radius: 5px; border: 1px solid #ddd;"
+                                            alt="About Us Image">
                                     </div>
                                 @endif
                             </div>
@@ -58,8 +63,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-

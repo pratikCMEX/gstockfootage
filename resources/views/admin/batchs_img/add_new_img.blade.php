@@ -858,7 +858,7 @@
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Price *</label>
+                                                <label for="" class="heading-label">Price($) *</label>
                                                 <div class="file-inp-icon-grp">
                                                     <input type="text" class="form-control upload-inp"
                                                         placeholder="Price *" name="price" aria-label="Price"

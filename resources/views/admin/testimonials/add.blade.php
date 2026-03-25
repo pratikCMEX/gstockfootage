@@ -15,19 +15,19 @@
                                     <label for="exampleInputEmail1" class="form-label">Name</label><label
                                         class="text-danger">*</label>
                                     <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp" placeholder="Please enter  name">
+                                        aria-describedby="emailHelp" placeholder=" enter  name">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Designation</label>
                                     <input type="text" name="designation" class="form-control"
                                         id="exampleInputEmail1" aria-describedby="emailHelp"
-                                        placeholder="Please enter Designation ">
+                                        placeholder=" enter Designation ">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Message</label><label
                                         class="text-danger">*</label>
                                     <input type="text" name="message" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp" placeholder="Please enter Message">
+                                        aria-describedby="emailHelp" placeholder=" enter Message">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
                                     <label for="image" class="form-label">Upload Image</label>

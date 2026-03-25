@@ -1,5 +1,5 @@
 #fileInput-error .invalid-feedback {
-    display: block !important;
+  display: block !important;
 }
 #productpriority-table tbody tr {
   cursor: grab;
@@ -2268,6 +2268,14 @@ select option {
   margin-bottom: 8px;
   padding-left: 0;
   margin-left: 5px;
+}
+
+.select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  bottom: auto !important;
 }
 
 @media only screen and (max-width: 1900px) {
