@@ -38,15 +38,9 @@ class GenerateImageVariants implements ShouldQueue
 
         try {
             // Stream from S3 to disk instead of loading into memory
-
-            if (!Storage::disk('s3')->exists($this->highPath)) {
-                log::info("File not available on S3 after retries: {$this->highPath}");
-            }
-
             $stream = Storage::disk('s3')->readStream($this->highPath);
-
-            if (!is_resource($stream)) {
-                log::info("Invalid stream for: {$this->highPath}");
+            if (!Storage::disk('s3')->exists($this->highPath)) {
+                throw new \Exception("File not available on S3: {$this->highPath}");
             }
             $tempFile = fopen($tempPath, 'wb');
             stream_copy_to_stream($stream, $tempFile);
