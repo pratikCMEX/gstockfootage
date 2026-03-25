@@ -5,9 +5,11 @@
         <div class="row mb-4 align-items-center">
 
             <div class="col-md-4">
-                <h5 class="card-title fw-semibold">
+                   <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
+                        href=""> </a> Add Priority</h5>
+                <!-- <h5 class="card-title fw-semibold">
                     <a href="{{ route('admin.product') }}">Product List</a> / Priority
-                </h5>
+                </h5> -->
             </div>
 
             <div class="col-md-8 text-end">
