@@ -232,7 +232,7 @@
                                                 alt="">
                                             @endif
                                             @endif --}}
-                                            @if ($data['file_type'] == 'image')
+                                            {{-- @if ($data['file_type'] == 'image')
                                                 <img src="{{ $data['mid_path'] != '' ? Storage::disk('s3')->url(ltrim($data['mid_path'], '/')) : Storage::disk('s3')->url(ltrim($data['file_path'], '/')) }}"
                                                     class="h-100 w-100" alt="">
                                             @else
@@ -241,6 +241,22 @@
                                                         src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
                                                 @else
                                                     <img src="{{ Storage::disk('s3')->url(ltrim($data['thumbnail_path'], '/')) }}"
+                                                        alt="">
+                                                @endif
+                                            @endif --}}
+                                            @php
+                                                $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+                                            @endphp
+
+                                            @if ($data['file_type'] == 'image')
+                                                <img src="{{ $cloudfront . ltrim($data['mid_path'] ?: $data['file_path'], '/') }}"
+                                                    class="h-100 w-100" alt="">
+                                            @else
+                                                @if ($data['thumbnail_path'] == null)
+                                                    <img
+                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}" />
+                                                @else
+                                                    <img src="{{ $cloudfront . ltrim($data['thumbnail_path'], '/') }}"
                                                         alt="">
                                                 @endif
                                             @endif
