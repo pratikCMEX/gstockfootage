@@ -22,11 +22,11 @@ class SubCategoryDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-      
+
 
         return datatables()
             ->eloquent($query)
-             ->addIndexColumn()
+            ->addIndexColumn()
             ->filter(function ($query) {
                 if ($this->request->has('search') && $this->request->get('search')['value']) {
                     $keyword = $this->request->get('search')['value'];
@@ -114,7 +114,7 @@ class SubCategoryDataTable extends DataTable
         return $query->orderBy($column, $direction);
     }
 
-   
+
 
     /**
      * Optional method if you want to use the html builder.
@@ -144,14 +144,14 @@ class SubCategoryDataTable extends DataTable
                 ->title('<input type="checkbox" class="form-check-input" id="select-all">')
                 ->orderable(false)
                 ->searchable(false),
-             Column::computed('DT_RowIndex')
-                ->title('No')
+            Column::computed('DT_RowIndex')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('category_name')->title('Category')->orderable(true),
-            Column::make('subcategory_name')->title('Sub Category')->orderable(true),
+            Column::make('subcategory_name')->title('Subcategory Name')->orderable(true),
+            Column::make('category_name')->title('Category Name')->orderable(true),
             Column::make('image')->title('Image')->orderable(false),
-            Column::make('created_at')->title('Created at')->orderable(true),
+            Column::make('created_at')->title('Created Date')->orderable(true),
             Column::make('actions')->title('Actions')->orderable(false),
         ];
     }

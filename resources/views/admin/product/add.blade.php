@@ -71,7 +71,7 @@
 
                             {{-- ================= PRICE ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Price</label><label class="text-danger">*</label>
+                                <label class="form-label">Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" placeholder="Enter product price"
                                     oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                             </div>
@@ -95,19 +95,21 @@
                             <div>
                                 <div class="mb-3">
                                     <label class="form-label">Upload File</label><label class="text-danger">*</label>
-                                    <input class="form-control" type="file"  accept="image/*" name="file" id="fileInput">
+                                    <input class="form-control" type="file" accept="image/*" name="file" id="fileInput">
+                                    
                                 </div>
-
+                               
                                 <div class="mt-2 mb-4">
                                     <img id="preview_image" class="img-fluid rounded"
                                         style="max-height:200px;display:none;">
                                     <video id="preview_video" width="300" controls style="display:none;"></video>
                                 </div>
-                                
-                                <span id="fileInput-error" class="text-danger invalid-feedback "></span>
+
+
 
                             </div>
-                            <button type="submit" class="btn btn-orange mt-4">Save Product</button>
+                            <button type="submit" class="btn btn-orange mt-4">Add Product</button>
+                            <a href="{{ route('admin.product') }}" class="btn btn-orange mt-4">Cancel</a>
 
                         </form>
 

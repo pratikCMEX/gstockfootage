@@ -84,7 +84,7 @@
 
                             {{-- ================= PRICE ================= --}}
                             <div class="mb-3">
-                                <label class="form-label">Price</label><label class="text-danger">*</label>
+                                <label class="form-label">Price ($) </label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" value="{{ $product->price }}"  placeholder="Enter product price"
                                     oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                             </div>
@@ -151,9 +151,8 @@
                                 </div>
                             @endif
 
-                            <button type="submit" class="btn btn-orange">
-                                Update Product
-                            </button>
+                            <button type="submit" class="btn btn-orange mt-4">Update Product</button>
+                            <a href="{{ route('admin.product') }}" class="btn btn-orange mt-4">Cancel</a>
 
                         </form>
 

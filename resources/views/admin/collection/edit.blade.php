@@ -19,7 +19,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label><label class="text-danger">*</label>
-                                <input class="form-control" type="file" name="image" id="image"
+                                <input class="form-control" type="file" name="image" id="image"   accept="image/*"
                                     onchange="loadFile(event)">
 
 
@@ -35,7 +35,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange mt-4">Edit Collection</button>
+                            <a href="{{ route('admin.collection') }}" class="btn btn-orange mt-4">Cancel</a>
 
                         </form>
                     </div>

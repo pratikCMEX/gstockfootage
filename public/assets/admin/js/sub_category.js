@@ -36,7 +36,7 @@ $("#add_sub_category_form").validate({
                         return $("input[name='name']").val();
                     },
                     id: function () {
-                        return null;
+                        return $('#subcategory_id').val();
                     },
                 },
             },
@@ -48,14 +48,14 @@ $("#add_sub_category_form").validate({
     },
     messages: {
         category: {
-            required: "Please select a category",
+            required: "Please select category",
         },
         name: {
-            required: "Please enter a subcategory name",
-            remote: "This category already exists",
+            required: "Please enter subcategory name",
+            remote: "This subcategory already exists",
         },
         image: {
-            required: "Please select a image",
+            required: "Please select image",
             extension: "Please upload only png/jpg/jpeg",
         },
     },
@@ -74,7 +74,15 @@ $("#add_sub_category_form").validate({
                 .closest(".mb-3")
                 .find(".bootstrap-tagsinput")
                 .addClass("form-control is-invalid");
-        } else {
+        }else if ($(element).hasClass("searchable")) {
+        // For Select2 or searchable dropdown
+        $(element)
+            .next('.select2-container')
+            .find('.select2-selection')
+            .addClass('is-invalid');
+    } 
+      
+        else {
             $(element).addClass("is-invalid");
         }
     },
@@ -91,9 +99,129 @@ $("#add_sub_category_form").validate({
 
     errorPlacement: function (error, element) {
         error.addClass("invalid-feedback");
+       
+
         if (element.attr("data-role") === "tagsinput") {
             error.insertAfter(element.siblings(".bootstrap-tagsinput"));
+        }
+        if (element.hasClass('searchable')) {
+            error.insertAfter(element.next('.select2'));
+        }
+        else {
+            error.insertAfter(element);
+        }
+    },
+    submitHandler: function (form) {
+        $(form)
+            .find('button[type="submit"]')
+            .prop("disabled", true)
+            .text("Please wait...");
+        $("#loader").css("display", "flex");
+        form.submit();
+    },
+});
+
+$("#edit_sub_category_form").validate({
+    ignore: [],
+    onkeyup: function (element) {
+        clearTimeout($.data(element, "timer"));
+        var wait = setTimeout(function () {
+            $(element).valid();
+        }, 800);
+        $(element).data("timer", wait);
+    },
+
+    rules: {
+        category: {
+            required: true,
+        },
+        name: {
+            required: true,
+            remote: {
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                url: base_url + "/admin/check_sub_category_is_exist",
+                type: "POST",
+                data: {
+                    name: function () {
+                        return $("input[name='name']").val();
+                    },
+                    id: function () {
+                        return $('#subcategory_id').val();
+                    },
+                },
+            },
+        },
+        image: {
+           
+            extension: "jpg|jpeg|png|webp",
+        },
+    },
+    messages: {
+        category: {
+            required: "Please select category",
+        },
+        name: {
+            required: "Please enter subcategory name",
+            remote: "This subcategory already exists",
+        },
+        image: {
+           
+            extension: "Please upload only png/jpg/jpeg",
+        },
+    },
+
+    normalizer: function (value) {
+        return $.trim(value);
+    },
+
+    errorClass: "text-danger",
+    errorElement: "span",
+    validClass: "is-valid",
+
+    highlight: function (element) {
+        if ($(element).attr("data-role") === "tagsinput") {
+            $(element)
+                .closest(".mb-3")
+                .find(".bootstrap-tagsinput")
+                .addClass("form-control is-invalid");
+        }else if ($(element).hasClass("searchable")) {
+        // For Select2 or searchable dropdown
+        $(element)
+            .next('.select2-container')
+            .find('.select2-selection')
+            .addClass('is-invalid');
+    } 
+      
+        else {
+            $(element).addClass("is-invalid");
+        }
+    },
+    unhighlight: function (element) {
+        if ($(element).attr("data-role") === "tagsinput") {
+            $(element)
+                .closest(".mb-3")
+                .find(".bootstrap-tagsinput")
+                .removeClass("form-control is-invalid");
         } else {
+            $(element).removeClass("is-invalid");
+        }
+    },
+
+    errorPlacement: function (error, element) {
+        error.addClass("invalid-feedback");
+       
+
+        if (element.attr("data-role") === "tagsinput") {
+            error.insertAfter(element.siblings(".bootstrap-tagsinput"));
+        }
+        if (element.hasClass('searchable')) {
+            error.insertAfter(element.next('.select2'));
+        }
+        else {
             error.insertAfter(element);
         }
     },
@@ -226,8 +354,8 @@ $("#delete-selected").on("click", function () {
                     if (response.success == false) {
                         toastr.error(response.message);
                     }
-                    else{
-                         toastr.success(response.message);
+                    else {
+                        toastr.success(response.message);
                     }
                     $("#select-all").prop("checked", false);
                     $("#delete-selected").css("display", "none");

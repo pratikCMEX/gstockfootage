@@ -1,3 +1,6 @@
+#fileInput-error .invalid-feedback {
+    display: block !important;
+}
 #productpriority-table tbody tr {
   cursor: grab;
 }

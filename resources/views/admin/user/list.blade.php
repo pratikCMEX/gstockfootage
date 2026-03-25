@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">User List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.user_add') }}" class="btn btn-orange">Add User +</a>
+                    <a href="{{ route('admin.user_add') }}" class="btn btn-orange">+ Add User</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

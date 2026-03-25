@@ -51,7 +51,66 @@ $("#add_collection_form").validate({
             remote: "This collection already exists",
         },
         image: {
-            required: "Please select a image",
+            required: "Please select image",
+            extension: "Please upload only png/jpg/jpeg",
+        },
+    },
+    normalizer: function (value) {
+        return $.trim(value);
+    },
+
+    errorClass: "text-danger",
+    errorElement: "span",
+    highlight: function (element) {
+        $(element).addClass("is-invalid");
+    },
+    unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+    },
+    submitHandler: function (form) {
+        $(form)
+            .find('button[type="submit"]')
+            .prop("disabled", true)
+            .text("Please wait...");
+
+        form.submit();
+    },
+});
+$("#edit_collection_form").validate({
+    onkeyup: false,
+    rules: {
+        name: {
+            required: true,
+            remote: {
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                url: base_url + "/admin/check_collection_is_exist",
+                type: "POST",
+                data: {
+                    name: function () {
+                        return $("input[name='name']").val();
+                    },
+                    id: function () {
+                        return $('#collection_id').val();
+                    },
+                },
+            },
+        },
+        image: {
+          
+            extension: "jpg|jpeg|png|webp",
+        },
+    },
+    messages: {
+        name: {
+            required: "Please enter collection name",
+            remote: "This collection already exists",
+        },
+        image: {
+            
             extension: "Please upload only png/jpg/jpeg",
         },
     },

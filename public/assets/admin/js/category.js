@@ -39,7 +39,7 @@ $("#add_category_form").validate({
             remote: "This category already exists",
         },
         image: {
-            required: "Please select a image",
+            required: "Please select  image",
             extension: "Please upload only png/jpg/jpeg",
         },
     },

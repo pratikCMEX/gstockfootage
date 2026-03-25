@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Blog List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.blog_add') }}" class="btn btn-orange">Add Blog +</a>
+                    <a href="{{ route('admin.blog_add') }}" class="btn btn-orange">+ Add Blog</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

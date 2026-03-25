@@ -12,19 +12,19 @@
 
             <div class="col-md-8 text-end">
 
-                <button id="MoveToPriority" class="btn btn-info d-none">
+                <button id="MoveToPriority" class="btn btn-primary d-none">
                     Move to Priority
                 </button>
 
-                <button id="MoveToAllProducts" class="btn btn-info d-none">
+                <button id="MoveToAllProducts" class="btn btn-primary d-none">
                     Move to All Products
                 </button>
 
-                <button id="emptyPriorityList" class="btn btn-orange">
+                <button id="emptyPriorityList" class="btn btn-primary">
                     Empty Priority List
                 </button>
 
-                <button id="savePriority" class="btn btn-orange">
+                <button id="savePriority" class="btn btn-primary">
                     Save
                 </button>
                 <!-- <a href="{{ route('admin.product') }}" id="savePriority" class="btn btn-dark">
@@ -48,7 +48,7 @@
 
                         <div class="mb-2">
                             <select id="filterProductType" class="form-control form-control-md">
-                                
+
                                 <option value="image">Images</option>
                                 <option value="video">Videos</option>
                             </select>
@@ -61,14 +61,14 @@
 
                             <table class="table table-bordered table-sm" id="all-products-table">
 
-                                <thead class="table-light">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th><input Type='checkbox' name="allPriority" id='allPriority'></th>
-                                        <th>Sr No.</th>
-                                        <th>Name</th>
+                                        <th>Sr. No.</th>
+                                        <th>Product Name</th>
                                         <th width="80">Type</th>
                                         <th width="110">Preview</th>
-                                        <th width="80">Price</th>
+                                        <th width="80">Price ($)</th>
                                     </tr>
                                 </thead>
 
@@ -145,8 +145,6 @@
                     <div class="card-body">
 
                         <h5 class="card-title mb-3">Priority List</h5>
-
-                        
                         <div class="table-scroll">
 
                             <div class="mb-2">
@@ -155,15 +153,15 @@
                             </div>
                             <table class="table table-bordered table-sm" id="priority-table">
 
-                                <thead class="table-light">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th><input type="checkbox" id="allPrioritySelected"></th>
                                         <th width="70">Priority</th>
-                                        <th>Name</th>
+                                        <th>Product Name</th>
 
                                         <th width="80">Type</th>
                                         <th width="110">Preview</th>
-                                        <th width="80">Price</th>
+                                        <th width="80">Price ($)</th>
                                     </tr>
                                 </thead>
 
@@ -194,8 +192,8 @@
 
                                                 @if($product->type === 'image')
 
-                                                    <img src="{{ $product->mid_path ? Storage::disk('s3')->url($product->mid_path) :'' }}" width="70"
-                                                        height="70">
+                                                    <img src="{{ $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '' }}"
+                                                        width="70" height="70">
 
                                                 @else
 

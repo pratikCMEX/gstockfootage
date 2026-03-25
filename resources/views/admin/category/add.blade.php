@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.category') }}">Category list</a>/Add Category</h5>
+                        href="{{ route('admin.category') }}">Category list </a>/ Add Category</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -30,7 +30,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Add Category</button>
+                             <a href="{{ route('admin.category') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>
