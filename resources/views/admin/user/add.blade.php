@@ -32,6 +32,25 @@
                                         placeholder=" enter password">
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label">Last Name</label><label
+                                    class="text-danger">*</label>
+                                <input type="text" name="last_name" class="form-control" id="last_name"
+                                    placeholder="Please enter last name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label><label
+                                    class="text-danger">*</label>
+                                <input type="email" name="email" class="form-control" id="email"
+                                    placeholder="Please enter email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label><label
+                                    class="text-danger">*</label>
+                                <input type="password" name="password" class="form-control" id="password"
+                                    placeholder="Please enter password">
+                            </div>
+
                             <button type="submit" class="btn btn-orange">Add User</button>
                         </form>
                     </div>

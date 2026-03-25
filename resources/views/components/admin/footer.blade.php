@@ -59,27 +59,29 @@
     @endif
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.searchable').select2({
             width: 'resolve',
             minimumResultsForSearch: 0, // always show search box
-            placeholder: function() {
+            placeholder: function () {
                 return $(this).data('placeholder') || "Type to search...";
             },
             allowClear: true
         });
 
-        $(document).on('select2:open', function() {
+        $(document).on('select2:open', function () {
             $('.select2-search__field').attr('placeholder', 'Type to search...');
         });
     });
 
+
+    
     //  Global placeholder capitalizer — add once in main JS file
-    $('input, textarea').each(function() {
+    $('input, textarea').each(function () {
         let placeholder = $(this).attr('placeholder');
         if (placeholder) {
             // Capitalize first letter of each word
-            let capitalized = placeholder.replace(/\b\w/g, function(char) {
+            let capitalized = placeholder.replace(/\b\w/g, function (char) {
                 return char.toUpperCase();
             });
             $(this).attr('placeholder', capitalized);
@@ -89,10 +91,10 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
         //  Find every video element that has an HLS path
-        document.querySelectorAll('video[data-hls]').forEach(function(videoEl) {
+        document.querySelectorAll('video[data-hls]').forEach(function (videoEl) {
 
             if (!sidebar) return;
 
@@ -112,13 +114,13 @@
                 hls.attachMedia(videoEl);
 
                 //  Only start loading when user hits play
-                videoEl.addEventListener('play', function() {
+                videoEl.addEventListener('play', function () {
                     hls.startLoad();
                 }, {
                     once: true
                 });
 
-                hls.on(Hls.Events.ERROR, function(event, data) {
+                hls.on(Hls.Events.ERROR, function (event, data) {
                     if (data.fatal) {
                         console.warn('HLS fatal error, falling back to direct source', data);
                         hls.destroy();

@@ -16,22 +16,22 @@
                                 <label for="title" class="form-label">Blog Title</label>
                                 <span class="text-danger">*</span>
                                 <input type="text" name="title" class="form-control" id="title"
-                                    placeholder="enter Blog Title">
+                                    placeholder="Please enter blog title">
                             </div>
                             <!-- <div class="mb-3">
                                 <label for="short_description" class="form-label">Short Description</label>
                                 <textarea class="form-control" name="short_description" id="short_description" rows="3"
-                                    placeholder="enter short description">{{ isset($blog->short_description) ? $blog->short_description : '' }}</textarea>
+                                    placeholder="Please enter short description">{{ isset($blog->short_description) ? $blog->short_description : '' }}</textarea>
                             </div> -->
                             <div class="mb-3">
                                 <label for="author_name" class="form-label">Author Name</label>
                                 <input type="text" name="author_name" class="form-control" id="author_name"
-                                    placeholder="enter Author Name">
+                                    placeholder="Please enter author name">
                             </div>
                             <div class="mb-3">
                                 <label for="author_tag" class="form-label">Author Tag</label>
                                 <input type="text" name="author_tag" class="form-control" id="author_tag"
-                                    placeholder="enter Author Tag">
+                                    placeholder="Please enter author tag">
                             </div>
                             <div class="mb-3">
                                 <label for="publish_date" class="form-label">Publish Date</label><span
@@ -48,7 +48,7 @@
                                 <label for="description" class="form-label">Description</label>
                                 <span class="text-danger">*</span>
                                 <textarea class="form-control ckeditor" name="description" id="description" rows="6"
-                                    placeholder="enter Description"></textarea>
+                                    placeholder="Please enter description"></textarea>
                             </div>
                             <label id="description-error" class="text-danger mb-2" for="description"></label>
                             <div>
