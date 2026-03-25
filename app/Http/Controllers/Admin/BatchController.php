@@ -505,9 +505,17 @@ class BatchController extends Controller
         if (is_string($file)) {
 
             // file path (extracted from ZIP)
-            $path = Storage::disk('s3')->put(
-                'batch/videos/high/' . $fileName,
-                fopen($file, 'r'),
+            // $path = Storage::disk('s3')->put(
+            //     'batch/videos/high',
+            //     fopen($file, 'r'),
+            //     $fileName,
+            //     ['visibility' => 'public']
+            // );
+
+            $path = Storage::disk('s3')->putFileAs(
+                'batch/videos/high',
+                new \Illuminate\Http\File($file), // important for ZIP
+                $fileName,
                 ['visibility' => 'public']
             );
 
