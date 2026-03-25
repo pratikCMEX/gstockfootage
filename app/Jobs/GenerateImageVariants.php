@@ -32,7 +32,6 @@ class GenerateImageVariants implements ShouldQueue
         $batchFile = BatchFile::findOrFail($this->batchFileId);
         $imageName = $batchFile->file_name;
 
-
         // ── Download from S3 to a local temp file ────────────────────────────
         // Avoids holding entire image in memory as a string
         $tempPath = storage_path('app/temp/' . uniqid() . '_' . $imageName);
@@ -40,15 +39,6 @@ class GenerateImageVariants implements ShouldQueue
         try {
             // Stream from S3 to disk instead of loading into memory
             $stream = Storage::disk('s3')->readStream($this->highPath);
-
-            if (!$stream) {
-                Log::error('S3 stream failed', [
-                    'path' => $this->highPath,
-                    'exists' => Storage::disk('s3')->exists($this->highPath),
-                ]);
-
-                throw new \Exception("Unable to read stream from S3: {$this->highPath}");
-            }
             $tempFile = fopen($tempPath, 'wb');
             stream_copy_to_stream($stream, $tempFile);
             fclose($tempFile);
