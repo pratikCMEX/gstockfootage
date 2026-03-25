@@ -118,6 +118,8 @@ class ReportsController extends Controller
 
     public function most_sold_product_report(MostSoldProductReportDataTable $DataTable)
     {
+        
+
         $title = 'Most Sold Product Report';
         $page = 'admin.reports.most_sold_product_report';
         $js = ['reports'];
@@ -127,7 +129,7 @@ class ReportsController extends Controller
 
     public function exportMostSoldPdf(Request $request)
     {
-         $subQuery = DB::table('batch_files')
+        $subQuery = DB::table('batch_files')
             ->select([
                 'batch_files.*',
                 DB::raw('COUNT(order_details.id) as total_orders'),
@@ -167,6 +169,28 @@ class ReportsController extends Controller
         return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
     }
 
+    public function exportMostViewedPdf(Request $request)
+    {
+        $query =BatchFile::with('category')
+            ->where('views', '>', 0)
+            ->orderByDesc('views');
+
+        if (request()->filled('from_date')) {
+            $query->whereDate('created_at', '>=', request('from_date'));
+        }
+
+        if (request()->filled('to_date')) {
+            $query->whereDate('created_at', '<=', request('to_date'));
+        }
+
+        $products = $query->get();
+
+        $pdf = Pdf::loadView('admin.exports.most_viewed_report_pdf', compact('products'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('MostViewedProductReport_' . date('YmdHis') . '.pdf');
+    }
+
     public function live_cart_report(LiveCartReportDataTable $DataTable)
     {
         $title = 'Live Cart Product Report';
@@ -174,6 +198,28 @@ class ReportsController extends Controller
         $js = ['reports'];
         $css = 'reports';
         return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
+    }
+
+     public function exportLiveCartPdf(Request $request)
+    {
+        $query =BatchFile::with('category')
+            ->where('views', '>', 0)
+            ->orderByDesc('views');
+
+        if (request()->filled('from_date')) {
+            $query->whereDate('created_at', '>=', request('from_date'));
+        }
+
+        if (request()->filled('to_date')) {
+            $query->whereDate('created_at', '<=', request('to_date'));
+        }
+
+        $products = $query->get();
+
+        $pdf = Pdf::loadView('admin.exports.most_viewed_report_pdf', compact('products'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('MostViewedProductReport_' . date('YmdHis') . '.pdf');
     }
     public function user_wise_order_report(UserWiseOrderReportDataTable $DataTable)
     {

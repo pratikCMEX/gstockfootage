@@ -44,7 +44,7 @@ class AffiliateController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:affiliate_users,email',
             'password' => 'required|min:6',
-            'address' => 'min:10',
+            // 'address' => 'min:10',
             'commission_type' => 'required|in:fixed,percentage',
             'commission_value' => 'required|numeric|min:0',
 
@@ -55,7 +55,7 @@ class AffiliateController extends Controller
             'email.unique' => 'This email is already registered',
             'password.required' => 'Please enter password',
             'password.min' => 'Password must be at least 6 characters',
-            'address.min' => 'Address should be minimum 10 character',
+            // 'address.min' => 'Address should be minimum 10 character',
             'commission_type.required' => 'Please select commission type',
             'commission_value.required' => 'Please enter commission value',
             'commission_value.numeric' => 'Please enter valid number',

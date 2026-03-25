@@ -197,6 +197,8 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
 
 
     Route::get('admin/most_viewed_product_report', [ReportsController::class, 'most_viewed_product_report'])->name('admin.most_viewed_product_report');
+    Route::get('admin/most_viewed_product_report/export_pdf', [ReportsController::class, 'exportMostViewedPdf'])->name('admin.most_viewed_product_report.export_pdf');
+
     Route::get('admin/live_cart_report', [ReportsController::class, 'live_cart_report'])->name('admin.live_cart_report');
     Route::get('admin/user_wise_order_report', [ReportsController::class, 'user_wise_order_report'])->name('admin.user_wise_order_report');
 
