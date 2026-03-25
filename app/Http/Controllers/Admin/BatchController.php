@@ -745,7 +745,7 @@ class BatchController extends Controller
 
             // Upload raw file directly to S3 — no encoding at all
             $highPath = "batch/image/high/$imageName";
-            Storage::disk('s3')->put(
+            Storage::disk('s3')->putFileAs(
                 $highPath,
                 file_get_contents($path),
                 ['visibility' => 'public']
