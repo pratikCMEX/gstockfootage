@@ -595,6 +595,8 @@ class BatchController extends Controller
                             }
 
                             if (in_array($ext, ['mp4', 'mov', 'avi']) && $request->batch_type == 'video') {
+                                Log::info('Video First Recieved:');
+                                sleep(5);
                                 $this->processVideo($zipFile->getPathname(), $batch_id);
                             }
                         }
@@ -609,7 +611,7 @@ class BatchController extends Controller
                     $this->processImage($file->getRealPath(), $batch_id, $file, $manager);
                 } elseif (in_array($extension, ['mp4', 'mov', 'avi'])) {
                     Log::info('Video First Recieved:');
-
+                    sleep(5);
                     $this->processVideo($file, $batch_id);
                 }
             }

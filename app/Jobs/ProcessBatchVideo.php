@@ -57,9 +57,9 @@ class ProcessBatchVideo implements ShouldQueue
         | 1. Check Original Exists in S3
         |--------------------------------------------------------------------------
         */
-            if (!Storage::disk('s3')->exists($video->file_path)) {
-                throw new \Exception("Original video not found in S3: {$video->file_path}");
-            }
+            // if (!Storage::disk('s3')->exists($video->file_path)) {
+            //     throw new \Exception("Original video not found in S3: {$video->file_path}");
+            // }
 
             /*
         |--------------------------------------------------------------------------
@@ -82,7 +82,7 @@ class ProcessBatchVideo implements ShouldQueue
         | 3. Download From S3
         |--------------------------------------------------------------------------
         */
-            Log::info("⬇️ Downloading from S3", ['path' => $video->file_path]);
+            // Log::info("⬇️ Downloading from S3", ['path' => $video->file_path]);
             Log::error("started 3");
 
             $stream = Storage::disk('s3')->readStream($video->file_path);
