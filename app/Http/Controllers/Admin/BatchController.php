@@ -585,7 +585,7 @@ class BatchController extends Controller
 
         set_time_limit(600);
         $request->validate([
-            'files' => 'required',
+            'files' => 'required|array|max:100', // 👈 limit here
             'files.*' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,avi,zip|max:512000'
         ]);
 
