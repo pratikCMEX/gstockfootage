@@ -15,12 +15,12 @@
                                 <label for="title" class="form-label">Title</label><label class="text-danger">*</label>
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ isset($privacy_policy->title) ? $privacy_policy->title : '' }}"
-                                    aria-describedby="emailHelp" placeholder="Please enter title">
+                                    aria-describedby="emailHelp" placeholder="enter title">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label><label class="text-danger">*</label>
                                 <textarea class="form-control ckeditor" name="description" id="description"rows="3"
-                                    placeholder="Please enter description">{{ isset($privacy_policy->content) ? $privacy_policy->content : '' }}</textarea>
+                                    placeholder="enter description">{{ isset($privacy_policy->content) ? $privacy_policy->content : '' }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-orange">Save</button>
                         </form>

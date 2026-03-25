@@ -165,31 +165,32 @@ $(document).ready(function () {
 
         messages: {
             first_name: {
-                required: 'Please enter first name',
-                maxlength: 'First name must be less than 50 characters'
+                required: 'Please enter First Name',
+                maxlength: 'First Name must be less than 50 characters'
             },
             last_name: {
-                required: 'Please enter last name',
-                maxlength: 'Last name must be less than 50 characters'
+                required: 'Please enter Last Name',
+                maxlength: 'Last Name must be less than 50 characters'
             },
             email: {
-                required: 'Please enter email',
-                email: 'Please enter valid email',
-                remote: "This Email Already Exists",
+                required: 'Please enter Email',
+                email: 'Please enter valid Email',
+                remote: "This Email already exists",
             },
-            password: { required: 'Please enter password', minlength: 'Minimum 6 characters' },
+            password: { required: 'Please enter Password', 
+                minlength: 'Minimum 6 characters' },
             phone_number: {
-                validPhone: "Please enter a valid phone number for selected country",
+                validPhone: "Please enter a valid Phone Number for selected country",
             },
             address: {
 
                 minlength: "Address must be at least 10 characters"
             },
             commission_type: {
-                required: 'Please select commission type',
+                required: 'Please select Commission Type',
             },
             commission_value: {
-                required: 'Please enter commission value',
+                required: 'Please enter Commission Value',
             },
         },
         errorClass: 'text-danger',

@@ -103,12 +103,12 @@ function initProductValidation(formId, isFileRequired = true) {
     },
 
     messages: {
-      category: "Please select category",
-      name: "Please enter product name",
-      price: "Please enter price",
-      description: "Please enter description",
+      category: "Please select Category",
+      name: "Please enter Product Name",
+      price: "Please enter Price",
+      description: "Please enter Description",
       file: {
-        required: "Please upload  file",
+        required: "Please upload File",
         accept: "Only JPG, PNG, GIF, WEBP images are allowed",
       },
     },

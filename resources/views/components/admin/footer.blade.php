@@ -73,26 +73,71 @@
             $('.select2-search__field').attr('placeholder', 'Type to search...');
         });
     });
+
+    //  Global placeholder capitalizer — add once in main JS file
+    $('input, textarea').each(function() {
+        let placeholder = $(this).attr('placeholder');
+        if (placeholder) {
+            // Capitalize first letter of each word
+            let capitalized = placeholder.replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+            $(this).attr('placeholder', capitalized);
+        }
+    });
 </script>
 
 
 <script>
-    // alert();
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener('DOMContentLoaded', function() {
 
-        const sidebar = document.querySelector(".simplebar-content-wrapper");
+        //  Find every video element that has an HLS path
+        document.querySelectorAll('video[data-hls]').forEach(function(videoEl) {
 
-        if (!sidebar) return;
+            if (!sidebar) return;
 
-        // 🔥 Restore scroll position
-        const savedScroll = localStorage.getItem("sidebarScroll");
-        if (savedScroll !== null) {
-            sidebar.scrollTop = parseInt(savedScroll);
-        }
+            //  Skip if no HLS path set
+            if (!hlsPath || hlsPath === '') {
+                if (fallback) videoEl.src = fallback;
+                return;
+            }
 
-        // 🔥 Save scroll position
-        sidebar.addEventListener("scroll", function() {
-            localStorage.setItem("sidebarScroll", sidebar.scrollTop);
+            if (Hls.isSupported()) {
+                var hls = new Hls({
+                    autoStartLoad: false, //  Don't load until user plays — saves bandwidth
+                    startLevel: -1, // auto quality
+                });
+
+                hls.loadSource(hlsPath);
+                hls.attachMedia(videoEl);
+
+                //  Only start loading when user hits play
+                videoEl.addEventListener('play', function() {
+                    hls.startLoad();
+                }, {
+                    once: true
+                });
+
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        console.warn('HLS fatal error, falling back to direct source', data);
+                        hls.destroy();
+                        //  Fallback to mid/original if HLS fails
+                        if (fallback) {
+                            videoEl.src = fallback;
+                            videoEl.load();
+                        }
+                    }
+                });
+
+            } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+                //  Native Safari HLS
+                videoEl.src = hlsPath;
+
+            } else {
+                //  Browser doesn't support HLS at all — use mp4 fallback
+                if (fallback) videoEl.src = fallback;
+            }
         });
 
     });

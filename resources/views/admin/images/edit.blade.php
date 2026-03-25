@@ -53,12 +53,12 @@
                                 <label for="image_name" class="form-label">Image Name</label>
                                 <input type="text" name="image_name" class="form-control" id="image_name"
                                     value="{{ $getImageDetail->image_name }}" aria-describedby="emailHelp"
-                                    placeholder="Please enter image name">
+                                    placeholder="enter image name">
                             </div>
                             <div class="mb-3">
                                 <label for="image_price" class="form-label">Image Price</label>
                                 <input type="text" name="image_price" class="form-control" id="image_price"
-                                    aria-describedby="emailHelp" placeholder="Please enter image price"
+                                    aria-describedby="emailHelp" placeholder="enter image price"
                                     value="{{ $getImageDetail->image_price }}"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                             </div>

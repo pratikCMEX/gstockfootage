@@ -48,14 +48,14 @@ $("#add_sub_category_form").validate({
     },
     messages: {
         category: {
-            required: "Please select category",
+            required: "Please select Category",
         },
         name: {
-            required: "Please enter subcategory name",
-            remote: "This subcategory already exists",
+            required: "Please enter Subcategory Name",
+            remote: "This Subcategory Name already exists",
         },
         image: {
-            required: "Please select image",
+            required: "Please select Image",
             extension: "Please upload only png/jpg/jpeg",
         },
     },
@@ -162,11 +162,11 @@ $("#edit_sub_category_form").validate({
     },
     messages: {
         category: {
-            required: "Please select category",
+            required: "Please select Category",
         },
         name: {
-            required: "Please enter subcategory name",
-            remote: "This subcategory already exists",
+            required: "Please enter Subcategory Name",
+            remote: "This Subcategory Name already exists",
         },
         image: {
            

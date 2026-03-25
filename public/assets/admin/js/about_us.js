@@ -35,19 +35,19 @@ CKEDITOR.on('instanceReady', function (event) {
         },
         messages: {
             title: {
-                required: "Please enter title",
+                required: "Please enter Title",
                 maxlength: "Title cannot exceed 255 characters"
             },
             heading: {
-                required: "Please enter heading",
+                required: "Please enter Heading",
                 maxlength: "Heading cannot exceed 255 characters"
             },
             description: {
-                required: "Please enter description",
+                required: "Please enter Description",
                 minlength: "Description must be at least 10 characters"
             },
             image: {
-                required: "Please select an image",
+                required: "Please select an Image",
                 accept: "Please select a valid image file (jpg, jpeg, png, gif, webp)",
                 filesize: "Image size must be less than 5MB"
             }

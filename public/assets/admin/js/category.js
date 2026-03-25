@@ -35,11 +35,11 @@ $("#add_category_form").validate({
     },
     messages: {
         category_name: {
-            required: "Please enter category name",
-            remote: "This category already exists",
+            required: "Please enter Category Name",
+            remote: "This Category Name already exists",
         },
         image: {
-            required: "Please select  image",
+            required: "Please select  Image",
             extension: "Please upload only png/jpg/jpeg",
         },
     },
@@ -101,8 +101,8 @@ $("#edit_category_form").validate({
     },
     messages: {
         category_name: {
-            required: "Please enter category name",
-            remote: "This category already exists",
+            required: "Please enter Category Name",
+            remote: "This Category Name already exists",
         },
     },
     normalizer: function (value) {

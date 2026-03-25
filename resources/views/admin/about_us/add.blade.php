@@ -17,25 +17,25 @@
                                 <span class="text-danger">*</span>
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ isset($about_us->title) ? $about_us->title : '' }}"
-                                    placeholder="Please enter title">
+                                    placeholder="enter title">
                             </div>
                             <div class="mb-3">
                                 <label for="sub_title" class="form-label">Sub Title</label>
                                 <input type="text" name="sub_title" class="form-control" id="sub_title"
                                     value="{{ isset($about_us->sub_title) ? $about_us->sub_title : '' }}"
-                                    placeholder="Please enter sub title">
+                                    placeholder="enter sub title">
                             </div>
                             <div class="mb-3">
                                 <label for="heading" class="form-label">Heading</label><label
                                     class="text-danger">*</label>
                                 <input type="text" name="heading" class="form-control" id="heading"
                                     value="{{ isset($about_us->heading) ? $about_us->heading : '' }}"
-                                    placeholder="Please enter heading">
+                                    placeholder="enter heading">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label><label></label><label class="text-danger">*</label>
                                 <textarea class="form-control ckeditor" name="description" id="description" rows="6"
-                                    placeholder="Please enter description">{{ isset($about_us->description) ? $about_us->description : '' }}</textarea>
+                                    placeholder="enter description">{{ isset($about_us->description) ? $about_us->description : '' }}</textarea>
                             </div>
                            <label id="description-error" class="text-danger" for="description"></label>
                             <div class="mb-3">

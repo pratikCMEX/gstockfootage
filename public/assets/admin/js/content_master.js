@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         messages: {
             title: {
-                required: "Please enter title",
+                required: "Please enter Title",
                 maxlength: "Max 255 characters allowed"
             }
         },
@@ -39,7 +39,7 @@ $(document).ready(function () {
         $(`[name="sections[${i}][title]"]`).rules("add", {
             required: true,
             messages: {
-                required: "Enter section title"
+                required: "Please enter Section Title"
             }
         });
 
@@ -47,20 +47,40 @@ $(document).ready(function () {
         $(`[name="sections[${i}][sub_title]"]`).rules("add", {
             required: true,
             messages: {
-                required: "Enter section subtitle"
+                required: "Please enter Section Subtitle"
             }
         });
 
-        // Image validation
-        $(`[name="sections[${i}][svg]"]`).rules("add", {
-            required: true,
-            svgFormat: true,        // custom rule below
+        let hasExistingImage = $(`.section-preview-${i}`).attr('src') !== undefined
+                                && $(`.section-preview-${i}`).css('display') !== 'none';
+
+        $(`[name="sections[${i}][image]"]`).rules("add", {
+            required: !hasExistingImage,
+            accept: "image/jpeg,image/png,image/jpg,image/gif,image/webp",
             messages: {
-                required: "Please paste SVG code",
-                svgFormat:  "Invalid SVG &mdash; must start with &lt;svg&gt; and end with &lt;/svg&gt;"
+                required: "Please upload an Image",
+                accept: "Only JPG, PNG, GIF, WEBP allowed"
             }
         });
+        // Image validation
+        // $(`[name="sections[${i}][svg]"]`).rules("add", {
+        //     required: true,
+        //     svgFormat: true,        // custom rule below
+        //     messages: {
+        //         required: "Please paste SVG code",
+        //         svgFormat:  "Invalid SVG &mdash; must start with &lt;svg&gt; and end with &lt;/svg&gt;"
+        //     }
+        // });
     }
+
+     $(document).on("change", ".section-image", function () {
+        let index = $(this).data("index");
+        let file = this.files[0];
+        if (!file) return;
+
+        let url = URL.createObjectURL(file);
+        $(`.section-preview-${index}`).attr("src", url).show();
+    });
 
     // Custom SVG validation rule
     // $.validator.addMethod("svgFormat", function(value, element) {
@@ -69,9 +89,9 @@ $(document).ready(function () {
     //     return trimmed.startsWith('<svg') && trimmed.endsWith('</svg>');
     // }, "Invalid SVG — must start with <svg and end with </svg>");
 
-    $.validator.addMethod("svgFormat", function (value) {
-        const trimmed = value.trim();
-        return trimmed.startsWith("<svg") && trimmed.endsWith("</svg>");
-    }, "Invalid SVG format");
+    // $.validator.addMethod("svgFormat", function (value) {
+    //     const trimmed = value.trim();
+    //     return trimmed.startsWith("<svg") && trimmed.endsWith("</svg>");
+    // }, "Invalid SVG format");
 
 });

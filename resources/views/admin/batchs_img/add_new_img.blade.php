@@ -848,7 +848,7 @@
                                                     {{-- <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
                                                         name="description" aria-label="Username" aria-describedby="visible-addon"></textarea> --}}
                                                     <textarea class="form-control upload-inp upload-textarea ckeditor" name="description" id="description"rows="3"
-                                                        placeholder="Please enter description"></textarea>
+                                                        placeholder="enter description"></textarea>
                                                     <i class="fa-regular fa-circle-question file-input-icon"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Enter a clear description for your image."></i>

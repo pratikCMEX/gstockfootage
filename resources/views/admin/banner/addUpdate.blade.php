@@ -15,7 +15,7 @@
                                     class="text-danger">*</label>
                                 <input type="text" name="title" id="title" class="form-control"
                                     value="{{ $banner->title ?? '' }}" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Please enter title">
+                                    aria-describedby="emailHelp" placeholder="enter title">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label><label for=""

@@ -40,24 +40,24 @@ $(document).ready(function () {
         },
         messages: {
             title: {
-                required: "Please enter blog title",
-                maxlength: "Title cannot exceed 255 characters"
+                required: "Please enter Blog Title",
+                maxlength: "Blog Title cannot exceed 255 characters"
             },
             author_name: {
 
-                maxlength: "Author name cannot exceed 255 characters"
+                maxlength: "Author Name cannot exceed 255 characters"
             },
             author_tag: {
 
-                maxlength: "Author tag cannot exceed 100 characters"
+                maxlength: "Author Tag cannot exceed 100 characters"
             },
             publish_date: {
-                required: "Please select publish date"
+                required: "Please select Publish Date"
             },
             image: {
-                required: "Please select blog image",
+                required: "Please select Blog Image",
                 accept: "Only JPG, PNG, GIF, WEBP files are allowed",
-                filesize: "Image size must be less than 5MB"
+                filesize: "Blog Image size must be less than 5MB"
             },
             description: {
                 minlength: "Description must be at least 10 characters long"
@@ -114,24 +114,24 @@ $(document).ready(function () {
         },
         messages: {
             title: {
-                required: "Please enter blog title",
-                maxlength: "Title cannot exceed 255 characters"
+                required: "Please enter Blog Title",
+                maxlength: "Blog Title cannot exceed 255 characters"
             },
             author_name: {
 
-                maxlength: "Author name cannot exceed 255 characters"
+                maxlength: "Author Name cannot exceed 255 characters"
             },
             author_tag: {
 
-                maxlength: "Author tag cannot exceed 100 characters"
+                maxlength: "Author Tag cannot exceed 100 characters"
             },
             publish_date: {
-                required: "Please select publish date"
+                required: "Please select Publish Date"
             },
             image: {
-                required: "Please select blog image",
+                required: "Please select Blog Image",
                 accept: "Only JPG, PNG, GIF, WEBP files are allowed",
-                filesize: "Image size must be less than 5MB"
+                filesize: "Blog Image size must be less than 5MB"
             },
             description: {
                 minlength: "Description must be at least 10 characters long"

@@ -62,7 +62,8 @@ class ContentMasterController extends Controller
                 $sections[] = [
                     'title' => $section['title'] ?? '',
                     'sub_title' => $section['sub_title'] ?? '',
-                    'svg' =>  $section['svg'] ?? ''
+                    'image'     => $imageName,
+                    // 'svg' =>  $section['svg'] ?? ''
                 ];
             }
         }
