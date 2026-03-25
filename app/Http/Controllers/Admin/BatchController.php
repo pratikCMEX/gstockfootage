@@ -514,7 +514,7 @@ class BatchController extends Controller
         } else {
 
             // uploaded file
-            $path = Storage::disk('s3')->put(
+            $path = Storage::disk('s3')->putFileAs(
                 'batch/videos/high',
                 $file,
                 $fileName,
@@ -603,8 +603,12 @@ class BatchController extends Controller
                     }
                 } elseif (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
                     // Pass $manager as 4th argument — this was the bug!
+                    Log::info('Image First Recieved:');
+
                     $this->processImage($file->getRealPath(), $batch_id, $file, $manager);
                 } elseif (in_array($extension, ['mp4', 'mov', 'avi'])) {
+                    Log::info('Video First Recieved:');
+
                     $this->processVideo($file, $batch_id);
                 }
             }
@@ -764,8 +768,11 @@ class BatchController extends Controller
                 'height'         => $height,
                 // 'status'         => 'processing',
             ]);
-
+            sleep(5);
             // Dispatch background job for mid (watermarked) + thumbnail
+            Log::error('batchFile->id ' . $batchFile->id);
+            Log::error('highPath ' . $highPath);
+
             GenerateImageVariants::dispatch($batchFile->id, $highPath)->onQueue('images');
         } catch (\Throwable $e) {
             Log::error('processImage failed: ' . $e->getMessage());
@@ -872,40 +879,32 @@ class BatchController extends Controller
 
     public function generateAiContent(Request $request)
     {
+
         $request->validate(['img_url' => 'required|url']);
         $geminiKey = env('GOOGLE_GEMINI_API_KEY');
-
-
-        $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
-
         $visionKey = env('GOOGLE_VISION_API_KEY');
 
         $imageData = base64_encode(file_get_contents($request->img_url));
+
         $vResponse = Http::timeout(60)
-            ->withOptions([
-                'curl' => [
-                    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
-                ],
-            ])
+            ->withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])
             ->post("https://vision.googleapis.com/v1/images:annotate?key={$visionKey}", [
-                'requests' => [
-                    [
-                        'image' => ['content' => $imageData],
-                        'features' => [['type' => 'WEB_DETECTION'], ['type' => 'LABEL_DETECTION']]
-                    ]
-                ]
+                'requests' => [[
+                    'image'    => ['content' => $imageData],
+                    'features' => [['type' => 'WEB_DETECTION'], ['type' => 'LABEL_DETECTION']]
+                ]]
             ]);
+
         if ($vResponse->failed()) {
             return response()->json(['error' => 'Vision API Failed', 'details' => $vResponse->json()], 400);
         }
 
         $subject = data_get($vResponse->json(), 'responses.0.webDetection.bestGuessLabels.0.label', 'Atmospheric Scene');
-        $labels = collect(data_get($vResponse->json(), 'responses.0.labelAnnotations', []))->pluck('description');
+        $labels  = collect(data_get($vResponse->json(), 'responses.0.labelAnnotations', []))->pluck('description');
 
-
-        $allCategories = Category::select('id', 'category_name')->get();
-        $allSubCategories = SubCategory::select('id', 'category_id', 'name')->get();
-        $allCollections = Collection::select('id', 'name')->get();
+        $allCategories    = Category::select('id', 'category_name', 'category_image')->get();
+        $allSubCategories = SubCategory::select('id', 'category_id', 'name', 'image')->get();
+        $allCollections = Collection::select('id', 'name', 'image')->get();
 
         $categoryList = $allCategories->map(function ($cat) use ($allSubCategories) {
             $subs = $allSubCategories
@@ -914,157 +913,295 @@ class BatchController extends Controller
                 ->join(', ');
             return "- {$cat->category_name} (id:{$cat->id})" . ($subs ? " → Subcategories: {$subs}" : ' → Subcategories: none');
         })->join("\n");
+
         $collectionList = $allCollections->map(fn($c) => "- {$c->name} (id:{$c->id})")->join("\n");
 
         $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$geminiKey}";
 
-        $gResponse = Http::timeout(60)
-            ->retry(2, 100)
-            ->post($geminiUrl, [
-                'contents' => [[
-                    'parts' => [
-                        [
-                            'inline_data' => [
-                                'mime_type' => 'image/jpeg',
-                                'data'      => $imageData,
-                            ],
-                        ],
-                        [
-                            'text' => "Look at this image carefully and return a JSON object with the following fields.
-
-                                1. title: A short, overall title (2-3 words max) describing the WHOLE scene.
-                                2. description: A professional stock photo description in HTML bullet points format.
-                                Rules:
-                                - Use <ul><li> HTML tags for bullet points (will be shown in a rich text editor).
-                                - Write 4-5 bullet points.
-                                - Each bullet point covers ONE aspect: main subject, location, weather/sky, mood, or use case.
-                                - Keep each bullet point short (8-12 words max).
-                                - Describe ONLY what is actually visible.
-                                - No poetic language. No watermark mention. No intro like 'This image shows'.
-                                Example format:
-                                <ul><li>Aerial view of a vast desert landscape under clear blue sky.</li><li>Rocky terrain with golden sand dunes stretching to the horizon.</li><li>Bright daylight with warm sunlight casting soft shadows.</li><li>Calm and serene mood, suitable for travel and nature content.</li></ul>
-
-                                3. category_id: Pick the BEST matching category ID from this list (use the id number):
-                                {$categoryList}
-                                If absolutely none match, set category_id to null and suggest a new category name in new_category.
-                                4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category (use the id number).
-                                If none match, set subcategory_id to null and suggest a new subcategory name in new_subcategory.
-                                5. new_category: (only if category_id is null) Suggested new category name. Otherwise null.
-                                6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise null.
-                                7. collection_id: Pick the BEST matching collection ID from this list (use the id number):
-                                                        {$collectionList}
-                                Return ONLY raw JSON. No markdown, no explanation, nothing else.
-                                Example: {\"title\": \"...\", \"description\": \"<ul><li>...</li><li>...</li></ul>\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null}",
+        $gResponse = Http::timeout(60)->retry(2, 100)->post($geminiUrl, [
+            'contents' => [[
+                'parts' => [
+                    [
+                        'inline_data' => [
+                            'mime_type' => 'image/jpeg',
+                            'data'      => $imageData,
                         ],
                     ],
-                ]],
-                'generationConfig' => [
-                    'temperature'     => 0.7,
-                    'maxOutputTokens' => 1500,
-                    'topP'            => 0.95,
-                    'topK'            => 40,
+                    [
+                        'text' => "Look at this image carefully and return a JSON object with the following fields.
+    
+                            1. title: A short, overall title (2-3 words max) describing the WHOLE scene.
+                            2. description: A professional stock photo description in HTML bullet points format.
+                            Rules:
+                            - Use <ul><li> HTML tags for bullet points (will be shown in a rich text editor).
+                            - Write 4-5 bullet points.
+                            - Each bullet point covers ONE aspect: main subject, location, weather/sky, mood, or use case.
+                            - Keep each bullet point short (8-12 words max).
+                            - Describe ONLY what is actually visible.
+                            - No poetic language. No watermark mention. No intro like 'This image shows'.
+    
+                            3. category_id: Pick the BEST matching category ID from this list:
+                            {$categoryList}
+                            If absolutely none match, set category_id to null and suggest a new category name in new_category.
+                            4. subcategory_id: Pick the BEST matching subcategory ID under the chosen category.
+                            ⚠️ If the list is empty OR none match, set subcategory_id to null and you MUST
+                            provide a name in new_subcategory. new_subcategory must NEVER be null if subcategory_id is null.
+                            5. new_category: (only if category_id is null) Suggested new category name. Otherwise null.
+                            6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise null.
+                         7. collection_id: Pick the BEST matching collection ID from this list:
+                            {$collectionList}
+                            ⚠️ If the list is empty OR none match, set collection_id to null and you MUST
+                            provide a name in new_collection. new_collection must NEVER be null if collection_id is null.
+                            8. new_collection: (only if collection_id is null) Suggested new collection name. Otherwise null.
+
+    
+                            Return ONLY a valid JSON object. No ```json blocks. Start with { end with }.
+                            Example: {\"title\": \"...\", \"description\": \"<ul><li>...</li></ul>\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null, \"collection_id\": 3, \"new_collection\": null}",
+                    ],
                 ],
-            ]);
+            ]],
+            'generationConfig' => [
+                'temperature'     => 0.7,
+                'maxOutputTokens' => 1500,
+                'topP'            => 0.95,
+                'topK'            => 40,
+            ],
+        ]);
 
         if ($gResponse->failed()) {
             return response()->json([
-                'error' => 'Gemini API still returning 404',
-                'google_says' => $gResponse->json(),
-                'url_attempted' => $geminiUrl
+                'error'        => 'Gemini API failed',
+                'google_says'  => $gResponse->json(),
+                'url_attempted' => $geminiUrl,
             ], 404);
         }
 
-        $raw = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
+        // $raw    = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
+        // $clean  = preg_replace('/```json|```/', '', $raw);
+        // $parsed = json_decode(trim($clean), true);
 
-        $clean = preg_replace('/```json|```/', '', $raw);
-        $parsed = json_decode(trim($clean), true);
+        $raw   = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
 
-        $categoryId = null;
-        $categoryName = null;
+        // ✅ More aggressive cleanup — extract only the JSON object
+        $clean = preg_replace('/```json|```/i', '', $raw);
+        $clean = trim($clean);
+
+        // ✅ Extract only from first { to last } in case Gemini adds text before/after
+        $start = strpos($clean, '{');
+        $end   = strrpos($clean, '}');
+
+        if ($start !== false && $end !== false && $end > $start) {
+            $clean = substr($clean, $start, $end - $start + 1);
+        }
+
+        $parsed = json_decode($clean, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($parsed)) {
+            Log::error('JSON parse failed: ' . json_last_error_msg());
+            // ✅ Return error instead of silently using raw as description
+            return response()->json([
+                'error'   => 'Failed to parse Gemini response',
+                'raw'     => $raw,
+            ], 500);
+        }
+        $generateThumbnail = function (string $name, string $subFolder) use ($geminiKey): ?string {
+
+            $model = "imagen-4.0-fast-generate-001";
+            $imagenUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:predict?key={$geminiKey}";
+            $prompt = "A premium, photorealistic stock photo capturing the essence of '{$name}'. 
+            The image must feature a detailed, single subject centered in the frame with ultra-high resolution and sharp focus. 
+            Use professional studio lighting, natural grain, and visible textures. 
+            No flat design, no animations, no illustrations. No text, no watermark. 
+            The aesthetic is realistic, high-fidelity, and sophisticated.";
+
+            $iResponse = Http::timeout(60)->post($imagenUrl, [
+                'instances'  => [
+                    ['prompt' => $prompt]
+                ],
+                'parameters' => [
+                    'sampleCount' => 1,
+                    // 'aspectRatio' => '1:1', // Some versions of the API don't support this parameter yet
+                ],
+            ]);
+
+            if ($iResponse->failed()) {
+                // Log the error so you can see why it's failing (Check storage/logs/laravel.log)
+                \Log::error("Imagen Generation Failed: " . $iResponse->body());
+                return null;
+            }
+
+            // The response structure for Imagen is different. It returns 'predictions' containing base64.
+            $b64 = data_get($iResponse->json(), 'predictions.0.bytesBase64Encoded');
+
+            if (!$b64) {
+                \Log::warning("Imagen returned no image data for: " . $name);
+                return null;
+            }
+
+            $imageData = base64_decode($b64);
+
+            // ✅ Save Logic (Refined)
+            $slug     = \Str::slug($name);
+            $filename = $slug . '-' . time() . '.jpg';
+            $relativeFolder = "uploads/images/{$subFolder}";
+            $savePath = public_path($relativeFolder);
+
+            if (!file_exists($savePath)) {
+                mkdir($savePath, 0755, true);
+            }
+
+            // Use Laravel's GD to process if needed, but saving directly is safer if GD fails
+            file_put_contents($savePath . '/' . $filename, $imageData);
+
+            return $filename;
+        };
+        // ── Resolve / create Category ──────────────────────────────────────
+        $categoryId    = null;
+        $categoryName  = null;
+        $categoryImage = null;
+        $isNewCategory = false;
 
         if (!empty($parsed['category_id'])) {
-            // Gemini matched an existing category
             $cat = $allCategories->firstWhere('id', $parsed['category_id']);
             if ($cat) {
-                $categoryId   = $cat->id;
-                $categoryName = $cat->category_name;
+                $categoryId    = $cat->id;
+                $categoryName  = $cat->category_name;
+                $categoryImage = $cat->category_image;
             }
         }
 
-        if (!$categoryId && !empty($parsed['new_category'])) {
-            // No match — create new category
-            $categoryId = Category::insertGetId([
-                'category_name' => $parsed['new_category'],
-                'is_display'    => '1',
-                'created_at'    => now(),
-                'updated_at'    => now(),
-            ]);
-            $categoryName = $parsed['new_category'];
+        if (!$categoryId) {
+            $newCatName = $parsed['new_category'] ?? null;
+
+            if (!$newCatName && !empty($subject)) {
+                $newCatName = ucfirst($subject);
+            }
+
+            if ($newCatName) {
+                $existing = Category::where('category_name', $newCatName)->first();
+                if ($existing) {
+                    $categoryId    = $existing->id;
+                    $categoryName  = $existing->category_name;
+                    $categoryImage = $existing->category_image;
+                } else {
+                    // ✅ Generate thumbnail only for brand-new categories
+                    $isNewCategory = true;
+                    $thumbUrl = $generateThumbnail($newCatName, 'category');
+                    $categoryId = Category::insertGetId([
+                        'category_name' => $newCatName,
+                        'category_image'         => $thumbUrl,   // ← save image path
+                        'is_display'    => '1',
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ]);
+                    $categoryName  = $newCatName;
+                    $categoryImage = $thumbUrl;
+                }
+            }
         }
 
-        // ── 5. Resolve / create Subcategory ───────────────────────────────
-        $subcategoryId   = null;
-        $subcategoryName = null;
+        // ── Resolve / create Subcategory ──────────────────────────────────
+        $subcategoryId    = null;
+        $subcategoryName  = null;
+        $subcategoryImage = null;
 
         if (!empty($parsed['subcategory_id'])) {
-            // Gemini matched an existing subcategory
             $sub = $allSubCategories->firstWhere('id', $parsed['subcategory_id']);
             if ($sub && $sub->category_id == $categoryId) {
-                $subcategoryId   = $sub->id;
-                $subcategoryName = $sub->name;
+                $subcategoryId    = $sub->id;
+                $subcategoryName  = $sub->name;
+                $subcategoryImage = $sub->image;
             }
         }
 
-        if (!$subcategoryId && $categoryId && !empty($parsed['new_subcategory'])) {
-            // No match — create new subcategory under the resolved category
-            // $slugBase = \Str::slug($parsed['new_subcategory']);
-            // $slug = $slugBase;
-            // $i = 1;
-            // while (\DB::table('sub_categories')->where('slug', $slug)->exists()) {
-            //     $slug = $slugBase . '-' . $i++;
-            // }
+        if (!$subcategoryId && $categoryId) {
+            $newSubName = $parsed['new_subcategory']
+                ?? $parsed['title']
+                ?? $subject
+                ?? null;
 
-            $subcategoryId = SubCategory::insertGetId([
-                'category_id' => $categoryId,
-                'name'        => $parsed['new_subcategory'],
-                // 'slug'        => $slug,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ]);
-            $subcategoryName = $parsed['new_subcategory'];
+            if ($newSubName) {
+                $existingSub = SubCategory::where('category_id', $categoryId)
+                    ->where('name', $newSubName)
+                    ->first();
+
+                if ($existingSub) {
+                    $subcategoryId    = $existingSub->id;
+                    $subcategoryName  = $existingSub->name;
+                    $subcategoryImage = $existingSub->image;
+                } else {
+                    // ✅ Generate thumbnail only for brand-new subcategories
+                    $subThumbUrl = $generateThumbnail($newSubName, 'sub_category');
+
+                    $subcategoryId = SubCategory::insertGetId([
+                        'category_id' => $categoryId,
+                        'name'        => $newSubName,
+                        'image'       => $subThumbUrl,  // ← save image path
+                        'created_at'  => now(),
+                        'updated_at'  => now(),
+                    ]);
+                    $subcategoryName  = $newSubName;
+                    $subcategoryImage = $subThumbUrl;
+                }
+            }
         }
 
-        // $collectionId   = null;
-        // $collectionName = null;
 
-        // if (!empty($parsed['collection_id'])) {
-        //     $col = $allCollections->firstWhere('id', $parsed['collection_id']);
-        //     if ($col) {
-        //         $collectionId   = $col->id;
-        //         $collectionName = $col->name;
-        //     }
-        // }
+        $collectionId    = null;
+        $collectionName  = null;
+        $collectionImage = null;
 
-        // if (!$collectionId && !empty($parsed['new_collection'])) {
-        //     $collectionId = Collection::insertGetId([
-        //         'name'       => $parsed['new_collection'],
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        //     $collectionName = $parsed['new_collection'];
-        // }
+        if (!empty($parsed['collection_id'])) {
+            $col = $allCollections->firstWhere('id', $parsed['collection_id']);
+            if ($col) {
+                $collectionId    = $col->id;
+                $collectionName  = $col->name;
+                $collectionImage = $col->image;
+            }
+        }
+
+        if (!$collectionId) {
+            $newColName = $parsed['new_collection'] ?? null;
+            if ($newColName) {
+                $existingCol = Collection::where('name', $newColName)->first();
+                if ($existingCol) {
+                    $collectionId    = $existingCol->id;
+                    $collectionName  = $existingCol->name;
+                    $collectionImage = $existingCol->image;
+                } else {
+                    // ✅ Generate thumbnail for brand-new collection
+                    $colThumbUrl  = $generateThumbnail($newColName, 'collection');
+                    $collectionId = Collection::insertGetId([
+                        'name'       => $newColName,
+                        'image'      => $colThumbUrl,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    $collectionName  = $newColName;
+                    $collectionImage = $colThumbUrl;
+                }
+            }
+        }
+
+
         return response()->json([
             'status' => true,
             'data'   => [
-                'title'       => ucfirst($parsed['title']       ?? $subject),
-                'description' => trim($parsed['description']    ?? $raw),
+                'title'       => ucfirst($parsed['title']    ?? $subject),
+                'description' => trim($parsed['description'] ?? $raw),
                 'tags'        => $labels->take(10)->join(', '),
+
                 'category_id'      => $categoryId,
                 'category_name'    => $categoryName,
-                'subcategory_id'   => $subcategoryId,
-                'subcategory_name' => $subcategoryName,
-                // 'collection_id'   => $collectionId,
-                // 'collection_name' => $collectionName,
+                'category_image'   => $categoryImage,   // ← new
+
+                'subcategory_id'    => $subcategoryId,
+                'subcategory_name'  => $subcategoryName,
+                'subcategory_image' => $subcategoryImage, // ← new
+
+                'collection_id'    => $collectionId,
+                'collection_name'  => $collectionName,
+                'collection_image' => $collectionImage, // ← new
             ]
         ]);
     }

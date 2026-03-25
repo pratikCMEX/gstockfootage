@@ -220,8 +220,9 @@
                         </div>
                         <p>{{ $data['downloads'] }} Downloads</p>
                     </div>
+
                     <p class="product-description">
-                        {{ $data['description'] }}
+                        {!! $data['description'] !!}
                     </p>
                     <div class="product-detail-tags">
                         <div class="location-tag product-tag">

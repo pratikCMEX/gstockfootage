@@ -51,14 +51,14 @@
                             <span class="hide-menu">Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
+                    {{-- <li class="sidebar-item">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['banner']) ? 'active  ' : '' }}side-item"
                             href="{{ route('admin.banner') }}" aria-expanded="false">
                             <!-- <i class="ti ti-layout-grid"></i> -->
-                            <i class="fa-solid fa-table-cells-large"></i>
+                            <i class="fa-solid fa-image"></i>
                             <span class="hide-menu">Login Banner</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="sidebar-item d-none">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliate-setting']) ? 'active  ' : '' }}side-item"
                             href="{{ route('admin.affiliate.setting') }}" aria-expanded="false">
@@ -71,7 +71,7 @@
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['affiliates']) ? 'active  ' : '' }}side-item"
                             href="{{ route('admin.affiliates.list') }}" aria-expanded="false">
                             <!-- <i class="ti ti-layout-grid"></i> -->
-                            <i class="fa-solid fa-table-cells-large"></i>
+                            <i class="fa-solid fa-users"></i>
                             <span class="hide-menu">Affiliate User</span>
                         </a>
                     </li>
@@ -115,7 +115,7 @@
                             <span class="hide-menu">Video Manager</span>
                         </a>
                     </li> --}}
-                    <li class="sidebar-item">
+                    <li class="sidebar-item d-none">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['product', 'add_product', 'edit_product']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.product') }}" aria-expanded="false">
                             <!-- <i class="ti ti-chart-donut-3"></i> -->
@@ -152,13 +152,7 @@
                             <span class="hide-menu">Users Subscriptions </span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link {{ in_array(Request::segment(2), ['blog']) ? 'active  ' : '' }} side-item"
-                            href="{{ route('admin.blog') }}" aria-expanded="false">
-                            <i class="ti  ti-credit-card"></i>
-                            <span class="hide-menu">Blogs </span>
-                        </a>
-                    </li>
+
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['contact_us']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.contact_us') }}" aria-expanded="false">
@@ -166,7 +160,7 @@
                             <span class="hide-menu">Contact Us</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
+                    {{-- <li class="sidebar-item">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['about_us']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.about_us') }}" aria-expanded="false">
                             <i class="fa-solid fa-circle-info"></i>
@@ -179,7 +173,7 @@
                             <i class="fa-brands fa-blogger"></i>
                             <span class="hide-menu">Content Master</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['batch', 'add_new_img']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.batch') }}" aria-expanded="false">
@@ -252,26 +246,26 @@
                                 </a>
                             </li>
                             <!-- <li class="sidebar-item">
-                                            <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
-                                                href="{{ route('admin.social_links') }}">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="round-16 d-flex align-items-center justify-content-center">
-                                                        <i class="ti ti-circle"></i>
-                                                    </div>
-                                                    <span class="hide-menu">Social Links</span>
-                                                </div>
-                                            </a>
-                                        </li> -->
+                                                                                                                                                                                                                                                                                                                                                                                                <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
+                                                                                                                                                                                                                                                                                                                                                                                                    href="{{ route('admin.social_links') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                    <div class="d-flex align-items-center gap-3">
+                                                                                                                                                                                                                                                                                                                                                                                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                                                                                                                                                                                                                                                                                                                                                                                            <i class="ti ti-circle"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                        <span class="hide-menu">Social Links</span>
+                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                                                                                                                                                                                                            </li> -->
                         </ul>
                     </li>
-                    <li class="sidebar-item">
+                    {{-- <li class="sidebar-item">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['testimonials', 'add_testimonials']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.testimonials') }}" aria-expanded="false">
                             <!-- <i class="ti ti-user-circle"></i> -->
                             <i class="fa-solid fa-comment-dots"></i>
                             <span class="hide-menu">Testimonials</span>
                         </a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="sidebar-item">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['transactions']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.transaction') }}" aria-expanded="false">
@@ -288,49 +282,134 @@
                         </a>
                     </li> --}}
                     <li class="sidebar-item">
-                        <a class="sidebar-link justify-content-between has-arrow {{ in_array(Request::segment(2), ['term_conditions', 'privacy_policy', 'edit_user']) ? 'active  btn-orange' : '' }} "
+                        <a class="sidebar-link justify-content-between has-arrow 
+                            {{ in_array(Request::segment(2), [
+                                'term_conditions',
+                                'edit_testimonials',
+                                'add_testimonials',
+                                'privacy_policy',
+                                'social_links',
+                                'testimonials',
+                                'about_us',
+                                'content',
+                                'banner',
+                                'blog',
+                                'blog_add',
+                                'blog_edit',
+                            ])
+                                ? 'active btn-orange'
+                                : '' }}"
                             href="javascript:void(0)" aria-expanded="false">
+
                             <div class="d-flex align-items-center gap-3">
                                 <span class="d-flex">
-                                    <i class="ti ti-files"></i>
+                                    <i class="fa-solid fa-file-lines"></i>
                                 </span>
-                                <span class="hide-menu">Pages Management</span>
+                                <span class="hide-menu">CMS</span>
                             </div>
                         </a>
+
                         <ul aria-expanded="false" class="collapse first-level">
+
+                            <!-- Terms -->
                             <li class="sidebar-item">
-                                <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['term_conditions']) ? 'active ' : '' }} "
+                                <a class="sidebar-link {{ Request::segment(2) == 'banner' ? 'active' : '' }}"
+                                    href="{{ route('admin.banner') }}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fa-solid fa-image"></i>
+                                        <span class="hide-menu">Login Background</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ Request::segment(2) == 'about_us' ? 'active' : '' }}"
+                                    href="{{ route('admin.about_us') }}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        <span class="hide-menu">About Us</span>
+                                    </div>
+                                </a>
+                            </li>
+                            {{-- <li class="sidebar-item">
+                                <a class="sidebar-link {{ in_array(Request::segment(2), ['blog', 'blog_add', 'blog_edit']) ? 'active  ' : '' }}"
+                                    href="{{ route('admin.blog') }}" aria-expanded="false">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="ti  ti-credit-card"></i>
+                                        <span class="hide-menu">Blogs </span>
+
+                                    </div>
+
+                                </a>
+                            </li> --}}
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ in_array(Request::segment(2), ['blog', 'blog_add', 'blog_edit']) ? 'active' : '' }}"
+                                    href="{{ route('admin.blog') }}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fa-solid fa-newspaper"></i>
+                                        <span class="hide-menu">Blogs</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <!-- Testimonials -->
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ in_array(Request::segment(2), ['testimonials', 'add_testimonials', 'edit_testimonials']) ? 'active' : '' }}"
+                                    href="{{ route('admin.testimonials') }}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fa-solid fa-comments"></i>
+                                        <span class="hide-menu">Testimonials</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <!-- About -->
+
+
+                            <!-- Content -->
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ Request::segment(2) == 'content' ? 'active' : '' }}"
+                                    href="{{ route('admin.content') }}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fa-solid fa-database"></i>
+                                        <span class="hide-menu">Content Master</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <!-- Banner -->
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ Request::segment(2) == 'term_conditions' ? 'active' : '' }}"
                                     href="{{ route('admin.term_conditions') }}">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="round-16 d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-circle"></i>
-                                        </div>
-                                        <span class="hide-menu">Term & Condition</span>
+                                        <i class="fa-regular fa-circle"></i>
+                                        <span class="hide-menu">Terms & Conditions</span>
                                     </div>
                                 </a>
                             </li>
+
+                            <!-- Privacy -->
                             <li class="sidebar-item">
-                                <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['privacy_policy']) ? 'active ' : '' }} "
+                                <a class="sidebar-link {{ Request::segment(2) == 'privacy_policy' ? 'active' : '' }}"
                                     href="{{ route('admin.privacy_policy') }}">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="round-16 d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-circle"></i>
-                                        </div>
-                                        <span class="hide-menu">Privacy & Policy</span>
+                                        <i class="fa-regular fa-circle"></i>
+                                        <span class="hide-menu">Privacy Policy</span>
                                     </div>
                                 </a>
                             </li>
+
+                            <!-- Social -->
                             <li class="sidebar-item">
-                                <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
+                                <a class="sidebar-link {{ Request::segment(2) == 'social_links' ? 'active' : '' }}"
                                     href="{{ route('admin.social_links') }}">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="round-16 d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-circle"></i>
-                                        </div>
+                                        <i class="fa-regular fa-circle"></i>
                                         <span class="hide-menu">Social Links</span>
                                     </div>
                                 </a>
                             </li>
+
                         </ul>
                     </li>
                 @endauth
