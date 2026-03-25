@@ -25,7 +25,7 @@ class AffiliateDataTable extends DataTable
                 return $row->affiliateUser ? $row->affiliateUser->email : 'N/A';
             })
             ->addColumn('referral_link', function ($row) {
-                $link = url('/') . '?ref=' . $row->referral_code;
+                $link = url('login') . '?ref=' . $row->referral_code;
                 return '
                 <div class="d-flex align-items-center gap-1">
                     <small class="text-muted">' . $link . '</small>
@@ -142,7 +142,7 @@ class AffiliateDataTable extends DataTable
                 ->addClass('text-center'),
 
             Column::make('user_name')
-                ->title('User Name'),
+                ->title('Affiliate Name'),
 
             Column::make('email')
                 ->title('Email'),
@@ -162,10 +162,10 @@ class AffiliateDataTable extends DataTable
                 ->title('Commission Value'),
 
             Column::make('total_referrals')
-                ->title('Total Refferal'),
+                ->title('Refferal Orders'),
 
             Column::make('total_earnings')
-                ->title('Total Earnings'),
+                ->title('Total Earnings ($)'),
 
             Column::make('status')
                 ->title('Status'),

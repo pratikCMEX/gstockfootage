@@ -26,7 +26,7 @@
 
                             <div class="affiliate-form-flex">
                                 <div class="mb-3 w-100">
-                                    <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                    <label class="form-label">First Name <label class="text-danger">*</label></label>
                                     <input type="text" name="first_name"
                                         class="form-control @error('first_name') is-invalid @enderror"
                                         placeholder="Enter first name" value="{{ old('first_name') }}">
@@ -36,7 +36,7 @@
                                 </div>
 
                                 <div class="mb-3 w-100">
-                                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                    <label class="form-label">Last Name <label class="text-danger">*</label></label>
                                     <input type="text" name="last_name"
                                         class="form-control @error('last_name') is-invalid @enderror"
                                         placeholder="Enter last name" value="{{ old('last_name') }}">
@@ -49,7 +49,7 @@
                             <div class="affiliate-form-flex">
 
                                 <div class="mb-3 w-100">
-                                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                                    <label class="form-label">Email <label class="text-danger">*</label></label>
                                     <input type="email" name="email"
                                         class="form-control @error('email') is-invalid @enderror"
                                         placeholder="Enter email" value="{{ old('email') }}">
@@ -59,7 +59,7 @@
                                 </div>
 
                                 <div class="mb-3 w-100">
-                                    <label class="form-label">Password <span class="text-danger">*</span></label>
+                                    <label class="form-label">Password <label class="text-danger">*</label></label>
                                     <input type="password" name="password"
                                         class="form-control @error('password') is-invalid @enderror"
                                         placeholder="Enter password">
@@ -86,10 +86,10 @@
 
                                 </div>
                                 <div class="mb-3 w-100">
-                                    <label class="form-label">Commision Type <span class="text-danger">*</span></label>
+                                    <label class="form-label">Commision Type <label class="text-danger">*</label></label>
                                     <select name="commission_type" id="commission_type" class="form-select"
                                         @error('commission_type') is-invalid @enderror>
-                                        <option value="">Select commission type</option>
+                                        <option value="" selected disabled selected disabled>Select commission type</option>
                                         <option value="fixed">Fix</option>
                                         <option value="percentage">Percentage</option>
                                     </select>
@@ -101,8 +101,8 @@
 
                             <div class="affiliate-form-flex">
                                 <div class="mb-3 w-100">
-                                    <label class="form-label">Commission Value <span
-                                            class="text-danger">*</span></label>
+                                    <label class="form-label">Commission Value <label
+                                            class="text-danger">*</label></label>
                                     <input type="text" name="commission_value"
                                         class="form-control @error('commission_value') is-invalid @enderror"
                                         placeholder="Enter commission value" value="{{ old('last_name') }}" 

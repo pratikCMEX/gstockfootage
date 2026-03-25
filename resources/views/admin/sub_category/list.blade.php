@@ -3,13 +3,13 @@
         <div class="row">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">c</h5>
+                    <h5 class="card-title fw-semibold">Subcategories</h5>
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <div>
 
                         <select class="form-select mr-sm-2" name="category" id="category">
-                            <option value="">All Category</option>
+                            <option value="" selected disabled>All Category</option>
                             @foreach ($category as $cat)
                                 <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                             @endforeach

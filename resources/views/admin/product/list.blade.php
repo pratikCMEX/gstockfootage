@@ -13,7 +13,7 @@
                     <div>
 
                         <select class="form-select mr-sm-2" name="categories" id="categories">
-                            <option value="">All Category</option>
+                            <option value="" selected disabled>All Category</option>
                             @foreach ($category as $cat)
                                 <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                             @endforeach
@@ -23,7 +23,7 @@
                     <div>
 
                         <select class="form-select mr-sm-2" name="subcategory" id="subcategory">
-                            <option value="">All Subcategory</option>
+                            <option value="" selected disabled>All Subcategory</option>
                             @foreach ($subcategory as $sub)
                                 <option value="{{ $sub->id }}">{{ $sub->name }}</option>
                             @endforeach
@@ -33,7 +33,7 @@
                     <div>
 
                         <select class="form-select mr-sm-2" name="collections" id="collections">
-                            <option value="">All Collections</option>
+                            <option value="" selected disabled>All Collections</option>
                             @foreach ($collections as $collection)
                                 <option value="{{ $collection->id }}">{{ $collection->name }}</option>
                             @endforeach
@@ -42,7 +42,7 @@
                     <div>
 
                         <select class="form-select mr-sm-2" name="type" id="type">
-                            <option value="">All Type</option>
+                            <option value="" selected disabled>All Type</option>
 
                             <option value="0">Images</option>
                             <option value="1">Videos</option>

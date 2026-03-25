@@ -12,7 +12,7 @@
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select mr-sm-2" name="category" id="category">
-                                    <option value="">Choose Category...</option>
+                                    <option value="" selected disabled>Choose Category...</option>
                                     @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                                     @endforeach
@@ -21,13 +21,13 @@
                             <div class="mb-3">
                                 <label class="form-label">SubCategory</label>
                                 <select class="form-select" name="subcategory" id="subcategory">
-                                    <option value="">Choose SubCategory...</option>
+                                    <option value="" selected disabled>Choose SubCategory...</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Collection</label>
                                 <select class="form-select mr-sm-2" name="collection" id="collection">
-                                    <option value="">Choose Collection...</option>
+                                    <option value="" selected disabled>Choose Collection...</option>
                                     @foreach ($collections as $coll)
                                         <option value="{{ $coll->id }}">{{ $coll->name }}</option>
                                     @endforeach

@@ -618,7 +618,7 @@
                         <label for="category" class=" modal-label">Submission
                             Type</label>
                         <select class="form-select mr-sm-2 batch-inp" name="submission_type" id="category">
-                            <option value="">Choose Submission Type...</option>
+                            <option value="" selected disabled>Choose Submission Type...</option>
                             <option value="image">
                                 Image</option>
                             <option value="video">

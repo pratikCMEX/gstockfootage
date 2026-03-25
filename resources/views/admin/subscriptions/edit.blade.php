@@ -24,7 +24,7 @@
                                     <label for="category" class="form-label">Duration Type</label><label
                                         class="text-danger">*</label>
                                     <select class="form-select mr-sm-2" name="duration_type" id="duration_tye">
-                                        <option value="">Choose Duration Type...</option>
+                                        <option value="" selected disabled>Choose Duration Type...</option>
                                         <option value="Month"
                                             {{ strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'month' ? 'selected' : '' }}>
                                             Month</option>

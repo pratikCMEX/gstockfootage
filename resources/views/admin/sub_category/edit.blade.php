@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Edit SubCategory</h5>
+                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Edit Subcategory</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_sub_category_form" method="POST"
@@ -14,7 +14,7 @@
                                     <label for="category" class="form-label">Category</label><label
                                         class="text-danger">*</label>
                                     <select class="form-select mr-sm-2 searchable" name="category" id="category">
-                                        <option value="">Choose Category...</option>
+                                        <option value="" selected disabled>Choose Category...</option>
                                         @foreach ($category as $cat)
                                             <option value="{{ $cat->id }}"
                                                 {{ $getSubCategoryDetail->category_id == $cat->id ? 'selected' : '' }}>
