@@ -36,7 +36,7 @@ class GenerateImageVariants implements ShouldQueue
         // ── Download from S3 to a local temp file ────────────────────────────
         // Avoids holding entire image in memory as a string
         $tempPath = storage_path('app/temp/' . uniqid() . '_' . $imageName);
-        log::info('started 3', $this->highPath);
+        // log::info('started 3', $this->highPath);
         try {
             log::info('started 4');
             // Stream from S3 to disk instead of loading into memory
