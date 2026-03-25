@@ -77,6 +77,7 @@
 
 
 <script>
+    // alert();
     document.addEventListener("DOMContentLoaded", function() {
 
         const sidebar = document.querySelector(".simplebar-content-wrapper");
@@ -92,6 +93,49 @@
         // 🔥 Save scroll position
         sidebar.addEventListener("scroll", function() {
             localStorage.setItem("sidebarScroll", sidebar.scrollTop);
+        });
+
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const menuLinks = document.querySelectorAll(".has-arrow");
+
+        menuLinks.forEach(link => {
+            link.addEventListener("click", function() {
+
+                // 🔴 Remove active from all
+                document.querySelectorAll(".has-arrow").forEach(el => {
+                    el.classList.remove("active", "btn-orange");
+                });
+
+                // 🔴 Add active to current
+                this.classList.add("active", "btn-orange");
+
+                const currentItem = this.closest(".sidebar-item");
+                const currentMenu = currentItem.querySelector(".collapse");
+
+                // 🔴 Close others
+                document.querySelectorAll(".sidebar-item .collapse").forEach(menu => {
+                    if (menu !== currentMenu) {
+                        menu.classList.remove("in");
+                        menu.style.height = "0px";
+                    }
+                });
+
+                // 🔴 Toggle current
+                if (currentMenu) {
+                    currentMenu.classList.toggle("in");
+
+                    if (currentMenu.classList.contains("in")) {
+                        currentMenu.style.height = currentMenu.scrollHeight + "px";
+                    } else {
+                        currentMenu.style.height = "0px";
+                    }
+                }
+
+            });
         });
 
     });
