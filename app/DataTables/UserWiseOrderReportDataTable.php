@@ -24,7 +24,7 @@ class UserWiseOrderReportDataTable extends DataTable
                 return $row->total_orders ?? 0;
             })
             ->addColumn('total_amount', function ($row) {
-                return '$' . number_format($row->total_amount ?? 0, 2);
+                return number_format($row->total_amount ?? 0, 2);
             })
             ->addColumn('completed_orders', function ($row) {
                 return $row->completed_orders ?? 0;

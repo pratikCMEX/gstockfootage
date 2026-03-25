@@ -28,7 +28,7 @@ class MostSoldProductReportDataTable extends DataTable
                 return $row->total_orders ?? 0;
             })
             ->addColumn('total_revenue', function ($row) {
-                return '$' . number_format($row->total_revenue ?? 0, 2);
+                return number_format($row->total_revenue ?? 0, 2);
             })
             ->addColumn('export_total_revenue', fn($row) => number_format($row->total_revenue ?? 0, 2))
 
@@ -164,7 +164,7 @@ class MostSoldProductReportDataTable extends DataTable
                 ->title('Total Orders'),
 
             Column::make('total_revenue')
-                ->title('Total Revenue'),
+                ->title('Total Revenue ($)'),
         ];
     }
 

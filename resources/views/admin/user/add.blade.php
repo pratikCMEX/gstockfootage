@@ -52,6 +52,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-orange">Add User</button>
+                          <a href="{{ route('admin.user') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

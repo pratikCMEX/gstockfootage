@@ -18,7 +18,7 @@ class OrderHistoryDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 return '<a href="' . route('admin.order_detail', encrypt($row->id)) . '"
-                            class="btn btn-sm btn-info" title="View Detail">
+                            class="btn btn-sm btn-primary" title="View Detail">
                           <i class="fa-solid fa-info"></i>
                         </a>';
             })
@@ -43,7 +43,7 @@ class OrderHistoryDataTable extends DataTable
                 };
             })
             ->editColumn('total_amount', function ($row) {
-                return '$' . number_format($row->total_amount, 2);
+                return  number_format($row->total_amount, 2);
             })
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
@@ -167,7 +167,7 @@ class OrderHistoryDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -181,7 +181,7 @@ class OrderHistoryDataTable extends DataTable
                 ->title('Order Number'),
 
             Column::make('total_amount')
-                ->title('Total Amount'),
+                ->title('Total Amount ($)'),
 
             Column::make('order_status')
                 ->title('Order Status'),
