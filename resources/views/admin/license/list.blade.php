@@ -3,10 +3,10 @@
         <div class="row">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">License List</h5>
+                    <h5 class="card-title fw-semibold">Licenses</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.add_license') }}" class="btn btn-orange">Add License +</a>
+                    <a href="{{ route('admin.add_license') }}" class="btn btn-orange">+ Add License</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

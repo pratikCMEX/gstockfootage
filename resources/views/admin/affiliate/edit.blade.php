@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                                    href="{{ route('admin.affiliates.list') }}">Affiliate User list</a>/Edit Affiliate
+                                    href="{{ route('admin.affiliates.list') }}">Affiliate Users</a> / Edit Affiliate User
                             </h5>
 
                             <!-- <a href="{{ route('admin.affiliates.list') }}" class="btn btn-secondary btn-sm">
@@ -70,7 +70,7 @@
                                     @enderror
                                 </div>
 
-                                {{-- ✅ Hidden field to pass user id for unique email validation --}}
+                                {{--  Hidden field to pass user id for unique email validation --}}
                                 <input type="hidden" name="user_id" value="{{ $affiliate->affiliateUser->id }}">
 
                                 <div class="mb-3 w-100">
@@ -104,7 +104,7 @@
                                         value="{{ old('country_code', $affiliate->affiliateUser->country_code ?? '') }}">
                                 </div>
 
-                                {{-- ✅ Referral code display (read only) --}}
+                                {{--  Referral code display (read only) --}}
                                 <div class="mb-3 w-100">
                                     <label class="form-label">Referral Code</label>
                                     <div class="input-group">
@@ -141,7 +141,8 @@
                                     <input type="text" name="commission_value"
                                         class="form-control @error('commission_value') is-invalid @enderror"
                                         placeholder="Enter commission value"
-                                        value="{{ old('commission_value', $affiliate->commission_value) }}">
+                                        value="{{ old('commission_value', $affiliate->commission_value) }}"
+                                         oninput="this.value = this.value.replace(/[^0-9.]/g,'')">
                                     @error('commission_value')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -158,8 +159,11 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary px-4">
-                                <i class="fa fa-save me-1"></i> Update Affiliate
+                               Edit Affiliate User
                             </button>
+                            <a href="{{ route('admin.affiliates.list') }}" class="btn btn-primary px-4 ms-2">
+                                Cancel
+                            </a>
                         </form>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.license') }}">License list</a>/Edit License</h5>
+                        href="{{ route('admin.license') }}">Licenses</a> / Edit License</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -106,6 +106,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-orange">Edit License</button>
+                            <a href="{{ route('admin.license') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">SubCategory List</h5>
+                    <h5 class="card-title fw-semibold">Subcategories</h5>
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <div>
@@ -16,7 +16,7 @@
                         </select>
                     </div>
                     <div>
-                        <a href="{{ route('admin.sub_category_add') }}" class="btn btn-orange">Add SubCategory +</a>
+                        <a href="{{ route('admin.sub_category_add') }}" class="btn btn-orange">+ Add Subcategory </a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <button id="delete-selected" class="btn btn-danger mb-3" style="display:none;">
+                            <button id="delete-selected" class="btn btn-primary mb-3" style="display:none;">
                                 Delete Selected
                             </button>
 

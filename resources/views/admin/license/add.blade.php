@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.license') }}">License list</a>/Add License</h5>
+                        href="{{ route('admin.license') }}">Licenses</a> / Add License</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -36,13 +36,13 @@
                                     aria-describedby="emailHelp" placeholder="Please enter quality">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Price</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" id="price"
                                     aria-describedby="emailHelp" placeholder="Please enter price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Plan Price</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Plan Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="plan_price" class="form-control" id="plan_price"
                                     aria-describedby="emailHelp" placeholder="Please enter Plan price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
@@ -89,6 +89,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-orange">Add License</button>
+                            <a href="{{ route('admin.license') }}" class="btn btn-orange">Cancel</a>
                         </form>
 
 

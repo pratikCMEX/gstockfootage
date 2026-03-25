@@ -62,6 +62,9 @@ class ProductDataTable extends DataTable
             ->editColumn('type', function ($row) {
                 return ($row->type == 'image') ? 'Image' : 'Video';
             })
+             ->editColumn('price', function ($row) {
+                return $row->price ?  $row->price : '-';
+            })
 
             ->addColumn('preview', function ($row) {
                 $thumbnail = $row->thumbnail_path
@@ -69,7 +72,7 @@ class ProductDataTable extends DataTable
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $videoUrl = Storage::disk('s3')->url($row->file_path); // high_path == file_path
-
+    
                 if ($row->type === 'image') {
 
                     return '<div class="product-img-video"><img src="' . Storage::disk('s3')->url($row->low_path) . '"
@@ -263,19 +266,20 @@ class ProductDataTable extends DataTable
                 ->searchable(false),
 
             Column::computed('DT_RowIndex')
-                ->title('No')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
 
+            Column::make('title')->title(' Product Name')->orderable(true),
             Column::make('category')->title('Category'),
             Column::make('subcategory')->title('Subcategory'),
             Column::make('collection')->title('Collection')->orderable(true),
             Column::make('type')->title('Type'),
             Column::make('preview')->title('Preview')->orderable(false),
-            Column::make('title')->title('Name')->orderable(true),
-            Column::make('price')->title('Price'),
-            Column::make('description')->title('Description'),
-            Column::make('keywords')->title('Tags'),
+
+            Column::make('price')->title('Price ($)'),
+            // Column::make('description')->title('Description'),
+            // Column::make('keywords')->title('Tags'),
             // Column::make('display_status')->title('Display')->orderable(false),
             Column::make('actions')->title('Actions')->orderable(false),
         ];

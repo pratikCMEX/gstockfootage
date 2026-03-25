@@ -167,11 +167,11 @@ class UsersDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
               Column::computed('DT_RowIndex')
-                ->title('No')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('name')->orderable(true),
-            Column::make('email')->title('email')->orderable(true),
+            Column::make('name')->title('User Name')->orderable(true),
+            Column::make('email')->title('Email')->orderable(true),
             Column::make('actions')->title('Actions')->orderable(false),
         ];
     }

@@ -45,24 +45,24 @@ $("#subscription_form").validate({
     },
     messages: {
         name: {
-            required: "Please enter Subscription Plan name",
-            maxlength: 'Please enter Subscription Plan name less than 30 characters',
-            remote: "This Subscription Plan already exists",
+            required: "Please enter subscription plan name",
+            maxlength: 'Please enter subscription plan name less than 30 characters',
+            remote: "This subscription plan already exists",
         },
         duration_type: {
-            required: "Please select Duration type",
+            required: "Please select duration type",
         },
         duration_value: {
-            required: "Please enter Duration value",
+            required: "Please enter duration value",
         },
         total_clips: {
-            required: "Please enter Total clips",
+            required: "Please enter total clips",
         },
         // discount: {
         //     required: "Please enter discount",
         // },
         price: {
-            required: "Please enter Price",
+            required: "Please enter price",
         },
     },
     normalizer: function (value) {

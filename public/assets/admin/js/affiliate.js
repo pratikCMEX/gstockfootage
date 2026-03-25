@@ -156,6 +156,7 @@ $(document).ready(function () {
             },
             commission_value: {
                 required: true,
+                
 
             },
 

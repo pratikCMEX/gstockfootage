@@ -149,12 +149,12 @@ class CollectionDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('No')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('name')->orderable(true),
+            Column::make('name')->title('Collection Name')->orderable(true),
             Column::make('image')->title('Image')->orderable(false),
-            Column::make('created_at')->title('Created at')->orderable(true),
+            Column::make('created_at')->title('Created Date')->orderable(true),
             Column::make('actions')->title('Actions')->orderable(false),
         ];
     }

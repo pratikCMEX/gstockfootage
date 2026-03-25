@@ -134,7 +134,7 @@ class AffiliateDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -142,7 +142,7 @@ class AffiliateDataTable extends DataTable
                 ->addClass('text-center'),
 
             Column::make('user_name')
-                ->title('Name'),
+                ->title('User Name'),
 
             Column::make('email')
                 ->title('Email'),

@@ -82,6 +82,9 @@ $(document).on("change", "#category", function () {
     $("#subcategory").html('<option value="">Choose SubCategory...</option>');
   }
 });
+$(document).on('change', '#category', function () {
+  $(this).valid(); // re-validate field
+});
 
 function initProductValidation(formId, isFileRequired = true) {
   $(formId).validate({
@@ -105,7 +108,7 @@ function initProductValidation(formId, isFileRequired = true) {
       price: "Please enter price",
       description: "Please enter description",
       file: {
-        required: "Please upload a file",
+        required: "Please upload  file",
         accept: "Only JPG, PNG, GIF, WEBP images are allowed",
       },
     },
@@ -124,32 +127,43 @@ function initProductValidation(formId, isFileRequired = true) {
           .closest(".mb-3")
           .find(".bootstrap-tagsinput")
           .addClass("form-control is-invalid");
-      } else {
+      }
+     else if (element.name === 'file') {
+        $(element).addClass("is-invalid");
+      }
+      else if ($(element).hasClass('searchable')) {
+        $(element).next('.select2').find('.select2-selection').addClass('is-invalid');
+      }
+      else {
         $(element).addClass("is-invalid");
       }
     },
 
     unhighlight: function (element) {
-      if ($(element).attr("data-role") === "tagsinput") {
+      if (element.name === 'file') {
+        $(element).removeClass("is-invalid"); //  add this
+      }
+      else if ($(element).attr("data-role") === "tagsinput") {
         $(element)
           .closest(".mb-3")
           .find(".bootstrap-tagsinput")
           .removeClass("form-control is-invalid");
-      } else {
+      }
+     else if ($(element).hasClass('searchable')) {
+        $(element).next('.select2').find('.select2-selection').removeClass('is-invalid');
+      }
+      else {
         $(element).removeClass("is-invalid");
       }
     },
 
     errorPlacement: function (error, element) {
-      error.addClass("invalid-feedback");
+   
 
-      if (element.attr('name') === 'file') {
-        // ✅ Place error after preview section, inside your existing span
-        error.appendTo('#fileInput-error').closest('span');
-        $('#fileInput-error').html(error);
-      }
-      else if (element.hasClass('searchable')) {
-        error.insertAfter(element.next('.select2'));
+   
+      if (element.hasClass('searchable')) {
+        // error.insertAfter(element.next('.select2'));
+        error.insertAfter(element.next('.select2').find('.select2-selection'));
       }
       else if (element.attr("data-role") === "tagsinput") {
         error.insertAfter(element.siblings(".bootstrap-tagsinput"));

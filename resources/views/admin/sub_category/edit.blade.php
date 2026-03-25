@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.category') }}">SubCategory list</a>/Edit SubCategory</h5>
+                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Edit SubCategory</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_sub_category_form" method="POST"
@@ -12,7 +12,8 @@
 
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label><label class="text-danger">*</label>
-                                <select class="form-select mr-sm-2" name="category" id="category">
+                                <select class="form-select mr-sm-2 searchable" name="category" id="category">
+                                      <option value="">Choose Category...</option>
                                     @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}"
                                             {{ $getSubCategoryDetail->category_id == $cat->id ? 'selected' : '' }}>
@@ -22,7 +23,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="category_name" class="form-label">SubCategory Name</label><label class="text-danger">*</label>
+                                <label for="category_name" class="form-label">Subcategory Name</label><label class="text-danger">*</label>
                                 <input type="hidden" name="subcategory_id" id="subcategory_id"
                                     value="{{ encrypt($getSubCategoryDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
@@ -55,7 +56,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange">Edit Subcategory</button>
+                            <a href="{{ route('admin.sub_category') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

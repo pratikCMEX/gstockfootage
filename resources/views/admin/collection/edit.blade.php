@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.collection') }}">Collection list</a>/Edit collection</h5>
+                        href="{{ route('admin.collection') }}">Collection</a> / Edit collection</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_collection_form" method="POST"
@@ -19,7 +19,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label><label class="text-danger">*</label>
-                                <input class="form-control" type="file" name="image" id="image"
+                                <input class="form-control" type="file" name="image" id="image"   accept="image/*"
                                     onchange="loadFile(event)">
 
 
@@ -35,7 +35,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange mt-4">Edit Collection</button>
+                            <a href="{{ route('admin.collection') }}" class="btn btn-orange mt-4">Cancel</a>
 
                         </form>
                     </div>

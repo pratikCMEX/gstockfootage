@@ -105,16 +105,16 @@ class SubscriptionPlanDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('No')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('name'),
-            Column::make('duration_type'),
-            Column::make('duration_value'),
-            Column::make('total_clips'),
-            Column::make('price_per_clip'),
-            Column::make('discount_percentage'),
-            Column::make('price'),
+            Column::make('name')->title('Subscription Plan Name'),
+            Column::make('duration_type')->title('Duration Type'),
+            Column::make('duration_value')->title('Duration Value'),
+            Column::make('total_clips')->title('Total Clips'),
+            Column::make('price_per_clip')->title('Price Per Clip ($)'),
+            Column::make('discount_percentage')->title('Discount Percentage'),
+            Column::make('price')->title('Price ($)'),
             Column::computed('is_active')
                 ->exportable(false)
                 ->printable(false)

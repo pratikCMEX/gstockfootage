@@ -6,7 +6,7 @@
                     <h5 class="card-title fw-semibold">Testimonials List</h5>
                 </div>
                 <div>
-                    <a href="{{ route('admin.testimonials_add') }}" class="btn btn-orange">Add Testimonials +</a>
+                    <a href="{{ route('admin.testimonials_add') }}" class="btn btn-orange">+ Add Testimonials</a>
                 </div>
             </div>
             <div class="col-lg-12 d-flex align-items-stretch">

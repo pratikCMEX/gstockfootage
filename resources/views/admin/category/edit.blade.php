@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.category') }}">Category list</a>/Edit Category</h5>
+                        href="{{ route('admin.category') }}">Categories </a>/ Edit Category</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_category_form" method="POST"
@@ -36,7 +36,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange">Edit Category</button>
+                            <a href="{{ route('admin.category') }}" class="btn btn-orange">Cancel</a>
 
                         </form>
                     </div>

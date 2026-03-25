@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.sub_category') }}">SubCategory list</a>/Add SubCategory</h5>
+                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Add SubCategory</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -19,8 +19,9 @@
                                     @endforeach
                                 </select>
                             </div>  
+                          
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">SubCategory Name</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Subcategory Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Please enter subcategory name">
                             </div>
@@ -39,7 +40,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Add Subcategory</button>
+                            <a href="{{ route('admin.sub_category') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>
