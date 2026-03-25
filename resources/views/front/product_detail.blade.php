@@ -225,7 +225,9 @@
                                 <div class="share-divider"></div>
 
                                 <!-- Copy Link -->
-                                <button class="share-option copy-link-btn" id="copyLinkBtn">
+                                <button class="share-option copy-link-btn"
+                                    data-copy-url="{{ route('product.detail', encrypt($data['id'])) }}"
+                                    id="copyLinkBtn">
                                     <span class="share-icon copy-icon">
                                         <i class="bi bi-link-45deg" style="font-size:18px;"></i>
                                     </span>
@@ -388,7 +390,9 @@
                                             <div class="share-divider"></div>
 
                                             <!-- Copy Link -->
-                                            <button class="share-option copy-link-btn" id="copyLinkBtn">
+                                            <button class="share-option copy-link-btn"
+                                                data-copy-url="{{ route('product.detail', encrypt($data->id)) }}"
+                                                id="copyLinkBtn">
                                                 <span class="share-icon copy-icon">
                                                     <i class="bi bi-link-45deg" style="font-size:18px;"></i>
                                                 </span>

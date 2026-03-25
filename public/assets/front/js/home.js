@@ -356,28 +356,42 @@ $(document).ready(function () {
   });
 
   // ── Copy link — use stored url from button ──
-  $(document).on("click", "#copyLinkBtn", function () {
+  $(document).on("click", ".copy-link-btn", function () {
     const btn = $(this);
-    const copyUrl = btn.data("copy-url") || window.location.href; // ✅ use product url
+    const copyUrl = btn.attr("data-copy-url") || window.location.href;
+    const $textElement = $("#copyLinkText");
 
-    navigator.clipboard
-      .writeText(copyUrl)
-      .then(function () {
-        $("#copyLinkText").text("Copied!");
-        setTimeout(function () {
-          $("#copyLinkText").text("Copy Link");
-        }, 2000);
-        toastr.success("Link copied!");
-      })
-      .catch(function () {
-        const el = document.createElement("textarea");
-        el.value = copyUrl;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand("copy");
-        document.body.removeChild(el);
-        $("#copyLinkText").text("Copied!");
-        setTimeout(() => $("#copyLinkText").text("Copy Link"), 2000);
-      });
+    // Helper to handle the UI feedback
+    const showSuccess = () => {
+      $textElement.text("Copied!");
+      setTimeout(() => $textElement.text("Copy Link"), 2000);
+      if (typeof toastr !== "undefined") toastr.success("Link copied!");
+    };
+
+    // 1. Try modern Clipboard API (Requires HTTPS/Localhost)
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard
+        .writeText(copyUrl)
+        .then(showSuccess)
+        .catch((err) => console.error("Clipboard API error:", err));
+    } else {
+      // 2. Fallback for HTTP or older browsers
+      const el = document.createElement("textarea");
+      el.value = copyUrl;
+      el.setAttribute("readonly", ""); // Prevent keyboard from popping up on mobile
+      el.style.position = "absolute";
+      el.style.left = "-9999px";
+      document.body.appendChild(el);
+
+      el.select();
+      const success = document.execCommand("copy");
+      document.body.removeChild(el);
+
+      if (success) {
+        showSuccess();
+      } else {
+        console.error("Fallback copy failed");
+      }
+    }
   });
 })();

@@ -379,6 +379,7 @@
 
                                                             <!-- Copy Link -->
                                                             <button class="share-option copy-link-btn"
+                                                                data-copy-url="{{ route('product.detail', encrypt($pro->id)) }}"
                                                                 id="copyLinkBtn">
                                                                 <span class="share-icon copy-icon">
                                                                     <i class="bi bi-link-45deg"
@@ -522,7 +523,9 @@
                                                     <div class="share-divider"></div>
 
                                                     <!-- Copy Link -->
-                                                    <button class="share-option copy-link-btn" id="copyLinkBtn">
+                                                    <button class="share-option copy-link-btn"
+                                                        data-copy-url="{{ route('product.detail', encrypt($pro->id)) }}"
+                                                        id="copyLinkBtn">
                                                         <span class="share-icon copy-icon">
                                                             <i class="bi bi-link-45deg" style="font-size:18px;"></i>
                                                         </span>
@@ -777,10 +780,15 @@
                     @foreach ($content_master->content as $section)
                         <div class="feature-item">
                             <div class="feature-icon">
-                                @if($section['image'])
-                                    <img src="{{ asset('uploads/images/content_master/' . $section['image']) }}" height="24" width="24">
-                                    @else
-                                    <svg style="fill:white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
+                                @if ($section['image'])
+                                    <img src="{{ asset('uploads/images/content_master/' . $section['image']) }}"
+                                        height="24" width="24">
+                                @else
+                                    <svg style="fill:white" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+                                        <path
+                                            d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                                    </svg>
                                 @endif
                             </div>
                             <div>
