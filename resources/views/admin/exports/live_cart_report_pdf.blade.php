@@ -36,9 +36,9 @@
             <tr>
                 <th>#</th>
                 <th>User Name</th>
-                <th>Product</th>
+                <th>Product Name</th>
                 <th>Total Items</th>
-                <th>Total Amount</th>
+                <th>Total Amount ($)</th>
                 <th>Date</th>
                
             </tr>

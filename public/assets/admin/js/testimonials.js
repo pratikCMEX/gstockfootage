@@ -30,6 +30,9 @@ $("#add_testimonials_form").validate({
         message: {
             required: true,
         },
+        image:{
+              accept: "image/jpeg,image/png,image/jpg,image/gif,image/webp",
+        }
        
     },
     messages: {
@@ -38,8 +41,11 @@ $("#add_testimonials_form").validate({
             // remote: "This Subscription Plan already exists",
         },
         message: {
-            required: "Please enter Message",
+            required: "Please enter message",
         },
+        image:{
+          accept: "Only JPG, PNG, GIF, WEBP images are allowed",
+        }
         
 
     },

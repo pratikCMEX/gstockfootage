@@ -30,6 +30,9 @@ class OrderHistoryDataTable extends DataTable
                     default => '<span class="badge bg-secondary">' . ucfirst($row->payment_status) . '</span>',
                 };
             })
+            ->editColumn('email', function ($row) {
+                return $row->user->email ? $row->user->email : '-';
+            })
             ->editColumn('order_status', function ($row) {
                 return match ($row->order_status) {
                     'completed' => '<span class="badge bg-success">Completed</span>',
@@ -187,7 +190,7 @@ class OrderHistoryDataTable extends DataTable
                 ->title('Payment Status'),
 
             Column::make('created_at')
-                ->title('Date'),
+                ->title('Created Date'),
 
             Column::computed('action')
                 ->title('Action')

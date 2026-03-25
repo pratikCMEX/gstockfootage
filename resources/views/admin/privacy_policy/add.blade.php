@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4" href="javascript::void(0);">
-                        {{ $privacy_policy != '' ? 'Edit Privacy & Policy' : 'Add Privacy & Policy' }}
+                        Privacy  Policy
                 </h5>
                 <div class="card">
                     <div class="card-body">
@@ -22,7 +22,7 @@
                                 <textarea class="form-control ckeditor" name="description" id="description"rows="3"
                                     placeholder="Please enter description">{{ isset($privacy_policy->content) ? $privacy_policy->content : '' }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Save</button>
                         </form>
                     </div>
                 </div>

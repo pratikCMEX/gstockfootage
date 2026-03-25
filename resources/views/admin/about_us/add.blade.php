@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">
                     <a class="card-title fw-semibold mb-4" href="javascript::void(0);">
-                        {{ $about_us ? 'Edit About Us' : 'Add About Us' }}
+                        {{ $about_us ? 'About Us' : ' About Us' }}
                     </a>
                 </h5>
                 <div class="card">
@@ -50,7 +50,7 @@
                                     </div>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-orange">{{ $about_us ? 'Update' : 'Add' }}</button>
+                            <button type="submit" class="btn btn-orange">Save</button>
                         </form>
                     </div>
                 </div>

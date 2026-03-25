@@ -149,7 +149,7 @@
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['user_subscriptions', 'add_user_subscription', 'edit_user_subscription']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.user_subscriptions_report') }}" aria-expanded="false">
                             <i class="fa-solid fa-id-card"></i>
-                            <span class="hide-menu">Users Subscriptions </span>
+                            <span class="hide-menu">User Subscriptions </span>
                         </a>
                     </li>
 

@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">
                     <a class="card-title fw-semibold mb-4" href="javascript::void(0);">
-                        {{ $social_links ? 'Edit Social Links' : 'Add Social Links' }}
+                       Social Links
                     </a>
                 </h5>
                 <div class="card">
@@ -83,8 +83,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-orange">
-                                <i class="fas fa-save"></i>
-                                {{ $social_links ? 'Update' : 'Save' }} Social Links
+                               Save
                             </button>
                         </form>
                     </div>

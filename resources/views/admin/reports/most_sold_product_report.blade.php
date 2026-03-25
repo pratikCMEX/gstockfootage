@@ -1,6 +1,10 @@
 <div class="body-wrapper-inner">
     <div class="container-fluid">
+
         <div class="row mb-3 table-date">
+            <div class=" mb-3 mb-sm-0 mb-4">
+                <h5 class="card-title fw-semibold">Reports /  Most Sold Products</h5>
+            </div>
             <div class="col-md-3">
                 <label>From Date</label>
                 <input type="date" id="from_date" class="form-control">
@@ -16,9 +20,7 @@
 
                 <div class="card w-100">
                     <div class="card-body">
-                        <div class="mb-3 mb-sm-0 mb-4">
-                            <h5 class="card-title fw-semibold">Most Sold Product Report</h5>
-                        </div>
+
                         <div class="table-responsive">
 
                             {{ $dataTable->table() }}

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.testimonials') }}">Testimonial list</a>/Add Testimonials</h5>
+                        href="{{ route('admin.testimonials') }}">Testimonials</a> / Add Testimonial</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -27,7 +27,7 @@
                                     aria-describedby="emailHelp" placeholder="Please enter Message">
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload User Image</label>
+                                <label for="image" class="form-label">Upload  Image</label>
                                 <input class="form-control" type="file" name="image" id="image"  accept="image/*" 
                                     onchange="loadFile(event)">
 
@@ -41,7 +41,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Add Testimonial</button>
+                            <a href="{{ route('admin.testimonials') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

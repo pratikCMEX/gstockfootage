@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.subscriptions') }}">Subscription Plans</a>/Add Subscription Plan</h5>
+                        href="{{ route('admin.subscriptions') }}">Subscription Plans</a> / Add Subscription Plan</h5>
 
                 <div class="card">
                     <div class="card-body">

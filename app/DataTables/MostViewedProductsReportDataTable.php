@@ -136,7 +136,7 @@ class MostViewedProductsReportDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -147,7 +147,7 @@ class MostViewedProductsReportDataTable extends DataTable
                 ->title('Product Name'),
 
             Column::make('category_name')
-                ->title('Category'),
+                ->title('Category Name'),
 
             Column::make('total_views')
                 ->title('Total Views'),

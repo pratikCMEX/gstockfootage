@@ -2,10 +2,9 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">
-                    <a class="card-title fw-semibold mb-4" href="javascript::void(0);">
-                        Add Blog
-                    </a>
+                <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
+                                    href="{{ route('admin.blog') }}">Blogs</a> / Add Blog
+                            </h5>
                 </h5>
                 <div class="card">
                     <div class="card-body">
@@ -14,7 +13,7 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
+                                <label for="title" class="form-label">Blog Title</label>
                                 <span class="text-danger">*</span>
                                 <input type="text" name="title" class="form-control" id="title"
                                     placeholder="Please enter blog title">
@@ -51,9 +50,10 @@
                                 <textarea class="form-control ckeditor" name="description" id="description" rows="6"
                                     placeholder="Please enter description"></textarea>
                             </div>
-                            <label id="description-error" class="text-danger" for="description"></label>
+                            <label id="description-error" class="text-danger mb-2" for="description"></label>
                             <div>
-                                <button type="submit" class="btn btn-orange"> Add</button>
+                                <button type="submit" class="btn btn-orange"> Add Blog</button>
+                                <a href="{{ route('admin.blog') }}" class="btn btn-orange">Cancel</a>
                             </div>
                         </form>
                     </div>

@@ -118,10 +118,10 @@ class BlogDataTable extends DataTable
                 ->title('Sr.No.')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('title'),
-            Column::make('publish_date'),
-            Column::make('description')->title('Description'),
-            Column::make('image'),
+            Column::make('title')->title('Blog Title'),
+            Column::make('publish_date')->title('Publish Date'),
+            // Column::make('description')->title('Description'),
+            Column::make('image')->title('Image'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
