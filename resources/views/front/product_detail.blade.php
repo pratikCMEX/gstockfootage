@@ -416,3 +416,12 @@
         </div>
     </div>
 </section>
+<script>
+    const video = document.getElementById('hls-video-{{ $data['id'] }}');
+
+    video.muted = true;
+
+    video.play().catch(err => {
+        console.log('Autoplay blocked:', err);
+    });
+</script>
