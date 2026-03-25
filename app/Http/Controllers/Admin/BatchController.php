@@ -193,11 +193,28 @@ class BatchController extends Controller
             $query->orderBy($sortColumn, $sortDirection);
         }
 
+        // if ($request->search) {
+        //     $query->where(function ($q) use ($request) {
+        //         $q->where('title', 'like', '%' . $request->search . '%')
+        //             ->orWhere('created_at', 'like', '%' . $request->search . '%')
+        //             ->orWhere('batch_code', 'like', '%' . $request->search . '%');
+        //     });
+        // }
+
         if ($request->search) {
-            $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('created_at', 'like', '%' . $request->search . '%')
-                    ->orWhere('batch_code', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+
+                // Batch fields
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('created_at', 'like', "%{$search}%")
+                    ->orWhere('batch_code', 'like', "%{$search}%")
+
+                    // 🔥 Search inside batch_files relation
+                    ->orWhereHas('batch_files', function ($q2) use ($search) {
+                        $q2->where('title', 'like', "%{$search}%");
+                    });
             });
         }
         // $batches = $query->latest()->paginate(6);

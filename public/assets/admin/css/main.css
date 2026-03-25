@@ -121,7 +121,6 @@ a {
 
 /* Animations */
 @keyframes ringA {
-
   from,
   4% {
     stroke-dasharray: 0 660;
@@ -169,7 +168,6 @@ a {
 }
 
 @keyframes ringB {
-
   from,
   12% {
     stroke-dasharray: 0 220;
@@ -263,7 +261,6 @@ a {
 }
 
 @keyframes ringD {
-
   from,
   8% {
     stroke-dasharray: 0 440;
@@ -355,7 +352,8 @@ a {
   }
 }
 
-@media only screen and (max-width: 767px) {}
+@media only screen and (max-width: 767px) {
+}
 
 @media only screen and (max-width: 575px) {
   .btn-all-dark {
@@ -406,9 +404,9 @@ a {
   border-color: var(--white) !important;
 }
 
-.sidebar-nav ul .sidebar-item.selected>.sidebar-link.active,
-.sidebar-nav ul .sidebar-item.selected>.sidebar-link,
-.sidebar-nav ul .sidebar-item>.sidebar-link.active {
+.sidebar-nav ul .sidebar-item.selected > .sidebar-link.active,
+.sidebar-nav ul .sidebar-item.selected > .sidebar-link,
+.sidebar-nav ul .sidebar-item > .sidebar-link.active {
   background-color: var(--primary) !important;
   color: var(--white) !important;
 }
@@ -463,7 +461,7 @@ a {
   border-color: var(--primary) !important;
 }
 
-div.dataTables_processing>div:last-child>div {
+div.dataTables_processing > div:last-child > div {
   background: var(--primary) !important;
 }
 
@@ -509,8 +507,8 @@ table td {
   border: none !important;
 }
 
-table.dataTable>thead>tr>th,
-table.dataTable>thead>tr>td {
+table.dataTable > thead > tr > th,
+table.dataTable > thead > tr > td {
   text-align: center;
 }
 
@@ -585,8 +583,7 @@ table tbody td .form-check {
   justify-content: center !important;
 }
 
-
-#affiliate-table tbody tr td:last-child .d-flex{
+#affiliate-table tbody tr td:last-child .d-flex {
   gap: 4px !important;
 }
 
@@ -612,20 +609,39 @@ table.dataTable thead th {
   padding: 12px 58px 12px 22px;
 }
 
-
-
 .iti {
   width: 100%;
 }
 
-
-
-
-.affiliate-dashboard .stat-card .sc-row{
-align-items: start !important;
-
+.affiliate-dashboard .stat-card .sc-row {
+  align-items: start !important;
 }
-.affiliate-dashboard .row2{
+.affiliate-dashboard .row2 {
   display: flex;
   flex-wrap: wrap;
+}
+.select2-container--default.select2-container--focus
+  .select2-selection--single {
+  border-color: var(--black) !important;
+  box-shadow: none !important;
+}
+#add_sub_category_form .select2-container--default .select2-selection--single,
+#edit_sub_category_form .select2-container--default .select2-selection--single {
+  height: 40px !important;
+  border-color: #dfe5ef !important;
+}
+#add_sub_category_form
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow,
+#edit_sub_category_form
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  bottom: auto !important;
+}
+.form-select {
+  padding: 8px 38px 8px 16px !important;
 }
