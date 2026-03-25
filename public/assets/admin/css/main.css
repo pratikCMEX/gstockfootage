@@ -328,6 +328,13 @@ a {
   object-fit: contain;
 }
 
+#modalMessage.custom-scroll{
+  max-height: 250px;
+  overflow: auto;
+
+}
+
+
 @media only screen and (max-width: 1399px) {
   .btn-orange {
     padding: 9px 18px !important;
