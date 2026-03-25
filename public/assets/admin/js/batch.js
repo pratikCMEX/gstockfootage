@@ -602,13 +602,33 @@ $(document).on("click", ".generate-ai", function () {
         $("input[name='title']").val(res.data.title);
         // $("#description").val(res.data.description);
         setEditorData(res.data.description);
-        $("#category_id").val(res.data.category_id).trigger("change.select2");
+        if (res.data.category_id && res.data.category_name) {
+          var $catSelect = $("#category_id");
+          if (
+            $catSelect.find("option[value='" + res.data.category_id + "']")
+              .length === 0
+          ) {
+            var newCatOption = new Option(
+              res.data.category_name,
+              res.data.category_id,
+              true,
+              true
+            );
+            $catSelect.append(newCatOption);
+          }
+          $catSelect.val(res.data.category_id).trigger("change.select2");
+        }
+
         $("#collection_id")
           .val(res.data.collection_id)
           .trigger("change.select2");
 
         setTimeout(function () {
-          loadSubCategories(res.data.category_id, res.data.subcategory_id);
+          loadSubCategories(
+            res.data.category_id,
+            res.data.subcategory_id,
+            res.data.subcategory_name
+          );
         }, 500);
         // loadSubCategories(res.category_id, res.subcategory_id);
 
