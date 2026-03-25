@@ -827,7 +827,9 @@
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Title *</label>
+                                                <label for="" class="heading-label">Title
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <div class="file-inp-icon-grp">
                                                     <input type="text" class="form-control upload-inp"
                                                         name="title" placeholder="Title *" aria-label="Username"
@@ -843,9 +845,10 @@
 
                                         <div class="input-group ">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Description *</label>
+                                                <label for="" class="heading-label">Description <span
+                                                        class="text-danger">*</span></label>
                                                 <div class="file-inp-icon-grp">
-                                                    {{-- <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions *" id="description"
+                                                    {{-- <textarea class="form-control upload-inp upload-textarea" placeholder="Descriptions " id="description"
                                                         name="description" aria-label="Username" aria-describedby="visible-addon"></textarea> --}}
                                                     <textarea class="form-control upload-inp upload-textarea ckeditor" name="description" id="description"rows="3"
                                                         placeholder="enter description"></textarea>
@@ -858,7 +861,8 @@
                                         </div>
                                         <div class="input-group ">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Price($) *</label>
+                                                <label for="" class="heading-label">Price($) <span
+                                                        class="text-danger">*</span></label>
                                                 <div class="file-inp-icon-grp">
                                                     <input type="text" class="form-control upload-inp"
                                                         placeholder="Price *" name="price" aria-label="Price"
@@ -873,7 +877,8 @@
                                         </div>
                                         <div class="input-group">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Date *</label>
+                                                <label for="" class="heading-label">Date <span
+                                                        class="text-danger">*</span></label>
                                                 <div class="input-group file-inp-icon-grp">
                                                     <input type="date" class="form-control upload-inp"
                                                         name="date_created" placeholder="Date Created *"
@@ -886,7 +891,8 @@
                                         </div>
                                         <div class="input-group">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Select Category *</label>
+                                                <label for="" class="heading-label">Select Category <span
+                                                        class="text-danger">*</span></label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
@@ -907,7 +913,7 @@
                                         <div class="input-group">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Select Sub Category
-                                                    *</label>
+                                                    <span class="text-danger">*</span></label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
