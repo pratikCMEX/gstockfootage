@@ -897,7 +897,7 @@ class BatchController extends Controller
 
         $allCategories    = Category::select('id', 'category_name', 'category_image')->get();
         $allSubCategories = SubCategory::select('id', 'category_id', 'name', 'image')->get();
-        $allCollections   = Collection::select('id', 'name')->get();
+        $allCollections = Collection::select('id', 'name', 'image')->get();
 
         $categoryList = $allCategories->map(function ($cat) use ($allSubCategories) {
             $subs = $allSubCategories
@@ -941,11 +941,15 @@ class BatchController extends Controller
                             provide a name in new_subcategory. new_subcategory must NEVER be null if subcategory_id is null.
                             5. new_category: (only if category_id is null) Suggested new category name. Otherwise null.
                             6. new_subcategory: (only if subcategory_id is null) Suggested new subcategory name. Otherwise null.
-                            7. collection_id: Pick the BEST matching collection ID from this list:
+                         7. collection_id: Pick the BEST matching collection ID from this list:
                             {$collectionList}
+                            ⚠️ If the list is empty OR none match, set collection_id to null and you MUST
+                            provide a name in new_collection. new_collection must NEVER be null if collection_id is null.
+                            8. new_collection: (only if collection_id is null) Suggested new collection name. Otherwise null.
+
     
                             Return ONLY a valid JSON object. No ```json blocks. Start with { end with }.
-                            Example: {\"title\": \"...\", \"description\": \"<ul><li>...</li></ul>\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null}",
+                            Example: {\"title\": \"...\", \"description\": \"<ul><li>...</li></ul>\", \"category_id\": 22, \"subcategory_id\": 9, \"new_category\": null, \"new_subcategory\": null, \"collection_id\": 3, \"new_collection\": null}",
                     ],
                 ],
             ]],
@@ -965,10 +969,34 @@ class BatchController extends Controller
             ], 404);
         }
 
-        $raw    = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
-        $clean  = preg_replace('/```json|```/', '', $raw);
-        $parsed = json_decode(trim($clean), true);
+        // $raw    = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
+        // $clean  = preg_replace('/```json|```/', '', $raw);
+        // $parsed = json_decode(trim($clean), true);
 
+        $raw   = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
+
+        // ✅ More aggressive cleanup — extract only the JSON object
+        $clean = preg_replace('/```json|```/i', '', $raw);
+        $clean = trim($clean);
+
+        // ✅ Extract only from first { to last } in case Gemini adds text before/after
+        $start = strpos($clean, '{');
+        $end   = strrpos($clean, '}');
+
+        if ($start !== false && $end !== false && $end > $start) {
+            $clean = substr($clean, $start, $end - $start + 1);
+        }
+
+        $parsed = json_decode($clean, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($parsed)) {
+            Log::error('JSON parse failed: ' . json_last_error_msg());
+            // ✅ Return error instead of silently using raw as description
+            return response()->json([
+                'error'   => 'Failed to parse Gemini response',
+                'raw'     => $raw,
+            ], 500);
+        }
         $generateThumbnail = function (string $name, string $subFolder) use ($geminiKey): ?string {
 
             $model = "imagen-4.0-fast-generate-001";
