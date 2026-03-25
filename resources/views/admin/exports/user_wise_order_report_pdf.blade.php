@@ -44,7 +44,7 @@
                 <th>User Name</th>
                 <th>Email</th>
                 <th>Total Orders</th>
-                <th>Total Amount</th>
+                <th>Total Amount ($)</th>
                 <th>Completed</th>
                 <th>Pending </th>
                 <th>Cancelled</th>

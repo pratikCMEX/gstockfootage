@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h2>Order History Report</h2>
+    <h2>Order History</h2>
     <p class="subtitle">Generated on {{ now()->timezone('Asia/Kolkata')->format('d M Y, h:i A') }}</p>
 
     {{-- Summary --}}
@@ -46,14 +46,14 @@
                 <th>Total Amount</th>
                 <th>Order Status</th>
                 <th>Payment Status</th>
-                <th>Date</th>
+                <th>Created Date</th>
             </tr>
         </thead>
         <tbody>
             @forelse($orders as $index => $order)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $order->email }}</td>
+                <td>{{ $order->user->email ?? '-' }}</td>
                 <td>{{ $order->order_number }}</td>
                 <td>${{ number_format($order->total_amount, 2) }}</td>
                 <td>

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4" href="javascript::void(0);">
-                        {{ $term_condition != '' ? 'Edit Terms & Condition' : 'Add Terms & Condition' }}
+                        Terms & Conditions
                 </h5>
                 <div class="card">
                     <div class="card-body">
@@ -22,7 +22,7 @@
                                 <textarea class="form-control ckeditor" name="description" id="description"rows="3"
                                     placeholder="Please enter description">{{ isset($term_condition->content) ? $term_condition->content : '' }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-orange">Add</button>
+                            <button type="submit" class="btn btn-orange">Save</button>
                         </form>
                     </div>
                 </div>

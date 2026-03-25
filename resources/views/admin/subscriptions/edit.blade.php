@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.subscriptions') }}">Subscription Plans</a>/Edit Subscription Plan</h5>
+                        href="{{ route('admin.subscriptions') }}">Subscription Plans</a> / Edit Subscription Plan</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -13,7 +13,7 @@
                             <div class="mb-3">
                                 <input type="hidden" name="subscription_plan_id" id="subscription_plan_id"
                                     value="{{ encrypt($getSubscriptionPlanDetail->id) }}">
-                                <label for="exampleInputEmail1" class="form-label">Plan Name</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Subscription Plan Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="name"
                                     value="{{ $getSubscriptionPlanDetail->name }}" aria-describedby="emailHelp"
                                     placeholder="Please enter license name">
@@ -21,7 +21,7 @@
                             <div class="mb-3">
                                 <label for="category" class="form-label">Duration Type</label><label class="text-danger">*</label>
                                 <select class="form-select mr-sm-2" name="duration_type" id="duration_tye">
-                                    <option value="">Choose Duration...</option>
+                                    <option value="">Choose Duration Type...</option>
                                     <option value="Month" {{  strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'month' ? 'selected' : '' }}>Month</option>
                                     <option value="Quarter" {{  strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'quarter' ? 'selected' : '' }}>Quarter</option>
                                     <option value="Year" {{  strtolower($getSubscriptionPlanDetail->duration_type ?? '') == 'year' ? 'selected' : '' }}>Year</option>
@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Price</label><label class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" id="price"
                                     value="{{ $getSubscriptionPlanDetail->price }}" aria-describedby="emailHelp"
                                     placeholder="Please enter price"

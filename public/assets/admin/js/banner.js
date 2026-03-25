@@ -23,7 +23,7 @@ $("#add_banner_form").validate({
       required: "Please enter title",
     },
     image: {
-      required: "Please select a image",
+      required: "Please select  image",
       extension: "Please upload only png/jpg/jpeg",
     },
   },

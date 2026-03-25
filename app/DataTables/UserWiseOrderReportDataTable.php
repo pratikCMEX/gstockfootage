@@ -188,7 +188,7 @@ class UserWiseOrderReportDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -205,7 +205,7 @@ class UserWiseOrderReportDataTable extends DataTable
                 ->title('Total Orders'),
 
             Column::make('total_amount')
-                ->title('Total Amount'),
+                ->title('Total Amount ($)'),
 
             Column::make('completed_orders')
                 ->title('Completed'),

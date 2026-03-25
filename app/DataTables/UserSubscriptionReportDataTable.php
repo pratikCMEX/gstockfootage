@@ -163,7 +163,7 @@ class UserSubscriptionReportDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -175,7 +175,7 @@ class UserSubscriptionReportDataTable extends DataTable
 
 
             Column::make('plan_name')
-                ->title('Plan Name'),
+                ->title('Subscription Plan Name'),
 
 
             Column::make('start_date')
@@ -194,7 +194,7 @@ class UserSubscriptionReportDataTable extends DataTable
                 ->title('Remaining Clips'),
 
             Column::make('amount')
-                ->title('Amount'),
+                ->title('Amount ($)'),
 
             Column::make('status')
                 ->title('Status'),

@@ -36,7 +36,7 @@
             <tr>
                 <th>#</th>
                 <th>Product Name</th>
-                <th>Category</th>
+                <th>Category Name</th>
                 <th>Total Orders</th>
                 <th>Total Revenue</th>
             </tr>

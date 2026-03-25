@@ -144,7 +144,7 @@ class LiveCartReportDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -155,13 +155,13 @@ class LiveCartReportDataTable extends DataTable
                 ->title('User Name'),      
 
             Column::make('product_name')
-                ->title('Products In Cart'), 
+                ->title('Product Name'), 
 
             Column::make('total_items')
                 ->title('Total Items'),      
 
             Column::make('total_amount')
-                ->title('Total Amount'),     
+                ->title('Total Amount ($)'),     
 
             Column::make('created_at')
                 ->title('Date'),             

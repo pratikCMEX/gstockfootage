@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.testimonials') }}">Testimonials list</a>/Edit Testimonials</h5>
+                        href="{{ route('admin.testimonials') }}">Testimonials</a> / Edit Testimonial</h5>
                 <div class="card">
                     <div class="card-body">
                         <form id="edit_testimonials_form" method="POST"
@@ -16,7 +16,7 @@
                                 <input type="hidden" name="id" id="id"
                                     value="{{ encrypt($getTestimonialDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
-                                    placeholder="Please enter subcategory name"
+                                    placeholder="Please enter  name"
                                     value="{{ $getTestimonialDetail->name }}">
                             </div>
                             <div class="mb-3">
@@ -30,12 +30,12 @@
                                 <label for="category_name" class="form-label">Message</label><label class="text-danger">*</label>
                                
                                 <input type="text" name="message" class="form-control" id="message"
-                                    placeholder="Please enter Designation"
+                                    placeholder="Please enter message"
                                     value="{{ $getTestimonialDetail->message }}">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label>
-                                <input class="form-control" type="file" name="image" id="image"
+                                <input class="form-control" type="file" name="image" id="image" accept="image/*" 
                                     onchange="loadFile(event)">
 
 
@@ -51,7 +51,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-orange">Save</button>
+                            <button type="submit" class="btn btn-orange">Edit Testimonial</button>
+                            <a href="{{ route('admin.testimonials') }}" class="btn btn-orange">Cancel</a>
                         </form>
                     </div>
                 </div>

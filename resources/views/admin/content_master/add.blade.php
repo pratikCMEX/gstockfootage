@@ -53,7 +53,7 @@
 
 
                             <button type="submit"
-                                class="btn btn-orange">{{ $content_master ? 'Update' : 'Add' }}</button>
+                                class="btn btn-orange">Save</button>
                         </form>
                     </div>
                 </div>

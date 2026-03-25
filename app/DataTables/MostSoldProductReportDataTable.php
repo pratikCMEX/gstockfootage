@@ -147,7 +147,7 @@ class MostSoldProductReportDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -158,7 +158,7 @@ class MostSoldProductReportDataTable extends DataTable
                 ->title('Product Name'),
 
             Column::make('category_name')
-                ->title('Category'),
+                ->title('Category Name'),
 
             Column::make('total_orders')
                 ->title('Total Orders'),

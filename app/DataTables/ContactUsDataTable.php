@@ -97,13 +97,13 @@ class ContactUsDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('No')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('subject'),
-            Column::make('message'),
+            Column::make('name')->title('User Name'),
+            Column::make('email')->title('Email'),
+            Column::make('subject')->title('Subject'),
+            Column::make('message')->title('Message'),
             Column::computed('actions')
                 ->exportable(false)
                 ->printable(false)

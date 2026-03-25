@@ -2,10 +2,9 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">
-                    <a class="card-title fw-semibold mb-4" href="javascript::void(0);">
-                        Edit Blog
-                    </a>
+                <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
+                                    href="{{ route('admin.blog') }}">Blogs</a> / Edit Blog
+                            </h5>
                 </h5>
                 <div class="card">
                     <div class="card-body">
@@ -15,7 +14,7 @@
                             <input type="hidden" name="id" value="{{ encrypt($blog->id) }}">
                             
                             <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
+                                <label for="title" class="form-label">Blog Title</label>
                                 <span class="text-danger">*</span>
                                 <input type="text" name="title" class="form-control" id="title"
                                     value="{{ $blog->title ?? '' }}"
@@ -61,7 +60,8 @@
                             </div>
                             <label id="description-error" class="text-danger" for="description"></label>
                             <div>
-                                <button type="submit" class="btn btn-orange">Update</button>
+                                <button type="submit" class="btn btn-orange">Edit Blog</button>
+                                <a href="{{ route('admin.blog') }}" class="btn btn-orange">Cancel</a>
                             </div>
                         </form>
                     </div>
