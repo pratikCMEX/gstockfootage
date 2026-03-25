@@ -1304,9 +1304,16 @@
 
                 <div>
                     <div class="toast-title" id="toastTitle">Uploading...</div>
-                    <div class="toast-subtitle" id="toastSub" id="toastSub">
-                        Image upload in progress
-                    </div>
+
+                    @if ($batch->submission_type == 'image')
+                        <div class="toast-subtitle" id="toastSub" id="toastSub">
+                            Image upload in progress
+                        </div>
+                    @else
+                        <div class="toast-subtitle" id="toastSub" id="toastSub">
+                            Video upload in progress
+                        </div>
+                    @endif
                 </div>
             </div>
 
