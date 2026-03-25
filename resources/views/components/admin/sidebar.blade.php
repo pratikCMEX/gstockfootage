@@ -115,7 +115,7 @@
                             <span class="hide-menu">Video Manager</span>
                         </a>
                     </li> --}}
-                    <li class="sidebar-item">
+                    <li class="sidebar-item d-none">
                         <a class="sidebar-link {{ in_array(Request::segment(2), ['product', 'add_product', 'edit_product']) ? 'active  ' : '' }} side-item"
                             href="{{ route('admin.product') }}" aria-expanded="false">
                             <!-- <i class="ti ti-chart-donut-3"></i> -->
@@ -246,16 +246,16 @@
                                 </a>
                             </li>
                             <!-- <li class="sidebar-item">
-                                                                                                                                                                                                                                                                                        <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
-                                                                                                                                                                                                                                                                                            href="{{ route('admin.social_links') }}">
-                                                                                                                                                                                                                                                                                            <div class="d-flex align-items-center gap-3">
-                                                                                                                                                                                                                                                                                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                                                                                                                                                                                                                                                                                    <i class="ti ti-circle"></i>
-                                                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                                                <span class="hide-menu">Social Links</span>
-                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                        </a>
-                                                                                                                                                                                                                                                                                    </li> -->
+                                                                                                                                                                                                                                                                                                                                                                                <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
+                                                                                                                                                                                                                                                                                                                                                                                    href="{{ route('admin.social_links') }}">
+                                                                                                                                                                                                                                                                                                                                                                                    <div class="d-flex align-items-center gap-3">
+                                                                                                                                                                                                                                                                                                                                                                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                                                                                                                                                                                                                                                                                                                                                                            <i class="ti ti-circle"></i>
+                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                        <span class="hide-menu">Social Links</span>
+                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                                                                                                                                                                                            </li> -->
                         </ul>
                     </li>
                     {{-- <li class="sidebar-item">
@@ -330,14 +330,25 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link {{ in_array(Request::segment(2), ['blog', 'blog_add', 'blog_edit']) ? 'active  ' : '' }} side-item"
+                            {{-- <li class="sidebar-item">
+                                <a class="sidebar-link {{ in_array(Request::segment(2), ['blog', 'blog_add', 'blog_edit']) ? 'active  ' : '' }}"
                                     href="{{ route('admin.blog') }}" aria-expanded="false">
                                     <div class="d-flex align-items-center gap-3">
                                         <i class="ti  ti-credit-card"></i>
+                                        <span class="hide-menu">Blogs </span>
+
                                     </div>
 
-                                    <span class="hide-menu">Blogs </span>
+                                </a>
+                            </li> --}}
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ in_array(Request::segment(2), ['blog', 'blog_add', 'blog_edit']) ? 'active' : '' }}"
+                                    href="{{ route('admin.blog') }}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fa-solid fa-newspaper"></i>
+                                        <span class="hide-menu">Blogs</span>
+                                    </div>
                                 </a>
                             </li>
                             <!-- Testimonials -->
