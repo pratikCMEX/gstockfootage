@@ -480,7 +480,7 @@ window.addEventListener("load", function () {
       yaxis: {
         labels: {
           formatter: function (v) {
-            return "$" + v;
+            return "$" + v.toFixed(2);
           },
           style: { fontSize: "12px", colors: MUTED },
         },
