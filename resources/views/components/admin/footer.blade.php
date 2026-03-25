@@ -97,38 +97,3 @@
 
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-        const menuLinks = document.querySelectorAll(".has-arrow");
-
-        menuLinks.forEach(link => {
-            link.addEventListener("click", function() {
-
-                const currentItem = this.closest(".sidebar-item");
-                const currentMenu = currentItem.querySelector(".collapse");
-
-                // 🔴 Close all others
-                document.querySelectorAll(".sidebar-item .collapse").forEach(menu => {
-                    if (menu !== currentMenu) {
-                        menu.classList.remove("in");
-                        menu.style.height = "0px";
-                    }
-                });
-
-                // 🔴 Toggle current
-                if (currentMenu) {
-                    currentMenu.classList.toggle("in");
-
-                    if (currentMenu.classList.contains("in")) {
-                        currentMenu.style.height = currentMenu.scrollHeight + "px";
-                    } else {
-                        currentMenu.style.height = "0px";
-                    }
-                }
-
-            });
-        });
-
-    });
-</script>
