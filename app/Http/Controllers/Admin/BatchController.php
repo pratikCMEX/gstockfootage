@@ -969,61 +969,58 @@ class BatchController extends Controller
         $parsed = json_decode(trim($clean), true);
 
         // ── Helper: generate & save a thumbnail image via Imagen ──────────
-        $generateThumbnail = function (string $name): ?string {
-            $geminiKey  = env('GOOGLE_GEMINI_API_KEY');
-            $imagenUrl  = "https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key={$geminiKey}";
+        // ── Helper: generate & save a thumbnail image via Imagen ──────────
+        $generateThumbnail = function (string $name, string $subFolder) use ($geminiKey): ?string {
 
-            $prompt = "A clean minimal stock photo category thumbnail for '{$name}'. "
-                . "Flat design illustration, single bold subject, white background, "
-                . "no text, no watermark, vibrant professional colors.";
+            $model = "imagen-4.0-fast-generate-001";
+            $imagenUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:predict?key={$geminiKey}";
+            $prompt = "A premium, photorealistic stock photo capturing the essence of '{$name}'. 
+            The image must feature a detailed, single subject centered in the frame with ultra-high resolution and sharp focus. 
+            Use professional studio lighting, natural grain, and visible textures. 
+            No flat design, no animations, no illustrations. No text, no watermark. 
+            The aesthetic is realistic, high-fidelity, and sophisticated.";
 
             $iResponse = Http::timeout(60)->post($imagenUrl, [
-                'instances'  => [['prompt' => $prompt]],
+                'instances'  => [
+                    ['prompt' => $prompt]
+                ],
                 'parameters' => [
-                    'sampleCount'   => 1,
-                    'aspectRatio'   => '1:1',
-                    'outputOptions' => [
-                        'mimeType'           => 'image/jpeg',
-                        'compressionQuality' => 75,
-                    ],
+                    'sampleCount' => 1,
+                    // 'aspectRatio' => '1:1', // Some versions of the API don't support this parameter yet
                 ],
             ]);
 
-            if ($iResponse->failed()) return null;
+            if ($iResponse->failed()) {
+                // Log the error so you can see why it's failing (Check storage/logs/laravel.log)
+                \Log::error("Imagen Generation Failed: " . $iResponse->body());
+                return null;
+            }
 
+            // The response structure for Imagen is different. It returns 'predictions' containing base64.
             $b64 = data_get($iResponse->json(), 'predictions.0.bytesBase64Encoded');
-            if (!$b64) return null;
+
+            if (!$b64) {
+                \Log::warning("Imagen returned no image data for: " . $name);
+                return null;
+            }
 
             $imageData = base64_decode($b64);
 
-            $img = imagecreatefromstring($imageData);
-            if (!$img) return null;
-
-            $thumb = imagecreatetruecolor(400, 400);
-            imagecopyresampled($thumb, $img, 0, 0, 0, 0, 400, 400, imagesx($img), imagesy($img));
-            imagedestroy($img);
-
-            ob_start();
-            imagejpeg($thumb, null, 70);
-            $compressed = ob_get_clean();
-            imagedestroy($thumb);
-
-            // ✅ Save to public/uploads/images/category/
+            // ✅ Save Logic (Refined)
             $slug     = \Str::slug($name);
             $filename = $slug . '-' . time() . '.jpg';
-            $savePath = public_path('uploads/images/category');
+            $relativeFolder = 'uploads/images/category';
+            $savePath = public_path($relativeFolder);
 
-            // Create folder if it doesn't exist
             if (!file_exists($savePath)) {
                 mkdir($savePath, 0755, true);
             }
 
-            file_put_contents($savePath . '/' . $filename, $compressed);
+            // Use Laravel's GD to process if needed, but saving directly is safer if GD fails
+            file_put_contents($savePath . '/' . $filename, $imageData);
 
-            // ✅ Return relative path to save in DB (same format as your other images)
-            return 'uploads/images/category/' . $filename;
+            return $filename;
         };
-
         // ── Resolve / create Category ──────────────────────────────────────
         $categoryId    = null;
         $categoryName  = null;
@@ -1055,8 +1052,7 @@ class BatchController extends Controller
                 } else {
                     // ✅ Generate thumbnail only for brand-new categories
                     $isNewCategory = true;
-                    $thumbUrl      = $generateThumbnail($newCatName);
-
+                    $thumbUrl = $generateThumbnail($newCatName, 'category');
                     $categoryId = Category::insertGetId([
                         'category_name' => $newCatName,
                         'category_image'         => $thumbUrl,   // ← save image path
@@ -1101,7 +1097,7 @@ class BatchController extends Controller
                     $subcategoryImage = $existingSub->image;
                 } else {
                     // ✅ Generate thumbnail only for brand-new subcategories
-                    $subThumbUrl = $generateThumbnail($newSubName);
+                    $subThumbUrl = $generateThumbnail($newSubName, 'sub_category');
 
                     $subcategoryId = SubCategory::insertGetId([
                         'category_id' => $categoryId,
