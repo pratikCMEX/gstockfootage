@@ -603,8 +603,12 @@ class BatchController extends Controller
                     }
                 } elseif (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
                     // Pass $manager as 4th argument — this was the bug!
+                    Log::info('Image First Recieved:');
+
                     $this->processImage($file->getRealPath(), $batch_id, $file, $manager);
                 } elseif (in_array($extension, ['mp4', 'mov', 'avi'])) {
+                    Log::info('Video First Recieved:');
+
                     $this->processVideo($file, $batch_id);
                 }
             }
