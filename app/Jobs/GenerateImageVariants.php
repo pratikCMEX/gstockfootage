@@ -31,6 +31,7 @@ class GenerateImageVariants implements ShouldQueue
     {
         $batchFile = BatchFile::findOrFail($this->batchFileId);
         $imageName = $batchFile->file_name;
+        log::info('started 3');
 
         // ── Download from S3 to a local temp file ────────────────────────────
         // Avoids holding entire image in memory as a string
