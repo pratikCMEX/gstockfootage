@@ -35,14 +35,16 @@ class GenerateImageVariants implements ShouldQueue
         // ── Download from S3 to a local temp file ────────────────────────────
         // Avoids holding entire image in memory as a string
         $tempPath = storage_path('app/temp/' . uniqid() . '_' . $imageName);
-
+        log::info('started 3', $this->highPath);
         try {
+            log::info('started 4');
             // Stream from S3 to disk instead of loading into memory
             $stream = Storage::disk('s3')->readStream($this->highPath);
             $tempFile = fopen($tempPath, 'wb');
             stream_copy_to_stream($stream, $tempFile);
             fclose($tempFile);
             if (is_resource($stream)) fclose($stream);
+            log::info('started 6');
 
             $manager = new ImageManager(new GdDriver());
 
@@ -72,6 +74,7 @@ class GenerateImageVariants implements ShouldQueue
             $midPath    = "batch/image/mid/mid_$imageName";
 
             Storage::disk('s3')->put($midPath, $midEncoded, ['visibility' => 'public']);
+            log::info('started 7');
 
             // Free MID memory immediately before doing thumbnail
             unset($midImg, $wm, $midEncoded);
