@@ -16,6 +16,8 @@ $.fn.dataTable.ext.buttons.resetTable = {
 
 $(document).ready(function () {
 
+
+
     //  Date validation - works globally on all pages
     $('#from_date').on('change', function () {
         let fromDate = $(this).val();
@@ -99,5 +101,35 @@ $(document).ready(function () {
             }
         });
     }
+
+
+    // Works for ALL datatables on any page
+    $(document).on('draw.dt', 'table', function () {
+        let tableId = $(this).attr('id');
+        let table = window.LaravelDataTables[tableId];
+
+        if (!table) return;
+
+        let recordCount = table.page.info().recordsTotal;
+        let pdfBtn = $(this).closest('.card-body').find('.dt-buttons .dt-button:contains("PDF")');
+
+        if (recordCount === 0) {
+            pdfBtn.prop('disabled', true)
+                .addClass('disabled')
+                .css({
+                    'opacity': '0.5',
+                    'cursor': 'not-allowed',
+                    'pointer-events': 'none'
+                });
+        } else {
+            pdfBtn.prop('disabled', false)
+                .removeClass('disabled')
+                .css({
+                    'opacity': '1',
+                    'cursor': 'pointer',
+                    'pointer-events': 'auto'
+                });
+        }
+    });
 
 });

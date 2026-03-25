@@ -116,11 +116,28 @@ class LiveCartReportDataTable extends DataTable
                 ],
                 'pageLength' => 10,
             ])
-            ->buttons([
+             ->buttons([
+                //  Custom PDF button - exports ALL records with filters
+                Button::raw([
+                    'text' => '<i class="fa fa-file-pdf"></i> PDF',
+                    'action' => 'function(e, dt, node, config) {
+            let from           = $("#from_date").val();
+            let to             = $("#to_date").val();
+           
 
-                Button::make('pdf')->exportOptions(['columns' => ':visible']),
-
+            let url = "' . route('admin.live_cart_report.export_pdf') . '"
+                + "?from_date="      + from
+                + "&to_date="        + to
+              
+            window.location.href = url;
+        }',
+                ]),
             ]);
+            // ->buttons([
+
+            //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
+
+            // ]);
     }
 
     public function getColumns(): array
