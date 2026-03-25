@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Add SubCategory</h5>
+                        href="{{ route('admin.sub_category') }}">Subcategories</a> / Add Subcategory</h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -15,7 +15,7 @@
                                     <label for="category" class="form-label">Category</label><label
                                         class="text-danger">*</label>
                                     <select class="form-select searchable mr-sm-2" name="category" id="category">
-                                        <option value="">Choose Category...</option>
+                                        <option value="" selected disabled>Choose Category...</option>
                                         @foreach ($category as $cat)
                                             <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                                         @endforeach

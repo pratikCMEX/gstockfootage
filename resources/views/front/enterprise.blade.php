@@ -119,7 +119,7 @@
                                         Job Role <sup>*</sup>
                                     </label>
                                     <select name="job_role" class="form-select" id="job_role">
-                                        <option value="">Select...</option>
+                                        <option value="" selected disabled>Select...</option>
                                         <option value="producer">Producer</option>
                                         <option value="director">Director</option>
                                         <option value="editor">Editor</option>
@@ -133,7 +133,7 @@
                                 <div>
                                     <label for=""> Job Function <sup>*</sup></label>
                                     <select name="job_function" id="job_function" class="form-select">
-                                        <option value="">Select...</option>
+                                        <option value="" selected disabled>Select...</option>
                                         <option value="creative">Creative</option>
                                         <option value="marketing">Marketing</option>
                                         <option value="production">Production</option>
@@ -146,7 +146,7 @@
                                     <label for=""> Company Size <sup>*</sup>
                                     </label>
                                     <select name="company_size" id="company_size" class="form-select">
-                                        <option value="">Select...</option>
+                                        <option value="" selected disabled>Select...</option>
 
                                         <option value="1-10">1-10</option>
                                         <option value="11-50">11-50</option>
@@ -159,7 +159,7 @@
                             <div>
                                 <label for="">Country <sup>*</sup></label>
                                 <select name="country" id="country" class="form-select">
-                                    <option value="">Select...</option>
+                                    <option value="" selected disabled>Select...</option>
 
                                     <option value="united-states">United States</option>
                                     <option value="united-kingdom">United Kingdom</option>
@@ -181,7 +181,7 @@
                                     <label for="">
                                         Product Of Interest <sup>*</sup></label>
                                     <select name="product_interest" id="product_interest" class="form-select">
-                                        <option value="">Select...</option>
+                                        <option value="" selected disabled>Select...</option>
 
                                         <option value="stock-footage">Stock Footage</option>
                                         <option value="stock-photos">Stock Photos</option>

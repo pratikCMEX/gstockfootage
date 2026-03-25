@@ -382,7 +382,7 @@ $(document).on("change", "#category", function () {
             url: base_url + "/get-subcategories/" + categoryId,
             type: "GET",
             success: function (data) {
-                let html = '<option value="">Choose SubCategory...</option>';
+                let html = '<option value="" selected disabled>Choose SubCategory...</option>';
                 console.log(data);
 
                 $.each(data, function (key, subcat) {
@@ -394,7 +394,7 @@ $(document).on("change", "#category", function () {
         });
     } else {
         $("#subcategory").html(
-            '<option value="">Choose SubCategory...</option>'
+            '<option value="" selected disabled>Choose SubCategory...</option>'
         );
     }
 });

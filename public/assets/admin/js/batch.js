@@ -437,7 +437,7 @@ function loadSubCategories(category_id, selected_subcategory = null) {
 
     success: function (res) {
       $("#subcategory_id").html(
-        '<option value="">Select Sub Category</option>'
+        '<option value="" selected disabled>Select Sub Category</option>'
       );
 
       $.each(res, function (key, value) {
@@ -1621,7 +1621,7 @@ $(document).on("change", "#category_id", function () {
       type: "GET",
       success: function (data) {
         $("#subcategory_id").html(
-          '<option value="">Select Sub Category</option>'
+          '<option value="" selected disabled>Select Sub Category</option>'
         );
         console.log(data);
 
@@ -1633,6 +1633,6 @@ $(document).on("change", "#category_id", function () {
       },
     });
   } else {
-    $("#subcategory").html('<option value="">Choose SubCategory...</option>');
+    $("#subcategory").html('<option value="" selected disabled>Choose SubCategory...</option>');
   }
 });

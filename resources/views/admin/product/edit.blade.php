@@ -36,7 +36,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Category</label><label class="text-danger">*</label>
                                 <select class="form-select searchable" name="category" id="category">
-                                    <option value="">Choose Category...</option>
+                                    <option value="" selected disabled>Choose Category...</option>
                                     @foreach ($categories as $cat)
                                         <option value="{{ $cat->id }}"
                                             {{ $product->category_id == $cat->id ? 'selected' : '' }}>
@@ -51,7 +51,7 @@
                             <div class="mb-3">
                                 <label class="form-label">SubCategory</label>
                                 <select class="form-select searchable" name="subcategory" id="subcategory">
-                                    <option value="">Choose SubCategory...</option>
+                                    <option value="" selected disabled>Choose SubCategory...</option>
                                     @foreach ($subcategories as $sub)
                                         <option value="{{ $sub->id }}"
                                             {{ $product->subcategory_id == $sub->id ? 'selected' : '' }}>
@@ -65,7 +65,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Collection</label>
                                 <select class="form-select searchable" name="collection">
-                                    <option value="">Choose Collection...</option>
+                                    <option value="" selected disabled>Choose Collection...</option>
                                     @foreach ($collections as $coll)
                                         <option value="{{ $coll->id }}"
                                             {{ $product->collection_id == $coll->id ? 'selected' : '' }}>

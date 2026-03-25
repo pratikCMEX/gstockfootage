@@ -32,7 +32,7 @@
                                         class="text-danger">*</label>
                                     <select class="form-select mr-sm-2" name="product_quality_id"
                                         id="product_quality_id">
-                                        <option value="">Choose Product Quality...</option>
+                                        <option value="" selected disabled>Choose Product Quality...</option>
                                         @foreach ($qualities as $quality)
                                             <option value="{{ $quality->id }}"
                                                 {{ $getLicenseDetail->product_quality_id == $quality->id ? 'selected' : '' }}>

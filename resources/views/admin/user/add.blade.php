@@ -10,12 +10,14 @@
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6 col-12 mb-3">
-                                    <label for="first_name" class="form-label">First Name</label>
+                                    <label for="first_name" class="form-label">First Name</label><label
+                                        class="text-danger">*</label>
                                     <input type="text" name="first_name" class="form-control" id="first_name"
                                         placeholder=" enter first name">
                                 </div>
                                 <div class="col-sm-6 col-12 mb-3">
-                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <label for="last_name" class="form-label">Last Name</label><label
+                                        class="text-danger">*</label>
                                     <input type="text" name="last_name" class="form-control" id="last_name"
                                         placeholder=" enter last name">
                                 </div>

@@ -23,7 +23,7 @@
                              <div class="mb-3">
                                 <label class="form-label">SubCategory</label>
                                 <select class="form-select" name="subcategory" id="subcategory">
-                                    {{-- <option value="">Choose SubCategory...</option> --}}
+                                    {{-- <option value="" selected disabled>Choose SubCategory...</option> --}}
 
                                     @foreach ($subcategories as $sub)
                                         <option value="{{ $sub->id }}"

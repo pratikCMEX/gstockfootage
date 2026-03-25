@@ -43,7 +43,7 @@
                 <div>
                     <label>Job Role *</label>
                     <select name="job_role" required>
-                        <option value="">Select...</option>
+                        <option value="" selected disabled>Select...</option>
                         <option>Producer</option>
                         <option>Director</option>
                         <option>Editor</option>
@@ -56,7 +56,7 @@
                 <div>
                     <label>Job Function *</label>
                     <select name="job_function" required>
-                        <option value="">Select...</option>
+                        <option value="" selected disabled>Select...</option>
                         <option>Creative</option>
                         <option>Marketing</option>
                         <option>Production</option>
@@ -69,7 +69,7 @@
                 <div>
                     <label>Company Size *</label>
                     <select name="company_size" required>
-                        <option value="">Select...</option>
+                        <option value="" selected disabled>Select...</option>
                         <option>1-10</option>
                         <option>11-50</option>
                         <option>51-200</option>
@@ -81,7 +81,7 @@
                 <div class="full">
                     <label>Country *</label>
                     <select name="country" required>
-                        <option value="">Select...</option>
+                        <option value="" selected disabled>Select...</option>
                         <option>United States</option>
                         <option>United Kingdom</option>
                         <option>Canada</option>
@@ -100,7 +100,7 @@
                 <div>
                     <label>Product Of Interest *</label>
                     <select name="product_interest" required>
-                        <option value="">Select...</option>
+                        <option value="" selected disabled>Select...</option>
                         <option>Stock Footage</option>
                         <option>Stock Photos</option>
                         <option>Artwork</option>
