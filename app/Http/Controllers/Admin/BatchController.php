@@ -133,6 +133,7 @@ class BatchController extends Controller
 
         $title = 'Batches';
         $page = 'admin.batchs_img.add';
+        // $page = 'admin.demo';
         $js = ['batch'];
 
         // dd($request->submission_type);
@@ -1202,135 +1203,6 @@ class BatchController extends Controller
                 'collection_id'    => $collectionId,
                 'collection_name'  => $collectionName,
                 'collection_image' => $collectionImage, // ← new
-            ]
-        ]);
-    }
-
-    public function generateAiContent1(Request $request)
-    {
-        $request->validate(['img_url' => 'required|url']);
-        // $geminiKey = 'AIzaSyC_C6siKOWPHFxN2Px_fwMSpczbdn3VP-s';
-        $geminiKey = env('GOOGLE_GEMINI_API_KEY');
-
-
-        // This asks Google: "What models can I actually use?"
-        $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
-        // $data = getModelList();
-        // 1. USE YOUR ORIGINAL CLOUD KEY FOR VISION (The AIzaSyACDB... one)
-        $visionKey = env('GOOGLE_VISION_API_KEY');
-
-        // 2. USE YOUR AI STUDIO KEY FOR GEMINI (The AIzaSyB69Z... one from screenshot)
-
-        // --- STEP 1: Get Vision Data ---
-        $imageData = base64_encode(file_get_contents($request->img_url));
-        $vResponse = Http::timeout(60) // Increase to 60 seconds
-            ->withOptions([
-                'curl' => [
-                    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4, // Force IPv4
-                ],
-            ])
-            ->post("https://vision.googleapis.com/v1/images:annotate?key={$visionKey}", [
-                'requests' => [
-                    [
-                        'image' => ['content' => $imageData],
-                        'features' => [['type' => 'WEB_DETECTION'], ['type' => 'LABEL_DETECTION']]
-                    ]
-                ]
-            ]);
-        if ($vResponse->failed()) {
-            return response()->json(['error' => 'Vision API Failed', 'details' => $vResponse->json()], 400);
-        }
-
-        $subject = data_get($vResponse->json(), 'responses.0.webDetection.bestGuessLabels.0.label', 'Atmospheric Scene');
-        $labels = collect(data_get($vResponse->json(), 'responses.0.labelAnnotations', []))->pluck('description');
-
-        // $response = Http::get("https://generativelanguage.googleapis.com/v1beta/models?key={$geminiKey}");
-
-        // return $response->json();
-        // --- STEP 2: Get Gemini Data (Proper Data Only) ---
-        // We use v1beta and gemini-1.5-flash which is the standard for AI Studio
-        // $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$geminiKey}";
-
-
-        $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$geminiKey}";
-
-        $gResponse = Http::timeout(60)
-            ->retry(2, 100)
-            ->post($geminiUrl, [
-                'contents' => [[
-                    'parts' => [
-                        // ── Send actual image ─────────────────
-                        [
-                            'inline_data' => [
-                                'mime_type' => 'image/jpeg',
-                                'data'      => $imageData,
-                            ]
-                        ],
-                        // ── Prompt ────────────────────────────
-                        [
-                            'text' => "Look at this image carefully and write a simple, clear, professional stock photo description.
-                            1. title: A short, overall title (2-3 words max) that describes the WHOLE scene, not just one object. Like a newspaper headline for the image.
-                            2. description: A simple, clear, professional stock photo description of exactly what is visible. 2-3 sentences, 50-60 words. No poetic language. Do NOT mention any watermark or logo.
-
-                            Rules For Description:
-                            - Describe ONLY what is actually visible in this image.
-                            - Use simple, easy to understand words. No poetic or dramatic language.
-                            - Mention the main subject, location, weather/sky, and mood.
-                            - Length: 2-3 sentences max (around 50-60 words).
-                            - Start directly. No intro like 'This image shows' or 'Here is'.
-                            
-                            
-                            
-                            Return ONLY raw JSON like:
-                            {\"title\": \"...\", \"description\": \"...\"}
-                            No markdown, no explanation, nothing else.
-                            "
-
-
-                        ]
-                    ]
-                ]],
-                'generationConfig' => [
-                    'temperature'     => 0.7, // ← lower = more factual, less creative
-                    'maxOutputTokens' => 1500,
-                    'topP'            => 0.95,
-                    'topK'            => 40,
-                ]
-            ]);
-        // dd($gResponse->json());
-        // --- STEP 3: Handle the Result ---
-        if ($gResponse->failed()) {
-            // This will print the EXACT error from Google so we can stop guessing
-            return response()->json([
-                'error' => 'Gemini API still returning 404',
-                'google_says' => $gResponse->json(),
-                'url_attempted' => $geminiUrl
-            ], 404);
-        }
-
-        // $aiDescription = data_get($gResponse->json(), 'candidates.0.content.parts.0.text');
-
-        // return response()->json([
-        //     'status' => true,
-        //     'data' => [
-        //         'title' => ucfirst($subject),
-        //         'description' => trim($aiDescription),
-        //         'tags' => $labels->take(10)->join(', ')
-        //     ]
-        // ]);
-
-        $raw = data_get($gResponse->json(), 'candidates.0.content.parts.0.text', '');
-
-        // ── Strip markdown fences if any ─────────────────────
-        $clean = preg_replace('/```json|```/', '', $raw);
-        $parsed = json_decode(trim($clean), true);
-
-        return response()->json([
-            'status' => true,
-            'data'   => [
-                'title'       => ucfirst($parsed['title']       ?? $subject),
-                'description' => trim($parsed['description']    ?? $raw),
-                'tags'        => $labels->take(10)->join(', '),
             ]
         ]);
     }

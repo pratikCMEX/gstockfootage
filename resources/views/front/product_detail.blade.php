@@ -67,15 +67,29 @@
                             {{-- <div class="swiper-wrapper">
                                 <div class="swiper-slide"> --}}
                             <div class="big-slide-img">
-                                @if ($data['type'] == 'video')
+                                {{-- @if ($data['type'] == 'video')
                                     <video class="h-100 w-100" autoplay controls="true">
                                         <source
                                             src="{{ $data['mid_path'] != '' ? $data['mid_path'] : $data['file_url'] }}">
 
-                                        {{-- <video class="h-100 w-100" autoplay controls="true" width="100%" --}}
-                                        {{-- src="{{ Storage::disk('s3')->url($data['low_path']) }}"{{ Storage::disk('s3')->url($data['low_path']) }} --}}>
-                                        {{-- <source src="{{ Storage::disk('s3')->url($data['low_path']) }}"> --}}
                                     </video>
+                                    <div class="big-slide-img-overlay"
+                                        style="background-image: url({{ $data['thumbnail'] }})">
+                                    </div>
+                                @else
+                                    <img src="{{ $data['mid_path'] != '' ? $data['mid_path'] : $data['file_url'] }}"
+                                        class="h-100 w-100" alt="">
+                                    <div class="big-slide-img-overlay"
+                                        style="background-image: url({{ $data['mid_path'] }})">
+                                    </div>
+                                @endif --}}
+                                @if ($data['type'] == 'video')
+                                    {{-- ✅ Unique ID per video using file code or id --}}
+                                    <video id="hls-video-{{ $data['id'] }}" class="h-100 w-100" controls
+                                        poster="{{ $data['thumbnail'] ?? '' }}" data-hls="{{ $data['hls_path'] ?? '' }}"
+                                        data-fallback="{{ $data['mid_path'] != '' ? $data['mid_path'] : $data['file_url'] }}">
+                                    </video>
+
                                     <div class="big-slide-img-overlay"
                                         style="background-image: url({{ $data['thumbnail'] }})">
                                     </div>

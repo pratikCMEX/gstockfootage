@@ -238,7 +238,7 @@
                             <a href="{{ $tags['type'] === 'image'
                                 ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']])
                                 : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}"
-                                class="btn btn-sm"><i class="bi bi-search"></i>{{ $tags['tag'] }}</a>
+                                class="btn btn-sm"><i class="bi bi-search"></i> {{ $tags['tag'] }}</a>
                         @endforeach
                         <!-- <a href="{{ route('all_photos', ['q' => 'Aerial footage', 'type' => 'image']) }}"
                                                 class="btn btn-sm"><i class="bi bi-search"></i> Aerial footage</a>
@@ -871,12 +871,16 @@
                             } else {
                                 $initials = strtoupper(substr($name, 0, 1));
                             }
-                            
+
                         @endphp
                         <div class="testimonial-user">
                             <div class="avatar">
-                                @if(!empty($testimonial->profile_image) && file_exists(public_path('uploads/images/testimonials/' . $testimonial->profile_image)))
-                                    <img  class='avatar' src="{{ asset('uploads/images/testimonials/' . $testimonial->profile_image) }}" alt="{{ $testimonial->name }}" >
+                                @if (
+                                    !empty($testimonial->profile_image) &&
+                                        file_exists(public_path('uploads/images/testimonials/' . $testimonial->profile_image)))
+                                    <img class='avatar'
+                                        src="{{ asset('uploads/images/testimonials/' . $testimonial->profile_image) }}"
+                                        alt="{{ $testimonial->name }}">
                                 @else
                                     {{ $initials }}
                                 @endif
