@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.collection') }}">Login Banner</a></h5>
+                        href="{{ route('admin.collection') }}">Login Background</a></h5>
 
                 <div class="card">
                     <div class="card-body">
@@ -11,13 +11,15 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Title</label><label for="" class="text-danger">*</label>
+                                <label for="exampleInputEmail1" class="form-label">Title</label><label for=""
+                                    class="text-danger">*</label>
                                 <input type="text" name="title" id="title" class="form-control"
                                     value="{{ $banner->title ?? '' }}" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Please enter collection name">
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Upload Image</label><label for="" class="text-danger">*</label>
+                                <label for="image" class="form-label">Upload Image</label><label for=""
+                                    class="text-danger">*</label>
                                 <input class="form-control" type="file" name="image" id="image"
                                     accept="image/*" onchange="loadFile(event)">
 
