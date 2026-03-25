@@ -43,6 +43,13 @@
 @endif
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
+    const video = document.getElementById('hls-video-{{ $data['id'] }}');
+
+    video.muted = true;
+
+    video.play().catch(err => {
+        console.log('Autoplay blocked:', err);
+    });
     document.addEventListener('DOMContentLoaded', function() {
 
         // ✅ Find every video element that has an HLS path
