@@ -27,7 +27,7 @@
                                 <input type="hidden" name="subcategory_id" id="subcategory_id"
                                     value="{{ encrypt($getSubCategoryDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
-                                    placeholder="Please enter subcategory name"
+                                    placeholder="enter subcategory name"
                                     value="{{ $getSubCategoryDetail->name }}">
                             </div>
                             <!-- <div class="mb-3">
@@ -35,7 +35,7 @@
                                 <input type="hidden" name="subcategory_id" id="subcategory_id"
                                     value="{{ encrypt($getSubCategoryDetail->id) }}" />
                                 <input type="text" name="name" class="form-control" id="name"
-                                    placeholder="Please enter subcategory name"
+                                    placeholder="enter subcategory name"
                                     value="{{ $getSubCategoryDetail->name }}">
                             </div> -->
                             <div class="mb-3">

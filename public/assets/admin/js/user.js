@@ -3,7 +3,10 @@ var base_url = $("#base_url").val();
 $("#add_user_form").validate({
   // onkeyup: false,
   rules: {
-    name: {
+    first_name: {
+      required: true,
+    },
+    last_name: {
       required: true,
     },
     email: {
@@ -30,16 +33,19 @@ $("#add_user_form").validate({
     },
   },
   messages: {
-    name: {
-      required: "Please enter name",
+    first_name: {
+      required: "Please enter First Name",
+    },
+    last_name: {
+      required: "Please enter Last Name",
     },
     email: {
-      required: "Please enter email",
-      email: "Please enter a valid email",
+      required: "Please enter Email",
+      email: "Please enter  valid Email",
       remote: "This email already exists",
     },
     password: {
-      required: "Please enter a password",
+      required: "Please enter  Password",
     },
   },
   normalizer: function (value) {

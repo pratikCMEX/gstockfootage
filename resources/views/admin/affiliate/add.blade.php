@@ -29,7 +29,7 @@
                                     <label class="form-label">First Name <span class="text-danger">*</span></label>
                                     <input type="text" name="first_name"
                                         class="form-control @error('first_name') is-invalid @enderror"
-                                        placeholder="Enter first name" value="{{ old('first_name') }}">
+                                        placeholder="Enter First Name" value="{{ old('first_name') }}">
                                     @error('first_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -39,7 +39,7 @@
                                     <label class="form-label">Last Name <span class="text-danger">*</span></label>
                                     <input type="text" name="last_name"
                                         class="form-control @error('last_name') is-invalid @enderror"
-                                        placeholder="Enter last name" value="{{ old('last_name') }}">
+                                        placeholder="Enter Last Name" value="{{ old('last_name') }}">
                                     @error('last_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -52,7 +52,7 @@
                                     <label class="form-label">Email <span class="text-danger">*</span></label>
                                     <input type="email" name="email"
                                         class="form-control @error('email') is-invalid @enderror"
-                                        placeholder="Enter email" value="{{ old('email') }}">
+                                        placeholder="Enter Email" value="{{ old('email') }}">
                                     @error('email')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -62,7 +62,7 @@
                                     <label class="form-label">Password <span class="text-danger">*</span></label>
                                     <input type="password" name="password"
                                         class="form-control @error('password') is-invalid @enderror"
-                                        placeholder="Enter password">
+                                        placeholder="Enter Password">
                                     @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -74,7 +74,7 @@
                                     <label class="form-label">Phone No</label>
                                     <div class="input-group phone-input">
                                         <input type="tel" id="phone" name="phone_number" class="form-control"
-                                            placeholder="Enter your phone number"
+                                            placeholder="Enter Your Phone Number"
                                             oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                     </div>
 

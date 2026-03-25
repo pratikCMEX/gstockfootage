@@ -23,7 +23,7 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Subcategory Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Please enter subcategory name">
+                                    aria-describedby="emailHelp" placeholder="enter subcategory name">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label><label class="text-danger">*</label>

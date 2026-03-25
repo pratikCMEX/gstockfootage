@@ -34,7 +34,7 @@
                             <div class="form-group input-section">
                                 <label for="email">Email</label>
                                 <input type="text" name="email" class="form-control" value="{{ $user->email ?? '' }}"
-                                    id="email" placeholder="Please Enter E-mail Address">
+                                    id="email" placeholder="Enter E-mail Address">
                             </div>
                         </div>
 

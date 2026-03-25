@@ -9,24 +9,24 @@
                         <form id="add_user_form" method="POST" action="{{ route('admin.user_store') }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="first_name" class="form-label">First Name</label>
+                                <label for="first_name" class="form-label">First Name</label><label class="text-danger">*</label>
                                 <input type="text" name="first_name" class="form-control" id="first_name"
-                                    placeholder="Please enter first name">
+                                    placeholder="enter First Name">
                             </div>
                             <div class="mb-3">
-                                <label for="last_name" class="form-label">Last Name</label>
+                                <label for="last_name" class="form-label">Last Name</label><label class="text-danger">*</label>
                                 <input type="text" name="last_name" class="form-control" id="last_name"
-                                    placeholder="Please enter last name">
+                                    placeholder="enter Last Name">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
                                 <input type="email" name="email" class="form-control" id="email"
-                                    placeholder="Please enter email">
+                                    placeholder="enter Email">
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                                 <input type="password" name="password" class="form-control" id="password"
-                                    placeholder="Please enter password">
+                                    placeholder="enter Password">
                             </div>
 
                             <button type="submit" class="btn btn-orange">Add User</button>

@@ -13,12 +13,12 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">License Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="name"
-                                    aria-describedby="emailHelp" placeholder="Please enter license name">
+                                    aria-describedby="emailHelp" placeholder="enter license name">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Title</label><label class="text-danger">*</label>
                                 <input type="text" name="title" class="form-control" id="title"
-                                    aria-describedby="emailHelp" placeholder="Please enter title">
+                                    aria-describedby="emailHelp" placeholder="enter title">
                             </div>
                             <div class="mb-3">
                                 <label for="product_quality" class="form-label">Product Quantity</label><label class="text-danger">*</label>
@@ -33,18 +33,18 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Quality</label><label class="text-danger">*</label>
                                 <input type="text" name="quality" class="form-control" id="quality"
-                                    aria-describedby="emailHelp" placeholder="Please enter quality">
+                                    aria-describedby="emailHelp" placeholder="enter quality">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" id="price"
-                                    aria-describedby="emailHelp" placeholder="Please enter price"
+                                    aria-describedby="emailHelp" placeholder="enter price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Plan Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="plan_price" class="form-control" id="plan_price"
-                                    aria-describedby="emailHelp" placeholder="Please enter Plan price"
+                                    aria-describedby="emailHelp" placeholder="enter Plan price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 

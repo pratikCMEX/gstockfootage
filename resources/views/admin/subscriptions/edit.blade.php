@@ -16,7 +16,7 @@
                                 <label for="exampleInputEmail1" class="form-label">Subscription Plan Name</label><label class="text-danger">*</label>
                                 <input type="text" name="name" class="form-control" id="name"
                                     value="{{ $getSubscriptionPlanDetail->name }}" aria-describedby="emailHelp"
-                                    placeholder="Please enter license name">
+                                    placeholder="enter license name">
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Duration Type</label><label class="text-danger">*</label>
@@ -32,21 +32,21 @@
                                 <label for="exampleInputEmail1" class="form-label">Duration value</label><label class="text-danger">*</label>
                                 <input type="text" name="duration_value" class="form-control" id="duration_value"
                                     value="{{ $getSubscriptionPlanDetail->duration_value }}"
-                                    aria-describedby="emailHelp" placeholder="Please enter duration value"
+                                    aria-describedby="emailHelp" placeholder="enter duration value"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Total Clips</label><label class="text-danger">*</label>
                                 <input type="text" name="total_clips" class="form-control" id="total_clips"
                                     value="{{ $getSubscriptionPlanDetail->total_clips }}" aria-describedby="emailHelp"
-                                    placeholder="Please enter total clips"
+                                    placeholder="enter total clips"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Discount(%)</label>
                                 <input type="text" name="discount" class="form-control" id="discount"
                                     value="{{ $getSubscriptionPlanDetail->discount_percentage }}"
-                                    aria-describedby="emailHelp" placeholder="Please enter total clips"
+                                    aria-describedby="emailHelp" placeholder="enter total clips"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 
@@ -54,7 +54,7 @@
                                 <label for="exampleInputEmail1" class="form-label">Price ($)</label><label class="text-danger">*</label>
                                 <input type="text" name="price" class="form-control" id="price"
                                     value="{{ $getSubscriptionPlanDetail->price }}" aria-describedby="emailHelp"
-                                    placeholder="Please enter price"
+                                    placeholder="enter price"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                             </div>
 

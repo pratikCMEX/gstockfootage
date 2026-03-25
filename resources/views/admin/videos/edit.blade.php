@@ -50,12 +50,12 @@
                                 <label for="video_name" class="form-label">Video Name</label>
                                 <input type="text" name="video_name" class="form-control" id="video_name"
                                     aria-describedby="emailHelp" value="{{ $getVideoDetail->video_name }}"
-                                    placeholder="Please enter video name">
+                                    placeholder="enter video name">
                             </div>
                             <div class="mb-3">
                                 <label for="video_price" class="form-label">Video Price</label>
                                 <input type="text" name="video_price" class="form-control" id="video_price"
-                                    aria-describedby="emailHelp" placeholder="Please enter video price"
+                                    aria-describedby="emailHelp" placeholder="enter video price"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                     value="{{ $getVideoDetail->video_price }}">
                             </div>

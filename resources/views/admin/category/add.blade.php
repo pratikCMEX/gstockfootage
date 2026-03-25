@@ -13,7 +13,7 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Category Name</label><label for="" class="text-danger">*</label>
                                 <input type="text" name="category_name" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Please enter category name">
+                                    aria-describedby="emailHelp" placeholder="enter Category Name">
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label><label for="" class="text-danger">*</label>

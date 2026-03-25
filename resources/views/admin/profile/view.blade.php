@@ -35,7 +35,7 @@
                                     <label for="email">Email</label>
                                     <input type="text" name="email" class="form-control"
                                         value="{{ $user->email ?? '' }}" id="email"
-                                        placeholder="Please Enter E-mail Address">
+                                        placeholder="Enter E-mail Address">
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@
                     <div class="form-group input-section">
                         <label for="mobile">Mobile</label> 
                         <input type="text" name="mobile" class="form-control" value="{{ $user->mobile ?? '' }}" id="mobile"
-                            placeholder="Please Enter Mobile Number">
+                            placeholder="Enter Mobile Number">
                     </div>
                 </div>
 
@@ -61,7 +61,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <div class="form-group input-section">
                         <label for="pin"> Pin </label> 
-                        <input type="number" name="pin" id="pin" class="form-control" placeholder="Please Enter Pin"
+                        <input type="number" name="pin" id="pin" class="form-control" placeholder="Enter Pin"
                             inputmode="numeric" value="{{$user->pin ?? ''}}">
 
                     </div>

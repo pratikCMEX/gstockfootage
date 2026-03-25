@@ -59,32 +59,44 @@
     @endif
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.searchable').select2({
             width: 'resolve',
             minimumResultsForSearch: 0, // always show search box
-            placeholder: function() {
+            placeholder: function () {
                 return $(this).data('placeholder') || "Type to search...";
             },
             allowClear: true
         });
 
-        $(document).on('select2:open', function() {
+        $(document).on('select2:open', function () {
             $('.select2-search__field').attr('placeholder', 'Type to search...');
         });
+    });
+
+    //  Global placeholder capitalizer — add once in main JS file
+    $('input, textarea').each(function () {
+        let placeholder = $(this).attr('placeholder');
+        if (placeholder) {
+            // Capitalize first letter of each word
+            let capitalized = placeholder.replace(/\b\w/g, function (char) {
+                return char.toUpperCase();
+            });
+            $(this).attr('placeholder', capitalized);
+        }
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
-        // ✅ Find every video element that has an HLS path
-        document.querySelectorAll('video[data-hls]').forEach(function(videoEl) {
+        //  Find every video element that has an HLS path
+        document.querySelectorAll('video[data-hls]').forEach(function (videoEl) {
 
             var hlsPath = videoEl.getAttribute('data-hls');
             var fallback = videoEl.getAttribute('data-fallback');
 
-            // ✅ Skip if no HLS path set
+            //  Skip if no HLS path set
             if (!hlsPath || hlsPath === '') {
                 if (fallback) videoEl.src = fallback;
                 return;
@@ -92,25 +104,25 @@
 
             if (Hls.isSupported()) {
                 var hls = new Hls({
-                    autoStartLoad: false, // ✅ Don't load until user plays — saves bandwidth
+                    autoStartLoad: false, //  Don't load until user plays — saves bandwidth
                     startLevel: -1, // auto quality
                 });
 
                 hls.loadSource(hlsPath);
                 hls.attachMedia(videoEl);
 
-                // ✅ Only start loading when user hits play
-                videoEl.addEventListener('play', function() {
+                //  Only start loading when user hits play
+                videoEl.addEventListener('play', function () {
                     hls.startLoad();
                 }, {
                     once: true
                 });
 
-                hls.on(Hls.Events.ERROR, function(event, data) {
+                hls.on(Hls.Events.ERROR, function (event, data) {
                     if (data.fatal) {
                         console.warn('HLS fatal error, falling back to direct source', data);
                         hls.destroy();
-                        // ✅ Fallback to mid/original if HLS fails
+                        //  Fallback to mid/original if HLS fails
                         if (fallback) {
                             videoEl.src = fallback;
                             videoEl.load();
@@ -119,11 +131,11 @@
                 });
 
             } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-                // ✅ Native Safari HLS
+                //  Native Safari HLS
                 videoEl.src = hlsPath;
 
             } else {
-                // ✅ Browser doesn't support HLS at all — use mp4 fallback
+                //  Browser doesn't support HLS at all — use mp4 fallback
                 if (fallback) videoEl.src = fallback;
             }
         });

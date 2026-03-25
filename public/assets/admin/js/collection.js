@@ -47,11 +47,11 @@ $("#add_collection_form").validate({
     },
     messages: {
         name: {
-            required: "Please enter collection name",
-            remote: "This collection already exists",
+            required: "Please enter Collection Name",
+            remote: "This Collection Name already exists",
         },
         image: {
-            required: "Please select image",
+            required: "Please select Image",
             extension: "Please upload only png/jpg/jpeg",
         },
     },
@@ -106,8 +106,8 @@ $("#edit_collection_form").validate({
     },
     messages: {
         name: {
-            required: "Please enter collection name",
-            remote: "This collection already exists",
+            required: "Please enter Collection Name",
+            remote: "This Collection  Name already exists",
         },
         image: {
             

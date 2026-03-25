@@ -37,11 +37,11 @@ $("#add_testimonials_form").validate({
     },
     messages: {
         name: {
-            required: "Please enter name",
+            required: "Please enter Name",
             // remote: "This Subscription Plan already exists",
         },
         message: {
-            required: "Please enter message",
+            required: "Please enter Message",
         },
         image:{
           accept: "Only JPG, PNG, GIF, WEBP images are allowed",
@@ -85,7 +85,7 @@ $("#edit_testimonials_form").validate({
     },
     messages: {
         name: {
-            required: "Please enter name",
+            required: "Please enter Name",
         },
         message: {
             required: "Please enter Message",
