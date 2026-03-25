@@ -42,8 +42,6 @@
 @endif
 
 <script>
-
-   
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))
@@ -61,18 +59,26 @@
     @endif
 
 
-  $(document).ready(function () {
-    $('.searchable').select2({
-        width: 'resolve',
-        minimumResultsForSearch: 0, // always show search box
-        placeholder: function () {
-            return $(this).data('placeholder') || "Type to search...";
-        },
-        allowClear: true
-    });
+    $(document).ready(function() {
+        $('.searchable').select2({
+            width: 'resolve',
+            minimumResultsForSearch: 0, // always show search box
+            placeholder: function() {
+                return $(this).data('placeholder') || "Type to search...";
+            },
+            allowClear: true
+        });
 
-     $(document).on('select2:open', function () {
-        $('.select2-search__field').attr('placeholder', 'Type to search...');
+        $(document).on('select2:open', function() {
+            $('.select2-search__field').attr('placeholder', 'Type to search...');
+        });
     });
-});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+    var video = document.getElementById('video');
+    var hls = new Hls();
+
+    hls.loadSource('https://cdn.yourdomain.com/videos/sample/master.m3u8');
+    hls.attachMedia(video);
 </script>

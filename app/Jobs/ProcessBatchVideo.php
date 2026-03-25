@@ -218,6 +218,60 @@ class ProcessBatchVideo implements ShouldQueue
             }
 
             /*
+|--------------------------------------------------------------------------
+| 8. Generate HLS Streaming — segments + playlist uploaded to S3
+|--------------------------------------------------------------------------
+*/
+            $hlsBaseName = pathinfo($video->file_name, PATHINFO_FILENAME);
+            $hlsTempDir  = $tempDir . '/hls_' . $hlsBaseName;
+            $m3u8Local   = $hlsTempDir . '/index.m3u8';
+
+            if (!is_dir($hlsTempDir)) {
+                mkdir($hlsTempDir, 0755, true);
+            }
+
+            $hlsCommand = escapeshellcmd($ffmpegBin)
+                . ' -i '           . escapeshellarg($tempOriginalPath)
+                . ' -codec: copy'
+                . ' -start_number 0'
+                . ' -hls_time 10'
+                . ' -hls_list_size 0'
+                . ' -hls_segment_filename ' . escapeshellarg($hlsTempDir . '/index%d.ts')
+                . ' -f hls'
+                . ' -y '           . escapeshellarg($m3u8Local)
+                . ' 2>&1';
+
+            exec($hlsCommand, $hlsOutput, $hlsCode);
+
+            $hlsPath = null;
+
+            if ($hlsCode !== 0 || !file_exists($m3u8Local)) {
+                Log::warning("⚠️ HLS generation failed", [
+                    'output' => implode("\n", $hlsOutput),
+                ]);
+            } else {
+                // ✅ Upload .m3u8 playlist + all .ts segments to S3
+                $hlsS3Dir  = "batch/videos/hls/{$hlsBaseName}";
+                $hlsFiles  = glob($hlsTempDir . '/*');
+
+                foreach ($hlsFiles as $hlsFile) {
+                    $fileName = basename($hlsFile);
+                    Storage::disk('s3')->put(
+                        "{$hlsS3Dir}/{$fileName}",
+                        file_get_contents($hlsFile),
+                        ['visibility' => 'public']
+                    );
+                }
+
+                $hlsPath = "{$hlsS3Dir}/index.m3u8";
+                Log::info("✅ HLS uploaded to S3", ['path' => $hlsPath]);
+
+                // ✅ Cleanup HLS temp folder
+                array_map('unlink', glob($hlsTempDir . '/*'));
+                rmdir($hlsTempDir);
+            }
+
+            /*
         |--------------------------------------------------------------------------
         | 8. Generate Preview — 6 seconds random clip with watermark
         |--------------------------------------------------------------------------
@@ -279,6 +333,7 @@ class ProcessBatchVideo implements ShouldQueue
             $video->thumbnail_path = $thumbnailName ? 'batch/videos/thumbnails/' . $thumbnailName : null;
             $video->mid_path       = 'batch/videos/mid/' . $midFileName;
             $video->low_path       = 'batch/videos/low/' . $lowFileName;
+            $video->hls_path       = $hlsPath;   // ✅ new
             $video->status         = 'submitted';
             $video->save();
 
