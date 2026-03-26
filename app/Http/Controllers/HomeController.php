@@ -76,6 +76,9 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->orderBy('views', 'desc')
             ->limit(4)
@@ -87,15 +90,21 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->orderBy('id', 'desc')
             ->limit(4)
             ->get();
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->limit(7)
             ->get(['id', 'category_id', 'keywords', 'type'])
             ->map(fn($product) => [
