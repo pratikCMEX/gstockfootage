@@ -53,7 +53,7 @@ class CommissionHistoryDataTable extends DataTable
                 return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
             })
 
-            // ✅ Sorting   
+            //  Sorting   
             ->orderColumn('user_name', "(SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE users.id = affiliate_referrals.user_id) $1")
             ->orderColumn('user_email', "(SELECT email FROM users WHERE users.id = affiliate_referrals.user_id) $1")
             ->orderColumn('order_number', "(SELECT order_number FROM orders WHERE orders.id = affiliate_referrals.order_id) $1")
@@ -62,7 +62,7 @@ class CommissionHistoryDataTable extends DataTable
             ->orderColumn('status', 'affiliate_referrals.status $1')
             ->orderColumn('created_at', 'affiliate_referrals.created_at $1')
 
-            // ✅ Searching
+            //  Searching
             ->filterColumn('user_name', function ($query, $keyword) {
                 $query->whereHas('user', function ($q) use ($keyword) {
                     $q->where('first_name', 'like', "%{$keyword}%")
@@ -89,7 +89,7 @@ class CommissionHistoryDataTable extends DataTable
 
     public function query(AffiliateReferral $model): QueryBuilder
     {
-        // ✅ Only fetch referrals for current affiliate
+        //  Only fetch referrals for current affiliate
         return $model->newQuery()
             ->where('affiliate_id', $this->affiliateId)
             ->with(['user', 'order'])
@@ -105,7 +105,7 @@ class CommissionHistoryDataTable extends DataTable
                 'url'  => route('affiliate.commission_history'),
                 'type' => 'GET',
             ])
-            ->orderBy(7, 'desc') // ✅ created_at = index 7
+            ->orderBy(7, 'desc') //  created_at = index 7
             ->selectStyleSingle()
             ->parameters([
                 'dom'        => 'Blfrtip',
@@ -121,7 +121,7 @@ class CommissionHistoryDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -138,10 +138,10 @@ class CommissionHistoryDataTable extends DataTable
                 ->title('Order No'),
 
             Column::make('order_amount')
-                ->title('Order Amount'),
+                ->title('Order Amount ($)'),
 
             Column::make('commission_amount')
-                ->title('Commission'),
+                ->title('Commission ($)'),
 
             Column::make('status')
                 ->title('Status'),

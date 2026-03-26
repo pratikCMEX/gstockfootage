@@ -333,6 +333,10 @@ a {
 
 }
 
+textarea.form-control{
+  height: auto !important;
+}
+
 
 @media only screen and (max-width: 1399px) {
   .btn-orange {
@@ -442,8 +446,8 @@ a {
 }
 
 .form-control:focus {
-  color: var(--black);
-  border-color: var(--black);
+  color: var(--black) !important;
+  border-color: var(--black) !important;
 }
 
 .form-select:focus {

@@ -17,7 +17,7 @@ class RaferralUsersListDataTable extends DataTable
     protected $affiliateId;
     protected $referralCode;
 
-    // ✅ Pass affiliate data to DataTable
+    //  Pass affiliate data to DataTable
     public function __construct()
     {
         $affiliateUser      = Auth::guard('affiliate')->user();
@@ -49,12 +49,12 @@ class RaferralUsersListDataTable extends DataTable
                 return $row->created_at->format('d M Y');
             })
 
-            // ✅ Sorting
+            //  Sorting
             ->orderColumn('full_name',  'first_name $1')
             ->orderColumn('email',      'email $1')
             ->orderColumn('created_at', 'created_at $1')
 
-            // ✅ Searching
+            //  Searching
             ->filterColumn('full_name', function ($query, $keyword) {
                 $query->where(function ($q) use ($keyword) {
                     $q->where('first_name', 'like', "%{$keyword}%")
@@ -71,7 +71,7 @@ class RaferralUsersListDataTable extends DataTable
 
     public function query(User $model): QueryBuilder
     {
-        // ✅ Only fetch users referred by this affiliate
+        //  Only fetch users referred by this affiliate
         return $model->newQuery()
             ->where('referred_by', $this->referralCode)
             ->select('id', 'first_name', 'last_name', 'email', 'created_at');
@@ -86,7 +86,7 @@ class RaferralUsersListDataTable extends DataTable
                 'url'  => route('affiliate.referrals'),
                 'type' => 'GET',
             ])
-            ->orderBy(5, 'desc') // ✅ created_at = index 5
+            ->orderBy(5, 'desc') //  created_at = index 5
             ->selectStyleSingle()
             ->parameters([
                 'dom'        => 'Blfrtip',
@@ -102,7 +102,7 @@ class RaferralUsersListDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -110,7 +110,7 @@ class RaferralUsersListDataTable extends DataTable
                 ->addClass('text-center'),
 
             Column::make('full_name')
-                ->title('Name'),
+                ->title('User Name'),
 
             Column::make('email')
                 ->title('Email'),
@@ -121,7 +121,7 @@ class RaferralUsersListDataTable extends DataTable
                 ->searchable(false),
 
             Column::make('total_commission')
-                ->title('Total Commission')
+                ->title('Total Commission ($)')
                 ->orderable(false)
                 ->searchable(false),
 

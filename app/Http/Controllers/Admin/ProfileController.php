@@ -36,6 +36,7 @@ class ProfileController extends Controller
             $request->validate([
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
+                
                 'email' => 'required|string|max:255',
             ]);
 
@@ -46,6 +47,9 @@ class ProfileController extends Controller
             $getData->first_name = $request->first_name;
             $getData->last_name = $request->last_name;
             $getData->email = $request->email;
+            $getData->phone=$request->phone;
+            $getData->country_code=$request->country_code;
+            $getData->address=$request->address;
             $getData->save();
 
             return redirect()->route('admin.profile')->with('msg_success', 'Profile Updated successfully !');
@@ -108,7 +112,7 @@ class ProfileController extends Controller
     }
 
 
-     /**
+    /**
      * Display the specified resource.
      */
     public function show(string $id)
