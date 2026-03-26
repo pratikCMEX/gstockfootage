@@ -90,13 +90,13 @@ $("#create_batch").validate({
   },
   messages: {
     submission_type: {
-      required: "Please select submission type",
+      required: "Please select Submission Type",
     },
     // brief_code: {
     //   remote: "This brief code already exists",
     // },
     batch_name: {
-      required: "Please select batch name",
+      required: "Please select Batch Name",
     },
   },
   normalizer: function (value) {
@@ -908,6 +908,20 @@ $("#add_new_img_form").validate({
 
       success: function (res) {
         toastr.success("File metadata saved successfully");
+
+        if (res.status) {
+          let container = $('.image-title-id[data-id="' + res.file_id + '"]');
+
+          let iconDiv = container.find(".check, .error");
+          let imgtitle = container.find(".img-title");
+
+          iconDiv
+            .removeClass("error")
+            .addClass("check")
+            .html('<i class="fa-solid fa-circle-check"></i>');
+
+          imgtitle.text(res.title);
+        }
       },
 
       error: function (xhr) {
@@ -1633,6 +1647,8 @@ $(document).on("change", "#category_id", function () {
       },
     });
   } else {
-    $("#subcategory").html('<option value="" selected disabled>Choose SubCategory...</option>');
+    $("#subcategory").html(
+      '<option value="" selected disabled>Choose SubCategory...</option>'
+    );
   }
 });

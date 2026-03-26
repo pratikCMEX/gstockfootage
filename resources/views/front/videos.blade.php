@@ -117,6 +117,7 @@
         </div>
 
         @if (!empty($trendingTags))
+            {{-- {{ dd($trendingTags) }} --}}
             <div class="trending">
                 Trending:
                 @foreach ($trendingTags as $tags)
@@ -562,11 +563,11 @@
                         {{-- CHANGE: added class="trending-tag-btn" + data-tag="..." to every pill button
                                      added class="tag-close d-none" to xmark icon --}}
                         <ul class="nav nav-pills">
-                            @foreach ($tags as $tag)
+                            @foreach ($etags as $tag)
                                 <li class="nav-item">
                                     <button type="button" class="nav-link trending-tag-btn"
-                                        data-tag="{{ $tag }}">
-                                        {{ $tag }}
+                                        data-tag="{{ $tag['tag'] }}">
+                                        {{ $tag['tag'] }}
                                         <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
                                     </button>
                                 </li>
@@ -842,9 +843,9 @@
                              CHANGE: changed data-value to short keys: "relevant","newest","popular" etc.
                                      added class="sort-btn" to each dropdown-item button --}}
                         <div class="dropdown sort-dropdown">
-                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            {{-- <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <span id="selectedOption">Most Relevant</span>
-                            </button>
+                            </button> --}}
                             <ul class="dropdown-menu">
                                 <li>
                                     <button class="dropdown-item sort-btn active" data-value="relevant">

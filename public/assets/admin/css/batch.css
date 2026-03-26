@@ -1567,6 +1567,10 @@ table td {
   border-radius: 7px !important;
 }
 
+#create_batch .modal-name .input-group input.form-control {
+  padding: 8px 38px 8px 16px !important;
+}
+
 .range-container {
   width: 250px;
 }

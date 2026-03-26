@@ -130,7 +130,7 @@ function getCartItems()
             ->where('user_id', Auth::id())
             ->whereHas('product', function ($q) {
                 $q->whereHas('category', function ($q2) {
-                    $q2->where('is_display', 1);
+                    $q2->where('is_display', '1');
                 });
             })
             ->get();
@@ -180,6 +180,7 @@ function getCartItems()
                     'mid_path' => $product->mid_path,
                     'thumbnail_path' => $product->thumbnail_path,
                     'size' => ($product->height ?? 0) . ' x ' . ($product->width ?? 0) . ' (H x W)',
+                    'quality' => 'HD Quality',
                     'subtotal' => $product->price * $cart['qty'],
                 ];
                 $total += $product->price * $cart['qty'];

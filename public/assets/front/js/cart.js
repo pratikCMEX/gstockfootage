@@ -47,6 +47,8 @@
 // }
 // alert();
 function addToCart(product_id, btn = null) {
+  console.log(product_id);
+
   $.ajax({
     url: base_url + "/add-to-cart",
     type: "POST",
@@ -63,6 +65,8 @@ function addToCart(product_id, btn = null) {
       }
     },
     success: function (res) {
+      console.log(res);
+
       if (res.status === true) {
         $(".cart-empty").remove();
         let html = cartItemTemplate(res.product);
