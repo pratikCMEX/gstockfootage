@@ -31,112 +31,15 @@ use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 
 class BatchController extends Controller
 {
-    // public function index()
-    // {
 
-    //     $title = 'Batches';
-    //     $page = 'admin.batchs_img.add';
-    //     $js = ['batch'];
-
-    //     $batches = Batch::with(['batch_files'])
-    //         ->where('user_id', Auth::id())
-    //         ->latest()
-    //         ->paginate(6); // number per page
-
-    //     // $batch_list = $batches->map(function ($batch) {
-    //     //     return [
-    //     //         'id'            => $batch->id,
-    //     //         'batch_code'    => $batch->batch_code,
-    //     //         'title'         => $batch->title,
-    //     //         'submission_type' => $batch->submission_type,
-    //     //         'brief_code'    => $batch->brief_code,
-    //     //         'status'        => $batch->status,
-    //     //         'total_files'   => $batch->batch_files->count(),
-    //     //         'created_at'    => $batch->created_at->format('Y-m-d'),
-
-    //     //         'batch_files' => $batch->batch_files->map(function ($file) {
-    //     //             return [
-    //     //                 'id'              => $file->id,
-    //     //                 'file_code'       => $file->file_code,
-    //     //                 'original_name'   => $file->original_name,
-    //     //                 'file_name'       => $file->file_name,
-    //     //                 'type'            => $file->type,
-    //     //                 'file_path'       => asset('uploads/videos/high/' . $file->original_name),
-    //     //                 'thumbnail_path'  => !empty($file->thumbnail_path)
-    //     //                     ? asset('uploads/batch/videos/thumbnails/' . $file->thumbnail_path)
-    //     //                     : null,
-    //     //                 'low_path'  => !empty($file->thumbnail_path)
-    //     //                     ? asset('uploads/batch/images/low/' . $file->low_path)
-    //     //                     : null,
-    //     //                 'file_type'       => $file->file_type,
-    //     //                 'file_size'       => $file->file_size,
-    //     //                 'width'           => $file->width,
-    //     //                 'height'          => $file->height,
-    //     //                 'duration'        => $file->duration,
-    //     //                 'status'          => $file->status,
-    //     //                 'rejection_reason' => $file->rejection_reason,
-    //     //                 'created_at'      => $file->created_at->format('Y-m-d H:i:s'),
-    //     //             ];
-    //     //         })
-    //     //     ];
-    //     // });
-    //     $batch_list = $batches->through(function ($batch) {
-
-    //         return [
-    //             'id' => $batch->id,
-    //             'batch_code' => $batch->batch_code,
-    //             'title' => $batch->title,
-    //             'submission_type' => $batch->submission_type,
-    //             'brief_code' => $batch->brief_code,
-    //             'status' => $batch->status,
-    //             'total_files' => $batch->batch_files->count(),
-    //             'created_at' => $batch->created_at->format('Y-m-d'),
-
-    //             'batch_files' => $batch->batch_files->map(function ($file) {
-
-    //                 return [
-    //                     'id' => $file->id,
-    //                     'file_code' => $file->file_code,
-    //                     'original_name' => $file->original_name,
-    //                     'file_name' => $file->file_name,
-    //                     'type' => $file->type,
-    //                     'file_path' => asset('uploads/videos/high/' . $file->original_name),
-
-    //                     'thumbnail_path' => !empty($file->thumbnail_path)
-    //                         ? asset('uploads/batch/videos/thumbnails/' . $file->thumbnail_path)
-    //                         : null,
-
-    //                     'low_path' => !empty($file->low_path)
-    //                         ? asset('uploads/batch/images/low/' . $file->low_path)
-    //                         : null,
-
-    //                     'file_type' => $file->file_type,
-    //                     'file_size' => $file->file_size,
-    //                     'width' => $file->width,
-    //                     'height' => $file->height,
-    //                     'duration' => $file->duration,
-    //                     'status' => $file->status,
-    //                     'rejection_reason' => $file->rejection_reason,
-    //                     'created_at' => $file->created_at->format('Y-m-d H:i:s'),
-    //                 ];
-    //             })
-    //         ];
-    //     });
-
-    //     return view('layouts.admin.layout', compact('title', 'page', 'js', 'batch_list', 'batches'));
-    // }
 
     public function index(Request $request)
     {
-
-
-
         $title = 'Batches';
         $page = 'admin.batchs_img.add';
         // $page = 'admin.demo';
         $js = ['batch'];
 
-        // dd($request->submission_type);
         $query = Batch::with(['batch_files']);
         // ->where('user_id', Auth::id());
 
@@ -268,6 +171,7 @@ class BatchController extends Controller
                         'height' => $file->height,
                         'duration' => $file->duration,
                         'status' => $file->status,
+                        'is_edited' => $file->is_edited,
                         'rejection_reason' => $file->rejection_reason,
                         'created_at' => $file->created_at->format('Y-m-d H:i:s'),
                     ];
@@ -275,6 +179,7 @@ class BatchController extends Controller
             ];
         });
 
+        $checkIsEdited = BatchFile::where('batch_id', $request->batch_id)->where('status', 'edited')->first();
         // dd($batch_list);
         // ✅ AJAX response
         if ($request->ajax()) {

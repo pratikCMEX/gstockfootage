@@ -263,7 +263,11 @@
                                         </div>
                                         <div class="image-title-id">
                                             {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
-                                            <div class="check"><i class="fa-solid fa-circle-check"></i></div>
+                                            @if ($data['is_edited'] == '1')
+                                                <div class="check"><i class="fa-solid fa-circle-check"></i></div>
+                                            @else
+                                                <div class="error"><i class="fa-solid fa-ban"></i></div>
+                                            @endif
                                             <div class="upload-title-img">
                                                 <div class="img-title">{{ $data['title'] }} </div>
                                                 <div class="img-id">ID: 23870945</div>
@@ -898,7 +902,8 @@
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="category_id" id="category_id">
-                                                            <option value="" selected disabled>Select Category</option>
+                                                            <option value="" selected disabled>Select Category
+                                                            </option>
                                                             @foreach ($category as $cas)
                                                                 <option value="{{ $cas->id }}">
                                                                     {{ $cas->category_name }}
@@ -919,7 +924,8 @@
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="subcategory_id" id="subcategory_id">
-                                                            <option value="" selected disabled>Select Sub Category</option>
+                                                            <option value="" selected disabled>Select Sub
+                                                                Category</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -934,7 +940,8 @@
                                                         <select
                                                             class=" btn w-100 text-start file-dropdown dropdown-toggle  searchable "
                                                             name="collection_id" id="collection_id">
-                                                            <option value="" selected disabled>Select Collection</option>
+                                                            <option value="" selected disabled>Select Collection
+                                                            </option>
                                                             @foreach ($getCollections as $coll)
                                                                 <option value="{{ $coll->id }}">
                                                                     {{ $coll->name }}
@@ -953,7 +960,8 @@
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="country" id="country">
-                                                            <option value="" selected disabled>Country of shoot</option>
+                                                            <option value="" selected disabled>Country of shoot
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -969,7 +977,8 @@
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="orientation" id="orientation">
-                                                            <option value="" selected disabled>Select Orientation</option>
+                                                            <option value="" selected disabled>Select Orientation
+                                                            </option>
                                                             <option value="landscape">Landscape</option>
                                                             <option value="portrait">Portrait</option>
                                                             <option value="square">Square</option>
@@ -989,7 +998,8 @@
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="camera_movement" id="camera_movement">
-                                                            <option value="" selected disabled>Select Camera Movement</option>
+                                                            <option value="" selected disabled>Select Camera
+                                                                Movement</option>
                                                             <option value="static">Static</option>
                                                             <option value="pan">Pan</option>
                                                             <option value="tilt">Tilt</option>
@@ -1011,7 +1021,8 @@
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="license_type" id="license_type">
-                                                            <option value="" selected disabled>Select License Type</option>
+                                                            <option value="" selected disabled>Select License
+                                                                Type</option>
                                                             <option value="rights_managed">Rights Managed</option>
                                                             <option value="royalty_free">Royalty Free</option>
                                                             <option value="editorial">Editorial</option>
