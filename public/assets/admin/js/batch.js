@@ -913,11 +913,14 @@ $("#add_new_img_form").validate({
           let container = $('.image-title-id[data-id="' + res.file_id + '"]');
 
           let iconDiv = container.find(".check, .error");
+          let imgtitle = container.find(".img-title");
 
           iconDiv
             .removeClass("error")
             .addClass("check")
             .html('<i class="fa-solid fa-circle-check"></i>');
+
+          imgtitle.text(res.title);
         }
       },
 
