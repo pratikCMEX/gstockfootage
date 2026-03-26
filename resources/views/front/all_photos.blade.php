@@ -188,7 +188,7 @@
                                 @endif
                             </span>
                         </h2>
-                        <p>Showing {{ count($allPhotos) }} photos</p>
+                        <p id="photo-count">Showing {{ count($allPhotos) }} photos</p>
                     </div>
                 </div>
 
