@@ -213,43 +213,146 @@ class HomeController extends Controller
             return back()->with('msg_error', $e->getMessage());
         }
     }
+    // public function allMedia(Request $request)
+    // {
+    //     $title = 'All Media';
+    //     $page  = 'front.all_media';
+    //     $js = ['home', 'favorites'];
+
+    //     // ── Get collection 1 with its media ──
+    //     // $collectionId = decrypt($request->collection_id);
+    //     $q = $request->get('q', '');
+    //     $type = $request->get('type', 'image');
+    //     $collectionId = $request->has('collection_id')
+    //         ? decrypt($request->get('collection_id'))
+    //         : null;
+
+
+
+    //     $collection = Collection::where('id', $collectionId)->first();
+    //     $media = BatchFile::with('category')
+    //         ->whereHas('category', function ($q) {
+    //             $q->where('is_display', '1');
+    //         })
+    //         ->where('collection_id', $collectionId)
+    //         ->where('is_edited', '1')
+    //         ->withExists([
+    //             'favorites as is_favorite' => function ($q) {
+    //                 $q->where('user_id', auth()->id());
+    //             }
+    //         ])
+    //         // ->where('status', 'approved')
+    //         ->latest()
+    //         ->get();
+
+    //     $query = BatchFile::with(['category'])
+    //         ->whereHas('category', function ($q) {
+    //             $q->where('is_display', '1');
+    //         })
+    //         ->where('type', 'image')
+    //         ->where('is_edited', '1')
+    //         ->withExists([
+    //             'favorites as is_favorite' => function ($q) {
+    //                 $q->where('user_id', auth()->id());
+    //             }
+    //         ]);
+
+
+    //     if ($q && !$collectionId) {
+    //         $keywords = collect(explode(',', $q))
+    //             ->map(fn($k) => trim($k))
+    //             ->filter()
+    //             ->values();
+
+    //         $query->where(function ($mainQuery) use ($keywords) {
+
+    //             if ($keywords->count() === 1) {
+
+    //                 $keyword = $keywords->first();
+
+    //                 $mainQuery->where(function ($q) use ($keyword) {
+    //                     $q->where('keywords', 'like', '%' . $keyword . '%')
+    //                         ->orWhere('title', 'like', '%' . $keyword . '%')
+    //                         ->orWhereHas('category', function ($q) use ($keyword) {
+    //                             $q->where('category_name', 'like', '%' . $keyword . '%');
+    //                         })
+    //                         ->orWhereHas('collection', function ($q) use ($keyword) {
+    //                             $q->where('name', 'like', '%' . $keyword . '%');
+    //                         });
+    //                 });
+    //             } else {
+
+    //                 $mainQuery->where(function ($q) use ($keywords) {
+
+    //                     foreach ($keywords as $keyword) {
+
+    //                         $q->orWhere(function ($sub) use ($keyword) {
+    //                             $sub->where('keywords', 'like', '%' . $keyword . '%')
+    //                                 ->orWhere('title', 'like', '%' . $keyword . '%')
+    //                                 ->orWhereHas('category', function ($q) use ($keyword) {
+    //                                     $q->where('category_name', 'like', '%' . $keyword . '%');
+    //                                 })
+    //                                 ->orWhereHas('collection', function ($q) use ($keyword) {
+    //                                     $q->where('name', 'like', '%' . $keyword . '%');
+    //                                 });
+    //                         });
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     }
+
+    //     $photos = $media->where('type', 'image')->values();
+    //     $videos = $media->where('type', 'video')->values();
+
+    //     $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
+    //         $q->where('collection_id', $collectionId)->where('is_display', '1');
+    //     })->get();
+
+    //     return view('layouts.front.layout', compact(
+    //         'title',
+    //         'page',
+    //         'collection',
+    //         'media',
+    //         'photos',
+    //         'videos',
+    //         'categories',
+    //         'js'
+    //     ));
+    // }
+
     public function allMedia(Request $request)
     {
         $title = 'All Media';
         $page  = 'front.all_media';
-        $js = ['home', 'favorites'];
+        $js    = ['home', 'favorites'];
 
-        // ── Get collection 1 with its media ──
-        // $collectionId = decrypt($request->collection_id);
-        $q = $request->get('q', '');
-        $type = $request->get('type', 'image');
+        $q            = $request->get('q', '');
+        $type         = $request->get('type', 'image');
         $collectionId = $request->has('collection_id')
             ? decrypt($request->get('collection_id'))
             : null;
 
+        $category_id = $request->has('category_id')
+            ? decrypt($request->get('category_id'))
+            : null;
 
+        $collection = $collectionId ? Collection::find($collectionId) : null;
 
-        $collection = Collection::where('id', $collectionId)->first();
-        $media = BatchFile::with('category')
-            ->whereHas('category', function ($q) {
-                $q->where('is_display', '1');
-            })
-            ->where('collection_id', $collectionId)
-            ->where('is_edited', '1')
-            ->withExists([
-                'favorites as is_favorite' => function ($q) {
-                    $q->where('user_id', auth()->id());
+        $categories = Category::where('is_display', '1')
+            ->whereHas('batchfiles', function ($q) use ($collectionId) {
+                $q->where('is_edited', '1');
+                if ($collectionId) {
+                    $q->where('collection_id', $collectionId);
                 }
-            ])
-            // ->where('status', 'approved')
-            ->latest()
+            })
             ->get();
 
+        // ── Main query ──
         $query = BatchFile::with(['category'])
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
-            ->where('type', 'image')
             ->where('is_edited', '1')
             ->withExists([
                 'favorites as is_favorite' => function ($q) {
@@ -257,19 +360,31 @@ class HomeController extends Controller
                 }
             ]);
 
+        // Filter by collection
+        if ($collectionId) {
+            $query->where('collection_id', $collectionId);
+        }
 
-        if ($q && !$collectionId) {
+        // Filter by category
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+
+        // Filter by type (image/video)
+        if ($type) {
+            $query->where('type', $type);
+        }
+
+        // Search keywords (only when no collection filter)
+        if ($q) {
             $keywords = collect(explode(',', $q))
                 ->map(fn($k) => trim($k))
                 ->filter()
                 ->values();
 
             $query->where(function ($mainQuery) use ($keywords) {
-
                 if ($keywords->count() === 1) {
-
                     $keyword = $keywords->first();
-
                     $mainQuery->where(function ($q) use ($keyword) {
                         $q->where('keywords', 'like', '%' . $keyword . '%')
                             ->orWhere('title', 'like', '%' . $keyword . '%')
@@ -281,11 +396,8 @@ class HomeController extends Controller
                             });
                     });
                 } else {
-
                     $mainQuery->where(function ($q) use ($keywords) {
-
                         foreach ($keywords as $keyword) {
-
                             $q->orWhere(function ($sub) use ($keyword) {
                                 $sub->where('keywords', 'like', '%' . $keyword . '%')
                                     ->orWhere('title', 'like', '%' . $keyword . '%')
@@ -302,22 +414,59 @@ class HomeController extends Controller
             });
         }
 
-        $photos = $media->where('type', 'image')->values();
-        $videos = $media->where('type', 'video')->values();
+        // ── Ordering (same as allPhotos) ──
+        $query->orderByRaw("
+        CASE 
+            WHEN priority IS NULL OR priority = 0 THEN 1
+            ELSE 0
+        END
+    ");
+        $query->orderBy('priority', 'ASC');
+        $query->orderBy('id', 'DESC');
 
-        $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
-            $q->where('collection_id', $collectionId)->where('is_display', '1');
-        })->get();
+        $allMedia = $query->get();
+
+        // ── Split into photos & videos ──
+        $photos = $allMedia->where('type', 'image')->values();
+        $videos = $allMedia->where('type', 'video')->values();
+
+        $selectedCollection = $collection;
+        $selectedCategory   = $category_id ? Category::find($category_id) : null;
+
+        // ── Trending tags ──
+        $trendingTags = BatchFile::with('category')
+            ->where('is_edited', '1')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
+            ->whereNotNull('keywords')
+            ->where('keywords', '!=', '')
+            ->orderBy('views', 'desc')
+            ->limit(7)
+            ->get(['id', 'category_id', 'keywords', 'type'])
+            ->map(fn($product) => [
+                'product_id' => $product->id,
+                'category_id' => $product->category_id,
+                'tag'  => trim(explode(',', $product->keywords)[0]),
+                'type' => strtolower(trim($product->type)),
+            ])
+            ->filter(fn($item) => !empty($item['tag']))
+            ->unique('tag')
+            ->take(7)
+            ->values();
 
         return view('layouts.front.layout', compact(
             'title',
             'page',
-            'collection',
-            'media',
+            'js',
+            'categories',
+            'allMedia',
             'photos',
             'videos',
-            'categories',
-            'js'
+            'collection',
+            'selectedCollection',
+            'selectedCategory',
+            'trendingTags'
         ));
     }
     public function productList()
