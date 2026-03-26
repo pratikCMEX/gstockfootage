@@ -121,7 +121,7 @@ class ProfileController extends Controller
 
             return redirect()->route('user.profile')->with('msg_success', 'Profile Updated successfully !');
         } catch (QueryException $e) {
-            dd(1);
+            
             return redirect()->route('user.profile')->with('msg_error', 'Profile not updated' . $e->getMessage());
         }
         // $request->user()->fill($request->validated());
