@@ -264,9 +264,11 @@
                                         <div class="image-title-id">
                                             {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
                                             @if ($data['is_edited'] == '1')
-                                                <div class="check"><i class="fa-solid fa-circle-check"></i></div>
+                                                <div class="check" data-id="{{ $data['id'] }}"><i
+                                                        class="fa-solid fa-circle-check"></i></div>
                                             @else
-                                                <div class="error"><i class="fa-solid fa-ban"></i></div>
+                                                <div class="error" data-id="{{ $data['id'] }}"><i
+                                                        class="fa-solid fa-ban"></i></div>
                                             @endif
                                             <div class="upload-title-img">
                                                 <div class="img-title">{{ $data['title'] }} </div>
