@@ -117,7 +117,7 @@
         </div>
 
         @if (!empty($trendingTags))
-            {{ dd($trendingTags) }}
+            {{-- {{ dd($trendingTags) }} --}}
             <div class="trending">
                 Trending:
                 @foreach ($trendingTags as $tags)
