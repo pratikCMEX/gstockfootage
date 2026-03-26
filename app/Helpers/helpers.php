@@ -126,8 +126,13 @@ function getCartItems()
     $items = [];
     $total = 0;
     if (Auth::check()) {
-        $cartItems = Cart::with('product')
+        $cartItems = Cart::with(['product.category'])
             ->where('user_id', Auth::id())
+            ->whereHas('product', function ($q) {
+                $q->whereHas('category', function ($q2) {
+                    $q2->where('is_display', 1);
+                });
+            })
             ->get();
 
 
