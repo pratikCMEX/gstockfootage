@@ -2,10 +2,11 @@
     @foreach ($allVideos as $video)
         <div class="product-card">
             <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                <video class="product-img" width="100%" preload="none"
-                    poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}"
-                    onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;">
-                    <source src="{{ Storage::disk('s3')->url($video->file_path) }}" type="video/mp4">
+                <video class="product-img" width="100%" muted loop playsinline preload="auto"
+                    poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                    <source
+                        src="{{ $video->preview_path ? Storage::disk('s3')->url($video->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                        type="video/mp4">
                 </video>
             </a>
             <div class="p-3">
