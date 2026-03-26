@@ -60,7 +60,7 @@ $(document).ready(function () {
         $('#mostsoldproductreport-table').on('init.dt', function () {
             let mostSoldTable = window.LaravelDataTables['mostsoldproductreport-table'];
             if (mostSoldTable) {
-                $('#from_date, #to_date').on('change', function () {
+                $('#from_date, #to_date,#product_id,#category_id').on('change', function () {
                     mostSoldTable.ajax.reload();
                 });
             }
@@ -72,7 +72,7 @@ $(document).ready(function () {
         $('#mostviewedproductsreport-table').on('init.dt', function () {
             let mostViewedTable = window.LaravelDataTables['mostviewedproductsreport-table'];
             if (mostViewedTable) {
-                $('#from_date, #to_date').on('change', function () {
+                $('#from_date, #to_date,#product_id,#category_id').on('change', function () {
                     mostViewedTable.ajax.reload();
                 });
             }
@@ -84,7 +84,7 @@ $(document).ready(function () {
         $('#livecartreport-table').on('init.dt', function () {
             let liveCartTable = window.LaravelDataTables['livecartreport-table'];
             if (liveCartTable) {
-                $('#from_date, #to_date').on('change', function () {
+                $('#from_date, #to_date, #product_id, #user_id').on('change', function () {
                     liveCartTable.ajax.reload();
                 });
             }
@@ -95,7 +95,7 @@ $(document).ready(function () {
         $('#userwiseorderreport-table').on('init.dt', function () {
             let userWiseTable = window.LaravelDataTables['userwiseorderreport-table'];
             if (userWiseTable) {
-                $('#from_date, #to_date').on('change', function () {
+                $('#from_date, #to_date,#user_id').on('change', function () {
                     userWiseTable.ajax.reload();
                 });
             }

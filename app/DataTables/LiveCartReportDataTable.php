@@ -18,10 +18,10 @@ class LiveCartReportDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->first_name . ' ' . $row->user->last_name : 'N/A';
+                return $row->user ? $row->user->first_name . ' ' . $row->user->last_name : '-';
             })
             ->addColumn('product_name', function ($row) {
-                return $row->product ? $row->product->title : 'N/A';
+                return $row->product ? $row->product->title : '-';
             })
             ->addColumn('total_items', function ($row) {
                 return $row->qty;
@@ -31,7 +31,7 @@ class LiveCartReportDataTable extends DataTable
                 return number_format($total, 2);
             })
             ->editColumn('created_at', function ($row) {
-                return $row->created_at ? $row->created_at->format('d M Y, h:i A') : 'N/A';
+                return $row->created_at ? $row->created_at->format('d M Y, h:i A') : '-';
             })
 
             //  Sorting
@@ -88,6 +88,12 @@ class LiveCartReportDataTable extends DataTable
         if (request()->filled('to_date')) {
             $query->whereDate('carts.created_at', '<=', request('to_date'));
         }
+        if (request()->filled('user_id')) {
+            $query->where('carts.user_id', request('user_id'));
+        }
+        if (request()->filled('product_id')) {
+            $query->where('carts.product_id', request('product_id'));
+        }
 
         return $query;
     }
@@ -103,41 +109,47 @@ class LiveCartReportDataTable extends DataTable
                 'data' => 'function(d) {
                     d.from_date = $("#from_date").val();
                     d.to_date   = $("#to_date").val();
+                    d.user_id=$("#user_id").val();
+                    d.product_id=$("#product_id").val();
                 }',
             ])
             ->orderBy(5, 'desc')
             ->selectStyleSingle()
-           ->parameters([
+            ->parameters([
                 'dom' => 'Blfrtip',
                 'lengthChange' => true,
                 'lengthMenu' => [
-                    [10, 25, 50, 100, -1],       
-                    [10, 25, 50, 100, 'All']         
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, 'All']
                 ],
                 'pageLength' => 10,
             ])
-             ->buttons([
+            ->buttons([
                 //  Custom PDF button - exports ALL records with filters
                 Button::raw([
                     'text' => '<i class="fa fa-file-pdf"></i> PDF',
                     'action' => 'function(e, dt, node, config) {
             let from           = $("#from_date").val();
             let to             = $("#to_date").val();
+             let user_id             = $("#user_id").val();
+             let product_id             = $("#product_id").val();
            
 
             let url = "' . route('admin.live_cart_report.export_pdf') . '"
                 + "?from_date="      + from
                 + "&to_date="        + to
+                + "&user_id="        + user_id
+                + "&product_id="     + product_id
               
             window.location.href = url;
         }',
                 ]),
             ]);
-            // ->buttons([
+        // ->buttons([
 
-            //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
+        //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
 
-            // ]);
+        // ]);
     }
 
     public function getColumns(): array
@@ -152,19 +164,19 @@ class LiveCartReportDataTable extends DataTable
                 ->addClass('text-center'),
 
             Column::make('user_name')
-                ->title('User Name'),      
+                ->title('User Name'),
 
             Column::make('product_name')
-                ->title('Product Name'), 
+                ->title('Product Name'),
 
             Column::make('total_items')
-                ->title('Total Items'),      
+                ->title('Total Items'),
 
             Column::make('total_amount')
-                ->title('Total Amount ($)'),     
+                ->title('Total Amount ($)'),
 
             Column::make('created_at')
-                ->title('Date'),             
+                ->title('Date'),
         ];
     }
 

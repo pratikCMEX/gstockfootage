@@ -77,6 +77,12 @@ class MostViewedProductsReportDataTable extends DataTable
         if (request()->filled('to_date')) {
             $query->whereDate('batch_files.last_viewed_at', '<=', request('to_date'));
         }
+        if (request()->filled('product_id')) {
+            $query->where('batch_files.id', request('product_id'));
+        }
+        if (request()->filled('category_id')) {
+            $query->where('batch_files.category_id', request('category_id'));
+        }
 
         return $query;
     }
@@ -92,6 +98,8 @@ class MostViewedProductsReportDataTable extends DataTable
                 'data' => 'function(d) {
         d.from_date = $("#from_date").val();
         d.to_date   = $("#to_date").val();
+        d.product_id =$("#product_id").val();
+        d.category_id=$("#category_id").val();
     }',
             ])
             ->orderBy(3, 'desc') //  total_views = index 3
@@ -112,11 +120,15 @@ class MostViewedProductsReportDataTable extends DataTable
                     'action' => 'function(e, dt, node, config) {
             let from           = $("#from_date").val();
             let to             = $("#to_date").val();
+            let product_id     = $("#product_id").val();
+            let category_id    = $("#category_id").val();
            
 
             let url = "' . route('admin.most_viewed_product_report.export_pdf') . '"
                 + "?from_date="      + from
                 + "&to_date="        + to
+                + "&product_id="     + product_id
+                + "&category_id="    + category_id
               
             window.location.href = url;
         }',
