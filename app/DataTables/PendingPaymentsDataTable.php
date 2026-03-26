@@ -116,7 +116,7 @@ class PendingPaymentsDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('Sr No')
+                ->title('Sr. No.')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -133,10 +133,10 @@ class PendingPaymentsDataTable extends DataTable
                 ->title('Order No'),
 
             Column::make('order_amount')
-                ->title('Order Amount'),
+                ->title('Order Amount ($)'),
 
             Column::make('commission_amount')
-                ->title('Commission'),
+                ->title('Commission ($)'),
 
             Column::make('created_at')
                 ->title('Date'),
