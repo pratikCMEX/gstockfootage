@@ -614,6 +614,7 @@ class HomeController extends Controller
             ->take(7)
             ->values();
 
+        dd($tags);
         return view("layouts.front.layout", compact(
             'title',
             'page',
