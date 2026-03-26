@@ -616,8 +616,8 @@
                                                     </div> --}}
                     <div class="modal-code">
                         <label for="category" class=" modal-label">Submission
-                            Type <span style="color: #fd3550!important
-, var(--bs-text-opacity))">*</span></label>
+                            Type <span
+                                style="color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity))">*</span></label>
                         <select class="form-select mr-sm-2 batch-inp" name="submission_type" id="category">
                             <option value="" selected disabled>Choose Submission Type...</option>
                             <option value="image">
