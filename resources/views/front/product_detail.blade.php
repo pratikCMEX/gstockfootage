@@ -304,8 +304,18 @@
                         <div class="product-card">
 
                             <a href="{{ route('product.detail', encrypt($data->id)) }}">
-                                <img src="{{ $data->type == 'image' ? Storage::disk('s3')->url($data->mid_path) : ($data->thumbnail_path ? Storage::disk('s3')->url($data->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
-                                    class="product-img" alt="">
+                                @if ($data->type === 'video')
+                                    <video class="product-img" width="100%" muted loop playsinline preload="auto"
+                                        poster="{{ !empty($data->thumbnail_path) ? Storage::disk('s3')->url($data->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                        <source
+                                            src="{{ $data->preview_path ? Storage::disk('s3')->url($data->preview_path) : ($data->mid_path ? Storage::disk('s3')->url($data->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                            type="video/mp4">
+                                    </video>
+                                @else
+                                    <img loading="lazy"
+                                        src="{{ $data->mid_path ? Storage::disk('s3')->url($data->mid_path) : asset('assets/admin/images/demo_thumbnail.png') }}"
+                                        class="product-img" alt="{{ $data->title }}">
+                                @endif
                             </a>
                             {{-- <img
                                     src="{{ asset('assets/front/img/danielle-suijkerbuijk-wUc2nzHiI1I-unsplash.jpg') }}"

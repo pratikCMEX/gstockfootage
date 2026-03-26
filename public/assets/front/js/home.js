@@ -395,3 +395,12 @@ $(document).ready(function () {
     }
   });
 })();
+
+$(document).on("mouseenter", ".product-img", function () {
+  this.play().catch(() => {});
+});
+
+$(document).on("mouseleave", ".product-img", function () {
+  this.pause();
+  this.currentTime = 0;
+});

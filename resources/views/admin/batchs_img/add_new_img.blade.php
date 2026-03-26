@@ -919,15 +919,15 @@
 
                                         <div class="input-group">
                                             <div class="file-inp-main">
-                                                <label for="" class="heading-label">Select Sub Category
+                                                <label for="" class="heading-label">Select Subcategory
                                                     <span class="text-danger">*</span></label>
                                                 <div class="dropdown file-main-dropdown">
                                                     <div class="file-inp-icon-grp input-group">
                                                         <select
                                                             class="btn w-100 text-start file-dropdown dropdown-toggle searchable"
                                                             name="subcategory_id" id="subcategory_id">
-                                                            <option value="" selected disabled>Select Sub
-                                                                Category</option>
+                                                            <option value="" selected disabled>Select Subcategory
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>

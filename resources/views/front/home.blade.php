@@ -271,17 +271,19 @@
                                                         src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    @if ($pro->thumbnail_path == null)
-                                                        <img loading="lazy"
-                                                            src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                            class="product-img" alt="">
-                                                    @else
-                                                        <img loading="lazy"
-                                                            src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                            class="product-img" alt="">
-                                                    @endif
+                                                    <video class="product-img" width="100%" muted loop playsinline
+                                                        preload="auto"
+                                                        poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                        <source
+                                                            src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                            type="video/mp4">
+                                                    </video>
                                                 @endif
                                             </a>
+                                            <span class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
+                                                style="background: {{ $pro->type === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                                {{ $pro->type === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                            </span>
                                             <div class="p-3">
 
                                                 <span
@@ -414,17 +416,19 @@
                                                     src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                     class="product-img" alt="">
                                             @else
-                                                @if ($pro->thumbnail_path == null)
-                                                    <img loading="lazy"
-                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                        class="product-img" alt="">
-                                                @else
-                                                    <img loading="lazy"
-                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                        class="product-img" alt="">
-                                                @endif
+                                                <video class="product-img" width="100%" muted loop playsinline
+                                                    preload="auto"
+                                                    poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                    <source
+                                                        src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                        type="video/mp4">
+                                                </video>
                                             @endif
                                     </a>
+                                    <span class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
+                                        style="background: {{ $pro->type === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                        {{ $pro->type === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                    </span>
                                     <div class="p-3">
 
                                         <span

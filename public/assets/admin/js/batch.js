@@ -437,7 +437,7 @@ function loadSubCategories(category_id, selected_subcategory = null) {
 
     success: function (res) {
       $("#subcategory_id").html(
-        '<option value="" selected disabled>Select Sub Category</option>'
+        '<option value="" selected disabled>Select Subcategory</option>'
       );
 
       $.each(res, function (key, value) {
@@ -835,19 +835,19 @@ $("#add_new_img_form").validate({
 
   messages: {
     title: {
-      required: "Please enter title",
+      required: "Please enter Title",
     },
     description: {
-      required: "Please enter description",
+      required: "Please enter Description",
     },
     price: {
-      required: "Please enter price",
+      required: "Please enter Price",
     },
     category_id: {
-      required: "Please select a category",
+      required: "Please select Category",
     },
     subcategory_id: {
-      required: "Please select a subcategory",
+      required: "Please select Subcategory",
     },
   },
 
@@ -1635,7 +1635,7 @@ $(document).on("change", "#category_id", function () {
       type: "GET",
       success: function (data) {
         $("#subcategory_id").html(
-          '<option value="" selected disabled>Select Sub Category</option>'
+          '<option value="" selected disabled>Select Subcategory</option>'
         );
         console.log(data);
 
