@@ -766,6 +766,9 @@ class HomeController extends Controller
 
         $query = BatchFile::with(['category'])
             ->where('type', 'image')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->withExists([
                 'favorites as is_favorite' => function ($q) {
@@ -841,7 +844,10 @@ class HomeController extends Controller
 
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
