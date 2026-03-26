@@ -46,7 +46,7 @@ class OrderHistoryDataTable extends DataTable
                 return  number_format($row->total_amount, 2);
             })
             ->editColumn('created_at', function ($row) {
-                return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
+                return $row->created_at->format('d M Y, h:i A');
             })
             //  Clean columns for export (no HTML, no $ sign)
             ->addColumn('export_order_status', fn($row) => ucfirst($row->order_status))

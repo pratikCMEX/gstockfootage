@@ -44,7 +44,7 @@ class PendingPaymentsDataTable extends DataTable
                 return number_format($row->commission_amount, 2);
             })
             ->editColumn('created_at', function ($row) {
-                return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
+                return $row->created_at->format('d M Y, h:i A');
             })
 
             //  Sorting

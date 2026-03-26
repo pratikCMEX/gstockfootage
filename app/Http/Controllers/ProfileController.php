@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Str;
 
 class ProfileController extends Controller
 {
@@ -52,15 +53,15 @@ class ProfileController extends Controller
             ->where('user_id', $userId)
             ->whereHas('batchFile')
             ->get();
-     
-     
+
+
         // $order_data = Order::with('order_details.product')->where('user_id', $userId)->get();
         $order_data = Order::with('order_details.product')
             ->where('user_id', auth()->id())
             ->latest()
             ->paginate(3); // 👈 number of orders per page
-        
-       
+
+
         $purchasePlan = User_subscriptions::with('subscription')->where('user_id', $userId)->where('status', 'active')->first();
         return view("layouts.front.layout", compact('title', 'page', 'js', 'user_profile', 'wishLists', 'purchasePlan', 'order_data'));
     }
@@ -68,9 +69,10 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update_profile(ProfileUpdateRequest $request): RedirectResponse
+    public function update_profile(Request $request): RedirectResponse
     {
 
+        $user_id = null;
 
         try {
             $request->validate([
@@ -78,25 +80,49 @@ class ProfileController extends Controller
                 'last_name' => 'required|string|max:255',
                 // 'phone' => 'required|string|max:255',
                 // 'address' => 'required|string|max:255',
+                'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
                 'email' => 'required|string|max:255',
             ]);
+
 
             $user_id = decrypt($request->user_id);
             $getData = User::where('id', $user_id)->first();
 
-            
+
+
+            if ($request->file('profile_image')) {
+
+                $file = $request->file('profile_image');
+
+                if ($file->isValid()) {
+
+                    if ($getData->profile_image && file_exists(public_path('uploads/images/profile_image/' . $getData->profile_image))) {
+                        unlink(public_path('uploads/images/profile_image/' . $getData->profile_image));
+                    }
+
+                    $filename = time() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('uploads/images/profile_image'), $filename);
+
+                    $getData->profile_image = $filename;
+                }
+            }
+
+
             $getData->first_name = $request->first_name;
             $getData->last_name = $request->last_name;
             $getData->email = $request->email;
             $getData->phone = $request->phone;
             $getData->country_code = $request->country_code ?? '';
             $getData->address = $request->address;
+
+
             $getData->save();
+
 
             return redirect()->route('user.profile')->with('msg_success', 'Profile Updated successfully !');
         } catch (QueryException $e) {
-
-            return redirect()->route('user.profile', $user_id)->with('msg_error', 'Profile not updated' . $e->getMessage());
+            dd(1);
+            return redirect()->route('user.profile')->with('msg_error', 'Profile not updated' . $e->getMessage());
         }
         // $request->user()->fill($request->validated());
 

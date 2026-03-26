@@ -50,7 +50,7 @@ class CommissionHistoryDataTable extends DataTable
                     : '<span class="badge bg-warning">Pending</span>';
             })
             ->editColumn('created_at', function ($row) {
-                return $row->created_at->timezone('Asia/Kolkata')->format('d M Y, h:i A');
+                return $row->created_at->format('d M Y, h:i A');
             })
 
             //  Sorting   
