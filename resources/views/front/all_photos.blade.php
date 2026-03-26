@@ -651,7 +651,8 @@
                     gridWrapper.innerHTML = data.html;
                     gridWrapper.style.opacity = "1";
                     gridWrapper.style.pointerEvents = "auto";
-                    if (countEl) countEl.textContent = `Showing ${data.count} photo(s)`;
+                    const visibleItems = gridWrapper.children.length;
+                    countEl.textContent = `Showing ${visibleItems} photo(s)`;
                     if (loadMoreWrapper) {
                         loadMoreWrapper.style.display = data.hasMore ? "block" : "none";
                     }
