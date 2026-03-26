@@ -42,6 +42,8 @@
 @endif
 
 <script>
+
+
     var base_url = $("#base_url").val();
 
     @if (session('msg_error'))
@@ -60,6 +62,32 @@
 
 
     $(document).ready(function () {
+
+    const sidebar = document.querySelector('.simplebar-content-wrapper');
+
+if (sidebar) {
+
+    // Save scroll position
+    sidebar.addEventListener('scroll', function () {
+        localStorage.setItem('sidebarScrollTop', sidebar.scrollTop);
+    });
+
+    window.addEventListener('load', function () {
+
+        const savedScroll = localStorage.getItem('sidebarScrollTop');
+
+        if (savedScroll !== null) {
+            setTimeout(() => {
+                sidebar.scrollTo({
+                    top: parseInt(savedScroll),
+                    behavior: 'smooth'
+                });
+            }, 200); // delay for SimpleBar
+        }
+
+    });
+
+}
         $('.searchable').select2({
             width: 'resolve',
             minimumResultsForSearch: 0, // always show search box

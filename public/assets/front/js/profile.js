@@ -12,7 +12,7 @@ $.validator.addMethod("notEqualTo", function (value, element, param) {
 
 $(document).on("click", ".more-detail-btn", function () {
     let parent = $(this).closest(".batch-content");
-    let table  = parent.find(".batch-content-table-details");
+    let table = parent.find(".batch-content-table-details");
 
     $(".batch-content-table-details").not(table).slideUp().addClass("d-none");
     $(".more-detail-btn i")
@@ -33,6 +33,30 @@ $(document).on("click", ".more-detail-btn", function () {
 $(document).on('click', '.cancel', function (e) {
     window.close();
 });
+$('#staticBackdrop').on('hidden.bs.modal', function () {
+
+    let form = $('#profile_form');
+
+    // Reset form values
+    form[0].reset();
+
+    // Reset jQuery validation
+    if (form.data('validator')) {
+        form.validate().resetForm();
+    }
+
+    // Remove Bootstrap & validation classes
+    form.find('.is-invalid').removeClass('is-invalid');
+
+    // Remove all error messages
+    form.find('.error').remove();
+    form.find('.invalid-feedback').remove();
+
+    //   IMPORTANT: remove text-danger labels/messages
+    form.find('label.text-danger').remove();
+    form.find('input').removeClass('text-danger');
+
+});
 
 $(document).ready(function () {
 
@@ -49,7 +73,7 @@ $(document).ready(function () {
     //  Pre-fill after utilsScript loads
     input.addEventListener("loadUtils", function () {
         var savedCountryCode = $("#country_code").val();
-        var savedPhone       = $("#full_phone").val();
+        var savedPhone = $("#full_phone").val();
 
         if (savedCountryCode && savedPhone) {
             iti.setNumber(savedCountryCode + savedPhone);
@@ -58,7 +82,7 @@ $(document).ready(function () {
 
     // Fallback pre-fill (if utils already loaded)
     var savedCountryCode = $("#country_code").val();
-    var savedPhone       = $("#full_phone").val();
+    var savedPhone = $("#full_phone").val();
     if (savedCountryCode && savedPhone) {
         iti.setNumber(savedCountryCode + savedPhone);
     }
@@ -66,8 +90,8 @@ $(document).ready(function () {
     // ─── Update Hidden Fields ────────────────────────────
     function updateHiddenFields() {
         var countryData = iti.getSelectedCountryData();
-        var dialCode    = '+' + countryData.dialCode;
-        var phoneOnly   = $("#phone").val().replace(/[^0-9]/g, '');
+        var dialCode = '+' + countryData.dialCode;
+        var phoneOnly = $("#phone").val().replace(/[^0-9]/g, '');
 
         $("#full_phone").val(phoneOnly);
         $("#country_code").val(dialCode);
@@ -115,6 +139,7 @@ $(document).ready(function () {
             phone_number: {
                 validPhone: true,
             },
+
         },
         messages: {
             first_name: {
@@ -132,6 +157,7 @@ $(document).ready(function () {
             phone_number: {
                 validPhone: "Please enter a valid phone number for selected country",
             },
+
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") == "phone_number") { //  name not id
@@ -147,6 +173,36 @@ $(document).ready(function () {
         invalidHandler: function () {
             $('.save').prop('disabled', false);
         }
+    });
+
+    $('#profile_image').on('change', function () {
+        var file = this.files[0];
+        if (!file) return;
+
+        var allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+
+        if (!allowedTypes.includes(file.type)) {
+            $(this).val('');
+            $('#imagePreview').hide();
+            alert('Only image files are allowed (jpg, jpeg, png, gif, webp)');
+            return;
+        }
+
+        // Show preview
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imagePreview').attr('src', e.target.result).show();
+        };
+        reader.readAsDataURL(file);
+    });
+    $('#profile_image').on('change', function (e) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imagePreview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(this.files[0]);
     });
 
     // ─── Password Form Validation ────────────────────────
