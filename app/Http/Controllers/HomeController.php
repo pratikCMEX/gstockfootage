@@ -553,7 +553,7 @@ class HomeController extends Controller
 
         // Tags from all videos (unfiltered)
 
-        $tags = BatchFile::with('category')->where('is_edited', '1')
+        $etags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('type', 'video')
             ->whereHas('category', function ($q) {
@@ -625,7 +625,7 @@ class HomeController extends Controller
             'content_filters',
             'with_people',
             'sort',
-            'tags',
+            'etags',
             'trendingTags',
             'selectedCategory',
             'selectedCollection'

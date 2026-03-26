@@ -1,5 +1,4 @@
 <!-- hero section -->
-{{ dd($tags) }}
 <section class="hero">
     <div class="container">
         <h1>Explore videos and royalty-free stock footage</h1>
@@ -564,7 +563,7 @@
                         {{-- CHANGE: added class="trending-tag-btn" + data-tag="..." to every pill button
                                      added class="tag-close d-none" to xmark icon --}}
                         <ul class="nav nav-pills">
-                            @foreach ($tags as $tag)
+                            @foreach ($etags as $tag)
                                 <li class="nav-item">
                                     <button type="button" class="nav-link trending-tag-btn"
                                         data-tag="{{ $tag['tag'] }}">
