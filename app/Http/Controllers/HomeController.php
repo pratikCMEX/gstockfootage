@@ -137,6 +137,10 @@ class HomeController extends Controller
                 ->findOrFail($id);
 
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
+
+                ->whereHas('category', function ($q) {
+                    $q->where('is_display', '1');
+                })
                 ->where('id', '!=', $id) // exclude this product
                 ->where('type', $product->type) // exclude this product
                 ->withExists([
