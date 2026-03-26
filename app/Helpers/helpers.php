@@ -180,6 +180,7 @@ function getCartItems()
                     'mid_path' => $product->mid_path,
                     'thumbnail_path' => $product->thumbnail_path,
                     'size' => ($product->height ?? 0) . ' x ' . ($product->width ?? 0) . ' (H x W)',
+                    'quality' => 'HD Quality',
                     'subtotal' => $product->price * $cart['qty'],
                 ];
                 $total += $product->price * $cart['qty'];
