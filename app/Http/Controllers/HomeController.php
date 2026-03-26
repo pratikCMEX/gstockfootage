@@ -864,6 +864,7 @@ class HomeController extends Controller
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
+            ->where('type', 'image')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
