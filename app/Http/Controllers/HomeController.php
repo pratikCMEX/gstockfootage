@@ -47,7 +47,8 @@ class HomeController extends Controller
                 'favorites as is_favorite' => function ($query) use ($userId) {
                     $query->where('user_id', $userId);
                 }
-            ])->where('is_edited', '1')
+            ])->where('is_edited', '1')->where('category.is_display', '1')
+
             //  PRIORITY FIRST
             ->orderByRaw("
         CASE 
@@ -74,7 +75,7 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])
-            ->where('is_edited', '1')
+            ->where('is_edited', '1')->where('category.is_display', '1')
             ->orderBy('views', 'desc')
             ->limit(4)
             ->get();
@@ -86,13 +87,15 @@ class HomeController extends Controller
                 }
             ])
             ->where('is_edited', '1')
+            ->where('category.is_display', '1')
             ->orderBy('id', 'desc')
             ->limit(4)
             ->get();
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
+            ->where('category.is_display', '1')
             ->orderBy('views', 'desc')
             ->limit(7)
             ->get(['id', 'category_id', 'keywords', 'type'])
