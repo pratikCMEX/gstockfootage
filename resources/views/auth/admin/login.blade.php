@@ -20,12 +20,29 @@
                                         value="{{ old('email', Cookie::get('admin_email')) }}"  tabindex="1" 
                                         aria-describedby="emailHelp">
                                 </div>
-                                <div class="mb-4">
+                                <!-- <div class="mb-4">
                                     <label for="exampleInputPassword1" class="form-label">Password</label>
                                     <input type="password" name="password" class="form-control"
                                         id="exampleInputPassword1"  tabindex="2" 
                                         value="{{ old('password', Cookie::get('admin_password')) }}">
-                                </div>
+                                </div> -->
+                                
+                                <div class="mb-4 position-relative">
+    <label class="form-label">Password</label>
+
+    <input type="password" name="password" class="form-control pe-5"
+        id="password" tabindex="2"
+        value="{{ old('password', Cookie::get('admin_password')) }}">
+
+    <!-- Eye Icon -->
+    <span id="togglePassword" 
+          style="position:absolute; right:15px; top:38px; cursor:pointer;">
+      
+        <!-- <i class="fa fa-eye toggle-password" tabindex="-1"></i> -->
+         <i class="bi toggle-password bi-eye-slash"></i>
+    </span>
+</div>
+
                                  <!-- id="flexCheckChecked" -->
                                 <div
                                     class="d-flex
