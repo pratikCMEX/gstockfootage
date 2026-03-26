@@ -45,7 +45,7 @@ function duration($seconds)
 
 function getCategory()
 {
-    return Category::get();
+    return Category::where('is_display', '1')->get();
 }
 function getSocialLinks()
 {
