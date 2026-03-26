@@ -1114,8 +1114,8 @@ function addFiles(list) {
 
 function render() {
   console.log("visible", allFiles);
-  if (allFiles.length < 0) {
-    $(".btn-upload-device").prop("disabled", false);
+  if (allFiles.length == 0) {
+    $(".btn-upload-device").prop("disabled", true);
   }
   thumbsWrap.innerHTML = "";
 
