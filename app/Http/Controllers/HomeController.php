@@ -401,6 +401,9 @@ class HomeController extends Controller
         $query = BatchFile::with(['category'])
             ->where('type', 'video')
             ->where('is_edited', '1')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->withExists([
                 'favorites as is_favorite' => function ($q) {
                     $q->where('user_id', auth()->id());
@@ -536,7 +539,10 @@ class HomeController extends Controller
         $allVideos = $query->get();
 
         // Tags from all videos (unfiltered)
-        $tags = BatchFile::where('type', 'video')
+        $tags = BatchFile::with('category')->where('type', 'video')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->select('keywords')
             ->get()
             ->pluck('keywords')
@@ -554,8 +560,11 @@ class HomeController extends Controller
             ]);
         }
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
             ->limit(7)
