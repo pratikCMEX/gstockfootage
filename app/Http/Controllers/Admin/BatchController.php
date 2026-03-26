@@ -963,7 +963,7 @@ class BatchController extends Controller
 
                 if ($iResponse->failed()) {
                     // Log the error so you can see why it's failing (Check storage/logs/laravel.log)
-                    \Log::error("Imagen Generation Failed: " . $iResponse->body());
+                    // \Log::error("Imagen Generation Failed: " . $iResponse->body());
                     return $defaultImage; // ✅ fallback
 
                 }
@@ -972,7 +972,7 @@ class BatchController extends Controller
                 $b64 = data_get($iResponse->json(), 'predictions.0.bytesBase64Encoded');
 
                 if (!$b64) {
-                    \Log::warning("Imagen returned no image data for: " . $name);
+                    // \Log::warning("Imagen returned no image data for: " . $name);
                     return $defaultImage; // ✅ fallback
                 }
 
@@ -993,7 +993,7 @@ class BatchController extends Controller
 
                 return $filename;
             } catch (\Exception $e) {
-                \Log::error("Thumbnail Exception: " . $e->getMessage());
+                // \Log::error("Thumbnail Exception: " . $e->getMessage());
                 return $defaultImage; // ✅ fallback
             }
         };
