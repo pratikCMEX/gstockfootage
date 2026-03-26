@@ -1,4 +1,22 @@
 $(document).ready(function () {
+
+  document.querySelectorAll(".toggle-password").forEach((icon) => {
+    icon.addEventListener("click", () => {
+      const input = icon.closest(".position-relative").querySelector("input");
+
+      if (input.type === "password") {
+        input.type = "text";
+         icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+       
+      } else {
+        input.type = "password";
+         icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+       
+      }
+    });
+  });
   // Initialize validation rules
   $("#admin_login_form").validate({
     rules: {
@@ -29,10 +47,10 @@ $(document).ready(function () {
     errorClass: "text-danger",
     errorElement: "span",
     highlight: function (element) {
-      $(element).addClass("is-invalid");
+      // $(element).addClass("is-invalid");
     },
     unhighlight: function (element) {
-      $(element).removeClass("is-invalid");
+      // $(element).removeClass("is-invalid");
     },
   });
 
