@@ -261,7 +261,7 @@
                                                 @endif
                                             @endif
                                         </div>
-                                        <div class="image-title-id">
+                                        <div class="image-title-id" data-id="{{ $data['id'] }}">
                                             {{-- <div class="error"><i class="fa-solid fa-ban"></i></div> --}}
                                             @if ($data['is_edited'] == '1')
                                                 <div class="check" data-id="{{ $data['id'] }}"><i
