@@ -72,7 +72,7 @@
                                 href="{{ route('admin.affiliates.list') }}" aria-expanded="false">
                                 <!-- <i class="ti ti-layout-grid"></i> -->
                                 <i class="fa-solid fa-users"></i>
-                                <span class="hide-menu">Affiliate User</span>
+                                <span class="hide-menu">Affiliate Users</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -96,7 +96,7 @@
                                 href="{{ route('admin.collection') }}" aria-expanded="false">
                                 <!-- <i class="ti ti-layout-grid"></i> -->
                                 <i class="fa-solid fa-layer-group"></i>
-                                <span class="hide-menu">Collection</span>
+                                <span class="hide-menu">Collections</span>
                             </a>
                         </li>
                          <li class="sidebar-item">
@@ -104,7 +104,7 @@
                                 href="{{ route('admin.batch') }}" aria-expanded="false">
                                 <!-- <i class="ti ti-user-circle"></i> -->
                                 <i class="fa-regular fa-clone"></i>
-                                <span class="hide-menu">Batchs</span>
+                                <span class="hide-menu">Batches</span>
                             </a>
                         </li>
                         <li class="sidebar-item">

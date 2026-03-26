@@ -115,7 +115,7 @@ class BlogDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('Sr.No.')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('title')->title('Blog Title'),
