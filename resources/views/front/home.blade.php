@@ -271,15 +271,13 @@
                                                         src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                         class="product-img" alt="">
                                                 @else
-                                                    @if ($pro->thumbnail_path == null)
-                                                        <img loading="lazy"
-                                                            src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                            class="product-img" alt="">
-                                                    @else
-                                                        <img loading="lazy"
-                                                            src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                            class="product-img" alt="">
-                                                    @endif
+                                                    <video class="product-img" width="100%" muted loop playsinline
+                                                        preload="auto"
+                                                        poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                        <source
+                                                            src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                            type="video/mp4">
+                                                    </video>
                                                 @endif
                                             </a>
                                             <span class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
@@ -418,15 +416,13 @@
                                                     src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                     class="product-img" alt="">
                                             @else
-                                                @if ($pro->thumbnail_path == null)
-                                                    <img loading="lazy"
-                                                        src="{{ asset('assets/admin/images/demo_thumbnail.png') }}"
-                                                        class="product-img" alt="">
-                                                @else
-                                                    <img loading="lazy"
-                                                        src="{{ Storage::disk('s3')->url($pro->thumbnail_path) }}"
-                                                        class="product-img" alt="">
-                                                @endif
+                                                <video class="product-img" width="100%" muted loop playsinline
+                                                    preload="auto"
+                                                    poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                    <source
+                                                        src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                        type="video/mp4">
+                                                </video>
                                             @endif
                                     </a>
                                     <span class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
