@@ -44,7 +44,8 @@
                                     <label for="twitter_link" class="form-label">Twitter Link</label>
                                     <div class="input-group">
                                         <span class="input-group-text">
-                                            <i class="fab fa-twitter"></i>
+                                            <!-- <i class="fab fa-twitter"></i> -->
+                                             <i class="fa-brands fa-x-twitter"></i>
                                         </span>
                                         <input type="url" name="twitter_link" class="form-control" id="twitter_link"
                                             value="{{ $social_links->twitter_link ?? '' }}"

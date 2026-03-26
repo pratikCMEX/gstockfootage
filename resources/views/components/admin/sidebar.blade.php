@@ -195,7 +195,7 @@
                                             <div class="round-16 d-flex align-items-center justify-content-center">
                                                 <i class="ti ti-circle"></i>
                                             </div>
-                                            <span class="hide-menu">Live Cart Report</span>
+                                            <span class="hide-menu">Live Cart Products</span>
                                         </div>
                                     </a>
                                 </li>
@@ -206,7 +206,7 @@
                                             <div class="round-16 d-flex align-items-center justify-content-center">
                                                 <i class="ti ti-circle"></i>
                                             </div>
-                                            <span class="hide-menu">User Wise Order Report</span>
+                                            <span class="hide-menu">User Wise Orders</span>
                                         </div>
                                     </a>
                                 </li>

@@ -6,7 +6,7 @@
 
             <div class="col-md-4">
                    <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href=""> </a> Add Priority</h5>
+                        href=""> </a> Product Priority</h5>
                 <!-- <h5 class="card-title fw-semibold">
                     <a href="{{ route('admin.product') }}">Product List</a> / Priority
                 </h5> -->
