@@ -1635,7 +1635,7 @@ $(document).on("change", "#category_id", function () {
       type: "GET",
       success: function (data) {
         $("#subcategory_id").html(
-          '<option value="" selected disabled>Select Sub Category</option>'
+          '<option value="" selected disabled>Select Subcategory</option>'
         );
         console.log(data);
 
