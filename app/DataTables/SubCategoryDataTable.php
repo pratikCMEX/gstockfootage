@@ -50,9 +50,9 @@ class SubCategoryDataTable extends DataTable
                 return $row->name;
             })
             ->addColumn('image', function ($row) {
-                return '<img src="' . asset('uploads/images/sub_category/' . $row->image ?? 'default_back.png') . '" 
+                return '<img src="' . asset('uploads/images/sub_category/' . $row->image != "" ? $row->image : 'default_back.png') . '" 
                          class="preview-image" 
-                         data-src="' . asset('uploads/images/sub_category/' . $row->image ?? 'default_back.png') . '" 
+                         data-src="' . asset('uploads/images/sub_category/' . $row->image != "" ? $row->image : 'default_back.png') . '" 
                          width="80" height="80" style="cursor:pointer;" />';
             })
             ->addColumn('created_at', function ($row) {
