@@ -655,3 +655,24 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        document.addEventListener('click', function(e) {
+            // Ignore these elements
+            if (
+                e.target.closest('.more-detail') ||
+                e.target.closest('.content-dropdown') ||
+                e.target.closest('.batch-content-table-details') ||
+                e.target.closest('.batch-content-img') || // already has its own <a> href
+                e.target.closest('[data-bs-toggle="modal"]') || // modal triggers
+                e.target.closest('.modal') // inside modal
+            ) return;
+
+            const card = e.target.closest('.batch-content');
+            if (!card) return;
+
+            const url = card.querySelector('.batch-content-img')?.href;
+            if (url) window.location.href = url;
+        });
+    </script>
+@endpush
