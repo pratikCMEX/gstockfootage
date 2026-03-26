@@ -257,6 +257,51 @@ class HomeController extends Controller
                 }
             ]);
 
+
+        if ($q && !$collectionId) {
+            $keywords = collect(explode(',', $q))
+                ->map(fn($k) => trim($k))
+                ->filter()
+                ->values();
+
+            $query->where(function ($mainQuery) use ($keywords) {
+
+                if ($keywords->count() === 1) {
+
+                    $keyword = $keywords->first();
+
+                    $mainQuery->where(function ($q) use ($keyword) {
+                        $q->where('keywords', 'like', '%' . $keyword . '%')
+                            ->orWhere('title', 'like', '%' . $keyword . '%')
+                            ->orWhereHas('category', function ($q) use ($keyword) {
+                                $q->where('category_name', 'like', '%' . $keyword . '%');
+                            })
+                            ->orWhereHas('collection', function ($q) use ($keyword) {
+                                $q->where('name', 'like', '%' . $keyword . '%');
+                            });
+                    });
+                } else {
+
+                    $mainQuery->where(function ($q) use ($keywords) {
+
+                        foreach ($keywords as $keyword) {
+
+                            $q->orWhere(function ($sub) use ($keyword) {
+                                $sub->where('keywords', 'like', '%' . $keyword . '%')
+                                    ->orWhere('title', 'like', '%' . $keyword . '%')
+                                    ->orWhereHas('category', function ($q) use ($keyword) {
+                                        $q->where('category_name', 'like', '%' . $keyword . '%');
+                                    })
+                                    ->orWhereHas('collection', function ($q) use ($keyword) {
+                                        $q->where('name', 'like', '%' . $keyword . '%');
+                                    });
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
         $photos = $media->where('type', 'image')->values();
         $videos = $media->where('type', 'video')->values();
 
