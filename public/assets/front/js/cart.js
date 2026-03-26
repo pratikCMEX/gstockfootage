@@ -177,7 +177,11 @@ function removeCartItem(product_id) {
           updateCartCount(remainingItems);
 
           if (remainingItems === 0) {
-            $(".cart-items").html('<p class="empty-cart">Cart is empty</p>');
+            $(".cart-items").html(`
+                <div class="cart-empty" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <p>Cart is empty</p>
+                </div>
+            `);
           }
 
           /* --------------------------
