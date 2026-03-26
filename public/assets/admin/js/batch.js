@@ -835,19 +835,19 @@ $("#add_new_img_form").validate({
 
   messages: {
     title: {
-      required: "Please enter title",
+      required: "Please enter Title",
     },
     description: {
-      required: "Please enter description",
+      required: "Please enter Description",
     },
     price: {
-      required: "Please enter price",
+      required: "Please enter Price",
     },
     category_id: {
-      required: "Please select a category",
+      required: "Please select Category",
     },
     subcategory_id: {
-      required: "Please select a subcategory",
+      required: "Please select Subcategory",
     },
   },
 
