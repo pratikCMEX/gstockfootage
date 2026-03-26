@@ -742,9 +742,10 @@ class HomeController extends Controller
                 $query->orderBy('id', 'desc');
                 break;
         }
+        $allVideos = $query->paginate(9)->withQueryString();
 
 
-        $allVideos = $query->get();
+        // $allVideos = $query->get();
 
         // Tags from all videos (unfiltered)
 
@@ -773,7 +774,9 @@ class HomeController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('front.partials.video-cards', compact('allVideos'))->render(),
-                'count' => $allVideos->count(),
+                'count'    => $allVideos->total(),
+                'hasMore'  => $allVideos->hasMorePages(),
+                'nextPage' => $allVideos->currentPage() + 1,
             ]);
         }
 
@@ -960,27 +963,178 @@ class HomeController extends Controller
     //         'selectedCategory'
     //     ));
     // }
+    //     public function allPhotos(Request $request)
+    //     {
+
+    //         $title = 'Photos';
+    //         $page = 'front.all_photos';
+    //         $js = ['home', 'favorites'];
+    //         // dd($request);
+    //         $q = $request->get('q', '');
+    //         $type = $request->get('type', 'image');
+    //         $collection_id = $request->has('collection_id')
+    //             ? decrypt($request->get('collection_id'))
+    //             : null;
+
+    //         $category_id = $request->has('category_id')
+    //             ? decrypt($request->get('category_id'))
+    //             : null;
+
+    //         // $collection_id = decrypt($collection_id);
+    //         // $category_id = decrypt($category_id);
+
+    //         $categories = Category::where('is_display', '1')->get();
+
+    //         $query = BatchFile::with(['category'])
+    //             ->where('type', 'image')
+    //             ->whereHas('category', function ($q) {
+    //                 $q->where('is_display', '1');
+    //             })
+    //             ->where('is_edited', '1')
+    //             ->withExists([
+    //                 'favorites as is_favorite' => function ($q) {
+    //                     $q->where('user_id', auth()->id());
+    //                 }
+    //             ]);
+
+    //         if ($q) {
+    //             $keywords = collect(explode(',', $q))
+    //                 ->map(fn($k) => trim($k))
+    //                 ->filter()
+    //                 ->values();
+
+    //             $query->where(function ($mainQuery) use ($keywords) {
+
+    //                 if ($keywords->count() === 1) {
+
+    //                     $keyword = $keywords->first();
+
+    //                     $mainQuery->where(function ($q) use ($keyword) {
+    //                         $q->where('keywords', 'like', '%' . $keyword . '%')
+    //                             ->orWhere('title', 'like', '%' . $keyword . '%')
+    //                             ->orWhereHas('category', function ($q) use ($keyword) {
+    //                                 $q->where('category_name', 'like', '%' . $keyword . '%');
+    //                             })
+    //                             ->orWhereHas('collection', function ($q) use ($keyword) {
+    //                                 $q->where('name', 'like', '%' . $keyword . '%');
+    //                             });
+    //                     });
+    //                 } else {
+
+    //                     $mainQuery->where(function ($q) use ($keywords) {
+
+    //                         foreach ($keywords as $keyword) {
+
+    //                             $q->orWhere(function ($sub) use ($keyword) {
+    //                                 $sub->where('keywords', 'like', '%' . $keyword . '%')
+    //                                     ->orWhere('title', 'like', '%' . $keyword . '%')
+    //                                     ->orWhereHas('category', function ($q) use ($keyword) {
+    //                                         $q->where('category_name', 'like', '%' . $keyword . '%');
+    //                                     })
+    //                                     ->orWhereHas('collection', function ($q) use ($keyword) {
+    //                                         $q->where('name', 'like', '%' . $keyword . '%');
+    //                                     });
+    //                             });
+    //                         }
+    //                     });
+    //                 }
+    //             });
+    //         }
+    //         if ($collection_id) {
+    //             $query->where('collection_id', $collection_id);
+    //         }
+
+    //         if ($category_id) {
+    //             $query->where('category_id', $category_id);        // ← new
+    //         }
+
+    //         $query->orderByRaw("
+    //     CASE 
+    //         WHEN priority IS NULL OR priority = 0 THEN 1
+    //         ELSE 0
+    //     END
+    // ");
+
+    //         $query->orderBy('priority', 'ASC');
+    //         $query->orderBy('id', 'DESC');
+
+
+    //         $allPhotos = $query->get();
+
+    //         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+
+    //         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
+
+    //         $trendingTags = BatchFile::with('category')->where('is_edited', '1')
+    //             ->whereHas('category', function ($q) {
+    //                 $q->where('is_display', '1');
+    //             })
+    //             ->whereNotNull('keywords')
+    //             ->where('keywords', '!=', '')
+    //             ->orderBy('views', 'desc')
+    //             ->limit(7)
+    //             ->get(['id', 'category_id', 'keywords', 'type'])
+    //             ->map(fn($product) => [
+    //                 'product_id' => $product->id,
+    //                 'category_id' => $product->category_id,
+    //                 'tag' => trim(explode(',', $product->keywords)[0]),
+    //                 'type' => strtolower(trim($product->type)) // ✅ normalize
+    //             ])
+    //             ->filter(fn($item) => !empty($item['tag']))
+    //             ->unique('tag')
+    //             ->take(7)
+    //             ->values();
+    //         return view("layouts.front.layout", compact(
+    //             'title',
+    //             'page',
+    //             'js',
+    //             'categories',
+    //             'allPhotos',
+    //             'selectedCollection',
+    //             'selectedCategory',
+    //             'trendingTags'
+    //         ));
+    //     }
+
     public function allPhotos(Request $request)
     {
-
-        $title = 'Photos';
-        $page = 'front.all_photos';
-        $js = ['home', 'favorites'];
         // dd($request);
-        $q = $request->get('q', '');
-        $type = $request->get('type', 'image');
-        $collection_id = $request->has('collection_id')
-            ? decrypt($request->get('collection_id'))
-            : null;
+        $title = 'Photos';
+        $page  = 'front.all_photos';
+        $js    = ['home', 'favorites', 'images'];
 
-        $category_id = $request->has('category_id')
-            ? decrypt($request->get('category_id'))
-            : null;
+        $q             = $request->get('q', '');
+        $collection_id = $request->has('collection_id') ? decrypt($request->get('collection_id')) : null;
 
-        // $collection_id = decrypt($collection_id);
-        // $category_id = decrypt($category_id);
+        // category_id — single (URL) or array (JS filter)
+        $category_id = null;
+        if ($request->has('category_id')) {
+            $raw = $request->get('category_id');
+            $category_id = collect(is_array($raw) ? $raw : [$raw])
+                ->map(fn($id) => decrypt($id))
+                ->filter()
+                ->values()
+                ->toArray();
+        }
 
-        $categories = Category::where('is_display', '1')->get();
+        // subcategory_id[]
+        $subcategory_ids = [];
+        if ($request->has('subcategory_id')) {
+            $subcategory_ids = collect((array) $request->get('subcategory_id'))
+                ->map(fn($id) => decrypt($id))
+                ->filter()
+                ->values()
+                ->toArray();
+        }
+
+        $price_min       = $request->get('price_min', null);
+        $price_max       = $request->get('price_max', null);
+        $orientation     = $request->get('orientation', []);
+        $content_filters = $request->get('content_filters', []);
+
+        $categories = Category::where('is_display', '1')
+            ->with('subcategories') // ← make sure this matches your actual relation name
+            ->get();
 
         $query = BatchFile::with(['category'])
             ->where('type', 'image')
@@ -994,6 +1148,7 @@ class HomeController extends Controller
                 }
             ]);
 
+        // Search
         if ($q) {
             $keywords = collect(explode(',', $q))
                 ->map(fn($k) => trim($k))
@@ -1001,11 +1156,8 @@ class HomeController extends Controller
                 ->values();
 
             $query->where(function ($mainQuery) use ($keywords) {
-
                 if ($keywords->count() === 1) {
-
                     $keyword = $keywords->first();
-
                     $mainQuery->where(function ($q) use ($keyword) {
                         $q->where('keywords', 'like', '%' . $keyword . '%')
                             ->orWhere('title', 'like', '%' . $keyword . '%')
@@ -1017,11 +1169,8 @@ class HomeController extends Controller
                             });
                     });
                 } else {
-
                     $mainQuery->where(function ($q) use ($keywords) {
-
                         foreach ($keywords as $keyword) {
-
                             $q->orWhere(function ($sub) use ($keyword) {
                                 $sub->where('keywords', 'like', '%' . $keyword . '%')
                                     ->orWhere('title', 'like', '%' . $keyword . '%')
@@ -1037,32 +1186,33 @@ class HomeController extends Controller
                 }
             });
         }
-        if ($collection_id) {
-            $query->where('collection_id', $collection_id);
+
+        if ($collection_id)          $query->where('collection_id', $collection_id);
+        if (!empty($category_id))    $query->whereIn('category_id', $category_id);
+        if (!empty($subcategory_ids)) $query->whereIn('subcategory_id', $subcategory_ids);
+        if ($price_min)              $query->where('price', '>=', $price_min);
+        if ($price_max)              $query->where('price', '<=', $price_max);
+        if (!empty($orientation))    $query->whereIn('orientation', $orientation);
+        if (!empty($content_filters)) {
+            $query->where(function ($q) use ($content_filters) {
+                foreach ($content_filters as $filter) {
+                    $q->orWhereJsonContains('content_filters', $filter);
+                }
+            });
         }
 
-        if ($category_id) {
-            $query->where('category_id', $category_id);        // ← new
-        }
-
-        $query->orderByRaw("
-    CASE 
-        WHEN priority IS NULL OR priority = 0 THEN 1
-        ELSE 0
-    END
-");
-
+        $query->orderByRaw("CASE WHEN priority IS NULL OR priority = 0 THEN 1 ELSE 0 END");
         $query->orderBy('priority', 'ASC');
         $query->orderBy('id', 'DESC');
 
-
-        $allPhotos = $query->get();
+        // ── ONE paginate call only ──
+        $allPhotos = $query->paginate(9)->withQueryString();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
+        $selectedCategory   = !empty($category_id) ? Category::find($category_id[0]) : null;
 
-        $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
-
-        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')
+            ->where('is_edited', '1')
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
@@ -1072,16 +1222,26 @@ class HomeController extends Controller
             ->limit(7)
             ->get(['id', 'category_id', 'keywords', 'type'])
             ->map(fn($product) => [
-                'product_id' => $product->id,
+                'product_id'  => $product->id,
                 'category_id' => $product->category_id,
-                'tag' => trim(explode(',', $product->keywords)[0]),
-                'type' => strtolower(trim($product->type)) // ✅ normalize
+                'tag'         => trim(explode(',', $product->keywords)[0]),
+                'type'        => strtolower(trim($product->type)),
             ])
             ->filter(fn($item) => !empty($item['tag']))
             ->unique('tag')
             ->take(7)
             ->values();
-        return view("layouts.front.layout", compact(
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html'     => view('front.partials.photo_grid', compact('allPhotos'))->render(),
+                'count'    => $allPhotos->total(),
+                'hasMore'  => $allPhotos->hasMorePages(),
+                'nextPage' => $allPhotos->currentPage() + 1,
+            ]);
+        }
+
+        return view('layouts.front.layout', compact(
             'title',
             'page',
             'js',
@@ -1089,7 +1249,11 @@ class HomeController extends Controller
             'allPhotos',
             'selectedCollection',
             'selectedCategory',
-            'trendingTags'
+            'trendingTags',
+            'price_min',
+            'price_max',
+            'orientation',
+            'content_filters'
         ));
     }
     public function enterprise()

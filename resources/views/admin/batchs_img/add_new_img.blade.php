@@ -971,7 +971,7 @@
                                         </div>
 
                                         {{-- ===== ORIENTATION ===== --}}
-                                        <div class="input-group {{ $batch_type == 'video' ? '' : 'd-none' }}">
+                                        <div class="input-group">
                                             <div class="file-inp-main">
                                                 <label for="" class="heading-label">Orientation</label>
                                                 <div class="dropdown file-main-dropdown">
@@ -1036,7 +1036,7 @@
                                         </div>
 
                                         {{-- ===== CONTENT FILTERS (Checkboxes → stored as JSON array) ===== --}}
-                                        <div class="input-group {{ $batch_type == 'video' ? '' : 'd-none' }}">
+                                        <div class="input-group ">
                                             <div class="file-inp-main">
                                                 <label class="heading-label">Content</label>
                                                 <div class="file-inp-icon-grp">
