@@ -565,6 +565,8 @@ class HomeController extends Controller
             ->unique()
             ->values();
 
+        // dd($tags);
+
         // AJAX: return partial HTML + count
         if ($request->ajax()) {
             return response()->json([
