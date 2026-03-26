@@ -85,6 +85,12 @@ class MostSoldProductReportDataTable extends DataTable
         if (request()->filled('to_date')) {
             $subQuery->whereDate('orders.created_at', '<=', request('to_date'));
         }
+        if (request()->filled('product_id')) {
+            $subQuery->where('batch_files.id', request('product_id'));
+        }
+        if (request()->filled('category_id')) {
+            $subQuery->where('batch_files.category_id', request('category_id'));
+        }
 
         //  Wrap in outer query so total_orders/total_revenue become regular columns
         $query = BatchFile::from(DB::raw("({$subQuery->toSql()}) as batch_files"))
@@ -106,6 +112,8 @@ class MostSoldProductReportDataTable extends DataTable
                 'data' => 'function(d) {
                     d.from_date = $("#from_date").val();
                     d.to_date   = $("#to_date").val();
+                    d.product_id =$("#product_id").val();
+                    d.category_id=$("#category_id").val();
                 }',
             ])
             ->orderBy(3, 'desc') //  total_orders = index 3, highest sold first
@@ -114,33 +122,36 @@ class MostSoldProductReportDataTable extends DataTable
                 'dom' => 'Blfrtip',
                 'lengthChange' => true,
                 'lengthMenu' => [
-                    [10, 25, 50, 100, -1],       
-                    [10, 25, 50, 100, 'All']         
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, 'All']
                 ],
                 'pageLength' => 10,
             ])
-        ->buttons([
-    //  Custom PDF button - exports ALL records with filters
-    Button::raw([
-        'text'   => '<i class="fa fa-file-pdf"></i> PDF',
-        'action' => 'function(e, dt, node, config) {
+            ->buttons([
+                //  Custom PDF button - exports ALL records with filters
+                Button::raw([
+                    'text' => '<i class="fa fa-file-pdf"></i> PDF',
+                    'action' => 'function(e, dt, node, config) {
             let from           = $("#from_date").val();
             let to             = $("#to_date").val();
+             let product_id     = $("#product_id").val();
+            let category_id    = $("#category_id").val();
            
 
             let url = "' . route('admin.most_sold_product_report.export_pdf') . '"
                 + "?from_date="      + from
                 + "&to_date="        + to
-              
+                + "&product_id="     + product_id
+                + "&category_id="    + category_id
             window.location.href = url;
         }',
-    ]),
-]);
-            // ->buttons([
+                ]),
+            ]);
+        // ->buttons([
 
-            //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
+        //     Button::make('pdf')->exportOptions(['columns' => ':visible']),
 
-            // ]);
+        // ]);
     }
 
     public function getColumns(): array

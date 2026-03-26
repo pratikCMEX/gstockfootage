@@ -110,6 +110,9 @@ class UserWiseOrderReportDataTable extends DataTable
         if (request()->filled('to_date')) {
             $subQuery->whereDate('orders.created_at', '<=', request('to_date'));
         }
+        if (request()->filled('user_id')) {
+            $subQuery->where('users.id', request('user_id'));
+        }
 
         //  Wrap as subquery for searchable aggregated columns
         $query = User::from(DB::raw("({$subQuery->toSql()}) as users"))
@@ -130,6 +133,7 @@ class UserWiseOrderReportDataTable extends DataTable
                 'data' => 'function(d) {
                     d.from_date = $("#from_date").val();
                     d.to_date   = $("#to_date").val();
+                    d.user_id   = $("#user_id").val();
                 }',
             ])
             ->orderBy(2, 'desc') //  total_orders = index 2
@@ -164,12 +168,13 @@ class UserWiseOrderReportDataTable extends DataTable
                     'action' => 'function(e, dt, node, config) {
             let from           = $("#from_date").val();
             let to             = $("#to_date").val();
+            let user_id        = $("#user_id").val();
            
 
             let url = "' . route('admin.user_wise_order_report.export_pdf') . '"
                 + "?from_date="      + from
                 + "&to_date="        + to
-              
+                + "&user_id="        + user_id;
             window.location.href = url;
         }',
                 ]),

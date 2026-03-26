@@ -44,6 +44,7 @@
 .site-header .nav-link.active {
   color: var(--primary) !important;
 }
+
 .menu_content .nav-item .nav-link:hover {
   color: var(--white) !important;
   transform: translateY(-2px);
@@ -81,6 +82,7 @@
   .hover-dropdown:hover .dropdown-menu {
     display: block;
   }
+
   .hover-dropdown .dropdown-menu {
     display: none;
   }
@@ -91,6 +93,7 @@
   align-items: center;
   gap: 16px;
 }
+
 .header-actions .nav-link:hover {
   color: var(--white) !important;
   transform: translateY(-2px);
@@ -137,9 +140,11 @@
 .custom-toggler span:nth-child(1) {
   top: 0;
 }
+
 .custom-toggler span:nth-child(2) {
   top: 10px;
 }
+
 .custom-toggler span:nth-child(3) {
   bottom: 0;
 }
@@ -275,11 +280,13 @@
   width: 100%;
   font-size: 15px;
 }
+
 .header-btns {
   border: 1px solid var(--white);
   border-radius: 5px;
   color: var(--white);
 }
+
 .header-btns:hover {
   background-color: var(--white);
   color: var(--black);
@@ -298,6 +305,7 @@
   z-index: 9;
   transition: all 0.8s ease;
 }
+
 .cart-content {
   display: flex;
   align-items: center;
@@ -306,59 +314,71 @@
   padding: 12px;
   gap: 10px;
 }
+
 .cart-content h6 {
   font-size: 16px;
   color: var(--text);
   font-family: var(--font-inter-semibold);
   margin-bottom: 10px;
 }
+
 .cart-content p {
   font-size: 16px;
   color: var(--secendory);
   margin-bottom: 10px;
 }
+
 .cart-price-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .cart-section h5 {
   font-family: var(--font-inter-bold);
   color: var(--primary);
   font-size: 16px;
 }
+
 .cart-price-btn button {
   border: none;
   background-color: transparent;
 }
+
 .cart-img {
   width: 100%;
   max-width: 100px;
   height: 75px;
   /* border-radius: 10px; */
 }
+
 .cart-detail {
   width: 100%;
 }
+
 .cart-img img {
   object-fit: cover;
   border-radius: 10px;
 }
+
 .cart-heading h3 {
   font-size: 18px;
   color: var(--primary);
   font-family: var(--font-inter-semibold);
 }
+
 .cart-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20px 0;
 }
+
 .cart-heading button {
   border: none;
   background-color: transparent;
 }
+
 .cart-items {
   display: flex;
   flex-direction: column;
@@ -368,32 +388,38 @@
   max-height: calc(100dvh - 324px);
   overflow: auto;
 }
+
 .total-count {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 30px;
 }
+
 .total-count p {
   font-size: 20px;
   color: var(--text);
   font-family: var(--font-inter-semibold);
 }
+
 .cart-total {
   display: flex;
   flex-direction: column;
   gap: 20px;
   border-top: 1px solid var(--icon);
 }
+
 .cart-open {
   border: none;
   background-color: transparent;
 }
+
 .show_popup {
   right: 0px;
   visibility: visible;
   transition: all 0.8s ease;
 }
+
 .cart-count {
   height: 20px;
   width: 20px;
@@ -408,9 +434,11 @@
   align-items: center;
   justify-content: center;
 }
+
 .cart-main {
   position: relative;
 }
+
 .cart-overlay {
   position: fixed;
   inset: 0;
@@ -425,6 +453,7 @@
   opacity: 1;
   visibility: visible;
 }
+
 .close-cart-btn i {
   color: var(--black) !important;
 }
@@ -432,6 +461,7 @@
 .site-header .profile .dropdown-toggle::after {
   display: none;
 }
+
 .site-header .profile .dropdown-item {
   padding: 8px 0px;
   display: flex;
@@ -439,11 +469,13 @@
   justify-content: start;
   column-gap: 10px;
 }
+
 .site-header .wishlist {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .site-header .wishlist-count {
   height: 20px;
   min-width: 20px;
@@ -462,57 +494,78 @@
   .menu_content {
     gap: 18px;
   }
+
   .main-menu {
     gap: 10px;
   }
 }
-@media only screen and (max-width: 1199px) {
-}
+
+@media only screen and (max-width: 1199px) {}
+
 @media only screen and (max-width: 991px) {
   .profile.hover-dropdown:hover .dropdown-menu {
     display: block !important;
   }
+
   .profile.hover-dropdown .dropdown-menu {
     display: none;
   }
+
   .main-menu {
     display: none;
   }
+
   .cart-section {
     max-width: 360px;
   }
 }
+
 @media only screen and (max-width: 767px) {
+  .profile.hover-dropdown .dropdown-menu {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
 }
+
 @media only screen and (max-width: 575px) {
   .icon-btn {
     display: none;
   }
+
   .cart,
   .profile-btn {
     display: block;
   }
+
   .cart-content p {
     font-size: 14px;
   }
+
   .cart-content h6 {
     margin-bottom: 1px;
   }
+
   .cart-section {
     max-width: 320px;
   }
 }
+
 @media only screen and (max-width: 424px) {
   .menu_content {
     gap: 9px;
   }
+
   .header-actions {
     gap: 10px;
   }
+
   .custom-toggler {
     width: 20px;
     height: 22px;
   }
+
   .cart,
   .profile-btn {
     font-size: 18px;

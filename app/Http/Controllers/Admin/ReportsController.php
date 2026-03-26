@@ -11,6 +11,7 @@ use App\DataTables\UserWiseOrderReportDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\BatchFile;
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\User_subscriptions;
@@ -52,7 +53,7 @@ class ReportsController extends Controller
         }
 
         $orders = $query->orderBy('created_at', 'desc')->get();
-       
+
         $pdf = Pdf::loadView('admin.exports.order_history_pdf', compact('orders'))
             ->setPaper('a4', 'landscape');
 
@@ -124,9 +125,11 @@ class ReportsController extends Controller
 
         $title = 'Most Sold Product Report';
         $page = 'admin.reports.most_sold_product_report';
+         $products = BatchFile::where('is_edited', '1')->get();
+        $categories = Category::where('is_display','1')->orderBy('id','desc')->get();
         $js = ['reports'];
         $css = 'reports';
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css','categories','products'));
     }
 
     public function exportMostSoldPdf(Request $request)
@@ -148,6 +151,12 @@ class ReportsController extends Controller
         if (request()->filled('to_date')) {
             $subQuery->whereDate('orders.created_at', '<=', request('to_date'));
         }
+        if (request()->filled('product_id')) {
+            $subQuery->where('batch_files.id', request('product_id'));
+        }
+        if (request()->filled('category_id')) {
+            $subQuery->where('batch_files.category_id', request('category_id'));
+        }
 
         //  Wrap in outer query so total_orders/total_revenue become regular columns
         $products = BatchFile::from(DB::raw("({$subQuery->toSql()}) as batch_files"))
@@ -166,9 +175,11 @@ class ReportsController extends Controller
     {
         $title = 'Most Viewed Product Report';
         $page = 'admin.reports.most_viewed_product_report';
+        $products = BatchFile::where('is_edited', '1')->get();
+        $categories = Category::where('is_display','1')->orderBy('id','desc')->get();
         $js = ['reports'];
         $css = 'reports';
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css','products','categories'));
     }
 
     public function exportMostViewedPdf(Request $request)
@@ -184,6 +195,12 @@ class ReportsController extends Controller
         if (request()->filled('to_date')) {
             $query->whereDate('last_viewed_at', '<=', request('to_date'));
         }
+        if (request()->filled('product_id')) {
+            $query->where('id', request('product_id'));
+        }
+        if (request()->filled('category_id')) {
+            $query->where('category_id', request('category_id'));
+        }
 
         $products = $query->get();
 
@@ -197,9 +214,11 @@ class ReportsController extends Controller
     {
         $title = 'Live Cart Product Report';
         $page = 'admin.reports.live_cart_reports';
+        $products = BatchFile::where('is_edited', '1')->get();
+        $users = User::where('role', '!=', '1')->orderBy('id', 'desc')->get();
         $js = ['reports'];
         $css = 'reports';
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css', 'products', 'users'));
     }
 
     public function exportLiveCartPdf(Request $request)
@@ -213,6 +232,13 @@ class ReportsController extends Controller
 
         if (request()->filled('to_date')) {
             $query->whereDate('carts.created_at', '<=', request('to_date'));
+        }
+
+        if (request()->filled('user_id')) {
+            $query->where('carts.user_id', request('user_id'));
+        }
+        if (request()->filled('product_id')) {
+            $query->where('carts.product_id', request('product_id'));
         }
         $query->orderBy('carts.created_at', 'desc');
         $carts = $query->get();
@@ -228,7 +254,10 @@ class ReportsController extends Controller
         $page = 'admin.reports.user_wise_order_reports';
         $js = ['reports'];
         $css = 'reports';
-        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css'));
+
+        $users = User::where('role', '!=', '1')->orderBy('id', 'desc')->get();
+
+        return $DataTable->render('layouts.admin.layout', compact('title', 'page', 'js', 'css', 'users'));
     }
 
     public function exportUserWiseOrderPdf(Request $request)
@@ -254,12 +283,15 @@ class ReportsController extends Controller
         if (request()->filled('to_date')) {
             $subQuery->whereDate('orders.created_at', '<=', request('to_date'));
         }
+        if (request()->filled('user_id')) {
+            $subQuery->where('users.id', request('user_id'));
+        }
 
         //  Wrap as subquery for searchable aggregated columns
         $orders = User::from(DB::raw("({$subQuery->toSql()}) as users"))
             ->mergeBindings($subQuery)
             ->select('users.*')
-            ->orderBy('users.id','desc')
+            ->orderBy('users.id', 'desc')
             ->get();
 
         $pdf = Pdf::loadView('admin.exports.user_wise_order_report_pdf', compact('orders'))

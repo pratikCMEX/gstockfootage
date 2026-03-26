@@ -1142,11 +1142,11 @@
                                     <input type="file" name="profile_image" id="profile_image" class="form-control"
                                         accept="image/*">
 
-                                    <div class="mb-2">
+                                    <div class="mb-2 mt-2">
                                         @if($user_profile->profile_image)
                                             <img id="imagePreview"
                                                 src="{{ $user_profile->profile_image ? asset('uploads/images/profile_image/' . $user_profile->profile_image) : asset('assets/front/img/default-user.png') }}"
-                                                style="width:80px; height:80px; border-radius:50%; object-fit:cover;">
+                                                style="width:80px; height:80px; border-radius:10px; object-fit:cover;">
                                         @endif
                                     </div>
                                 </div>
