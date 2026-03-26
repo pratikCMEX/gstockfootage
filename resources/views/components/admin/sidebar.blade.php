@@ -40,7 +40,7 @@
                             <a class="sidebar-link {{ Request::segment(2) == 'pending_payments' ? 'active  ' : '' }} side-item"
                                 href="{{ route('affiliate.pending_payments') }}" aria-expanded="false">
                                 <i class="fa fa-hourglass-half"></i>
-                                <span class="hide-menu">Pending Payments List</span>
+                                <span class="hide-menu">Pending Payments</span>
                             </a>
                         </li>
                     @else

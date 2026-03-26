@@ -1,3 +1,11 @@
+<style>
+    .add-new-customer-wrp h3{
+        margin-bottom: 20px !important;
+    }
+</style>
+
+
+
 <div class="body-wrapper-inner">
     <div class="container-fluid">
         <div class="add-new-customer-wrp ">
@@ -16,25 +24,27 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label class="form-label" for="name">First Name</label>
+                                    <label class="form-label" for="name">First Name</label><label
+                                        for="" class="text-danger">*</label>
                                     <input type="text" name="first_name" class="form-control" id="first_name"
-                                        placeholder="Enter affiliateUser Name"
+                                        placeholder="Enter Affiliate User First Name"
                                         value="{{ $affiliateUser->first_name ?? '' }}">
                                 </div>
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label class="form-label" for="name">Last Name</label>
+                                    <label class="form-label" for="name">Last Name</label><label
+                                        for="" class="text-danger">*</label>
                                     <input type="text" name="last_name" class="form-control" id="last_name"
-                                        placeholder="Enter affiliateUser Name"
+                                        placeholder="Enter Affiliate User Last Name"
                                         value="{{ $affiliateUser->last_name ?? '' }}">
                                 </div>
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label class="form-label" for="email">Email</label>
+                                    <label class="form-label" for="email">Email</label><label for="" class="text-danger">*</label>
                                     <input type="text" name="email" class="form-control"
                                         value="{{ $affiliateUser->email ?? '' }}" id="email"
                                         placeholder="Enter E-mail Address">
@@ -94,7 +104,7 @@
                 </div> -->
                         </div>
                         <button type="submit" id="submit_btn" class="save btn cmn-btn btn-orange mt-3"
-                            style="">Save</button>
+                            style="">Update</button>
                     </form>
                 </div>
             </div>
@@ -116,7 +126,7 @@
                             <div class="row">
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name" class="form-label">Current Password</label>
+                                        <label for="name" class="form-label">Current Password</label><label for="" class="text-danger">*</label>
                                         <input type="password" name="current_password" class="form-control"
                                             id="current_password" placeholder="Enter current password">
                                     </div>
@@ -124,7 +134,7 @@
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name" class="form-label">New Password</label>
+                                        <label for="name" class="form-label">New Password</label><label for="" class="text-danger">*</label>
                                         <input type="password" name="new_password" class="form-control"
                                             id="new_password" placeholder="Enter new password">
                                     </div>
@@ -132,7 +142,7 @@
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name" class="form-label">Confirm Password</label>
+                                        <label for="name" class="form-label">Confirm Password</label><label for="" class="text-danger">*</label>
                                         <input type="password" name="confirm_password" class="form-control"
                                             id="confirm_password" placeholder="Enter confirm password">
                                     </div>

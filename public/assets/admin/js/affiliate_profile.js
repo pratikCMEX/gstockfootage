@@ -86,6 +86,7 @@ $(document).ready(function () {
             phone_number: {
                 validPhone: true,
             },
+          
         },
         messages: {
             first_name: {
@@ -103,6 +104,7 @@ $(document).ready(function () {
             phone_number: {
                 validPhone: "Please enter a valid phone number for selected country",
             },
+            
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") == "phone_number") { //  name not id
@@ -154,19 +156,19 @@ $(document).ready(function () {
         },
         messages: {
             current_password: {
-                required: "Please enter current password",
-                minlength: "Current password must be at least 6 characters",
-                remote: "Entered password is incorrect"
+                required: "Please enter Current Password",
+                minlength: "Current Password must be at least 6 characters",
+                remote: "Entered Password is incorrect"
             },
             new_password: {
-                required: "Please enter new password",
-                minlength: "New password must be at least 6 characters",
-                notEqualTo: "New password and current password cannot be same"
+                required: "Please enter New Password",
+                minlength: "New Password must be at least 6 characters",
+                notEqualTo: "New Password and Current Password cannot be same"
             },
             confirm_password: {
-                required: "Please enter confirm password",
-                minlength: "Confirm password must be at least 6 characters",
-                equalTo: "New password and confirm password does not match"
+                required: "Please enter Confirm Password",
+                minlength: "Confirm Password must be at least 6 characters",
+                equalTo: "New Password and Confirm Password does not match"
             },
         },
         submitHandler: function (form) {

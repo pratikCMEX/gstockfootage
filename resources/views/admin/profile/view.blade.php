@@ -1,6 +1,12 @@
+<style>
+    .add-new-customer-wrp h3{
+        margin-bottom: 20px !important
+    }
+</style>
+
 <div class="body-wrapper-inner">
     <div class="container-fluid">
-        <div class="add-new-customer-wrp ">
+        <div class=" ">
             <h3 class="p-2">Update Profile</h3>
             <div class="profileContainer card">
 
@@ -14,28 +20,50 @@
                         <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
                         <input type="hidden" name="user_id" value="{{ encrypt($user->id)  }}">
                         <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="name">First Name</label>
+                                    <label for="name">First Name<span for="" class="text-danger">*</span></label>
                                     <input type="text" name="first_name" class="form-control" id="first_name"
                                         placeholder="Enter User Name" value="{{ $user->first_name ?? '' }}">
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="name">Last Name</label>
+                                    <label for="name">Last Name<span for="" class="text-danger">*</span></label>
                                     <input type="text" name="last_name" class="form-control" id="last_name"
                                         placeholder="Enter User Name" value="{{ $user->last_name ?? '' }}">
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                                 <div class="form-group input-section">
-                                    <label for="email">Email</label>
+                                    <label for="email">Email<span for="" class="text-danger">*</span></label>
                                     <input type="text" name="email" class="form-control"
-                                        value="{{ $user->email ?? '' }}" id="email"
-                                        placeholder="Enter E-mail Address">
+                                        value="{{ $user->email ?? '' }}" id="email" placeholder="Enter E-mail Address">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <label class="form-label">Phone No</label>
+                                <div class="input-group phone-input">
+                                    <input type="tel" id="phone" name="phone_number" class="form-control"
+                                        placeholder="Enter your phone number" value="{{ $user->phone ?? '' }}"
+                                        oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
+                                </div>
+
+                                {{-- Hidden fields --}}
+                                <input type="hidden" name="phone" id="full_phone" value="{{ $user->phone ?? '' }}">
+                                <input type="hidden" name="country_code" id="country_code"
+                                    value="{{ $user->country_code ?? '' }}">
+                                <label id="phone-error" class="text-danger mb-2 mt-2" for="phone"></label>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                                <div class="form-group input-section">
+                                    <label class="form-label" for="email">Address</label>
+                                    <textarea name="address" rows="4"
+                                        class="form-control ">{{ $user->address ?? '' }}</textarea>
+
                                 </div>
                             </div>
 
@@ -68,14 +96,14 @@
                 </div> -->
                         </div>
                         <button type="submit" id="submit_btn" class="save btn cmn-btn btn-orange mt-3"
-                            style="">Save</button>
+                            style="">Update</button>
                     </form>
                 </div>
             </div>
 
 
 
-            <div class="add-new-customer-wrp">
+            <div class="">
                 <h3 class="p-2">Update Password</h3>
                 <div class="card">
                     <div class="card-body">
@@ -90,7 +118,8 @@
                             <div class="row">
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name">Current Password</label>
+                                        <label for="name">Current Password<span for=""
+                                                class="text-danger">*</span></label>
                                         <input type="password" name="current_password" class="form-control"
                                             id="current_password" placeholder="Enter current password">
                                     </div>
@@ -98,7 +127,7 @@
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name">New Password</label>
+                                        <label for="name">New Password<span for="" class="text-danger">*</span></label>
                                         <input type="password" name="new_password" class="form-control"
                                             id="new_password" placeholder="Enter new password">
                                     </div>
@@ -106,11 +135,13 @@
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="form-group input-section">
-                                        <label for="name">Confirm Password</label>
+                                        <label for="name">Confirm Password<span for=""
+                                                class="text-danger">*</span></label>
                                         <input type="password" name="confirm_password" class="form-control"
                                             id="confirm_password" placeholder="Enter confirm password">
                                     </div>
                                 </div>
+
                             </div>
 
 
@@ -119,3 +150,4 @@
                                 style="">Update</button>
                     </div>
                 </div>
+            </div>
