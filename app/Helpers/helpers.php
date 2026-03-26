@@ -130,7 +130,7 @@ function getCartItems()
             ->where('user_id', Auth::id())
             ->whereHas('product', function ($q) {
                 $q->whereHas('category', function ($q2) {
-                    $q2->where('is_display', 1);
+                    $q2->where('is_display', '1');
                 });
             })
             ->get();
