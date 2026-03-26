@@ -41,6 +41,7 @@ class BatchFile extends Model
         'camera_movement',
         'license_type',
         'content_filters',
+        'last_viewed_at'
     ];
 
     protected $casts = [
@@ -55,7 +56,8 @@ class BatchFile extends Model
 
     public function incrementView(): void
     {
-        $this->increment('views'); // atomic SQL increment, no race conditions
+        $this->increment('views');
+        $this->update(['last_viewed_at' => now()]);
     }
     public function user()
     {

@@ -52,7 +52,7 @@ class ReportsController extends Controller
         }
 
         $orders = $query->orderBy('created_at', 'desc')->get();
-
+       
         $pdf = Pdf::loadView('admin.exports.order_history_pdf', compact('orders'))
             ->setPaper('a4', 'landscape');
 
@@ -178,11 +178,11 @@ class ReportsController extends Controller
             ->orderByDesc('views');
 
         if (request()->filled('from_date')) {
-            $query->whereDate('created_at', '>=', request('from_date'));
+            $query->whereDate('last_viewed_at', '>=', request('from_date'));
         }
 
         if (request()->filled('to_date')) {
-            $query->whereDate('created_at', '<=', request('to_date'));
+            $query->whereDate('last_viewed_at', '<=', request('to_date'));
         }
 
         $products = $query->get();
