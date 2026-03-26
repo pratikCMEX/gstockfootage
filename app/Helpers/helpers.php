@@ -155,7 +155,11 @@ function getCartItems()
 
         if (!empty($sessionCart)) {
             $productIds = array_keys($sessionCart);
-            $products = BatchFile::whereIn('id', $productIds)->get()->keyBy('id');
+            $products = BatchFile::with('category')->whereIn('id', $productIds)
+                ->whereHas('category', function ($q) {
+                    $q->where('is_display', '1');
+                })
+                ->get()->keyBy('id');
 
             foreach ($sessionCart as $productId => $cart) {
                 if (!isset($products[$productId]))
