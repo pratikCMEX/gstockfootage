@@ -637,7 +637,8 @@
                                                         </div>
                                                     </div> --}}
                     <div class="modal-name">
-                        <label for="" class="modal-label">Batch Name</label>
+                        <label for="" class="modal-label">Batch Name <span
+                                class="text-danger">*</span></label>
                         <div class="input-group ">
                             <input type="text" class="form-control batch-inp" placeholder="Batch Name"
                                 name="batch_name" aria-describedby="addon-wrapping">

@@ -90,13 +90,13 @@ $("#create_batch").validate({
   },
   messages: {
     submission_type: {
-      required: "Please select submission type",
+      required: "Please select Submission type",
     },
     // brief_code: {
     //   remote: "This brief code already exists",
     // },
     batch_name: {
-      required: "Please select batch name",
+      required: "Please select Batch name",
     },
   },
   normalizer: function (value) {
@@ -1633,6 +1633,8 @@ $(document).on("change", "#category_id", function () {
       },
     });
   } else {
-    $("#subcategory").html('<option value="" selected disabled>Choose SubCategory...</option>');
+    $("#subcategory").html(
+      '<option value="" selected disabled>Choose SubCategory...</option>'
+    );
   }
 });
