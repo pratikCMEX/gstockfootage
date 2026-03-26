@@ -47,10 +47,10 @@
                         {{-- Thumbnail --}}
                         <a href="{{ route('product.detail', encrypt($item->id)) }}">
                             @if ($item->type === 'video')
-                                <video class="product-img" width="100%" muted loop playsinline preload="none"
-                                    poster="{{ $item->thumbnail_path ? Storage::disk('s3')->url($item->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                <video class="product-img" width="100%" muted loop playsinline preload="auto"
+                                    poster="{{ !empty($item->thumbnail_path) ? Storage::disk('s3')->url($item->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
                                     <source
-                                        src="{{ $item->preview_path ? Storage::disk('s3')->url($item->preview_path) : '' }}"
+                                        src="{{ $item->preview_path ? Storage::disk('s3')->url($item->preview_path) : ($item->mid_path ? Storage::disk('s3')->url($item->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                         type="video/mp4">
                                 </video>
                             @else
