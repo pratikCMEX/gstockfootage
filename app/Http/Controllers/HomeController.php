@@ -424,11 +424,11 @@ class HomeController extends Controller
         $query->orderBy('priority', 'ASC');
         $query->orderBy('id', 'DESC');
 
-        $allMedia = $query->get();
+        $media = $query->get();
 
         // ── Split into photos & videos ──
-        $photos = $allMedia->where('type', 'image')->values();
-        $videos = $allMedia->where('type', 'video')->values();
+        $photos = $media->where('type', 'image')->values();
+        $videos = $media->where('type', 'video')->values();
 
         $selectedCollection = $collection;
         $selectedCategory   = $category_id ? Category::find($category_id) : null;
@@ -460,7 +460,7 @@ class HomeController extends Controller
             'page',
             'js',
             'categories',
-            'allMedia',
+            'media',
             'photos',
             'videos',
             'collection',
