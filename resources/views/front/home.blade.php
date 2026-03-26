@@ -275,7 +275,7 @@
                                                         preload="auto"
                                                         poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                         <source
-                                                            src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                            src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                             type="video/mp4">
                                                     </video>
                                                 @endif
@@ -420,7 +420,7 @@
                                                     preload="auto"
                                                     poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                     <source
-                                                        src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                        src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                         type="video/mp4">
                                                 </video>
                                             @endif
