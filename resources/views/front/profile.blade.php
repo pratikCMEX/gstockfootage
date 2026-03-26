@@ -1110,17 +1110,17 @@
                             <div class="modal-body p-0">
                                 <div class="modal-inp-label">
                                     <input type="hidden" name="user_id" value="{{ encrypt($user_profile->id) }}">
-                                    <label>First Name</label>
+                                    <label>First Name<span class="text-danger">*</span></label>
                                     <input type="text" name="first_name" id="first_name" class="form-control"
                                         value="{{ $user_profile->first_name }}" placeholder="Enter Your First Name">
                                 </div>
                                 <div class="modal-inp-label">
-                                    <label>Last Name</label>
+                                    <label>Last Name<span class="text-danger">*</span></label>
                                     <input type="text" name="last_name" id="last_name" class="form-control"
                                         value="{{ $user_profile->last_name }}" placeholder="Enter Your Last Name">
                                 </div>
                                 <div class="modal-inp-label">
-                                    <label>Email</label>
+                                    <label>Email<span class="text-danger">*</span></label>
                                     <input type="email" name="email" id="email" class="form-control"
                                         placeholder="you@example.com" value="{{ $user_profile->email }}">
                                 </div>

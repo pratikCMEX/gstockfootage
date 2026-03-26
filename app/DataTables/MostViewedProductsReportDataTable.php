@@ -71,11 +71,11 @@ class MostViewedProductsReportDataTable extends DataTable
             ->orderByDesc('views');
 
         if (request()->filled('from_date')) {
-            $query->whereDate('batch_files.created_at', '>=', request('from_date'));
+            $query->whereDate('batch_files.last_viewed_at', '>=', request('from_date'));
         }
 
         if (request()->filled('to_date')) {
-            $query->whereDate('batch_files.created_at', '<=', request('to_date'));
+            $query->whereDate('batch_files.last_viewed_at', '<=', request('to_date'));
         }
 
         return $query;

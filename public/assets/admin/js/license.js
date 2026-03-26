@@ -53,7 +53,7 @@ $(document).ready(function () {
                 maxlength: "Max 30 characters allowed"
             },
             title: {
-                required: "Please enter License Title"
+                required: "Please enter Title"
             },
             product_quality_id: {
                 required: "Please select Product Quality"
