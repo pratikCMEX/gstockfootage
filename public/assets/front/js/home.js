@@ -166,7 +166,7 @@ $(document).ready(function () {
     var type = $(this).data("type");
     redirectToListing(keyword, type);
   });
-  alert();
+
   // ── Hide suggestions on outside click ──────────────────────────
   $(document).on("click", function (e) {
     if (!$(e.target).closest(".inp-search, .search-container").length) {
