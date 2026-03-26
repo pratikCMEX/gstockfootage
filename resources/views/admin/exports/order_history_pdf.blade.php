@@ -27,7 +27,7 @@
 </head>
 <body>
     <h2>Order History</h2>
-    <p class="subtitle">Generated on {{ now()->timezone('Asia/Kolkata')->format('d M Y, h:i A') }}</p>
+    <p class="subtitle">Generated on {{ now()->format('d M Y, h:i A') }}</p>
 
     {{-- Summary --}}
     <!-- <div class="summary">
