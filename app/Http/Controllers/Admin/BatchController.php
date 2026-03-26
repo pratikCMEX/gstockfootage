@@ -785,6 +785,7 @@ class BatchController extends Controller
 
         return response()->json([
             'status'  => true,
+            'file_id' => $file->id,
             'message' => 'Metadata saved'
         ]);
     }

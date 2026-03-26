@@ -908,6 +908,18 @@ $("#add_new_img_form").validate({
 
       success: function (res) {
         toastr.success("File metadata saved successfully");
+
+        if (res.status) {
+          // find the element using file_id
+          let el = $('[data-id="' + res.file_id + '"]');
+
+          // replace with green check
+          el.replaceWith(`
+          <div class="check" data-id="${res.file_id}">
+              <i class="fa-solid fa-circle-check"></i>
+          </div>
+      `);
+        }
       },
 
       error: function (xhr) {
