@@ -429,6 +429,10 @@
                                                 @endif
                                             @endif
                                     </a>
+                                    <span class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
+                                        style="background: {{ $pro->type === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                        {{ $pro->type === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                    </span>
                                     <div class="p-3">
 
                                         <span
