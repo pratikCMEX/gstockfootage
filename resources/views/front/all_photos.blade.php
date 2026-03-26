@@ -264,6 +264,11 @@
                                                 id="square_d" name="orientation[]" value="square">
                                             <label class="form-check-label" for="square_d">Square</label>
                                         </div>
+                                        <div class="filter-option form-check">
+                                            <input class="form-check-input filter-check" type="checkbox"
+                                                id="vertical_d" name="orientation[]" value="vertical">
+                                            <label class="form-check-label" for="vertical_d">Vertical</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
