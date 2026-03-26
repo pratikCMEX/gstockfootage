@@ -283,16 +283,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function toggleDeleteButton() {
-    let totalCheckboxes = $(".row-checkbox").length;
-    let checkedCheckboxes = $(".row-checkbox:checked").length;
+  let totalCheckboxes = $(".row-checkbox").length;
+  let checkedCheckboxes = $(".row-checkbox:checked").length;
 
-    if (checkedCheckboxes > 0) {
-        $("#delete-selected").show();
-    } else {
-        $("#delete-selected").hide();
-    }
+  if (checkedCheckboxes > 0) {
+    $("#delete-selected").show();
+  } else {
+    $("#delete-selected").hide();
+  }
 
-    $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
+  $("#select-all").prop("checked", totalCheckboxes === checkedCheckboxes);
 }
 
 $(document).on("change", ".row-checkbox", function () {
@@ -365,7 +365,8 @@ $(document).on("change", "#category", function () {
       url: base_url + "/get-subcategories/" + categoryId,
       type: "GET",
       success: function (data) {
-        let html = '<option value="" selected disabled>Choose SubCategory...</option>';
+        let html =
+          '<option value="" selected disabled>Choose SubCategory...</option>';
         console.log(data);
 
         $.each(data, function (key, subcat) {
@@ -376,6 +377,8 @@ $(document).on("change", "#category", function () {
       },
     });
   } else {
-    $("#subcategory").html('<option value="" selected disabled>Choose SubCategory...</option>');
+    $("#subcategory").html(
+      '<option value="" selected disabled>Choose SubCategory...</option>'
+    );
   }
 });
