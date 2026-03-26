@@ -45,7 +45,7 @@ function duration($seconds)
 
 function getCategory()
 {
-    return Category::get();
+    return Category::where('is_display', '1')->get();
 }
 function getSocialLinks()
 {
@@ -126,8 +126,13 @@ function getCartItems()
     $items = [];
     $total = 0;
     if (Auth::check()) {
-        $cartItems = Cart::with('product')
+        $cartItems = Cart::with(['product.category'])
             ->where('user_id', Auth::id())
+            ->whereHas('product', function ($q) {
+                $q->whereHas('category', function ($q2) {
+                    $q2->where('is_display', 1);
+                });
+            })
             ->get();
 
 
@@ -155,7 +160,11 @@ function getCartItems()
 
         if (!empty($sessionCart)) {
             $productIds = array_keys($sessionCart);
-            $products = BatchFile::whereIn('id', $productIds)->get()->keyBy('id');
+            $products = BatchFile::with('category')->whereIn('id', $productIds)
+                ->whereHas('category', function ($q) {
+                    $q->where('is_display', '1');
+                })
+                ->get()->keyBy('id');
 
             foreach ($sessionCart as $productId => $cart) {
                 if (!isset($products[$productId]))

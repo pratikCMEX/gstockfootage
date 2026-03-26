@@ -278,20 +278,24 @@
 
 <section class="related-product">
     <div class="container">
-        <div class="row g-3 mb-2 align-items-center">
-            <div class="col-lg-8 col-md-6">
-                <div class="heading">
-                    <h2>Related <span
-                            class="yellow-headings">{{ $data['type'] === 'image' ? 'Images' : 'Videos' }}</span></h2>
+        @if ($productDatas->isNotEmpty())
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-lg-8 col-md-6">
+                    <div class="heading">
+                        <h2>Related <span
+                                class="yellow-headings">{{ $data['type'] === 'image' ? 'Images' : 'Videos' }}</span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-swiper-btns ">
+                        <div class="arrow-product-left product-arrow"><i class="bi bi-chevron-left"></i></div>
+                        <div class="arrow-product-right product-arrow"><i class="bi bi-chevron-right"></i></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="product-swiper-btns ">
-                    <div class="arrow-product-left product-arrow"><i class="bi bi-chevron-left"></i></div>
-                    <div class="arrow-product-right product-arrow"><i class="bi bi-chevron-right"></i></div>
-                </div>
-            </div>
-        </div>
+        @endif
+
         <div class="swiper mySwiper product-swiper">
             <div class="swiper-wrapper">
 
@@ -420,6 +424,7 @@
         </div>
     </div>
 </section>
+
 <script>
     const video = document.getElementById('hls-video-{{ $data['id'] }}');
 

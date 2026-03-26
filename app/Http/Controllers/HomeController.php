@@ -48,7 +48,9 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])->where('is_edited', '1')
-            //  PRIORITY FIRST
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })            //  PRIORITY FIRST
             ->orderByRaw("
         CASE 
             WHEN priority IS NULL OR priority = 0 THEN 1
@@ -74,6 +76,9 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->orderBy('views', 'desc')
             ->limit(4)
@@ -85,15 +90,21 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->orderBy('id', 'desc')
             ->limit(4)
             ->get();
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->limit(7)
             ->get(['id', 'category_id', 'keywords', 'type'])
             ->map(fn($product) => [
@@ -126,6 +137,10 @@ class HomeController extends Controller
                 ->findOrFail($id);
 
             $productDatas = BatchFile::with('category')->where('is_edited', '1')
+
+                ->whereHas('category', function ($q) {
+                    $q->where('is_display', '1');
+                })
                 ->where('id', '!=', $id) // exclude this product
                 ->where('type', $product->type) // exclude this product
                 ->withExists([
@@ -208,6 +223,9 @@ class HomeController extends Controller
         $collectionId = decrypt($request->collection_id);
         $collection = Collection::where('id', $collectionId)->first();
         $media = BatchFile::with('category')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('collection_id', $collectionId)
             ->where('is_edited', '1')
             ->withExists([
@@ -220,6 +238,9 @@ class HomeController extends Controller
             ->get();
 
         $query = BatchFile::with(['category'])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('type', 'image')
             ->where('is_edited', '1')
             ->withExists([
@@ -232,7 +253,7 @@ class HomeController extends Controller
         $videos = $media->where('type', 'video')->values();
 
         $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
-            $q->where('collection_id', $collectionId);
+            $q->where('collection_id', $collectionId)->where('is_display', '1');
         })->get();
 
         return view('layouts.front.layout', compact(
@@ -251,6 +272,9 @@ class HomeController extends Controller
         try {
             $products = Product::with(['category', 'subcategory', 'collection'])
                 ->where('is_display', '1')
+                ->whereHas('category', function ($q) {
+                    $q->where('is_display', '1');
+                })
                 ->latest()
                 ->get();
 
@@ -390,6 +414,9 @@ class HomeController extends Controller
         $query = BatchFile::with(['category'])
             ->where('type', 'video')
             ->where('is_edited', '1')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->withExists([
                 'favorites as is_favorite' => function ($q) {
                     $q->where('user_id', auth()->id());
@@ -525,7 +552,10 @@ class HomeController extends Controller
         $allVideos = $query->get();
 
         // Tags from all videos (unfiltered)
-        $tags = BatchFile::where('type', 'video')
+        $tags = BatchFile::with('category')->where('type', 'video')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->select('keywords')
             ->get()
             ->pluck('keywords')
@@ -543,8 +573,11 @@ class HomeController extends Controller
             ]);
         }
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
             ->limit(7)
@@ -746,6 +779,9 @@ class HomeController extends Controller
 
         $query = BatchFile::with(['category'])
             ->where('type', 'image')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->withExists([
                 'favorites as is_favorite' => function ($q) {
@@ -821,7 +857,10 @@ class HomeController extends Controller
 
         $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
 
-        $trendingTags = BatchFile::where('is_edited', '1')
+        $trendingTags = BatchFile::with('category')->where('is_edited', '1')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
@@ -914,6 +953,9 @@ class HomeController extends Controller
 
         $query = BatchFile::query()
             ->with(['category', 'collection'])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($subQuery) use ($search) {
