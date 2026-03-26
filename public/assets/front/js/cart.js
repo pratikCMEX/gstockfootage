@@ -64,6 +64,7 @@ function addToCart(product_id, btn = null) {
     },
     success: function (res) {
       if (res.status === true) {
+        $(".cart-empty").remove();
         let html = cartItemTemplate(res.product);
         $(".cart-items").prepend(html);
         let count = parseInt($(".cart-count").text());
