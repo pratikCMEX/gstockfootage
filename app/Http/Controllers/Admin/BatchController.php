@@ -940,6 +940,7 @@ class BatchController extends Controller
             ], 500);
         }
         $generateThumbnail = function (string $name, string $subFolder) use ($geminiKey): ?string {
+            $defaultImage = 'default_back.png';
 
             $model = "imagen-4.0-fast-generate-001";
             $imagenUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:predict?key={$geminiKey}";
