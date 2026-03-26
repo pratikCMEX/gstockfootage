@@ -552,20 +552,38 @@ class HomeController extends Controller
         $allVideos = $query->get();
 
         // Tags from all videos (unfiltered)
-        $tags = BatchFile::with('category')->where('type', 'video')
+        // $tags = BatchFile::with('category')->where('type', 'video')
+        //     ->whereHas('category', function ($q) {
+        //         $q->where('is_display', '1');
+        //     })
+        //     ->select('keywords')
+        //     ->get()
+        //     ->pluck('keywords')
+        //     ->filter()
+        //     ->flatMap(fn($item) => explode(',', $item))
+        //     ->map(fn($tag) => trim($tag))
+        //     ->unique()
+        //     ->values();
+        $tags = BatchFile::with('category')->where('is_edited', '1')
+            ->whereNotNull('keywords')
+
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
-            ->select('keywords')
-            ->get()
-            ->pluck('keywords')
-            ->filter()
-            ->flatMap(fn($item) => explode(',', $item))
-            ->map(fn($tag) => trim($tag))
-            ->unique()
+            ->where('keywords', '!=', '')
+            ->orderBy('views', 'desc')
+            ->limit(7)
+            ->get(['id', 'category_id', 'keywords', 'type'])
+            ->map(fn($product) => [
+                'product_id' => $product->id,
+                'category_id' => $product->category_id,
+                'tag' => trim(explode(',', $product->keywords)[0]),
+                'type' => strtolower(trim($product->type)) // ✅ normalize
+            ])
+            ->filter(fn($item) => !empty($item['tag']))
+            ->unique('tag')
+            ->take(7)
             ->values();
-
-        // dd($tags);
 
         // AJAX: return partial HTML + count
         if ($request->ajax()) {
@@ -577,7 +595,7 @@ class HomeController extends Controller
 
         $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
-            ->where('type', 'video')
+
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
@@ -864,7 +882,6 @@ class HomeController extends Controller
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
-            ->where('type', 'image')
             ->whereNotNull('keywords')
             ->where('keywords', '!=', '')
             ->orderBy('views', 'desc')
