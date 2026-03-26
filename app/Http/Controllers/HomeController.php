@@ -219,6 +219,9 @@ class HomeController extends Controller
         $collectionId = decrypt($request->collection_id);
         $collection = Collection::where('id', $collectionId)->first();
         $media = BatchFile::with('category')
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('collection_id', $collectionId)
             ->where('is_edited', '1')
             ->withExists([
@@ -231,6 +234,9 @@ class HomeController extends Controller
             ->get();
 
         $query = BatchFile::with(['category'])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('type', 'image')
             ->where('is_edited', '1')
             ->withExists([
@@ -243,7 +249,7 @@ class HomeController extends Controller
         $videos = $media->where('type', 'video')->values();
 
         $categories = Category::whereHas('batchfiles', function ($q) use ($collectionId) {
-            $q->where('collection_id', $collectionId);
+            $q->where('collection_id', $collectionId)->where('is_display', '1');
         })->get();
 
         return view('layouts.front.layout', compact(
