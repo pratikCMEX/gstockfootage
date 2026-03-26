@@ -48,8 +48,9 @@ class HomeController extends Controller
                     $query->where('user_id', $userId);
                 }
             ])->where('is_edited', '1')
-
-            //  PRIORITY FIRST
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })            //  PRIORITY FIRST
             ->orderByRaw("
         CASE 
             WHEN priority IS NULL OR priority = 0 THEN 1
