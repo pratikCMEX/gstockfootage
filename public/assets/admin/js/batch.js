@@ -90,13 +90,13 @@ $("#create_batch").validate({
   },
   messages: {
     submission_type: {
-      required: "Please select Submission type",
+      required: "Please select Submission Type",
     },
     // brief_code: {
     //   remote: "This brief code already exists",
     // },
     batch_name: {
-      required: "Please select Batch name",
+      required: "Please select Batch Name",
     },
   },
   normalizer: function (value) {
