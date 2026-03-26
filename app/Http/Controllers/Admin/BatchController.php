@@ -941,55 +941,61 @@ class BatchController extends Controller
         }
         $generateThumbnail = function (string $name, string $subFolder) use ($geminiKey): ?string {
             $defaultImage = 'default_back.png';
+            try {
 
-            $model = "imagen-4.0-fast-generate-001";
-            $imagenUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:predict?key={$geminiKey}";
-            $prompt = "A premium, photorealistic stock photo capturing the essence of '{$name}'. 
+                $model = "imagen-4.0-fast-generate-001";
+                $imagenUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:predict?key={$geminiKey}";
+                $prompt = "A premium, photorealistic stock photo capturing the essence of '{$name}'. 
             The image must feature a detailed, single subject centered in the frame with ultra-high resolution and sharp focus. 
             Use professional studio lighting, natural grain, and visible textures. 
             No flat design, no animations, no illustrations. No text, no watermark. 
             The aesthetic is realistic, high-fidelity, and sophisticated.";
 
-            $iResponse = Http::timeout(60)->post($imagenUrl, [
-                'instances'  => [
-                    ['prompt' => $prompt]
-                ],
-                'parameters' => [
-                    'sampleCount' => 1,
-                    // 'aspectRatio' => '1:1', // Some versions of the API don't support this parameter yet
-                ],
-            ]);
+                $iResponse = Http::timeout(60)->post($imagenUrl, [
+                    'instances'  => [
+                        ['prompt' => $prompt]
+                    ],
+                    'parameters' => [
+                        'sampleCount' => 1,
+                        // 'aspectRatio' => '1:1', // Some versions of the API don't support this parameter yet
+                    ],
+                ]);
 
-            if ($iResponse->failed()) {
-                // Log the error so you can see why it's failing (Check storage/logs/laravel.log)
-                \Log::error("Imagen Generation Failed: " . $iResponse->body());
-                return null;
+                if ($iResponse->failed()) {
+                    // Log the error so you can see why it's failing (Check storage/logs/laravel.log)
+                    \Log::error("Imagen Generation Failed: " . $iResponse->body());
+                    return $defaultImage; // ✅ fallback
+
+                }
+
+                // The response structure for Imagen is different. It returns 'predictions' containing base64.
+                $b64 = data_get($iResponse->json(), 'predictions.0.bytesBase64Encoded');
+
+                if (!$b64) {
+                    \Log::warning("Imagen returned no image data for: " . $name);
+                    return $defaultImage; // ✅ fallback
+                }
+
+                $imageData = base64_decode($b64);
+
+                // ✅ Save Logic (Refined)
+                $slug     = \Str::slug($name);
+                $filename = $slug . '-' . time() . '.jpg';
+                $relativeFolder = "uploads/images/{$subFolder}";
+                $savePath = public_path($relativeFolder);
+
+                if (!file_exists($savePath)) {
+                    mkdir($savePath, 0755, true);
+                }
+
+                // Use Laravel's GD to process if needed, but saving directly is safer if GD fails
+                file_put_contents($savePath . '/' . $filename, $imageData);
+
+                return $filename;
+            } catch (\Exception $e) {
+                \Log::error("Thumbnail Exception: " . $e->getMessage());
+                return $defaultImage; // ✅ fallback
             }
-
-            // The response structure for Imagen is different. It returns 'predictions' containing base64.
-            $b64 = data_get($iResponse->json(), 'predictions.0.bytesBase64Encoded');
-
-            if (!$b64) {
-                \Log::warning("Imagen returned no image data for: " . $name);
-                return null;
-            }
-
-            $imageData = base64_decode($b64);
-
-            // ✅ Save Logic (Refined)
-            $slug     = \Str::slug($name);
-            $filename = $slug . '-' . time() . '.jpg';
-            $relativeFolder = "uploads/images/{$subFolder}";
-            $savePath = public_path($relativeFolder);
-
-            if (!file_exists($savePath)) {
-                mkdir($savePath, 0755, true);
-            }
-
-            // Use Laravel's GD to process if needed, but saving directly is safer if GD fails
-            file_put_contents($savePath . '/' . $filename, $imageData);
-
-            return $filename;
         };
         // ── Resolve / create Category ──────────────────────────────────────
         $categoryId    = null;
