@@ -63,7 +63,7 @@ class CartController extends Controller
                     'thumbnail_path' => $product->thumbnail_path ? Storage::disk('s3')->url($product->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png'),
                     // 'low_path' => asset('uploads/images/low/' . $product->low_path),
                     // 'thumbnail_path' => asset('uploads/videos/thumbnails/' . $product->low_path),
-                    'size' => $product->width . ' x ' . $product->height
+                    'size' => $product->width . ' x ' . $product->height . ' (H x W)',
                 ]
             ]);
         }
