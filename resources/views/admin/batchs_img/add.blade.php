@@ -616,8 +616,7 @@
                                                     </div> --}}
                     <div class="modal-code">
                         <label for="category" class=" modal-label">Submission
-                            Type <span
-                                style="color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity))">*</span></label>
+                            Type <span style="color: red; opacity: 60%;">*</span></label>
                         <select class="form-select mr-sm-2 batch-inp" name="submission_type" id="category">
                             <option value="" selected disabled>Choose Submission Type...</option>
                             <option value="image">
@@ -639,7 +638,7 @@
                                                     </div> --}}
                     <div class="modal-name">
                         <label for="" class="modal-label">Batch Name <span
-                                style="color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity))">*</span></label>
+                                style="color: red; opacity: 60%;">*</span></label>
                         <div class="input-group ">
                             <input type="text" class="form-control batch-inp" placeholder="Batch Name"
                                 name="batch_name" aria-describedby="addon-wrapping">
