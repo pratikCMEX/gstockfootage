@@ -371,9 +371,9 @@ class HomeController extends Controller
         }
 
         // Filter by type (image/video)
-        if ($type) {
-            $query->where('type', $type);
-        }
+        // if ($type) {
+        //     $query->where('type', $type);
+        // }
 
         // Search keywords (only when no collection filter)
         if ($q) {
@@ -415,14 +415,7 @@ class HomeController extends Controller
         }
 
         // ── Ordering (same as allPhotos) ──
-        $query->orderByRaw("
-        CASE 
-            WHEN priority IS NULL OR priority = 0 THEN 1
-            ELSE 0
-        END
-    ");
-        $query->orderBy('priority', 'ASC');
-        $query->orderBy('id', 'DESC');
+
 
         $media = $query->get();
 
