@@ -616,7 +616,7 @@
                                                     </div> --}}
                     <div class="modal-code">
                         <label for="category" class=" modal-label">Submission
-                            Type</label>
+                            Type <span class="text-danger">*</span></label>
                         <select class="form-select mr-sm-2 batch-inp" name="submission_type" id="category">
                             <option value="" selected disabled>Choose Submission Type...</option>
                             <option value="image">
