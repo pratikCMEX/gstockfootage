@@ -268,6 +268,9 @@ class HomeController extends Controller
         try {
             $products = Product::with(['category', 'subcategory', 'collection'])
                 ->where('is_display', '1')
+                ->whereHas('category', function ($q) {
+                    $q->where('is_display', '1');
+                })
                 ->latest()
                 ->get();
 
@@ -946,6 +949,9 @@ class HomeController extends Controller
 
         $query = BatchFile::query()
             ->with(['category', 'collection'])
+            ->whereHas('category', function ($q) {
+                $q->where('is_display', '1');
+            })
             ->where('is_edited', '1')
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($subQuery) use ($search) {
