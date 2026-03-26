@@ -625,7 +625,6 @@
                             <option value="video">
                                 Video</option>
                         </select>
-                        <span class="text-danger">*</span>
 
 
                     </div>
