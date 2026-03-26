@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- Image Search -->
-                <button type="button" class="btn image-search-btn shadow d-none" data-bs-toggle="modal"
+                <button type="button" class="btn image-search-btn shadow" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
                     <i class="bi bi-camera"></i>
                     Search by image
