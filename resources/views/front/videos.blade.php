@@ -1,4 +1,5 @@
 <!-- hero section -->
+{{ dd($tags) }}
 <section class="hero">
     <div class="container">
         <h1>Explore videos and royalty-free stock footage</h1>

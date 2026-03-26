@@ -552,18 +552,7 @@ class HomeController extends Controller
         $allVideos = $query->get();
 
         // Tags from all videos (unfiltered)
-        // $tags = BatchFile::with('category')->where('type', 'video')
-        //     ->whereHas('category', function ($q) {
-        //         $q->where('is_display', '1');
-        //     })
-        //     ->select('keywords')
-        //     ->get()
-        //     ->pluck('keywords')
-        //     ->filter()
-        //     ->flatMap(fn($item) => explode(',', $item))
-        //     ->map(fn($tag) => trim($tag))
-        //     ->unique()
-        //     ->values();
+
         $tags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
             ->where('type', 'video')
@@ -614,7 +603,6 @@ class HomeController extends Controller
             ->take(7)
             ->values();
 
-        dd($tags);
         return view("layouts.front.layout", compact(
             'title',
             'page',
