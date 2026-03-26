@@ -188,7 +188,7 @@
                                 @endif
                             </span>
                         </h2>
-                        <p id="photo-count">Showing {{ count($allPhotos) }} photos</p>
+                        <p id="photo-count">Showing {{ count($allPhotos) }} photo(s)</p>
                     </div>
                 </div>
 
@@ -676,6 +676,7 @@
                 .then(res => res.json())
                 .then(data => {
                     gridWrapper.insertAdjacentHTML("beforeend", data.html);
+                    if (countEl) countEl.textContent = `Showing ${data.count} photo(s)`;
                     if (loadMoreText) loadMoreText.textContent = "Load More";
                     if (loadMoreSpinner) loadMoreSpinner.classList.add("d-none");
                     if (loadMoreBtn) loadMoreBtn.disabled = false;
