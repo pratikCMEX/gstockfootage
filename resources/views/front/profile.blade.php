@@ -400,8 +400,13 @@
                 <div class="profile-left">
                     <div class="profile-content">
                         <div class="profile-img">
-                            <img src="{{ $user_profile->profile_image ? asset('uploads/images/profile_image/' . $user_profile->profile_image) : asset('assets/front/img/demo_profile.jpg') }}" height="100%" width="100%"
-                                alt="">
+                            <img src=" 
+                            @if(isset($user_profile->profile_image)) 
+                             {{ asset('uploads/images/profile_image/' . $user_profile->profile_image) }} 
+                             @else
+                              {{ asset('assets/front/img/demo_profile.jpg') }} 
+                              @endif 
+                              " height="100%" width="100%" alt="">
                         </div>
                         <div class="profile-name">
                             <h4>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h4>
