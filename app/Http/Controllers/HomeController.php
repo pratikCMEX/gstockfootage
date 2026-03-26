@@ -220,7 +220,15 @@ class HomeController extends Controller
         $js = ['home', 'favorites'];
 
         // ── Get collection 1 with its media ──
-        $collectionId = decrypt($request->collection_id);
+        // $collectionId = decrypt($request->collection_id);
+        $q = $request->get('q', '');
+        $type = $request->get('type', 'image');
+        $collectionId = $request->has('collection_id')
+            ? decrypt($request->get('collection_id'))
+            : null;
+
+
+
         $collection = Collection::where('id', $collectionId)->first();
         $media = BatchFile::with('category')
             ->whereHas('category', function ($q) {

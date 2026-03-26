@@ -196,7 +196,7 @@ $(document).ready(function () {
   // ── Shared: redirect function ───────────────────────────────────
   function redirectToListing(keyword, type) {
     var routeMap = {
-      all: base_url + "/allPhotos",
+      all: base_url + "/all-media",
       video: base_url + "/videos",
       image: base_url + "/allPhotos",
       artwork: base_url + "/artwork",
