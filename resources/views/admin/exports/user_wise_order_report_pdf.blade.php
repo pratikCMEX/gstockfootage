@@ -125,7 +125,7 @@
                     <td>{{ $data->first_name . ' ' . $data->last_name }}</td>
                     <td>{{ $data->email }}</td>
                     <td>{{ $data->total_orders }}</td>
-                    <td>{{  number_format($data->total_amount, 2) }}</td>
+                    <td>{{ number_format($data->total_amount, 2) }}</td>
                     <td>{{  $data->completed_orders ?? '0'}}</td>
                     <td>{{  $data->pending_orders ?? '0'}}</td>
                     <td>{{  $data->cancelled_orders ?? '0'}}</td>
