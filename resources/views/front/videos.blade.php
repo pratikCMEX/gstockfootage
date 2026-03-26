@@ -560,12 +560,11 @@
                         {{-- CHANGE: added class="trending-tag-btn" + data-tag="..." to every pill button
                                      added class="tag-close d-none" to xmark icon --}}
                         <ul class="nav nav-pills">
-                            {{ dd($trendingTags) }}
                             @foreach ($trendingTags as $tag)
                                 <li class="nav-item">
                                     <button type="button" class="nav-link trending-tag-btn"
-                                        data-tag="{{ $tag }}">
-                                        {{ $tag }}
+                                        data-tag="{{ $tag['tag'] }}">
+                                        {{ $tag['tag'] }}
                                         <i class="fa-solid fa-xmark tag-close d-none ms-1"></i>
                                     </button>
                                 </li>
