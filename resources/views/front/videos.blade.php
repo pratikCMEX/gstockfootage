@@ -121,11 +121,8 @@
             <div class="trending">
                 Trending:
                 @foreach ($trendingTags as $tags)
-                    <a
-                        href="{{ $tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}">{{ $tags['tag'] }}</a>
-                    @if (!$loop->last)
-                        ,
-                    @endif
+                    <a href="{{ $tags['type'] === 'image' ? route('all_photos', ['q' => $tags['tag'], 'type' => $tags['type']]) : route('videos', ['q' => $tags['tag'], 'type' => $tags['type']]) }}"
+                        class="me-2">{{ $tags['tag'] }}</a>
                 @endforeach
             </div>
         @endif
