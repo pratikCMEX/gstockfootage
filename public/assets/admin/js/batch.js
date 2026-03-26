@@ -437,7 +437,7 @@ function loadSubCategories(category_id, selected_subcategory = null) {
 
     success: function (res) {
       $("#subcategory_id").html(
-        '<option value="" selected disabled>Select Sub Category</option>'
+        '<option value="" selected disabled>Select Subcategory</option>'
       );
 
       $.each(res, function (key, value) {
