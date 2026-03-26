@@ -921,140 +921,21 @@
                         <p class="text-muted mt-2" style="font-size:13px;">Loading videos…</p>
                     </div>
 
+                    {{-- CHANGE: added id="videoGrid" to this div so JS can swap its contents --}}
+
                     <div class="brows-main-section">
-                        {{-- CHANGE: added id="videoGrid" to this div so JS can swap its contents --}}
                         <div class="product-listi-section" id="videoGrid">
-                            @if (isset($allVideos) && $allVideos->count() > 0)
-                                @foreach ($allVideos as $video)
-                                    <div class="product-card">
-                                        <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                            <video class="product-img" width="100%" muted loop playsinline
-                                                preload="auto"
-                                                poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
-                                                <source
-                                                    src="{{ $video->preview_path ? Storage::disk('s3')->url($video->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
-                                                    type="video/mp4">
-                                            </video>
-                                        </a>
-                                        <div class="p-3">
-                                            <span
-                                                class="badge badge-custom mb-2">{{ $video->category->category_name }}</span>
-                                            <a href="{{ route('product.detail', encrypt($video->id)) }}">
-                                                <h6 class="popular-detail-title">{{ $video->title }}</h6>
-                                            </a>
-                                            <div class="price-btn">
-                                                <span class="price">${{ $video->price }}</span>
-                                                {{-- <a href="{{ route('product.detail', encrypt($video->id)) }}"
-                                                    class="btn btn-orange">Add</a> --}}
-                                                <button type="button" {{ isInCart($video->id) ? 'disabled' : '' }}
-                                                    class="btn add_to_cart btn-orange"
-                                                    onclick="addToCart({{ $video->id }}, this)">
-                                                    {{ isInCart($video->id) ? 'Added to Cart' : 'Add to Cart' }}</button>
-                                            </div>
-                                            <div class="product-two-btn">
-                                                <button class="btn popular-icon-btn addFavorite"
-                                                    data-Product-id="{{ $video->id }}"
-                                                    data-type="{{ $video->type }}">
-                                                    <i
-                                                        class="bi {{ $video->is_favorite == 1 ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                                    {{ $video->is_favorite == 1 ? 'Saved' : 'Save' }}
-                                                </button>
-                                                <div class="share-wrapper position-relative d-inline-block">
-                                                    <button type="button"
-                                                        data-url="{{ route('product.detail', encrypt($video->id)) }}"
-                                                        class="btn btn-all-dark btn-hover-dark share-trigger-btn">
-                                                        <i class="bi bi-share"></i> Share
-                                                    </button>
+                            @include('front.partials.video-cards', ['allVideos' => $allVideos])
+                        </div>
 
-                                                    <div class="share-dropdown" id="shareDropdown">
-                                                        <div class="share-dropdown-title">Share this page</div>
-
-                                                        <!-- WhatsApp -->
-                                                        <a class="share-option" id="shareWhatsapp" href="#"
-                                                            target="_blank">
-                                                            <span class="share-icon whatsapp-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                                    height="18" viewBox="0 0 24 24"
-                                                                    fill="currentColor">
-                                                                    <path
-                                                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                                                                    <path
-                                                                        d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.224a.75.75 0 0 0 .92.92l5.421-1.461A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.694-.5-5.24-1.377l-.374-.214-3.878 1.046 1.067-3.768-.234-.388A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
-                                                                </svg>
-                                                            </span>
-                                                            <span>WhatsApp</span>
-                                                        </a>
-
-                                                        <!-- X (Twitter) -->
-                                                        <a class="share-option" id="shareX" href="#"
-                                                            target="_blank">
-                                                            <span class="share-icon x-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                    height="16" viewBox="0 0 24 24"
-                                                                    fill="currentColor">
-                                                                    <path
-                                                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
-                                                                </svg>
-                                                            </span>
-                                                            <span>X (Twitter)</span>
-                                                        </a>
-
-                                                        <!-- Instagram -->
-                                                        <a class="share-option" id="shareInstagram" href="#"
-                                                            target="_blank">
-                                                            <span class="share-icon instagram-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                                    height="18" viewBox="0 0 24 24"
-                                                                    fill="currentColor">
-                                                                    <path
-                                                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
-                                                                </svg>
-                                                            </span>
-                                                            <span>Instagram</span>
-                                                        </a>
-
-                                                        <!-- Facebook -->
-                                                        <a class="share-option" id="shareFacebook" href="#"
-                                                            target="_blank">
-                                                            <span class="share-icon facebook-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                                    height="18" viewBox="0 0 24 24"
-                                                                    fill="currentColor">
-                                                                    <path
-                                                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                                                                </svg>
-                                                            </span>
-                                                            <span>Facebook</span>
-                                                        </a>
-
-                                                        <div class="share-divider"></div>
-
-                                                        <!-- Copy Link -->
-                                                        <button class="share-option copy-link-btn"
-                                                            data-copy-url="{{ route('product.detail', encrypt($video->id)) }}"
-                                                            id="copyLinkBtn">
-                                                            <span class="share-icon copy-icon">
-                                                                <i class="bi bi-link-45deg"
-                                                                    style="font-size:18px;"></i>
-                                                            </span>
-                                                            <span id="copyLinkText">Copy Link</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="col-12 text-center py-5" style="grid-column:1/-1;">
-                                    <div class="alert alert-info">
-                                        <h4 class="alert-heading">No Videos Available</h4>
-                                        <p>There are currently no videos to display. Please check back later.</p>
-                                        <hr>
-                                        <p class="mb-0">You can browse our photo collection in the meantime.</p>
-                                    </div>
-                                </div>
-                            @endif
+                        {{-- Load More — outside the grid, never re-rendered by AJAX --}}
+                        <div class="text-center mt-4" id="load-more-wrapper"
+                            style="{{ $allVideos->hasMorePages() ? '' : 'display:none;' }}">
+                            <button class="btn btn-orange px-4" id="loadMoreBtn">
+                                <span id="loadMoreText">Load More</span>
+                                <span id="loadMoreSpinner"
+                                    class="spinner-border spinner-border-sm ms-2 d-none"></span>
+                            </button>
                         </div>
                     </div>
 
@@ -1146,3 +1027,194 @@
         border-radius: 8px;
     }
 </style>
+<script>
+    (function() {
+        const gridWrapper = document.getElementById("videoGrid");
+        const loadMoreBtn = document.getElementById("loadMoreBtn");
+        const loadMoreWrapper = document.getElementById("load-more-wrapper");
+        const loadMoreText = document.getElementById("loadMoreText");
+        const loadMoreSpinner = document.getElementById("loadMoreSpinner");
+        const resultCount = document.getElementById("videoResultCount");
+        const clearBtn = document.getElementById("clearAllFiltersBtn");
+        const baseUrl = "{{ route('videos') }}";
+
+        if (!gridWrapper) return;
+
+        let currentPage = 1;
+
+        // ── Collect all filter params ──
+        function getFilterParams(page) {
+            const params = new URLSearchParams();
+
+            // Preserve search query from URL
+            const q = new URLSearchParams(window.location.search).get("q");
+            if (q) params.set("q", q);
+
+            // Price — only if below max
+            const priceMaxEl = document.getElementById("price_max_input");
+            if (priceMaxEl) {
+                const val = parseFloat(priceMaxEl.value);
+                const max = parseFloat(priceMaxEl.max);
+                if (val < max) params.set("price_max", val);
+            }
+
+            // Duration
+            const durMinEl = document.getElementById("duration_min_input");
+            const durMaxEl = document.getElementById("duration_max_input");
+            if (durMinEl && parseFloat(durMinEl.value) > 0)
+                params.set("duration_min", durMinEl.value);
+            if (durMaxEl && parseFloat(durMaxEl.value) < parseFloat(durMaxEl.max))
+                params.set("duration_max", durMaxEl.value);
+
+            // All checkboxes (frame_rate, orientation, camera_movement, content_filters etc.)
+            document.querySelectorAll(".filter-check:checked").forEach(cb => {
+                params.append(cb.name, cb.value);
+            });
+
+            // Radio (license)
+            const licenseEl = document.querySelector(".filter-radio:checked");
+            if (licenseEl) params.set("license", licenseEl.value);
+
+            // Sort
+            const activeSort = document.querySelector(".sort-btn.active");
+            if (activeSort) params.set("sort", activeSort.dataset.value);
+
+            params.set("page", page || 1);
+            return params;
+        }
+
+        // ── Apply filters — reset grid to page 1 ──
+        function applyFilters() {
+            currentPage = 1;
+            gridWrapper.classList.add("loading");
+
+            fetch(`${baseUrl}?${getFilterParams(1).toString()}`, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                })
+                .then(res => res.json())
+                .then(data => {
+                    gridWrapper.innerHTML = data.html;
+                    gridWrapper.classList.remove("loading");
+
+                    if (resultCount) resultCount.textContent = `${data.count} result(s)`;
+                    if (loadMoreWrapper) {
+                        loadMoreWrapper.style.display = data.hasMore ? "block" : "none";
+                    }
+                })
+                .catch(() => {
+                    gridWrapper.classList.remove("loading");
+                });
+        }
+
+        // ── Load More — append to grid ──
+        function loadMore() {
+            currentPage++;
+
+            if (loadMoreText) loadMoreText.textContent = "Loading...";
+            if (loadMoreSpinner) loadMoreSpinner.classList.remove("d-none");
+            if (loadMoreBtn) loadMoreBtn.disabled = true;
+
+            fetch(`${baseUrl}?${getFilterParams(currentPage).toString()}`, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                })
+                .then(res => res.json())
+                .then(data => {
+                    gridWrapper.insertAdjacentHTML("beforeend", data.html);
+
+                    if (loadMoreText) loadMoreText.textContent = "Load More";
+                    if (loadMoreSpinner) loadMoreSpinner.classList.add("d-none");
+                    if (loadMoreBtn) loadMoreBtn.disabled = false;
+
+                    if (loadMoreWrapper) {
+                        loadMoreWrapper.style.display = data.hasMore ? "block" : "none";
+                    }
+                })
+                .catch(() => {
+                    if (loadMoreText) loadMoreText.textContent = "Load More";
+                    if (loadMoreSpinner) loadMoreSpinner.classList.add("d-none");
+                    if (loadMoreBtn) loadMoreBtn.disabled = false;
+                });
+        }
+
+        // ── Debounce ──
+        function debounce(fn, delay = 500) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn(...args), delay);
+            };
+        }
+
+        const debouncedApply = debounce(applyFilters);
+
+        // ── Listen on checkboxes + range inputs ──
+        document.querySelectorAll(
+            "#price_max_input, #priceRangeMax, #duration_max_input, #durationRangeMax, #duration_min_input, .filter-check, .filter-radio"
+        ).forEach(el => {
+            el.addEventListener("change", debouncedApply);
+            if (el.type === "number" || el.type === "range") {
+                el.addEventListener("input", debouncedApply);
+            }
+        });
+
+        // ── Sort buttons ──
+        document.querySelectorAll(".sort-btn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                applyFilters();
+            });
+        });
+
+        // ── Load More button ──
+        loadMoreBtn?.addEventListener("click", loadMore);
+
+        // ── Clear All ──
+        clearBtn?.addEventListener("click", function() {
+            document.querySelectorAll(".filter-check, .filter-radio").forEach(cb => cb.checked = false);
+
+            const priceMaxEl = document.getElementById("price_max_input");
+            const priceRangeEl = document.getElementById("priceRangeMax");
+            const durMaxEl = document.getElementById("duration_max_input");
+            const durMinEl = document.getElementById("duration_min_input");
+            const durRangeEl = document.getElementById("durationRangeMax");
+            const priceLabel = document.getElementById("priceMaxLabel");
+            const durLabel = document.getElementById("durationMaxLabel");
+
+            if (priceMaxEl) priceMaxEl.value = priceMaxEl.max;
+            if (priceRangeEl) priceRangeEl.value = priceRangeEl.max;
+            if (durMaxEl) durMaxEl.value = durMaxEl.max;
+            if (durMinEl) durMinEl.value = 0;
+            if (durRangeEl) durRangeEl.value = durRangeEl.max;
+
+            if (priceLabel && priceMaxEl)
+                priceLabel.textContent = "$" + parseFloat(priceMaxEl.max).toFixed(2);
+            if (durLabel && durRangeEl)
+                durLabel.textContent = durRangeEl.max + "s+";
+
+            // Re-sync fills
+            priceRangeEl?.dispatchEvent(new Event("input"));
+            durRangeEl?.dispatchEvent(new Event("input"));
+
+            // Reset sort to default
+            document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+            document.querySelector('.sort-btn[data-value="relevant"]')?.classList.add("active");
+
+            applyFilters();
+        });
+
+        // ── No results clear btn (dynamically rendered) ──
+        document.addEventListener("click", function(e) {
+            if (e.target.closest("#noResultsClearBtn")) clearBtn?.click();
+        });
+
+        // ── Range sliders init ──
+        initRangeSlider("priceRangeMax", "price_max_input", "priceMaxLabel");
+        initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
+
+    })();
+</script>
