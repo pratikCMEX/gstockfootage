@@ -3,7 +3,7 @@
         <div class="row">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">Collection</h5>
+                    <h5 class="card-title fw-semibold">Collections</h5>
                 </div>
                 <div>
                     <a href="{{ route('admin.collection_add') }}" class="btn btn-orange"> + Add Collection </a>

@@ -112,7 +112,7 @@ class LicenseDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::computed('DT_RowIndex')
-                ->title('No')
+                ->title('Sr. No.')
                 ->orderable(false)
                 ->searchable(false),
             Column::make('name')->title('Licence Name'),
