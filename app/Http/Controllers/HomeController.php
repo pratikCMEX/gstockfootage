@@ -1038,6 +1038,7 @@ class HomeController extends Controller
                 'mimes:jpeg,png,jpg,webp',
                 'max:5MB',
             ],
+            'image.max' => 'The image must not be greater than 5 MB.',
         ]);
 
         $image = $request->file('image');
