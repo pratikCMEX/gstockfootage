@@ -1138,7 +1138,7 @@
         border-radius: 8px;
     }
 </style>
-<script>
+{{-- <script>
     (function() {
         const gridWrapper = document.getElementById("videoGrid");
         const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -1338,4 +1338,4 @@
         // initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
 
     })();
-</script>
+</script> --}}

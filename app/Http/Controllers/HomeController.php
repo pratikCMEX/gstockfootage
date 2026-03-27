@@ -512,8 +512,14 @@ class HomeController extends Controller
         }
 
         // Price range
-        $query->whereBetween('price', [(float) $price_min, (float) $price_max]);
+        // $query->whereBetween('price', [(float) $price_min, (float) $price_max]);
+        if ($request->filled('price_min')) {
+            $query->where('price', '>=', $request->price_min);
+        }
 
+        if ($request->filled('price_max')) {
+            $query->where('price', '<=', $request->price_max);
+        }
         // Duration range
         if ((int) $duration_min > 0) {
             $query->where('duration', '>=', (int) $duration_min);
