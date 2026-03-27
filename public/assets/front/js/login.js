@@ -4,7 +4,7 @@ var iti;
 $.validator.addMethod("validPhone", function (value, element) {
   if (!value || value.trim() === '') return true;
   return iti && iti.isValidNumber();
-}, "Please enter a valid phone number for selected country");
+}, "Please enter a valid Phone Number for selected country");
 
 $("#login").validate({
   rules: {
@@ -118,7 +118,7 @@ $("#signup").validate({
       remote: "This Email Already Exists",
     },
     phone_number: {
-     validPhone: "Please enter a valid phone number for selected country",
+     validPhone: "Please enter a valid Phone Number for selected country",
     },
 
     password: {

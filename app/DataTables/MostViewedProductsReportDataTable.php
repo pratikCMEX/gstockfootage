@@ -135,7 +135,7 @@ class MostViewedProductsReportDataTable extends DataTable
                 ]),
                 Button::raw([
                     'text' => '<i class="fa fa-file-excel"></i> Excel',
-                     'attr'      => ['class' => 'dt-button btn-danger'],
+                     'attr'      => ['class' => 'dt-button my-excel-btn btn btn-success'],
                     'action' => 'function(e, dt, node, config) {
             
             let from        = $("#from_date").val();

@@ -444,6 +444,11 @@ textarea.form-control{
 .gt-link {
   color: var(--primary) !important;
 }
+div.dataTables_wrapper .dt-buttons .dt-button.my-excel-btn {
+    background-color: #28a745 !important; /* green */
+    color: #fff !important;
+    border: none !important;
+}
 
 .form-control:focus {
   color: var(--black) !important;
