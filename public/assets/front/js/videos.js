@@ -664,6 +664,9 @@
     content_filters: [],
     with_people: "",
     sort: "relevant",
+    category_id: [],
+    subcategory_id: [],
+    collection_id: [],
   };
 
   /* =========================================================================
@@ -696,6 +699,11 @@
       params["camera_movement[]"] = state.camera_movement;
     if (state.content_filters.length)
       params["content_filters[]"] = state.content_filters;
+    if (state.category_id.length) params["category_id[]"] = state.category_id;
+    if (state.subcategory_id.length)
+      params["subcategory_id[]"] = state.subcategory_id;
+    if (state.collection_id.length)
+      params["collection_id[]"] = state.collection_id;
     if (state.license) params.license = state.license;
     if (state.with_people) params.with_people = state.with_people;
     if (state.sort !== "relevant") params.sort = state.sort;
@@ -899,6 +907,9 @@
     state.content_filters = [];
     state.license = "";
     state.camera_movement = [];
+    state.category_id = [];
+    state.subcategory_id = [];
+    state.collection_id = [];
     state.with_people = "";
     state.sort = "relevant";
 
@@ -998,6 +1009,40 @@
           return "Content: " + capitalize(v.replace(/_/g, " "));
         },
       },
+      {
+        key: "category_id",
+        label: function (v) {
+          // look up the checkbox label text by value
+          var text = $('input[name="category_id[]"][value="' + v + '"]')
+            .closest(".form-check")
+            .find("label")
+            .text()
+            .trim();
+          return "Cat: " + (text || v);
+        },
+      },
+      {
+        key: "subcategory_id",
+        label: function (v) {
+          var text = $('input[name="subcategory_id[]"][value="' + v + '"]')
+            .closest(".form-check")
+            .find("label")
+            .text()
+            .trim();
+          return "Sub: " + (text || v);
+        },
+      },
+      {
+        key: "collection_id",
+        label: function (v) {
+          var text = $('input[name="collection_id[]"][value="' + v + '"]')
+            .closest(".form-check")
+            .find("label")
+            .text()
+            .trim();
+          return "Col: " + (text || v);
+        },
+      },
     ];
     $.each(arrayChips, function (_, cfg) {
       $.each(state[cfg.key], function (i, v) {
@@ -1076,10 +1121,11 @@
       if ($cb.is(":checked")) {
         $(subList).show();
       } else {
+        $(this).prop("checked", false);
         $(subList).hide().find(".sub-category-check").prop("checked", false);
       }
     }
-    triggerFetch();
+    // triggerFetch();
   });
 
   /* =========================================================================

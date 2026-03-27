@@ -491,7 +491,7 @@ class BatchController extends Controller
         set_time_limit(600);
         $request->validate([
             'files' => 'required|array|max:100', // 👈 limit here
-            'files.*' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,avi,zip|max:512000'
+            'files.*' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,avi,webm,zip|max:512000'
         ]);
 
         // Initialize manager ONCE here, reuse across all images
@@ -524,7 +524,7 @@ class BatchController extends Controller
                                 $this->processImage($zipFile->getPathname(), $batch_id, null, $manager);
                             }
 
-                            if (in_array($ext, ['mp4', 'mov', 'avi']) && $request->batch_type == 'video') {
+                            if (in_array($ext, ['mp4', 'mov', 'avi', 'webm']) && $request->batch_type == 'video') {
                                 Log::info('Video First Recieved:');
                                 sleep(5);
                                 $this->processVideo($zipFile->getPathname(), $batch_id);
@@ -539,7 +539,7 @@ class BatchController extends Controller
                     Log::info('Image First Recieved:');
 
                     $this->processImage($file->getRealPath(), $batch_id, $file, $manager);
-                } elseif (in_array($extension, ['mp4', 'mov', 'avi'])) {
+                } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'webm'])) {
                     Log::info('Video First Recieved:');
                     sleep(5);
                     $this->processVideo($file, $batch_id);

@@ -1252,6 +1252,7 @@ function startUploadToast() {
   const spinRing = document.getElementById("spinRing");
   const checkRing = document.getElementById("checkRing");
   const counterBox = document.getElementById("counterBox");
+  const batch_type = document.getElementById("batch_type");
 
   cancelAnimationFrame(counterRaf);
   cancelAnimationFrame(animRaf);
@@ -1267,7 +1268,10 @@ function startUploadToast() {
   pctLabel.textContent = "0";
 
   toastTitle.textContent = "Uploading...";
-  toastSub.textContent = "Image upload in progress";
+  toastSub.textContent =
+    batch_type.value == "video"
+      ? "Video upload in progress"
+      : "Image upload in progress";
   waitText.style.display = "flex";
   successMsg.style.display = "none";
   counterBox.style.display = "flex";
@@ -1315,7 +1319,10 @@ function completeUploadToast() {
       pctLabel.textContent = "100";
       setTimeout(() => {
         toastTitle.textContent = "Upload Complete";
-        toastSub.textContent = "Your image is ready";
+        toastSub.textContent =
+          batch_type.value == "video"
+            ? "Your video is ready"
+            : "Your image is ready";
         waitText.style.display = "none";
         counterBox.style.display = "none";
         successMsg.style.display = "block";

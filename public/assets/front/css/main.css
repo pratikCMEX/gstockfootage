@@ -327,7 +327,7 @@ input[type="range"]::-moz-range-track {
 #videoGrid {
   padding-right: 6px;
 }
-
+/* 
 #videoGrid,
 #photo-grid-wrapper {
   max-height: 1420px;
@@ -349,8 +349,53 @@ input[type="range"]::-moz-range-track {
 #photo-grid-wrapper::-webkit-scrollbar-thumb {
   background: var(--primary);
   border-radius: 2px;
+} */
+
+#videoGrid,
+#photo-grid-wrapper {
+  max-height: 1420px;
+  overflow-y: auto;
+  scroll-behavior: smooth !important;
+  padding-top: 10px;
+
+  /* Performance fixes */
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
 }
 
+#videoGrid::-webkit-scrollbar,
+#photo-grid-wrapper::-webkit-scrollbar {
+  width: 3px;
+  border-radius: 2px;
+}
+
+#videoGrid::-webkit-scrollbar-track,
+#photo-grid-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+#videoGrid::-webkit-scrollbar-thumb,
+#photo-grid-wrapper::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* GPU layer per card — prevents repaint on scroll */
+#videoGrid .product-card,
+#photo-grid-wrapper .product-card {
+  will-change: transform;
+  transform: translateZ(0);
+  contain: layout style paint;
+}
+
+/* Fix photo image layout shift & off-thread decoding */
+#photo-grid-wrapper img.product-img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  content-visibility: auto;
+}
 .pl {
   width: 6em;
   height: 6em;

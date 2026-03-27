@@ -1,9 +1,11 @@
 {{-- {{ dd($batch_data) }} --}}
 @php
+    // dd($batch);
     $category = getCategory();
     $getCollections = getCollections();
 @endphp
 <div class="body-wrapper-inner upload-main">
+    <input type="hidden" id="batch_type" value="{{ $batch->submission_type }}">
     <div class="container-fluid">
         <div class="card">
             <div class="card-body pb-0">
@@ -140,9 +142,9 @@
                                                     <div class="upload-device-list-detail text-start">
                                                         <ul>
                                                             @if ($batch->submission_type == 'image')
-                                                                <li>Accepted Image file types:jpg,jpeg,png,webp</li>
+                                                                <li>Accepted Image file types:jpg,jpeg,png,webp,zip</li>
                                                             @else
-                                                                <li>Accepted Video file types:mov,mp4</li>
+                                                                <li>Accepted Video file types:mov,mp4,zip</li>
                                                             @endif
                                                             <li>Maximum file size : 6GB</li>
                                                             <li>Supported browsers : Chrome , firefox ,IE10+ , safari 6+
@@ -1323,14 +1325,13 @@
 
                 <div>
                     <div class="toast-title" id="toastTitle">Uploading...</div>
-
-                    @if ($batch->submission_type == 'image')
+                    @if ($batch->submission_type == 'video')
                         <div class="toast-subtitle" id="toastSub" id="toastSub">
-                            Image upload in progress
+                            Video upload in progress
                         </div>
                     @else
                         <div class="toast-subtitle" id="toastSub" id="toastSub">
-                            Video upload in progress
+                            Image upload in progress
                         </div>
                     @endif
                 </div>
