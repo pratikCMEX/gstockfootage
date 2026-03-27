@@ -111,12 +111,9 @@ textarea {
   align-items: center; /* vertical center */
   justify-content: center; /* horizontal center */
   cursor: not-allowed;
-}
-#ai_loader {
-  display: none;
-  align-items: center;
   flex-direction: column;
 }
+
 #ai_loader .genrate-ai {
   margin-top: 10px;
   color: var(--black);
