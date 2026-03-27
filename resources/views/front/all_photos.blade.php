@@ -1019,16 +1019,23 @@
             }
         });
 
-        // Parent category toggle
+        // Parent category toggle — REPLACE your existing handler
         document.addEventListener("change", function(e) {
             if (!e.target.classList.contains("parent-category-check")) return;
+
             const subList = document.getElementById(`sub_${e.target.dataset.categoryId}`);
             if (subList) {
-                subList.style.display = e.target.checked ? "block" : "none";
-                if (!e.target.checked) {
-                    subList.querySelectorAll(".sub-category-check").forEach(cb => cb.checked = false);
+                if (e.target.checked) {
+                    subList.style.display = "block";
+                } else {
+                    subList.style.display = "none";
+                    // ✅ Uncheck AND visually clear all subcategory checkboxes
+                    subList.querySelectorAll(".sub-category-check").forEach(cb => {
+                        cb.checked = false;
+                    });
                 }
             }
+
             debouncedApply();
         });
 
@@ -1044,8 +1051,10 @@
         // Clear all
         clearBtn?.addEventListener("click", function() {
             document.querySelectorAll(".filter-check").forEach(cb => cb.checked = false);
-            document.querySelectorAll(".subcategory-list").forEach(el => el.style.display = "none");
-
+            document.querySelectorAll(".subcategory-list").forEach(el => {
+                el.style.display = "none";
+                el.querySelectorAll(".sub-category-check").forEach(cb => cb.checked = false);
+            });
             const minEl = document.getElementById("price_min_input");
             const maxEl = document.getElementById("price_max_input");
             const minRange = document.getElementById("priceRangeMin");
