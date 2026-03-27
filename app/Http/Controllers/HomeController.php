@@ -553,6 +553,7 @@ class HomeController extends Controller
     }
     public function videos(Request $request)
     {
+        // dd($request);
         $title = 'Videos';
         $page = 'front.videos';
         $js = ['home', 'favorites', 'videos'];
@@ -569,6 +570,7 @@ class HomeController extends Controller
         $q = $request->get('q', '');
 
         if ($request->ajax()) {
+            // dd(1);
             $price_min = $request->get('price_min', 0);
             $price_max = $request->get('price_max', $maxPrice);
             $duration_min = $request->get('duration_min', 0);
@@ -742,6 +744,8 @@ class HomeController extends Controller
                 $query->orderBy('id', 'desc');
                 break;
         }
+        $maxPriceI = $query->max('price');
+        $maxDurationI = $query->max('duration');
         $allVideos = $query->paginate(9)->withQueryString();
 
 
@@ -812,9 +816,11 @@ class HomeController extends Controller
             'price_min',
             'price_max',
             'maxPrice',
+            'maxPriceI',
             'duration_min',
             'duration_max',
             'maxDuration',
+            'maxDurationI',
             'resolutions',
             'frame_rates',
             'orientations',
@@ -1206,6 +1212,8 @@ class HomeController extends Controller
         $query->orderBy('id', 'DESC');
 
         // ── ONE paginate call only ──
+        $maxPrice = $query->max('price');
+
         $allPhotos = $query->paginate(9)->withQueryString();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
@@ -1247,6 +1255,7 @@ class HomeController extends Controller
             'js',
             'categories',
             'allPhotos',
+            'maxPrice',
             'selectedCollection',
             'selectedCategory',
             'trendingTags',

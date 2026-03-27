@@ -1,4 +1,66 @@
 <!-- hero section -->
+<style>
+    .track-wrap {
+        position: relative;
+        height: 22px;
+        /* must be >= thumb size */
+        margin: 8px 0 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .track-bg {
+        position: absolute;
+        inset: 0;
+        background: #e5e7eb;
+        border-radius: 2px;
+    }
+
+    .track-fill {
+        position: absolute;
+        top: 0%;
+
+        height: 4px;
+        background: #f97316;
+        border-radius: 2px;
+        /* left and right set by JS — no width */
+    }
+
+    /* Both range inputs sit on top of each other */
+    .range-input {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        height: 4px;
+        appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        pointer-events: none;
+        margin: 0;
+    }
+
+    .range-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 50%;
+        background: #f97316;
+        border: none;
+        cursor: pointer;
+        pointer-events: all;
+    }
+
+    .range-input::-moz-range-thumb {
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 50%;
+        background: #f97316;
+        border: none;
+        cursor: pointer;
+        pointer-events: all;
+    }
+</style>
 <section class="hero">
     <div class="container">
         <h1>Explore videos and royalty-free stock footage</h1>
@@ -246,50 +308,29 @@
                             </button>
                             <div id="priceD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    {{-- <div class="d-flex gap-2 mb-2">
-                                        <input type="number" id="price_min_input"
-                                            class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
-                                        <input type="number" id="price_max_input"
-                                            class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}"
-                                            value="{{ $allVideos->max('price') }}"
-                                            placeholder="${{ $allVideos->max('price') }}">
 
-
-
-                                    </div>
-                                    <input type="range" class="range-slider" min="0"
-                                        max="{{ $allVideos->max('price') }}" value="{{ $allVideos->max('price') }}"
-                                        id="priceRangeMax">
-                                    {{-- <div class="range-slider" id="priceRangeMax" data-min="0"
-                                        data-max="{{ $allVideos->max('price') }}"
-                                        data-value="{{ $allVideos->max('price') }}">
-                                    </div> 
-                                    <div class="range-values">
-                                        <span>$0</span>
-                                        <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
-                                    </div> --}}
-                                    {{-- Price Range --}}
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="price_min_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
+                                            max="{{ $maxPriceI }}" value="0" placeholder="$0">
                                         <input type="number" id="price_max_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}"
-                                            value="{{ $allVideos->max('price') }}"
-                                            placeholder="${{ $allVideos->max('price') }}">
+                                            max="{{ $maxPriceI }}" value="{{ $maxPriceI }}"
+                                            placeholder="${{ $maxPriceI }}">
                                     </div>
+
                                     <div class="track-wrap">
                                         <div class="track-bg"></div>
-                                        <div class="track-fill"></div>
-                                        <input type="range" min="0" max="{{ $allVideos->max('price') }}"
-                                            value="{{ $allVideos->max('price') }}" id="priceRangeMax">
+                                        <div class="track-fill" id="priceTrackFill"></div>
+                                        <input type="range" class="range-input" id="priceRangeMin" min="0"
+                                            max="{{ $maxPriceI }}" value="0">
+                                        <input type="range" class="range-input" id="priceRangeMax" min="0"
+                                            max="{{ $maxPriceI }}" value="{{ $maxPriceI }}">
                                     </div>
+
                                     <div class="range-values">
-                                        <span>$0</span>
-                                        <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
+                                        <span id="priceMinLabel">$0</span>
+                                        <span id="priceMaxLabel">${{ $maxPriceI }}</span>
                                     </div>
 
                                 </div>
@@ -304,34 +345,32 @@
                             </button>
                             <div id="durationD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
+
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="duration_min_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('duration') }}" value="0" placeholder="0s">
+                                            max="{{ (int) $maxDurationI }}" value="0" placeholder="0s">
                                         <input type="number" id="duration_max_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('duration') }}"
-                                            value="{{ $allVideos->max('duration') }}"
-                                            placeholder="{{ $allVideos->max('duration') }}s">
-                                    </div>
-                                    {{-- <input type="range" class="range-slider" min="0"
-                                        max="{{ $allVideos->max('duration') }}" value="120"
-                                        id="durationRangeMax"> --}}
-                                    <div class="track-wrap">
-                                        <div class="track-bg"></div>
-                                        <div class="track-fill" style="width:100%"></div>
-                                        <input type="range" min="0" max="{{ $allVideos->max('duration') }}"
-                                            value="{{ $allVideos->max('duration') }}" id="durationRangeMax">
+                                            max="{{ (int) $maxDurationI }}" value="{{ (int) $maxDurationI }}"
+                                            placeholder="{{ (int) $maxDurationI }}s">
                                     </div>
 
-                                    {{-- <div class="range-slider" data-min="0"
-                                        data-max="{{ $allVideos->max('duration') }}"
-                                        data-value="{{ $allVideos->max('duration') }}">
-                                    </div> --}}
-                                    <div class="range-values">
-                                        <span>0s</span>
-                                        <span id="durationMaxLabel">{{ $allVideos->max('duration') }}s+</span>
+                                    <div class="track-wrap">
+                                        <div class="track-bg"></div>
+                                        <div class="track-fill" id="durationTrackFill"></div>
+                                        <input type="range" class="range-input" id="durationRangeMin"
+                                            min="0" max="{{ (int) $maxDurationI }}" value="0">
+                                        <input type="range" class="range-input" id="durationRangeMax"
+                                            min="0" max="{{ (int) $maxDurationI }}"
+                                            value="{{ (int) $maxDurationI }}">
                                     </div>
+
+                                    <div class="range-values">
+                                        <span id="durationMinLabel">0s</span>
+                                        <span id="durationMaxLabel">{{ $maxDurationI }}s+</span>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -609,21 +648,19 @@
                                             <div class="d-flex gap-2 mb-2">
                                                 <input type="number"
                                                     class="form-control form-control-sm price_min_mobile"
-                                                    min="0" max="{{ $allVideos->max('price') }}"
-                                                    value="0" placeholder="$0">
+                                                    min="0" max="{{ $maxPriceI }}" value="0"
+                                                    placeholder="$0">
                                                 <input type="number"
                                                     class="form-control form-control-sm price_max_mobile"
-                                                    min="0" max="{{ $allVideos->max('price') }}"
-                                                    value="{{ $allVideos->max('price') }}"
-                                                    placeholder="${{ $allVideos->max('price') }}">
+                                                    min="0" max="{{ $maxPriceI }}"
+                                                    value="{{ $maxPriceI }}" placeholder="${{ $maxPriceI }}">
                                             </div>
                                             <input type="range" class="form-range priceRangeMax_mobile"
-                                                min="0" max="{{ $allVideos->max('price') }}"
-                                                value="{{ $allVideos->max('price') }}">
+                                                min="0" max="{{ $maxPriceI }}"
+                                                value="{{ $maxPriceI }}">
                                             <div class="range-values">
                                                 <span>$0</span>
-                                                <span
-                                                    class="priceMaxLabel_mobile">${{ $allVideos->max('price') }}</span>
+                                                <span class="priceMaxLabel_mobile">${{ $maxPriceI }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1212,9 +1249,9 @@
             if (e.target.closest("#noResultsClearBtn")) clearBtn?.click();
         });
 
-        // ── Range sliders init ──
-        initRangeSlider("priceRangeMax", "price_max_input", "priceMaxLabel");
-        initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
+        // // ── Range sliders init ──
+        // initRangeSlider("priceRangeMax", "price_max_input", "priceMaxLabel");
+        // initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
 
     })();
 </script>

@@ -45,7 +45,7 @@
   color: var(--text);
   font-family: var(--font-inter-semibold);
   font-size: 18px;
-  padding: 14px 0;
+  padding: 10px 0;
   box-shadow: none !important;
   display: flex;
   justify-content: space-between;
@@ -83,7 +83,7 @@
   justify-content: space-between;
   font-size: 14px;
   color: var(--secendory);
-  margin-top: 4px;
+  margin-top: 15px;
 }
 /* Checkbox / Radio */
 .filter-sidebar .form-check-input {
