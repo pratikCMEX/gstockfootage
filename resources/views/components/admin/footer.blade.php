@@ -63,31 +63,52 @@
 
     $(document).ready(function () {
 
-    const sidebar = document.querySelector('.simplebar-content-wrapper');
+     const sidebar = document.querySelector('.simplebar-content-wrapper');
+ 
+    if (sidebar) {
+ 
+        // Save scroll position
 
-if (sidebar) {
+        sidebar.addEventListener('scroll', function () {
 
-    // Save scroll position
-    sidebar.addEventListener('scroll', function () {
-        localStorage.setItem('sidebarScrollTop', sidebar.scrollTop);
-    });
+            localStorage.setItem('sidebarScrollTop', sidebar.scrollTop);
 
-    window.addEventListener('load', function () {
+        });
+ 
+        // window.addEventListener('load', function () {
 
-        const savedScroll = localStorage.getItem('sidebarScrollTop');
+            // alert(1)
 
-        if (savedScroll !== null) {
-            setTimeout(() => {
-                sidebar.scrollTo({
-                    top: parseInt(savedScroll),
-                    behavior: 'smooth'
-                });
-            }, 200); // delay for SimpleBar
-        }
+            const savedScroll = localStorage.getItem('sidebarScrollTop');
 
-    });
+            console.log(savedScroll)
 
-}
+            if (savedScroll !== null) {
+ 
+                const scrollToSaved = () => {
+ 
+                    // Wait until content is properly rendered
+
+                    if (sidebar.scrollHeight > 0) {
+ 
+                        sidebar.scrollTop = parseInt(savedScroll);
+
+                    } else {
+
+                        requestAnimationFrame(scrollToSaved);
+
+                    }
+
+                };
+ 
+                scrollToSaved();
+
+            }
+ 
+        // });
+ 
+    }
+ 
         $('.searchable').select2({
             width: 'resolve',
             minimumResultsForSearch: 0, // always show search box
