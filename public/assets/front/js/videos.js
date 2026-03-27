@@ -733,7 +733,9 @@
         } else {
           $("#videoGrid").append(data.html);
         }
-        $("#videoResultCount").text(data.count + " result(s)");
+
+        var visibleProductCards = $(".product-card:visible").length;
+        $("#videoResultCount").text(visibleProductCards + " result(s)");
 
         // Load-more button visibility
         var $lmWrapper = $("#load-more-wrapper");
