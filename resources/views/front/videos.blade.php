@@ -1291,15 +1291,6 @@
             }
         });
 
-        // ── Sort buttons ──
-        // document.querySelectorAll(".sort-btn").forEach(btn => {
-        //     btn.addEventListener("click", function() {
-        //         document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
-        //         this.classList.add("active");
-        //         applyFilters();
-        //     });
-        // });
-
         // ── Load More button ──
         loadMoreBtn?.addEventListener("click", loadMore);
 
