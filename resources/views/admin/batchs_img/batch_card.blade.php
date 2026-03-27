@@ -111,10 +111,13 @@
                         @endif
                         @foreach ($files->take(4) as $index => $file)
                             @php
-                                $url = $file['file_type'] == 'image' ? $file['low_path'] : $file['thumbnail_path'];
-
+                                $url =
+                                    $file['file_type'] == 'image'
+                                        ? ($file['mid_path'] != ''
+                                            ? $file['mid_path']
+                                            : $file['file_path'])
+                                        : $file['thumbnail_path'] ?? asset('assets/admin/images/demo_thumbnail.png');
                                 // $url = asset($url);
-
                             @endphp
 
 
