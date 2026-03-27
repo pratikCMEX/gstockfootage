@@ -1,7 +1,7 @@
    <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Sr. No.</th>
                 <th>Product Name</th>
                 <th>Category Name</th>
                 <th>Total Views</th>

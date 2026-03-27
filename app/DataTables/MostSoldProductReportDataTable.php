@@ -116,7 +116,7 @@ class MostSoldProductReportDataTable extends DataTable
                     d.category_id=$("#category_id").val();
                 }',
             ])
-            ->orderBy(3, 'desc') //  total_orders = index 3, highest sold first
+            ->orderBy(0, 'desc') //  total_orders = index 3, highest sold first
             ->selectStyleSingle()
             ->parameters([
                 'dom' => 'Blfrtip',

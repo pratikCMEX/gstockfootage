@@ -136,7 +136,7 @@ class UserWiseOrderReportDataTable extends DataTable
                     d.user_id   = $("#user_id").val();
                 }',
             ])
-            ->orderBy(2, 'desc') //  total_orders = index 2
+            ->orderBy(0, 'desc') //  total_orders = index 2
             ->selectStyleSingle()
             ->parameters([
                 'dom' => 'Blfrtip',

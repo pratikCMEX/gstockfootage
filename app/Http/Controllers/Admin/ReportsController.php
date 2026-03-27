@@ -261,6 +261,7 @@ class ReportsController extends Controller
             ->mergeBindings($subQuery)
             ->select('batch_files.*')
             ->with('category')
+            
             ->get();
 
         $filename = 'MostSoldProductReport_' . date('YmdHis') . '.xlsx';
