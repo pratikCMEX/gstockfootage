@@ -495,48 +495,48 @@
   /* =========================================================================
      OTHER EVENT BINDINGS
   ========================================================================= */
-  $(document).on("change", "input.filter-check", function () {
-    var $cb = $(this);
-    var name = $cb.attr("name");
-    var key = name.replace("[]", "");
-    var val = $cb.val();
-    if (key === "with_people") {
-      state.with_people = $cb.is(":checked") ? "1" : "";
-      $('input.filter-check[name="with_people"]').prop(
-        "checked",
-        $cb.is(":checked")
-      );
-    } else if ($.isArray(state[key])) {
-      if ($cb.is(":checked")) {
-        if ($.inArray(val, state[key]) === -1) state[key].push(val);
-      } else {
-        state[key] = $.grep(state[key], function (v) {
-          return v !== val;
-        });
-      }
-      syncCheckboxes(name, state[key]);
-    }
-    triggerFetch();
-  });
+  // $(document).on("change", "input.filter-check", function () {
+  //   var $cb = $(this);
+  //   var name = $cb.attr("name");
+  //   var key = name.replace("[]", "");
+  //   var val = $cb.val();
+  //   if (key === "with_people") {
+  //     state.with_people = $cb.is(":checked") ? "1" : "";
+  //     $('input.filter-check[name="with_people"]').prop(
+  //       "checked",
+  //       $cb.is(":checked")
+  //     );
+  //   } else if ($.isArray(state[key])) {
+  //     if ($cb.is(":checked")) {
+  //       if ($.inArray(val, state[key]) === -1) state[key].push(val);
+  //     } else {
+  //       state[key] = $.grep(state[key], function (v) {
+  //         return v !== val;
+  //       });
+  //     }
+  //     syncCheckboxes(name, state[key]);
+  //   }
+  //   triggerFetch();
+  // });
 
-  $(document).on("change", 'input.filter-radio[name="license"]', function () {
-    state.license = $(this).is(":checked") ? $(this).val() : "";
-    $('input.filter-radio[name="license"]').prop("checked", false);
-    if (state.license) {
-      $(
-        'input.filter-radio[name="license"][value="' + state.license + '"]'
-      ).prop("checked", true);
-    }
-    triggerFetch();
-  });
+  // $(document).on("change", 'input.filter-radio[name="license"]', function () {
+  //   state.license = $(this).is(":checked") ? $(this).val() : "";
+  //   $('input.filter-radio[name="license"]').prop("checked", false);
+  //   if (state.license) {
+  //     $(
+  //       'input.filter-radio[name="license"][value="' + state.license + '"]'
+  //     ).prop("checked", true);
+  //   }
+  //   triggerFetch();
+  // });
 
-  $(document).on("click", ".sort-btn", function () {
-    state.sort = $(this).data("value");
-    $(".sort-btn").removeClass("active");
-    $(this).addClass("active");
-    $("#selectedOption").text(sortLabels[state.sort] || "Most Relevant");
-    triggerFetch(0);
-  });
+  // $(document).on("click", ".sort-btn", function () {
+  //   state.sort = $(this).data("value");
+  //   $(".sort-btn").removeClass("active");
+  //   $(this).addClass("active");
+  //   $("#selectedOption").text(sortLabels[state.sort] || "Most Relevant");
+  //   triggerFetch(0);
+  // });
 
   $(document).on("click", ".trending-tag-btn", function () {
     var $btn = $(this);
