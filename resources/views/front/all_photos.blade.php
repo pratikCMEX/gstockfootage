@@ -952,6 +952,11 @@
                 params.append('category_id[]', cb.value);
             });
 
+            document.querySelectorAll('.collection-check:checked').forEach(cb => {
+                params.append('collection_ids[]', cb.value);
+            });
+
+
             // Subcategory checkboxes
             document.querySelectorAll('.sub-category-check:checked').forEach(cb => {
                 params.append('subcategory_id[]', cb.value);
@@ -959,7 +964,7 @@
 
             // Orientation + Content filters
             document.querySelectorAll(
-                ".filter-check:not(.parent-category-check):not(.sub-category-check):checked"
+                ".filter-check:not(.parent-category-check):not(.sub-category-check):not(.collection-check):checked"
             ).forEach(cb => {
                 params.append(cb.name, cb.value);
             });
@@ -1069,6 +1074,11 @@
             if (!e.target.classList.contains("sub-category-check")) return;
             debouncedApply();
         });
+        document.addEventListener("change", function(e) {
+            if (!e.target.classList.contains("collection-check")) return;
+            debouncedApply();
+        });
+
 
         // Load more button
         loadMoreBtn?.addEventListener("click", loadMore);

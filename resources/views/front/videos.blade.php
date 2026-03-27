@@ -585,6 +585,78 @@
                             </div>
                         </div>
 
+                        <div class="accordion-item">
+                            <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#categoryD">
+                                Category
+                                <i class="fa-solid fa-angle-up"></i>
+                            </button>
+                            <div id="categoryD" class="accordion-collapse collapse">
+                                <div class="accordion-body p-0">
+                                    @foreach ($categories as $category)
+                                        <div class="category-filter-item">
+
+                                            <!-- Parent Category Checkbox -->
+                                            <div class="filter-option form-check">
+                                                <input class="form-check-input filter-check parent-category-check"
+                                                    type="checkbox" id="cat_{{ $category->id }}"
+                                                    name="category_id[]" value="{{ encrypt($category->id) }}"
+                                                    data-category-id="{{ $category->id }}">
+                                                <label class="form-check-label fw-500 ms-2"
+                                                    for="cat_{{ $category->id }}">
+                                                    {{ $category->category_name }}
+                                                </label>
+                                            </div>
+
+                                            <!-- Subcategories -->
+                                            @if ($category->subcategories && $category->subcategories->count() > 0)
+                                                <div class="subcategory-list ps-4" id="sub_{{ $category->id }}"
+                                                    style="display:none; background:#f5f5f5;">
+                                                    @foreach ($category->subcategories as $sub)
+                                                        <div class="filter-option form-check">
+                                                            <input
+                                                                class="form-check-input filter-check sub-category-check"
+                                                                type="checkbox" id="subopt_{{ $sub->id }}"
+                                                                name="subcategory_id[]"
+                                                                value="{{ encrypt($sub->id) }}"
+                                                                data-parent-id="{{ $category->id }}">
+                                                            <label class="form-check-label ms-2"
+                                                                for="subopt_{{ $sub->id }}">
+                                                                {{ $sub->name }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Collections -->
+                        <div class="accordion-item">
+                            <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#collectionsFilter">
+                                Collection
+                                <i class="fa-solid fa-angle-up"></i>
+                            </button>
+                            <div id="collectionsFilter" class="accordion-collapse collapse">
+                                <div class="accordion-body p-0">
+                                    @foreach ($CollectionList as $collection)
+                                        <div class="filter-option form-check">
+                                            <input class="form-check-input filter-check collection-check"
+                                                type="checkbox" id="col_{{ $collection->id }}"
+                                                name="collection_id[]" value="{{ encrypt($collection->id) }}">
+                                            <label class="form-check-label ms-2" for="col_{{ $collection->id }}">
+                                                {{ $collection->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -871,6 +943,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Category & Subcategory -->
+                                <!-- Category & Subcategory -->
 
                             </div>
                         </div>
@@ -880,9 +954,9 @@
                              CHANGE: changed data-value to short keys: "relevant","newest","popular" etc.
                                      added class="sort-btn" to each dropdown-item button --}}
                         <div class="dropdown sort-dropdown">
-                            {{-- <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <span id="selectedOption">Most Relevant</span>
-                            </button> --}}
+                            </button>
                             <ul class="dropdown-menu">
                                 <li>
                                     <button class="dropdown-item sort-btn active" data-value="relevant">
@@ -1119,6 +1193,25 @@
             params.set("page", page || 1);
             return params;
         }
+
+        document.addEventListener("change", function(e) {
+            if (!e.target.classList.contains("parent-category-check")) return;
+
+            const subList = document.getElementById(`sub_${e.target.dataset.categoryId}`);
+            if (subList) {
+                if (e.target.checked) {
+                    subList.style.display = "block";
+                } else {
+                    subList.style.display = "none";
+                    // ✅ Uncheck AND visually clear all subcategory checkboxes
+                    subList.querySelectorAll(".sub-category-check").forEach(cb => {
+                        cb.checked = false;
+                    });
+                }
+            }
+
+            debouncedApply();
+        });
 
         // ── Apply filters — reset grid to page 1 ──
         function applyFilters() {
