@@ -258,8 +258,11 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="filter-title">Filters</div>
-                            <button class="btn btn-link btn-sm p-0 text-danger text-decoration-none"
-                                id="clearAllFiltersBtn" style="font-size:13px;">Clear All</button>
+                            <button class="btn btn-link btn-sm p-0 text-decoration-none" id="clearAllFiltersBtn"
+                                style="font-size: 14px;
+    color: var(--black) !important;
+    font-family: var(--font-inter-medium) !important;">Clear
+                                All</button>
                         </div>
 
                         <div class="accordion" id="filterAccordionDesktop">
@@ -1000,6 +1003,29 @@
                 });
         }
 
+        function smoothScrollToBottom(container, duration = 600) {
+            const start = container.scrollTop;
+            const end = container.scrollHeight;
+            const change = end - start;
+            const startTime = performance.now();
+
+            function animateScroll(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // easeOutCubic (very smooth)
+                const ease = 1 - Math.pow(1 - progress, 3);
+
+                container.scrollTop = start + change * ease;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateScroll);
+                }
+            }
+
+            requestAnimationFrame(animateScroll);
+        }
+
         function loadMore() {
             currentPage++;
             if (loadMoreText) loadMoreText.textContent = "Loading...";
@@ -1014,6 +1040,9 @@
                 .then(res => res.json())
                 .then(data => {
                     gridWrapper.insertAdjacentHTML("beforeend", data.html);
+                    setTimeout(() => {
+                        smoothScrollToBottom(gridWrapper);
+                    }, 50);
                     if (countEl) countEl.textContent = `Showing ${data.count} photo(s)`;
                     if (loadMoreText) loadMoreText.textContent = "Load More";
                     if (loadMoreSpinner) loadMoreSpinner.classList.add("d-none");
@@ -1028,6 +1057,8 @@
                     if (loadMoreBtn) loadMoreBtn.disabled = false;
                 });
         }
+
+
 
         function debounce(fn, delay = 500) {
             let timer;

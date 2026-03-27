@@ -294,8 +294,11 @@
                     {{-- CHANGE: added clear all button --}}
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="filter-title">Filters</div>
-                        <button class="btn btn-link btn-sm p-0 text-danger text-decoration-none"
-                            id="clearAllFiltersBtn" style="font-size:13px;">Clear All</button>
+                        <button class="btn btn-link btn-sm p-0 text-decoration-none" id="clearAllFiltersBtn"
+                            style="font-size: 14px;
+    color: var(--black) !important;
+    font-family: var(--font-inter-medium) !important;">Clear
+                            All</button>
                     </div>
 
                     <div class="accordion" id="filterAccordionDesktop">
@@ -998,7 +1001,10 @@
 
                         {{-- CHANGE: added id="videoResultCount" result counter --}}
                         <span id="videoResultCount" class="text-muted ms-2"
-                            style="font-size:13px;white-space:nowrap;">
+                            style="    font-size: 16px;
+    white-space: nowrap;
+    color: var(--secendory) !important;
+white-space:nowrap;">
                             {{ isset($allVideos) ? $allVideos->count() : 0 }} result(s)
                         </span>
 
@@ -1025,12 +1031,12 @@
                     <div id="activeFilterChips" class="d-flex flex-wrap gap-2 mt-2 mb-2"></div>
 
                     {{-- CHANGE: added AJAX loader --}}
-                    <div id="videoLoader" class="text-center py-4 d-none">
+                    {{-- <div id="videoLoader" class="text-center py-4 d-none">
                         <div class="spinner-border text-warning" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                         <p class="text-muted mt-2" style="font-size:13px;">Loading videos…</p>
-                    </div>
+                    </div> --}}
 
                     {{-- CHANGE: added id="videoGrid" to this div so JS can swap its contents --}}
 
@@ -1105,6 +1111,7 @@
     }
 
     #videoGrid {
+        padding-top: 10px;
         transition: opacity .2s ease;
     }
 
