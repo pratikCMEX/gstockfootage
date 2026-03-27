@@ -954,9 +954,9 @@
                              CHANGE: changed data-value to short keys: "relevant","newest","popular" etc.
                                      added class="sort-btn" to each dropdown-item button --}}
                         <div class="dropdown sort-dropdown">
-                            {{-- <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <span id="selectedOption">Most Relevant</span>
-                            </button> --}}
+                            </button>
                             <ul class="dropdown-menu">
                                 <li>
                                     <button class="dropdown-item sort-btn active" data-value="relevant">
