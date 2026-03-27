@@ -440,7 +440,7 @@
                                 </button>
                                 <div id="collectionsFilter" class="accordion-collapse collapse">
                                     <div class="accordion-body p-0">
-                                        @foreach ($CollectionList as $collection)
+                                        @foreach ($collections as $collection)
                                             <div class="filter-option form-check">
                                                 <input class="form-check-input filter-check collection-check"
                                                     type="checkbox" id="col_{{ $collection->id }}"
