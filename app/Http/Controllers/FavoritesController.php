@@ -55,7 +55,7 @@ class FavoritesController extends Controller
         if ($existingFavorite) {
             // Remove from favorites
             $existingFavorite->delete();
-            return response()->json(['success' => true, 'message' => 'Product removed from favorites', 'action' => 'removed']);
+            return response()->json(['success' => true, 'message' => 'Product removed from Wishlist', 'action' => 'removed']);
         }
         $product->incrementView();
         // Add to favorites
@@ -65,7 +65,7 @@ class FavoritesController extends Controller
             'type' => $productType
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Product added to favorites successfully', 'action' => 'added']);
+        return response()->json(['success' => true, 'message' => 'Product added to Wishlist successfully', 'action' => 'added']);
     }
 
     public function removeFavorite(Request $request)
@@ -75,7 +75,7 @@ class FavoritesController extends Controller
 
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found ...Please login first']);
+            return response()->json(['success' => false, 'message' => 'Please login first']);
         }
 
         $existingFavorite = Favorites::where('id', $id)
@@ -85,10 +85,10 @@ class FavoritesController extends Controller
         if ($existingFavorite) {
             // Remove from favorites
             $existingFavorite->delete();
-            return response()->json(['success' => true, 'message' => 'Product removed from favorites', 'action' => 'removed']);
+            return response()->json(['success' => true, 'message' => 'Product removed from Wishlist', 'action' => 'removed']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Product not found in favorites']);
+        return response()->json(['success' => false, 'message' => 'Product not found in Wishlist']);
     }
 }
 
