@@ -572,14 +572,14 @@ class HomeController extends Controller
                 }
             });
         }
-        $query->orderByRaw("
-                CASE 
-                    WHEN priority IS NULL OR priority = 0 THEN 1
-                    ELSE 0
-                END
-            ");
+        // $query->orderByRaw("
+        //         CASE 
+        //             WHEN priority IS NULL OR priority = 0 THEN 1
+        //             ELSE 0
+        //         END
+        //     ");
 
-        $query->orderBy('priority', 'ASC');
+        // $query->orderBy('priority', 'ASC');
 
         // Sorting
         // dd($sort);
@@ -602,7 +602,14 @@ class HomeController extends Controller
             case 'duration_desc':
                 $query->orderBy('duration', 'desc');
                 break;
-            default:
+            default: // "relevant"
+                $query->orderByRaw("
+                    CASE 
+                        WHEN priority IS NULL OR priority = 0 THEN 1
+                        ELSE 0
+                    END
+                ");
+                $query->orderBy('priority', 'asc');
                 $query->orderBy('id', 'desc');
                 break;
         }
