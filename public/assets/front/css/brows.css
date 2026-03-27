@@ -113,7 +113,7 @@
 .trending-video-data {
   display: flex;
   align-items: start;
-  gap: 30px;
+  gap: 12px;
   flex-direction: column;
 }
 .trending-video-title p {

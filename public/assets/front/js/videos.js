@@ -733,7 +733,9 @@
         } else {
           $("#videoGrid").append(data.html);
         }
-        $("#videoResultCount").text(data.count + " result(s)");
+
+        var visibleProductCards = $(".product-card:visible").length;
+        $("#videoResultCount").text(visibleProductCards + " result(s)");
 
         // Load-more button visibility
         var $lmWrapper = $("#load-more-wrapper");
@@ -765,12 +767,38 @@
   /* =========================================================================
      LOAD MORE
   ========================================================================= */
+  function smoothScrollToBottom(container, duration = 600) {
+    const start = container.scrollTop;
+    const end = container.scrollHeight;
+    const change = end - start;
+    const startTime = performance.now();
+
+    function animateScroll(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // easeOutCubic (very smooth)
+      const ease = 1 - Math.pow(1 - progress, 3);
+
+      container.scrollTop = start + change * ease;
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    }
+
+    requestAnimationFrame(animateScroll);
+  }
   $(document).on("click", "#loadMoreBtn", function () {
     currentPage++;
     $("#loadMoreBtn").prop("disabled", true);
     $("#loadMoreText").text("Loading...");
     $("#loadMoreSpinner").removeClass("d-none");
     doFetch(false);
+
+    setTimeout(() => {
+      smoothScrollToBottom(document.querySelector("#videoGrid"));
+    }, 50);
   });
 
   /* =========================================================================

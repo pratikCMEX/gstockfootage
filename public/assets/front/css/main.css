@@ -333,6 +333,7 @@ input[type="range"]::-moz-range-track {
   max-height: 1420px;
   overflow-y: auto;
   scroll-behavior: smooth !important;
+  padding-top: 10px;
 }
 #videoGrid::-webkit-scrollbar,
 #photo-grid-wrapper::-webkit-scrollbar {
