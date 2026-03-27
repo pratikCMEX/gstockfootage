@@ -123,7 +123,7 @@
                                                         }
                                                     @endphp
                                                     <input type="file" name="files[]" hidden id="myfile" multiple
-                                                        accept="{{ $batch_type == 'video' ? 'video/*,.zip' : 'image/*,.zip' }}"
+                                                        accept="{{ $batch_type == 'video' ? '.mov,.mp4,.zip,.avi,.webm,.zip' : 'jpg,.jpeg,.png,.webp,.zip' }}"
                                                         required>
 
                                                     <!-- <div class="apply-default-template">
@@ -144,7 +144,7 @@
                                                             @if ($batch->submission_type == 'image')
                                                                 <li>Accepted Image file types:jpg,jpeg,png,webp,zip</li>
                                                             @else
-                                                                <li>Accepted Video file types:mov,mp4,zip</li>
+                                                                <li>Accepted Video file types:mov,mp4,zip,avi,webm</li>
                                                             @endif
                                                             <li>Maximum file size : 6GB</li>
                                                             <li>Supported browsers : Chrome , firefox ,IE10+ , safari 6+
