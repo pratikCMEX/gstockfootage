@@ -728,11 +728,12 @@
       success: function (data) {
         if (reset) {
           $("#videoGrid").html(data.html);
-          $("#videoResultCount").text(data.count + " result(s)");
+          // $("#videoResultCount").text(data.count + " result(s)");
           renderChips();
         } else {
           $("#videoGrid").append(data.html);
         }
+        $("#videoResultCount").text(data.count + " result(s)");
 
         // Load-more button visibility
         var $lmWrapper = $("#load-more-wrapper");
