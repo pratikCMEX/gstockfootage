@@ -84,9 +84,9 @@
                             <div class="modal-body search-image-body" id="imageDropZone">
 
                                 {{-- Error --}}
-                                @error('image')
+                                {{-- @error('image')
                                     <div class="alert alert-danger w-100 mb-3">{{ $message }}</div>
-                                @enderror
+                                @enderror --}}
 
                                 {{-- Hidden file input --}}
                                 <input type="file" name="image" id="search-image" accept="image/*" hidden>

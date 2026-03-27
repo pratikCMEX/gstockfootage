@@ -1033,6 +1033,9 @@ class HomeController extends Controller
         // dd($request);
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
+            [
+                'image.max' => 'The image must not be greater than 5 MB.',
+            ]
         ]);
 
         $image = $request->file('image');
