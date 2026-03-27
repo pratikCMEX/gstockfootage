@@ -530,13 +530,13 @@
   //   triggerFetch();
   // });
 
-  // $(document).on("click", ".sort-btn", function () {
-  //   state.sort = $(this).data("value");
-  //   $(".sort-btn").removeClass("active");
-  //   $(this).addClass("active");
-  //   $("#selectedOption").text(sortLabels[state.sort] || "Most Relevant");
-  //   triggerFetch(0);
-  // });
+  $(document).on("click", ".sort-btn", function () {
+    state.sort = $(this).data("value");
+    $(".sort-btn").removeClass("active");
+    $(this).addClass("active");
+    $("#selectedOption").text(sortLabels[state.sort] || "Most Relevant");
+    triggerFetch(0);
+  });
 
   $(document).on("click", ".trending-tag-btn", function () {
     var $btn = $(this);
