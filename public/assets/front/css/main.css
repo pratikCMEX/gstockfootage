@@ -112,7 +112,18 @@ textarea {
   justify-content: center; /* horizontal center */
   cursor: not-allowed;
 }
-
+#ai_loader {
+  display: none;
+  align-items: center;
+  flex-direction: column;
+}
+#ai_loader .genrate-ai {
+  margin-top: 10px;
+  color: var(--black);
+  font-size: 20px;
+  font-family: var(--font-inter-extrabold);
+  letter-spacing: 1.8px;
+}
 .all-media-tabs .nav-link {
   padding: 8px 16px !important;
   border-radius: 10px !important;
