@@ -47,7 +47,7 @@
                     r="70" cy="120" cx="155" class="pl__ring pl__ring--d"></circle>
             </svg>
 
-            <div class="genrate-ai">Analysing the Image</div>
+            <div class="genrate-ai">Generating AI Content</div>
         </div>
 
         <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"

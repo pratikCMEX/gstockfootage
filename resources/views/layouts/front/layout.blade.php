@@ -54,7 +54,7 @@
                     r="70" cy="120" cx="155" class="pl__ring pl__ring--d"></circle>
             </svg>
 
-            <div class="genrate-ai">Generating AI Content</div>
+            <div class="genrate-ai">Analysing the Image</div>
         </div>
 
         <x-front.bodyheader title={{ $title }} />
