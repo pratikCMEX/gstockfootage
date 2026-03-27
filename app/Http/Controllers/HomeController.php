@@ -1036,8 +1036,9 @@ class HomeController extends Controller
                 'required',
                 'image',
                 'mimes:jpeg,png,jpg,webp',
-                'max:5MB',
+                'max:5120',
             ],
+        ], [
             'image.max' => 'The image must not be greater than 5 MB.',
         ]);
 
