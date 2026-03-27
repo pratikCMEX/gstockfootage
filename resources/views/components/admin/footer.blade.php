@@ -192,13 +192,6 @@
         });
 
     });
-    $(document).on('draw.dt', 'table', function () {
-        $(this).find('tbody td').each(function () {
-            var text = $(this).text().trim();
-            if (text === '' || text === null || text === 'null' || text === 'undefined' || text === 'N/A') {
-                $(this).text('-');
-            }
-        });
-    });
+ 
    
 </script>
