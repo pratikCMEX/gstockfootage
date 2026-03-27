@@ -1138,7 +1138,7 @@
         border-radius: 8px;
     }
 </style>
-<script>
+{{-- <script>
     (function() {
         const gridWrapper = document.getElementById("videoGrid");
         const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -1291,15 +1291,6 @@
             }
         });
 
-        // ── Sort buttons ──
-        // document.querySelectorAll(".sort-btn").forEach(btn => {
-        //     btn.addEventListener("click", function() {
-        //         document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
-        //         this.classList.add("active");
-        //         applyFilters();
-        //     });
-        // });
-
         // ── Load More button ──
         loadMoreBtn?.addEventListener("click", loadMore);
 
@@ -1347,4 +1338,4 @@
         // initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
 
     })();
-</script>
+</script> --}}
