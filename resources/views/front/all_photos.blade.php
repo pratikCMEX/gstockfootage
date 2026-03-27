@@ -557,12 +557,16 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-12 text-center py-5">
-                        <div class="alert alert-info">
-                            <h4 class="alert-heading">No Photos Available</h4>
-                            <p>There are currently no photos to display. Please check back later.</p>
-                            <hr>
-                            <p class="mb-0">You can browse our video collection in the meantime.</p>
+                    <div class="col-xl-9 col-lg-8 col-md-12">
+                        <div class="row" id="photo-grid-wrapper">
+                            <div class="col-12 text-center py-5">
+                                <div class="alert alert-info">
+                                    <h4 class="alert-heading">No Photos Available</h4>
+                                    <p>There are currently no photos to display. Please check back later.</p>
+                                    <hr>
+                                    <p class="mb-0">You can browse our video collection in the meantime.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endif
