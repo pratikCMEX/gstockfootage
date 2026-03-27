@@ -67,7 +67,7 @@ class HomeController extends Controller
 
         $content_master = ContentMaster::first();
 
-        $testimonials = Testimonials::where('is_active', '1')->get();
+        $testimonials = Testimonials::where('is_active', '1')->limit(3)->orderBy('id','desc')->get();
         $blogs = Blog::limit(3)->orderBy('id', 'desc')->get();
 
         $popularProducts = BatchFile::with('category')
