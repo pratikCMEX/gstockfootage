@@ -21,8 +21,6 @@
                 <td>{{ $data->qty * ($data->product->price ?? 0) }}</td>
                 <td>{{ $data->created_at ? $data->created_at->format('d M Y, h:i A') : '-'  }}</td>
                
-               
-               
             </tr>
             @empty
             <tr>

@@ -261,7 +261,7 @@ class ReportsController extends Controller
             ->mergeBindings($subQuery)
             ->select('batch_files.*')
             ->with('category')
-            
+
             ->get();
 
         $filename = 'MostSoldProductReport_' . date('YmdHis') . '.xlsx';
@@ -423,6 +423,7 @@ class ReportsController extends Controller
             ])
             ->join('orders', 'orders.user_id', '=', 'users.id')
             ->groupBy('users.id');
+          
 
         //  Date filter
         if (request()->filled('from_date')) {
