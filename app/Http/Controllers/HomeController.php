@@ -588,7 +588,6 @@ class HomeController extends Controller
                 $query->orderBy('price', 'asc');
                 break;
             case 'price_desc':
-                dd(1);
                 $query->orderBy('price', 'desc');
                 break;
             case 'duration_asc':
@@ -601,6 +600,8 @@ class HomeController extends Controller
                 $query->orderBy('id', 'desc');
                 break;
         }
+
+        dd($query->toSql());
         $maxPriceI = $query->max('price');
         $maxDurationI = $query->max('duration');
         $allVideos = $query->paginate(9)->withQueryString();
