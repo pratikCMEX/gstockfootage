@@ -184,7 +184,7 @@
                                 @elseif(!empty($selectedCategory))
                                     from {{ $selectedCategory->category_name }} Category
                                 @else
-                                    trending today
+                                    Trending Today
                                 @endif
                             </span>
                         </h2>
