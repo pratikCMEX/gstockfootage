@@ -576,7 +576,7 @@ class HomeController extends Controller
         $query->orderBy('priority', 'ASC');
 
         // Sorting
-        // dd($sort);
+        dd($sort);
         switch ($sort) {
             case 'newest':
                 $query->orderBy('created_at', 'desc');
