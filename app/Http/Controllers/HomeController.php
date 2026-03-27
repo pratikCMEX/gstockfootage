@@ -601,7 +601,7 @@ class HomeController extends Controller
                 break;
         }
 
-        dd($query->toSql());
+        // dd($query->toSql());
         $maxPriceI = $query->max('price');
         $maxDurationI = $query->max('duration');
         $allVideos = $query->paginate(9)->withQueryString();
