@@ -117,7 +117,7 @@ class UserWiseOrderReportDataTable extends DataTable
         //  Wrap as subquery for searchable aggregated columns
         $query = User::from(DB::raw("({$subQuery->toSql()}) as users"))
             ->mergeBindings($subQuery)
-            ->select('users.*');
+            ->select('users.*')->latest();
 
         return $query;
     }
