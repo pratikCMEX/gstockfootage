@@ -4,7 +4,8 @@
             <div class="product-card">
 
                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
-                    <img loading="lazy" src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) : '' }}"
+                    <img decoding="async" loading="lazy"
+                        src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) : '' }}"
                         class="product-img" alt="">
                 </a>
 
