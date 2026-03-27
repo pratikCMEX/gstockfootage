@@ -154,6 +154,25 @@ class UserSubscriptionReportDataTable extends DataTable
             window.location.href = url;
         }',
                 ]),
+                Button::raw([
+                    'text' => '<i class="fa fa-file-excel"></i> Excel',
+                    'attr' => ['class' => 'dt-button my-excel-btn btn btn-success'],
+                    'action' => 'function(e, dt, node, config) {
+            
+            let from        = $("#from_date").val();
+            let to          = $("#to_date").val();
+            let status   = $("#status").val();
+            let payment_status = $("#payment_status").val();
+
+            let url = "' . route('admin.user_subscriptions_report.export_excel') . '"
+                + "?from_date="   + from
+                + "&to_date="     + to
+                + "&status="   + status
+                + "&payment_status=" + payment_status;
+
+            window.location.href = url;
+        }',
+                ]),
             ]);
         // ->buttons([
         //     Button::make('pdf')->exportOptions(['columns' => ':visible']),

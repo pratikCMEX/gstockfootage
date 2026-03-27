@@ -133,6 +133,25 @@ class MostViewedProductsReportDataTable extends DataTable
             window.location.href = url;
         }',
                 ]),
+                Button::raw([
+                    'text' => '<i class="fa fa-file-excel"></i> Excel',
+                     'attr'      => ['class' => 'dt-button my-excel-btn btn btn-success'],
+                    'action' => 'function(e, dt, node, config) {
+            
+            let from        = $("#from_date").val();
+            let to          = $("#to_date").val();
+            let product_id  = $("#product_id").val();
+            let category_id = $("#category_id").val();
+
+            let url = "' . route('admin.most_viewed_product_report.export_excel') . '"
+                + "?from_date="   + from
+                + "&to_date="     + to
+                + "&product_id="  + product_id
+                + "&category_id=" + category_id;
+
+            window.location.href = url;
+        }',
+                ]),
             ]);
         // ->buttons([
         //     // Button::make('excel')->exportOptions(['columns' => ':visible']),

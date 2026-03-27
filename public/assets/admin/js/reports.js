@@ -104,32 +104,61 @@ $(document).ready(function () {
 
 
     // Works for ALL datatables on any page
+    // $(document).on('draw.dt', 'table', function () {
+    //     let tableId = $(this).attr('id');
+    //     let table = window.LaravelDataTables[tableId];
+
+    //     if (!table) return;
+
+    //     let recordCount = table.page.info().recordsTotal;
+    //     let pdfBtn = $(this).closest('.card-body').find('.dt-buttons .dt-button:contains("PDF")');
+
+    //     if (recordCount === 0) {
+    //         pdfBtn.prop('disabled', true)
+    //             .addClass('disabled')
+    //             .css({
+    //                 'opacity': '0.5',
+    //                 'cursor': 'not-allowed',
+    //                 'pointer-events': 'none'
+    //             });
+    //     } else {
+    //         pdfBtn.prop('disabled', false)
+    //             .removeClass('disabled')
+    //             .css({
+    //                 'opacity': '1',
+    //                 'cursor': 'pointer',
+    //                 'pointer-events': 'auto'
+    //             });
+    //     }
+    // });
     $(document).on('draw.dt', 'table', function () {
-        let tableId = $(this).attr('id');
-        let table = window.LaravelDataTables[tableId];
+    let tableId = $(this).attr('id');
+    let table = window.LaravelDataTables[tableId];
 
-        if (!table) return;
+    if (!table) return;
 
-        let recordCount = table.page.info().recordsTotal;
-        let pdfBtn = $(this).closest('.card-body').find('.dt-buttons .dt-button:contains("PDF")');
+    let recordCount = table.page.info().recordsTotal;
+    let pdfBtn   = $(this).closest('.card-body').find('.dt-buttons .dt-button:contains("PDF")');
+    let excelBtn = $(this).closest('.card-body').find('.dt-buttons .dt-button:contains("Excel")');
 
-        if (recordCount === 0) {
-            pdfBtn.prop('disabled', true)
-                .addClass('disabled')
-                .css({
-                    'opacity': '0.5',
-                    'cursor': 'not-allowed',
-                    'pointer-events': 'none'
-                });
-        } else {
-            pdfBtn.prop('disabled', false)
-                .removeClass('disabled')
-                .css({
-                    'opacity': '1',
-                    'cursor': 'pointer',
-                    'pointer-events': 'auto'
-                });
-        }
-    });
+    if (recordCount === 0) {
+        pdfBtn.prop('disabled', true)
+            .addClass('disabled')
+            .css({ 'opacity': '0.5', 'cursor': 'not-allowed', 'pointer-events': 'none' });
+
+        excelBtn.prop('disabled', true)
+            .addClass('disabled')
+            .css({ 'opacity': '0.5', 'cursor': 'not-allowed', 'pointer-events': 'none' });
+    } else {
+        pdfBtn.prop('disabled', false)
+            .removeClass('disabled')
+            .css({ 'opacity': '1', 'cursor': 'pointer', 'pointer-events': 'auto' });
+
+        excelBtn.prop('disabled', false)
+            .removeClass('disabled')
+            .css({ 'opacity': '1', 'cursor': 'pointer', 'pointer-events': 'auto' });
+    }
+});
+
 
 });

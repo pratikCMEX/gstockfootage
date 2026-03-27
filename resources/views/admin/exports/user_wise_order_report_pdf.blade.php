@@ -38,7 +38,7 @@
             background: #fd7e14;
             color: #fff;
             padding: 7px 6px;
-            text-align: left;
+            text-align: center;
             font-size: 11px;
         }
 
@@ -46,6 +46,7 @@
             padding: 6px;
             border-bottom: 1px solid #eee;
             font-size: 10px;
+            text-align: center;
         }
 
         tr:nth-child(even) td {
@@ -89,12 +90,39 @@
         .summary span {
             margin-right: 20px;
         }
+
+        .report-footer {
+            margin-top: 15px !important;
+            text-align: right;
+            font-size: 10px;
+            color: #aaa;
+            margin: 0 30px;
+        }
+
+        .report-header {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .report-header h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 6px;
+        }
+
+        .table-wrapper {
+            margin: 0 30px;
+        }
     </style>
 </head>
 
 <body>
-    <h2>User Wise Order Report</h2>
-    <p class="subtitle">Generated on {{ now()->format('d M Y, h:i A') }}</p>
+    <div class="report-header">
+        <h2>User Wise Order Report</h2>
+        <p class="subtitle">Generated on {{ now()->format('d M Y, h:i A') }}</p>
+    </div>
 
     {{-- Summary --}}
     <!-- <div class="summary">
@@ -104,43 +132,45 @@
         <span>Pending: <strong>{{ $orders->where('order_status', 'pending')->count() }}</strong></span>
     </div> -->
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Total Orders</th>
-                <th>Total Amount ($)</th>
-                <th>Completed</th>
-                <th>Pending </th>
-                <th>Cancelled</th>
-                <th>Last Order Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($orders as $index => $data)
+    <div class="table-wrapper">
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $data->first_name . ' ' . $data->last_name }}</td>
-                    <td>{{ $data->email }}</td>
-                    <td>{{ $data->total_orders }}</td>
-                    <td>{{ number_format($data->total_amount, 2) }}</td>
-                    <td>{{  $data->completed_orders ?? '0'}}</td>
-                    <td>{{  $data->pending_orders ?? '0'}}</td>
-                    <td>{{  $data->cancelled_orders ?? '0'}}</td>
-                    <td>{{ $data->last_order_date ? \Carbon\Carbon::parse($data->last_order_date)->format('d M Y') : 'N/A' }}
-                    </td>
+                    <th>#</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Total Orders</th>
+                    <th>Total Amount ($)</th>
+                    <th>Completed</th>
+                    <th>Pending </th>
+                    <th>Cancelled</th>
+                    <th>Last Order Date</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="9" style="text-align:center; padding:15px;">No records found</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($orders as $index => $data)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $data->first_name . ' ' . $data->last_name }}</td>
+                        <td>{{ $data->email }}</td>
+                        <td>{{ $data->total_orders }}</td>
+                        <td>{{ number_format($data->total_amount, 2) }}</td>
+                        <td>{{  $data->completed_orders ?? '0'}}</td>
+                        <td>{{  $data->pending_orders ?? '0'}}</td>
+                        <td>{{  $data->cancelled_orders ?? '0'}}</td>
+                        <td>{{ $data->last_order_date ? \Carbon\Carbon::parse($data->last_order_date)->format('d M Y') : 'N/A' }}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="9" style="text-align:center; padding:15px;">No records found</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-    <div class="footer">
+    <div class="report-footer">
         Total {{ $orders->count() }} record(s) exported
     </div>
 </body>

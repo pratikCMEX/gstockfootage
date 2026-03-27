@@ -63,19 +63,19 @@
 
     $(document).ready(function () {
 
-     const sidebar = document.querySelector('.simplebar-content-wrapper');
- 
-    if (sidebar) {
- 
-        // Save scroll position
+        const sidebar = document.querySelector('.simplebar-content-wrapper');
 
-        sidebar.addEventListener('scroll', function () {
+        if (sidebar) {
 
-            localStorage.setItem('sidebarScrollTop', sidebar.scrollTop);
+            // Save scroll position
 
-        });
- 
-        // window.addEventListener('load', function () {
+            sidebar.addEventListener('scroll', function () {
+
+                localStorage.setItem('sidebarScrollTop', sidebar.scrollTop);
+
+            });
+
+            // window.addEventListener('load', function () {
 
             // alert(1)
 
@@ -84,13 +84,13 @@
             console.log(savedScroll)
 
             if (savedScroll !== null) {
- 
+
                 const scrollToSaved = () => {
- 
+
                     // Wait until content is properly rendered
 
                     if (sidebar.scrollHeight > 0) {
- 
+
                         sidebar.scrollTop = parseInt(savedScroll);
 
                     } else {
@@ -100,15 +100,15 @@
                     }
 
                 };
- 
+
                 scrollToSaved();
 
             }
- 
-        // });
- 
-    }
- 
+
+            // });
+
+        }
+
         $('.searchable').select2({
             width: 'resolve',
             minimumResultsForSearch: 0, // always show search box
@@ -124,7 +124,7 @@
     });
 
 
-    
+
     //  Global placeholder capitalizer — add once in main JS file
     $('input, textarea').each(function () {
         let placeholder = $(this).attr('placeholder');
@@ -192,4 +192,13 @@
         });
 
     });
+    $(document).on('draw.dt', 'table', function () {
+        $(this).find('tbody td').each(function () {
+            var text = $(this).text().trim();
+            if (text === '' || text === null || text === 'null' || text === 'undefined' || text === 'N/A') {
+                $(this).text('-');
+            }
+        });
+    });
+   
 </script>

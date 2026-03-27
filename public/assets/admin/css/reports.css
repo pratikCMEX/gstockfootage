@@ -33,16 +33,16 @@
 }
 
 /* CSV - Blue */
-.dt-button:nth-child(2) {
+/* .dt-button:nth-child(2) {
     background: linear-gradient(135deg, #0d6efd, #3b8ff5) !important;
     color: #fff !important;
-}
+} */
 
-.dt-button:nth-child(2):hover {
+/* .dt-button:nth-child(2):hover {
     background: linear-gradient(135deg, #0a58ca, #0d6efd) !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(13, 110, 253, 0.4) !important;
-}
+} */
 
 /* PDF - Red */
 .dt-button:nth-child(3) {

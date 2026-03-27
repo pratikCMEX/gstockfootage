@@ -111,7 +111,7 @@
                                     placeholder="Enter your phone number"
                                     oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                             </div>
-                            <label id="phone-error" class="text-danger" for="phone"></label>
+                            <!-- <label id="phone-error" class="text-danger" for="phone"></label> -->
 
                             {{-- Hidden fields --}}
                             <input type="hidden" name="phone" id="full_phone">
