@@ -1142,8 +1142,7 @@ class HomeController extends Controller
             ->with('subcategories') // ← make sure this matches your actual relation name
             ->get();
 
-        $collections = Collection::where('is_display', '1')
-            ->get();
+        $collections = Collection::get();
 
         $query = BatchFile::with(['category'])
             ->where('type', 'image')
