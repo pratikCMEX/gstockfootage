@@ -586,7 +586,7 @@ $(document).on("click", ".generate-ai", function () {
   let imgUrl = btn.attr("data-img"); // ✅ reads live attribute, not cached value
 
   btn.prop("disabled", true).text("Generating...");
-  $("#loader").css("display", "flex");
+  $("#ai_loader").css("display", "flex");
   $.ajax({
     url: base_url + "/generate-ai-content",
     type: "POST",
@@ -658,17 +658,17 @@ $(document).on("click", ".generate-ai", function () {
         // $("#ai_tags").val(res.data.tags);
 
         btn.text("Generated ✓");
-        $("#loader").css("display", "none");
+        $("#ai_loader").css("display", "none");
       } else {
         toastr.warning(res.message);
         btn.prop("disabled", false).text("Generate AI Content");
-        $("#loader").css("display", "none");
+        $("#ai_loader").css("display", "none");
       }
     },
     error: function () {
       toastr.error("Something went wrong.");
       btn.prop("disabled", false).text("Generate AI Content");
-      $("#loader").css("display", "none");
+      $("#ai_loader").css("display", "none");
     },
   });
 });

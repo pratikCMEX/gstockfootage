@@ -1,4 +1,66 @@
 <!-- hero section -->
+<style>
+    .track-wrap {
+        position: relative;
+        height: 22px;
+        /* must be >= thumb size */
+        margin: 8px 0 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .track-bg {
+        position: absolute;
+        inset: 0;
+        background: #e5e7eb;
+        border-radius: 2px;
+    }
+
+    .track-fill {
+        position: absolute;
+        top: 0%;
+
+        height: 4px;
+        background: #f97316;
+        border-radius: 2px;
+        /* left and right set by JS — no width */
+    }
+
+    /* Both range inputs sit on top of each other */
+    .range-input {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        height: 4px;
+        appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        pointer-events: none;
+        margin: 0;
+    }
+
+    .range-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 50%;
+        background: #f97316;
+        border: none;
+        cursor: pointer;
+        pointer-events: all;
+    }
+
+    .range-input::-moz-range-thumb {
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 50%;
+        background: #f97316;
+        border: none;
+        cursor: pointer;
+        pointer-events: all;
+    }
+</style>
 <section class="hero">
     <div class="container">
         <h1>Explore videos and royalty-free stock footage</h1>
@@ -246,50 +308,29 @@
                             </button>
                             <div id="priceD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    {{-- <div class="d-flex gap-2 mb-2">
-                                        <input type="number" id="price_min_input"
-                                            class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
-                                        <input type="number" id="price_max_input"
-                                            class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}"
-                                            value="{{ $allVideos->max('price') }}"
-                                            placeholder="${{ $allVideos->max('price') }}">
 
-
-
-                                    </div>
-                                    <input type="range" class="range-slider" min="0"
-                                        max="{{ $allVideos->max('price') }}" value="{{ $allVideos->max('price') }}"
-                                        id="priceRangeMax">
-                                    {{-- <div class="range-slider" id="priceRangeMax" data-min="0"
-                                        data-max="{{ $allVideos->max('price') }}"
-                                        data-value="{{ $allVideos->max('price') }}">
-                                    </div> 
-                                    <div class="range-values">
-                                        <span>$0</span>
-                                        <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
-                                    </div> --}}
-                                    {{-- Price Range --}}
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="price_min_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}" value="0" placeholder="$0">
+                                            max="{{ $maxPriceI }}" value="0" placeholder="$0">
                                         <input type="number" id="price_max_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('price') }}"
-                                            value="{{ $allVideos->max('price') }}"
-                                            placeholder="${{ $allVideos->max('price') }}">
+                                            max="{{ $maxPriceI }}" value="{{ $maxPriceI }}"
+                                            placeholder="${{ $maxPriceI }}">
                                     </div>
+
                                     <div class="track-wrap">
                                         <div class="track-bg"></div>
-                                        <div class="track-fill"></div>
-                                        <input type="range" min="0" max="{{ $allVideos->max('price') }}"
-                                            value="{{ $allVideos->max('price') }}" id="priceRangeMax">
+                                        <div class="track-fill" id="priceTrackFill"></div>
+                                        <input type="range" class="range-input" id="priceRangeMin" min="0"
+                                            max="{{ $maxPriceI }}" value="0">
+                                        <input type="range" class="range-input" id="priceRangeMax" min="0"
+                                            max="{{ $maxPriceI }}" value="{{ $maxPriceI }}">
                                     </div>
+
                                     <div class="range-values">
-                                        <span>$0</span>
-                                        <span id="priceMaxLabel">${{ $allVideos->max('price') }}</span>
+                                        <span id="priceMinLabel">$0</span>
+                                        <span id="priceMaxLabel">${{ $maxPriceI }}</span>
                                     </div>
 
                                 </div>
@@ -304,34 +345,32 @@
                             </button>
                             <div id="durationD" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
+
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="duration_min_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('duration') }}" value="0" placeholder="0s">
+                                            max="{{ (int) $maxDurationI }}" value="0" placeholder="0s">
                                         <input type="number" id="duration_max_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $allVideos->max('duration') }}"
-                                            value="{{ $allVideos->max('duration') }}"
-                                            placeholder="{{ $allVideos->max('duration') }}s">
-                                    </div>
-                                    {{-- <input type="range" class="range-slider" min="0"
-                                        max="{{ $allVideos->max('duration') }}" value="120"
-                                        id="durationRangeMax"> --}}
-                                    <div class="track-wrap">
-                                        <div class="track-bg"></div>
-                                        <div class="track-fill" style="width:100%"></div>
-                                        <input type="range" min="0" max="{{ $allVideos->max('duration') }}"
-                                            value="{{ $allVideos->max('duration') }}" id="durationRangeMax">
+                                            max="{{ (int) $maxDurationI }}" value="{{ (int) $maxDurationI }}"
+                                            placeholder="{{ (int) $maxDurationI }}s">
                                     </div>
 
-                                    {{-- <div class="range-slider" data-min="0"
-                                        data-max="{{ $allVideos->max('duration') }}"
-                                        data-value="{{ $allVideos->max('duration') }}">
-                                    </div> --}}
-                                    <div class="range-values">
-                                        <span>0s</span>
-                                        <span id="durationMaxLabel">{{ $allVideos->max('duration') }}s+</span>
+                                    <div class="track-wrap">
+                                        <div class="track-bg"></div>
+                                        <div class="track-fill" id="durationTrackFill"></div>
+                                        <input type="range" class="range-input" id="durationRangeMin"
+                                            min="0" max="{{ (int) $maxDurationI }}" value="0">
+                                        <input type="range" class="range-input" id="durationRangeMax"
+                                            min="0" max="{{ (int) $maxDurationI }}"
+                                            value="{{ (int) $maxDurationI }}">
                                     </div>
+
+                                    <div class="range-values">
+                                        <span id="durationMinLabel">0s</span>
+                                        <span id="durationMaxLabel">{{ $maxDurationI }}s+</span>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -546,6 +585,78 @@
                             </div>
                         </div>
 
+                        <div class="accordion-item">
+                            <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#categoryD">
+                                Category
+                                <i class="fa-solid fa-angle-up"></i>
+                            </button>
+                            <div id="categoryD" class="accordion-collapse collapse">
+                                <div class="accordion-body p-0">
+                                    @foreach ($categories as $category)
+                                        <div class="category-filter-item">
+
+                                            <!-- Parent Category Checkbox -->
+                                            <div class="filter-option form-check">
+                                                <input class="form-check-input filter-check parent-category-check"
+                                                    type="checkbox" id="cat_{{ $category->id }}"
+                                                    name="category_id[]" value="{{ encrypt($category->id) }}"
+                                                    data-category-id="{{ $category->id }}">
+                                                <label class="form-check-label fw-500 ms-2"
+                                                    for="cat_{{ $category->id }}">
+                                                    {{ $category->category_name }}
+                                                </label>
+                                            </div>
+
+                                            <!-- Subcategories -->
+                                            @if ($category->subcategories && $category->subcategories->count() > 0)
+                                                <div class="subcategory-list ps-4" id="sub_{{ $category->id }}"
+                                                    style="display:none; background:#f5f5f5;">
+                                                    @foreach ($category->subcategories as $sub)
+                                                        <div class="filter-option form-check">
+                                                            <input
+                                                                class="form-check-input filter-check sub-category-check"
+                                                                type="checkbox" id="subopt_{{ $sub->id }}"
+                                                                name="subcategory_id[]"
+                                                                value="{{ encrypt($sub->id) }}"
+                                                                data-parent-id="{{ $category->id }}">
+                                                            <label class="form-check-label ms-2"
+                                                                for="subopt_{{ $sub->id }}">
+                                                                {{ $sub->name }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Collections -->
+                        <div class="accordion-item">
+                            <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#collectionsFilter">
+                                Collection
+                                <i class="fa-solid fa-angle-up"></i>
+                            </button>
+                            <div id="collectionsFilter" class="accordion-collapse collapse">
+                                <div class="accordion-body p-0">
+                                    @foreach ($CollectionList as $collection)
+                                        <div class="filter-option form-check">
+                                            <input class="form-check-input filter-check collection-check"
+                                                type="checkbox" id="col_{{ $collection->id }}"
+                                                name="collection_id[]" value="{{ encrypt($collection->id) }}">
+                                            <label class="form-check-label ms-2" for="col_{{ $collection->id }}">
+                                                {{ $collection->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -609,21 +720,19 @@
                                             <div class="d-flex gap-2 mb-2">
                                                 <input type="number"
                                                     class="form-control form-control-sm price_min_mobile"
-                                                    min="0" max="{{ $allVideos->max('price') }}"
-                                                    value="0" placeholder="$0">
+                                                    min="0" max="{{ $maxPriceI }}" value="0"
+                                                    placeholder="$0">
                                                 <input type="number"
                                                     class="form-control form-control-sm price_max_mobile"
-                                                    min="0" max="{{ $allVideos->max('price') }}"
-                                                    value="{{ $allVideos->max('price') }}"
-                                                    placeholder="${{ $allVideos->max('price') }}">
+                                                    min="0" max="{{ $maxPriceI }}"
+                                                    value="{{ $maxPriceI }}" placeholder="${{ $maxPriceI }}">
                                             </div>
                                             <input type="range" class="form-range priceRangeMax_mobile"
-                                                min="0" max="{{ $allVideos->max('price') }}"
-                                                value="{{ $allVideos->max('price') }}">
+                                                min="0" max="{{ $maxPriceI }}"
+                                                value="{{ $maxPriceI }}">
                                             <div class="range-values">
                                                 <span>$0</span>
-                                                <span
-                                                    class="priceMaxLabel_mobile">${{ $allVideos->max('price') }}</span>
+                                                <span class="priceMaxLabel_mobile">${{ $maxPriceI }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -834,6 +943,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Category & Subcategory -->
+                                <!-- Category & Subcategory -->
 
                             </div>
                         </div>
@@ -843,9 +954,9 @@
                              CHANGE: changed data-value to short keys: "relevant","newest","popular" etc.
                                      added class="sort-btn" to each dropdown-item button --}}
                         <div class="dropdown sort-dropdown">
-                            {{-- <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <span id="selectedOption">Most Relevant</span>
-                            </button> --}}
+                            </button>
                             <ul class="dropdown-menu">
                                 <li>
                                     <button class="dropdown-item sort-btn active" data-value="relevant">
@@ -1027,7 +1138,7 @@
         border-radius: 8px;
     }
 </style>
-<script>
+{{-- <script>
     (function() {
         const gridWrapper = document.getElementById("videoGrid");
         const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -1082,6 +1193,25 @@
             params.set("page", page || 1);
             return params;
         }
+
+        document.addEventListener("change", function(e) {
+            if (!e.target.classList.contains("parent-category-check")) return;
+
+            const subList = document.getElementById(`sub_${e.target.dataset.categoryId}`);
+            if (subList) {
+                if (e.target.checked) {
+                    subList.style.display = "block";
+                } else {
+                    subList.style.display = "none";
+                    // ✅ Uncheck AND visually clear all subcategory checkboxes
+                    subList.querySelectorAll(".sub-category-check").forEach(cb => {
+                        cb.checked = false;
+                    });
+                }
+            }
+
+            debouncedApply();
+        });
 
         // ── Apply filters — reset grid to page 1 ──
         function applyFilters() {
@@ -1161,15 +1291,6 @@
             }
         });
 
-        // ── Sort buttons ──
-        document.querySelectorAll(".sort-btn").forEach(btn => {
-            btn.addEventListener("click", function() {
-                document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
-                this.classList.add("active");
-                applyFilters();
-            });
-        });
-
         // ── Load More button ──
         loadMoreBtn?.addEventListener("click", loadMore);
 
@@ -1212,9 +1333,9 @@
             if (e.target.closest("#noResultsClearBtn")) clearBtn?.click();
         });
 
-        // ── Range sliders init ──
-        initRangeSlider("priceRangeMax", "price_max_input", "priceMaxLabel");
-        initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
+        // // ── Range sliders init ──
+        // initRangeSlider("priceRangeMax", "price_max_input", "priceMaxLabel");
+        // initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
 
     })();
-</script>
+</script> --}}
