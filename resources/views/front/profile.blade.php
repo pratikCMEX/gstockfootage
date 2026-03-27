@@ -1221,7 +1221,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-all-dark btn-hover-dark"
                                     data-bs-dismiss="modal">Cancle</button>
-                                <button type="submit" class="btn btn-orange">Submit</button>
+                                <button type="submit" class="btn btn-orange">Change Password</button>
                             </div>
                         </form>
                     </div>
