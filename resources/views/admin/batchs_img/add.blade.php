@@ -454,11 +454,11 @@
                                                 </ul> --}}
                                                 <select class="form-select mr-sm-2 batch-inp" name="select_field"
                                                     id="select_field">
-                                                    <option value="id">Id</option>
+                                                    {{-- <option value="id">Id</option> --}}
                                                     <option value="title">
                                                         Batch Name</option>
                                                     <option value="created_at">
-                                                        Created At</option>
+                                                        Created Date</option>
                                                 </select>
                                             </div>
                                             <div class="direction-filter filter-text">
