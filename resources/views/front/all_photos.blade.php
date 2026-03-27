@@ -431,6 +431,29 @@
                                 </div>
                             </div>
 
+                            <!-- Collections -->
+                            <div class="accordion-item">
+                                <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#collectionsFilter">
+                                    Collection
+                                    <i class="fa-solid fa-angle-up"></i>
+                                </button>
+                                <div id="collectionsFilter" class="accordion-collapse collapse">
+                                    <div class="accordion-body p-0">
+                                        @foreach ($CollectionList as $collection)
+                                            <div class="filter-option form-check">
+                                                <input class="form-check-input filter-check collection-check"
+                                                    type="checkbox" id="col_{{ $collection->id }}"
+                                                    name="collection_id[]" value="{{ encrypt($collection->id) }}">
+                                                <label class="form-check-label ms-2" for="col_{{ $collection->id }}">
+                                                    {{ $collection->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="heading-btn">
