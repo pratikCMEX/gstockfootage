@@ -371,6 +371,7 @@ class HomeController extends Controller
     }
     public function videos(Request $request)
     {
+
         // dd($request);
         $title = 'Videos';
         $page = 'front.videos';
@@ -392,7 +393,7 @@ class HomeController extends Controller
 
             // single string handled below via $collection_id
         }
-        $category_id = null;
+        $category_id = [];
         if ($request->has('category_id')) {
             $raw = $request->get('category_id');
             $category_id = collect(is_array($raw) ? $raw : [$raw])
@@ -503,7 +504,9 @@ class HomeController extends Controller
         if ($collection_id) {
             $query->whereIn('collection_id', $collection_id);
         }
+
         if ($category_id) {
+            // dd(1);
             $query->whereIn('category_id', $category_id);
         }
 
@@ -708,7 +711,6 @@ class HomeController extends Controller
     }
     public function allPhotos(Request $request)
     {
-        // dd($request);
         $title = 'Photos';
         $page  = 'front.all_photos';
         $js    = ['home', 'favorites', 'images'];
