@@ -57,7 +57,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Sr. No.</th>
                 <th>User Name</th>
                 <th>Product Name</th>
                 <th>Total Items</th>

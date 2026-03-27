@@ -136,7 +136,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Sr. No.</th>
                     <th>User Name</th>
                     <th>Email</th>
                     <th>Total Orders</th>

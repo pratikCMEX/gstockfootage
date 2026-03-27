@@ -1,7 +1,7 @@
   <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Sr. No.</th>
                 <th>User Name</th>
                 <th>Plan</th>
                 <th>Start Date</th>
