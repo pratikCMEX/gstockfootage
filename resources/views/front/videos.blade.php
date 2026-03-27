@@ -1001,10 +1001,7 @@
 
                         {{-- CHANGE: added id="videoResultCount" result counter --}}
                         <span id="videoResultCount" class="text-muted ms-2"
-                            style="    font-size: 16px;
-    white-space: nowrap;
-    color: var(--secendory) !important;
-white-space:nowrap;">
+                            style="font-size: 16px; white-space: nowrap; color: var(--secendory) !important; white-space:nowrap;">
                             {{ isset($allVideos) ? $allVideos->count() : 0 }} result(s)
                         </span>
 
