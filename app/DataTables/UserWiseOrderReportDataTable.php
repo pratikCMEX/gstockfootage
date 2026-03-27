@@ -178,6 +178,21 @@ class UserWiseOrderReportDataTable extends DataTable
             window.location.href = url;
         }',
                 ]),
+                 Button::raw([
+        'text' => '<i class="fa fa-file-excel"></i> Excel',
+        'action' => 'function(e, dt, node, config) {
+            let from        = $("#from_date").val();
+            let to          = $("#to_date").val();
+            let user_id  = $("#user_id").val();
+
+            let url = "' . route('admin.user_wise_order_report.export_excel') . '"
+                + "?from_date="   + from
+                + "&to_date="     + to
+                + "&user_id=" + user_id;
+
+            window.location.href = url;
+        }',
+    ]),
             ]);
         // ->buttons([
         //     // Button::make('excel')->exportOptions(['columns' => ':visible']),

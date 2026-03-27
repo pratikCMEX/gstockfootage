@@ -5,6 +5,7 @@ var loadFile = function (event) {
     $(".gift_image_validation").text("");
     $(".banner_image_validation").text("");
 };
+
 $("#add_category_form").validate({
     onkeyup: false,
     rules: {
@@ -224,8 +225,6 @@ $(document).on("change", "#select-all", function () {
     $(".row-checkbox").prop("checked", this.checked);
     toggleDeleteButton();
 });
-
-
 
 $("#delete-selected").on("click", function () {
     let ids = [];

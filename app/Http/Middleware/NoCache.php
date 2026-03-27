@@ -17,6 +17,9 @@ class NoCache
     {
         $response = $next($request);
 
+        if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+            return $response;
+        }
 
         return $response->header('Cache-Control', 'no-cache, no-store, max-age=0,must-revalidate')
             ->header('Pragma', 'no-cache')

@@ -7,8 +7,8 @@
         h2 { text-align: center; margin-bottom: 5px; font-size: 16px; }
         .subtitle { text-align: center; color: #666; margin-bottom: 15px; font-size: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #fd7e14; color: #fff; padding: 7px 5px; text-align: left; font-size: 10px; }
-        td { padding: 5px; border-bottom: 1px solid #eee; font-size: 9px; }
+        th { background: #fd7e14; color: #fff; padding: 7px 5px; text-align: center; font-size: 10px; }
+        td { padding: 5px; border-bottom: 1px solid #eee; font-size: 9px; text-align: center;}
         tr:nth-child(even) td { background: #f9f9f9; }
         .success { color: #198754; font-weight: bold; }
         .warning { color: #fd7e14; font-weight: bold; }
@@ -17,11 +17,38 @@
         .summary { margin-bottom: 15px; padding: 8px; background: #fff3e0; border-left: 3px solid #fd7e14; }
         .summary span { margin-right: 15px; }
         .footer { text-align: right; margin-top: 10px; font-size: 9px; color: #999; }
+        
+        .report-footer {
+            margin-top: 15px !important;
+            text-align: right;
+            font-size: 10px;
+            color: #aaa;
+            margin: 0 30px;
+        }
+
+        .report-header {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .report-header h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 6px;
+        }
+
+        .table-wrapper {
+            margin: 0 30px;
+        }
     </style>
 </head>
 <body>
-    <h2>User Subscription Report</h2>
-    <p class="subtitle">Generated on {{ now()->format('d M Y, h:i A') }}</p>
+    <div class="report-header">
+        <h2>User Subscription Report</h2>
+        <p class="subtitle">Generated on {{ now()->format('d M Y, h:i A') }}</p>
+    </div>
 
     {{--  Summary --}}
     <!-- <div class="summary">
@@ -31,7 +58,7 @@
         <span>Cancelled: <strong>{{ $subscriptions->where('status', 'cancelled')->count() }}</strong></span>
         <span>Total Amount: <strong>{{ $subscriptions->first()->currency ?? 'USD' }} {{ number_format($subscriptions->sum('amount'), 2) }}</strong></span>
     </div> -->
-
+  <div class="table-wrapper">
     <table>
         <thead>
             <tr>
@@ -90,7 +117,8 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
-    <div class="footer">Total {{ $subscriptions->count() }} record(s) exported</div>
+    <div class="report-footer">Total {{ $subscriptions->count() }} record(s) exported</div>
 </body>
 </html>

@@ -144,6 +144,25 @@ class OrderHistoryDataTable extends DataTable
             window.location.href = url;
         }',
     ]),
+      Button::raw([
+                    'text' => '<i class="fa fa-file-excel"></i> Excel',
+                     'attr'      => ['class' => 'dt-button btn-danger'],
+                    'action' => 'function(e, dt, node, config) {
+            
+            let from        = $("#from_date").val();
+            let to          = $("#to_date").val();
+            let order_status   = $("#order_status").val();
+            let payment_status = $("#payment_status").val();
+
+            let url = "' . route('admin.order_history.export_excel') . '"
+                + "?from_date="   + from
+                + "&to_date="     + to
+                + "&order_status="   + order_status
+                + "&payment_status=" + payment_status;
+
+            window.location.href = url;
+        }',
+                ]),
 ]);
             // ->buttons([
             //     //  Exclude last column (action) from export using column index
