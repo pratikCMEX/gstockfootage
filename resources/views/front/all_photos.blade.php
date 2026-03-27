@@ -391,6 +391,7 @@
                                     <div class="accordion-body p-0">
                                         @foreach ($categories as $category)
                                             <div class="category-filter-item">
+
                                                 <!-- Parent Category Checkbox -->
                                                 <div class="filter-option form-check">
                                                     <input class="form-check-input filter-check parent-category-check"
@@ -403,26 +404,27 @@
                                                     </label>
                                                 </div>
 
-                                                <!-- Subcategories (hidden by default) -->
+                                                <!-- Subcategories -->
                                                 @if ($category->subcategories && $category->subcategories->count() > 0)
                                                     <div class="subcategory-list ps-4" id="sub_{{ $category->id }}"
                                                         style="display:none; background:#f5f5f5;">
                                                         @foreach ($category->subcategories as $sub)
-                                                            <div class="filter-option form-check ">
+                                                            <div class="filter-option form-check">
                                                                 <input
                                                                     class="form-check-input filter-check sub-category-check"
-                                                                    type="checkbox" id="sub_{{ $sub->id }}"
+                                                                    type="checkbox" id="subopt_{{ $sub->id }}"
                                                                     name="subcategory_id[]"
                                                                     value="{{ encrypt($sub->id) }}"
                                                                     data-parent-id="{{ $category->id }}">
                                                                 <label class="form-check-label ms-2"
-                                                                    for="sub_{{ $sub->id }}">
+                                                                    for="subopt_{{ $sub->id }}">
                                                                     {{ $sub->name }}
                                                                 </label>
                                                             </div>
                                                         @endforeach
                                                     </div>
                                                 @endif
+
                                             </div>
                                         @endforeach
                                     </div>
