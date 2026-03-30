@@ -2286,6 +2286,10 @@ select option {
   transform: translateY(-50%) !important;
   bottom: auto !important;
 }
+.page-link.active,
+.active > .page-link {
+  background-color: var(--primary) !important;
+}
 
 @media only screen and (max-width: 1900px) {
   .batch-show-content {
