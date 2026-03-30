@@ -128,9 +128,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <a href="{{ route('logout') }}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
@@ -286,15 +286,17 @@
                 <p>Total</p>
                 <h5 class="total_cart_amt">${{ $cart['total'] }}</h5>
             </div>
-            <div class="checkout-btn">
-                <a class="btn-orange btn w-100"
-                    href="{{ auth()->check() ? route('checkout') : route('login') }}">Proccess to Checkout</a>
-            </div>
-            <div class="view-cart-btn">
-                <a href="{{ auth()->check() ? route('cart.list') : route('login') }}"
-                    class="w-100 btn btn-all-dark btn-hover-dark">View
-                    Cart</a>
-            </div>
+            @if (count($cart['items']) > 0)
+                <div class="checkout-btn">
+                    <a class="btn-orange btn w-100"
+                        href="{{ auth()->check() ? route('checkout') : route('login') }}">Proccess to Checkout</a>
+                </div>
+                <div class="view-cart-btn">
+                    <a href="{{ auth()->check() ? route('cart.list') : route('login') }}"
+                        class="w-100 btn btn-all-dark btn-hover-dark">View
+                        Cart</a>
+                </div>
+            @endif
         </div>
     </div>
 
