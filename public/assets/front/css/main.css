@@ -634,10 +634,13 @@ input[type="range"]::-moz-range-track {
   }
 }
 
-.share-wrapper {
+.wrapper {
   display: inline-block;
 }
-
+.share-wrapper {
+  display: inline-block !important;
+  width: 100%;
+}
 .product-detail-content .share-wrapper .share-dropdown {
   bottom: auto !important;
   top: calc(100% + 10px);

@@ -25,7 +25,7 @@
                                     <div class="cart-product">
                                         <div class="cart-product-img">
                                             @if ($cartItem['type'] == 'image')
-                                                <img src="{{$cartItem['mid_path'] ? Storage::disk('s3')->url($cartItem['mid_path']) : '' }}"
+                                                <img src="{{ $cartItem['mid_path'] ? Storage::disk('s3')->url($cartItem['mid_path']) : '' }}"
                                                     class="h-100 w-100" alt="">
                                             @else
                                                 <img src="{{ Storage::disk('s3')->url($cartItem['thumbnail_path']) }}"
@@ -39,15 +39,20 @@
                                         </button>
 
                                         <p>{{ $cartItem['title'] }}</p>
+                                        <span class="imageVideo-badge top-0 start-0 m-2 badge"
+                                            style="background: {{ $cartItem['type'] === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                            {{ $cartItem['type'] === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                        </span>
                                     </div>
+
                                 </td>
 
                                 <td>
-                                    <p>${{ $cartItem['price'] }}</p>
+                                    <p>${{ number_format($cartItem['price'], 2) }}</p>
                                 </td>
 
                                 <td>
-                                    <p>${{ $cartItem['subtotal'] }}</p>
+                                    <p>${{ number_format($cartItem['subtotal'], 2) }}</p>
                                 </td>
                             </tr>
                         @endforeach
@@ -68,7 +73,7 @@
                         <div class="cart-checkout-total">
                             <div class="total">
                                 <h4 class="total-title">Subtotal:</h4>
-                                <p class="total-price total_cart_amt">${{ $cart['total'] }}</p>
+                                <p class="total-price total_cart_amt">${{ number_format($cart['total'], 2) }}</p>
                             </div>
                             <div class="total">
                                 <h4 class="total-title">Shipping:</h4>
@@ -76,10 +81,12 @@
                             </div>
                             <div class="total">
                                 <h4 class="total-title">Total:</h4>
-                                <p class="total-price total_cart_amt">${{ $cart['total'] }}</p>
+                                <p class="total-price total_cart_amt">${{ number_format($cart['total'], 2) }}</p>
                             </div>
                         </div>
-                        <a href="{{ route('checkout') }}"><button type="button" class="btn btn-orange">Process to
+                        <a href="{{ route('checkout') }}"><button type="button"
+                                class="btn btn-orange cart-btns {{ count($cart['items']) > 0 ? '' : 'd-none' }}">Process
+                                to
                                 checkout</button></a>
                     </div>
                 </div>

@@ -130,9 +130,9 @@
 
 
                     <!-- @auth
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <a href="{{ route('logout') }}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button class="btn header-btns btn-sm">Log Out</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <a href="{{ route('logout') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button class="btn header-btns btn-sm">Log Out</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a>
                     @endauth -->
 
                     <a href="{{ route('pricing') }}" class="d-none d-xl-block">
@@ -237,10 +237,12 @@
         <div class="cart-items">
 
             @if (count($cart['items']) == 0)
-                <div class="cart-empty" style="display: flex; align-items: center; justify-content: center;height: 100%;">
+                <div class="cart-empty"
+                    style="display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center;height: 100%;">
                     <p>
                         Cart is empty
                     </p>
+                    {{-- <button type="button" class="btn btn-orange">Return to shop</button> --}}
                 </div>
             @else
                 @foreach ($cart['items'] as $item)
@@ -281,16 +283,16 @@
             @endif
 
         </div>
-        <div class="cart-total">
+        <div class="cart-total cart-btns {{ count($cart['items']) > 0 ? '' : 'd-none' }}">
             <div class="total-count">
                 <p>Total</p>
-                <h5 class="total_cart_amt">${{ $cart['total'] }}</h5>
+                <h5 class="total_cart_amt">${{ number_format($cart['total'], 2) }}</h5>
             </div>
-            <div class="checkout-btn">
+            <div class="checkout-btn cart-btns {{ count($cart['items']) > 0 ? '' : 'd-none' }}">
                 <a class="btn-orange btn w-100"
                     href="{{ auth()->check() ? route('checkout') : route('login') }}">Proccess to Checkout</a>
             </div>
-            <div class="view-cart-btn">
+            <div class="view-cart-btn cart-btns {{ count($cart['items']) > 0 ? '' : 'd-none' }}">
                 <a href="{{ auth()->check() ? route('cart.list') : route('login') }}"
                     class="w-100 btn btn-all-dark btn-hover-dark">View
                     Cart</a>
