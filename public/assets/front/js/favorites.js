@@ -95,6 +95,18 @@ $(document).on("click", ".removeFavorite", function () {
 
         button.closest(".wishlist-item").fadeOut(200, function () {
           $(this).remove();
+
+          if ($(".wishlist-item").length === 0) {
+            $(".row.row-gap-4").html(`
+              <div class="col-12 mt-4">
+                <div class="empty-wishlist text-center">
+                  <h4>Your Wishlist is Empty</h4>
+                  <p>You haven't added any items to your wishlist yet. Browse products and add your favorites here.</p>
+                  <a href="/" class="btn btn-orange mt-2">Browse Products</a>
+                </div>
+              </div>
+            `);
+          }
         });
         // Update button appearance based on action
       } else {
