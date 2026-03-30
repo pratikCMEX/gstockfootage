@@ -195,26 +195,37 @@ class BatchController extends Controller
     }
     public function getBatchFiles(Request $request, $batchId)
     {
-        $batch = Batch::with('batch_files')->findOrFail($batchId);
+        $perPage = 10;
+        $page    = $request->get('page', 1);
 
-        $files = $batch->batch_files->map(function ($file) {
-            $path = $file->file_type == 'image'
-                ? ('https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->mid_path, '/'))
-                : ('https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->thumbnail_path, '/'));
+        $files = BatchFile::where('batch_id', $batchId)
+            ->paginate($perPage, ['*'], 'page', $page);
 
+        $data = $files->map(function ($file) {
             return [
                 'id'            => $file->id,
                 'file_code'     => $file->file_code,
                 'original_name' => $file->original_name,
                 'title'         => $file->title,
                 'file_type'     => $file->file_type,
-                'mid_path'      => $path,
-                'thumbnail_path' => $path,
                 'status'        => $file->status,
+                'thumbnail_path' => !empty($file->thumbnail_path)
+                    ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->thumbnail_path, '/')
+                    : asset('assets/admin/images/demo_thumbnail.png'),
+                'mid_path' => !empty($file->mid_path)
+                    ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->mid_path, '/')
+                    : null,
             ];
         });
 
-        return response()->json(['status' => true, 'files' => $files]);
+        return response()->json([
+            'status'       => true,
+            'files'        => $data,
+            'current_page' => $files->currentPage(),
+            'last_page'    => $files->lastPage(),
+            'total'        => $files->total(),
+            'has_more'     => $files->hasMorePages(),
+        ]);
     }
     public function store(Request $request)
     {

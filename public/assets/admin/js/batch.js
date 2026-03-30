@@ -41,69 +41,139 @@ filteropensmall?.addEventListener("click", function () {
 //   $(this).toggleClass("active");
 // });
 
+// ── Helper: build table rows from files array ──────────────────────
+function buildFileRows(files) {
+  if (!files.length) return "";
+
+  let rows = "";
+  files.forEach(function (file) {
+    let imgSrc =
+      file.file_type === "image"
+        ? file.mid_path || file.thumbnail_path
+        : file.thumbnail_path;
+
+    rows += `
+          <tr>
+              <td>
+                  <div class="img-id">
+                      <div class="table-img">
+                          <img src="${imgSrc}" class="w-100 h-100" alt="">
+                      </div>
+                      <p>${file.file_code}</p>
+                  </div>
+              </td>
+              <td>${file.original_name}</td>
+              <td>${file.title ?? "-"}</td>
+              <td>
+                  <div class="create-count-div">
+                      <div class="circle-div circle-div1"></div>
+                      <p class="circel-count">Accepted</p>
+                  </div>
+              </td>
+          </tr>`;
+  });
+
+  return rows;
+}
+
+// ── More Detail click — first load ────────────────────────────────
 $(document).on("click", ".more-detail-btn", function () {
   let btn = $(this);
   let parent = btn.closest(".batch-content");
   let table = parent.find(".batch-content-table-details");
   let tbody = parent.find(".batch-files-tbody");
+  let loadMore = parent.find(".load-more-wrap");
+  let loader = parent.find(".batch-files-loader");
   let batchId = btn.data("batch-id");
   let loaded = btn.data("loaded");
 
-  // Only fetch once
-  if (!loaded) {
-    tbody.html('<tr><td colspan="4" class="text-center">Loading...</td></tr>');
-    table.slideDown(100);
-    btn.addClass("active");
+  btn.toggleClass("active");
 
-    $.ajax({
-      url: base_url + "/admin/batch/files/" + batchId,
-      type: "GET",
-      success: function (res) {
-        if (res.status && res.files.length > 0) {
-          let rows = "";
-          res.files.forEach(function (file) {
-            rows += `
-                          <tr>
-                              <td>
-                                  <div class="img-id">
-                                      <div class="table-img">
-                                          <img src="${
-                                            file.mid_path || file.thumbnail_path
-                                          }" 
-                                               class="w-100 h-100" alt="">
-                                      </div>
-                                      <p>${file.file_code}</p>
-                                  </div>
-                              </td>
-                              <td>${file.original_name}</td>
-                              <td>${file.title ?? "-"}</td>
-                              <td>
-                                  <div class="create-count-div">
-                                      <div class="circle-div circle-div1"></div>
-                                      <p class="circel-count">Accepted</p>
-                                  </div>
-                              </td>
-                          </tr>`;
-          });
-          tbody.html(rows);
-        } else {
-          tbody.html(
-            '<tr><td colspan="4" class="text-center">No files found.</td></tr>'
-          );
-        }
-        btn.data("loaded", 1); // mark as loaded
-      },
-      error: function () {
-        tbody.html(
-          '<tr><td colspan="4" class="text-center text-danger">Failed to load.</td></tr>'
-        );
-      },
-    });
-  } else {
-    // Already loaded — just toggle
+  // Already loaded — just toggle visibility
+  if (loaded) {
     table.slideToggle(100);
-    btn.toggleClass("active");
+    return;
   }
+
+  // First time — fetch page 1
+  table.slideDown(100);
+  loader.show();
+
+  $.ajax({
+    url: base_url + "/admin/batch/files/" + batchId + "?page=1",
+    type: "GET",
+    success: function (res) {
+      loader.hide();
+
+      if (res.status && res.files.length > 0) {
+        tbody.html(buildFileRows(res.files));
+
+        // Setup Load More button
+        if (res.has_more) {
+          loadMore.show();
+          loadMore
+            .find(".load-more-btn")
+            .data("page", 1)
+            .data("last-page", res.last_page);
+        } else {
+          loadMore.hide();
+        }
+      } else {
+        tbody.html(
+          '<tr><td colspan="4" class="text-center py-3">No files found.</td></tr>'
+        );
+      }
+
+      btn.data("loaded", 1); // mark as loaded
+    },
+    error: function () {
+      loader.hide();
+      tbody.html(
+        '<tr><td colspan="4" class="text-center text-danger py-3">Failed to load.</td></tr>'
+      );
+    },
+  });
+});
+
+// ── Load More click — fetch next pages ────────────────────────────
+$(document).on("click", ".load-more-btn", function () {
+  let btn = $(this);
+  let parent = btn.closest(".batch-content");
+  let tbody = parent.find(".batch-files-tbody");
+  let loadMore = parent.find(".load-more-wrap");
+  let loader = parent.find(".batch-files-loader");
+  let batchId = btn.data("batch-id");
+  let nextPage = parseInt(btn.data("page")) + 1;
+  let lastPage = parseInt(btn.data("last-page"));
+
+  btn.prop("disabled", true).text("Loading...");
+  loader.show();
+
+  $.ajax({
+    url: base_url + "/admin/batch/files/" + batchId + "?page=" + nextPage,
+    type: "GET",
+    success: function (res) {
+      loader.hide();
+      btn.prop("disabled", false).text("Load More");
+
+      if (res.status && res.files.length > 0) {
+        // Append rows — not replace
+        tbody.append(buildFileRows(res.files));
+
+        // Update current page
+        btn.data("page", res.current_page);
+
+        // Hide Load More if no more pages
+        if (!res.has_more) {
+          loadMore.hide();
+        }
+      }
+    },
+    error: function () {
+      loader.hide();
+      btn.prop("disabled", false).text("Load More");
+    },
+  });
 });
 
 $(document).on("click", ".batch-dropdown-menu .dropdown-item", function (e) {
