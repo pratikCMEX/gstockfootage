@@ -2293,7 +2293,22 @@ select option {
   color: var(--white) !important;
 }
 .page-link {
-  color: var(--black) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  font-family: var(--font-inter-medium), "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  color: var(--second-text);
+  background: transparent;
+  line-height: 1;
 }
 
 @media only screen and (max-width: 1900px) {
