@@ -1,11 +1,14 @@
+@php
+    $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+@endphp
 @if (isset($allVideos) && $allVideos->count() > 0)
     @foreach ($allVideos as $video)
         <div class="product-card">
             <a href="{{ route('product.detail', encrypt($video->id)) }}">
                 <video class="product-img" width="100%" muted loop playsinline preload="auto"
-                    poster="{{ !empty($video->thumbnail_path) ? Storage::disk('s3')->url($video->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                    poster="{{ !empty($video->thumbnail_path) ? $cloudfront . $video->thumbnail_path : asset('assets/admin/images/demo_thumbnail.png') }}">
                     <source
-                        src="{{ $video->preview_path ? Storage::disk('s3')->url($video->preview_path) : ($video->mid_path ? Storage::disk('s3')->url($video->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                        src="{{ $video->preview_path ? $cloudfront . $video->preview_path : ($video->mid_path ? $cloudfront . $video->mid_path : asset('assets/admin/images/demo_thumbnail.png')) }}"
                         type="video/mp4">
                 </video>
             </a>

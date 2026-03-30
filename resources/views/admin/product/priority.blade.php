@@ -5,8 +5,8 @@
         <div class="row mb-4 align-items-center">
 
             <div class="col-md-4">
-                   <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href=""> </a> Product Priority</h5>
+                <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4" href=""> </a> Product
+                    Priority</h5>
                 <!-- <h5 class="card-title fw-semibold">
                     <a href="{{ route('admin.product') }}">Product List</a> / Priority
                 </h5> -->
@@ -77,18 +77,20 @@
                                 <tbody id="all-products">
                                     @php
                                         $i = 0;
+                                        $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+
                                     @endphp
-                                    @foreach($products as $product)
+                                    @foreach ($products as $product)
                                         @php
                                             $i++;
                                         @endphp
 
                                         @php
                                             $thumbnail = $product->thumbnail_path
-                                                ? Storage::disk('s3')->url($product->thumbnail_path)
+                                                ? $cloudfront . $product->thumbnail_path
                                                 : asset('assets/admin/images/demo_thumbnail.png');
 
-                                            $videoUrl = Storage::disk('s3')->url($product->file_path);
+                                            $videoUrl = $cloudfront . $product->file_path;
                                         @endphp
 
                                         <tr data-id="{{ $product->id }}">
@@ -100,25 +102,23 @@
 
                                             <td>
 
-                                                @if($product->type === 'image')
-
-                                                    <img src="{{ $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '' }}"
+                                                @if ($product->type === 'image')
+                                                    <img src="{{ $product->mid_path ? $cloudfront . $product->mid_path : '' }}"
                                                         class="preview-image"
-                                                        data-src="{{ Storage::disk('s3')->url($product->file_path) }}"
+                                                        data-src="{{ $cloudfront . $product->file_path }}"
                                                         width="70" height="70" style="cursor:pointer">
-
                                                 @else
-
-                                                    <div class="video-thumbnail-wrapper position-relative d-inline-block">
+                                                    <div
+                                                        class="video-thumbnail-wrapper position-relative d-inline-block">
 
                                                         <img src="{{ $thumbnail }}" width="90" height="90"
-                                                            class="video-thumbnail rounded" data-video="{{ $videoUrl }}">
+                                                            class="video-thumbnail rounded"
+                                                            data-video="{{ $videoUrl }}">
 
                                                         <i class="ti ti-player-play play-icon video-thumbnail"
                                                             data-video="{{ $videoUrl }}"></i>
 
                                                     </div>
-
                                                 @endif
 
                                             </td>
@@ -126,7 +126,6 @@
                                             <td>{{ $product->price }}</td>
 
                                         </tr>
-
                                     @endforeach
 
                                 </tbody>
@@ -169,18 +168,18 @@
 
                                 <tbody id="priority-products">
 
-                                    @foreach($priorityProducts as $product)
-
+                                    @foreach ($priorityProducts as $product)
                                         @php
                                             $thumbnail = $product->thumbnail_path
-                                                ? Storage::disk('s3')->url($product->thumbnail_path)
+                                                ? $cloudfront . $product->thumbnail_path
                                                 : asset('assets/admin/images/demo_thumbnail.png');
 
-                                            $videoUrl = Storage::disk('s3')->url($product->file_path);
+                                            $videoUrl = $cloudfront . $product->file_path;
                                         @endphp
 
                                         <tr data-id="{{ $product->id }}">
-                                            <td><input type="checkbox" class="priorityCheck" value="{{ $product->id }}">
+                                            <td><input type="checkbox" class="priorityCheck"
+                                                    value="{{ $product->id }}">
                                             </td>
                                             <td class="priority-number">{{ $product->priority }}</td>
 
@@ -192,21 +191,18 @@
 
                                             <td>
 
-                                                @if($product->type === 'image')
-
-                                                    <img src="{{ $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '' }}"
+                                                @if ($product->type === 'image')
+                                                    <img src="{{ $product->mid_path ? $cloudfront . $product->mid_path : '' }}"
                                                         width="70" height="70">
-
                                                 @else
-
-                                                    <div class="video-thumbnail-wrapper position-relative d-inline-block">
+                                                    <div
+                                                        class="video-thumbnail-wrapper position-relative d-inline-block">
 
                                                         <img src="{{ $thumbnail }}" width="90" height="90">
 
                                                         <i class="ti ti-player-play play-icon"></i>
 
                                                     </div>
-
                                                 @endif
 
                                             </td>
@@ -214,7 +210,6 @@
                                             <td>{{ $product->price }}</td>
 
                                         </tr>
-
                                     @endforeach
 
                                 </tbody>

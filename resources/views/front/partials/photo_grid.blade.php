@@ -1,3 +1,6 @@
+@php
+    $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+@endphp
 @if (isset($allPhotos) && $allPhotos->count() > 0)
     @foreach ($allPhotos as $photos)
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 col-12 mb-4">
@@ -5,8 +8,8 @@
 
                 <a href="{{ route('product.detail', encrypt($photos->id)) }}">
                     <img decoding="async" loading="lazy"
-                        src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) : '' }}"
-                        class="product-img" alt="">
+                        src="{{ $photos->mid_path ? $cloudfront . $photos->mid_path : '' }}" class="product-img"
+                        alt="">
                 </a>
 
                 <div class="p-3">

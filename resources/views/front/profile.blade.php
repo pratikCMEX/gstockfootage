@@ -401,12 +401,11 @@
                     <div class="profile-content">
                         <div class="profile-img">
                             <img src=" 
-                            @if(isset($user_profile->profile_image)) 
-                             {{ asset('uploads/images/profile_image/' . $user_profile->profile_image) }} 
+                            @if (isset($user_profile->profile_image)) {{ asset('uploads/images/profile_image/' . $user_profile->profile_image) }} 
                              @else
-                              {{ asset('assets/front/img/demo_profile.jpg') }} 
-                              @endif 
-                              " height="100%" width="100%" alt="">
+                              {{ asset('assets/front/img/demo_profile.jpg') }} @endif 
+                              "
+                                height="100%" width="100%" alt="">
                         </div>
                         <div class="profile-name">
                             <h4>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h4>
@@ -414,13 +413,12 @@
                         </div>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button
-                            class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
                             id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i
+                                class="bi bi-person"></i>
                             Profile</button>
-                        <button
-                            class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
+                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
                             id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
                             type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i
                                 class="fa-solid fa-download"></i> Downloads</button>
@@ -444,8 +442,8 @@
 
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif"
-                        id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif" id="v-pills-home"
+                        role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                         <div class="profile-manage ">
                             <div class="profile-manage-header">
                                 <div class="profile-manage-heading">
@@ -462,8 +460,8 @@
                             <div class="profile-manage-body">
                                 <div class="profile-manage-left">
                                     <div class="profile-manage-img">
-                                        <img src="{{ $user_profile->profile_image ? asset('uploads/images/profile_image/' . $user_profile->profile_image) : asset('assets/front/img/demo_profile.jpg') }}" width="100%"
-                                            height="100%" alt="">
+                                        <img src="{{ $user_profile->profile_image ? asset('uploads/images/profile_image/' . $user_profile->profile_image) : asset('assets/front/img/demo_profile.jpg') }}"
+                                            width="100%" height="100%" alt="">
                                         <!-- <div>
                                             <label for="myfile" class="mb-0" style="cursor: pointer;">
                                                 <i class="bi bi-camera"></i>
@@ -561,7 +559,8 @@
                                             </p>
                                         </div>
                                         <!-- <p>{{ $purchasePlan->subscription->title }}</p> -->
-                                        <h2><span class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
+                                        <h2><span
+                                                class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
                                             <span class="gray"> /
                                                 {{ $purchasePlan->subscription->duration_type }}</span>
                                         </h2>
@@ -569,7 +568,8 @@
                                     <div class="divider"></div>
                                     <div class="renewal-info">
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <circle cx="7" cy="7" r="6" stroke="#ccc" stroke-width="1.2"></circle>
+                                            <circle cx="7" cy="7" r="6" stroke="#ccc"
+                                                stroke-width="1.2"></circle>
                                             <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
                                                 stroke-linecap="round"></path>
                                         </svg>
@@ -745,10 +745,11 @@
                                             <div class="order-actions">
 
                                                 {{-- Invoice Download Button --}}
-                                                {{-- <a href="{{ route('orders.invoice', $order->id) }}" --}} <a href="#"
-                                                    class="invoice-btn d-none" title="Download Invoice">
+                                                {{-- <a href="{{ route('orders.invoice', $order->id) }}" --}} <a href="#" class="invoice-btn d-none"
+                                                    title="Download Invoice">
                                                     <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
-                                                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                                        stroke-width="1.6" stroke-linecap="round"
+                                                        stroke-linejoin="round">
                                                         <path d="M7 1v8M4 6l3 3 3-3" />
                                                         <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
                                                     </svg>
@@ -800,7 +801,8 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="d-flex align-items-center gap-2">
-                                                                        <img src="{{ $url }}" width="60" height="60">
+                                                                        <img src="{{ $url }}" width="60"
+                                                                            height="60">
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -808,7 +810,8 @@
                                                                         class="product-type-pill">{{ $detail->product->type }}</span>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="product-title">{{ $detail->product->title }}</span>
+                                                                    <span
+                                                                        class="product-title">{{ $detail->product->title }}</span>
                                                                 </td>
                                                                 <td>
                                                                     <span class="product-price">$
@@ -830,24 +833,31 @@
                                                                             : null;
                                                                     @endphp
                                                                     @if ($downloadUrl)
-                                                                        <a href="{{ $downloadUrl }}" class="product-dl-btn" download
+                                                                        <a href="{{ $downloadUrl }}"
+                                                                            class="product-dl-btn" download
                                                                             title="Download {{ $detail->product->title }}">
-                                                                            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
-                                                                                stroke-width="1.6" stroke-linecap="round"
+                                                                            <svg viewBox="0 0 14 14" fill="none"
+                                                                                stroke="currentColor"
+                                                                                stroke-width="1.6"
+                                                                                stroke-linecap="round"
                                                                                 stroke-linejoin="round">
                                                                                 <path d="M7 1v8M4 6l3 3 3-3" />
-                                                                                <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                                                <path
+                                                                                    d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
                                                                             </svg>
                                                                         </a>
                                                                     @else
                                                                         <span class="product-dl-btn"
                                                                             style="opacity:.35;cursor:not-allowed;"
                                                                             title="Not available">
-                                                                            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
-                                                                                stroke-width="1.6" stroke-linecap="round"
+                                                                            <svg viewBox="0 0 14 14" fill="none"
+                                                                                stroke="currentColor"
+                                                                                stroke-width="1.6"
+                                                                                stroke-linecap="round"
                                                                                 stroke-linejoin="round">
                                                                                 <path d="M7 1v8M4 6l3 3 3-3" />
-                                                                                <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                                                <path
+                                                                                    d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
                                                                             </svg>
                                                                         </span>
                                                                     @endif
@@ -899,29 +909,39 @@
                             </div>
                             <div class="wishlist-product-content">
                                 <div class="row row-gap-4">
+                                    @php
+                                        $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
 
+                                    @endphp
                                     @if ($wishLists->isNotEmpty() && !empty($wishLists))
                                         @foreach ($wishLists as $favorites)
+                                            @php
+                                                $file = $favorites->batchFile;
+                                            @endphp
                                             <div class="col-lg-4 col-md-6 col-xs-12 wishlist-item">
                                                 <div class="wishlist-product-detail">
                                                     <div class="product-card">
                                                         <div class="product-img-div">
                                                             <a
                                                                 href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
-                                                                @if ($favorites->batchFile->type == 'image')
-                                                                    <img src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
-                                                                        class="product-img" alt="">
+                                                                @if ($file->type === 'image')
+                                                                    <img src="{{ $cloudfront . ltrim($file->mid_path, '/') }}"
+                                                                        class="product-img" alt="image">
                                                                 @else
-                                                                    <video class="product-img" controls width="100%"
-                                                                        poster="{{ !empty($favorites->batchFile->thumbnail_path) ? Storage::disk('s3')->url($favorites->batchFile->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
-
+                                                                    <video class="product-img" width="100%" muted
+                                                                        loop playsinline preload="auto"
+                                                                        poster="{{ !empty($file->thumbnail_path) ? $cloudfront . $file->thumbnail_path : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                                         <source
-                                                                            src="{{ Storage::disk('s3')->url($favorites->batchFile->file_path) }}"
+                                                                            src="{{ $file->preview_path ? $cloudfront . $file->preview_path : ($file->mid_path ? $cloudfront . $file->mid_path : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                                             type="video/mp4">
-                                                                        Your browser does not support the video tag.
                                                                     </video>
                                                                 @endif
                                                             </a>
+                                                            <span
+                                                                class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
+                                                                style="background: {{ $file->type === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                                                {{ $file->type === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                                            </span>
                                                             <div class="remove-product"><a class="removeFavorite"
                                                                     data-id="{{ encrypt($favorites->id) }}"><i
                                                                         class="bi bi-x"></i></a></div>
@@ -1094,7 +1114,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
                             id="profile_form" enctype="multipart/form-data">
@@ -1119,8 +1140,8 @@
                                 <div>
                                     <label>Phone No</label>
                                     <div class="input-group phone-input">
-                                        <input type="tel" id="phone" name="phone_number" class="form-control"
-                                            placeholder="Enter your phone number"
+                                        <input type="tel" id="phone" name="phone_number"
+                                            class="form-control" placeholder="Enter your phone number"
                                             value="{{ $user_profile->phone ?? '' }}"
                                             oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                     </div>
@@ -1139,11 +1160,11 @@
 
 
                                     <!-- File input -->
-                                    <input type="file" name="profile_image" id="profile_image" class="form-control"
-                                        accept="image/*">
+                                    <input type="file" name="profile_image" id="profile_image"
+                                        class="form-control" accept="image/*">
 
                                     <div class="mb-2 mt-2">
-                                        @if($user_profile->profile_image)
+                                        @if ($user_profile->profile_image)
                                             <img id="imagePreview"
                                                 src="{{ $user_profile->profile_image ? asset('uploads/images/profile_image/' . $user_profile->profile_image) : asset('assets/front/img/default-user.png') }}"
                                                 style="width:80px; height:80px; border-radius:10px; object-fit:cover;">
@@ -1173,8 +1194,7 @@
                             </div> -->
                                 <div class="modal-inp-label">
                                     <label>Address</label>
-                                    <textarea name="address"
-                                        class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                    <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
                                 </div>
 
                             </div>
@@ -1194,7 +1214,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
                             id="password_form">
@@ -1208,8 +1229,8 @@
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>New Password</label>
-                                    <input type="password" name="new_password" id="new_password" class="form-control"
-                                        placeholder="Enter New Password">
+                                    <input type="password" name="new_password" id="new_password"
+                                        class="form-control" placeholder="Enter New Password">
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Confirm Password</label>
@@ -1227,13 +1248,14 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form action="">
                             <div class="modal-body p-0">
@@ -1244,11 +1266,13 @@
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Email</label>
-                                    <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="you@example.com">
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Phone number</label>
-                                    <input type="text" name="number" class="form-control" placeholder="1234567890">
+                                    <input type="text" name="number" class="form-control"
+                                        placeholder="1234567890">
                                 </div>
 
                             </div>
