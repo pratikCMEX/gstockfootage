@@ -57,7 +57,7 @@
                 </table>
             </div>
             <div class="cart-btn">
-                <a class="return-shop  d-btock" href="index.html">
+                <a class="return-shop  d-btock" href="{{ route('home') }}">
                     <button class="btn btn-orange" type="button">
                         Return To Shop
                     </button></a>
