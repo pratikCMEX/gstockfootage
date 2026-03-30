@@ -115,7 +115,7 @@
                                                     @php
                                                         $files = $list['batch_files'];
                                                         $count = count($files);
-
+                                                        $totalCount = $list['total_files'];
                                                         if ($count == 1) {
                                                             $class = '';
                                                         } elseif ($count == 2) {
@@ -165,37 +165,37 @@
 
 
                                                                 @if ($count > 4 && $index == 3)
-                                                                    <div class="img-overlay">+{{ $count - 4 }}
+                                                                    <div class="img-overlay">+{{ $totalCount - 4 }}
                                                                     </div>
-                                                                @endif
                                                             </div>
-                                                        @endforeach
-
-
+                                                        @endif
                                                     </div>
-                                                </a>
+                                    @endforeach
 
 
-                                                <div class="batch-content-create">
-                                                    <div class="batch-content-create-text">
-                                                        <a
-                                                            href="{{ route('admin.add_new_img', encrypt($list['id'])) }}">
-                                                            <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
-                                                        </a>
-                                                        {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
-                                                        <div>
-                                                            <p class="batchcreated">
-                                                                Created :
-                                                                {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
-                                                            </p>
-                                                            <span>Last Updated
-                                                                :{{ \Carbon\Carbon::parse($list['updated_at'])->format('M d, Y') }}
-                                                            </span>
-                                                        </div>
+                                </div>
+                                </a>
 
 
-                                                    </div>
-                                                    <!-- <div class="batch-content-create-counts">
+                                <div class="batch-content-create">
+                                    <div class="batch-content-create-text">
+                                        <a href="{{ route('admin.add_new_img', encrypt($list['id'])) }}">
+                                            <p class="batchid">BatchID {{ $list['batch_code'] }}</p>
+                                        </a>
+                                        {{-- <p class="batchcreated">Created : Feb 16,2026</p> --}}
+                                        <div>
+                                            <p class="batchcreated">
+                                                Created :
+                                                {{ \Carbon\Carbon::parse($list['created_at'])->format('M d, Y') }}
+                                            </p>
+                                            <span>Last Updated
+                                                :{{ \Carbon\Carbon::parse($list['updated_at'])->format('M d, Y') }}
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+                                    <!-- <div class="batch-content-create-counts">
                                                         <div class="create-count-div">
                                                             <div class="circle-div circle-div1"></div>
                                                             <p class="circel-count"><span>0</span> Accepted</p>
@@ -217,76 +217,74 @@
                                                             <p class="circel-count"><span>0</span> Not Submitted</p>
                                                         </div>
                                                     </div> -->
-                                                </div>
-                                                <div class="more-detail">
-                                                    <button class="btn more-detail-btn " type="button"
-                                                        data-batch-id="{{ $list['id'] }}" data-loaded="0">
-                                                        <i class="fa-solid fa-angle-down"></i>More Detail
-                                                    </button>
-
-
-                                                </div>
-                                            </div>
-                                            <div class="batch-content-table-details">
-                                                <table>
-                                                    <thead>
-                                                        <th>
-                                                            <tr>
-                                                                <td class="table-heading">File ID</td>
-                                                                <td class="table-heading">File Name</td>
-                                                                <td class="table-heading">Title</td>
-                                                                <td class="table-heading">Status</td>
-                                                            </tr>
-                                                        </th>
-                                                    </thead>
-
-
-
-
-                                                    <tbody class="batch-files-tbody">
-
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-
-                                    <div class="mt-4 navbar-section">
-                                        {{ $batches->links() }}
-                                    </div>
-
-
+                                </div>
+                                <div class="more-detail">
+                                    <button class="btn more-detail-btn " type="button"
+                                        data-batch-id="{{ $list['id'] }}" data-loaded="0">
+                                        <i class="fa-solid fa-angle-down"></i>More Detail
+                                    </button>
 
 
                                 </div>
-                                <form id="filterForm" action="" method="post">
-                                    @csrf
-                                    <div class="search-filter">
-                                        <div class="search-filter-child-content" id="search-filter-content">
-                                            <button type="button"
-                                                class="search-filter-btn btn  btn-orange no-file-selected-title"
-                                                id="close-filter">Search and Filter <i
-                                                    class="fa-solid fa-angle-right"></i></button>
-                                            <div class="filter-apply-text filter-text">
-                                                <p>Applied Filters</p>
-                                                <a href="#" class="reset-filter">Reset</a>
-                                            </div>
-                                            <div class="filter-search-text">
-                                                <div class="input-search-filter flex-nowrap">
-                                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                                    <input type="text" name="search"
-                                                        value="{{ request()->search ?? '' }}"
-                                                        placeholder="Enter Search Text"
-                                                        aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                            <div class="filter-text submission-type-filter">
-                                                <p>Submission type</p>
-                                                <ul>
-                                                    {{-- <li>
+                            </div>
+                            <div class="batch-content-table-details">
+                                <table>
+                                    <thead>
+                                        <th>
+                                            <tr>
+                                                <td class="table-heading">File ID</td>
+                                                <td class="table-heading">File Name</td>
+                                                <td class="table-heading">Title</td>
+                                                <td class="table-heading">Status</td>
+                                            </tr>
+                                        </th>
+                                    </thead>
+
+
+
+
+                                    <tbody class="batch-files-tbody">
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @endforeach
+
+
+                        <div class="mt-4 navbar-section">
+                            {{ $batches->links() }}
+                        </div>
+
+
+
+
+                    </div>
+                    <form id="filterForm" action="" method="post">
+                        @csrf
+                        <div class="search-filter">
+                            <div class="search-filter-child-content" id="search-filter-content">
+                                <button type="button"
+                                    class="search-filter-btn btn  btn-orange no-file-selected-title"
+                                    id="close-filter">Search and Filter <i
+                                        class="fa-solid fa-angle-right"></i></button>
+                                <div class="filter-apply-text filter-text">
+                                    <p>Applied Filters</p>
+                                    <a href="#" class="reset-filter">Reset</a>
+                                </div>
+                                <div class="filter-search-text">
+                                    <div class="input-search-filter flex-nowrap">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" name="search" value="{{ request()->search ?? '' }}"
+                                            placeholder="Enter Search Text" aria-describedby="addon-wrapping">
+                                    </div>
+                                </div>
+                                <div class="filter-text submission-type-filter">
+                                    <p>Submission type</p>
+                                    <ul>
+                                        {{-- <li>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox"
                                                             value="" id="checkDefault1">
@@ -297,29 +295,27 @@
                                                 </li> --}}
 
 
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="checkDefault2" name="submission_type[]"
-                                                                value="image"
-                                                                {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="checkDefault2">
-                                                                Gstock Creative Photo
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="checkDefault3" name="submission_type[]"
-                                                                value="video"
-                                                                {{ in_array('video', request()->submission_type ?? []) ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="checkDefault3">
-                                                                Gstock Creative Video
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    {{-- <li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="checkDefault2"
+                                                    name="submission_type[]" value="image"
+                                                    {{ in_array('image', request()->submission_type ?? []) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="checkDefault2">
+                                                    Gstock Creative Photo
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="checkDefault3"
+                                                    name="submission_type[]" value="video"
+                                                    {{ in_array('video', request()->submission_type ?? []) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="checkDefault3">
+                                                    Gstock Creative Video
+                                                </label>
+                                            </div>
+                                        </li>
+                                        {{-- <li>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox"
                                                             value="" id="checkDefault4">
@@ -328,32 +324,32 @@
                                                         </label>
                                                     </div>
                                                 </li> --}}
-                                                </ul>
+                                    </ul>
+                                </div>
+                                <div class="batches-status filter-text">
+                                    <p>Batch Status</p>
+                                    <ul>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                    name="status[]" id="checkDefault5"
+                                                    {{ in_array('1', request()->status ?? []) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="checkDefault5">
+                                                    Active
+                                                </label>
                                             </div>
-                                            <div class="batches-status filter-text">
-                                                <p>Batch Status</p>
-                                                <ul>
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="1" name="status[]" id="checkDefault5"
-                                                                {{ in_array('1', request()->status ?? []) ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="checkDefault5">
-                                                                Active
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="0" name="status[]" id="checkDefault6"
-                                                                {{ in_array('0', request()->status ?? []) ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="checkDefault6">
-                                                                Close <i class="fa-regular fa-circle-question"></i>
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    {{-- <li>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="0"
+                                                    name="status[]" id="checkDefault6"
+                                                    {{ in_array('0', request()->status ?? []) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="checkDefault6">
+                                                    Close <i class="fa-regular fa-circle-question"></i>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        {{-- <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="" id="checkDefault7">
@@ -364,37 +360,37 @@
                                                     </li> --}}
 
 
-                                                </ul>
+                                    </ul>
+                                </div>
+                                <div class="date-range-filter filter-text">
+                                    <p>Date range</p>
+                                    <div class="date-range">
+
+
+                                        <div class="date-inputs">
+                                            <div class="date-box">
+                                                <span class="date-title">Start date *</span>
+                                                <input type="date" name="start_date"
+                                                    {{ request()->start_date ? 'value=' . request()->start_date : '' }}>
+                                                <span class="date-format">MM/DD/YYYY</span>
                                             </div>
-                                            <div class="date-range-filter filter-text">
-                                                <p>Date range</p>
-                                                <div class="date-range">
 
 
-                                                    <div class="date-inputs">
-                                                        <div class="date-box">
-                                                            <span class="date-title">Start date *</span>
-                                                            <input type="date" name="start_date"
-                                                                {{ request()->start_date ? 'value=' . request()->start_date : '' }}>
-                                                            <span class="date-format">MM/DD/YYYY</span>
-                                                        </div>
+                                            <span class="date-separator">to</span>
 
 
-                                                        <span class="date-separator">to</span>
-
-
-                                                        <div class="date-box">
-                                                            <span class="date-title">End date *</span>
-                                                            <input type="date" name="end_date"
-                                                                {{ request()->end_date ? 'value=' . request()->end_date : '' }}>
-                                                            <span class="date-format">MM/DD/YYYY</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="date-box">
+                                                <span class="date-title">End date *</span>
+                                                <input type="date" name="end_date"
+                                                    {{ request()->end_date ? 'value=' . request()->end_date : '' }}>
+                                                <span class="date-format">MM/DD/YYYY</span>
                                             </div>
-                                            <div class="sort-by-filter filter-text">
-                                                <p>Sort by</p>
-                                                {{-- <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sort-by-filter filter-text">
+                                    <p>Sort by</p>
+                                    {{-- <button class="btn w-100 text-start  batch-dropdown dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Dropdown<i class="fa-solid fa-angle-down"></i>
                                                 </button>
@@ -406,69 +402,68 @@
                                                             here</a>
                                                     </li>
                                                 </ul> --}}
-                                                <select class="form-select mr-sm-2 batch-inp" name="select_field"
-                                                    id="select_field">
-                                                    {{-- <option value="id">Id</option> --}}
-                                                    <option value="title">
-                                                        Batch Name</option>
-                                                    <option value="created_at">
-                                                        Created Date</option>
-                                                </select>
+                                    <select class="form-select mr-sm-2 batch-inp" name="select_field"
+                                        id="select_field">
+                                        {{-- <option value="id">Id</option> --}}
+                                        <option value="title">
+                                            Batch Name</option>
+                                        <option value="created_at">
+                                            Created Date</option>
+                                    </select>
+                                </div>
+                                <div class="direction-filter filter-text">
+                                    <p>Direction</p>
+
+
+                                    <ul>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="direction"
+                                                    value="asc" id="radiodefault1">
+                                                <label class="form-check-label" for="radiodefault1">
+                                                    Ascending
+                                                </label>
                                             </div>
-                                            <div class="direction-filter filter-text">
-                                                <p>Direction</p>
-
-
-                                                <ul>
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="direction" value="asc" id="radiodefault1">
-                                                            <label class="form-check-label" for="radiodefault1">
-                                                                Ascending
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="direction" value="desc" id="radiodefault2"
-                                                                checked>
-                                                            <label class="form-check-label" for="radiodefault2">
-                                                                Descending
-                                                            </label>
-                                                        </div>
-                                                    </li>
-
-
-
-
-                                                </ul>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="direction"
+                                                    value="desc" id="radiodefault2" checked>
+                                                <label class="form-check-label" for="radiodefault2">
+                                                    Descending
+                                                </label>
                                             </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-
-
-
-
-                    </div>
-
-
+                    </form>
                 </div>
-
-
-
-
-
-
-
-
             </div>
+
+
+
+
         </div>
+
+
     </div>
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
 </div>
 
 
