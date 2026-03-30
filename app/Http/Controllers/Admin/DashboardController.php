@@ -56,18 +56,15 @@ class DashboardController extends Controller
         $monthlyRevenue = [];
         $monthlyLabels  = [];
         for ($i = 5; $i >= 0; $i--) {
-            $month = Carbon::now()->subMonths($i);
-
-            // Show year only when it differs from current year
-            $monthlyLabels[] = $month->year !== now()->year
-                ? $month->format('M y')   // e.g. "Mar 25"
-                : $month->format('M');    // e.g. "Mar"
-
+            $month = Carbon::now()->startOfMonth()->subMonths($i); // 👈 add startOfMonth()
+            $monthlyLabels[]  = $month->format('M y');
             $monthlyRevenue[] = (float) Order::where('payment_status', 'paid')
-                ->whereYear('created_at', $month->year)
+                ->whereYear('created_at',  $month->year)
                 ->whereMonth('created_at', $month->month)
                 ->sum('total_amount');
         }
+        dd(collect(range(5, 0))->map(fn($i) => Carbon::now()->subMonths($i)->format('M Y')));
+
 
         /* ── Top categories by file count ── */
         $raw = DB::table('batch_files')
