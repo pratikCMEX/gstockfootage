@@ -99,7 +99,7 @@
                                 <span class="hide-menu">Collections</span>
                             </a>
                         </li>
-                         <li class="sidebar-item">
+                        <li class="sidebar-item">
                             <a class="sidebar-link {{ in_array(Request::segment(2), ['batch', 'add_new_img']) ? 'active  ' : '' }} side-item"
                                 href="{{ route('admin.batch') }}" aria-expanded="false">
                                 <!-- <i class="ti ti-user-circle"></i> -->
@@ -111,7 +111,7 @@
                             <a class="sidebar-link {{ in_array(Request::segment(2), ['product']) ? 'active  ' : '' }} side-item"
                                 href="{{ route('admin.product_priority') }}" aria-expanded="false">
                                 <!-- <i class="ti ti-user-circle"></i> -->
-                               <i class="fa-solid fa-list"></i>
+                                <i class="fa-solid fa-list"></i>
                                 <span class="hide-menu">Product Priority</span>
                             </a>
                         </li>
@@ -147,7 +147,7 @@
                                 <span class="hide-menu">Users</span>
                             </a>
                         </li>
-                         <li class="sidebar-item">
+                        <li class="sidebar-item">
                             <a class="sidebar-link {{ in_array(Request::segment(2), ['order_history', 'order_detail']) ? 'active  ' : '' }} side-item"
                                 href="{{ route('admin.order_history') }}" aria-expanded="false">
                                 <!-- <i class="ti ti-user-circle"></i> -->
@@ -155,7 +155,7 @@
                                 <span class="hide-menu">Order History</span>
                             </a>
                         </li>
-                         <li class="sidebar-item">
+                        <li class="sidebar-item">
                             <a class="sidebar-link justify-content-between has-arrow {{ in_array(Request::segment(2), ['most_sold_product_report', 'most_viewed_product_report', 'live_cart_report', 'user_wise_order_report']) ? 'active  btn-orange' : '' }} "
                                 href="javascript:void(0)" aria-expanded="false">
                                 <div class="d-flex align-items-center gap-3">
@@ -211,16 +211,16 @@
                                     </a>
                                 </li>
                                 <!-- <li class="sidebar-item">
-                                                                                                                                                                                                                                                                                                                                                                                                    <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
-                                                                                                                                                                                                                                                                                                                                                                                                        href="{{ route('admin.social_links') }}">
-                                                                                                                                                                                                                                                                                                                                                                                                        <div class="d-flex align-items-center gap-3">
-                                                                                                                                                                                                                                                                                                                                                                                                            <div class="round-16 d-flex align-items-center justify-content-center">
-                                                                                                                                                                                                                                                                                                                                                                                                                <i class="ti ti-circle"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                            <span class="hide-menu">Social Links</span>
-                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                                                                                                                                                                                                                </li> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <a class="sidebar-link justify-content-between {{ in_array(Request::segment(2), ['social_links']) ? 'active ' : '' }} "
+                                                                                                                                                                                                                                                                                                                                                                                                                                                href="{{ route('admin.social_links') }}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="d-flex align-items-center gap-3">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="round-16 d-flex align-items-center justify-content-center">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="ti ti-circle"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="hide-menu">Social Links</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        </li> -->
                             </ul>
                         </li>
                         <li class="sidebar-item">
@@ -266,9 +266,9 @@
                                 <span class="hide-menu">Content Master</span>
                             </a>
                         </li> --}}
-                       
-                       
-                       
+
+
+
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link {{ in_array(Request::segment(2), ['testimonials', 'add_testimonials']) ? 'active  ' : '' }} side-item"
                                 href="{{ route('admin.testimonials') }}" aria-expanded="false">
@@ -393,7 +393,7 @@
                                     <a class="sidebar-link {{ Request::segment(2) == 'term_conditions' ? 'active' : '' }}"
                                         href="{{ route('admin.term_conditions') }}">
                                         <div class="d-flex align-items-center gap-3">
-                                            <i class="fa-regular fa-circle"></i>
+                                            <i class="fa-regular fa-file-lines"></i>
                                             <span class="hide-menu">Terms & Conditions</span>
                                         </div>
                                     </a>
@@ -404,7 +404,7 @@
                                     <a class="sidebar-link {{ Request::segment(2) == 'privacy_policy' ? 'active' : '' }}"
                                         href="{{ route('admin.privacy_policy') }}">
                                         <div class="d-flex align-items-center gap-3">
-                                            <i class="fa-regular fa-circle"></i>
+                                            <i class="fa-solid fa-file-shield"></i>
                                             <span class="hide-menu">Privacy Policy</span>
                                         </div>
                                     </a>
@@ -415,7 +415,7 @@
                                     <a class="sidebar-link {{ Request::segment(2) == 'social_links' ? 'active' : '' }}"
                                         href="{{ route('admin.social_links') }}">
                                         <div class="d-flex align-items-center gap-3">
-                                            <i class="fa-regular fa-circle"></i>
+                                            <i class="fa-solid fa-link"></i>
                                             <span class="hide-menu">Social Links</span>
                                         </div>
                                     </a>
