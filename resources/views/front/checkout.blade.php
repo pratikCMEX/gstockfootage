@@ -134,8 +134,8 @@
                                     <h4>Payment Summary</h4>
                                 </div>
                                 <div class="sub-total">
-                                    <p>subtotal <span>({{ count($cartItems) }} item)</span></p>
-                                    <h6>${{ $total }}</h6>
+                                    <p>Subtotal <span>({{ count($cartItems) }} item)</span></p>
+                                    <h6>${{ number_format($total, 2) }}</h6>
                                 </div>
                                 <div class="checkout-total">
                                     <p>Total</p>

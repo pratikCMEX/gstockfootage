@@ -48,11 +48,11 @@
                                 </td>
 
                                 <td>
-                                    <p>${{ $cartItem['price'] }}</p>
+                                    <p>${{ number_format($cartItem['price'], 2) }}</p>
                                 </td>
 
                                 <td>
-                                    <p>${{ $cartItem['subtotal'] }}</p>
+                                    <p>${{ number_format($cartItem['subtotal'], 2) }}</p>
                                 </td>
                             </tr>
                         @endforeach
@@ -73,7 +73,7 @@
                         <div class="cart-checkout-total">
                             <div class="total">
                                 <h4 class="total-title">Subtotal:</h4>
-                                <p class="total-price total_cart_amt">${{ $cart['total'] }}</p>
+                                <p class="total-price total_cart_amt">${{ number_format($cart['total'], 2) }}</p>
                             </div>
                             <div class="total">
                                 <h4 class="total-title">Shipping:</h4>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="total">
                                 <h4 class="total-title">Total:</h4>
-                                <p class="total-price total_cart_amt">${{ $cart['total'] }}</p>
+                                <p class="total-price total_cart_amt">${{ number_format($cart['total'], 2) }}</p>
                             </div>
                         </div>
                         <a href="{{ route('checkout') }}"><button type="button"
