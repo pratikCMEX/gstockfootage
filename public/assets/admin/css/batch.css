@@ -2289,6 +2289,10 @@ select option {
 .page-link.active,
 .active > .page-link {
   background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+.page-link {
+  color: var(--black) !important;
 }
 
 @media only screen and (max-width: 1900px) {
