@@ -137,7 +137,7 @@ $(document).on("click", ".removeFavorite", function () {
               </div>
             </div>
           `);
-            }
+            } 
           }
 
 
