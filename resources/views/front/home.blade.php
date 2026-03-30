@@ -816,7 +816,7 @@
                 <div class="col-12">
                     <div class="blog-header">
                         <div class="heading ">
-                            <h2 class="m-0">Latest stories</h2>
+                            <h2 class="m-0">Latest Stories</h2>
                         </div>
                         <a href="{{ route('blog') }}" class="btn btn-orange">View all</a>
                     </div>
