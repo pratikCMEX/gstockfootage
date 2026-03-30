@@ -937,6 +937,11 @@
                                                                     </video>
                                                                 @endif
                                                             </a>
+                                                            <span
+                                                                class="position-absolute imageVideo-badge top-0 start-0 m-2 badge"
+                                                                style="background: {{ $file->type === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                                                {{ $file->type === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                                            </span>
                                                             <div class="remove-product"><a class="removeFavorite"
                                                                     data-id="{{ encrypt($favorites->id) }}"><i
                                                                         class="bi bi-x"></i></a></div>
