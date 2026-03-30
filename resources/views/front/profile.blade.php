@@ -910,7 +910,7 @@
                             <div class="wishlist-product-content">
                                 <div class="row row-gap-4">
                                     @php
-                                        $clouldfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+                                        $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
 
                                     @endphp
                                     @if ($wishLists->isNotEmpty() && !empty($wishLists))
@@ -925,7 +925,7 @@
                                                             <a
                                                                 href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
                                                                 @if ($file->type === 'image')
-                                                                    <img src="{{ $clouldfront . ltrim($file->mid_path, '/') }}"
+                                                                    <img src="{{ $cloudfront . ltrim($file->mid_path, '/') }}"
                                                                         class="product-img" alt="image">
                                                                 @else
                                                                     <video class="product-img" width="100%" muted
