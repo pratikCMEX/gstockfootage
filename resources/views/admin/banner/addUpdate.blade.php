@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4"><a class="card-title fw-semibold mb-4"
-                        href="{{ route('admin.collection') }}">Login Background</a></h5>
+                        href="javascript::void(0);">Login Background</a></h5>
 
                 <div class="card">
                     <div class="card-body">
