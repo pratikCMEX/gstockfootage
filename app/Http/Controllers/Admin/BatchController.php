@@ -122,6 +122,8 @@ class BatchController extends Controller
         }
         // $batches = $query->latest()->paginate(6);
         $batches = $query->latest()->paginate(6)->withQueryString();
+        $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+
         // dd($batches);
         $batch_list = $batches->through(function ($batch) {
 
@@ -154,16 +156,16 @@ class BatchController extends Controller
                         // 'low_path' => !empty($file->low_path)
                         //     ? asset('uploads/batch/images/low/' . $file->low_path)
                         //     : null,
-                        'file_path' => Storage::disk('s3')->url($file->file_path),
+                        'file_path' => 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($file->file_path),
                         'thumbnail_path' => !empty($file->thumbnail_path)
-                            ? Storage::disk('s3')->url(ltrim($file->thumbnail_path, '/'))
+                            ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->thumbnail_path, '/')
                             : asset('assets/admin/images/demo_thumbnail.png'),
 
                         'low_path' => !empty($file->low_path)
-                            ? Storage::disk('s3')->url(ltrim($file->low_path, '/'))
+                            ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->low_path, '/')
                             : null,
                         'mid_path' => !empty($file->mid_path)
-                            ? Storage::disk('s3')->url(ltrim($file->mid_path, '/'))
+                            ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->mid_path, '/')
                             : null,
                         'file_type' => $file->file_type,
                         'file_size' => $file->file_size,
