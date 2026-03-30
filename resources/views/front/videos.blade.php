@@ -61,6 +61,9 @@
         pointer-events: all;
     }
 </style>
+@php
+    $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+@endphp
 <section class="hero">
     <div class="container">
         <h1>Explore videos and royalty-free stock footage</h1>
