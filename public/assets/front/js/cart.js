@@ -77,6 +77,7 @@ function addToCart(product_id, btn = null) {
         updateCartCount(newCount);
         updateCartTotal(parseFloat(res.product.price), "add");
         toastr.success(res.message);
+        $(".cart-btns").removeClass("d-none");
       } else {
         toastr.warning(res.message);
       }
@@ -187,6 +188,7 @@ function removeCartItem(product_id) {
                     <p>Cart is empty</p>
                 </div>
             `);
+            $(".cart-btns").addClass("d-none");
           }
 
           /* --------------------------

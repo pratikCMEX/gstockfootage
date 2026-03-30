@@ -25,7 +25,7 @@
                                     <div class="cart-product">
                                         <div class="cart-product-img">
                                             @if ($cartItem['type'] == 'image')
-                                                <img src="{{$cartItem['mid_path'] ? Storage::disk('s3')->url($cartItem['mid_path']) : '' }}"
+                                                <img src="{{ $cartItem['mid_path'] ? Storage::disk('s3')->url($cartItem['mid_path']) : '' }}"
                                                     class="h-100 w-100" alt="">
                                             @else
                                                 <img src="{{ Storage::disk('s3')->url($cartItem['thumbnail_path']) }}"
@@ -79,7 +79,9 @@
                                 <p class="total-price total_cart_amt">${{ $cart['total'] }}</p>
                             </div>
                         </div>
-                        <a href="{{ route('checkout') }}"><button type="button" class="btn btn-orange">Process to
+                        <a href="{{ route('checkout') }}"><button type="button"
+                                class="btn btn-orange cart-btns {{ count($cart['items']) > 0 ? '' : 'd-none' }}">Process
+                                to
                                 checkout</button></a>
                     </div>
                 </div>
