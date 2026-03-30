@@ -55,6 +55,12 @@
                                         aria-describedby="emailHelp" placeholder=" enter price"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                                 </div>
+                                <div class="col-sm-6 col-12 mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Stripe Price Id</label><label
+                                        class="text-danger">*</label>
+                                    <input type="text" name="stripe_price_id" class="form-control" id="price"
+                                        aria-describedby="emailHelp" placeholder=" enter stripe price id">
+                                </div>
                             </div>
 
 

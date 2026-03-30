@@ -64,6 +64,7 @@ class SubscriptionPlanController extends Controller
                 'discount_percentage' => $request->discount,
                 'price' => $request->price,
                 'price_per_clip' => $request->price / $request->total_clips,
+                'stripe_price_id' => $request->stripe_price_id ?? "",
             ]);
             return redirect()->route('admin.subscriptions')->with('msg_success', 'Subscription Plan Add successfully !');
         } catch (QueryException $e) {
@@ -113,6 +114,8 @@ class SubscriptionPlanController extends Controller
             $getData->discount_percentage = $request->discount;
             $getData->price = $request->price;
             $getData->price_per_clip = $request->price / $request->total_clips;
+            $getData->stripe_price_id = $request->stripe_price_id ?? "";
+
             $getData->save();
 
             return redirect()->route('admin.subscriptions')->with('msg_success', 'License Updated successfully !');
@@ -138,14 +141,12 @@ class SubscriptionPlanController extends Controller
                 'success' => true,
                 'message' => 'Subscription Plan deleted successfully.'
             ]);
-
         } catch (QueryException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Error deleting Subscription Plan.'
             ]);
         }
-
     }
 
     public function deleteMultiple(Request $request)
@@ -193,7 +194,6 @@ class SubscriptionPlanController extends Controller
 
             $license->save();
             return response()->json(['success' => true]);
-
         } catch (QueryException $e) {
 
             return response()->json(['success' => false]);
