@@ -199,52 +199,17 @@
 
 
 
-                    <tbody>
-                        @foreach ($list['batch_files'] as $file)
-                            <tr>
-                                <td>
-                                    <div class="img-id">
-                                        <div class="table-img">
-                                            {{-- <video class="w-100 h-100" muted>
-                                                <source
-                                                    src="{{ $file['file_path'] }}">
-                                    </video> --}}
-                                            @php
-                                                $path = '';
-                                                $path =
-                                                    $file['thumbnail_path'] ??
-                                                    asset('assets/admin/images/demo_thumbnail.png');
-                                                if ($file['file_type'] == 'image') {
-                                                    $path = $file['mid_path'];
-                                                }
-                                            @endphp
-                                            <img src="{{ $path }}" class="w-100 h-100" alt="Nature Flower">
-                                        </div>
-                                        <p>{{ $file['file_code'] }}</p>
-                                    </div>
-                                </td>
-
-
-                                <td>{{ $file['original_name'] }}</td>
-
-
-                                <td>{{ $file['title'] }}</td>
-
-
-                                <td>
-                                    <div class="create-count-div">
-                                        <div class="circle-div circle-div1"></div>
-                                        <p class="circel-count">
-                                            {{-- {{ ucfirst($file['status']) }} --}}
-                                            Accepted
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-
-
+                    <tbody class="batch-files-tbody">
                     </tbody>
+                    <div class="load-more-wrap text-center mt-3" style="display:none;">
+                        <button class="btn btn-orange load-more-btn" data-batch-id="{{ $list['id'] }}" data-page="1"
+                            data-last-page="1">
+                            Load More
+                        </button>
+                    </div>
+                    <div class="batch-files-loader text-center mt-2" style="display:none;">
+                        <span>Loading...</span>
+                    </div>
                 </table>
             </div>
         </div>
