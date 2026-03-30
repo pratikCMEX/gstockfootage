@@ -404,8 +404,7 @@
                             @if (isset($user_profile->profile_image)) {{ asset('uploads/images/profile_image/' . $user_profile->profile_image) }} 
                              @else
                               {{ asset('assets/front/img/demo_profile.jpg') }} @endif 
-                              "
-                                height="100%" width="100%" alt="">
+                              " height="100%" width="100%" alt="">
                         </div>
                         <div class="profile-name">
                             <h4>{{ $user_profile->first_name . ' ' . $user_profile->last_name }}</h4>
@@ -413,12 +412,13 @@
                         </div>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
+                        <button
+                            class="nav-link btn profile-btn @if (request()->get('tab') == 'profile' || !request()->get('tab')) active @endif"
                             id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i
-                                class="bi bi-person"></i>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="bi bi-person"></i>
                             Profile</button>
-                        <button class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
+                        <button
+                            class="nav-link btn profile-btn @if (request()->get('tab') == 'downloads') active @endif"
                             id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
                             type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i
                                 class="fa-solid fa-download"></i> Downloads</button>
@@ -442,8 +442,8 @@
 
                 </div>
                 <div class="tab-content profile-right" id="v-pills-tabContent">
-                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif" id="v-pills-home"
-                        role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                    <div class="tab-pane fade @if (request()->get('tab') === 'profile' || empty(request()->get('tab'))) show active @endif"
+                        id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                         <div class="profile-manage ">
                             <div class="profile-manage-header">
                                 <div class="profile-manage-heading">
@@ -546,7 +546,7 @@
                                     <div class="subscription-plan-header">
                                         <span class="section-badge" style="padding: 3px 14px;">Subscription</span>
                                         <!-- <span class="plan"><i class="fa-solid fa-circle" style="font-size: 5px;"></i>
-                                                                                                                                            Active</span> -->
+                                                                                                                                                Active</span> -->
                                     </div>
                                     <div class="subscription-title-price">
                                         <div class="profile-subscription-title">
@@ -559,8 +559,7 @@
                                             </p>
                                         </div>
                                         <!-- <p>{{ $purchasePlan->subscription->title }}</p> -->
-                                        <h2><span
-                                                class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
+                                        <h2><span class="yellow">$</span>{{ intval($purchasePlan->subscription->price) }}
                                             <span class="gray"> /
                                                 {{ $purchasePlan->subscription->duration_type }}</span>
                                         </h2>
@@ -568,8 +567,7 @@
                                     <div class="divider"></div>
                                     <div class="renewal-info">
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <circle cx="7" cy="7" r="6" stroke="#ccc"
-                                                stroke-width="1.2"></circle>
+                                            <circle cx="7" cy="7" r="6" stroke="#ccc" stroke-width="1.2"></circle>
                                             <path d="M7 4v3.5l2 1.2" stroke="#aaa" stroke-width="1.2"
                                                 stroke-linecap="round"></path>
                                         </svg>
@@ -579,55 +577,55 @@
                                     </div>
                                 </div>
                                 <!-- <div class="subscription-right">
-                                                                                                                                                                                                                                                                            <div class="features-title">What's included</div>
-                                                                                                                                                                                                                                                                            <ul class="features">
-                                                                                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                                                                                    Unlimited projects &amp; workspaces
-                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                                                                                    Priority 24/7 customer support
-                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                                                                                    Advanced analytics &amp; reports
-                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                                                                                    100 GB secure cloud storage
-                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                                                                                <li class="feature-item">
-                                                                                                                                                                                                                                                                                    <span class="check-icon">
-                                                                                                                                                                                                                                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                                                                                                                                                                                                                                                                            <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
-                                                                                                                                                                                                                                                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                                                                                                                                                                                                                        </svg>
-                                                                                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                                                                                    API access &amp; integrations
-                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                                                                            </ul>
-                                                                                                                                                                                                                                                                        </div> -->
+                                                                                                                                                                                                                                                                                <div class="features-title">What's included</div>
+                                                                                                                                                                                                                                                                                <ul class="features">
+                                                                                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                        Unlimited projects &amp; workspaces
+                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                        Priority 24/7 customer support
+                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                        Advanced analytics &amp; reports
+                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                        100 GB secure cloud storage
+                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                    <li class="feature-item">
+                                                                                                                                                                                                                                                                                        <span class="check-icon">
+                                                                                                                                                                                                                                                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                                                                                                                                                                                                                                                                <path d="M2 5l2.5 2.5L8 3" stroke="#ff8000" stroke-width="1.6"
+                                                                                                                                                                                                                                                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                        API access &amp; integrations
+                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                </ul>
+                                                                                                                                                                                                                                                                            </div> -->
                             </div>
                         @endif
                     </div>
@@ -705,10 +703,10 @@
                                                         <td>$ {{ $detail->product->price }}</td>
 
                                                         <!-- <td>
-                                                                                                                                                                                                            <span class="badge bg-success">
-                                                                                                                                                                                                                {{ ucfirst($file['status'] ?? 'accepted') }}
-                                                                                                                                                                                                            </span>
-                                                                                                                                                                                                        </td> -->
+                                                                                                                                                                                                                <span class="badge bg-success">
+                                                                                                                                                                                                                    {{ ucfirst($file['status'] ?? 'accepted') }}
+                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                            </td> -->
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -745,11 +743,10 @@
                                             <div class="order-actions">
 
                                                 {{-- Invoice Download Button --}}
-                                                {{-- <a href="{{ route('orders.invoice', $order->id) }}" --}} <a href="#" class="invoice-btn d-none"
-                                                    title="Download Invoice">
+                                                {{-- <a href="{{ route('orders.invoice', $order->id) }}" --}} <a href="#"
+                                                    class="invoice-btn d-none" title="Download Invoice">
                                                     <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
-                                                        stroke-width="1.6" stroke-linecap="round"
-                                                        stroke-linejoin="round">
+                                                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                                         <path d="M7 1v8M4 6l3 3 3-3" />
                                                         <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
                                                     </svg>
@@ -801,8 +798,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="d-flex align-items-center gap-2">
-                                                                        <img src="{{ $url }}" width="60"
-                                                                            height="60">
+                                                                        <img src="{{ $url }}" width="60" height="60">
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -810,8 +806,7 @@
                                                                         class="product-type-pill">{{ $detail->product->type }}</span>
                                                                 </td>
                                                                 <td>
-                                                                    <span
-                                                                        class="product-title">{{ $detail->product->title }}</span>
+                                                                    <span class="product-title">{{ $detail->product->title }}</span>
                                                                 </td>
                                                                 <td>
                                                                     <span class="product-price">$
@@ -833,31 +828,24 @@
                                                                             : null;
                                                                     @endphp
                                                                     @if ($downloadUrl)
-                                                                        <a href="{{ $downloadUrl }}"
-                                                                            class="product-dl-btn" download
+                                                                        <a href="{{ $downloadUrl }}" class="product-dl-btn" download
                                                                             title="Download {{ $detail->product->title }}">
-                                                                            <svg viewBox="0 0 14 14" fill="none"
-                                                                                stroke="currentColor"
-                                                                                stroke-width="1.6"
-                                                                                stroke-linecap="round"
+                                                                            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                                                                                stroke-width="1.6" stroke-linecap="round"
                                                                                 stroke-linejoin="round">
                                                                                 <path d="M7 1v8M4 6l3 3 3-3" />
-                                                                                <path
-                                                                                    d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                                                <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
                                                                             </svg>
                                                                         </a>
                                                                     @else
                                                                         <span class="product-dl-btn"
                                                                             style="opacity:.35;cursor:not-allowed;"
                                                                             title="Not available">
-                                                                            <svg viewBox="0 0 14 14" fill="none"
-                                                                                stroke="currentColor"
-                                                                                stroke-width="1.6"
-                                                                                stroke-linecap="round"
+                                                                            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                                                                                stroke-width="1.6" stroke-linecap="round"
                                                                                 stroke-linejoin="round">
                                                                                 <path d="M7 1v8M4 6l3 3 3-3" />
-                                                                                <path
-                                                                                    d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
+                                                                                <path d="M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" />
                                                                             </svg>
                                                                         </span>
                                                                     @endif
@@ -928,8 +916,8 @@
                                                                     <img src="{{ $cloudfront . ltrim($file->mid_path, '/') }}"
                                                                         class="product-img" alt="image">
                                                                 @else
-                                                                    <video class="product-img" width="100%" muted
-                                                                        loop playsinline preload="auto"
+                                                                    <video class="product-img" width="100%" muted loop playsinline
+                                                                        preload="auto"
                                                                         poster="{{ !empty($file->thumbnail_path) ? $cloudfront . $file->thumbnail_path : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                                         <source
                                                                             src="{{ $file->preview_path ? $cloudfront . $file->preview_path : ($file->mid_path ? $cloudfront . $file->mid_path : asset('assets/admin/images/demo_thumbnail.png')) }}"
@@ -962,6 +950,11 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                        <div class="pagination-wrapper">
+                                            <div class="pagination-links ms-auto">
+                                                {{ $wishLists->appends(['tab' => 'wishlist'])->links() }}
+                                            </div>
+                                        </div>
                                     @else
                                         <div class="col-12 mt-4">
                                             <div class="empty-wishlist text-center ">
@@ -1114,8 +1107,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="{{ route('front.update_profile') }}" method="POST" name="profile_form"
                             id="profile_form" enctype="multipart/form-data">
@@ -1140,8 +1132,8 @@
                                 <div>
                                     <label>Phone No</label>
                                     <div class="input-group phone-input">
-                                        <input type="tel" id="phone" name="phone_number"
-                                            class="form-control" placeholder="Enter your phone number"
+                                        <input type="tel" id="phone" name="phone_number" class="form-control"
+                                            placeholder="Enter your phone number"
                                             value="{{ $user_profile->phone ?? '' }}"
                                             oninput="this.value = this.value.replace(/[^0-9-]/g,'')">
                                     </div>
@@ -1160,8 +1152,8 @@
 
 
                                     <!-- File input -->
-                                    <input type="file" name="profile_image" id="profile_image"
-                                        class="form-control" accept="image/*">
+                                    <input type="file" name="profile_image" id="profile_image" class="form-control"
+                                        accept="image/*">
 
                                     <div class="mb-2 mt-2">
                                         @if ($user_profile->profile_image)
@@ -1194,7 +1186,8 @@
                             </div> -->
                                 <div class="modal-inp-label">
                                     <label>Address</label>
-                                    <textarea name="address" class="form-control">{{ $user_profile->address ?? '' }}</textarea>
+                                    <textarea name="address"
+                                        class="form-control">{{ $user_profile->address ?? '' }}</textarea>
                                 </div>
 
                             </div>
@@ -1214,8 +1207,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Change Password</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="{{ route('front.update_password') }}" method="POST" name="password_form"
                             id="password_form">
@@ -1229,8 +1221,8 @@
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>New Password</label>
-                                    <input type="password" name="new_password" id="new_password"
-                                        class="form-control" placeholder="Enter New Password">
+                                    <input type="password" name="new_password" id="new_password" class="form-control"
+                                        placeholder="Enter New Password">
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Confirm Password</label>
@@ -1248,14 +1240,13 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static"
-                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade profile-modal " id="settinginfo" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title" id="staticBackdropLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="">
                             <div class="modal-body p-0">
@@ -1266,13 +1257,11 @@
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Email</label>
-                                    <input type="email" name="email" class="form-control"
-                                        placeholder="you@example.com">
+                                    <input type="email" name="email" class="form-control" placeholder="you@example.com">
                                 </div>
                                 <div class="modal-inp-label">
                                     <label>Phone number</label>
-                                    <input type="text" name="number" class="form-control"
-                                        placeholder="1234567890">
+                                    <input type="text" name="number" class="form-control" placeholder="1234567890">
                                 </div>
 
                             </div>

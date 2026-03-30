@@ -97,22 +97,20 @@
                                     class="bi bi-person-circle icon-btn profile-btn"></i>
                                 <ul class="dropdown-menu">
 
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
+                                    <li><a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'profile']) }}"><i
                                                 class="bi bi-person"></i>
                                             Profile</a></li>
                                     <li><a class="dropdown-item"
                                             href="{{ route('user.profile', ['tab' => 'downloads']) }}"><i
                                                 class="bi bi-bag"></i> Downloads</a></li>
                                     <li class="wishlist">
-                                        <a class="dropdown-item"
-                                            href="{{ route('user.profile', ['tab' => 'wishlist']) }}">
+                                        <a class="dropdown-item" href="{{ route('user.profile', ['tab' => 'wishlist']) }}">
                                             <i class="bi bi-heart"></i>
                                             Wishlist
                                             @php $wishlistCount = auth()->user()->favorites()->whereHas('batchFile')->count(); @endphp
-                                            @if ($wishlistCount > 0)
-                                                <p class="wishlist-count">{{ $wishlistCount }}</p>
-                                            @endif
+                                            <p class="wishlist-count" @if($wishlistCount == 0) style="display:none;" @endif>
+                                                {{ $wishlistCount ?? ' ' }}
+                                            </p>
                                             <!-- <p class="wishlist-count">{{ auth()->user()->favorites()->whereHas('batchFile')->count() }}</p> -->
                                         </a>
                                     </li>
@@ -269,10 +267,9 @@
                             <div class="cart-price-btn">
                                 <h5>${{ $item['price'] }}</h5>
                                 <button type="button" class="delete_add_to_cart" data-id="{{ $item['id'] }}"
-                                    data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg"
-                                        width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
+                                    data-price="{{ $item['price'] }}"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4">
                                         <path d="M3 6h18"></path>
                                         <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                         <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
