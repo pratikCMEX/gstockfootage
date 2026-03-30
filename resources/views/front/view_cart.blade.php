@@ -23,22 +23,28 @@
                             <tr id="cart-item-{{ $cartItem['id'] }}" data-price="{{ $cartItem['price'] }}">
                                 <td>
                                     <div class="cart-product">
-                                        <div class="cart-product-img">
-                                            @if ($cartItem['type'] == 'image')
-                                                <img src="{{ $cartItem['mid_path'] ? Storage::disk('s3')->url($cartItem['mid_path']) : '' }}"
-                                                    class="h-100 w-100" alt="">
-                                            @else
-                                                <img src="{{ Storage::disk('s3')->url($cartItem['thumbnail_path']) }}"
-                                                    class="h-100 w-100" alt="">
-                                            @endif
-                                        </div>
+                                        <a href="{{ route('product.detail', encrypt($cartItem['id'])) }}">
+                                            <div class="cart-product-img">
+                                                @if ($cartItem['type'] == 'image')
+                                                    <img src="{{ $cartItem['mid_path'] ? Storage::disk('s3')->url($cartItem['mid_path']) : '' }}"
+                                                        class="h-100 w-100" alt="">
+                                                @else
+                                                    <img src="{{ Storage::disk('s3')->url($cartItem['thumbnail_path']) }}"
+                                                        class="h-100 w-100" alt="">
+                                                @endif
+                                            </div>
+                                        </a>
 
                                         <button type="button" class="btn btn-cart-remove delete_add_to_cart"
                                             data-id="{{ $cartItem['id'] }}" data-price="{{ $cartItem['price'] }}">
                                             <i class="fa-solid fa-xmark"></i>
                                         </button>
 
-                                        <p>{{ $cartItem['title'] }}</p>
+                                        <a href="{{ route('product.detail', encrypt($cartItem['id'])) }}">
+                                            <p>
+                                                {{ $cartItem['title'] }}
+                                            </p>
+                                        </a>
                                         <span class="imageVideo-badge top-0 start-0 m-2 badge"
                                             style="background: {{ $cartItem['type'] === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
                                             {{ $cartItem['type'] === 'video' ? '▶ Video' : '🖼 Photo' }}
