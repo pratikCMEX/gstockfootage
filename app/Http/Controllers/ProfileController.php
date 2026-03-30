@@ -135,7 +135,6 @@ class ProfileController extends Controller
         // return Redirect::route('view_profile')->with('status', 'profile-updated');
     }
 
-
     public function update_password(Request $request)
     {
         try {
@@ -165,6 +164,7 @@ class ProfileController extends Controller
             return redirect()->route('view_profile', $id)->with('msg_error', 'Profile not updated' . $e->getMessage());
         }
     }
+    
     public function check_password(Request $request)
     {
         try {

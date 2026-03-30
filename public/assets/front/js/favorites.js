@@ -102,7 +102,7 @@ $(document).on("click", ".removeFavorite", function () {
         // Update wishlist count in header
         // var currentCount = parseInt($(".wishlist-count").text());
         // $(".wishlist-count").text(currentCount - 1);
-         var currentCount = parseInt($(".wishlist-count").text() || 0);
+        var currentCount = parseInt($(".wishlist-count").text() || 0);
         var newCount = currentCount - 1;
         $(".wishlist-count").text(newCount);
 
@@ -115,16 +115,32 @@ $(document).on("click", ".removeFavorite", function () {
           $(this).remove();
 
           if ($(".wishlist-item").length === 0) {
-            $(".row.row-gap-4").html(`
-              <div class="col-12 mt-4">
-                <div class="empty-wishlist text-center">
-                  <h4>Your Wishlist is Empty</h4>
-                  <p>You haven't added any items to your wishlist yet. Browse products and add your favorites here.</p>
-                  <a href="/" class="btn btn-orange mt-2">Browse Products</a>
-                </div>
+
+            var hasNextPage = $(".pagination li a[rel='next']").length > 0;
+            var hasPrevPage = $(".pagination li a[rel='prev']").length > 0;
+
+            if (hasNextPage) {
+              // More pages ahead, reload to get next page
+              location.reload();
+            } else if (hasPrevPage) {
+              // No next page but has previous page, go to previous page
+              var prevUrl = $(".pagination li a[rel='prev']").attr("href");
+              window.location.href = prevUrl;
+            } else {
+              // No pages at all, truly empty
+              $(".row.row-gap-4").html(`
+            <div class="col-12 mt-4">
+              <div class="empty-wishlist text-center">
+               <h4>Your Wishlist is Empty</h4>
+               <p>You haven't added any items to your wishlist yet. Browse products and add your favorites here.</p>
+               <a href="/" class="btn btn-orange mt-2">Browse Products</a>
               </div>
-            `);
+            </div>
+          `);
+            }
           }
+
+
         });
         // Update button appearance based on action
       } else {
