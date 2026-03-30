@@ -121,7 +121,7 @@ class BatchController extends Controller
             });
         }
         // $batches = $query->latest()->paginate(6);
-        $batches = $query->latest()->paginate(6)->withQueryString();
+        $batches = $query->latest()->paginate(4)->withQueryString();
         $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
 
         // dd($batches);
