@@ -16,7 +16,7 @@
                 </div>
 
                 <p class="copyright">
-                    © 2026 gstockfootage
+                    © {{ date('Y') }} gstockfootage
                 </p>
 
                 <div class="social-links">
