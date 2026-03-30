@@ -176,7 +176,8 @@
                     </div> -->
                 </div>
                 <div class="more-detail">
-                    <button class="btn more-detail-btn " type="button">
+                    <button class="btn more-detail-btn " type="button" data-batch-id="{{ $list['id'] }}"
+                        data-loaded="0">
                         <i class="fa-solid fa-angle-down"></i>More Detail
                     </button>
 
