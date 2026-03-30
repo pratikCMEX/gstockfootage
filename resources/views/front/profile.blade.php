@@ -925,7 +925,7 @@
                                                             <a
                                                                 href="{{ route('product.detail', encrypt($favorites->batchFile->id)) }}">
                                                                 @if ($file->type === 'image')
-                                                                    <img src="{{ $clouldfront . ltrim($file->file_path, '/') }}"
+                                                                    <img src="{{ $clouldfront . ltrim($file->mid_path, '/') }}"
                                                                         class="product-img" alt="image">
                                                                 @else
                                                                     <video class="product-img" controls
