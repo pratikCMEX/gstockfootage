@@ -709,6 +709,9 @@ table td {
   border-bottom: 1px solid #ddd;
   padding: 8px 10px;
   text-align: center;
+  word-break: break-word;
+  max-width: 120px;
+
   /* creates space */
 }
 
