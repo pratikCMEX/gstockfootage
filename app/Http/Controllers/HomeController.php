@@ -168,11 +168,11 @@ class HomeController extends Controller
                 'is_favorite' => $product->is_favorite,
                 'downloads' => $product->downloads
             ];
-
+            $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
             if ($product->type == "image") {
-                $data['file_url'] = $product->file_path ? Storage::disk('s3')->url($product->file_path) : '';
-                $data['low_path'] = $product->low_path ? Storage::disk('s3')->url($product->low_path) : '';
-                $data['mid_path'] = $product->mid_path ? Storage::disk('s3')->url($product->mid_path) : '';
+                $data['file_url'] = $product->file_path ? $cloudfront . $product->file_path : '';
+                $data['low_path'] = $product->low_path ? $cloudfront . $product->low_path : '';
+                $data['mid_path'] = $product->mid_path ? $cloudfront . $product->mid_path : '';
                 $data['resolution'] = $product->height . ' x ' . $product->width;
                 $data['file_size'] = formatFileSize((int) $product->file_size);
             }
@@ -180,25 +180,25 @@ class HomeController extends Controller
             if ($product->type == "video") {
 
                 $data['file_url'] = $product->file_path
-                    ? Storage::disk('s3')->url($product->file_path)
+                    ? $cloudfront . $product->file_path
                     : '';
 
                 $data['low_path'] = $product->low_path
-                    ? Storage::disk('s3')->url($product->low_path)
+                    ? $cloudfront . $product->low_path
                     : asset('assets/admin/images/demo_thumbnail.png');
                 $data['mid_path'] = $product->mid_path
-                    ? Storage::disk('s3')->url($product->mid_path)
+                    ? $cloudfront . $product->mid_path
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $data['preview_path'] = $product->preview_path
-                    ? Storage::disk('s3')->url($product->preview_path)
+                    ? $cloudfront . $product->preview_path
                     : asset('assets/admin/images/demo_thumbnail.png');
 
                 $data['thumbnail'] = $product->thumbnail_path
-                    ? Storage::disk('s3')->url($product->thumbnail_path)
+                    ? $cloudfront . $product->thumbnail_path
                     : asset('assets/admin/images/demo_thumbnail.png');
 
-                $data['hls_path'] = $product->hls_path ? Storage::disk('s3')->url($product->hls_path) : '';
+                $data['hls_path'] = $product->hls_path ? $cloudfront . $product->hls_path : '';
 
                 // $data['resolution'] = 'HD Video';
                 $data['resolution'] = $product->height . ' x ' . $product->width;
