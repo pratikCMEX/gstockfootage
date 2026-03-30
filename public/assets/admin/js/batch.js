@@ -37,9 +37,7 @@ filteropensmall?.addEventListener("click", function () {
 $(document).on("click", ".more-detail-btn", function () {
   let parent = $(this).closest(".batch-content");
   let table = parent.find(".batch-content-table-details");
-  table.slideToggle(100);
-  // table.toggleClass("open");
-
+  table.slideToggle(300);
   $(this).toggleClass("active");
 });
 
