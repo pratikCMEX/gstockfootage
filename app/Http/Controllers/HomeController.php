@@ -453,8 +453,9 @@ class HomeController extends Controller
         $CollectionList = Collection::get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
-
-        $selectedCategory = $category_id ? Category::find($category_id) : null;  // ← new
+       
+        $selectedCategory = $category_id ? Category::find($category_id[0]) : null;  
+      
         $categories = Category::where('is_display', '1')
             ->with('subcategories') // ← make sure this matches your actual relation name
             ->get();
