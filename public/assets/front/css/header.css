@@ -457,6 +457,11 @@
 .close-cart-btn i {
   color: var(--black) !important;
 }
+.cart-empty p {
+  font-size: 18px;
+  font-family: var(--font-inter-semibold);
+  color: var(--text);
+}
 
 .site-header .profile .dropdown-toggle::after {
   display: none;

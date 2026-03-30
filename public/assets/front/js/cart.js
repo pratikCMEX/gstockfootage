@@ -184,8 +184,11 @@ function removeCartItem(product_id) {
 
           if (remainingItems === 0) {
             $(".cart-items").html(`
-                <div class="cart-empty" style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                    <p>Cart is empty</p>
+                <div class="cart-empty"
+                    style="display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center;height: 100%;">
+                    <p>
+                        Cart is empty
+                    </p>
                 </div>
             `);
             $(".cart-btns").addClass("d-none");
