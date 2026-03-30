@@ -2286,6 +2286,14 @@ select option {
   transform: translateY(-50%) !important;
   bottom: auto !important;
 }
+.pagination-links .pagination li a:hover {
+  background: var(--badge-color);
+  color: var(--primary);
+  border-color: rgba(255, 128, 0, 0.25);
+}
+.pagination {
+  gap: 4px;
+}
 .page-link.active,
 .active > .page-link {
   background-color: var(--primary) !important;
