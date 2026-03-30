@@ -2290,6 +2290,7 @@ select option {
 .active > .page-link {
   background-color: var(--primary) !important;
   border-color: var(--primary) !important;
+  color: var(--white) !important;
 }
 .page-link {
   color: var(--black) !important;
