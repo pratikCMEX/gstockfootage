@@ -52,7 +52,7 @@ class ProfileController extends Controller
         $wishLists = Favorites::with(['batchFile', 'batchFile.category'])
             ->where('user_id', $userId)
             ->whereHas('batchFile')
-            ->get();
+            ->paginate(6);
 
 
         // $order_data = Order::with('order_details.product')->where('user_id', $userId)->get();
@@ -121,7 +121,7 @@ class ProfileController extends Controller
 
             return redirect()->route('user.profile')->with('msg_success', 'Profile Updated successfully !');
         } catch (QueryException $e) {
-            
+
             return redirect()->route('user.profile')->with('msg_error', 'Profile not updated' . $e->getMessage());
         }
         // $request->user()->fill($request->validated());

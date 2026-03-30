@@ -109,7 +109,7 @@
                                             Wishlist
                                             @php $wishlistCount = auth()->user()->favorites()->whereHas('batchFile')->count(); @endphp
                                             <p class="wishlist-count" @if($wishlistCount == 0) style="display:none;" @endif>
-                                                {{ $wishlistCount }}
+                                                {{ $wishlistCount ?? ' ' }}
                                             </p>
                                             <!-- <p class="wishlist-count">{{ auth()->user()->favorites()->whereHas('batchFile')->count() }}</p> -->
                                         </a>
