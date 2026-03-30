@@ -56,10 +56,15 @@ class DashboardController extends Controller
         $monthlyRevenue = [];
         $monthlyLabels  = [];
         for ($i = 5; $i >= 0; $i--) {
-            $month            = Carbon::now()->subMonths($i);
-            $monthlyLabels[]  = $month->format('M');
+            $month = Carbon::now()->subMonths($i);
+
+            // Show year only when it differs from current year
+            $monthlyLabels[] = $month->year !== now()->year
+                ? $month->format('M y')   // e.g. "Mar 25"
+                : $month->format('M');    // e.g. "Mar"
+
             $monthlyRevenue[] = (float) Order::where('payment_status', 'paid')
-                ->whereYear('created_at',  $month->year)
+                ->whereYear('created_at', $month->year)
                 ->whereMonth('created_at', $month->month)
                 ->sum('total_amount');
         }
