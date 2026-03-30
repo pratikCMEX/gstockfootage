@@ -39,7 +39,12 @@
                                         </button>
 
                                         <p>{{ $cartItem['title'] }}</p>
+                                        <span class="imageVideo-badge top-0 start-0 m-2 badge"
+                                            style="background: {{ $cartItem['type'] === 'video' ? '#ff6b00' : '#ff6b00' }}; font-size:10px;">
+                                            {{ $cartItem['type'] === 'video' ? '▶ Video' : '🖼 Photo' }}
+                                        </span>
                                     </div>
+
                                 </td>
 
                                 <td>
