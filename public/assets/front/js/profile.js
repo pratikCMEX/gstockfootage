@@ -1,266 +1,293 @@
 var base_url = $("#base_url").val();
 var iti;
 
-$.validator.addMethod("validPhone", function (value, element) {
-    if (!value || value.trim() === '') return true;
+$.validator.addMethod(
+  "validPhone",
+  function (value, element) {
+    if (!value || value.trim() === "") return true;
     return iti && iti.isValidNumber();
-}, "Please enter a valid phone number for selected country");
+  },
+  "Please enter a valid phone number for selected country"
+);
 
-$.validator.addMethod("notEqualTo", function (value, element, param) {
+$.validator.addMethod(
+  "notEqualTo",
+  function (value, element, param) {
     return value !== $(param).val();
-}, "Values must be different.");
+  },
+  "Values must be different."
+);
 
 $(document).on("click", ".more-detail-btn", function () {
-    let parent = $(this).closest(".batch-content");
-    let table = parent.find(".batch-content-table-details");
+  let parent = $(this).closest(".batch-content");
+  let table = parent.find(".batch-content-table-details");
 
-    $(".batch-content-table-details").not(table).slideUp().addClass("d-none");
-    $(".more-detail-btn i")
-        .not($(this).find("i"))
-        .removeClass("fa-angle-up")
-        .addClass("fa-angle-down");
+  $(".batch-content-table-details").not(table).slideUp().addClass("d-none");
+  $(".more-detail-btn i")
+    .not($(this).find("i"))
+    .removeClass("fa-angle-up")
+    .addClass("fa-angle-down");
 
-    if (table.hasClass("d-none")) {
-        table.removeClass("d-none").hide().slideDown();
-    } else {
-        table.slideUp(function () {
-            table.addClass("d-none");
-        });
-    }
-    $(this).find("i").toggleClass("fa-angle-down fa-angle-up");
+  if (table.hasClass("d-none")) {
+    table.removeClass("d-none").hide().slideDown();
+  } else {
+    table.slideUp(function () {
+      table.addClass("d-none");
+    });
+  }
+  $(this).find("i").toggleClass("fa-angle-down fa-angle-up");
 });
 
-$(document).on('click', '.cancel', function (e) {
-    window.close();
+$(document).on("click", ".cancel", function (e) {
+  window.close();
 });
-$('#staticBackdrop').on('hidden.bs.modal', function () {
+$("#staticBackdrop").on("hidden.bs.modal", function () {
+  let form = $("#profile_form");
 
-    let form = $('#profile_form');
+  // Reset form values
+  form[0].reset();
 
-    // Reset form values
-    form[0].reset();
+  // Reset jQuery validation
+  if (form.data("validator")) {
+    form.validate().resetForm();
+  }
 
-    // Reset jQuery validation
-    if (form.data('validator')) {
-        form.validate().resetForm();
-    }
+  // Remove Bootstrap & validation classes
+  form.find(".is-invalid").removeClass("is-invalid");
 
-    // Remove Bootstrap & validation classes
-    form.find('.is-invalid').removeClass('is-invalid');
+  // Remove all error messages
+  form.find(".error").remove();
+  form.find(".invalid-feedback").remove();
 
-    // Remove all error messages
-    form.find('.error').remove();
-    form.find('.invalid-feedback').remove();
-
-    //   IMPORTANT: remove text-danger labels/messages
-    form.find('label.text-danger').remove();
-    form.find('input').removeClass('text-danger');
-
+  //   IMPORTANT: remove text-danger labels/messages
+  form.find("label.text-danger").remove();
+  form.find("input").removeClass("text-danger");
 });
 
 $(document).ready(function () {
+  // ─── intlTelInput Init ───────────────────────────────
+  var input = $("#phone")[0];
 
-    // ─── intlTelInput Init ───────────────────────────────
-    var input = $("#phone")[0];
+  iti = window.intlTelInput(input, {
+    initialCountry: "us",
+    preferredCountries: ["us"],
+    separateDialCode: true,
+    utilsScript:
+      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+  });
 
-    iti = window.intlTelInput(input, {
-        initialCountry: "us",
-        preferredCountries: ["us"],
-        separateDialCode: true,
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-    });
-
-    //  Pre-fill after utilsScript loads
-    input.addEventListener("loadUtils", function () {
-        var savedCountryCode = $("#country_code").val();
-        var savedPhone = $("#full_phone").val();
-
-        if (savedCountryCode && savedPhone) {
-            iti.setNumber(savedCountryCode + savedPhone);
-        }
-    });
-
-    // Fallback pre-fill (if utils already loaded)
+  //  Pre-fill after utilsScript loads
+  input.addEventListener("loadUtils", function () {
     var savedCountryCode = $("#country_code").val();
     var savedPhone = $("#full_phone").val();
+
     if (savedCountryCode && savedPhone) {
-        iti.setNumber(savedCountryCode + savedPhone);
+      iti.setNumber(savedCountryCode + savedPhone);
+    }
+  });
+
+  // Fallback pre-fill (if utils already loaded)
+  var savedCountryCode = $("#country_code").val();
+  var savedPhone = $("#full_phone").val();
+  if (savedCountryCode && savedPhone) {
+    iti.setNumber(savedCountryCode + savedPhone);
+  }
+
+  // ─── Update Hidden Fields ────────────────────────────
+  function updateHiddenFields() {
+    var countryData = iti.getSelectedCountryData();
+    var dialCode = "+" + countryData.dialCode;
+    var phoneOnly = $("#phone")
+      .val()
+      .replace(/[^0-9]/g, "");
+
+    $("#full_phone").val(phoneOnly);
+    $("#country_code").val(dialCode);
+  }
+
+  //  Re-validate using name attribute not id
+  function reValidatePhone() {
+    var validator = $("#profile_form").data("validator");
+    if (validator) {
+      validator.element('[name="phone_number"]'); //  name not id
+    }
+  }
+
+  $("#phone").on("input change", function () {
+    updateHiddenFields();
+    reValidatePhone(); //
+  });
+
+  //  Country change event
+  input.addEventListener("countrychange", function () {
+    updateHiddenFields();
+    reValidatePhone(); //  Re-validate after country changes
+  });
+
+  $("#profile_form").on("submit", function () {
+    updateHiddenFields();
+  });
+
+  // ─── Profile Form Validation ─────────────────────────
+  $("#profile_form").validate({
+    errorClass: "text-danger",
+    rules: {
+      first_name: {
+        required: true,
+        maxlength: 50,
+      },
+      last_name: {
+        required: true,
+        maxlength: 50,
+      },
+      email: {
+        required: true,
+        email: true,
+      },
+      phone_number: {
+        validPhone: true,
+      },
+    },
+    messages: {
+      first_name: {
+        required: "Please enter First Name",
+        maxlength: "First Name cannot exceed 50 characters",
+      },
+      last_name: {
+        required: "Please enter Last Name",
+        maxlength: "Last Name cannot exceed 50 characters",
+      },
+      email: {
+        required: "Please enter Email",
+        email: "Please enter a valid Email",
+      },
+      phone_number: {
+        validPhone: "Please enter a valid phone number for selected country",
+      },
+    },
+    errorPlacement: function (error, element) {
+      if (element.attr("name") == "phone_number") {
+        //  name not id
+        error.insertAfter(".phone-input .iti");
+      } else {
+        error.insertAfter(element);
+      }
+    },
+    submitHandler: function (form) {
+      $(".save").prop("disabled", true);
+      form.submit();
+    },
+    invalidHandler: function () {
+      $(".save").prop("disabled", false);
+    },
+  });
+
+  $("#profile_image").on("change", function () {
+    var file = this.files[0];
+    if (!file) return;
+
+    var allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/webp",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      $(this).val("");
+      $("#imagePreview").hide();
+      alert("Only image files are allowed (jpg, jpeg, png, gif, webp)");
+      return;
     }
 
-    // ─── Update Hidden Fields ────────────────────────────
-    function updateHiddenFields() {
-        var countryData = iti.getSelectedCountryData();
-        var dialCode = '+' + countryData.dialCode;
-        var phoneOnly = $("#phone").val().replace(/[^0-9]/g, '');
+    // Show preview
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagePreview").attr("src", e.target.result).show();
+    };
+    reader.readAsDataURL(file);
+  });
+  $("#profile_image").on("change", function (e) {
+    let reader = new FileReader();
 
-        $("#full_phone").val(phoneOnly);
-        $("#country_code").val(dialCode);
-    }
+    reader.onload = function (e) {
+      $("#imagePreview").attr("src", e.target.result);
+    };
 
-    //  Re-validate using name attribute not id
-    function reValidatePhone() {
-        var validator = $('#profile_form').data('validator');
-        if (validator) {
-            validator.element('[name="phone_number"]'); //  name not id
-        }
-    }
+    reader.readAsDataURL(this.files[0]);
+  });
 
-    $("#phone").on("input change", function () {
-        updateHiddenFields();
-        reValidatePhone(); // 
-    });
-
-    //  Country change event
-    input.addEventListener("countrychange", function () {
-        updateHiddenFields();
-        reValidatePhone(); //  Re-validate after country changes
-    });
-
-    $("#profile_form").on("submit", function () {
-        updateHiddenFields();
-    });
-
-    // ─── Profile Form Validation ─────────────────────────
-    $('#profile_form').validate({
-        errorClass: 'text-danger',
-        rules: {
-            first_name: {
-                required: true,
-                maxlength: 50,
+  // ─── Password Form Validation ────────────────────────
+  $("#password_form").validate({
+    errorClass: "text-danger",
+    rules: {
+      current_password: {
+        required: true,
+        minlength: 6,
+        remote: {
+          url: base_url + "/check_password",
+          type: "post",
+          data: {
+            id: function () {
+              return $("input[name='id']").val();
             },
-            last_name: {
-                required: true,
-                maxlength: 50,
+            current_password: function () {
+              return $("#current_password").val();
             },
-            email: {
-                required: true,
-                email: true,
-            },
-            phone_number: {
-                validPhone: true,
-            },
-
+            _token: $('meta[name="csrf-token"]').attr("content"),
+          },
         },
-        messages: {
-            first_name: {
-                required: "Please enter First Name",
-                maxlength: "First Name cannot exceed 50 characters"
-            },
-            last_name: {
-                required: "Please enter Last Name",
-                maxlength: "Last Name cannot exceed 50 characters"
-            },
-            email: {
-                required: "Please enter Email",
-                email: "Please enter a valid Email"
-            },
-            phone_number: {
-                validPhone: "Please enter a valid phone number for selected country",
-            },
+      },
+      new_password: {
+        required: true,
+        minlength: 6,
+        notEqualTo: "#current_password",
+      },
+      confirm_password: {
+        required: true,
+        minlength: 6,
+        equalTo: "#new_password",
+      },
+    },
+    messages: {
+      current_password: {
+        required: "Please enter Current Password",
+        minlength: "Current Password must be at least 6 characters",
+        remote: "Entered Password is incorrect",
+      },
+      new_password: {
+        required: "Please enter New Password",
+        minlength: "New Password must be at least 6 characters",
+        notEqualTo: "New Password and Current Password cannot be same",
+      },
+      confirm_password: {
+        required: "Please enter Confirm Password",
+        minlength: "Confirm Password must be at least 6 characters",
+        equalTo: "New password and Confirm P    assword does not match",
+      },
+    },
+    submitHandler: function (form) {
+      $(".save").prop("disabled", true);
+      form.submit();
+    },
+    invalidHandler: function () {
+      $(".save").prop("disabled", false);
+    },
+  });
+});
 
-        },
-        errorPlacement: function (error, element) {
-            if (element.attr("name") == "phone_number") { //  name not id
-                error.insertAfter(".phone-input .iti");
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function (form) {
-            $('.save').prop('disabled', true);
-            form.submit();
-        },
-        invalidHandler: function () {
-            $('.save').prop('disabled', false);
-        }
-    });
+$(document).on("mouseenter", ".product-img", function () {
+  if (this.play) {
+    this.play().catch(() => {});
+  }
+});
 
-    $('#profile_image').on('change', function () {
-        var file = this.files[0];
-        if (!file) return;
-
-        var allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
-
-        if (!allowedTypes.includes(file.type)) {
-            $(this).val('');
-            $('#imagePreview').hide();
-            alert('Only image files are allowed (jpg, jpeg, png, gif, webp)');
-            return;
-        }
-
-        // Show preview
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#imagePreview').attr('src', e.target.result).show();
-        };
-        reader.readAsDataURL(file);
-    });
-    $('#profile_image').on('change', function (e) {
-        let reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#imagePreview').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(this.files[0]);
-    });
-
-    // ─── Password Form Validation ────────────────────────
-    $('#password_form').validate({
-        errorClass: 'text-danger',
-        rules: {
-            current_password: {
-                required: true,
-                minlength: 6,
-                remote: {
-                    url: base_url + "/check_password",
-                    type: "post",
-                    data: {
-                        id: function () {
-                            return $("input[name='id']").val();
-                        },
-                        current_password: function () {
-                            return $("#current_password").val();
-                        },
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    }
-                }
-            },
-            new_password: {
-                required: true,
-                minlength: 6,
-                notEqualTo: "#current_password"
-            },
-            confirm_password: {
-                required: true,
-                minlength: 6,
-                equalTo: '#new_password',
-            },
-        },
-        messages: {
-            current_password: {
-                required: "Please enter Current Password",
-                minlength: "Current Password must be at least 6 characters",
-                remote: "Entered Password is incorrect"
-            },
-            new_password: {
-                required: "Please enter New Password",
-                minlength: "New Password must be at least 6 characters",
-                notEqualTo: "New Password and Current Password cannot be same"
-            },
-            confirm_password: {
-                required: "Please enter Confirm Password",
-                minlength: "Confirm Password must be at least 6 characters",
-                equalTo: "New password and Confirm P    assword does not match"
-            },
-        },
-        submitHandler: function (form) {
-            $('.save').prop('disabled', true);
-            form.submit();
-        },
-        invalidHandler: function () {
-            $('.save').prop('disabled', false);
-        }
-    });
-
+$(document).on("mouseleave", ".product-img", function () {
+  if (this.pause) {
+    this.pause();
+  }
+  if (this) {
+    this.currentTime = 0;
+  }
 });
