@@ -928,14 +928,12 @@
                                                                     <img src="{{ $clouldfront . ltrim($file->mid_path, '/') }}"
                                                                         class="product-img" alt="image">
                                                                 @else
-                                                                    <video class="product-img" controls
-                                                                        poster="{{ !empty($file->thumbnail_path)
-                                                                            ? $clouldfront . ltrim($file->thumbnail_path, '/')
-                                                                            : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                                    <video class="product-img" width="100%" muted
+                                                                        loop playsinline preload="auto"
+                                                                        poster="{{ !empty($file->thumbnail_path) ? $cloudfront . $file->thumbnail_path : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                                         <source
-                                                                            src="{{ $clouldfront . ltrim($file->file_path, '/') }}"
+                                                                            src="{{ $file->preview_path ? $cloudfront . $file->preview_path : ($file->mid_path ? $cloudfront . $file->mid_path : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                                             type="video/mp4">
-                                                                        Your browser does not support the video tag.
                                                                     </video>
                                                                 @endif
                                                             </a>
