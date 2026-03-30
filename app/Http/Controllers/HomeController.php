@@ -67,7 +67,7 @@ class HomeController extends Controller
 
         $content_master = ContentMaster::first();
 
-        $testimonials = Testimonials::where('is_active', '1')->limit(3)->orderBy('id','desc')->get();
+        $testimonials = Testimonials::where('is_active', '1')->limit(3)->orderBy('id', 'desc')->get();
         $blogs = Blog::limit(3)->orderBy('id', 'desc')->get();
 
         $popularProducts = BatchFile::with('category')
@@ -453,9 +453,9 @@ class HomeController extends Controller
         $CollectionList = Collection::get();
 
         $selectedCollection = $collection_id ? Collection::find($collection_id) : null;
-       
-        $selectedCategory = $category_id ? Category::find($category_id[0]) : null;  
-      
+
+        $selectedCategory = $category_id ? Category::find($category_id[0]) : null;
+
         $categories = Category::where('is_display', '1')
             ->with('subcategories') // ← make sure this matches your actual relation name
             ->get();
@@ -843,6 +843,7 @@ class HomeController extends Controller
 
         $trendingTags = BatchFile::with('category')
             ->where('is_edited', '1')
+            ->where('type', 'image')
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
