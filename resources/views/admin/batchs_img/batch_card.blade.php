@@ -202,16 +202,17 @@
 
                     <tbody class="batch-files-tbody">
                     </tbody>
-                    <div class="load-more-wrap text-center mt-3">
-                        <button class="btn btn-orange load-more-btn" data-batch-id="{{ $list['id'] }}" data-page="1"
-                            data-last-page="1">
-                            Load More
-                        </button>
-                    </div>
-                    <div class="batch-files-loader text-center mt-2" style="display:none;">
-                        <span>Loading...</span>
-                    </div>
+
                 </table>
+                <div class="load-more-wrap text-center mt-3">
+                    <button class="btn btn-orange load-more-btn" data-batch-id="{{ $list['id'] }}" data-page="1"
+                        data-last-page="1">
+                        Load More
+                    </button>
+                </div>
+                <div class="batch-files-loader text-center mt-2" style="display:none;">
+                    <span>Loading...</span>
+                </div>
             </div>
         </div>
     @endforeach
