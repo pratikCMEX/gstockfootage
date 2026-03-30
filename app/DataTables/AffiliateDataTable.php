@@ -41,7 +41,7 @@ class AffiliateDataTable extends DataTable
                 return '
     <div class="d-flex align-items-center gap-1">
         <small class="text-muted" title="' . $link . '"></small>
-        <button class="btn btn-sm btn-outline-secondary copy-btn"
+        <button class="btn btn-sm btn-primary copy-btn"
             data-link="' . $link . '" title="Copy">
             <i class="fa fa-copy"></i>
         </button>
