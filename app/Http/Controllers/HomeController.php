@@ -661,7 +661,7 @@ class HomeController extends Controller
 
         $trendingTags = BatchFile::with('category')->where('is_edited', '1')
             ->whereNotNull('keywords')
-            ->where('type', 'image')
+            ->where('type', 'video')
             ->whereHas('category', function ($q) {
                 $q->where('is_display', '1');
             })
