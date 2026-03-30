@@ -40,7 +40,10 @@ class BatchController extends Controller
         // $page = 'admin.demo';
         $js = ['batch'];
 
-        $query = Batch::with(['batch_files']);
+        // $query = Batch::with(['batch_files']);
+        $query = Batch::with(['batch_files' => function ($q) {
+            $q->limit(10); // only for preview thumbnails
+        }]);
         // ->where('user_id', Auth::id());
 
         // 🔎 Search
@@ -189,6 +192,29 @@ class BatchController extends Controller
         }
 
         return view('layouts.admin.layout', compact('title', 'page', 'js', 'batch_list', 'batches'));
+    }
+    public function getBatchFiles(Request $request, $batchId)
+    {
+        $batch = Batch::with('batch_files')->findOrFail($batchId);
+
+        $files = $batch->batch_files->map(function ($file) {
+            $path = $file->file_type == 'image'
+                ? ('https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->mid_path, '/'))
+                : ('https://d3cz6emnvl4l6h.cloudfront.net/' . ltrim($file->thumbnail_path, '/'));
+
+            return [
+                'id'            => $file->id,
+                'file_code'     => $file->file_code,
+                'original_name' => $file->original_name,
+                'title'         => $file->title,
+                'file_type'     => $file->file_type,
+                'mid_path'      => $path,
+                'thumbnail_path' => $path,
+                'status'        => $file->status,
+            ];
+        });
+
+        return response()->json(['status' => true, 'files' => $files]);
     }
     public function store(Request $request)
     {

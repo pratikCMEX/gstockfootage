@@ -34,11 +34,76 @@ filteropensmall?.addEventListener("click", function () {
 });
 
 // more detail dropdown
+// $(document).on("click", ".more-detail-btn", function () {
+//   let parent = $(this).closest(".batch-content");
+//   let table = parent.find(".batch-content-table-details");
+//   table.slideToggle(100);
+//   $(this).toggleClass("active");
+// });
+
 $(document).on("click", ".more-detail-btn", function () {
-  let parent = $(this).closest(".batch-content");
+  let btn = $(this);
+  let parent = btn.closest(".batch-content");
   let table = parent.find(".batch-content-table-details");
-  table.slideToggle(100);
-  $(this).toggleClass("active");
+  let tbody = parent.find(".batch-files-tbody");
+  let batchId = btn.data("batch-id");
+  let loaded = btn.data("loaded");
+
+  // Only fetch once
+  if (!loaded) {
+    tbody.html('<tr><td colspan="4" class="text-center">Loading...</td></tr>');
+    table.slideDown(100);
+    btn.addClass("active");
+
+    $.ajax({
+      url: base_url + "/admin/batch/files/" + batchId,
+      type: "GET",
+      success: function (res) {
+        if (res.status && res.files.length > 0) {
+          let rows = "";
+          res.files.forEach(function (file) {
+            rows += `
+                          <tr>
+                              <td>
+                                  <div class="img-id">
+                                      <div class="table-img">
+                                          <img src="${
+                                            file.mid_path || file.thumbnail_path
+                                          }" 
+                                               class="w-100 h-100" alt="">
+                                      </div>
+                                      <p>${file.file_code}</p>
+                                  </div>
+                              </td>
+                              <td>${file.original_name}</td>
+                              <td>${file.title ?? "-"}</td>
+                              <td>
+                                  <div class="create-count-div">
+                                      <div class="circle-div circle-div1"></div>
+                                      <p class="circel-count">Accepted</p>
+                                  </div>
+                              </td>
+                          </tr>`;
+          });
+          tbody.html(rows);
+        } else {
+          tbody.html(
+            '<tr><td colspan="4" class="text-center">No files found.</td></tr>'
+          );
+        }
+        btn.data("loaded", 1); // mark as loaded
+      },
+      error: function () {
+        tbody.html(
+          '<tr><td colspan="4" class="text-center text-danger">Failed to load.</td></tr>'
+        );
+      },
+    });
+  } else {
+    // Already loaded — just toggle
+    table.slideToggle(100);
+    btn.toggleClass("active");
+  }
 });
 
 $(document).on("click", ".batch-dropdown-menu .dropdown-item", function (e) {
