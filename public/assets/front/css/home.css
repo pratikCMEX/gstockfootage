@@ -532,11 +532,9 @@
 .price-btn .btn-orange {
   width: 100%;
 }
-.popular_content .popular_tabs .share-wrapper {
-  display: inline-block !important;
-  width: 100%;
+.popular-icon-btn {
+  padding: 10px 2px !important;
 }
-
 .popular-icon-btn,
 .share-trigger-btn {
   width: 100% !important;
