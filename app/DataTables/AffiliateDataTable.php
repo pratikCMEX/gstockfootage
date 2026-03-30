@@ -40,8 +40,8 @@ class AffiliateDataTable extends DataTable
                 $shortLink = strlen($link) > 20 ? substr($link, 0, 20) . '...' : $link;
                 return '
     <div class="d-flex align-items-center gap-1">
-        <small class="text-muted" title="' . $link . '">' . $shortLink . '</small>
-        <button class="btn btn-sm btn-outline-secondary copy-btn"
+        <small class="text-muted" title="' . $link . '"></small>
+        <button class="btn btn-sm btn-primary copy-btn"
             data-link="' . $link . '" title="Copy">
             <i class="fa fa-copy"></i>
         </button>
