@@ -40,7 +40,13 @@ $(document).on("click", ".addFavorite", function (e) {
 
             button.append(" Save");
           }
-          $(".wishlist-count").text(currentCount - 1);
+          var newCount = currentCount - 1;
+          $(".wishlist-count").text(newCount);
+          // Hide if 0
+          if (newCount <= 0) {
+            $(".wishlist-count").hide();
+          }
+          // $(".wishlist-count").text(currentCount - 1);
           // button.removeClass('favorited');
           // button.find('svg').removeClass('text-danger').addClass('text-muted');
           // Decrease count
@@ -58,7 +64,11 @@ $(document).on("click", ".addFavorite", function (e) {
             button.append(" Saved");
           }
 
-          $(".wishlist-count").text(currentCount + 1);
+          var newCount = currentCount + 1;
+          $(".wishlist-count").text(newCount);
+          // Always show when adding
+          $(".wishlist-count").show();
+          // $(".wishlist-count").text(currentCount + 1);
           // button.addClass('favorited');
           // button.find('svg').removeClass('text-muted').addClass('text-danger');
           // Increase count
@@ -90,8 +100,16 @@ $(document).on("click", ".removeFavorite", function () {
         toastr.success(response.message);
 
         // Update wishlist count in header
-        var currentCount = parseInt($(".wishlist-count").text());
-        $(".wishlist-count").text(currentCount - 1);
+        // var currentCount = parseInt($(".wishlist-count").text());
+        // $(".wishlist-count").text(currentCount - 1);
+         var currentCount = parseInt($(".wishlist-count").text() || 0);
+        var newCount = currentCount - 1;
+        $(".wishlist-count").text(newCount);
+
+        //  Hide count if 0
+        if (newCount <= 0) {
+          $(".wishlist-count").hide();
+        }
 
         button.closest(".wishlist-item").fadeOut(200, function () {
           $(this).remove();

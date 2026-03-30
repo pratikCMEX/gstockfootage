@@ -108,9 +108,9 @@
                                             <i class="bi bi-heart"></i>
                                             Wishlist
                                             @php $wishlistCount = auth()->user()->favorites()->whereHas('batchFile')->count(); @endphp
-                                            @if($wishlistCount > 0)
-                                                <p class="wishlist-count">{{ $wishlistCount }}</p>
-                                            @endif
+                                            <p class="wishlist-count" @if($wishlistCount == 0) style="display:none;" @endif>
+                                                {{ $wishlistCount }}
+                                            </p>
                                             <!-- <p class="wishlist-count">{{ auth()->user()->favorites()->whereHas('batchFile')->count() }}</p> -->
                                         </a>
                                     </li>
