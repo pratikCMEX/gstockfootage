@@ -33,7 +33,7 @@
                             {{ $photos->is_favorite == 1 ? 'Saved' : 'Save' }}</button>
                         <div class="share-wrapper position-relative d-inline-block">
                             <button type="button" data-url="{{ route('product.detail', encrypt($photos->id)) }}"
-                                class="btn btn-all-dark btn-hover-dark share-trigger-btn">
+                                class="btn share-trigger-btn">
                                 <i class="bi bi-share"></i> Share
                             </button>
 
