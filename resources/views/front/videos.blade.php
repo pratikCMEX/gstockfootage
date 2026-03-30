@@ -315,11 +315,11 @@
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="price_min_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ $maxPriceI }}" value="0" placeholder="$0">
+                                            max="{{ $maxPriceI }}" value="0" placeholder="$0" readonly>
                                         <input type="number" id="price_max_input"
                                             class="form-control form-control-sm" min="0"
                                             max="{{ $maxPriceI }}" value="{{ $maxPriceI }}"
-                                            placeholder="${{ $maxPriceI }}">
+                                            placeholder="${{ $maxPriceI }}" readonly>
                                     </div>
 
                                     <div class="track-wrap">
@@ -352,11 +352,12 @@
                                     <div class="d-flex gap-2 mb-2">
                                         <input type="number" id="duration_min_input"
                                             class="form-control form-control-sm" min="0"
-                                            max="{{ (int) $maxDurationI }}" value="0" placeholder="0s">
+                                            max="{{ (int) $maxDurationI }}" value="0" placeholder="0s"
+                                            readonly>
                                         <input type="number" id="duration_max_input"
                                             class="form-control form-control-sm" min="0"
                                             max="{{ (int) $maxDurationI }}" value="{{ (int) $maxDurationI }}"
-                                            placeholder="{{ (int) $maxDurationI }}s">
+                                            placeholder="{{ (int) $maxDurationI }}s" readonly>
                                     </div>
 
                                     <div class="track-wrap">
@@ -1142,204 +1143,3 @@
         border-radius: 8px;
     }
 </style>
-{{-- <script>
-    (function() {
-        const gridWrapper = document.getElementById("videoGrid");
-        const loadMoreBtn = document.getElementById("loadMoreBtn");
-        const loadMoreWrapper = document.getElementById("load-more-wrapper");
-        const loadMoreText = document.getElementById("loadMoreText");
-        const loadMoreSpinner = document.getElementById("loadMoreSpinner");
-        const resultCount = document.getElementById("videoResultCount");
-        const clearBtn = document.getElementById("clearAllFiltersBtn");
-        const baseUrl = "{{ route('videos') }}";
-
-        if (!gridWrapper) return;
-
-        let currentPage = 1;
-
-        // ── Collect all filter params ──
-        function getFilterParams(page) {
-            const params = new URLSearchParams();
-
-            // Preserve search query from URL
-            const q = new URLSearchParams(window.location.search).get("q");
-            if (q) params.set("q", q);
-
-            // Price — only if below max
-            const priceMaxEl = document.getElementById("price_max_input");
-            if (priceMaxEl) {
-                const val = parseFloat(priceMaxEl.value);
-                const max = parseFloat(priceMaxEl.max);
-                if (val < max) params.set("price_max", val);
-            }
-
-            // Duration
-            const durMinEl = document.getElementById("duration_min_input");
-            const durMaxEl = document.getElementById("duration_max_input");
-            if (durMinEl && parseFloat(durMinEl.value) > 0)
-                params.set("duration_min", durMinEl.value);
-            if (durMaxEl && parseFloat(durMaxEl.value) < parseFloat(durMaxEl.max))
-                params.set("duration_max", durMaxEl.value);
-
-            // All checkboxes (frame_rate, orientation, camera_movement, content_filters etc.)
-            document.querySelectorAll(".filter-check:checked").forEach(cb => {
-                params.append(cb.name, cb.value);
-            });
-
-            // Radio (license)
-            const licenseEl = document.querySelector(".filter-radio:checked");
-            if (licenseEl) params.set("license", licenseEl.value);
-
-            // Sort
-            const activeSort = document.querySelector(".sort-btn.active");
-            if (activeSort) params.set("sort", activeSort.dataset.value);
-
-            params.set("page", page || 1);
-            return params;
-        }
-
-        document.addEventListener("change", function(e) {
-            if (!e.target.classList.contains("parent-category-check")) return;
-
-            const subList = document.getElementById(`sub_${e.target.dataset.categoryId}`);
-            if (subList) {
-                if (e.target.checked) {
-                    subList.style.display = "block";
-                } else {
-                    subList.style.display = "none";
-                    // ✅ Uncheck AND visually clear all subcategory checkboxes
-                    subList.querySelectorAll(".sub-category-check").forEach(cb => {
-                        cb.checked = false;
-                    });
-                }
-            }
-
-            debouncedApply();
-        });
-
-        // ── Apply filters — reset grid to page 1 ──
-        function applyFilters() {
-            currentPage = 1;
-            gridWrapper.classList.add("loading");
-
-            fetch(`${baseUrl}?${getFilterParams(1).toString()}`, {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                })
-                .then(res => res.json())
-                .then(data => {
-                    gridWrapper.innerHTML = data.html;
-                    gridWrapper.classList.remove("loading");
-
-                    if (resultCount) resultCount.textContent = `${data.count} result(s)`;
-                    if (loadMoreWrapper) {
-                        loadMoreWrapper.style.display = data.hasMore ? "block" : "none";
-                    }
-                })
-                .catch(() => {
-                    gridWrapper.classList.remove("loading");
-                });
-        }
-
-        // ── Load More — append to grid ──
-        function loadMore() {
-            currentPage++;
-
-            if (loadMoreText) loadMoreText.textContent = "Loading...";
-            if (loadMoreSpinner) loadMoreSpinner.classList.remove("d-none");
-            if (loadMoreBtn) loadMoreBtn.disabled = true;
-
-            fetch(`${baseUrl}?${getFilterParams(currentPage).toString()}`, {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                })
-                .then(res => res.json())
-                .then(data => {
-                    gridWrapper.insertAdjacentHTML("beforeend", data.html);
-
-                    if (loadMoreText) loadMoreText.textContent = "Load More";
-                    if (loadMoreSpinner) loadMoreSpinner.classList.add("d-none");
-                    if (loadMoreBtn) loadMoreBtn.disabled = false;
-
-                    if (loadMoreWrapper) {
-                        loadMoreWrapper.style.display = data.hasMore ? "block" : "none";
-                    }
-                })
-                .catch(() => {
-                    if (loadMoreText) loadMoreText.textContent = "Load More";
-                    if (loadMoreSpinner) loadMoreSpinner.classList.add("d-none");
-                    if (loadMoreBtn) loadMoreBtn.disabled = false;
-                });
-        }
-
-        // ── Debounce ──
-        function debounce(fn, delay = 500) {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => fn(...args), delay);
-            };
-        }
-
-        const debouncedApply = debounce(applyFilters);
-
-        // ── Listen on checkboxes + range inputs ──
-        document.querySelectorAll(
-            "#price_max_input, #priceRangeMax, #duration_max_input, #durationRangeMax, #duration_min_input, .filter-check, .filter-radio"
-        ).forEach(el => {
-            el.addEventListener("change", debouncedApply);
-            if (el.type === "number" || el.type === "range") {
-                el.addEventListener("input", debouncedApply);
-            }
-        });
-
-        // ── Load More button ──
-        loadMoreBtn?.addEventListener("click", loadMore);
-
-        // ── Clear All ──
-        clearBtn?.addEventListener("click", function() {
-            document.querySelectorAll(".filter-check, .filter-radio").forEach(cb => cb.checked = false);
-
-            const priceMaxEl = document.getElementById("price_max_input");
-            const priceRangeEl = document.getElementById("priceRangeMax");
-            const durMaxEl = document.getElementById("duration_max_input");
-            const durMinEl = document.getElementById("duration_min_input");
-            const durRangeEl = document.getElementById("durationRangeMax");
-            const priceLabel = document.getElementById("priceMaxLabel");
-            const durLabel = document.getElementById("durationMaxLabel");
-
-            if (priceMaxEl) priceMaxEl.value = priceMaxEl.max;
-            if (priceRangeEl) priceRangeEl.value = priceRangeEl.max;
-            if (durMaxEl) durMaxEl.value = durMaxEl.max;
-            if (durMinEl) durMinEl.value = 0;
-            if (durRangeEl) durRangeEl.value = durRangeEl.max;
-
-            if (priceLabel && priceMaxEl)
-                priceLabel.textContent = "$" + parseFloat(priceMaxEl.max).toFixed(2);
-            if (durLabel && durRangeEl)
-                durLabel.textContent = durRangeEl.max + "s+";
-
-            // Re-sync fills
-            priceRangeEl?.dispatchEvent(new Event("input"));
-            durRangeEl?.dispatchEvent(new Event("input"));
-
-            // Reset sort to default
-            document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
-            document.querySelector('.sort-btn[data-value="relevant"]')?.classList.add("active");
-
-            applyFilters();
-        });
-
-        // ── No results clear btn (dynamically rendered) ──
-        document.addEventListener("click", function(e) {
-            if (e.target.closest("#noResultsClearBtn")) clearBtn?.click();
-        });
-
-        // // ── Range sliders init ──
-        // initRangeSlider("priceRangeMax", "price_max_input", "priceMaxLabel");
-        // initRangeSlider("durationRangeMax", "duration_max_input", "durationMaxLabel");
-
-    })();
-</script> --}}
