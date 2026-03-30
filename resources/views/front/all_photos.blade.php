@@ -55,7 +55,9 @@
         pointer-events: all;
     }
 </style>
-
+@php
+    $cloudfront = 'https://d3cz6emnvl4l6h.cloudfront.net/';
+@endphp
 <main>
     <!-- hero section -->
     <section class="hero">
@@ -431,7 +433,7 @@
 
                                         <a href="{{ route('product.detail', encrypt($photos->id)) }}">
                                             <img loading="lazy" decoding="async"
-                                                src="{{ $photos->mid_path ? Storage::disk('s3')->url($photos->mid_path) : '' }}"
+                                                src="{{ $photos->mid_path ? $cloudfront . $photos->mid_path : '' }}"
                                                 class="product-img" alt="">
                                         </a>
 
