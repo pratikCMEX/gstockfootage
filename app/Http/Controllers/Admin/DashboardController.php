@@ -63,7 +63,6 @@ class DashboardController extends Controller
                 ->whereMonth('created_at', $month->month)
                 ->sum('total_amount');
         }
-        dd(collect(range(5, 0))->map(fn($i) => Carbon::now()->subMonths($i)->format('M Y')));
 
 
         /* ── Top categories by file count ── */
