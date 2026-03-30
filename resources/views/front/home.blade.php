@@ -211,14 +211,14 @@
 
                                                 @if ($pro->type == 'image')
                                                     <img loading="lazy"
-                                                        src="{{ $pro->mid_path ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->mid_path) : 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->file_path) }}"
+                                                        src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                         class="product-img" alt="">
                                                 @else
                                                     <video class="product-img" width="100%" muted loop playsinline
                                                         preload="auto"
-                                                        poster="{{ !empty($pro->thumbnail_path) ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                        poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                         <source
-                                                            src="{{ $pro->preview_path ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->preview_path) : ($pro->mid_path ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                            src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                             type="video/mp4">
                                                     </video>
                                                 @endif
@@ -356,14 +356,14 @@
                                         <div class="product-card">
                                             @if ($pro->type == 'image')
                                                 <img loading="lazy"
-                                                    src="{{ $pro->mid_path ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->mid_path) : 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->file_path) }}"
+                                                    src="{{ $pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : Storage::disk('s3')->url($pro->file_path) }}"
                                                     class="product-img" alt="">
                                             @else
                                                 <video class="product-img" width="100%" muted loop playsinline
                                                     preload="auto"
-                                                    poster="{{ !empty($pro->thumbnail_path) ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
+                                                    poster="{{ !empty($pro->thumbnail_path) ? Storage::disk('s3')->url($pro->thumbnail_path) : asset('assets/admin/images/demo_thumbnail.png') }}">
                                                     <source
-                                                        src="{{ $pro->preview_path ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->preview_path) : ($pro->mid_path ? 'https://d3cz6emnvl4l6h.cloudfront.net/' . url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
+                                                        src="{{ $pro->preview_path ? Storage::disk('s3')->url($pro->preview_path) : ($pro->mid_path ? Storage::disk('s3')->url($pro->mid_path) : asset('assets/admin/images/demo_thumbnail.png')) }}"
                                                         type="video/mp4">
                                                 </video>
                                             @endif
