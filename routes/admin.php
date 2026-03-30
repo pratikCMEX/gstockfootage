@@ -54,7 +54,7 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::post('admin/update_password', [ProfileController::class, 'update_password'])->name('admin.update_password');
     Route::post('admin/check_password', [ProfileController::class, 'check_password'])->name('admin.check_password');
 
-    Route::get('admin/banner', [BannerController::class, 'addUpdate'])->name('admin.banner');
+    Route::get('admin/login_background', [BannerController::class, 'addUpdate'])->name('admin.banner');
     Route::post('admin/banner_store', [BannerController::class, 'store'])->name('admin.banner_store');
 
     Route::get('admin/batch', [BatchController::class, 'index'])->name('admin.batch');
@@ -197,17 +197,17 @@ Route::middleware([AdminAuth::class, NoCache::class])->group(function () {
     Route::get('admin/most_sold_product_report', [ReportsController::class, 'most_sold_product_report'])->name('admin.most_sold_product_report');
     Route::get('admin/most_sold_product_report/export_pdf', [ReportsController::class, 'exportMostSoldPdf'])->name('admin.most_sold_product_report.export_pdf');
     Route::get('most-sold-product-report/export-excel', [ReportsController::class, 'exportMostSoldExcel'])
-    ->name('admin.most_sold_product_report.export_excel');
+        ->name('admin.most_sold_product_report.export_excel');
 
 
     Route::get('admin/most_viewed_product_report', [ReportsController::class, 'most_viewed_product_report'])->name('admin.most_viewed_product_report');
     Route::get('admin/most_viewed_product_report/export_pdf', [ReportsController::class, 'exportMostViewedPdf'])->name('admin.most_viewed_product_report.export_pdf');
-     Route::get('most-viewed-product-report/export-excel', [ReportsController::class, 'exportMostViewedExcel'])
-    ->name('admin.most_viewed_product_report.export_excel');
+    Route::get('most-viewed-product-report/export-excel', [ReportsController::class, 'exportMostViewedExcel'])
+        ->name('admin.most_viewed_product_report.export_excel');
 
     Route::get('admin/live_cart_report', [ReportsController::class, 'live_cart_report'])->name('admin.live_cart_report');
     Route::get('admin/live_cart_report/export_pdf', [ReportsController::class, 'exportLiveCartPdf'])->name('admin.live_cart_report.export_pdf');
-        Route::get('live-cart-report/export-excel', [ReportsController::class, 'exportLiveCartExcel'])
+    Route::get('live-cart-report/export-excel', [ReportsController::class, 'exportLiveCartExcel'])
         ->name('admin.live_cart_report.export_excel');
 
     Route::get('admin/user_wise_order_report', [ReportsController::class, 'user_wise_order_report'])->name('admin.user_wise_order_report');
