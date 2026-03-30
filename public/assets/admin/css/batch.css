@@ -226,6 +226,10 @@ p {
   max-height: calc(100dvh - 120px);
   overflow: auto;
   min-height: calc(100dvh - 249px);
+  scroll-behavior: smooth !important;
+
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
 }
 
 .diffrent-batches {
