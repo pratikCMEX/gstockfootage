@@ -232,6 +232,7 @@ class ProcessBatchVideo implements ShouldQueue
 
             $hlsCommand = escapeshellcmd($ffmpegBin)
                 . ' -i '           . escapeshellarg($tempOriginalPath)
+                . ' -vf '          . escapeshellarg($watermarkFilter)  // ✅ watermark added
                 . ' -codec: copy'
                 . ' -start_number 0'
                 . ' -hls_time 10'
