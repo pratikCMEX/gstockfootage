@@ -220,11 +220,11 @@
                                         <div class="d-flex gap-2 mb-2">
                                             <input type="number" id="price_min_input"
                                                 class="form-control form-control-sm mb-2" min="0"
-                                                max="{{ $maxPrice }}" value="0" placeholder="$0">
+                                                max="{{ $maxPrice }}" value="0" placeholder="$0" readonly>
                                             <input type="number" id="price_max_input"
                                                 class="form-control form-control-sm mb-2" min="0"
                                                 max="{{ $maxPrice }}" value="{{ $maxPrice }}"
-                                                placeholder="${{ $maxPrice }}">
+                                                placeholder="${{ $maxPrice }}" readonly>
                                         </div>
                                         <div class="track-wrap">
                                             <div class="track-bg"></div>
