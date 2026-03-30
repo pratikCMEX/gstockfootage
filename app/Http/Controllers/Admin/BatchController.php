@@ -40,10 +40,10 @@ class BatchController extends Controller
         // $page = 'admin.demo';
         $js = ['batch'];
 
-        // $query = Batch::with(['batch_files']);
-        $query = Batch::with(['batch_files' => function ($q) {
-            $q->limit(10); // only for preview thumbnails
-        }]);
+        $query = Batch::with(['batch_files']);
+        // $query = Batch::with(['batch_files' => function ($q) {
+        //     $q->limit(10); // only for preview thumbnails
+        // }]);
         // ->where('user_id', Auth::id());
 
         // 🔎 Search
