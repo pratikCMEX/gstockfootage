@@ -575,7 +575,7 @@
         </div>
     </section>
 </main>
-{{-- 
+
 <script>
     function initDualRangeSlider(minRangeId, maxRangeId, minNumId, maxNumId, minLabelId, maxLabelId) {
         var minRange = document.getElementById(minRangeId);
@@ -887,4 +887,4 @@
         );
 
     })();
-</script> --}}
+</script>
